@@ -1,7 +1,6 @@
 module hyperram_ctrl #(
     parameter integer ADDR_W = 22,
-    parameter integer LATENCY = 6,
-    parameter integer LINEAR_BURST = 1
+    parameter integer LATENCY = 6
 ) (
     input  wire                 clk,
     input  wire                 resetn,
@@ -61,8 +60,8 @@ module hyperram_ctrl #(
                         // addr is a WORD address (two bytes), split into
                         // upper and lower column fields in the 48-bit CA.
                         // 4K: linear burst, 22-bit word address.
-                        // 9K die: wrapped burst, 21-bit word address.
-                        ca_shift <= {~write, 1'b0, (LINEAR_BURST != 0),
+                        // The 9K PSRAM has its own controller in psram_ctrl.sv.
+                        ca_shift <= {~write, 1'b0, 1'b1,
                                      {(32-ADDR_W){1'b0}}, addr[ADDR_W-1:3],
                                      13'b0, addr[2:0]};
                         data_shift <= wdata;

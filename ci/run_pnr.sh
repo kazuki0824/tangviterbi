@@ -2,7 +2,7 @@
 set -euo pipefail
 
 board="${1:?board: 4k or 9k}"
-variant="${2:?variant: core or mem}"
+variant="${2:?variant: core-only or mem}"
 
 case "${board}" in
   4k)
@@ -24,8 +24,9 @@ case "${board}" in
 esac
 
 case "${variant}" in
-  core)
+  core-only)
     with_mem=0
+    psram=0
     ;;
   mem)
     with_mem=1

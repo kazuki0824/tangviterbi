@@ -32,7 +32,7 @@ class ReportTests(unittest.TestCase):
         self.assertNotIn("routed Fmax:", result)
 
     def test_report_uses_slowest_clock_not_largest_achieved_or_constraint(self):
-        result = self.report("", {"fmax": {
+        result = self.report("Info: Routing complete.\n", {"fmax": {
             "clk": {"achieved": 87.5, "constraint": 110},
             "other": {"achieved": 150, "constraint": 110},
         }}, rc=1)
@@ -54,6 +54,22 @@ class ReportTests(unittest.TestCase):
             "ERROR: routing failed\n", rc=1,
         )
         self.assertIn("**unknown**", result)
+
+    def test_partial_json_on_routing_failure_has_unknown_fmax(self):
+        result = self.report(
+            "ERROR: routing failed\n",
+            {"fmax": {"clk": {"achieved": 120, "constraint": 110}}}, rc=1,
+        )
+        self.assertIn("**unknown**", result)
+        self.assertNotIn("routed Fmax:", result)
+
+    def test_routing_marker_does_not_promote_pre_route_log_clock(self):
+        result = self.report(
+            "Info: Max frequency for clock 'clk': 120 MHz (PASS at 110 MHz)\n"
+            "Info: Routing complete.\n", rc=1,
+        )
+        self.assertIn("**unknown**", result)
+        self.assertNotIn("routed Fmax:", result)
 
 
 if __name__ == "__main__":

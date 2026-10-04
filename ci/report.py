@@ -21,37 +21,33 @@ if rp.exists():
     except Exception:
         report = {}
 
-def walk(obj, path=()):
-    if isinstance(obj, dict):
-        for k, v in obj.items():
-            yield from walk(v, path + (str(k),))
-    elif isinstance(obj, list):
-        for i, v in enumerate(obj):
-            yield from walk(v, path + (str(i),))
-    else:
-        yield path, obj
-
-flat = list(walk(report))
 pnr_text = Path(a.pnr_log).read_text(errors="replace")
 
-# Use the slowest achieved clock, never the requested/target frequency.
+# A partial JSON report can include pre-route clock estimates. Accept achieved
+# clock values only after the router explicitly completed, including a routed
+# design that subsequently failed timing. Never substitute target MHz.
 fmax = None
-for path, val in flat:
-    if isinstance(val, (int, float)) and "achieved" in ".".join(path).lower():
-        # Usually MHz in current nextpnr report JSON.
-        if 1 <= float(val) <= 5000:
-            fmax = min(float(val), fmax if fmax is not None else float(val))
-
-if fmax is None:
-    clocks = {}
-    for clock, value in re.findall(
-        r"Max frequency for clock '([^']+)':\s*([0-9]+(?:\.[0-9]+)?)\s*MHz",
-        pnr_text,
-    ):
-        clocks[clock] = float(value)
-    # Pre-route timing cannot be reported as routed Fmax after placement fails.
-    if clocks and "Routing complete" in pnr_text:
-        fmax = min(clocks.values())
+routed_log = pnr_text.partition("Routing complete")[2]
+if routed_log:
+    achieved = [
+        float(clock["achieved"])
+        for clock in report.get("fmax", {}).values()
+        if isinstance(clock, dict)
+        and isinstance(clock.get("achieved"), (int, float))
+        and not isinstance(clock.get("achieved"), bool)
+        and 0 < clock["achieved"] <= 5000
+    ]
+    if achieved:
+        fmax = min(achieved)
+    else:
+        clocks = {}
+        for clock, value in re.findall(
+            r"Max frequency for clock '([^']+)':\s*([0-9]+(?:\.[0-9]+)?)\s*MHz",
+            routed_log,
+        ):
+            clocks[clock] = float(value)
+        if clocks:
+            fmax = min(clocks.values())
 
 def resource_lines():
     util = report.get("utilization") if isinstance(report, dict) else None
@@ -77,7 +73,7 @@ if fmax is not None:
 
 print(f"# {a.board} / {a.variant}")
 print()
-controller = "none" if a.variant == "core" else (
+controller = "none" if a.variant == "core-only" else (
     "HyperRAM x8" if a.board == "4k" else "PSRAM 2 x8 channels"
 )
 print(f"- Blocks: Viterbi + RS; controller: **{controller}**")

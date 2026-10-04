@@ -1,10 +1,34 @@
 from pathlib import Path
+import os
+import shutil
 import subprocess
 import tempfile
 import unittest
 
 
 class RtlTests(unittest.TestCase):
+    def test_core_only_synthesis_scripts_identical(self):
+        # Exercise the real job driver with dummy CAD binaries: this verifies
+        # its generated synthesis inputs, not the CAD tools themselves.
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            shutil.copytree("ci", root / "ci", ignore=shutil.ignore_patterns("__pycache__"))
+            commands = root / "bin"
+            commands.mkdir()
+            for name in ("yosys", "nextpnr-himbaechel"):
+                command = commands / name
+                command.write_text("#!/bin/sh\nexit 0\n")
+                command.chmod(0o755)
+            env = {**os.environ, "PATH": str(commands) + os.pathsep + os.environ["PATH"]}
+            scripts = []
+            for board in ("4k", "9k"):
+                subprocess.run([
+                    "bash", "ci/run_pnr.sh", board, "core-only",
+                ], cwd=root, env=env, check=True, stdout=subprocess.DEVNULL)
+                scripts.append((root / "build/synth.ys").read_text())
+            self.assertEqual(scripts[0], scripts[1])
+            self.assertIn("-set WITH_MEM 0 -set PSRAM 0", scripts[0])
+
     def test_four_variants_elaborate(self):
         with tempfile.TemporaryDirectory() as temp:
             for psram in (0, 1):

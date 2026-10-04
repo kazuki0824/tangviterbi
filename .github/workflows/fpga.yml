@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         board: [4k, 9k]
-        variant: [core, mem]
+        variant: [core-only, mem]
 
     steps:
       - uses: actions/checkout@v5

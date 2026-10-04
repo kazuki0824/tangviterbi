@@ -63,8 +63,12 @@ The `mem` variant selects the controller for the board:
   a 21-bit word address and wrapped-burst command/address layout. The upper
   word-address bit selects the die; this is not a single x16 channel.
 
-Both controllers use the same serialized x8 command/address/data engine.
-The 9K wrapper adds a second engine, request decoding and read-data selection.
+The controllers have separate state machines and data paths. The 4K engine
+drives its single channel. The independent 9K implementation selects one of two
+physical x8 channels, captures that selection for the transfer, and shares its
+own control/serialization logic across the dies for one outstanding request.
+It does not instantiate the HyperRAM controller or duplicate a state machine
+per die when transfers cannot overlap.
 The harness uses aligned 32-bit reads/writes and stimulates both dies. All
 controller data/control output bits feed the activity sink to keep both channels
 observable to synthesis. A busy signal prevents requests while a transfer runs.
@@ -90,13 +94,15 @@ Exactly four jobs run:
 
 | Job | Viterbi | RS | Memory controller |
 |---|---:|---:|---|
-| `4k / core` | yes | yes | none |
+| `4k / core-only` | yes | yes | none |
 | `4k / mem` | yes | yes | HyperRAM, one x8 channel |
-| `9k / core` | yes | yes | none |
+| `9k / core-only` | yes | yes | none |
 | `9k / mem` | yes | yes | PSRAM, two x8 channels |
 
-`core` uses identical RTL and parameters on both devices. The Viterbi and RS
-implementations are unchanged between `core` and `mem`. Use `mem - core` on
+`core-only` uses identical RTL and explicit parameters (`WITH_MEM=0`, `PSRAM=0`)
+on both devices. Its generated synthesis script is checked for equality in CI.
+The Viterbi and RS implementations are unchanged between `core-only` and `mem`.
+Use `mem - core-only` on
 the **same device and revision** for controller/harness resource overhead.
 That delta includes the stimulus and activity sink as well as the controller;
 Fmax is measured separately for each full design and is not an additive delta.
@@ -118,16 +124,18 @@ The table below is updated from the CI results after the implementation converge
 
 | Target | Variant | P&R | LUT/logic | FF | BSRAM | DSP | Routed Fmax | 110 MHz |
 |---|---|---|---:|---:|---:|---:|---:|---|
-| Tang Nano 4K | core | pending | | | | | | |
+| Tang Nano 4K | core-only | pending | | | | | | |
 | Tang Nano 4K | mem | pending | | | | | | |
-| Tang Nano 9K | core | pending | | | | | | |
+| Tang Nano 9K | core-only | pending | | | | | | |
 | Tang Nano 9K | mem | pending | | | | | | |
 
 CI uploads raw synthesis/P&R logs, the synthesis script, any nextpnr JSON report,
 and a separate summary for each job. If placement fails, the summary still shows
 packed utilization from the log, labelled as such. Fmax remains unknown unless
 an achieved routed clock value is available; the requested 110 MHz is never used
-as a measured Fmax. A failed fit/timing result intentionally makes the job fail.
+as a measured Fmax. Partial JSON clock estimates are ignored until routing
+completes; log fallback uses only the clocks printed after routing completion.
+A failed fit/timing result intentionally makes the job fail.
 
 ## Scope
 

@@ -66,11 +66,15 @@ module memory_tb;
             cycles = 0;
             // Change the external address while busy: read mux must retain die.
             @(negedge clk); addr = die ? 22'h000246 : 22'h200246;
-            while (!oe[die] && op_write || psram.g_die[0].u_protocol.state != 3'd3 &&
-                   psram.g_die[1].u_protocol.state != 3'd3 && !op_write) begin
-                tick(); cycles = cycles + 1;
-                if (cycles > 20) $fatal(1, "latency timeout");
+            // The sizing contract specifies 6 or 12 abstract-PHY wait beats.
+            cycles = extra ? 12 : 6;
+            for (n = 0; n < cycles; n = n + 1) begin
+                tick();
+                if (cs != (die ? 2'b01 : 2'b10))
+                    $fatal(1, "die changed while busy");
             end
+            if (oe != (op_write ? (die ? 2'b10 : 2'b01) : 2'b00))
+                $fatal(1, "data output enable incorrect");
             got_data = 0;
             for (n = 0; n < 4; n = n + 1) begin
                 tick();
