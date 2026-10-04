@@ -75,7 +75,7 @@ class RtlTests(unittest.TestCase):
                 "rtl/rs204_188_compact.sv", "tests/fixtures/rs_reference.sv",
                 "tests/rs_equivalence_tb.sv",
             ], check=True)
-            subprocess.run(["vvp", program], check=True, timeout=60)
+            subprocess.run(["vvp", program], check=True, timeout=90)
 
     def test_rs_block_service_deadline(self):
         performance = json.loads(Path("ci/performance.json").read_text())

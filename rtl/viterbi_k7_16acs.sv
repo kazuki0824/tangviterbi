@@ -59,6 +59,7 @@ module viterbi_k7_16acs #(
     (* ram_style = "block" *) reg [31:0] survivor_lo [0:TRACEBACK-1];
     (* ram_style = "block" *) reg [31:0] survivor_hi [0:TRACEBACK-1];
     reg [31:0] survivor_lo_q, survivor_hi_q;
+    reg [7:0] survivor_byte_q;
     reg [47:0] decision_partial;
 
     reg [15:0] lane_decision;
@@ -165,6 +166,11 @@ module viterbi_k7_16acs #(
     always @(posedge clk) begin
         survivor_lo_q <= survivor_lo[tb_ptr];
         survivor_hi_q <= survivor_hi[tb_ptr];
+        // tb_ptr/state change only at group 3. Groups 0..2 provide time to
+        // fetch the row and select its byte before the next output cycle.
+        // Split the 64:1 traceback selection across existing idle cycles.
+        survivor_byte_q <= tb_state[5] ? survivor_hi_q[{tb_state[4:3], 3'b0} +: 8]
+                                      : survivor_lo_q[{tb_state[4:3], 3'b0} +: 8];
     end
 
     always @(posedge clk) begin
@@ -223,10 +229,7 @@ module viterbi_k7_16acs #(
 
                     if (step_count >= TRACEBACK) begin
                         tb_ptr <= tb_ptr + 6'd1;
-                        if (!tb_state[5])
-                            out_bit <= survivor_lo_q[tb_state[4:0]];
-                        else
-                            out_bit <= survivor_hi_q[tb_state[4:0]];
+                        out_bit <= survivor_byte_q[tb_state[2:0]];
                         tb_state <= {out_bit, tb_state[5:1]};
                         out_valid <= 1'b1;
                     end

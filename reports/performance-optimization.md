@@ -1,5 +1,9 @@
 # 9K performance optimization
 
+This report preserves the first optimization stage at 74cebe5. See the
+[latest control/storage measurements](control-storage.md) for the subsequent
+83.80 / 88.57-MHz implementation.
+
 ## Result
 
 The RS coefficient/multiplier operand selection is scheduled one cycle ahead,

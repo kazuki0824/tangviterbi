@@ -22,7 +22,8 @@ module rs_equivalence_tb;
     initial begin
         // Zero, eight-root, noisy, and stalled blocks; some run consecutively
         // without resetting the decoder so block reset/prefetch are exercised.
-        for (epoch = 0; epoch < 24; epoch = epoch + 1) begin
+        // The added blocks vary 1..8 injected symbols with three byte values.
+        for (epoch = 0; epoch < 48; epoch = epoch + 1) begin
             if ((epoch % 3) == 0) begin
                 @(negedge clk); resetn = 0; in_valid = 0;
                 repeat (3) @(negedge clk);
@@ -33,7 +34,10 @@ module rs_equivalence_tb;
                 @(negedge clk);
                 rng = {rng[30:0], rng[31] ^ rng[21] ^ rng[1] ^ rng[0]};
                 in_valid = (accepted < 204) && ((rng & 7) != 0);
-                if ((epoch % 6) == 0) in_byte = 0;
+                if (epoch >= 24)
+                    in_byte = (accepted < (1 + epoch % 8)) ?
+                              ((epoch < 32) ? 8'h01 : (epoch < 40) ? 8'h53 : 8'ha7) : 0;
+                else if ((epoch % 6) == 0) in_byte = 0;
                 else if ((epoch % 6) == 1) in_byte = (accepted < 8) ? 1 : 0;
                 else in_byte = rng[15:8];
                 @(posedge clk);
@@ -61,7 +65,7 @@ module rs_equivalence_tb;
             resetn = 1;
             repeat (4) @(posedge clk);
         end
-        $display("PASS: RS cycle-exact equivalence, 24 blocks and 12 reset interruptions");
+        $display("PASS: RS cycle-exact equivalence, 48 blocks (including 1..8 injected symbols) and 12 reset interruptions");
         $finish;
     end
 endmodule

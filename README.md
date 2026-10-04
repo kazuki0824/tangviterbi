@@ -37,7 +37,7 @@ Target FPGA: **GW1NR-LV9QN88PC6/I5**. This ISDB-T profile does not yet size ISDB
 - synchronous metric prefetch; four-clock reset initialization
 - two read ports per bank mapped to 16 replicated Gowin BSRAMs
 - metric arrays have clock-only processes, without asynchronous reset
-- 64-step survivor store
+- 64-step survivor store with byte-prefetched traceback selection
 
 ### RS(204,188)
 
@@ -45,7 +45,8 @@ Target FPGA: **GW1NR-LV9QN88PC6/I5**. This ISDB-T profile does not yet size ISDB
 
 The RS block is deliberately serialized to minimize logic:
 
-- one shared GF(256) operation built from four DSP carryless subproducts
+- two GF(256) operand paths, each built from four DSP carryless subproducts
+- registered one-hot coefficient selectors and constant per-entry writes
 - coefficient and GF operand prefetch without added service cycles
 - 16 syndromes
 - sequential Berlekamp-Massey
@@ -112,31 +113,33 @@ Measurements use the pinned toolchain below; resources are consistently the
 can account for shared LUT/ALU/RAM occupancy differently and is retained as raw
 evidence, but is not mixed into this comparison. DSP usage is listed explicitly per measured variant.
 
-The optimized 9K implementation was measured locally with OSS CAD Suite
-2026-10-04 and the unchanged 110-MHz constraint. Baseline is
-[`10d54fa`](https://github.com/kazuki0824/tangviterbi/commit/10d54fab300f06d994ebf822c42bbcbeafba338c),
-verified by [CI run 37235747258](https://github.com/kazuki0824/tangviterbi/actions/runs/37235747258).
-RS operand/coefficient prefetch, four DSP carryless subproducts and parallel
-Viterbi branch-cost selection preserve all step/block service cycles.
+The latest 9K implementation uses registered one-hot coefficient selection,
+constant per-entry writes, separate coefficient/feedback GF paths and a
+byte-prefetched Viterbi traceback. Measurements use OSS CAD Suite 2026-10-04,
+the unchanged 110-MHz constraint and default seed. The previous revision is
+[`74cebe5`](https://github.com/kazuki0824/tangviterbi/commit/74cebe50ba8e58300620e5f4b780060ba49d827b),
+verified by [CI run 37238039476](https://github.com/kazuki0824/tangviterbi/actions/runs/37238039476).
 
 | Variant | LUT4 before → after | FF after | BSRAM after | MULT18X18 after | Routed Fmax before → after | 110 MHz |
 |---|---:|---:|---:|---:|---:|---|
-| core-only | 6298 → 4422 | 1661 | 19 | 4 | 36.98 → 72.54 MHz | FAIL |
-| mem | 6378 → 4545 | 1799 | 19 | 4 | 36.99 → 79.02 MHz | FAIL |
-| viterbi-only | 2330 → 2440 | 784 | 18 | 0 | not routed | unknown |
-| rs-only | 4221 → 2066 | 909 | 1 | 4 | not routed | unknown |
+| core-only | 4422 → 4052 | 1775 | 19 | 8 | 72.54 → 83.80 MHz | FAIL |
+| mem | 4545 → 4217 | 1913 | 19 | 8 | 79.02 → 88.57 MHz | FAIL |
+| viterbi-only | 2440 → 2440 | 792 | 18 | 0 | not routed | unknown |
+| rs-only | 2066 → 1992 | 1015 | 1 | 8 | not routed | unknown |
 
-The core improves from 36.98 to 72.54 MHz and the PSRAM-inclusive model from
-36.99 to 79.02 MHz. Both complete routing but still fail the 110-MHz target and
-the full-rate clock floor. Four MULT18X18 cells replace part of the GF logic;
-other DSP primitive counts remain zero. The combined design still uses 19 BSRAMs.
+Core / mem Fmax improves by 15.52% / 12.09%, with LUT4 reduced by 8.37% / 7.22%.
+Both complete routing but still fail the 110-MHz target and full-rate clock
+floors. DSP usage rises from four to eight MULT18X18, with 19 BSRAMs unchanged.
 The sixteen tests include exhaustive GF products, cycle-exact RS comparison
-with the old RTL, service deadlines and the Viterbi recurrence/output checks.
+for 48 blocks plus twelve processing reset interruptions, service deadlines
+and 4000 Viterbi recurrence/output steps. RS service clocks and four Viterbi
+clocks/step are unchanged.
 
-[Implementation, alternative measurements and remaining timing paths](reports/performance-optimization.md)
-include the exact measured RTL hashes and explain why clock improvement is not
-yet full-rate acceptance. [Historical metric BSRAM results](reports/metric-storage.md)
-and the [performance contract](reports/performance.md) remain available.
+[Latest implementation, alternatives and remaining timing paths](reports/control-storage.md)
+include [measurement JSON and exact RTL hashes](reports/control-storage.json).
+The [first optimization stage](reports/performance-optimization.md),
+[historical metric BSRAM results](reports/metric-storage.md) and
+[performance contract](reports/performance.md) remain available.
 
 CI uploads raw synthesis/P&R logs, the synthesis script, any nextpnr JSON report,
 and a separate summary for each job. Every summary uses packed utilization from the log, labelled as such; JSON
