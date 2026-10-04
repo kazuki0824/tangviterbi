@@ -120,9 +120,9 @@ module viterbi_k7_16acs #(
         // received soft pair. Compute them once and share them across all
         // sixteen ACS lanes instead of duplicating the same arithmetic.
         bm00 = {1'b0, active_soft0} + {1'b0, active_soft1};
-        bm01 = {1'b0, active_soft0} + (9'd255 - {1'b0, active_soft1});
-        bm10 = (9'd255 - {1'b0, active_soft0}) + {1'b0, active_soft1};
-        bm11 = 9'd510 - {1'b0, active_soft0} - {1'b0, active_soft1};
+        bm01 = {1'b0, active_soft0} + {1'b0, ~active_soft1};
+        bm10 = {1'b0, ~active_soft0} + {1'b0, active_soft1};
+        bm11 = {1'b0, ~active_soft0} + {1'b0, ~active_soft1};
 
         for (i = 0; i < 16; i = i + 1) begin
             src_idx = (i >> 2) + (group[0] ? 4 : 0);
@@ -135,16 +135,17 @@ module viterbi_k7_16acs #(
             p1_state = p0_state + 32;
             coded0 = encode_pair(p0_state[5:0], i[0]);
             case (coded0)
-                2'b00: branch0 = bm00;
-                2'b01: branch0 = bm01;
-                2'b10: branch0 = bm10;
-                default: branch0 = bm11;
+                2'b00: begin branch0 = bm00; branch1 = bm11; end
+                2'b01: begin branch0 = bm01; branch1 = bm10; end
+                2'b10: begin branch0 = bm10; branch1 = bm01; end
+                default: begin branch0 = bm11; branch1 = bm00; end
             endcase
 
             // The two predecessor states differ only in the oldest shift-
             // register bit. Both K=7 generators include that tap, therefore
             // the competing branch codeword is the bitwise complement.
-            branch1 = 9'd510 - branch0;
+            // Select the complementary precomputed metric directly. Do not
+            // put a subtractor between branch selection and the ACS adders.
 
             cand0 = {1'b0, src0} + branch0;
             cand1 = {1'b0, src1} + branch1;

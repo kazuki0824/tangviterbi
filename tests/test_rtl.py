@@ -58,6 +58,25 @@ class RtlTests(unittest.TestCase):
                 ], check=True)
                 subprocess.run(["vvp", program], check=True, timeout=30)
 
+    def test_gf256_all_operand_pairs(self):
+        with tempfile.TemporaryDirectory() as temp:
+            program = str(Path(temp) / "gf256")
+            subprocess.run([
+                "iverilog", "-g2012", "-s", "gf256_tb", "-o", program,
+                "rtl/rs204_188_compact.sv", "tests/gf256_tb.sv",
+            ], check=True)
+            subprocess.run(["vvp", program], check=True, timeout=30)
+
+    def test_rs_prefetch_matches_frozen_reference(self):
+        with tempfile.TemporaryDirectory() as temp:
+            program = str(Path(temp) / "rs-equivalence")
+            subprocess.run([
+                "iverilog", "-g2012", "-s", "rs_equivalence_tb", "-o", program,
+                "rtl/rs204_188_compact.sv", "tests/fixtures/rs_reference.sv",
+                "tests/rs_equivalence_tb.sv",
+            ], check=True)
+            subprocess.run(["vvp", program], check=True, timeout=60)
+
     def test_rs_block_service_deadline(self):
         performance = json.loads(Path("ci/performance.json").read_text())
         deadline = int(performance["target_clock_mhz"] * 1e6 *

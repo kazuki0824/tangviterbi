@@ -45,7 +45,8 @@ Target FPGA: **GW1NR-LV9QN88PC6/I5**. This ISDB-T profile does not yet size ISDB
 
 The RS block is deliberately serialized to minimize logic:
 
-- one shared GF(256) multiplier
+- one shared GF(256) operation built from four DSP carryless subproducts
+- coefficient and GF operand prefetch without added service cycles
 - 16 syndromes
 - sequential Berlekamp-Massey
 - sequential Chien search
@@ -109,26 +110,33 @@ The CI does place-and-route, not synthesis-only, so timing is based on a routed 
 Measurements use the pinned toolchain below; resources are consistently the
 **packed utilization before placement**, including overflow. Final JSON utilization
 can account for shared LUT/ALU/RAM occupancy differently and is retained as raw
-evidence, but is not mixed into this comparison. All DSP primitives used: **0**.
+evidence, but is not mixed into this comparison. DSP usage is listed explicitly per measured variant.
 
-The last measured 9K implementation is
-[`d063521`](https://github.com/kazuki0824/tangviterbi/commit/d063521b0bae6fa775d4efcb52706395131101b0),
-verified by [CI run 37233942398](https://github.com/kazuki0824/tangviterbi/actions/runs/37233942398).
-The simplified 9K-only harness was remeasured locally with the same pinned
-tools and constraints; CI repeats the four jobs.
+The optimized 9K implementation was measured locally with OSS CAD Suite
+2026-10-04 and the unchanged 110-MHz constraint. Baseline is
+[`10d54fa`](https://github.com/kazuki0824/tangviterbi/commit/10d54fab300f06d994ebf822c42bbcbeafba338c),
+verified by [CI run 37235747258](https://github.com/kazuki0824/tangviterbi/actions/runs/37235747258).
+RS operand/coefficient prefetch, four DSP carryless subproducts and parallel
+Viterbi branch-cost selection preserve all step/block service cycles.
 
-| Variant | LUT4 / 8640 | FF | BSRAM / 26 | Routing | Routed Fmax | 110 MHz |
-|---|---:|---:|---:|---|---:|---|
-| core-only | 6298 | 1637 | 19 | completed | 36.98 MHz | FAIL |
-| mem | 6378 | 1775 | 19 | completed | 36.99 MHz | FAIL |
-| viterbi-only | 2330 | 784 | 18 | not run | not measured | unknown |
-| rs-only | 4221 | 885 | 1 | not run | not measured | unknown |
+| Variant | LUT4 before → after | FF after | BSRAM after | MULT18X18 after | Routed Fmax before → after | 110 MHz |
+|---|---:|---:|---:|---:|---:|---|
+| core-only | 6298 → 4422 | 1661 | 19 | 4 | 36.98 → 72.54 MHz | FAIL |
+| mem | 6378 → 4545 | 1799 | 19 | 4 | 36.99 → 79.02 MHz | FAIL |
+| viterbi-only | 2330 → 2440 | 784 | 18 | 0 | not routed | unknown |
+| rs-only | 4221 → 2066 | 909 | 1 | 4 | not routed | unknown |
 
-The earlier 9K combined core completed routing at 37.04 MHz, and mem at
-37.40 MHz. These fail the work-rate/110-MHz target. RS contributes most wide
-MUXs and the routed critical path. [Historical 9K measurement details](reports/metric-storage.md)
-retain the metric BSRAM redesign evidence. Next work and its cycle-budget
-constraints are in [performance.md](reports/performance.md).
+The core improves from 36.98 to 72.54 MHz and the PSRAM-inclusive model from
+36.99 to 79.02 MHz. Both complete routing but still fail the 110-MHz target and
+the full-rate clock floor. Four MULT18X18 cells replace part of the GF logic;
+other DSP primitive counts remain zero. The combined design still uses 19 BSRAMs.
+The sixteen tests include exhaustive GF products, cycle-exact RS comparison
+with the old RTL, service deadlines and the Viterbi recurrence/output checks.
+
+[Implementation, alternative measurements and remaining timing paths](reports/performance-optimization.md)
+include the exact measured RTL hashes and explain why clock improvement is not
+yet full-rate acceptance. [Historical metric BSRAM results](reports/metric-storage.md)
+and the [performance contract](reports/performance.md) remain available.
 
 CI uploads raw synthesis/P&R logs, the synthesis script, any nextpnr JSON report,
 and a separate summary for each job. Every summary uses packed utilization from the log, labelled as such; JSON

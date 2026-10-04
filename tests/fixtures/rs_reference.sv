@@ -1,39 +1,29 @@
-module gf256_mul (
+// Frozen pre-optimization RTL from commit 10d54fab300f06d994ebf822c42bbcbeafba338c.
+// Used only to compare observable behavior; this is not an ARIB golden decoder.
+module gf256_mul_reference (
     input  wire [7:0] a,
     input  wire [7:0] b,
     output reg  [7:0] y
 );
-    // Four parallel 4x4 carryless products, then reduction
-    // modulo x^8+x^4+x^3+x^2+1. No table or additional latency is needed.
-    function automatic [6:0] clmul4;
-        input [3:0] x, z;
-        reg [9:0] spaced_x, spaced_z;
-        reg [19:0] integer_product;
-        begin
-            // Three bits per coefficient prevent carries into the next
-            // coefficient (a 4x4 product sums at most four one-bit terms).
-            spaced_x = {x[3], 2'b0, x[2], 2'b0, x[1], 2'b0, x[0]};
-            spaced_z = {z[3], 2'b0, z[2], 2'b0, z[1], 2'b0, z[0]};
-            integer_product = spaced_x * spaced_z;
-            clmul4 = {integer_product[18], integer_product[15], integer_product[12],
-                      integer_product[9], integer_product[6], integer_product[3], integer_product[0]};
-        end
-    endfunction
-    wire [6:0] low_product = clmul4(a[3:0], b[3:0]);
-    wire [6:0] high_product = clmul4(a[7:4], b[7:4]);
-    wire [6:0] cross_product = clmul4(a[3:0], b[7:4]) ^ clmul4(a[7:4], b[3:0]);
-    wire [14:0] full_product = {8'b0, low_product} ^ {4'b0, cross_product, 4'b0} ^ {high_product, 8'b0};
-    reg [14:0] reduced;
-    integer degree;
+    integer k;
+    reg [7:0] aa;
+    reg [7:0] bb;
+    reg [7:0] pp;
     always @* begin
-        reduced = full_product;
-        for (degree = 14; degree >= 8; degree = degree - 1)
-            reduced = reduced ^ ((15'h11d << (degree - 8)) & {15{reduced[degree]}});
-        y = reduced[7:0];
+        aa = a;
+        bb = b;
+        pp = 8'd0;
+        for (k = 0; k < 8; k = k + 1) begin
+            if (bb[0])
+                pp = pp ^ aa;
+            aa = aa[7] ? ((aa << 1) ^ 8'h1d) : (aa << 1);
+            bb = bb >> 1;
+        end
+        y = pp;
     end
 endmodule
 
-module rs_block_ram (
+module rs_block_ram_reference (
     input  wire       clk,
     input  wire       we,
     input  wire [7:0] waddr,
@@ -64,7 +54,7 @@ endmodule
 // still require bit-exact validation against ARIB test vectors before this
 // block can be called production decoder RTL. The arithmetic/state/storage
 // structure is complete enough for the intended LUT/BSRAM/Fmax comparison.
-module rs204_188_compact (
+module rs204_188_compact_reference (
     input  wire       clk,
     input  wire       resetn,
     input  wire       in_valid,
@@ -165,81 +155,11 @@ module rs204_188_compact (
     reg [7:0] gf_b;
     wire [7:0] gf_y;
 
-    // Prefetch independent coefficients during the preceding FSM cycle. This
-    // separates the array selection network from the shared GF arithmetic,
-    // without adding cycles to syndrome, BM, Chien or Forney processing.
-    reg [4:0] synd_read_addr;
-    reg [4:0] lambda_read_addr;
-    reg [3:0] bpoly_read_addr;
-    reg [4:0] omega_read_addr;
-    reg [7:0] lambda_q, omega_q;
-    reg [7:0] error_x_q, error_pos_q;
-    wire [4:0] lambda_update_addr = {1'b0, update_i} + {1'b0, bm_m};
-
-    always @* begin
-        synd_read_addr = 5'd0;
-        lambda_read_addr = 5'd0;
-        bpoly_read_addr = 4'd0;
-        omega_read_addr = 5'd14;
-        case (state)
-            ST_SYND: synd_read_addr = synd_idx + 5'd1;
-            ST_BM_START: begin
-                synd_read_addr = bm_n - 5'd1;
-                lambda_read_addr = 5'd1;
-            end
-            ST_BM_DISC: begin
-                synd_read_addr = bm_n - {1'b0, bm_i} - 5'd1;
-                lambda_read_addr = {1'b0, bm_i} + 5'd1;
-            end
-            ST_BM_COEF: lambda_read_addr = {1'b0, bm_m};
-            ST_BM_UPDATE: begin
-                lambda_read_addr = lambda_update_addr + 5'd1;
-                bpoly_read_addr = update_i + 4'd1;
-            end
-            ST_OMEGA_ACC: begin
-                synd_read_addr = omega_j - {1'b0, omega_i} - 5'd1;
-                lambda_read_addr = {1'b0, omega_i} + 5'd1;
-            end
-            ST_OMEGA_STORE: begin
-                synd_read_addr = omega_j + 5'd1;
-                if (omega_j == 5'd15)
-                    lambda_read_addr = {1'b0, bm_l};
-            end
-            ST_CHIEN_INIT, ST_CHIEN_NEXT:
-                lambda_read_addr = {1'b0, bm_l} - 5'd1;
-            ST_CHIEN_EVAL:
-                lambda_read_addr = {1'b0, chien_k} - 5'd1;
-            ST_CHIEN_CHECK: lambda_read_addr = {1'b0, bm_l};
-            ST_FORNEY_OMEGA: begin
-                omega_read_addr = forney_k - 5'd1;
-                lambda_read_addr = 5'd7;
-            end
-            ST_FORNEY_X2: lambda_read_addr = 5'd5;
-            ST_FORNEY_D0: lambda_read_addr = 5'd3;
-            ST_FORNEY_D1: lambda_read_addr = 5'd1;
-            default: begin end
-        endcase
-    end
-
-    // These registers need no reset: every consumer has a preceding prefetch
-    // state. Out-of-range speculative reads are discarded by the FSM.
-    always @(posedge clk) begin
-        lambda_q <= lambda[lambda_read_addr];
-        omega_q <= omega[omega_read_addr];
-        if (state == ST_FORNEY_INIT) begin
-            error_x_q <= error_x[0];
-            error_pos_q <= error_pos[0];
-        end else if (state == ST_FORNEY_WRITE) begin
-            error_x_q <= error_x[error_i + 4'd1];
-            error_pos_q <= error_pos[error_i + 4'd1];
-        end
-    end
-
     integer i;
 
-    gf256_mul u_gf_mul(.a(gf_a), .b(gf_b), .y(gf_y));
+    gf256_mul_reference u_gf_mul(.a(gf_a), .b(gf_b), .y(gf_y));
 
-    rs_block_ram u_block_ram (
+    rs_block_ram_reference u_block_ram (
         .clk(clk),
         .we(ram_we),
         .waddr(ram_waddr),
@@ -265,12 +185,12 @@ module rs204_188_compact (
         if ((state == ST_FORNEY_MAG) ||
             (state == ST_FORNEY_READ) ||
             (state == ST_FORNEY_WRITE)) begin
-            ram_raddr = error_pos_q;
+            ram_raddr = error_pos[error_i];
         end
 
         if (state == ST_FORNEY_WRITE) begin
             ram_we = 1'b1;
-            ram_waddr = error_pos_q;
+            ram_waddr = error_pos[error_i];
             ram_wdata = corrected_q ^ magnitude;
         end
 
@@ -313,102 +233,67 @@ module rs204_188_compact (
 
     assign in_ready = (state == ST_INPUT);
 
-    // Schedule multiplier inputs one cycle ahead. Dependent operations feed
-    // the result directly to the next operands; independent coefficient reads
-    // are prefetched in parallel with the current multiply. No bubble cycles.
-    reg [7:0] gf_next_a, gf_next_b;
     always @* begin
-        gf_next_a = 8'd0;
-        gf_next_b = 8'd0;
+        gf_a = 8'd0;
+        gf_b = 8'd0;
         case (state)
-            ST_INPUT: begin
-                gf_next_a = synd[0];
-                gf_next_b = 8'h02;
-            end
             ST_SYND: begin
-                gf_next_a = synd[synd_read_addr];
-                gf_next_b = alpha_power_1_to_16(synd_idx[3:0] + 4'd1);
+                gf_a = synd[synd_idx];
+                gf_b = alpha_power_1_to_16(synd_idx[3:0]);
             end
-            ST_BM_START, ST_BM_DISC: begin
-                gf_next_a = lambda[lambda_read_addr];
-                gf_next_b = synd[synd_read_addr];
-            end
-            ST_BM_CHECK, ST_FORNEY_D2: begin
-                gf_next_a = 8'd1;
-                gf_next_b = 8'd1;
+            ST_BM_DISC: begin
+                gf_a = lambda[bm_i];
+                gf_b = synd[bm_n - bm_i];
             end
             ST_INV_SQUARE: begin
-                if (inv_exponent_bit(inv_bit)) begin
-                    gf_next_a = gf_y;
-                    gf_next_b = bval;
-                end else begin
-                    gf_next_a = inv_mode ? omega_value : discrepancy;
-                    gf_next_b = gf_y;
-                end
+                gf_a = inv_acc;
+                gf_b = inv_acc;
             end
             ST_INV_MUL: begin
-                gf_next_a = gf_y;
-                gf_next_b = gf_y;
+                gf_a = inv_acc;
+                gf_b = bval;
             end
             ST_BM_COEF: begin
-                gf_next_a = gf_y;
-                gf_next_b = bpoly[0];
+                gf_a = discrepancy;
+                gf_b = inv_acc;
             end
             ST_BM_UPDATE: begin
-                gf_next_a = coef;
-                gf_next_b = bpoly[bpoly_read_addr];
+                gf_a = coef;
+                gf_b = bpoly[update_i];
             end
-            ST_OMEGA_INIT, ST_OMEGA_ACC, ST_OMEGA_STORE: begin
-                gf_next_a = lambda[lambda_read_addr];
-                gf_next_b = synd[synd_read_addr];
-            end
-            ST_CHIEN_INIT: begin
-                gf_next_a = lambda_q;
-                gf_next_b = 8'd1;
+            ST_OMEGA_ACC: begin
+                gf_a = lambda[omega_i];
+                gf_b = synd[omega_j - omega_i];
             end
             ST_CHIEN_EVAL: begin
-                gf_next_a = gf_y ^ lambda_q;
-                gf_next_b = chien_x;
-            end
-            ST_CHIEN_CHECK: begin
-                gf_next_a = chien_x;
-                gf_next_b = 8'h02;
+                gf_a = chien_acc;
+                gf_b = chien_x;
             end
             ST_CHIEN_NEXT: begin
-                gf_next_a = lambda_q;
-                gf_next_b = gf_y;
-            end
-            ST_FORNEY_INIT: begin
-                gf_next_a = omega[15];
-                gf_next_b = error_x[0];
+                gf_a = chien_x;
+                gf_b = 8'h02;
             end
             ST_FORNEY_OMEGA: begin
-                if (forney_k == 0) begin
-                    gf_next_a = error_x_q;
-                    gf_next_b = error_x_q;
-                end else begin
-                    gf_next_a = gf_y ^ omega_q;
-                    gf_next_b = error_x_q;
-                end
+                gf_a = forney_acc;
+                gf_b = error_x[error_i];
             end
             ST_FORNEY_X2: begin
-                gf_next_a = lambda_q;
-                gf_next_b = gf_y;
+                gf_a = error_x[error_i];
+                gf_b = error_x[error_i];
             end
-            ST_FORNEY_D0, ST_FORNEY_D1: begin
-                gf_next_a = gf_y ^ lambda_q;
-                gf_next_b = x2;
+            ST_FORNEY_D0, ST_FORNEY_D1, ST_FORNEY_D2: begin
+                gf_a = deriv_acc;
+                gf_b = x2;
             end
-            ST_FORNEY_WRITE: begin
-                gf_next_a = omega[15];
-                gf_next_b = error_x[error_i + 4'd1];
+            ST_FORNEY_MAG: begin
+                gf_a = omega_value;
+                gf_b = inv_acc;
             end
-            default: begin end
+            default: begin
+                gf_a = 8'd0;
+                gf_b = 8'd0;
+            end
         endcase
-    end
-    always @(posedge clk) begin
-        gf_a <= gf_next_a;
-        gf_b <= gf_next_b;
     end
 
     always @(posedge clk or negedge resetn) begin
@@ -571,8 +456,8 @@ module rs204_188_compact (
                 end
 
                 ST_BM_UPDATE: begin
-                    if (lambda_update_addr <= 5'd8)
-                        lambda[lambda_update_addr] <= lambda_q ^ gf_y;
+                    if ((update_i + bm_m) <= 8)
+                        lambda[update_i + bm_m] <= lambda[update_i + bm_m] ^ gf_y;
 
                     if (update_i == 4'd8)
                         state <= ST_BM_POST;
@@ -631,13 +516,13 @@ module rs204_188_compact (
                     chien_x <= 8'd1;
                     chien_pos <= 8'd0;
                     error_count <= 4'd0;
-                    chien_acc <= lambda_q;
+                    chien_acc <= lambda[bm_l];
                     chien_k <= (bm_l == 0) ? 0 : (bm_l - 1'b1);
                     state <= (bm_l == 0) ? ST_CHIEN_CHECK : ST_CHIEN_EVAL;
                 end
 
                 ST_CHIEN_EVAL: begin
-                    chien_acc <= gf_y ^ lambda_q;
+                    chien_acc <= gf_y ^ lambda[chien_k];
                     if (chien_k == 0)
                         state <= ST_CHIEN_CHECK;
                     else
@@ -659,7 +544,7 @@ module rs204_188_compact (
                         state <= ST_FORNEY_INIT;
                     end else begin
                         chien_pos <= chien_pos + 8'd1;
-                        chien_acc <= lambda_q;
+                        chien_acc <= lambda[bm_l];
                         chien_k <= (bm_l == 0) ? 0 : (bm_l - 1'b1);
                         state <= (bm_l == 0) ? ST_CHIEN_CHECK : ST_CHIEN_EVAL;
                     end
@@ -680,9 +565,9 @@ module rs204_188_compact (
                 end
 
                 ST_FORNEY_OMEGA: begin
-                    forney_acc <= gf_y ^ omega_q;
+                    forney_acc <= gf_y ^ omega[forney_k];
                     if (forney_k == 0) begin
-                        omega_value <= gf_y ^ omega_q;
+                        omega_value <= gf_y ^ omega[0];
                         state <= ST_FORNEY_X2;
                     end else begin
                         forney_k <= forney_k - 5'd1;
@@ -691,21 +576,21 @@ module rs204_188_compact (
 
                 ST_FORNEY_X2: begin
                     x2 <= gf_y;
-                    deriv_acc <= lambda_q;
+                    deriv_acc <= lambda[7];
                     state <= ST_FORNEY_D0;
                 end
 
                 ST_FORNEY_D0: begin
-                    deriv_acc <= gf_y ^ lambda_q;
+                    deriv_acc <= gf_y ^ lambda[5];
                     state <= ST_FORNEY_D1;
                 end
                 ST_FORNEY_D1: begin
-                    deriv_acc <= gf_y ^ lambda_q;
+                    deriv_acc <= gf_y ^ lambda[3];
                     state <= ST_FORNEY_D2;
                 end
                 ST_FORNEY_D2: begin
-                    deriv_acc <= gf_y ^ lambda_q;
-                    bval <= gf_y ^ lambda_q;
+                    deriv_acc <= gf_y ^ lambda[1];
+                    bval <= gf_y ^ lambda[1];
                     inv_acc <= 8'd1;
                     inv_bit <= 4'd7;
                     inv_mode <= 1'b1;

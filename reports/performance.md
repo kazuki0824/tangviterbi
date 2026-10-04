@@ -62,14 +62,21 @@ The test enforces the profile deadline and 188 output bytes; it does not prove
 RS correction accuracy or exhaust all error patterns. The analytical bound and
 observed test maximum are deliberately kept separate.
 
-## Concrete improvements
+## Implemented improvements and remaining work
 
-| Order | Change | Why it may help | Required check |
-|---|---|---|---|
-| 1 | Share a selected read operand per polynomial array; bound index arithmetic to its valid width; separate operand selection from arithmetic | RS dominates wide MUXs; current critical path contains selections before RS RAM control | routed critical path and LUT count; bit-exact equivalence and cycle count |
-| 2 | Restructure / pipeline GF arithmetic and selection | shorten the remaining register-to-register path | preserve block service rate by scheduling independent syndrome/Chien contexts, or add a bounded second operation path if resources permit |
-| 3 | Add bounded FIFO / ping-pong input buffering; consider separate Viterbi and RS clocks if useful | RS currently refuses input throughout block correction/output | average throughput, burst backlog and CDC correctness; FIFO alone cannot fix insufficient average service rate |
-| 4 | If Viterbi itself fails after isolating RS, reconsider ACS parallelism and metric banking | clock requirement can be traded for more work per clock | full memory-port/BSRAM and LUT budget; increasing ACS lanes is not a free parameter change |
+The [performance optimization report](performance-optimization.md) records
+coefficient/GF-operand prefetch, DSP-based carryless GF products and parallel
+Viterbi branch-cost selection. These preserve the 6766-clock conservative RS
+bound and four Viterbi clocks/step. Core and PSRAM-inclusive routed timing
+improve to 72.54 and 79.02 MHz, but both remain below the required clock floors.
+The tests now include all GF operand pairs and cycle-exact old/new RS outputs.
+
+| Order | Remaining change | Required check |
+|---|---|---|
+| 1 | Localize RS coefficient/control fanout and array write enables; the selected paths are dominated by storage/control routing | both complete routed designs; old/new output equivalence and service clocks |
+| 2 | Improve Viterbi traceback selection and ACS paths; a byte-prefetched traceback alone did not improve both full designs | preserve output timing, metrics, survivor behavior, four clocks/step and BSRAM ports |
+| 3 | Add bounded FIFO / ping-pong input buffering; consider separate decoder clocks if useful | average service rate, burst backlog and CDC correctness; FIFO alone cannot fix a rate deficit |
+| 4 | Reconsider ACS parallelism and metric banking if required | full memory-port/BSRAM/LUT budget; extra lanes need actual architecture changes |
 
 The existing metric store already uses 16 BSRAMs; with survivor and RS storage
 it uses 19 of 26 before additional stream buffering. All changes must fit the

@@ -18,6 +18,7 @@ module viterbi_metrics_tb;
     integer epoch, step, phase, state, pred, c0, c1, i, ptr;
     reg [6:0] shift;
     reg [1:0] code;
+    reg expected_out_bit, expected_out_valid;
 
     task random_inputs;
         begin
@@ -79,6 +80,9 @@ module viterbi_metrics_tb;
                     #1;
                     if (dut.group != phase || in_ready != (phase == 0))
                         $fatal(1, "four-cycle scheduling changed");
+                    expected_out_valid = (phase == 3) && (step % 256 >= 64);
+                    expected_out_bit = dut.tb_state[5] ? dut.survivor_hi_q[dut.tb_state[4:0]]
+                                                      : dut.survivor_lo_q[dut.tb_state[4:0]];
                     for (i = 0; i < 16; i = i + 1) begin
                         if (dut.lane_metric[i] !== next_metrics[16*phase+i][METRIC_W-1:0])
                             $fatal(1, "metric mismatch epoch=%0d step=%0d state=%0d", epoch, step, 16*phase+i);
@@ -86,6 +90,10 @@ module viterbi_metrics_tb;
                             $fatal(1, "decision mismatch");
                     end
                     @(negedge clk);
+                    #1;
+                    if (out_valid !== expected_out_valid ||
+                        (expected_out_valid && out_bit !== expected_out_bit))
+                        $fatal(1, "traceback output/timing differs from original row selection");
                     in_valid = 0;
                     random_inputs();
                 end
@@ -95,7 +103,7 @@ module viterbi_metrics_tb;
                 for (i = 0; i < 64; i = i + 1) metrics[i] = next_metrics[i];
             end
         end
-        $display("PASS: metric recurrence, decisions, survivor writes, stalls/reset, four-cycle throughput (W=%0d)", METRIC_W);
+        $display("PASS: metric recurrence, decisions, survivor writes, traceback selection, stalls/reset, four-cycle throughput (W=%0d)", METRIC_W);
         $finish;
     end
 endmodule
