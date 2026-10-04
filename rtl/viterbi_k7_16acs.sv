@@ -13,17 +13,43 @@ module viterbi_k7_16acs #(
 );
     localparam [METRIC_W-1:0] INF = {METRIC_W{1'b1}};
 
-    reg [METRIC_W-1:0] ma0 [0:15];
-    reg [METRIC_W-1:0] ma1 [0:15];
-    reg [METRIC_W-1:0] ma2 [0:15];
-    reg [METRIC_W-1:0] ma3 [0:15];
-    reg [METRIC_W-1:0] mb0 [0:15];
-    reg [METRIC_W-1:0] mb1 [0:15];
-    reg [METRIC_W-1:0] mb2 [0:15];
-    reg [METRIC_W-1:0] mb3 [0:15];
-
     reg bank;
     reg [1:0] group;
+    reg initialized;
+    reg [1:0] init_group;
+    wire step_enable = initialized && ((group != 0) || in_valid);
+    wire [2*METRIC_W-1:0] read_low [0:7];
+    wire [2*METRIC_W-1:0] read_high [0:7];
+    reg [METRIC_W-1:0] lane_metric [0:15];
+    // Prefetch the next group's metrics. After group 3, the newly written
+    // generation becomes the source. Its group-0 predecessor rows were
+    // written in groups 0 and 2, so no read/write collision is required.
+    wire [1:0] read_group = step_enable ? group + 2'd1 : group;
+    wire read_bank = bank ^ (step_enable && group == 2'd3);
+
+    // Bank by state[3:1], packing the even/odd destination metrics together.
+    // Eight banks receive one 32-bit write each cycle. Each needs two
+    // synchronous reads (predecessor state[5]=0/1); Yosys replicates these
+    // into 16 BSRAMs. Array writes and reads have no asynchronous reset.
+    // A four-clock startup sweep initializes the source generation only.
+    genvar metric_bank;
+    generate for (metric_bank = 0; metric_bank < 8; metric_bank = metric_bank + 1) begin : g_metric
+        (* ram_style = "block" *) reg [2*METRIC_W-1:0] metrics [0:7];
+        reg [2*METRIC_W-1:0] low_q, high_q;
+        assign read_low[metric_bank] = low_q;
+        assign read_high[metric_bank] = high_q;
+        always @(posedge clk) begin
+            low_q <= metrics[{read_bank, 1'b0, read_group[1]}];
+            high_q <= metrics[{read_bank, 1'b1, read_group[1]}];
+            if (resetn) begin
+                if (!initialized)
+                    metrics[{1'b0, init_group}] <=
+                        ((metric_bank == 0) && (init_group == 0)) ? {INF, {METRIC_W{1'b0}}} : {INF, INF};
+                else if (step_enable)
+                    metrics[{~bank, group}] <= {lane_metric[2*metric_bank+1], lane_metric[2*metric_bank]};
+            end
+        end
+    end endgenerate
     reg [7:0] soft0_q, soft1_q;
     reg [5:0] wr_ptr;
     reg [5:0] tb_ptr;
@@ -35,7 +61,6 @@ module viterbi_k7_16acs #(
     reg [31:0] survivor_lo_q, survivor_hi_q;
     reg [47:0] decision_partial;
 
-    reg [METRIC_W-1:0] lane_metric [0:15];
     reg [15:0] lane_decision;
 
     integer i;
@@ -44,6 +69,7 @@ module viterbi_k7_16acs #(
     integer src_idx;
     reg [METRIC_W-1:0] src0;
     reg [METRIC_W-1:0] src1;
+    reg [2*METRIC_W-1:0] src_pair0, src_pair1;
     reg [1:0] coded0;
     reg [8:0] branch0;
     reg [8:0] branch1;
@@ -83,7 +109,7 @@ module viterbi_k7_16acs #(
         end
     endfunction
 
-    assign in_ready = (group == 2'd0);
+    assign in_ready = initialized && (group == 2'd0);
 
     always @* begin
         active_soft0 = (group == 2'd0) ? soft0 : soft0_q;
@@ -99,24 +125,11 @@ module viterbi_k7_16acs #(
         bm11 = 9'd510 - {1'b0, active_soft0} - {1'b0, active_soft1};
 
         for (i = 0; i < 16; i = i + 1) begin
-            src_idx = (i >> 1) + (group[0] ? 8 : 0);
-            if (!bank) begin
-                if (!group[1]) begin
-                    src0 = ma0[src_idx];
-                    src1 = ma2[src_idx];
-                end else begin
-                    src0 = ma1[src_idx];
-                    src1 = ma3[src_idx];
-                end
-            end else begin
-                if (!group[1]) begin
-                    src0 = mb0[src_idx];
-                    src1 = mb2[src_idx];
-                end else begin
-                    src0 = mb1[src_idx];
-                    src1 = mb3[src_idx];
-                end
-            end
+            src_idx = (i >> 2) + (group[0] ? 4 : 0);
+            src_pair0 = read_low[src_idx];
+            src_pair1 = read_high[src_idx];
+            src0 = (i & 2) ? src_pair0[2*METRIC_W-1:METRIC_W] : src_pair0[METRIC_W-1:0];
+            src1 = (i & 2) ? src_pair1[2*METRIC_W-1:METRIC_W] : src_pair1[METRIC_W-1:0];
 
             p0_state = (group << 3) + (i >> 1);
             p1_state = p0_state + 32;
@@ -154,7 +167,7 @@ module viterbi_k7_16acs #(
     end
 
     always @(posedge clk) begin
-        if (resetn && (group == 2'd3)) begin
+        if (resetn && initialized && (group == 2'd3)) begin
             survivor_lo[wr_ptr] <= decision_partial[31:0];
             survivor_hi[wr_ptr] <= {lane_decision, decision_partial[47:32]};
         end
@@ -164,6 +177,8 @@ module viterbi_k7_16acs #(
         if (!resetn) begin
             bank <= 1'b0;
             group <= 2'd0;
+            initialized <= 1'b0;
+            init_group <= 2'd0;
             soft0_q <= 8'd0;
             soft1_q <= 8'd0;
             wr_ptr <= 6'd0;
@@ -174,39 +189,19 @@ module viterbi_k7_16acs #(
             out_bit <= 1'b0;
             decision_partial <= 48'd0;
 
-            for (i = 0; i < 16; i = i + 1) begin
-                ma0[i] <= (i == 0) ? {METRIC_W{1'b0}} : INF;
-                ma1[i] <= INF;
-                ma2[i] <= INF;
-                ma3[i] <= INF;
-                mb0[i] <= INF;
-                mb1[i] <= INF;
-                mb2[i] <= INF;
-                mb3[i] <= INF;
-            end
         end else begin
             out_valid <= 1'b0;
 
-            if ((group != 2'd0) || in_valid) begin
+            if (!initialized) begin
+                // Initialize only the source generation. Every destination
+                // entry is written before the ping-pong bank is switched.
+                init_group <= init_group + 2'd1;
+                if (init_group == 2'd3)
+                    initialized <= 1'b1;
+            end else if (step_enable) begin
                 if (group == 2'd0) begin
                     soft0_q <= soft0;
                     soft1_q <= soft1;
-                end
-
-                if (!bank) begin
-                    case (group)
-                        2'd0: for (i=0; i<16; i=i+1) mb0[i] <= lane_metric[i];
-                        2'd1: for (i=0; i<16; i=i+1) mb1[i] <= lane_metric[i];
-                        2'd2: for (i=0; i<16; i=i+1) mb2[i] <= lane_metric[i];
-                        2'd3: for (i=0; i<16; i=i+1) mb3[i] <= lane_metric[i];
-                    endcase
-                end else begin
-                    case (group)
-                        2'd0: for (i=0; i<16; i=i+1) ma0[i] <= lane_metric[i];
-                        2'd1: for (i=0; i<16; i=i+1) ma1[i] <= lane_metric[i];
-                        2'd2: for (i=0; i<16; i=i+1) ma2[i] <= lane_metric[i];
-                        2'd3: for (i=0; i<16; i=i+1) ma3[i] <= lane_metric[i];
-                    endcase
                 end
 
                 case (group)

@@ -1,6 +1,8 @@
 module benchmark_top #(
     parameter integer WITH_MEM = 0,
-    parameter integer PSRAM = 0
+    parameter integer PSRAM = 0,
+    parameter integer WITH_VITERBI = 1,
+    parameter integer WITH_RS = 1
 ) (
     input  wire clk,
     input  wire resetn,
@@ -43,6 +45,7 @@ module benchmark_top #(
         end
     end
 
+    generate if (WITH_VITERBI) begin : g_viterbi
     viterbi_k7_16acs u_viterbi (
         .clk(clk),
         .resetn(resetn),
@@ -53,7 +56,13 @@ module benchmark_top #(
         .out_valid(vit_valid),
         .out_bit(vit_bit)
     );
+    end else begin : g_no_viterbi
+        assign vit_ready = 1'b0;
+        assign vit_valid = 1'b0;
+        assign vit_bit = 1'b0;
+    end endgenerate
 
+    generate if (WITH_RS) begin : g_rs
     rs204_188_compact u_rs (
         .clk(clk),
         .resetn(resetn),
@@ -64,6 +73,12 @@ module benchmark_top #(
         .out_byte(rs_out),
         .block_fail(rs_fail)
     );
+    end else begin : g_no_rs
+        assign rs_ready = 1'b0;
+        assign rs_valid = 1'b0;
+        assign rs_out = 8'd0;
+        assign rs_fail = 1'b0;
+    end endgenerate
 
     generate
         if (WITH_MEM) begin : g_mem

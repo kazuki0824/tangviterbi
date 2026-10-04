@@ -6,17 +6,18 @@ import unittest
 
 
 class ReportTests(unittest.TestCase):
-    def report(self, log, data=None, rc=0):
+    def report(self, log, data=None, rc=0, diagnostic=False):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "pnr.log").write_text(log)
             if data is not None:
                 (root / "report.json").write_text(json.dumps(data))
             return subprocess.check_output([
-                "python3", "ci/report.py", "--board", "9k", "--variant", "mem",
+                "python3", "ci/report.py", "--board", "9k", "--variant", "rs-only" if diagnostic else "mem",
                 "--report", str(root / "report.json"),
                 "--pnr-log", str(root / "pnr.log"),
                 "--synth-log", str(root / "synth.log"), "--exit-code", str(rc),
+                *(["--pack-only"] if diagnostic else []),
             ], text=True)
 
     def test_failed_fit_retains_utilization_but_not_target_fmax(self):
@@ -70,6 +71,26 @@ class ReportTests(unittest.TestCase):
         )
         self.assertIn("**unknown**", result)
         self.assertNotIn("routed Fmax:", result)
+
+    def test_diagnostic_does_not_claim_pnr_or_timing_pass(self):
+        result = self.report(
+            "Info: LUT4: 4420/ 8640 51%\n",
+            {"fmax": {"clk": {"achieved": 200}}}, diagnostic=True,
+        )
+        self.assertIn("Blocks: RS; controller: **none**", result)
+        self.assertIn("P&R: **not run (diagnostic)**", result)
+        self.assertIn("| LUT4 | 4420 | 8640 |", result)
+        self.assertNotIn("routed Fmax:", result)
+
+    def test_resource_counts_use_same_packed_basis_after_routing(self):
+        result = self.report(
+            "Info: LUT4: 6298/ 8640 72%\nInfo: Routing complete.\n",
+            {"utilization": {"LUT4": {"used": 6000, "available": 8640}},
+             "fmax": {"clk": {"achieved": 37.04}}}, rc=1,
+        )
+        self.assertIn("| LUT4 | 6298 | 8640 |", result)
+        self.assertIn("before placement", result)
+        self.assertIn("**37.04 MHz**", result)
 
 
 if __name__ == "__main__":

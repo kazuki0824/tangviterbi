@@ -11,6 +11,7 @@ p.add_argument("--report", required=True)
 p.add_argument("--synth-log", required=True)
 p.add_argument("--pnr-log", required=True)
 p.add_argument("--exit-code", type=int, required=True)
+p.add_argument("--pack-only", action="store_true")
 a = p.parse_args()
 
 report = {}
@@ -28,7 +29,7 @@ pnr_text = Path(a.pnr_log).read_text(errors="replace")
 # design that subsequently failed timing. Never substitute target MHz.
 fmax = None
 routed_log = pnr_text.partition("Routing complete")[2]
-if routed_log:
+if routed_log and not a.pack_only:
     achieved = [
         float(clock["achieved"])
         for clock in report.get("fmax", {}).values()
@@ -49,8 +50,18 @@ if routed_log:
         if clocks:
             fmax = min(clocks.values())
 
+packed_rows = re.findall(
+    r"Info:\s+([A-Za-z0-9_]+):\s+(\d+)/\s*(\d+)\s+\d+%",
+    pnr_text,
+)
+
 def resource_lines():
-    util = report.get("utilization") if isinstance(report, dict) else None
+    # Use one comparable accounting stage for successful and failed jobs.
+    # Final report utilization can count placed LUT/ALU/RAM overlap differently.
+    if packed_rows:
+        yield from packed_rows
+        return
+    util = report.get("utilization") if isinstance(report, dict) and not a.pack_only else None
     if isinstance(util, dict):
         for key, value in util.items():
             if isinstance(value, dict):
@@ -58,13 +69,6 @@ def resource_lines():
                 avail = value.get("available", value.get("total", "?"))
                 yield key, used, avail
         return
-    # nextpnr emits packed utilization before placement, including on overflow.
-    # This remains useful when there is no report.json because P&R failed.
-    for key, used, avail in re.findall(
-        r"Info:\s+([A-Za-z0-9_]+):\s+(\d+)/\s*(\d+)\s+\d+%",
-        pnr_text,
-    ):
-        yield key, used, avail
 
 status = "PASS" if a.exit_code == 0 else "FAIL"
 margin = "unknown"
@@ -73,18 +77,25 @@ if fmax is not None:
 
 print(f"# {a.board} / {a.variant}")
 print()
-controller = "none" if a.variant == "core-only" else (
+controller = "none" if a.variant != "mem" else (
     "HyperRAM x8" if a.board == "4k" else "PSRAM 2 x8 channels"
 )
-print(f"- Blocks: Viterbi + RS; controller: **{controller}**")
+blocks = {"viterbi-only": "Viterbi", "rs-only": "RS"}.get(a.variant, "Viterbi + RS")
+print(f"- Blocks: {blocks}; controller: **{controller}**")
 print("- Scope: protocol RTL only; DDR PHY, initialization and calibration excluded")
-print(f"- P&R: **{status}**")
+if a.pack_only:
+    print(f"- Synthesis/packing: **{status}**")
+    print("- P&R: **not run (diagnostic)**")
+else:
+    print(f"- P&R at 110 MHz: **{status}**")
+    print(f"- Placement/routing completed: **{'yes' if routed_log else 'no'}**")
+print(f"- 100.8 MHz throughput criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= 100.8 else 'FAIL')}**")
 print(f"- 110 MHz timing criterion: **{margin}**")
 if fmax is not None:
     print(f"- extracted routed Fmax: **{fmax:.2f} MHz**")
 print()
 rows = list(resource_lines())
-if rows and not report.get("utilization"):
+if packed_rows:
     print("Resource counts below are packed utilization before placement.")
     print()
 print("| Resource | Used | Available |")

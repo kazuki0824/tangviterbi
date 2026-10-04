@@ -33,7 +33,10 @@ Targets:
 - 8-bit unsigned soft inputs
 - 16 ACS lanes
 - four clocks per trellis step
-- banked 64-state path metrics
+- 64-state path metrics: eight banks of even/odd metric pairs
+- synchronous metric prefetch; four-clock reset initialization
+- two read ports per bank mapped to 16 replicated Gowin BSRAMs
+- metric arrays have clock-only processes, without asynchronous reset
 - 64-step survivor store
 
 ### RS(204,188)
@@ -90,7 +93,7 @@ The reference sources are not vendored; this benchmark remains self-contained.
 
 ## CI variants
 
-Exactly four jobs run:
+The four full-design jobs remain, with four synthesis/packing diagnostics added:
 
 | Job | Viterbi | RS | Memory controller |
 |---|---:|---:|---|
@@ -98,15 +101,22 @@ Exactly four jobs run:
 | `4k / mem` | yes | yes | HyperRAM, one x8 channel |
 | `9k / core-only` | yes | yes | none |
 | `9k / mem` | yes | yes | PSRAM, two x8 channels |
+| `4k / viterbi-only` | yes | no | none; synthesis/packing only |
+| `4k / rs-only` | no | yes | none; synthesis/packing only |
+| `9k / viterbi-only` | yes | no | none; synthesis/packing only |
+| `9k / rs-only` | no | yes | none; synthesis/packing only |
 
-`core-only` uses identical RTL and explicit parameters (`WITH_MEM=0`, `PSRAM=0`)
-on both devices. Its generated synthesis script is checked for equality in CI.
-The Viterbi and RS implementations are unchanged between `core-only` and `mem`.
-Use `mem - core-only` on
-the **same device and revision** for controller/harness resource overhead.
-That delta includes the stimulus and activity sink as well as the controller;
-Fmax is measured separately for each full design and is not an additive delta.
-The former Viterbi-only jobs are removed from this comparison.
+`core-only` uses identical RTL and explicit parameters (`WITH_MEM=0`, `PSRAM=0`,
+`WITH_VITERBI=1`, `WITH_RS=1`) on both devices. Its generated synthesis script is
+checked for equality in CI. The decoder RTL is the same in `core-only` and `mem`.
+Diagnostics disable exactly one decoder and use nextpnr `--pack-only` to obtain
+comparable packed resources without running placement/routing. A successful
+packing diagnostic does not establish that the design fits or meets timing.
+
+Resource differences between `mem` and `core-only` include stimulus, observation
+and synthesis/packing changes across the whole design. They are **not an isolated
+controller cost**; the earlier 9K mem result was smaller than core-only despite
+adding a controller. Fmax is measured separately for each routed design.
 
 ## Toolchain
 
@@ -120,18 +130,61 @@ The CI does place-and-route, not synthesis-only, so timing is based on a routed 
 
 ## Result
 
-The table below is updated from the CI results after the implementation converges.
+Measurements use the pinned toolchain below; resources are consistently the
+**packed utilization before placement**, including overflow. Final JSON utilization
+can account for shared LUT/ALU/RAM occupancy differently and is retained as raw
+evidence, but is not mixed into this comparison. All DSP primitives used: **0**.
 
-| Target | Variant | P&R | LUT/logic | FF | BSRAM | DSP | Routed Fmax | 110 MHz |
-|---|---|---|---:|---:|---:|---:|---:|---|
-| Tang Nano 4K | core-only | pending | | | | | | |
-| Tang Nano 4K | mem | pending | | | | | | |
-| Tang Nano 9K | core-only | pending | | | | | | |
-| Tang Nano 9K | mem | pending | | | | | | |
+Baseline CI at [`2af4a69`](https://github.com/kazuki0824/tangviterbi/commit/2af4a699790a8077011d0c81e75ed42081aa94bd):
+
+| Board / variant | LUT4 used / available | FF | BSRAM | P&R at 110 MHz | Routed Fmax |
+|---|---:|---:|---:|---|---|
+| 4K / core-only | 7266 / 4608 | 3164 | 3 / 10 | FAIL: placement | not measured |
+| 4K / mem | 7271 / 4608 | 3290 | 3 / 10 | FAIL: placement | not measured |
+| 9K / core-only | 7266 / 8640 | 3164 | 3 / 26 | FAIL: placement | not measured |
+| 9K / mem | 6844 / 8640 | 3302 | 3 / 26 | FAIL: placement | not measured |
+
+The baseline single-decoder measurements found **Viterbi 3073 LUT / 2311 FF / 2
+BSRAM**, versus **RS 4420 LUT / 885 FF / 1 BSRAM**, on both boards. RS has more
+packed LUTs and most wide MUXs: MUX2_LUT5/6/7/8 = 1588/719/328/137 for RS,
+317/26/12/0 for Viterbi. The combined 7266 LUT result cannot be partitioned by
+adding isolated measurements because the harness and optimization differ.
+See [measurement details](reports/metric-storage.md) for provenance/reproduction.
+
+After the banked BSRAM metric change (local runs of this RTL with the same pin/tool
+settings; CI repeats all eight jobs):
+
+| Board / variant | LUT4 used / available | FF | BSRAM | Placement / routing | Routed Fmax | 100.8 / 110 MHz |
+|---|---:|---:|---:|---|---:|---|
+| 4K / core-only | 6298 / 4608 | 1637 | 19 / 10 | FAIL: capacity | not measured | unknown |
+| 4K / mem | 6290 / 4608 | 1763 | 19 / 10 | FAIL: capacity | not measured | unknown |
+| 9K / core-only | 6298 / 8640 | 1637 | 19 / 26 | completed | 37.04 MHz | FAIL / FAIL |
+| 9K / mem | 6512 / 8640 | 1775 | 19 / 26 | completed | 37.40 MHz | FAIL / FAIL |
+| 4K / viterbi-only | 2330 / 4608 | 784 | 18 / 10 | not run (diagnostic) | not measured | unknown |
+| 4K / rs-only | 4196 / 4608 | 885 | 1 / 10 | not run (diagnostic) | not measured | unknown |
+| 9K / viterbi-only | 2330 / 8640 | 784 | 18 / 26 | not run (diagnostic) | not measured | unknown |
+| 9K / rs-only | 4196 / 8640 | 885 | 1 / 26 | not run (diagnostic) | not measured | unknown |
+
+The new core uses 968 fewer packed LUTs and 1527 fewer FFs, at the cost of 16
+additional BSRAMs. The synthesized metric banks are 16 `SDPX9B` primitives.
+9K now reaches legal placement and routing, but **does not meet the throughput
+clock requirement**, so its full-design CI jobs remain red on timing. The
+37.04 MHz core critical path is in RS. The unchanged RS source also shows a
+packing difference in the diagnostics after the Viterbi source changes; these
+numbers describe whole synthesis runs, not exact isolated architectural deltas.
+
+The 4K core remains above LUT capacity (136.7%) and BSRAM capacity (190%). Stop
+placement tuning for this architecture. A 4K solution would require another
+storage/resource architecture, not placement settings alone.
+
+Next work: reduce/serialize RS polynomial-array selection and pipeline its
+arithmetic/selection path, with functional and cycle-budget validation; rerun
+9K core first against 100.8 and 110 MHz, then reassess 9K mem. RAM-controller
+results remain protocol-only models with the exclusions stated above.
 
 CI uploads raw synthesis/P&R logs, the synthesis script, any nextpnr JSON report,
-and a separate summary for each job. If placement fails, the summary still shows
-packed utilization from the log, labelled as such. Fmax remains unknown unless
+and a separate summary for each job. Every summary uses packed utilization from the log, labelled as such; JSON
+utilization is a fallback only if packed counts are absent. Fmax remains unknown unless
 an achieved routed clock value is available; the requested 110 MHz is never used
 as a measured Fmax. Partial JSON clock estimates are ignored until routing
 completes; log fallback uses only the clocks printed after routing completion.

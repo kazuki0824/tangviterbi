@@ -1,0 +1,555 @@
+{
+  "toolchain": "OSS CAD Suite 2026-10-04",
+  "yosys": "0.69+190 / 0e8336b4e",
+  "nextpnr": "0.11.1-47-ge2fe86b3",
+  "resource_basis": "packed utilization before placement",
+  "baseline_viterbi_commit": "2af4a699790a8077011d0c81e75ed42081aa94bd",
+  "source_sha256": {
+    "rtl/benchmark_top.sv": "a5cee43acc1ab4b347c0333d3b09280db5456a9a351cbdf9c19b6a41f4b70177",
+    "rtl/hyperram_ctrl.sv": "9265e9826a33feeb14d8704b35cfbf1d8541a563b03df3db427fe2dcdb8846ae",
+    "rtl/psram_ctrl.sv": "9f625e2cb037ac9f910d665a0f2c254f3a9c3c8d6253b86d64edb02557970cba",
+    "rtl/rs204_188_compact.sv": "7c7c2e754b104de102f0ce1690e7ab7307daf8c8ed67cbd9133ff27a2adce12c",
+    "rtl/viterbi_k7_16acs.sv": "41f1f31159d6dd91c1c59cf0c4618e7fc6f0f07b49ee3d76f9e4b8a22beaf609"
+  },
+  "baseline_diagnostics": [
+    {
+      "board": "4k",
+      "variant": "rs-only",
+      "mode": "packing",
+      "resources": {
+        "LUT4": {
+          "used": 4420,
+          "available": 4608
+        },
+        "MUX2_LUT5": {
+          "used": 1588,
+          "available": 2304
+        },
+        "MUX2_LUT6": {
+          "used": 719,
+          "available": 1152
+        },
+        "MUX2_LUT7": {
+          "used": 328,
+          "available": 576
+        },
+        "MUX2_LUT8": {
+          "used": 137,
+          "available": 576
+        },
+        "ALU": {
+          "used": 182,
+          "available": 3456
+        },
+        "DFF": {
+          "used": 885,
+          "available": 3456
+        },
+        "BSRAM": {
+          "used": 1,
+          "available": 10
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": []
+    },
+    {
+      "board": "4k",
+      "variant": "viterbi-only",
+      "mode": "packing",
+      "resources": {
+        "LUT4": {
+          "used": 3073,
+          "available": 4608
+        },
+        "MUX2_LUT5": {
+          "used": 317,
+          "available": 2304
+        },
+        "MUX2_LUT6": {
+          "used": 26,
+          "available": 1152
+        },
+        "MUX2_LUT7": {
+          "used": 12,
+          "available": 576
+        },
+        "MUX2_LUT8": {
+          "used": 0,
+          "available": 576
+        },
+        "ALU": {
+          "used": 982,
+          "available": 3456
+        },
+        "DFF": {
+          "used": 2311,
+          "available": 3456
+        },
+        "BSRAM": {
+          "used": 2,
+          "available": 10
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": []
+    },
+    {
+      "board": "9k",
+      "variant": "rs-only",
+      "mode": "packing",
+      "resources": {
+        "LUT4": {
+          "used": 4420,
+          "available": 8640
+        },
+        "MUX2_LUT5": {
+          "used": 1588,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 719,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 328,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 137,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 182,
+          "available": 6480
+        },
+        "DFF": {
+          "used": 885,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 1,
+          "available": 26
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": []
+    },
+    {
+      "board": "9k",
+      "variant": "viterbi-only",
+      "mode": "packing",
+      "resources": {
+        "LUT4": {
+          "used": 3073,
+          "available": 8640
+        },
+        "MUX2_LUT5": {
+          "used": 317,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 26,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 12,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 0,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 982,
+          "available": 6480
+        },
+        "DFF": {
+          "used": 2311,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 2,
+          "available": 26
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": []
+    }
+  ],
+  "after": [
+    {
+      "board": "4k",
+      "variant": "core-only",
+      "mode": "place-route",
+      "resources": {
+        "LUT4": {
+          "used": 6298,
+          "available": 4608
+        },
+        "MUX2_LUT5": {
+          "used": 1659,
+          "available": 2304
+        },
+        "MUX2_LUT6": {
+          "used": 605,
+          "available": 1152
+        },
+        "MUX2_LUT7": {
+          "used": 285,
+          "available": 576
+        },
+        "MUX2_LUT8": {
+          "used": 109,
+          "available": 576
+        },
+        "ALU": {
+          "used": 1164,
+          "available": 3456
+        },
+        "DFF": {
+          "used": 1637,
+          "available": 3456
+        },
+        "BSRAM": {
+          "used": 19,
+          "available": 10
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": [
+        "Unable to place cell 'g_viterbi.u_viterbi.g_metric[3].metrics.1.0', no BELs remaining to implement cell type 'SDP'"
+      ]
+    },
+    {
+      "board": "4k",
+      "variant": "mem",
+      "mode": "place-route",
+      "resources": {
+        "LUT4": {
+          "used": 6290,
+          "available": 4608
+        },
+        "MUX2_LUT5": {
+          "used": 1573,
+          "available": 2304
+        },
+        "MUX2_LUT6": {
+          "used": 560,
+          "available": 1152
+        },
+        "MUX2_LUT7": {
+          "used": 257,
+          "available": 576
+        },
+        "MUX2_LUT8": {
+          "used": 101,
+          "available": 576
+        },
+        "ALU": {
+          "used": 1174,
+          "available": 3456
+        },
+        "DFF": {
+          "used": 1763,
+          "available": 3456
+        },
+        "BSRAM": {
+          "used": 19,
+          "available": 10
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": [
+        "Unable to place cell 'g_viterbi.u_viterbi.g_metric[3].metrics.1.0', no BELs remaining to implement cell type 'SDP'"
+      ]
+    },
+    {
+      "board": "4k",
+      "variant": "rs-only",
+      "mode": "packing",
+      "resources": {
+        "LUT4": {
+          "used": 4196,
+          "available": 4608
+        },
+        "MUX2_LUT5": {
+          "used": 1456,
+          "available": 2304
+        },
+        "MUX2_LUT6": {
+          "used": 652,
+          "available": 1152
+        },
+        "MUX2_LUT7": {
+          "used": 297,
+          "available": 576
+        },
+        "MUX2_LUT8": {
+          "used": 118,
+          "available": 576
+        },
+        "ALU": {
+          "used": 182,
+          "available": 3456
+        },
+        "DFF": {
+          "used": 885,
+          "available": 3456
+        },
+        "BSRAM": {
+          "used": 1,
+          "available": 10
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": []
+    },
+    {
+      "board": "4k",
+      "variant": "viterbi-only",
+      "mode": "packing",
+      "resources": {
+        "LUT4": {
+          "used": 2330,
+          "available": 4608
+        },
+        "MUX2_LUT5": {
+          "used": 334,
+          "available": 2304
+        },
+        "MUX2_LUT6": {
+          "used": 26,
+          "available": 1152
+        },
+        "MUX2_LUT7": {
+          "used": 12,
+          "available": 576
+        },
+        "MUX2_LUT8": {
+          "used": 0,
+          "available": 576
+        },
+        "ALU": {
+          "used": 982,
+          "available": 3456
+        },
+        "DFF": {
+          "used": 784,
+          "available": 3456
+        },
+        "BSRAM": {
+          "used": 18,
+          "available": 10
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": []
+    },
+    {
+      "board": "9k",
+      "variant": "core-only",
+      "mode": "place-route",
+      "resources": {
+        "LUT4": {
+          "used": 6298,
+          "available": 8640
+        },
+        "MUX2_LUT5": {
+          "used": 1659,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 605,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 285,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 109,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 1164,
+          "available": 6480
+        },
+        "DFF": {
+          "used": 1637,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 19,
+          "available": 26
+        }
+      },
+      "routing_completed": true,
+      "routed_fmax_mhz": 37.04,
+      "errors": [
+        "Max frequency for clock 'g_rs.u_rs.clk': 37.04 MHz (FAIL at 110.00 MHz)"
+      ]
+    },
+    {
+      "board": "9k",
+      "variant": "mem",
+      "mode": "place-route",
+      "resources": {
+        "LUT4": {
+          "used": 6512,
+          "available": 8640
+        },
+        "MUX2_LUT5": {
+          "used": 1714,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 620,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 282,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 105,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 1174,
+          "available": 6480
+        },
+        "DFF": {
+          "used": 1775,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 19,
+          "available": 26
+        }
+      },
+      "routing_completed": true,
+      "routed_fmax_mhz": 37.4,
+      "errors": [
+        "Max frequency for clock 'g_rs.u_rs.clk': 37.40 MHz (FAIL at 110.00 MHz)"
+      ]
+    },
+    {
+      "board": "9k",
+      "variant": "rs-only",
+      "mode": "packing",
+      "resources": {
+        "LUT4": {
+          "used": 4196,
+          "available": 8640
+        },
+        "MUX2_LUT5": {
+          "used": 1456,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 652,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 297,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 118,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 182,
+          "available": 6480
+        },
+        "DFF": {
+          "used": 885,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 1,
+          "available": 26
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": []
+    },
+    {
+      "board": "9k",
+      "variant": "viterbi-only",
+      "mode": "packing",
+      "resources": {
+        "LUT4": {
+          "used": 2330,
+          "available": 8640
+        },
+        "MUX2_LUT5": {
+          "used": 334,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 26,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 12,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 0,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 982,
+          "available": 6480
+        },
+        "DFF": {
+          "used": 784,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 18,
+          "available": 26
+        }
+      },
+      "routing_completed": false,
+      "routed_fmax_mhz": null,
+      "errors": []
+    }
+  ],
+  "dsp_primitives_used": 0
+}

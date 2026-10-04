@@ -29,7 +29,7 @@ class RtlTests(unittest.TestCase):
             self.assertEqual(scripts[0], scripts[1])
             self.assertIn("-set WITH_MEM 0 -set PSRAM 0", scripts[0])
 
-    def test_four_variants_elaborate(self):
+    def test_main_and_diagnostic_variants_elaborate(self):
         with tempfile.TemporaryDirectory() as temp:
             for psram in (0, 1):
                 for mem in (0, 1):
@@ -41,6 +41,25 @@ class RtlTests(unittest.TestCase):
                             "-o", str(Path(temp) / "top"),
                             *map(str, sorted(Path("rtl").glob("*.sv"))),
                         ], check=True)
+            for vit, rs in ((1, 0), (0, 1)):
+                subprocess.run([
+                    "iverilog", "-g2012", "-s", "benchmark_top",
+                    f"-Pbenchmark_top.WITH_VITERBI={vit}",
+                    f"-Pbenchmark_top.WITH_RS={rs}",
+                    "-o", str(Path(temp) / "top"),
+                    *map(str, sorted(Path("rtl").glob("*.sv"))),
+                ], check=True)
+
+    def test_viterbi_banked_metrics(self):
+        with tempfile.TemporaryDirectory() as temp:
+            for width in (16, 10):
+                program = str(Path(temp) / "metrics")
+                subprocess.run([
+                    "iverilog", "-g2012", "-s", "viterbi_metrics_tb",
+                    f"-Pviterbi_metrics_tb.METRIC_W={width}", "-o", program,
+                    "rtl/viterbi_k7_16acs.sv", "tests/viterbi_metrics_tb.sv",
+                ], check=True)
+                subprocess.run(["vvp", program], check=True, timeout=30)
 
     def test_controller_transactions(self):
         with tempfile.TemporaryDirectory() as temp:
