@@ -30,8 +30,8 @@ module viterbi_k7_16acs #(
     reg [5:0] tb_state;
     reg [7:0] step_count;
 
-    reg [31:0] survivor_lo [0:TRACEBACK-1];
-    reg [31:0] survivor_hi [0:TRACEBACK-1];
+    (* ram_style = "block" *) reg [31:0] survivor_lo [0:TRACEBACK-1];
+    (* ram_style = "block" *) reg [31:0] survivor_hi [0:TRACEBACK-1];
     reg [31:0] survivor_lo_q, survivor_hi_q;
     reg [47:0] decision_partial;
 
