@@ -1,6 +1,5 @@
 module benchmark_top #(
     parameter integer WITH_MEM = 0,
-    parameter integer PSRAM = 0,
     parameter integer WITH_VITERBI = 1,
     parameter integer WITH_RS = 1
 ) (
@@ -82,7 +81,6 @@ module benchmark_top #(
 
     generate
         if (WITH_MEM) begin : g_mem
-            if (PSRAM) begin : g_psram
                 psram_ctrl u_mem (
                     .clk(clk),
                     .resetn(resetn),
@@ -100,22 +98,6 @@ module benchmark_top #(
                     .phy_wdata(mem_wdata),
                     .rdata(mem_rdata)
                 );
-            end else begin : g_hyperram
-                hyperram_ctrl u_mem (
-                    .clk(clk), .resetn(resetn), .req(mem_req),
-                    .write(lfsr[6]), .addr({lfsr[27:7], 1'b0}),
-                    .wdata(lfsr), .phy_rdata(lfsr[7:0]),
-                    .phy_rwds(lfsr[30]), .ready(mem_ready),
-                    .busy(mem_busy),
-                    .cs_n(mem_cs_n[0]), .ck_en(mem_ck_en[0]),
-                    .phy_oe(mem_oe[0]), .phy_wdata(mem_wdata[7:0]),
-                    .rdata(mem_rdata)
-                );
-                assign mem_cs_n[1] = 1'b1;
-                assign mem_ck_en[1] = 1'b0;
-                assign mem_oe[1] = 1'b0;
-                assign mem_wdata[15:8] = 8'd0;
-            end
         end else begin : g_no_mem
             assign mem_ready = 1'b0;
             assign mem_busy = 1'b0;

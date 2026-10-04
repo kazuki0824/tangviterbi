@@ -92,6 +92,15 @@ class ReportTests(unittest.TestCase):
         self.assertIn("before placement", result)
         self.assertIn("**37.04 MHz**", result)
 
+    def test_clock_pass_does_not_claim_sustained_throughput(self):
+        result = self.report(
+            "Info: Routing complete.\n",
+            {"fmax": {"clk": {"achieved": 120}}},
+        )
+        self.assertIn("100.88 MHz Viterbi clock criterion: **PASS**", result)
+        self.assertIn("110 MHz timing criterion: **PASS**", result)
+        self.assertIn("End-to-end sustained throughput: **not measured", result)
+
 
 if __name__ == "__main__":
     unittest.main()

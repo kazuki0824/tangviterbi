@@ -13,6 +13,10 @@ p.add_argument("--pnr-log", required=True)
 p.add_argument("--exit-code", type=int, required=True)
 p.add_argument("--pack-only", action="store_true")
 a = p.parse_args()
+performance = json.loads(Path(__file__).with_name("performance.json").read_text())
+target_mhz = performance["target_clock_mhz"]
+minimum_viterbi_mhz = (performance["trellis_steps_per_second"] *
+                       performance["viterbi_cycles_per_step"] / 1e6)
 
 report = {}
 rp = Path(a.report)
@@ -73,13 +77,11 @@ def resource_lines():
 status = "PASS" if a.exit_code == 0 else "FAIL"
 margin = "unknown"
 if fmax is not None:
-    margin = "PASS" if fmax >= 110.0 else "FAIL"
+    margin = "PASS" if fmax >= target_mhz else "FAIL"
 
 print(f"# {a.board} / {a.variant}")
 print()
-controller = "none" if a.variant != "mem" else (
-    "HyperRAM x8" if a.board == "4k" else "PSRAM 2 x8 channels"
-)
+controller = "PSRAM 2 x8 channels" if a.variant == "mem" else "none"
 blocks = {"viterbi-only": "Viterbi", "rs-only": "RS"}.get(a.variant, "Viterbi + RS")
 print(f"- Blocks: {blocks}; controller: **{controller}**")
 print("- Scope: protocol RTL only; DDR PHY, initialization and calibration excluded")
@@ -87,10 +89,11 @@ if a.pack_only:
     print(f"- Synthesis/packing: **{status}**")
     print("- P&R: **not run (diagnostic)**")
 else:
-    print(f"- P&R at 110 MHz: **{status}**")
+    print(f"- P&R at {target_mhz:g} MHz: **{status}**")
     print(f"- Placement/routing completed: **{'yes' if routed_log else 'no'}**")
-print(f"- 100.8 MHz throughput criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= 100.8 else 'FAIL')}**")
-print(f"- 110 MHz timing criterion: **{margin}**")
+print(f"- {minimum_viterbi_mhz:g} MHz Viterbi clock criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= minimum_viterbi_mhz else 'FAIL')}**")
+print("- End-to-end sustained throughput: **not measured by the sizing harness**")
+print(f"- {target_mhz:g} MHz timing criterion: **{margin}**")
 if fmax is not None:
     print(f"- extracted routed Fmax: **{fmax:.2f} MHz**")
 print()

@@ -1,24 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-board="${1:?board: 4k or 9k}"
+board="${1:?board: 9k}"
 variant="${2:?variant: core-only, mem, viterbi-only or rs-only}"
 with_viterbi=1
 with_rs=1
 diagnostic=0
 
 case "${board}" in
-  4k)
-    device="GW1NSR-LV4CQN48PC7/I6"
-    family_args=()
-    cst="constraints/tangnano4k.cst"
-    psram=0
-    ;;
   9k)
     device="GW1NR-LV9QN88PC6/I5"
     family_args=(--vopt family=GW1N-9C)
     cst="constraints/tangnano9k.cst"
-    psram=1
     ;;
   *)
     echo "unsupported board: ${board}" >&2
@@ -29,20 +22,17 @@ esac
 case "${variant}" in
   core-only)
     with_mem=0
-    psram=0
     ;;
   mem)
     with_mem=1
     ;;
   viterbi-only)
     with_mem=0
-    psram=0
     with_rs=0
     diagnostic=1
     ;;
   rs-only)
     with_mem=0
-    psram=0
     with_viterbi=0
     diagnostic=1
     ;;
@@ -58,7 +48,6 @@ rm -f build/design.json build/packed.json build/routed.json build/report.json bu
 sv_sources=(
   rtl/viterbi_k7_16acs.sv
   rtl/rs204_188_compact.sv
-  rtl/hyperram_ctrl.sv
   rtl/psram_ctrl.sv
   rtl/benchmark_top.sv
 )
@@ -67,14 +56,15 @@ sv_sources=(
   printf 'read_verilog -sv'
   printf ' %q' "${sv_sources[@]}"
   printf '\n'
-  printf 'chparam -set WITH_MEM %d -set PSRAM %d -set WITH_VITERBI %d -set WITH_RS %d benchmark_top\n' \
-    "${with_mem}" "${psram}" "${with_viterbi}" "${with_rs}"
+  printf 'chparam -set WITH_MEM %d -set WITH_VITERBI %d -set WITH_RS %d benchmark_top\n' \
+    "${with_mem}" "${with_viterbi}" "${with_rs}"
   printf 'hierarchy -check -top benchmark_top\n'
   printf 'synth_gowin -top benchmark_top -json build/design.json\n'
   printf 'stat -top benchmark_top\n'
 } > build/synth.ys
 
 yosys -l build/synth.log build/synth.ys
+freq=$(python3 -c 'import json; print(json.load(open("ci/performance.json"))["target_clock_mhz"])')
 
 set +e
 pnr_mode=()
@@ -87,7 +77,7 @@ if (( diagnostic )); then
 fi
 nextpnr-himbaechel --json build/design.json --write "${output}" \
   --device "${device}" "${family_args[@]}" --vopt "cst=${cst}" \
-  --freq 110 --report build/report.json "${pnr_mode[@]}" 2>&1 | tee build/pnr.log
+  --freq "${freq}" --report build/report.json "${pnr_mode[@]}" 2>&1 | tee build/pnr.log
 rc=${PIPESTATUS[0]}
 set -e
 

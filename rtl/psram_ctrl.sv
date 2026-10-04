@@ -2,7 +2,7 @@
 // Word-address bit 21 selects a 4 MiB die. One outstanding aligned 32-bit
 // transfer shares control/serialization logic across the independent pins.
 // The abstract PHY consumes one byte per clock; DDR I/O, initialization and
-// calibration are excluded. No HyperRAM controller is instantiated here.
+// calibration are excluded. One x8 channel handles each request.
 module psram_ctrl #(
     parameter integer LATENCY = 6
 ) (
