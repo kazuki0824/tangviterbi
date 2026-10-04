@@ -129,9 +129,19 @@ module viterbi_k7_16acs #(
         end
     end
 
+    // Keep the RAM ports in clock-only processes. In particular, do not put
+    // the write port in the asynchronously-reset control process below; that
+    // causes Yosys to lower the memory to individual flip-flops.
     always @(posedge clk) begin
         survivor_lo_q <= survivor_lo[tb_ptr];
         survivor_hi_q <= survivor_hi[tb_ptr];
+    end
+
+    always @(posedge clk) begin
+        if (resetn && (group == 2'd3)) begin
+            survivor_lo[wr_ptr] <= decision_partial[31:0];
+            survivor_hi[wr_ptr] <= {lane_decision, decision_partial[47:32]};
+        end
     end
 
     always @(posedge clk or negedge resetn) begin
@@ -188,8 +198,8 @@ module viterbi_k7_16acs #(
                     2'd1: decision_partial[31:16] <= lane_decision;
                     2'd2: decision_partial[47:32] <= lane_decision;
                     default: begin
-                        survivor_lo[wr_ptr] <= decision_partial[31:0];
-                        survivor_hi[wr_ptr] <= {lane_decision, decision_partial[47:32]};
+                        // Survivor RAM write is performed in its dedicated
+                        // synchronous write-port process above.
                     end
                 endcase
 
