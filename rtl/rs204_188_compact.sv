@@ -21,6 +21,26 @@ module gf256_mul (
     end
 endmodule
 
+module rs_block_ram (
+    input  wire       clk,
+    input  wire       we,
+    input  wire [7:0] waddr,
+    input  wire [7:0] wdata,
+    input  wire [7:0] raddr,
+    output reg  [7:0] rdata
+);
+    (* ram_style = "block" *) reg [7:0] mem [0:255];
+
+    always @(posedge clk) begin
+        rdata <= mem[raddr];
+    end
+
+    always @(posedge clk) begin
+        if (we)
+            mem[waddr] <= wdata;
+    end
+endmodule
+
 // Compact, sequential RS(204,188) architecture for resource/timing benchmarking.
 //
 // The design uses one GF(256) multiplier shared by syndrome generation,
@@ -74,7 +94,6 @@ module rs204_188_compact (
 
     reg [5:0] state;
 
-    reg [7:0] block_mem [0:203];
     reg [7:0] synd [0:15];
     reg [7:0] lambda [0:8];
     reg [7:0] bpoly [0:8];
@@ -122,6 +141,13 @@ module rs204_188_compact (
     reg [7:0] corrected_q;
 
     reg [7:0] out_index;
+    reg       out_primed;
+
+    reg       ram_we;
+    reg [7:0] ram_waddr;
+    reg [7:0] ram_wdata;
+    reg [7:0] ram_raddr;
+    wire [7:0] ram_rdata;
 
     reg [7:0] gf_a;
     reg [7:0] gf_b;
@@ -130,6 +156,46 @@ module rs204_188_compact (
     integer i;
 
     gf256_mul u_gf_mul(.a(gf_a), .b(gf_b), .y(gf_y));
+
+    rs_block_ram u_block_ram (
+        .clk(clk),
+        .we(ram_we),
+        .waddr(ram_waddr),
+        .wdata(ram_wdata),
+        .raddr(ram_raddr),
+        .rdata(ram_rdata)
+    );
+
+    // Keep the block buffer in a dedicated synchronous RAM process so Gowin
+    // BSRAM inference is not destroyed by the asynchronously-reset decoder FSM.
+    always @* begin
+        ram_we = 1'b0;
+        ram_waddr = 8'd0;
+        ram_wdata = 8'd0;
+        ram_raddr = 8'd0;
+
+        if ((state == ST_INPUT) && in_valid) begin
+            ram_we = 1'b1;
+            ram_waddr = byte_count;
+            ram_wdata = in_byte;
+        end
+
+        if ((state == ST_FORNEY_MAG) ||
+            (state == ST_FORNEY_READ) ||
+            (state == ST_FORNEY_WRITE)) begin
+            ram_raddr = error_pos[error_i];
+        end
+
+        if (state == ST_FORNEY_WRITE) begin
+            ram_we = 1'b1;
+            ram_waddr = error_pos[error_i];
+            ram_wdata = corrected_q ^ magnitude;
+        end
+
+        if (state == ST_OUTPUT) begin
+            ram_raddr = out_primed ? (out_index + 8'd1) : out_index;
+        end
+    end
 
     function automatic [7:0] alpha_power_1_to_16;
         input [3:0] idx;
@@ -266,6 +332,7 @@ module rs204_188_compact (
             magnitude <= 8'd0;
             corrected_q <= 8'd0;
             out_index <= 8'd0;
+            out_primed <= 1'b0;
             for (i=0; i<16; i=i+1)
                 synd[i] <= 8'd0;
             for (i=0; i<9; i=i+1) begin
@@ -282,7 +349,6 @@ module rs204_188_compact (
                 ST_INPUT: begin
                     if (in_valid) begin
                         byte_q <= in_byte;
-                        block_mem[byte_count] <= in_byte;
                         synd_idx <= 5'd0;
                         state <= ST_SYND;
                     end
@@ -297,6 +363,7 @@ module rs204_188_compact (
                         if (byte_count == 8'd203) begin
                             if (!(syndrome_nonzero || ((gf_y ^ byte_q) != 8'd0))) begin
                                 out_index <= 8'd0;
+                                out_primed <= 1'b0;
                                 block_fail <= 1'b0;
                                 state <= ST_OUTPUT;
                             end else begin
@@ -485,6 +552,7 @@ module rs204_188_compact (
                     block_fail <= (error_count != bm_l);
                     if (error_count == 0) begin
                         out_index <= 8'd0;
+                        out_primed <= 1'b0;
                         state <= ST_OUTPUT;
                     end else begin
                         error_i <= 4'd0;
@@ -533,12 +601,11 @@ module rs204_188_compact (
                 end
 
                 ST_FORNEY_READ: begin
-                    corrected_q <= block_mem[error_pos[error_i]];
+                    corrected_q <= ram_rdata;
                     state <= ST_FORNEY_WRITE;
                 end
 
                 ST_FORNEY_WRITE: begin
-                    block_mem[error_pos[error_i]] <= corrected_q ^ magnitude;
                     if (error_i + 1 >= error_count) begin
                         out_index <= 8'd0;
                         state <= ST_OUTPUT;
@@ -551,16 +618,22 @@ module rs204_188_compact (
                 end
 
                 ST_OUTPUT: begin
-                    out_byte <= block_mem[out_index];
-                    out_valid <= 1'b1;
-                    if (out_index == 8'd187)
-                        state <= ST_BLOCK_RESET;
-                    else
-                        out_index <= out_index + 8'd1;
+                    if (!out_primed) begin
+                        // One cycle to prime the synchronous BSRAM read port.
+                        out_primed <= 1'b1;
+                    end else begin
+                        out_byte <= ram_rdata;
+                        out_valid <= 1'b1;
+                        if (out_index == 8'd187)
+                            state <= ST_BLOCK_RESET;
+                        else
+                            out_index <= out_index + 8'd1;
+                    end
                 end
 
                 default: begin
                     byte_count <= 8'd0;
+                    out_primed <= 1'b0;
                     synd_idx <= 5'd0;
                     syndrome_nonzero <= 1'b0;
                     for (i=0; i<16; i=i+1)
