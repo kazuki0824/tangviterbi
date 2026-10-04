@@ -16,7 +16,7 @@ class RtlTests(unittest.TestCase):
             commands.mkdir()
             for name in ("yosys", "nextpnr-himbaechel"):
                 command = commands / name
-                command.write_text("#!/bin/sh\nexit 0\n")
+                command.write_text(f'#!/bin/sh\nprintf "%s\\n" "$@" > "{root / (name + ".args")}"\nexit 0\n')
                 command.chmod(0o755)
             env = {**os.environ, "PATH": str(commands) + os.pathsep + os.environ["PATH"]}
             for variant, params in (
@@ -30,6 +30,10 @@ class RtlTests(unittest.TestCase):
                 for name, value in zip(("WITH_MEM", "WITH_VITERBI", "WITH_RS"), params):
                     self.assertIn(f"-set {name} {value}", script)
                 self.assertIn("rtl/psram_ctrl.sv", script)
+                settings = json.loads((root / "ci/performance.json").read_text())
+                pnr_args = (root / "nextpnr-himbaechel.args").read_text().splitlines()
+                self.assertEqual(pnr_args[pnr_args.index("--seed") + 1], str(settings["pnr_seed"]))
+                self.assertEqual(float(pnr_args[pnr_args.index("--freq") + 1]), settings["target_clock_mhz"])
             result = subprocess.run([
                 "bash", "ci/run_pnr.sh", "unsupported", "core-only",
             ], cwd=root, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

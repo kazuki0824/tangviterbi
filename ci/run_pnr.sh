@@ -66,6 +66,8 @@ sv_sources=(
 yosys -l build/synth.log build/synth.ys
 freq=$(python3 -c 'import json; print(json.load(open("ci/performance.json"))["target_clock_mhz"])')
 
+pnr_seed=$(python3 -c 'import json; print(json.load(open("ci/performance.json"))["pnr_seed"])')
+
 set +e
 pnr_mode=()
 report_mode=()
@@ -77,13 +79,13 @@ if (( diagnostic )); then
 fi
 nextpnr-himbaechel --json build/design.json --write "${output}" \
   --device "${device}" "${family_args[@]}" --vopt "cst=${cst}" \
-  --freq "${freq}" --report build/report.json "${pnr_mode[@]}" 2>&1 | tee build/pnr.log
+  --freq "${freq}" --seed "${pnr_seed}" --report build/report.json "${pnr_mode[@]}" 2>&1 | tee build/pnr.log
 rc=${PIPESTATUS[0]}
 set -e
 
 python3 ci/report.py --board "${board}" --variant "${variant}" \
   --report build/report.json --synth-log build/synth.log --pnr-log build/pnr.log \
-  --exit-code "${rc}" "${report_mode[@]}" > build/summary.md
+  --exit-code "${rc}" --seed "${pnr_seed}" "${report_mode[@]}" > build/summary.md
 
 cat build/summary.md
 exit "${rc}"

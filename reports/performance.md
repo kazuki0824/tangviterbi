@@ -69,15 +69,15 @@ coefficient/GF-operand prefetch, DSP-based carryless GF products and parallel
 Viterbi branch-cost selection. The [latest control/storage improvement](control-storage.md)
 adds registered one-hot read/write masks, constant coefficient writers, two
 separate GF operand paths and byte-prefetched traceback. These preserve the
-6766-clock conservative RS bound and four Viterbi clocks/step. Core and
-PSRAM-inclusive timing now reach 83.80 and 88.57 MHz, still below all required
-clock floors. Sixteen tests include all GF operand pairs, 48 cycle-exact old/new
+6766-clock conservative RS bound and four Viterbi clocks/step. The [latest timing search](routing-search.md) keeps this RTL and uses common
+placement seed 4: core and PSRAM-inclusive timing reach 87.61 and 91.18 MHz,
+still below all required clock floors. Sixteen tests include all GF operand pairs, 48 cycle-exact old/new
 RS blocks plus twelve processing reset interruptions, and 4000 Viterbi steps.
 
 | Order | Remaining change | Required check |
 |---|---|---|
-| 1 | Shorten the RS selector/control-to-registered-GF-input paths; routing remains dominant | both complete routed designs; output equivalence and service clocks |
-| 2 | Evaluate further operand/read pipelining within existing FSM slots; added cycles need a revised budget | 6766-clock bound, 7118-clock deadline, 1..8-error cases and reset transitions |
+| 1 | Shorten RS FSM control/data paths; source and sink now both map to the FSM process | both complete routed designs; output equivalence and service clocks |
+| 2 | Register transition/write predicates in earlier FSM slots; tested read/GF alternatives did not outperform common seed 4 in both designs | 6766-clock bound, 7118-clock deadline, 1..8-error cases and reset transitions |
 | 3 | Add bounded FIFO / ping-pong input buffering; consider separate decoder clocks if useful | average service rate, burst backlog and CDC correctness; FIFO alone cannot fix a rate deficit |
 | 4 | Reconsider ACS parallelism and metric banking if required | full memory-port/BSRAM/LUT budget; extra lanes need actual architecture changes |
 

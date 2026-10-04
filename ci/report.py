@@ -12,6 +12,7 @@ p.add_argument("--synth-log", required=True)
 p.add_argument("--pnr-log", required=True)
 p.add_argument("--exit-code", type=int, required=True)
 p.add_argument("--pack-only", action="store_true")
+p.add_argument("--seed", type=int)
 a = p.parse_args()
 performance = json.loads(Path(__file__).with_name("performance.json").read_text())
 target_mhz = performance["target_clock_mhz"]
@@ -91,6 +92,9 @@ if a.pack_only:
 else:
     print(f"- P&R at {target_mhz:g} MHz: **{status}**")
     print(f"- Placement/routing completed: **{'yes' if routed_log else 'no'}**")
+if a.seed is not None:
+    seed_scope = "Configured seed (packing only)" if a.pack_only else "Placement/routing seed"
+    print(f"- {seed_scope}: **{a.seed}**")
 print(f"- {minimum_viterbi_mhz:g} MHz Viterbi clock criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= minimum_viterbi_mhz else 'FAIL')}**")
 print("- End-to-end sustained throughput: **not measured by the sizing harness**")
 print(f"- {target_mhz:g} MHz timing criterion: **{margin}**")

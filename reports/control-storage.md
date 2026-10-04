@@ -1,5 +1,9 @@
 # 9K coefficient/control timing improvement
 
+This report preserves the RTL improvement at 7670242. The
+[latest timing search](routing-search.md) keeps this RTL and adopts a common
+placement seed, reaching 87.61 / 91.18 MHz.
+
 ## Result
 
 Registered one-hot coefficient selectors, constant per-entry write destinations,
