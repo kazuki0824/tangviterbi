@@ -1,4 +1,5 @@
 module benchmark_top #(
+    parameter integer WITH_RS = 1,
     parameter integer WITH_MEM = 0,
     parameter integer MEM_DQ = 8
 ) (
@@ -7,16 +8,15 @@ module benchmark_top #(
     output wire activity
 );
     reg [31:0] lfsr;
-    reg [2:0]  rs_div;
-    reg [1:0]  vit_div;
 
     wire vit_ready;
     wire vit_valid;
     wire vit_bit;
 
-    wire [7:0] rs_out;
-    wire rs_ceo;
+    wire rs_ready;
     wire rs_valid;
+    wire [7:0] rs_out;
+    wire rs_fail;
 
     reg mem_req;
     wire mem_ready;
@@ -29,13 +29,9 @@ module benchmark_top #(
     always @(posedge clk or negedge resetn) begin
         if (!resetn) begin
             lfsr <= 32'h1ace_b00c;
-            rs_div <= 3'd0;
-            vit_div <= 2'd0;
             mem_req <= 1'b0;
         end else begin
             lfsr <= {lfsr[30:0], lfsr[31] ^ lfsr[21] ^ lfsr[1] ^ lfsr[0]};
-            rs_div <= rs_div + 3'd1;
-            vit_div <= vit_div + 2'd1;
             if (WITH_MEM) begin
                 if (!mem_req && !mem_ready && (&lfsr[5:2]))
                     mem_req <= 1'b1;
@@ -50,7 +46,7 @@ module benchmark_top #(
     viterbi_k7_16acs u_viterbi (
         .clk(clk),
         .resetn(resetn),
-        .in_valid(vit_ready && (vit_div == 2'd0)),
+        .in_valid(vit_ready),
         .in_ready(vit_ready),
         .soft0(lfsr[7:0]),
         .soft1(lfsr[15:8]),
@@ -58,16 +54,25 @@ module benchmark_top #(
         .out_bit(vit_bit)
     );
 
-    // GPLv3 third-party benchmark dependency, fetched only in CI.
-    RS_dec u_rs (
-        .clk(clk),
-        .reset(~resetn),
-        .CE(rs_div == 3'd0),
-        .input_byte(lfsr[23:16]),
-        .Out_byte(rs_out),
-        .CEO(rs_ceo),
-        .Valid_out(rs_valid)
-    );
+    generate
+        if (WITH_RS) begin : g_rs
+            rs204_188_compact u_rs (
+                .clk(clk),
+                .resetn(resetn),
+                .in_valid(rs_ready),
+                .in_ready(rs_ready),
+                .in_byte(lfsr[23:16]),
+                .out_valid(rs_valid),
+                .out_byte(rs_out),
+                .block_fail(rs_fail)
+            );
+        end else begin : g_no_rs
+            assign rs_ready = 1'b0;
+            assign rs_valid = 1'b0;
+            assign rs_out = 8'd0;
+            assign rs_fail = 1'b0;
+        end
+    endgenerate
 
     generate
         if (WITH_MEM) begin : g_mem
@@ -96,8 +101,8 @@ module benchmark_top #(
         end
     endgenerate
 
-    // Fold every benchmark block into a real output so synthesis cannot prune it.
-    assign activity = lfsr[0] ^ vit_bit ^ vit_valid ^ rs_out[0] ^ rs_ceo ^
-                      rs_valid ^ mem_ready ^ mem_cs_n ^ mem_ck_en ^ mem_oe ^
+    assign activity = lfsr[0] ^ vit_bit ^ vit_valid ^
+                      rs_out[0] ^ rs_valid ^ rs_fail ^
+                      mem_ready ^ mem_cs_n ^ mem_ck_en ^ mem_oe ^
                       mem_wdata[0] ^ mem_rdata[0];
 endmodule
