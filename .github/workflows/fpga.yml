@@ -1,0 +1,61 @@
+name: FPGA resource and timing benchmark
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pnr:
+    name: ${{ matrix.board }} / ${{ matrix.variant }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        board: [4k, 9k]
+        variant: [core, mem]
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up OSS CAD Suite
+        uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: "2026-10-04"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch pinned RS(204,188) benchmark RTL
+        run: bash ci/fetch_rs.sh
+
+      - name: Synthesize and place-route
+        id: pnr
+        continue-on-error: true
+        run: bash ci/run_pnr.sh "${{ matrix.board }}" "${{ matrix.variant }}"
+
+      - name: Publish job summary
+        if: always()
+        run: |
+          if test -f build/summary.md; then
+            cat build/summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No summary generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-${{ matrix.board }}-${{ matrix.variant }}
+          path: |
+            build/synth.log
+            build/pnr.log
+            build/report.json
+            build/summary.md
+          if-no-files-found: warn
+
+      - name: Enforce P&R result
+        if: steps.pnr.outcome != 'success'
+        run: exit 1
