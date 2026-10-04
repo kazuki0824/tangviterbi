@@ -45,9 +45,12 @@ module viterbi_k7_16acs #(
     reg [METRIC_W-1:0] src0;
     reg [METRIC_W-1:0] src1;
     reg [1:0] coded0;
-    reg [1:0] coded1;
     reg [8:0] branch0;
     reg [8:0] branch1;
+    reg [8:0] bm00;
+    reg [8:0] bm01;
+    reg [8:0] bm10;
+    reg [8:0] bm11;
     reg [METRIC_W:0] cand0;
     reg [METRIC_W:0] cand1;
     reg [7:0] active_soft0;
@@ -87,6 +90,14 @@ module viterbi_k7_16acs #(
         active_soft1 = (group == 2'd0) ? soft1 : soft1_q;
         lane_decision = 16'b0;
 
+        // Only four branch metrics exist for a rate-1/2 code at a given
+        // received soft pair. Compute them once and share them across all
+        // sixteen ACS lanes instead of duplicating the same arithmetic.
+        bm00 = {1'b0, active_soft0} + {1'b0, active_soft1};
+        bm01 = {1'b0, active_soft0} + (9'd255 - {1'b0, active_soft1});
+        bm10 = (9'd255 - {1'b0, active_soft0}) + {1'b0, active_soft1};
+        bm11 = 9'd510 - {1'b0, active_soft0} - {1'b0, active_soft1};
+
         for (i = 0; i < 16; i = i + 1) begin
             src_idx = (i >> 1) + (group[0] ? 8 : 0);
             if (!bank) begin
@@ -110,12 +121,17 @@ module viterbi_k7_16acs #(
             p0_state = (group << 3) + (i >> 1);
             p1_state = p0_state + 32;
             coded0 = encode_pair(p0_state[5:0], i[0]);
-            coded1 = encode_pair(p1_state[5:0], i[0]);
+            case (coded0)
+                2'b00: branch0 = bm00;
+                2'b01: branch0 = bm01;
+                2'b10: branch0 = bm10;
+                default: branch0 = bm11;
+            endcase
 
-            branch0 = soft_cost(coded0[1], active_soft0)
-                    + soft_cost(coded0[0], active_soft1);
-            branch1 = soft_cost(coded1[1], active_soft0)
-                    + soft_cost(coded1[0], active_soft1);
+            // The two predecessor states differ only in the oldest shift-
+            // register bit. Both K=7 generators include that tap, therefore
+            // the competing branch codeword is the bitwise complement.
+            branch1 = 9'd510 - branch0;
 
             cand0 = {1'b0, src0} + branch0;
             cand1 = {1'b0, src1} + branch1;
