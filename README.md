@@ -55,26 +55,52 @@ This architecture is intended to represent a small hardware decoder, not the lar
 
 ### Memory controller
 
-`rtl/hyperram_ctrl.sv`
+The `mem` variant selects the controller for the board:
 
-This is the command/address/data-path controller used to measure controller overhead.
+- 4K: `rtl/hyperram_ctrl.sv`, one x8 HyperRAM channel, 22-bit word
+  address, linear-burst command/address layout.
+- 9K: `rtl/psram_ctrl.sv`, two independent x8 PSRAM channels, each with
+  a 21-bit word address and wrapped-burst command/address layout. The upper
+  word-address bit selects the die; this is not a single x16 channel.
 
-- 4K build: x8 datapath
-- 9K build: x16 datapath
+Both controllers use the same serialized x8 command/address/data engine.
+The 9K wrapper adds a second engine, request decoding and read-data selection.
+The harness uses aligned 32-bit reads/writes and stimulates both dies. All
+controller data/control output bits feed the activity sink to keep both channels
+observable to synthesis. A busy signal prevents requests while a transfer runs.
 
-It deliberately excludes Gowin's proprietary/generated DDR PHY and calibration macro. Therefore the `mem` result measures **open RTL protocol-controller overhead**, not the complete physical PSRAM interface.
+These are **protocol-only sizing models**. Each clock transfers one byte to/from
+an abstract PHY; RWDS latency selection is supplied by the harness at request
+acceptance. Physical DDR serialization, RWDS capture timing, register/power-up
+initialization, PLLs, I/O placement and calibration are excluded. The `mem`
+result measures this open RTL overhead, not a complete working RAM interface.
+The measured 110 MHz is the logic clock and is not a RAM bus speed guarantee.
+
+Interface references:
+
+- [Sipeed 4K HyperRAM example](https://github.com/sipeed/TangNano-4K-example/tree/main/camera_hdmi/src/hyperram_memory_interface)
+- [9K PSRAM controller interface and die layout](https://github.com/zf3/psram-tang-nano-9k)
+- [Winbond W955D8MBYA command/address definition](https://www.winbond.com/hq/search/?__locale=en&q=W955D8MBYA)
+
+The reference sources are not vendored; this benchmark remains self-contained.
 
 ## CI variants
 
-Six jobs are run so the resource delta is visible instead of collapsing everything into one number:
+Exactly four jobs run:
 
-| Variant | Viterbi | RS | memory controller |
-|---|---:|---:|---:|
-| `viterbi` | yes | no | no |
-| `core` | yes | yes | no |
-| `mem` | yes | yes | yes |
+| Job | Viterbi | RS | Memory controller |
+|---|---:|---:|---|
+| `4k / core` | yes | yes | none |
+| `4k / mem` | yes | yes | HyperRAM, one x8 channel |
+| `9k / core` | yes | yes | none |
+| `9k / mem` | yes | yes | PSRAM, two x8 channels |
 
-Each variant is placed and routed for both 4K and 9K.
+`core` uses identical RTL and parameters on both devices. The Viterbi and RS
+implementations are unchanged between `core` and `mem`. Use `mem - core` on
+the **same device and revision** for controller/harness resource overhead.
+That delta includes the stimulus and activity sink as well as the controller;
+Fmax is measured separately for each full design and is not an additive delta.
+The former Viterbi-only jobs are removed from this comparison.
 
 ## Toolchain
 
@@ -92,12 +118,16 @@ The table below is updated from the CI results after the implementation converge
 
 | Target | Variant | P&R | LUT/logic | FF | BSRAM | DSP | Routed Fmax | 110 MHz |
 |---|---|---|---:|---:|---:|---:|---:|---|
-| Tang Nano 4K | viterbi | pending | | | | | | |
 | Tang Nano 4K | core | pending | | | | | | |
 | Tang Nano 4K | mem | pending | | | | | | |
-| Tang Nano 9K | viterbi | pending | | | | | | |
 | Tang Nano 9K | core | pending | | | | | | |
 | Tang Nano 9K | mem | pending | | | | | | |
+
+CI uploads raw synthesis/P&R logs, the synthesis script, any nextpnr JSON report,
+and a separate summary for each job. If placement fails, the summary still shows
+packed utilization from the log, labelled as such. Fmax remains unknown unless
+an achieved routed clock value is available; the requested 110 MHz is never used
+as a measured Fmax. A failed fit/timing result intentionally makes the job fail.
 
 ## Scope
 

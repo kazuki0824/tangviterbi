@@ -2,20 +2,20 @@
 set -euo pipefail
 
 board="${1:?board: 4k or 9k}"
-variant="${2:?variant: viterbi, core, or mem}"
+variant="${2:?variant: core or mem}"
 
 case "${board}" in
   4k)
     device="GW1NSR-LV4CQN48PC7/I6"
     family_args=()
     cst="constraints/tangnano4k.cst"
-    mem_dq=8
+    psram=0
     ;;
   9k)
     device="GW1NR-LV9QN88PC6/I5"
     family_args=(--vopt family=GW1N-9C)
     cst="constraints/tangnano9k.cst"
-    mem_dq=16
+    psram=1
     ;;
   *)
     echo "unsupported board: ${board}" >&2
@@ -24,16 +24,10 @@ case "${board}" in
 esac
 
 case "${variant}" in
-  viterbi)
-    with_rs=0
-    with_mem=0
-    ;;
   core)
-    with_rs=1
     with_mem=0
     ;;
   mem)
-    with_rs=1
     with_mem=1
     ;;
   *)
@@ -49,6 +43,7 @@ sv_sources=(
   rtl/viterbi_k7_16acs.sv
   rtl/rs204_188_compact.sv
   rtl/hyperram_ctrl.sv
+  rtl/psram_ctrl.sv
   rtl/benchmark_top.sv
 )
 
@@ -56,7 +51,8 @@ sv_sources=(
   printf 'read_verilog -sv'
   printf ' %q' "${sv_sources[@]}"
   printf '\n'
-  printf 'chparam -set WITH_RS %d -set WITH_MEM %d -set MEM_DQ %d benchmark_top\n'     "${with_rs}" "${with_mem}" "${mem_dq}"
+  printf 'chparam -set WITH_MEM %d -set PSRAM %d benchmark_top\n' \
+    "${with_mem}" "${psram}"
   printf 'hierarchy -check -top benchmark_top\n'
   printf 'synth_gowin -top benchmark_top -json build/design.json\n'
   printf 'stat -top benchmark_top\n'

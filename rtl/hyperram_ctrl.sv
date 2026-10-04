@@ -1,7 +1,7 @@
 module hyperram_ctrl #(
-    parameter integer DQ_W = 8,
     parameter integer ADDR_W = 22,
-    parameter integer LATENCY = 6
+    parameter integer LATENCY = 6,
+    parameter integer LINEAR_BURST = 1
 ) (
     input  wire                 clk,
     input  wire                 resetn,
@@ -9,12 +9,14 @@ module hyperram_ctrl #(
     input  wire                 write,
     input  wire [ADDR_W-1:0]    addr,
     input  wire [31:0]          wdata,
-    input  wire [DQ_W-1:0]      phy_rdata,
+    input  wire [7:0]           phy_rdata,
+    input  wire                 phy_rwds,
     output reg                  ready,
+    output wire                 busy,
     output reg                  cs_n,
     output reg                  ck_en,
     output reg                  phy_oe,
-    output reg [DQ_W-1:0]       phy_wdata,
+    output reg [7:0]            phy_wdata,
     output reg [31:0]           rdata
 );
     localparam ST_IDLE = 3'd0;
@@ -28,6 +30,8 @@ module hyperram_ctrl #(
     reg [31:0] data_shift;
     reg [7:0] count;
     reg op_write;
+    reg extra_latency;
+    assign busy = (state != ST_IDLE);
 
     // This is the protocol/control datapath only. The board-specific Gowin
     // DDR I/O PHY and calibration macro are deliberately excluded so core
@@ -39,12 +43,13 @@ module hyperram_ctrl #(
             cs_n       <= 1'b1;
             ck_en      <= 1'b0;
             phy_oe     <= 1'b0;
-            phy_wdata  <= {DQ_W{1'b0}};
+            phy_wdata  <= 8'd0;
             rdata      <= 32'd0;
             ca_shift   <= 48'd0;
             data_shift <= 32'd0;
             count      <= 8'd0;
             op_write   <= 1'b0;
+            extra_latency <= 1'b0;
         end else begin
             ready <= 1'b0;
             case (state)
@@ -53,10 +58,16 @@ module hyperram_ctrl #(
                     ck_en  <= 1'b0;
                     phy_oe <= 1'b0;
                     if (req) begin
-                        // HyperBus-like 48-bit command/address packet.
-                        ca_shift <= {~write, 2'b00, 13'b0, addr, {(32-ADDR_W){1'b0}}};
+                        // addr is a WORD address (two bytes), split into
+                        // upper and lower column fields in the 48-bit CA.
+                        // 4K: linear burst, 22-bit word address.
+                        // 9K die: wrapped burst, 21-bit word address.
+                        ca_shift <= {~write, 1'b0, (LINEAR_BURST != 0),
+                                     {(32-ADDR_W){1'b0}}, addr[ADDR_W-1:3],
+                                     13'b0, addr[2:0]};
                         data_shift <= wdata;
                         op_write <= write;
+                        extra_latency <= phy_rwds;
                         count <= 8'd0;
                         cs_n <= 1'b0;
                         ck_en <= 1'b1;
@@ -65,9 +76,9 @@ module hyperram_ctrl #(
                     end
                 end
                 ST_CA: begin
-                    phy_wdata <= ca_shift[47 -: DQ_W];
-                    ca_shift <= ca_shift << DQ_W;
-                    if (count == (48 / DQ_W) - 1) begin
+                    phy_wdata <= ca_shift[47:40];
+                    ca_shift <= ca_shift << 8;
+                    if (count == 5) begin
                         count <= 8'd0;
                         phy_oe <= 1'b0;
                         state <= ST_WAIT;
@@ -76,7 +87,7 @@ module hyperram_ctrl #(
                     end
                 end
                 ST_WAIT: begin
-                    if (count == LATENCY-1) begin
+                    if (count == (extra_latency ? 2*LATENCY : LATENCY)-1) begin
                         count <= 8'd0;
                         phy_oe <= op_write;
                         state <= ST_DATA;
@@ -86,13 +97,13 @@ module hyperram_ctrl #(
                 end
                 ST_DATA: begin
                     if (op_write) begin
-                        phy_wdata <= data_shift[31 -: DQ_W];
-                        data_shift <= data_shift << DQ_W;
+                        phy_wdata <= data_shift[31:24];
+                        data_shift <= data_shift << 8;
                     end else begin
-                        rdata <= {rdata[31-DQ_W:0], phy_rdata};
+                        rdata <= {rdata[23:0], phy_rdata};
                     end
 
-                    if (count == (32 / DQ_W) - 1) begin
+                    if (count == 3) begin
                         state <= ST_DONE;
                         count <= 8'd0;
                     end else begin

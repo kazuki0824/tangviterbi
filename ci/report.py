@@ -32,34 +32,26 @@ def walk(obj, path=()):
         yield path, obj
 
 flat = list(walk(report))
+pnr_text = Path(a.pnr_log).read_text(errors="replace")
 
-def find_numeric(names):
-    names = tuple(n.lower() for n in names)
-    candidates = []
-    for path, val in flat:
-        if not isinstance(val, (int, float)):
-            continue
-        joined = ".".join(path).lower()
-        if any(n in joined for n in names):
-            candidates.append((joined, val))
-    return candidates
-
-# nextpnr report schemas have changed over time. Keep the raw JSON artifact and
-# extract the most useful fields opportunistically instead of hard-coding one schema.
+# Use the slowest achieved clock, never the requested/target frequency.
 fmax = None
 for path, val in flat:
     if isinstance(val, (int, float)) and "achieved" in ".".join(path).lower():
         # Usually MHz in current nextpnr report JSON.
         if 1 <= float(val) <= 5000:
-            fmax = max(float(val), fmax or 0.0)
+            fmax = min(float(val), fmax if fmax is not None else float(val))
 
 if fmax is None:
-    text = Path(a.pnr_log).read_text(errors="replace")
-    vals = [float(x) for x in re.findall(r"([0-9]+(?:\.[0-9]+)?)\s*MHz", text)]
-    if vals:
-        # The log contains both target and achieved clocks; maximum is useful as
-        # a fallback but the raw log remains authoritative.
-        fmax = max(vals)
+    clocks = {}
+    for clock, value in re.findall(
+        r"Max frequency for clock '([^']+)':\s*([0-9]+(?:\.[0-9]+)?)\s*MHz",
+        pnr_text,
+    ):
+        clocks[clock] = float(value)
+    # Pre-route timing cannot be reported as routed Fmax after placement fails.
+    if clocks and "Routing complete" in pnr_text:
+        fmax = min(clocks.values())
 
 def resource_lines():
     util = report.get("utilization") if isinstance(report, dict) else None
@@ -69,6 +61,14 @@ def resource_lines():
                 used = value.get("used", value.get("utilized", "?"))
                 avail = value.get("available", value.get("total", "?"))
                 yield key, used, avail
+        return
+    # nextpnr emits packed utilization before placement, including on overflow.
+    # This remains useful when there is no report.json because P&R failed.
+    for key, used, avail in re.findall(
+        r"Info:\s+([A-Za-z0-9_]+):\s+(\d+)/\s*(\d+)\s+\d+%",
+        pnr_text,
+    ):
+        yield key, used, avail
 
 status = "PASS" if a.exit_code == 0 else "FAIL"
 margin = "unknown"
@@ -77,14 +77,22 @@ if fmax is not None:
 
 print(f"# {a.board} / {a.variant}")
 print()
+controller = "none" if a.variant == "core" else (
+    "HyperRAM x8" if a.board == "4k" else "PSRAM 2 x8 channels"
+)
+print(f"- Blocks: Viterbi + RS; controller: **{controller}**")
+print("- Scope: protocol RTL only; DDR PHY, initialization and calibration excluded")
 print(f"- P&R: **{status}**")
 print(f"- 110 MHz timing criterion: **{margin}**")
 if fmax is not None:
     print(f"- extracted routed Fmax: **{fmax:.2f} MHz**")
 print()
+rows = list(resource_lines())
+if rows and not report.get("utilization"):
+    print("Resource counts below are packed utilization before placement.")
+    print()
 print("| Resource | Used | Available |")
 print("|---|---:|---:|")
-rows = list(resource_lines())
 if rows:
     for key, used, avail in rows:
         print(f"| {key} | {used} | {avail} |")

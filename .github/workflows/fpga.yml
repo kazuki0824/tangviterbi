@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         board: [4k, 9k]
-        variant: [viterbi, core, mem]
+        variant: [core, mem]
 
     steps:
       - uses: actions/checkout@v5
@@ -26,6 +26,9 @@ jobs:
         with:
           version: "2026-10-04"
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check benchmark and controller transactions
+        run: python3 -m unittest discover -s tests -v
 
       - name: Synthesize and place-route
         id: pnr
@@ -47,6 +50,7 @@ jobs:
         with:
           name: reports-${{ matrix.board }}-${{ matrix.variant }}
           path: |
+            build/synth.ys
             build/synth.log
             build/pnr.log
             build/report.json
