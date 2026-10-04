@@ -2,7 +2,7 @@
 set -euo pipefail
 
 board="${1:?board: 4k or 9k}"
-variant="${2:?variant: core or mem}"
+variant="${2:?variant: viterbi, core, or mem}"
 
 case "${board}" in
   4k)
@@ -24,8 +24,18 @@ case "${board}" in
 esac
 
 case "${variant}" in
-  core) with_mem=0 ;;
-  mem)  with_mem=1 ;;
+  viterbi)
+    with_rs=0
+    with_mem=0
+    ;;
+  core)
+    with_rs=1
+    with_mem=0
+    ;;
+  mem)
+    with_rs=1
+    with_mem=1
+    ;;
   *)
     echo "unsupported variant: ${variant}" >&2
     exit 2
@@ -35,17 +45,18 @@ esac
 mkdir -p build
 rm -f build/design.json build/routed.json build/report.json build/synth.log build/pnr.log
 
-sv_sources=(rtl/viterbi_k7_16acs.sv rtl/hyperram_ctrl.sv rtl/benchmark_top.sv)
-rs_sources=(third_party/rs/*.v)
+sv_sources=(
+  rtl/viterbi_k7_16acs.sv
+  rtl/rs204_188_compact.sv
+  rtl/hyperram_ctrl.sv
+  rtl/benchmark_top.sv
+)
 
 {
   printf 'read_verilog -sv'
   printf ' %q' "${sv_sources[@]}"
   printf '\n'
-  printf 'read_verilog'
-  printf ' %q' "${rs_sources[@]}"
-  printf '\n'
-  printf 'chparam -set WITH_MEM %d -set MEM_DQ %d benchmark_top\n' "${with_mem}" "${mem_dq}"
+  printf 'chparam -set WITH_RS %d -set WITH_MEM %d -set MEM_DQ %d benchmark_top\n'     "${with_rs}" "${with_mem}" "${mem_dq}"
   printf 'hierarchy -check -top benchmark_top\n'
   printf 'synth_gowin -top benchmark_top -json build/design.json\n'
   printf 'stat -top benchmark_top\n'
