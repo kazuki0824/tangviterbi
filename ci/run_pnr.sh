@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-board="${1:?board: 9k}"
+board="${1:?board: 9k or 20k}"
 variant="${2:?variant: core-only, mem, viterbi-only or rs-only}"
 with_viterbi=1
 with_rs=1
@@ -11,7 +11,14 @@ case "${board}" in
   9k)
     device="GW1NR-LV9QN88PC6/I5"
     family_args=(--vopt family=GW1N-9C)
+    synth_family=()
     cst="constraints/tangnano9k.cst"
+    ;;
+  20k)
+    device="GW2AR-LV18QN88C8/I7"
+    family_args=(--vopt family=GW2A-18C)
+    synth_family=(-family gw2a)
+    cst="constraints/tangnano20k.cst"
     ;;
   *)
     echo "unsupported board: ${board}" >&2
@@ -59,7 +66,9 @@ sv_sources=(
   printf 'chparam -set WITH_MEM %d -set WITH_VITERBI %d -set WITH_RS %d benchmark_top\n' \
     "${with_mem}" "${with_viterbi}" "${with_rs}"
   printf 'hierarchy -check -top benchmark_top\n'
-  printf 'synth_gowin -top benchmark_top -json build/design.json\n'
+  printf 'synth_gowin'
+  printf ' %q' "${synth_family[@]}"
+  printf ' -top benchmark_top -json build/design.json\n'
   printf 'stat -top benchmark_top\n'
 } > build/synth.ys
 
