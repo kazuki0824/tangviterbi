@@ -83,18 +83,25 @@ def main():
                   "--freq", "110", "--seed", "1"]
         modes = (("official", official), ("control", str(instrumented)),
                  ("diagnostic", str(instrumented)))
-        logs, reports, exits = {}, {}, {}
+        logs, reports, exits, physical = {}, {}, {}, {}
         for name, binary in modes:
             report_path = case / f"{name}.json"
-            command = [binary, *common, "--report", str(report_path), "--detailed-timing-report"]
+            routed_path = case / f"{name}.routed.json"
+            command = [binary, *common, "--report", str(report_path),
+                       "--write", str(routed_path), "--detailed-timing-report"]
             logs[name], exits[name] = run_pnr(command, case, case / f"{name}.log")
             reports[name] = json.loads(report_path.read_text())
+            routed = json.loads(routed_path.read_text())
+            physical[name] = {module: {field: data[field] for field in ("ports", "cells", "netnames")}
+                              for module, data in routed["modules"].items()}
         checksums = {name: re.findall(r"Checksum: 0x([0-9a-f]+)", log)
                      for name, log in logs.items()}
         if any(len(c) != 3 for c in checksums.values()):
             raise ValueError("Missing physical P&R checksums")
-        if checksums["official"] != checksums["control"] or checksums["control"] != checksums["diagnostic"]:
-            raise ValueError(f"Compiled/diagnostic physical result changed: {checksums}")
+        if not physical["official"] == physical["control"] == physical["diagnostic"]:
+            raise ValueError(f"Routed cells/nets/ports differ: {checksums}")
+        if checksums["control"] != checksums["diagnostic"]:
+            raise ValueError(f"Compiled/diagnostic checksum changed: {checksums}")
         for key in ("fmax", "utilization", "detailed_net_timings"):
             if not reports["official"][key] == reports["control"][key] == reports["diagnostic"][key]:
                 raise ValueError(f"Diagnostic changed {key}")
@@ -105,13 +112,17 @@ def main():
         if reports["control"]["critical_paths"] != reports["diagnostic"]["critical_paths"]:
             raise ValueError("Diagnostic and compiled control paths differ")
         records = collect_endpoints(logs["diagnostic"], reports["diagnostic"])
-        summary = {"variant": variant, "physical_checksums": checksums["official"],
-                   "official_control_diagnostic_equal": True,
+        canonical = json.dumps(physical["official"], sort_keys=True, separators=(",", ":"))
+        summary = {"variant": variant, "physical_checksums": checksums,
+                   "routed_cells_nets_ports_equal": True,
+                   "routed_cells_nets_ports_sha256": hashlib.sha256(canonical.encode()).hexdigest(),
+                   "official_control_diagnostic_timing_equal": True,
                    "netlist_sha256": hashlib.sha256((case / "build/design.json").read_bytes()).hexdigest(),
                    "exit_codes": exits, "fmax": reports["official"]["fmax"], "endpoints": records}
         (case / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
         print(json.dumps({"variant": variant, "fmax": summary["fmax"], "endpoints": len(records),
-                          "physical_checksums": summary["physical_checksums"]}), flush=True)
+                          "physical_checksums": summary["physical_checksums"],
+                          "physical_sha256": summary["routed_cells_nets_ports_sha256"]}), flush=True)
         return summary
 
     with ThreadPoolExecutor(max_workers=2) as pool:
