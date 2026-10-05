@@ -62,6 +62,9 @@ jobs:
             -DEXTERNAL_CHIPDB=ON -DEXTERNAL_CHIPDB_ROOT="$cad_root/share/nextpnr" \
             -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/g++
           cmake --build build/nextpnr-instrumented --parallel 2
+          # Himbaechel locates its runtime database relative to the executable.
+          ln -s "$cad_root/share/nextpnr" build/nextpnr-instrumented/share
+          test -f build/nextpnr-instrumented/share/himbaechel/gowin/chipdb-GW1N-9C.bin
 
       - name: Compare official, compiled-control and endpoint-diagnostic runs
         if: steps.request.outputs.enabled == 'true'
