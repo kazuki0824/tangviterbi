@@ -25,6 +25,11 @@ class RtlTests(unittest.TestCase):
                 ("9k", "mem", (1, 1, 1, 16), False),
                 ("9k", "viterbi-only", (0, 1, 0, 16), False),
                 ("9k", "rs-only", (0, 0, 1, 16), False),
+                ("9k", "core-32acs", (0, 1, 1, 32), False),
+                ("9k", "mem-32acs", (1, 1, 1, 32), False),
+                ("9k", "viterbi-32acs", (0, 1, 0, 32), False),
+                ("9k", "core-32acs-rsconst", (0, 1, 1, 32), True),
+                ("9k", "mem-32acs-rsconst", (1, 1, 1, 32), True),
                 ("20k", "core-32acs", (0, 1, 1, 32), False),
                 ("20k", "mem-32acs", (1, 1, 1, 32), False),
                 ("20k", "viterbi-32acs", (0, 1, 0, 32), False),
@@ -54,10 +59,12 @@ class RtlTests(unittest.TestCase):
                 "bash", "ci/run_pnr.sh", "unsupported", "core-only",
             ], cwd=root, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             self.assertEqual(result.returncode, 2)
-            result = subprocess.run([
+            subprocess.run([
                 "bash", "ci/run_pnr.sh", "9k", "core-32acs",
-            ], cwd=root, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            self.assertEqual(result.returncode, 2)
+            ], cwd=root, env=env, check=True, stdout=subprocess.DEVNULL)
+            script = (root / "build/synth.ys").read_text()
+            self.assertIn("synth_gowin -top benchmark_top", script)
+            self.assertNotIn("synth_gowin ''", script)
 
     def test_main_and_diagnostic_variants_elaborate(self):
         with tempfile.TemporaryDirectory() as temp:
