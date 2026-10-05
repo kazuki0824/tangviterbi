@@ -19,34 +19,58 @@ class RtlTests(unittest.TestCase):
                 command.write_text(f'#!/bin/sh\nprintf "%s\\n" "$@" > "{root / (name + ".args")}"\nexit 0\n')
                 command.chmod(0o755)
             env = {**os.environ, "PATH": str(commands) + os.pathsep + os.environ["PATH"]}
-            for variant, params in (
-                ("core-only", (0, 1, 1)), ("mem", (1, 1, 1)),
-                ("viterbi-only", (0, 1, 0)), ("rs-only", (0, 0, 1)),
-            ):
+
+            cases = (
+                ("9k", "core-only", (0, 1, 1, 16), False),
+                ("9k", "mem", (1, 1, 1, 16), False),
+                ("9k", "viterbi-only", (0, 1, 0, 16), False),
+                ("9k", "rs-only", (0, 0, 1, 16), False),
+                ("20k", "core-32acs", (0, 1, 1, 32), False),
+                ("20k", "mem-32acs", (1, 1, 1, 32), False),
+                ("20k", "viterbi-32acs", (0, 1, 0, 32), False),
+                ("20k", "core-32acs-rsconst", (0, 1, 1, 32), True),
+                ("20k", "mem-32acs-rsconst", (1, 1, 1, 32), True),
+            )
+            for board, variant, params, rsconst in cases:
                 subprocess.run([
-                    "bash", "ci/run_pnr.sh", "9k", variant,
+                    "bash", "ci/run_pnr.sh", board, variant,
                 ], cwd=root, env=env, check=True, stdout=subprocess.DEVNULL)
                 script = (root / "build/synth.ys").read_text()
-                for name, value in zip(("WITH_MEM", "WITH_VITERBI", "WITH_RS"), params):
+                for name, value in zip(
+                    ("WITH_MEM", "WITH_VITERBI", "WITH_RS", "VITERBI_ACS"), params
+                ):
                     self.assertIn(f"-set {name} {value}", script)
                 self.assertIn("rtl/psram_ctrl.sv", script)
+                self.assertIn("rtl/viterbi_k7_32acs.sv", script)
+                if rsconst:
+                    self.assertIn("experiments/rs_syndrome_constants.sv", script)
+                    self.assertNotIn("rtl/rs204_188_compact.sv", script)
                 settings = json.loads((root / "ci/performance.json").read_text())
                 pnr_args = (root / "nextpnr-himbaechel.args").read_text().splitlines()
                 self.assertEqual(pnr_args[pnr_args.index("--seed") + 1], str(settings["pnr_seed"]))
                 self.assertEqual(float(pnr_args[pnr_args.index("--freq") + 1]), settings["target_clock_mhz"])
+
             result = subprocess.run([
                 "bash", "ci/run_pnr.sh", "unsupported", "core-only",
+            ], cwd=root, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            self.assertEqual(result.returncode, 2)
+            result = subprocess.run([
+                "bash", "ci/run_pnr.sh", "9k", "core-32acs",
             ], cwd=root, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             self.assertEqual(result.returncode, 2)
 
     def test_main_and_diagnostic_variants_elaborate(self):
         with tempfile.TemporaryDirectory() as temp:
-            for mem, vit, rs in ((0, 1, 1), (1, 1, 1), (0, 1, 0), (0, 0, 1)):
+            for mem, vit, rs, acs in (
+                (0, 1, 1, 16), (1, 1, 1, 16), (0, 1, 0, 16), (0, 0, 1, 16),
+                (0, 1, 1, 32), (1, 1, 1, 32), (0, 1, 0, 32),
+            ):
                 subprocess.run([
                     "iverilog", "-g2012", "-s", "benchmark_top",
                     f"-Pbenchmark_top.WITH_MEM={mem}",
                     f"-Pbenchmark_top.WITH_VITERBI={vit}",
                     f"-Pbenchmark_top.WITH_RS={rs}",
+                    f"-Pbenchmark_top.VITERBI_ACS={acs}",
                     "-o", str(Path(temp) / "top"),
                     *map(str, sorted(Path("rtl").glob("*.sv"))),
                 ], check=True)
@@ -59,6 +83,17 @@ class RtlTests(unittest.TestCase):
                     "iverilog", "-g2012", "-s", "viterbi_metrics_tb",
                     f"-Pviterbi_metrics_tb.METRIC_W={width}", "-o", program,
                     "rtl/viterbi_k7_16acs.sv", "tests/viterbi_metrics_tb.sv",
+                ], check=True)
+                subprocess.run(["vvp", program], check=True, timeout=30)
+
+    def test_viterbi_32acs_metrics(self):
+        with tempfile.TemporaryDirectory() as temp:
+            for width in (16, 10):
+                program = str(Path(temp) / "metrics32")
+                subprocess.run([
+                    "iverilog", "-g2012", "-s", "viterbi32_metrics_tb",
+                    f"-Pviterbi32_metrics_tb.METRIC_W={width}", "-o", program,
+                    "rtl/viterbi_k7_32acs.sv", "tests/viterbi32_metrics_tb.sv",
                 ], check=True)
                 subprocess.run(["vvp", program], check=True, timeout=30)
 

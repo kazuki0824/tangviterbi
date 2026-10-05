@@ -15,8 +15,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        board: [9k]
+        board: [9k, 20k]
         variant: [core-only, mem, viterbi-only, rs-only]
+        include:
+          - board: 20k
+            variant: core-32acs
+          - board: 20k
+            variant: mem-32acs
+          - board: 20k
+            variant: viterbi-32acs
+          - board: 20k
+            variant: core-32acs-rsconst
+          - board: 20k
+            variant: mem-32acs-rsconst
 
     steps:
       - uses: actions/checkout@v5
