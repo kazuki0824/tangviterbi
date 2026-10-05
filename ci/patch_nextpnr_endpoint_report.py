@@ -8,7 +8,8 @@ ANCHOR = "            clock_reports[launch.clock] = build_critical_path_report(i
 EXTRA = r'''
             // Diagnostic only: retain tied endpoints and expose the engine's
             // setup slack plus a complete path. Normal Fmax and P&R are unchanged.
-            if (std::getenv("NEXTPNR_ENDPOINT_DIAGNOSTICS") != nullptr) {
+            if (std::getenv("NEXTPNR_ENDPOINT_DIAGNOSTICS") != nullptr &&
+                ctx->settings.count(ctx->id("diagnostics/final_report"))) {
                 std::vector<CellPortKey> diagnostic_endpoints;
                 for (const auto &ep : domains.at(dp.key.capture).endpoints) {
                     const auto &pd = ports.at(ep.first);
@@ -35,6 +36,14 @@ EXTRA = r'''
                 }
             }
 '''
+REPORT_ANCHOR = "        ctx->writeJsonReport(f);\n"
+REPORT_PRELUDE = '''        // Re-analyse only after routing has finished. Earlier timing reports
+        // are used by the placer and router; diagnostic paths must not feed them.
+        if (std::getenv("NEXTPNR_ENDPOINT_DIAGNOSTICS") != nullptr) {
+            ctx->settings[ctx->id("diagnostics/final_report")] = "1";
+            timing_analysis(ctx.get(), false, true, false, false, true);
+        }
+'''
 
 
 def patch_timing(source):
@@ -53,6 +62,12 @@ def patch_chipdb_build(source):
     return source.replace(loop, "if (NOT EXTERNAL_CHIPDB)\n" + loop) + "\nendif()\n"
 
 
+def patch_report_writer(source):
+    if source.count(REPORT_ANCHOR) != 1 or "diagnostics/final_report" in source:
+        raise ValueError("Unexpected or already patched report writer")
+    return "#include <cstdlib>\n" + source.replace(REPORT_ANCHOR, REPORT_PRELUDE + REPORT_ANCHOR)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("checkout", type=Path)
@@ -63,8 +78,10 @@ def main():
     if actual != PIN:
         raise ValueError(f"Expected nextpnr {PIN}, got {actual}")
     timing = args.checkout / "common/kernel/timing.cc"
+    report_writer = args.checkout / "common/kernel/command.cc"
     cmake = args.checkout / "himbaechel/uarch/gowin/CMakeLists.txt"
     timing.write_text(patch_timing(timing.read_text()))
+    report_writer.write_text(patch_report_writer(report_writer.read_text()))
     cmake.write_text(patch_chipdb_build(cmake.read_text()))
     print("Applied report-only endpoint diagnostics and external-chipdb build patch.")
 
