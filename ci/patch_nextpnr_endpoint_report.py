@@ -35,14 +35,16 @@ EXTRA = r'''
                 }
             }
 '''
-REPORT_ANCHOR = "        ctx->writeJsonReport(f);\n"
-REPORT_PRELUDE = '''        // Re-analyse only after routing has finished. Earlier timing reports
-        // are used by the placer and router; diagnostic paths must not feed them.
-        if (std::filesystem::path(filename).filename() == "diagnostic.json") {
-            ctx->settings[ctx->id("diagnostics/final_report")] = std::to_string(1);
-            timing_analysis(ctx.get(), false, true, false, false, true);
-        }
+ROUTER_ANCHOR = '''        log_info("Checksum: 0x%08x\\n", ctx->checksum());
+        timing_analysis(ctx, true /* slack_histogram */, true /* print_fmax */, true /* print_path */,
+                        true /* warn_on_failure */, true /* update_results */);
 '''
+ROUTER_REPLACEMENT = ROUTER_ANCHOR.replace(
+    '        timing_analysis(ctx,',
+    '        // Report additional endpoints only in the existing final timing pass.\n'
+    '        ctx->settings[ctx->id("diagnostics/final_report")] = std::to_string(1);\n'
+    '        timing_analysis(ctx,',
+)
 
 
 def patch_timing(source):
@@ -61,10 +63,10 @@ def patch_chipdb_build(source):
     return source.replace(loop, "if (NOT EXTERNAL_CHIPDB)\n" + loop) + "\nendif()\n"
 
 
-def patch_report_writer(source):
-    if source.count(REPORT_ANCHOR) != 1 or "diagnostics/final_report" in source:
-        raise ValueError("Unexpected or already patched report writer")
-    return source.replace(REPORT_ANCHOR, REPORT_PRELUDE + REPORT_ANCHOR)
+def patch_router(source):
+    if source.count(ROUTER_ANCHOR) != 1 or "diagnostics/final_report" in source:
+        raise ValueError("Unexpected or already patched router")
+    return source.replace(ROUTER_ANCHOR, ROUTER_REPLACEMENT)
 
 
 def main():
@@ -77,10 +79,10 @@ def main():
     if actual != PIN:
         raise ValueError(f"Expected nextpnr {PIN}, got {actual}")
     timing = args.checkout / "common/kernel/timing.cc"
-    report_writer = args.checkout / "common/kernel/command.cc"
+    router = args.checkout / "common/route/router1.cc"
     cmake = args.checkout / "himbaechel/uarch/gowin/CMakeLists.txt"
     timing.write_text(patch_timing(timing.read_text()))
-    report_writer.write_text(patch_report_writer(report_writer.read_text()))
+    router.write_text(patch_router(router.read_text()))
     cmake.write_text(patch_chipdb_build(cmake.read_text()))
     print("Applied report-only endpoint diagnostics and external-chipdb build patch.")
 

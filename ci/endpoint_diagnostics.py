@@ -98,10 +98,12 @@ def main():
         for key in ("fmax", "utilization", "detailed_net_timings"):
             if not reports["official"][key] == reports["control"][key] == reports["diagnostic"][key]:
                 raise ValueError(f"Diagnostic changed {key}")
-        if reports["official"]["critical_paths"] != reports["control"]["critical_paths"]:
-            raise ValueError("Compiled control changed the original critical paths")
-        if reports["diagnostic"]["critical_paths"][0] != reports["official"]["critical_paths"][0]:
-            raise ValueError("Diagnostic changed the primary critical path")
+        if not (reports["official"]["critical_paths"] ==
+                reports["control"]["critical_paths"][:1] ==
+                reports["diagnostic"]["critical_paths"][:1]):
+            raise ValueError("Instrumented run changed the primary critical path")
+        if reports["control"]["critical_paths"] != reports["diagnostic"]["critical_paths"]:
+            raise ValueError("Diagnostic and compiled control paths differ")
         records = collect_endpoints(logs["diagnostic"], reports["diagnostic"])
         summary = {"variant": variant, "physical_checksums": checksums["official"],
                    "official_control_diagnostic_equal": True,
