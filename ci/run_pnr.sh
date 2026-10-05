@@ -76,11 +76,6 @@ case "${variant}" in
     ;;
 esac
 
-if (( viterbi_acs == 32 )) && [[ "${board}" != "20k" ]]; then
-  echo "32-ACS variants are intentionally scoped to Tang Nano 20K" >&2
-  exit 2
-fi
-
 mkdir -p build
 rm -f build/design.json build/packed.json build/routed.json build/report.json build/synth.log build/pnr.log
 
@@ -100,7 +95,9 @@ sv_sources=(
     "${with_mem}" "${with_viterbi}" "${with_rs}" "${viterbi_acs}"
   printf 'hierarchy -check -top benchmark_top\n'
   printf 'synth_gowin'
-  printf ' %q' "${synth_family[@]}"
+  if (( ${#synth_family[@]} )); then
+    printf ' %q' "${synth_family[@]}"
+  fi
   printf ' -top benchmark_top -json build/design.json\n'
   printf 'stat -top benchmark_top\n'
 } > build/synth.ys
