@@ -53,6 +53,12 @@ and [machine-readable evidence](reports/survivor-prefetch.json).
 The [previous metric-storage stage](reports/9k-feasibility.md) records the
 same-seed 74.65/81.86 MHz results before these corrections.
 
+The [RS clock investigation](reports/rs-clock-investigation.md) compares
+seven further RTL candidates and placement/routing settings. None is adopted:
+mandatory clock floors already pass, and the completed trials do not improve
+the adopted common core/mem clock objective. Smaller logic or fewer DSPs alone
+do not demonstrate better routed timing.
+
 End-to-end sustained throughput, complete convolutional decoder output and
 ARIB-compatible RS correction qualification, and a physical PSRAM interface
 remain outside the measured scope.

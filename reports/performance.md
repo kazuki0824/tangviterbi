@@ -42,6 +42,11 @@ receiver or bit-exact broadcast decoding. Buffering/CDC, full convolutional
 decoder output and ARIB-compatible RS correction qualification, and physical
 PSRAM timing remain unmeasured.
 
+The [subsequent clock investigation](rs-clock-investigation.md) separates
+required clock, P&R constraint and achieved Fmax, records rejected RS changes
+and P&R setting trials, and keeps this implementation. Further clock changes
+need near-critical-path evidence for both variants before adoption.
+
 ## Original 16-ACS required work rate
 
 [ARIB/DiBEG's transmission parameters](https://www.dibeg.org/techp/structure/)

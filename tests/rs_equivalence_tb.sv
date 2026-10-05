@@ -14,6 +14,26 @@ module rs_equivalence_tb;
     rs204_188_compact dut(clk, resetn, in_valid, ready, in_byte, valid, data_out, fail);
     rs204_188_compact_reference ref_dut(clk, resetn, ref_in_valid, ref_ready, ref_in_byte, ref_valid, ref_out, ref_fail);
 
+    integer output_entries = 0;
+    integer correction_reads = 0;
+    reg [5:0] previous_state;
+    always @(posedge clk) begin
+        previous_state = dut.state;
+        if (resetn && (previous_state == dut.ST_FORNEY_READ))
+            correction_reads = correction_reads + 1;
+        #1;
+        if (resetn && (dut.state == dut.ST_OUTPUT) && (previous_state != dut.ST_OUTPUT)) begin
+            case (previous_state)
+                // Serialized RS uses state 1 for the final syndrome step;
+                // constant-RS omits that state and enters directly from INPUT.
+                dut.ST_INPUT, 6'd1: output_entries = output_entries | 1;
+                dut.ST_FORNEY_INIT: output_entries = output_entries | 2;
+                dut.ST_FORNEY_WRITE: output_entries = output_entries | 4;
+                default: $fatal(1, "unexpected transition into output");
+            endcase
+        end
+    end
+
     initial begin
         // Independent handshakes feed the same codeword to both decoders.
         // Different latency is permitted; byte count, byte order and fail are not.
@@ -73,6 +93,9 @@ module rs_equivalence_tb;
             @(negedge clk); in_valid = 0; ref_in_valid = 0;
             repeat (3) @(posedge clk);
         end
+        if (output_entries != 7 || correction_reads == 0)
+            $fatal(1, "RAM schedule coverage incomplete: entries=%0d reads=%0d", output_entries, correction_reads);
+        $display("RAM schedule coverage: all three output entry paths, %0d correction reads", correction_reads);
         $display("PASS: RS latency-independent equivalence, 48 blocks and 12 reset interruptions followed by clean blocks");
         $finish;
     end
