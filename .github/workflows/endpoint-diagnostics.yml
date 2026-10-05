@@ -1,0 +1,80 @@
+name: 9K complete endpoint timing diagnostics
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  endpoints:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Check whether this commit requests the diagnostic build
+        id: request
+        run: |
+          python3 - <<'PY'
+          import os, subprocess
+          subject = subprocess.check_output(['git', 'log', '-1', '--format=%s'], text=True)
+          enabled = os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch' or '[endpoint-diagnostics]' in subject
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write('enabled=' + str(enabled).lower() + '\n')
+          PY
+
+      - name: Install diagnostic build dependencies
+        if: steps.request.outputs.enabled == 'true'
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build libboost-all-dev libeigen3-dev
+
+      - name: Set up pinned OSS CAD Suite
+        if: steps.request.outputs.enabled == 'true'
+        uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: "2026-10-04"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch pinned nextpnr source
+        if: steps.request.outputs.enabled == 'true'
+        uses: actions/checkout@v5
+        with:
+          repository: YosysHQ/nextpnr
+          ref: e2fe86b3ce6feaa3f09d8db5c0971c1cda3fc641
+          path: build/nextpnr-source
+          submodules: recursive
+
+      - name: Build report-only instrumentation with the suite's chip database
+        if: steps.request.outputs.enabled == 'true'
+        timeout-minutes: 20
+        run: |
+          python3 ci/patch_nextpnr_endpoint_report.py build/nextpnr-source
+          cad_bin=$(command -v nextpnr-himbaechel)
+          cad_root=$(dirname "$(dirname "$cad_bin")")
+          test -f "$cad_root/share/nextpnr/himbaechel/gowin/chipdb-GW1N-9C.bin"
+          cmake -S build/nextpnr-source -B build/nextpnr-instrumented -G Ninja \
+            -DARCH=himbaechel -DHIMBAECHEL_UARCH=gowin \
+            -DHIMBAECHEL_GOWIN_DEVICES=GW1N-9C \
+            -DBUILD_GUI=OFF -DBUILD_PYTHON=OFF -DUSE_IPO=OFF \
+            -DEXTERNAL_CHIPDB=ON -DEXTERNAL_CHIPDB_ROOT="$cad_root/share/nextpnr" \
+            -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/g++
+          cmake --build build/nextpnr-instrumented --parallel 2
+
+      - name: Compare official, compiled-control and endpoint-diagnostic runs
+        if: steps.request.outputs.enabled == 'true'
+        timeout-minutes: 15
+        run: python3 ci/endpoint_diagnostics.py --instrumented-nextpnr build/nextpnr-instrumented/nextpnr-himbaechel
+
+      - name: Preserve diagnostic evidence
+        if: always() && steps.request.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: 9k-complete-endpoint-timing
+          path: |
+            build/endpoint-diagnostics/
+            build/nextpnr-source/common/kernel/timing.cc
+            build/nextpnr-instrumented/CMakeCache.txt
+          if-no-files-found: warn
