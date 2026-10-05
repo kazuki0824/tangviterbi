@@ -7,11 +7,10 @@ passing either clock floor does not qualify a complete receiver.
 
 ## Current 32-ACS / constant-RS configuration
 
-The [9K feasibility report](9k-feasibility.md) supersedes the historical next
-steps below for the optimized configuration. Work rates remain 25.22 Mstep/s
-for ISDB-T and 28.86 Mstep/s for legacy ISDB-S. The 32-ACS engine consumes
-two clocks/step; constant 16-way syndrome updates reduce the conservative RS
-service bound to `204 + 3298 = 3502` clocks/block.
+The [survivor prefetch report](survivor-prefetch.md) records the latest 9K
+implementation. Work rates remain 25.22 Mstep/s for ISDB-T and 28.86 Mstep/s
+for legacy ISDB-S sizing. The engine retains two clocks/step; the conservative
+constant-RS service bound is `204 + 3298 = 3502` clocks/block.
 
 | Clock requirement | ISDB-T | Legacy ISDB-S sizing |
 |---|---:|---:|
@@ -19,20 +18,29 @@ service bound to `204 + 3298 = 3502` clocks/block.
 | RS bound / block arrival interval | 54.12 MHz | 61.93 MHz |
 | Shared hard floor | **54.12 MHz** | **61.93 MHz** |
 
-At 65 MHz / seed 4 the in-place metric implementation routes at **74.65 MHz
-core / 81.86 MHz PSRAM-inclusive**, clearing both floors. The 65 MHz feasibility
-constraint is a separate CI job, while the original 110 MHz margin jobs remain.
-The selected design retains 16-bit metrics, 32 ACS and the existing RS schedule.
-The next timing target is the survivor traceback selection path: the measured
-65 MHz runs report 8.95 ns logic + 4.45 ns routing (core) and 8.20 + 4.02 ns
-(mem). These are whole-design critical paths after metric storage was improved.
+At 65 MHz / common seed 1, core routes at **104.32 MHz** and
+PSRAM-inclusive at **105.41 MHz**. The independent 110 MHz runs at
+that seed give 104.32 (FAIL) /
+105.41 MHz (FAIL). The original 110 MHz comparison
+jobs remain; only the two optimized 9K constant-RS variants use the adopted
+placement seed. Rates/bounds/default profile are unchanged.
 
-Twenty-one unittest methods pass, including 4000 independent 32-ACS steps at
-widths 16/10, a reset between phases, and constant-RS budget/stream/arithmetic
-checks. Observed constant-RS maximum is 3217 clocks versus the conservative
-3502 bound; the legacy ISDB-S block deadline at 65 MHz is 3675 clocks.
-110 MHz margin, bounded pipeline integration, physical PSRAM timing and
-ARIB-compatible correction vectors remain unestablished.
+Both Viterbi versions now saturate warm-up at 64 steps. The 32-ACS survivor
+read port prefetches the next row on the current output edge, enabling byte
+selection in phase 0 and bit selection in phase 1. This uses eight added FFs
+and no extra clocks, BSRAMs or DSPs. Twenty-one unittest methods pass, including
+an independent 32-ACS survivor-output model across all 64 indices and 936
+outputs after warm-up per 1000-step epoch. The old wrapping counter and a
+stale-row prefetch mutation are both rejected by that test.
+
+At seed 4 the whole-design critical paths now lie in RS, 5.78 ns logic +
+5.40 ns routing (core) and 3.73 + 5.72 ns (mem). Future timing work should
+follow the selected seed's actual paths. Constant-RS observed maximum remains
+3217 clocks, below the conservative 3502 bound and legacy-S deadline of 3675
+clocks at 65 MHz. These results do not establish a sustained integrated
+receiver or bit-exact broadcast decoding. Buffering/CDC, full convolutional
+decoder output and ARIB-compatible RS correction qualification, and physical
+PSRAM timing remain unmeasured.
 
 ## Original 16-ACS required work rate
 

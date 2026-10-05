@@ -225,7 +225,10 @@ module viterbi_k7_16acs #(
                     group <= 2'd0;
                     bank <= ~bank;
                     wr_ptr <= wr_ptr + 6'd1;
-                    step_count <= step_count + 8'd1;
+                    // This counts warm-up only. Saturating prevents a new
+                    // output gap every 256 accepted trellis steps.
+                    if (step_count < TRACEBACK)
+                        step_count <= step_count + 8'd1;
 
                     if (step_count >= TRACEBACK) begin
                         tb_ptr <= tb_ptr + 6'd1;

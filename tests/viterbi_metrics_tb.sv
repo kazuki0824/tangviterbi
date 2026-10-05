@@ -80,7 +80,7 @@ module viterbi_metrics_tb;
                     #1;
                     if (dut.group != phase || in_ready != (phase == 0))
                         $fatal(1, "four-cycle scheduling changed");
-                    expected_out_valid = (phase == 3) && (step % 256 >= 64);
+                    expected_out_valid = (phase == 3) && (step >= 64);
                     expected_out_bit = dut.tb_state[5] ? dut.survivor_hi_q[dut.tb_state[4:0]]
                                                       : dut.survivor_lo_q[dut.tb_state[4:0]];
                     for (i = 0; i < 16; i = i + 1) begin

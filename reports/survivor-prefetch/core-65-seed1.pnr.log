@@ -1,0 +1,362 @@
+Info: Using uarch 'gowin' for device 'GW1NR-LV9QN88PC6/I5'
+
+Info: Cell O_psram_ck[0] not found
+Info: Cell O_psram_ck[1] not found
+Info: Cell O_psram_ck_n[0] not found
+Info: Cell O_psram_ck_n[1] not found
+Info: Cell O_psram_cs_n[0] not found
+Info: Cell O_psram_cs_n[1] not found
+Info: Cell O_psram_reset_n[0] not found
+Info: Cell O_psram_reset_n[1] not found
+Info: Cell IO_psram_dq[0] not found
+Info: Cell IO_psram_dq[1] not found
+Info: Cell IO_psram_dq[2] not found
+Info: Cell IO_psram_dq[3] not found
+Info: Cell IO_psram_dq[4] not found
+Info: Cell IO_psram_dq[5] not found
+Info: Cell IO_psram_dq[6] not found
+Info: Cell IO_psram_dq[7] not found
+Info: Cell IO_psram_dq[8] not found
+Info: Cell IO_psram_dq[9] not found
+Info: Cell IO_psram_dq[10] not found
+Info: Cell IO_psram_dq[11] not found
+Info: Cell IO_psram_dq[12] not found
+Info: Cell IO_psram_dq[13] not found
+Info: Cell IO_psram_dq[14] not found
+Info: Cell IO_psram_dq[15] not found
+Info: Cell IO_psram_rwds[0] not found
+Info: Cell IO_psram_rwds[1] not found
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:0, MUX2_LU7:0, MUX2_LUT6:0, MUX2_LUT5:172
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 1103 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack GW JTAG...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0xe4a7212c
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:       3/    276     1%
+Info: 	                LUT4:    4902/   8640    56%
+Info: 	              OSER16:       0/     80     0%
+Info: 	              IDES16:       0/     80     0%
+Info: 	            IOLOGICI:       0/    276     0%
+Info: 	            IOLOGICO:       0/    276     0%
+Info: 	           MUX2_LUT5:     172/   4320     3%
+Info: 	           MUX2_LUT6:       0/   2160     0%
+Info: 	           MUX2_LUT7:       0/   1080     0%
+Info: 	           MUX2_LUT8:       0/   1080     0%
+Info: 	                 ALU:    2022/   6480    31%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:    2487/   6480    38%
+Info: 	           RAM16SDP4:       0/    270     0%
+Info: 	               BSRAM:       3/     26    11%
+Info: 	              ALU54D:       0/     10     0%
+Info: 	     MULTADDALU18X18:       0/     10     0%
+Info: 	        MULTALU18X18:       0/     10     0%
+Info: 	        MULTALU36X18:       0/     10     0%
+Info: 	           MULT36X36:       0/      5     0%
+Info: 	           MULT18X18:       8/     20    40%
+Info: 	             MULT9X9:       0/     40     0%
+Info: 	              PADD18:       0/     20     0%
+Info: 	               PADD9:       0/     40     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       0/      2     0%
+Info: 	           FLASH608K:       0/      1     0%
+Info: 	                BUFG:       0/     22     0%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+Info: 	           MIPI_IBUF:       0/     22     0%
+Info: 	           MIPI_OBUF:       0/     20     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 4230 cells, random placement wirelen = 187353.
+Info:     at initial placer iter 0, wirelen = 734
+Info:     at initial placer iter 1, wirelen = 1563
+Info:     at initial placer iter 2, wirelen = 1580
+Info:     at initial placer iter 3, wirelen = 1579
+Info: Running main analytical placer, max placement attempts per cell = 11596928.
+Info:     at iteration #1, type ALL: wirelen solved = 1580, spread = 64296, legal = 131771; time = 2.80s
+Info:     at iteration #2, type ALL: wirelen solved = 2781, spread = 47755, legal = 84512; time = 0.91s
+Info:     at iteration #3, type ALL: wirelen solved = 6580, spread = 48420, legal = 88208; time = 3.57s
+Info:     at iteration #4, type ALL: wirelen solved = 7871, spread = 43837, legal = 84475; time = 1.50s
+Info:     at iteration #5, type ALL: wirelen solved = 9388, spread = 46349, legal = 81110; time = 1.24s
+Info:     at iteration #6, type ALL: wirelen solved = 10518, spread = 46919, legal = 85770; time = 1.43s
+Info:     at iteration #7, type ALL: wirelen solved = 11155, spread = 40932, legal = 83516; time = 1.66s
+Info:     at iteration #8, type ALL: wirelen solved = 11896, spread = 42008, legal = 79260; time = 0.96s
+Info:     at iteration #9, type ALL: wirelen solved = 12333, spread = 43555, legal = 82917; time = 1.44s
+Info:     at iteration #10, type ALL: wirelen solved = 13200, spread = 34975, legal = 79315; time = 1.30s
+Info:     at iteration #11, type ALL: wirelen solved = 13472, spread = 36351, legal = 71330; time = 1.39s
+Info:     at iteration #12, type ALL: wirelen solved = 14972, spread = 31332, legal = 69343; time = 1.15s
+Info:     at iteration #13, type ALL: wirelen solved = 15218, spread = 36101, legal = 73041; time = 1.32s
+Info:     at iteration #14, type ALL: wirelen solved = 15904, spread = 30245, legal = 68219; time = 1.18s
+Info:     at iteration #15, type ALL: wirelen solved = 16127, spread = 32494, legal = 69083; time = 1.15s
+Info:     at iteration #16, type ALL: wirelen solved = 17562, spread = 28912, legal = 66095; time = 1.66s
+Info:     at iteration #17, type ALL: wirelen solved = 17907, spread = 32774, legal = 64521; time = 0.96s
+Info:     at iteration #18, type ALL: wirelen solved = 18178, spread = 31862, legal = 65275; time = 1.77s
+Info:     at iteration #19, type ALL: wirelen solved = 19573, spread = 31122, legal = 62398; time = 1.11s
+Info:     at iteration #20, type ALL: wirelen solved = 19945, spread = 33752, legal = 65935; time = 0.99s
+Info:     at iteration #21, type ALL: wirelen solved = 20191, spread = 32934, legal = 69955; time = 0.81s
+Info:     at iteration #22, type ALL: wirelen solved = 22842, spread = 36482, legal = 64527; time = 1.61s
+Info:     at iteration #23, type ALL: wirelen solved = 24256, spread = 38582, legal = 64989; time = 0.64s
+Info:     at iteration #24, type ALL: wirelen solved = 24031, spread = 34012, legal = 63287; time = 1.34s
+Info: HeAP Placer Time: 35.10s
+Info:   of which solving equations: 2.87s
+Info:   of which spreading cells: 0.33s
+Info:   of which strict legalisation: 30.93s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 111, wirelen = 62398
+Info:   at iteration #5: temp = 0.000000, timing cost = 27, wirelen = 53607
+Info:   at iteration #10: temp = 0.000000, timing cost = 22, wirelen = 50622
+Info:   at iteration #15: temp = 0.000000, timing cost = 19, wirelen = 48841
+Info:   at iteration #20: temp = 0.000000, timing cost = 18, wirelen = 47945
+Info:   at iteration #25: temp = 0.000000, timing cost = 18, wirelen = 47695
+Info:   at iteration #30: temp = 0.000000, timing cost = 18, wirelen = 47593
+Info:   at iteration #34: temp = 0.000000, timing cost = 18, wirelen = 47544 
+Info: SA placement time 30.92s
+
+Info: Max frequency for clock 'g_rs.u_rs.clk': 123.64 MHz (PASS at 65.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 5 endpoint(s)
+Info:          + represents [1,5) endpoint(s)
+Info: [  7296,   7676) |+
+Info: [  7676,   8056) | 
+Info: [  8056,   8436) |+
+Info: [  8436,   8816) |+
+Info: [  8816,   9196) |+
+Info: [  9196,   9576) |*+
+Info: [  9576,   9956) |******+
+Info: [  9956,  10336) |********+
+Info: [ 10336,  10716) |***********+
+Info: [ 10716,  11096) |******+
+Info: [ 11096,  11476) |*****************+
+Info: [ 11476,  11856) |*********************************+
+Info: [ 11856,  12236) |************************************+
+Info: [ 12236,  12616) |************************************************************ 
+Info: [ 12616,  12996) |****************************************+
+Info: [ 12996,  13376) |*******************************+
+Info: [ 13376,  13756) |********************************************************+
+Info: [ 13756,  14136) |**********************+
+Info: [ 14136,  14516) |**********+
+Info: [ 14516,  14896) |*********************************************+
+Info: Checksum: 0x7ab58fca
+Info: Routing globals...
+Info:     'g_rs.u_rs.clk' net was routed using global resources only.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I1_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_ALU_SUM_I0_ALU_I0_SUM_LUT3_I2_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_ALU_SUM_I0_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_1_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_ALU_SUM_I0_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_1_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I1_1_F' is routed using segments.
+Info:     'g_rs.u_rs.resetn_LUT2_I0_1_F_LUT2_F_I1[1]' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_ALU_SUM_I0_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_1_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_ALU_SUM_I0_ALU_I0_CIN_ALU_COUT_SUM_LUT3_I2_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_4_LUT3_I2_F_DFFCE_D_Q[3]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[50]_DFFE_Q_9_D_LUT4_F_I2_ALU_SUM_I1_ALU_I1_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM[3]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.survivor_hi.0.0_DI_11_DFF_D_Q[3]' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_1_Q_ALU_I1_1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_ALU_I0_COUT_ALU_CIN_SUM_LUT3_F_I2_LUT2_I0_1_F' is routed using segments.
+Info:     'g_rs.u_rs.error_x_q_DFFE_Q_6_D_LUT3_F_I2_LUT4_F_I3[1]' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_1_Q_ALU_I1_1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_ALU_I0_COUT_ALU_CIN_SUM_LUT3_F_I2_LUT2_I0_2_I1_LUT3_I2_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_1_Q_ALU_I1_1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_ALU_I0_COUT_ALU_CIN_SUM_LUT3_F_I2_LUT2_I0_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[55]_DFFE_Q_2_D_LUT4_F_I2_ALU_SUM_1_I1_ALU_I1_CIN_ALU_COUT_SUM[3]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[62]_DFFE_Q_8_D_LUT4_F_I2[3]' is routed using segments.
+Info:     'g_rs.u_rs.error_x[7]_DFFE_Q_2_D[3]' is routed using segments.
+Info:     'g_rs.u_rs.coefficient_b_DFFR_Q_7_D_LUT4_F_I3_LUT4_F_1_I3_MUX2_LUT5_O_S0_DFFCE_Q_1_D_LUT2_F_I0_DFFCE_Q_D_LUT2_F_I0_LUT4_I3_F_LUT4_I3_F[1]' is routed using segments.
+Info:     'g_rs.u_rs.resetn_LUT2_I0_1_F[0]' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.survivor_hi.0.0_DO_10_LUT4_I2_F[0]' is routed using segments.
+Info:     'g_rs.u_rs.error_x[4]_DFFE_Q_CE' is routed using segments.
+Info:     'g_rs.u_rs.error_x[7]_DFFE_Q_6_D_DFFCE_Q_D_LUT2_F_I0[1]' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_1_Q_ALU_I1_1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_ALU_I0_COUT_ALU_CIN_SUM_LUT3_F_I2_LUT2_I0_1_I1_LUT3_I2_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_2_LUT3_I2_F_DFFCE_D_Q[3]' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_ALU_SUM_I0_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_1_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_1_F' is routed using segments.
+Info:     'g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_1_F_LUT4_I3_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_1_F_LUT3_I2_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.synd_select_DFFR_Q_10_D_LUT4_F_I2_LUT3_F_I1_LUT4_I3_F_LUT4_F_I3[1]' is routed using segments.
+Info:     'g_rs.u_rs.synd_select_DFFR_Q_10_D_LUT4_F_I2_LUT3_F_I1_LUT4_I3_F[0]' is routed using segments.
+Info:     'g_rs.u_rs.error_x[7]_DFFE_Q_6_D_DFFCE_Q_CE[2]' is routed using segments.
+Info:     'g_rs.u_rs.resetn_LUT2_I0_1_I1_LUT2_F_I0_LUT3_I1_F' is routed using segments.
+Info:     'g_rs.u_rs.synd_select_DFFR_Q_10_D_LUT4_F_I2_LUT3_F_I1_LUT4_I3_F_LUT2_F_I1_LUT2_I1_F[0]' is routed using segments.
+Info:     'g_rs.u_rs.error_x[7]_DFFE_Q_6_D[1]' is routed using segments.
+Info:     'g_rs.u_rs.feedback_a_DFFR_Q_1_D_LUT4_F_I3_DFFCE_D_Q_LUT3_F_I2_LUT4_F_I3_LUT4_F_I0[3]' is routed using segments.
+Info:     'g_rs.u_rs.coefficient_b_DFFR_Q_2_D_LUT4_F_I3_LUT3_F_I2_LUT4_F_I3_MUX2_LUT5_O_S0_LUT3_I1_F_DFFCE_Q_D_LUT3_F_I2[1]' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_5_LUT3_I2_F_DFFCE_D_Q[3]' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_CIN_ALU_COUT_SUM_LUT3_I2_1_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_LUT3_I2_1_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_ALU_SUM_I0_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_F' is routed using segments.
+Info:     'g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT3_I2_F_LUT4_F_I3_LUT2_I1_F_DFFC_D_Q_LUT2_F_1_I1_LUT4_I2_F_DFFCE_D_Q_LUT4_I3_F_LUT4_F_2_I3_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_I2_LUT4_I3_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT2_F_I0_LUT3_I0_F_DFFC_Q_D_DFFCE_Q_D_ALU_I0_SUM_ALU_SUM_I0_ALU_I0_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT3_I2_F' is routed using segments.
+Info:     'g_rs.u_rs.resetn_LUT2_I0_I1[1]' is routed using segments.
+Info:     'g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_2_F_LUT2_I1_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_1_F_LUT4_I3_1_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_2_F_LUT4_I3_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.synd_select_DFFS_Q_D_LUT4_F_I3_LUT4_F_I1_LUT4_I2_F_DFFC_D_Q_LUT3_F_I1_LUT2_I0_F_LUT3_F_I2_LUT4_I2_F_DFFCE_CE_1_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.synd_select_DFFS_Q_D_LUT4_F_I3_LUT4_F_I1_LUT4_I2_F_DFFC_D_Q_LUT3_F_I1_LUT2_I0_F_LUT3_F_I2_LUT4_I2_F_DFFCE_CE_Q[1]' is routed using segments.
+Info:     'g_rs.u_rs.lambda_select_DFFR_Q_5_D_LUT4_F_I2[0]' is routed using segments.
+Info:     'g_rs.u_rs.coefficient_b_DFFR_Q_2_D_LUT4_F_I3_LUT3_F_I2_LUT4_F_I3_MUX2_LUT5_O_S0_LUT3_I1_F[1]' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 23022 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |        2        997 |    2   997 |     22025|       0.75       0.75|
+Info:       2000 |       80       1896 |   78   899 |     21136|       0.49       1.24|
+Info:       3000 |      113       2792 |   33   896 |     20175|       0.31       1.55|
+Info:       4000 |      123       3717 |   10   925 |     19190|       0.28       1.83|
+Info:       5000 |      126       4599 |    3   882 |     18193|       0.47       2.30|
+Info:       6000 |      128       5478 |    2   879 |     17195|       0.62       2.92|
+Info:       7000 |      133       6363 |    5   885 |     16200|       0.73       3.64|
+Info:       8000 |      137       7257 |    4   894 |     15204|       0.68       4.32|
+Info:       9000 |      154       8139 |   17   882 |     14250|       0.70       5.02|
+Info:      10000 |      160       9013 |    6   874 |     13256|       0.71       5.73|
+Info:      11000 |      167       9892 |    7   879 |     12264|       0.76       6.49|
+Info:      12000 |      181      10780 |   14   888 |     11290|       0.89       7.38|
+Info:      13000 |      194      11671 |   13   891 |     10309|       1.18       8.56|
+Info:      14000 |      232      12547 |   38   876 |      9357|       1.06       9.62|
+Info:      15000 |      295      13395 |   63   848 |      8452|       0.91      10.53|
+Info:      16000 |      345      14238 |   50   843 |      7517|       1.19      11.72|
+Info:      17000 |      394      15094 |   49   856 |      6576|       0.97      12.69|
+Info:      18000 |      515      15887 |  121   793 |      5738|       1.31      14.00|
+Info:      19000 |      620      16704 |  105   817 |      4877|       1.43      15.43|
+Info:      20000 |      737      17500 |  117   796 |      4051|       1.51      16.94|
+Info:      21000 |      911      18252 |  174   752 |      3320|       1.79      18.72|
+Info:      22000 |     1089      18987 |  178   735 |      2573|       2.25      20.97|
+Info:      23000 |     1314      19698 |  225   711 |      1861|       2.06      23.02|
+Info:      24000 |     1578      20377 |  264   679 |      1290|       2.10      25.12|
+Info:      25000 |     1871      21011 |  293   634 |       657|       2.23      27.35|
+Info:      26000 |     2178      21644 |  307   633 |       126|       2.43      29.78|
+Info:      26209 |     2234      21788 |   56   144 |         0|       0.52      30.30|
+Info: Routing complete.
+Info: Router1 time 30.30s
+Info: Checksum: 0x9bb41296
+
+Info: Critical path report for clock 'g_rs.u_rs.clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q_3.Q
+Info:    routing  1.22  1.67 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_CIN_ALU_COUT_SUM[0] (30,17) -> (31,19)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_CIN_ALU_COUT.I1
+Info:                          Defined in:
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.04  2.72 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_CIN_ALU_COUT.COUT
+Info:    routing  0.00  2.72 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_CIN (31,19) -> (31,19)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               experiments/rs_syndrome_constants.sv:369.39-369.55
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.78 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM.COUT
+Info:    routing  0.00  2.78 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT (31,19) -> (31,19)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               experiments/rs_syndrome_constants.sv:369.39-369.55
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.83 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN.COUT
+Info:    routing  0.00  2.83 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT (31,19) -> (32,19)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               experiments/rs_syndrome_constants.sv:369.39-369.55
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.89 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN.COUT
+Info:    routing  0.00  2.89 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT (32,19) -> (32,19)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               experiments/rs_syndrome_constants.sv:369.39-369.55
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.95 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN.COUT
+Info:    routing  0.00  2.95 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT (32,19) -> (32,19)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               experiments/rs_syndrome_constants.sv:369.39-369.55
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.56  3.51 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN.SUM
+Info:    routing  0.96  4.47 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM[3] (32,19) -> (31,17)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F_LUT4_F_I3_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  5.09 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F_LUT4_F_I3_LUT4_F.F
+Info:    routing  0.89  5.98 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F_LUT4_F_I3[3] (31,17) -> (30,17)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  6.61 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F_LUT4_F.F
+Info:    routing  0.33  6.93 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F[3] (30,17) -> (30,17)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F_LUT4_F_1.I3
+Info:                          Defined in:
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  7.56 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F_LUT4_F_1.F
+Info:    routing  0.81  8.36 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT2_I1_F_LUT4_F_I3_LUT4_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I3_F[2] (30,17) -> (30,19)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_1_DFF_Q_D_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /tmp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  9.19 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_1_DFF_Q_D_LUT4_F.F
+Info:    routing  0.00  9.19 Net g_rs.u_rs.u_block_ram.mem.0.0_DOB_1_DFF_Q_D (30,19) -> (30,19)
+Info:                          Sink g_rs.u_rs.u_block_ram.mem.0.0_DOB_1_DFF_Q.D
+Info:      setup  0.40  9.59 Source g_rs.u_rs.u_block_ram.mem.0.0_DOB_1_DFF_Q.D
+Info: 5.39 ns logic, 4.20 ns routing
+
+Info: Max frequency for clock 'g_rs.u_rs.clk': 104.32 MHz (PASS at 65.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 3 endpoint(s)
+Info:          + represents [1,3) endpoint(s)
+Info: [  5798,   6232) |+
+Info: [  6232,   6666) |** 
+Info: [  6666,   7100) |* 
+Info: [  7100,   7534) |***+
+Info: [  7534,   7968) |**+
+Info: [  7968,   8402) |*** 
+Info: [  8402,   8836) |***+
+Info: [  8836,   9270) |******* 
+Info: [  9270,   9704) |***********+
+Info: [  9704,  10138) |********** 
+Info: [ 10138,  10572) |********* 
+Info: [ 10572,  11006) |***************************+
+Info: [ 11006,  11440) |**********************************************************+
+Info: [ 11440,  11874) |*********************************+
+Info: [ 11874,  12308) |************************************************************ 
+Info: [ 12308,  12742) |************************************** 
+Info: [ 12742,  13176) |**********************+
+Info: [ 13176,  13610) |****** 
+Info: [ 13610,  14044) |*** 
+Info: [ 14044,  14478) |+
+
+Info: Program finished normally.

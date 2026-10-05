@@ -29,26 +29,33 @@ sizing profile, not a qualified satellite receiver implementation.
 
 ## Current 9K result
 
-At 65 MHz constraint and common seed 4, both complete 32-ACS + constant-RS
-designs finish placement and routing and clear both workload clock floors:
+At 65 MHz constraint and adopted common seed 1, both complete 32-ACS +
+constant-RS designs finish routing and clear the ISDB-T / legacy ISDB-S sizing
+clock floors. The same seed is used for the independent 110 MHz margin jobs.
 
-| Variant | LUT4 | FF | BSRAM | MULT18X18 | Routed Fmax | 65 MHz | 110 MHz margin |
-|---|---:|---:|---:|---:|---:|---|---|
-| `core-32acs-rsconst` | 4879 | 2479 | 3 | 8 | **74.65 MHz** | PASS | FAIL |
-| `mem-32acs-rsconst` | 5040 | 2617 | 3 | 8 | **81.86 MHz** | PASS | FAIL |
+| Variant | LUT4 | FF | BSRAM | MULT18X18 | Routed Fmax (65 MHz job) | 110 MHz job |
+|---|---:|---:|---:|---:|---:|---|
+| `core-32acs-rsconst` | 4902 | 2487 | 3 | 8 | **104.32 MHz** | FAIL |
+| `mem-32acs-rsconst` | 5045 | 2625 | 3 | 8 | **105.41 MHz** | FAIL |
 
-The 32-ACS metric store now updates 64 words in place and saves only the 16
-predecessors that phase 0 would overwrite before phase 1 reads them. This
-replaces 128 ping-pong words with 80 words, retains 16-bit metrics and two
-clocks/step, and removes 769 packed FFs from each complete design. The full
-suite passes **21 unittest methods**, including independent 16/10-bit metric
-recurrence, a reset between phases, and constant-RS arithmetic/stream/budget
-checks. See [measurements, the original seed sweep and reproduction](reports/9k-feasibility.md)
-and [machine-readable evidence](reports/9k-feasibility.json).
+The metric store has 64 in-place words plus 16 shadow predecessors. The latest
+change adds an eight-bit survivor-byte register and prefetches the next row
+on the output edge, splitting selection across the existing two phases.
+It retains 16-bit metrics and two clocks/step. Both Viterbi versions saturate
+the warm-up counter, so output no longer stops again every 256 steps.
 
-The remaining 110 MHz gap is visible in CI. End-to-end sustained throughput,
-ARIB-compatible correction qualification and a physical PSRAM interface remain
-outside the measured scope.
+The full suite passes **21 unittest methods**. The 32-ACS test independently
+models metrics, survivor rows, pointer/state and selected output bits; it
+checks 936 outputs per 1000-step reset epoch, all 64 selector indices,
+uninterrupted two-clock input, randomized stalls and a reset between phases.
+See [latest measurements and common-seed selection](reports/survivor-prefetch.md)
+and [machine-readable evidence](reports/survivor-prefetch.json).
+The [previous metric-storage stage](reports/9k-feasibility.md) records the
+same-seed 74.65/81.86 MHz results before these corrections.
+
+End-to-end sustained throughput, complete convolutional decoder output and
+ARIB-compatible RS correction qualification, and a physical PSRAM interface
+remain outside the measured scope.
 
 ## RTL
 
@@ -141,10 +148,11 @@ at the 110 MHz margin target. Optimization measurements target 9K only.
 | `9k / mem-32acs-rsconst` | 32 ACS | constant 16-way | PSRAM | synthesis + P&R |
 
 Two additional jobs run `core-32acs-rsconst` and `mem-32acs-rsconst` at
-**65 MHz / seed 4**. Their names and artifacts include `65 MHz`/`65mhz`.
+**65 MHz / seed 1**. Their names and artifacts include `65 MHz`/`65mhz`.
 The driver accepts `--freq` and `--seed`; without them it retains 110 MHz /
 seed 4 from `ci/performance.json`. Overrides change placement constraints,
-not workload rates or service bounds.
+not workload rates or service bounds. The optimized 9K constant-RS jobs
+explicitly use common seed 1 at both constraints; other jobs retain seed 4.
 
 The same decoder RTL is used in core and mem. Diagnostics disable exactly one
 decoder; packing success does not establish a fit or achieved timing.

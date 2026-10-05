@@ -26,8 +26,10 @@ jobs:
             variant: viterbi-32acs
           - board: 9k
             variant: core-32acs-rsconst
+            pnr_seed: 1
           - board: 9k
             variant: mem-32acs-rsconst
+            pnr_seed: 1
           - board: 20k
             variant: core-32acs
           - board: 20k
@@ -55,7 +57,7 @@ jobs:
         id: pnr
         timeout-minutes: 15
         continue-on-error: true
-        run: bash ci/run_pnr.sh "${{ matrix.board }}" "${{ matrix.variant }}"
+        run: bash ci/run_pnr.sh "${{ matrix.board }}" "${{ matrix.variant }}" --seed "${{ matrix.pnr_seed || 4 }}"
 
       - name: Publish job summary
         if: always()
@@ -107,7 +109,7 @@ jobs:
         id: pnr
         timeout-minutes: 15
         continue-on-error: true
-        run: bash ci/run_pnr.sh 9k "${{ matrix.variant }}" --freq 65 --seed 4
+        run: bash ci/run_pnr.sh 9k "${{ matrix.variant }}" --freq 65 --seed 1
 
       - name: Publish job summary
         if: always()

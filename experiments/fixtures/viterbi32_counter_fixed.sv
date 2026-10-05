@@ -36,10 +36,8 @@ module viterbi_k7_32acs #(
     (* ram_style = "block" *) reg [31:0] survivor_lo [0:TRACEBACK-1];
     (* ram_style = "block" *) reg [31:0] survivor_hi [0:TRACEBACK-1];
     reg [31:0] survivor_lo_q, survivor_hi_q;
-    reg [7:0] survivor_byte_q;
-    wire tb_advance = resetn && initialized && step_enable && phase && (step_count >= TRACEBACK);
-    wire [5:0] survivor_read_ptr = tb_ptr + {5'd0, tb_advance};
-    wire tb_selected = survivor_byte_q[tb_state[2:0]];
+    wire tb_selected = tb_state[5] ? survivor_hi_q[tb_state[4:0]]
+                                   : survivor_lo_q[tb_state[4:0]];
 
     integer i;
     integer p0_state;
@@ -137,14 +135,8 @@ module viterbi_k7_32acs #(
     end endgenerate
 
     always @(posedge clk) begin
-        // At the output edge, prefetch the next row while consuming the
-        // current row. Phase 0 then selects the byte using the updated state;
-        // phase 1 selects its bit. No third clock or read/write collision is
-        // needed, even with uninterrupted two-clock input steps.
-        survivor_lo_q <= survivor_lo[survivor_read_ptr];
-        survivor_hi_q <= survivor_hi[survivor_read_ptr];
-        survivor_byte_q <= tb_state[5] ? survivor_hi_q[{tb_state[4:3], 3'b0} +: 8]
-                                      : survivor_lo_q[{tb_state[4:3], 3'b0} +: 8];
+        survivor_lo_q <= survivor_lo[tb_ptr];
+        survivor_hi_q <= survivor_hi[tb_ptr];
     end
 
     always @(posedge clk) begin
