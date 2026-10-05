@@ -13,16 +13,15 @@ module viterbi_k7_32acs #(
 );
     localparam [METRIC_W-1:0] INF = {METRIC_W{1'b1}};
 
-    // 32 ACS lanes consume one trellis step in two clocks.  Unlike the 16-ACS
-    // baseline, the metric store deliberately spends 20K FF/LUT headroom on
-    // two complete ping-pong generations.  This avoids a multi-write-port
-    // BSRAM construction and makes the two-cycle dependency explicit.
+    // Two phases update the 64 metrics in place. Phase 0 would overwrite
+    // predecessors 16..31 needed by phase 1, so only that quarter is saved.
+    // The shadow snapshot and first-half writes use the same clock edge;
+    // nonblocking assignments preserve the old predecessor generation.
     reg phase;
-    reg bank;
     reg initialized;
     reg init_phase;
-    reg [METRIC_W-1:0] metrics_a [0:63];
-    reg [METRIC_W-1:0] metrics_b [0:63];
+    reg [METRIC_W-1:0] metrics [0:63];
+    reg [METRIC_W-1:0] metric_shadow [0:15];
     reg [METRIC_W-1:0] lane_metric [0:31];
     reg [31:0] lane_decision;
     wire step_enable = initialized && (phase || in_valid);
@@ -92,13 +91,8 @@ module viterbi_k7_32acs #(
             // Each destination state has predecessors state>>1 and +32.
             p0_state = (phase ? 16 : 0) + (i >> 1);
             p1_state = p0_state + 32;
-            if (bank) begin
-                src0 = metrics_b[p0_state];
-                src1 = metrics_b[p1_state];
-            end else begin
-                src0 = metrics_a[p0_state];
-                src1 = metrics_a[p1_state];
-            end
+            src0 = phase ? metric_shadow[i >> 1] : metrics[i >> 1];
+            src1 = phase ? metrics[48 + (i >> 1)] : metrics[32 + (i >> 1)];
 
             coded0 = encode_pair(p0_state[5:0], i[0]);
             case (coded0)
@@ -120,26 +114,25 @@ module viterbi_k7_32acs #(
         end
     end
 
-    integer j;
-    always @(posedge clk) begin
-        if (resetn) begin
-            if (!initialized) begin
-                // Initialize only the first source generation.  The other
-                // generation is completely overwritten before it is read.
-                for (j = 0; j < 32; j = j + 1)
-                    metrics_a[(init_phase ? 32 : 0) + j] <=
-                        (!init_phase && (j == 0)) ? {METRIC_W{1'b0}} : INF;
-            end else if (step_enable) begin
-                if (!bank) begin
-                    for (j = 0; j < 32; j = j + 1)
-                        metrics_b[(phase ? 32 : 0) + j] <= lane_metric[j];
-                end else begin
-                    for (j = 0; j < 32; j = j + 1)
-                        metrics_a[(phase ? 32 : 0) + j] <= lane_metric[j];
+    genvar metric_slot;
+    generate for (metric_slot=0; metric_slot<64; metric_slot=metric_slot+1) begin : g_metric_state
+        always @(posedge clk) begin
+            if (resetn) begin
+                if (!initialized) begin
+                    if (init_phase == (metric_slot >= 32))
+                        metrics[metric_slot] <= (metric_slot == 0) ? {METRIC_W{1'b0}} : INF;
+                end else if (step_enable && (phase == (metric_slot >= 32))) begin
+                    metrics[metric_slot] <= lane_metric[metric_slot % 32];
                 end
             end
         end
     end
+    for (metric_slot=0; metric_slot<16; metric_slot=metric_slot+1) begin : g_metric_shadow
+        always @(posedge clk) begin
+            if (resetn && initialized && step_enable && !phase)
+                metric_shadow[metric_slot] <= metrics[16 + metric_slot];
+        end
+    end endgenerate
 
     always @(posedge clk) begin
         survivor_lo_q <= survivor_lo[tb_ptr];
@@ -156,7 +149,6 @@ module viterbi_k7_32acs #(
     always @(posedge clk or negedge resetn) begin
         if (!resetn) begin
             phase <= 1'b0;
-            bank <= 1'b0;
             initialized <= 1'b0;
             init_phase <= 1'b0;
             soft0_q <= 8'd0;
@@ -183,7 +175,6 @@ module viterbi_k7_32acs #(
                     phase <= 1'b1;
                 end else begin
                     phase <= 1'b0;
-                    bank <= ~bank;
                     wr_ptr <= wr_ptr + 6'd1;
                     step_count <= step_count + 8'd1;
 

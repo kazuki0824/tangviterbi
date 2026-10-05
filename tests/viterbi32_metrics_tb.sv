@@ -32,6 +32,16 @@ module viterbi32_metrics_tb;
     initial begin
         for (epoch = 0; epoch < 2; epoch = epoch + 1) begin
             @(negedge clk);
+            if (epoch == 1) begin
+                // Abort after the first half has overwritten metrics and
+                // captured shadow predecessors. Reset must discard this step.
+                random_inputs();
+                in_valid = 1;
+                @(negedge clk);
+                #1;
+                if (dut.phase != 1 || in_ready)
+                    $fatal(1, "did not interrupt an active second phase");
+            end
             resetn = 0;
             in_valid = 0;
             #1;

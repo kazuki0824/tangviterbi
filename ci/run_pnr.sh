@@ -3,6 +3,31 @@ set -euo pipefail
 
 board="${1:?board: 9k or 20k}"
 variant="${2:?variant: core-only, mem, viterbi-only, rs-only, or 20K 32-ACS variants}"
+shift 2
+freq_override=""
+seed_override=""
+while (( $# )); do
+  case "$1" in
+    --freq|--seed)
+      if (( $# < 2 )); then echo "missing value for $1" >&2; exit 2; fi
+      if [[ "$1" == --freq ]]; then freq_override="$2"; else seed_override="$2"; fi
+      shift 2
+      ;;
+    *) echo "unsupported option: $1" >&2; exit 2 ;;
+  esac
+done
+# Validate before synthesis; command-line overrides never alter the workload.
+pnr_settings=$(python3 - "$freq_override" "$seed_override" <<'PY'
+import json, math, sys
+p = json.load(open("ci/performance.json"))
+freq = float(sys.argv[1]) if sys.argv[1] else p["target_clock_mhz"]
+seed = int(sys.argv[2]) if sys.argv[2] else p["pnr_seed"]
+if not math.isfinite(freq) or not 0 < freq <= 5000 or not 0 <= seed <= 4294967295:
+    raise SystemExit("invalid frequency or seed")
+print(freq, seed)
+PY
+) || exit 2
+read -r freq pnr_seed <<< "$pnr_settings"
 with_viterbi=1
 with_rs=1
 with_mem=0
@@ -103,8 +128,6 @@ sv_sources=(
 } > build/synth.ys
 
 yosys -l build/synth.log build/synth.ys
-freq=$(python3 -c 'import json; print(json.load(open("ci/performance.json"))["target_clock_mhz"])')
-pnr_seed=$(python3 -c 'import json; print(json.load(open("ci/performance.json"))["pnr_seed"])')
 
 set +e
 pnr_mode=()
@@ -123,7 +146,7 @@ set -e
 
 python3 ci/report.py --board "${board}" --variant "${variant}" \
   --report build/report.json --synth-log build/synth.log --pnr-log build/pnr.log \
-  --exit-code "${rc}" --seed "${pnr_seed}" --acs-lanes "${viterbi_acs}" \
+  --exit-code "${rc}" --seed "${pnr_seed}" --target-clock-mhz "${freq}" --acs-lanes "${viterbi_acs}" \
   --rs-syndrome-cycles "${rs_syndrome_cycles}" --rs-label "${rs_label}" \
   --with-viterbi "${with_viterbi}" --with-rs "${with_rs}" --with-mem "${with_mem}" \
   "${report_mode[@]}" > build/summary.md

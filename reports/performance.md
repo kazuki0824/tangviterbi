@@ -1,10 +1,40 @@
 # 9K performance contract and next steps
 
-Target device: Tang Nano 9K, GW1NR-LV9QN88PC6/I5. This profile covers the existing
-ISDB-T 6-MHz, 13-segment sizing question. ISDB-S needs a separate rate/coding
-profile; passing this profile does not establish ISDB-S capacity.
+Target device: Tang Nano 9K, GW1NR-LV9QN88PC6/I5. The original contract below
+covers the 16-ACS ISDB-T 6-MHz, 13-segment sizing question. The current 32-ACS
+configuration also reports the repository's legacy ISDB-S sizing profile;
+passing either clock floor does not qualify a complete receiver.
 
-## Required work rate
+## Current 32-ACS / constant-RS configuration
+
+The [9K feasibility report](9k-feasibility.md) supersedes the historical next
+steps below for the optimized configuration. Work rates remain 25.22 Mstep/s
+for ISDB-T and 28.86 Mstep/s for legacy ISDB-S. The 32-ACS engine consumes
+two clocks/step; constant 16-way syndrome updates reduce the conservative RS
+service bound to `204 + 3298 = 3502` clocks/block.
+
+| Clock requirement | ISDB-T | Legacy ISDB-S sizing |
+|---|---:|---:|
+| Viterbi | 50.44 MHz | 57.72 MHz |
+| RS bound / block arrival interval | 54.12 MHz | 61.93 MHz |
+| Shared hard floor | **54.12 MHz** | **61.93 MHz** |
+
+At 65 MHz / seed 4 the in-place metric implementation routes at **74.65 MHz
+core / 81.86 MHz PSRAM-inclusive**, clearing both floors. The 65 MHz feasibility
+constraint is a separate CI job, while the original 110 MHz margin jobs remain.
+The selected design retains 16-bit metrics, 32 ACS and the existing RS schedule.
+The next timing target is the survivor traceback selection path: the measured
+65 MHz runs report 8.95 ns logic + 4.45 ns routing (core) and 8.20 + 4.02 ns
+(mem). These are whole-design critical paths after metric storage was improved.
+
+Twenty-one unittest methods pass, including 4000 independent 32-ACS steps at
+widths 16/10, a reset between phases, and constant-RS budget/stream/arithmetic
+checks. Observed constant-RS maximum is 3217 clocks versus the conservative
+3502 bound; the legacy ISDB-S block deadline at 65 MHz is 3675 clocks.
+110 MHz margin, bounded pipeline integration, physical PSRAM timing and
+ARIB-compatible correction vectors remain unestablished.
+
+## Original 16-ACS required work rate
 
 [ARIB/DiBEG's transmission parameters](https://www.dibeg.org/techp/structure/)
 list RS(204,188) and a maximum useful TS rate of approximately 23.234 Mbit/s.
@@ -34,7 +64,7 @@ pipeline. The report explicitly says end-to-end throughput is unmeasured.
 Any added pipeline latency must be included in the RS block service deadline.
 A faster clock with more cycles per block can still fail this rate contract.
 
-## Existing RS cycle budget
+## Baseline serialized RS cycle budget
 
 The current serialized FSM (two separate multiplier paths, unchanged scheduling) has a conservative bound for degree <=8 and
 at most eight correction positions:
@@ -64,7 +94,7 @@ matching output bytes and fail; it does not prove
 RS correction accuracy or exhaust all error patterns. The analytical bound and
 observed test maximum are deliberately kept separate.
 
-## Implemented improvements and remaining work
+## Historical 16-ACS improvements and proposed work
 
 The [first optimization report](performance-optimization.md) records
 coefficient/GF-operand prefetch, DSP-based carryless GF products and parallel
@@ -80,11 +110,11 @@ measures two-way (8 or 12 DSP), four-way (20 DSP) and constant-factor transforms
 The analytical bounds fall to 5134, 4318 and 3502 respectively. RS clock floors
 become 79.34, 66.73 and 54.12 MHz; **shared clock floor remains 100.88 MHz because
 Viterbi remains four clocks/step**. Their memory-inclusive capacity regresses at
-actual routed Fmax, so the current RTL and 6766-clock bound remain adopted.
+actual routed Fmax, so the 16-ACS baseline retained the 6766-clock bound.
 Historical noisy maximum 6518 used a different stimulus; it is not the baseline
 of the new equal-input comparison.
 
-| Order | Remaining change | Required check |
+| Order | Historical proposed change | Required check |
 |---|---|---|
 | 1 | Make syndrome parallelism fit the timing/fanout of both complete designs; shorten remaining RS FSM paths | routed clock plus RS service bound; compare shared-clock capacity in both core and mem |
 | 2 | Study 32 ACS / two clocks per step if a lower Viterbi floor is needed | memory ports, BSRAM/LUT/DSP budget, actual architecture and recurrence correctness |
@@ -97,7 +127,7 @@ The 110-MHz target remains unchanged. Transition/write predicate prefetch was
 also tested in seven variants; none improved both routed designs. See the new
 comparison for exact measurements and candidate sources.
 
-The existing metric store already uses 16 BSRAMs; with survivor and RS storage
+The 16-ACS metric store uses 16 BSRAMs; with survivor and RS storage
 it uses 19 of 26 before additional stream buffering; RS now uses eight of twenty
 MULT18X18 cells. All changes must fit the
 remaining physical resources. There are credible design options, but a

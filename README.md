@@ -4,27 +4,65 @@ Resource/timing benchmark for an ISDB-T-oriented FEC partition on Sipeed Tang Na
 
 The benchmark answers a specific sizing question:
 
-> Can a 16-ACS, K=7 Viterbi decoder with 8-bit soft metrics, a compact RS(204,188) decoder, and a small two-channel PSRAM protocol controller fit and meet the clock budget on Tang Nano 9K?
+> Can a K=7 Viterbi decoder with 8-bit soft metrics, an RS(204,188) decoder, and a small two-channel PSRAM protocol controller fit and meet the clock budget on Tang Nano 9K?
 
 ## Throughput target
 
 The workload stays at full ISDB-T 6-MHz, 13-segment capacity. From the published
 maximum TS rate and RS overhead, use an upward-rounded **25.22 Mstep/s** profile.
-The current 16 ACS lanes require four clocks/step, hence **100.88 MHz** for
-Viterbi alone. **110 MHz remains the routed implementation target.**
+The 16-ACS baseline requires four clocks/step, hence **100.88 MHz** for
+Viterbi alone. The 9K optimization uses **32 ACS / two clocks per step** plus
+constant 16-way RS syndrome updates. Its conservative shared clock floors are
+**54.12 MHz for ISDB-T** and **61.93 MHz for the legacy ISDB-S sizing profile**.
+Separate **65 MHz feasibility jobs** measure this configuration; **110 MHz
+remains the margin target** in the original comparison jobs.
 
-The serialized RS engine must also finish a complete 204-byte block, including
+The baseline serialized RS engine must also finish a complete 204-byte block, including
 188-byte output, in **7118 clocks at 110 MHz**. Its conservative degree-8 bound
 is 6766 clocks; adding pipeline cycles without checking the service rate can
 break throughput even after timing improves. See the
 [performance contract and concrete next steps](reports/performance.md).
 The job driver/report/test share [performance.json](ci/performance.json).
 
-Target FPGA: **GW1NR-LV9QN88PC6/I5**. This ISDB-T profile does not yet size ISDB-S.
+Optimization target FPGA: **GW1NR-LV9QN88PC6/I5**. The legacy ISDB-S rate is a
+sizing profile, not a qualified satellite receiver implementation.
+
+## Current 9K result
+
+At 65 MHz constraint and common seed 4, both complete 32-ACS + constant-RS
+designs finish placement and routing and clear both workload clock floors:
+
+| Variant | LUT4 | FF | BSRAM | MULT18X18 | Routed Fmax | 65 MHz | 110 MHz margin |
+|---|---:|---:|---:|---:|---:|---|---|
+| `core-32acs-rsconst` | 4879 | 2479 | 3 | 8 | **74.65 MHz** | PASS | FAIL |
+| `mem-32acs-rsconst` | 5040 | 2617 | 3 | 8 | **81.86 MHz** | PASS | FAIL |
+
+The 32-ACS metric store now updates 64 words in place and saves only the 16
+predecessors that phase 0 would overwrite before phase 1 reads them. This
+replaces 128 ping-pong words with 80 words, retains 16-bit metrics and two
+clocks/step, and removes 769 packed FFs from each complete design. The full
+suite passes **21 unittest methods**, including independent 16/10-bit metric
+recurrence, a reset between phases, and constant-RS arithmetic/stream/budget
+checks. See [measurements, the original seed sweep and reproduction](reports/9k-feasibility.md)
+and [machine-readable evidence](reports/9k-feasibility.json).
+
+The remaining 110 MHz gap is visible in CI. End-to-end sustained throughput,
+ARIB-compatible correction qualification and a physical PSRAM interface remain
+outside the measured scope.
 
 ## RTL
 
 ### Viterbi
+
+`rtl/viterbi_k7_32acs.sv` is the current 9K optimization:
+
+- 32 ACS lanes, two clocks per trellis step
+- 64 in-place path metrics plus 16 shadow predecessors
+- static destination writes and phase-only predecessor selection
+- 16-bit benchmark metrics, two-clock reset initialization
+- two survivor BSRAMs; no metric BSRAMs
+
+The 16-ACS baseline remains available:
 
 `rtl/viterbi_k7_16acs.sv`
 
@@ -56,6 +94,11 @@ The RS block is deliberately serialized to minimize logic:
 
 This architecture is intended to represent a small hardware decoder, not the large fully-parallel generic RS cores that inflate the sizing estimate.
 
+The `*-32acs-rsconst` variants select `experiments/rs_syndrome_constants.sv`:
+16 constant-factor XOR syndrome updates on the byte acceptance clock, followed
+by the same serialized BM/Chien/Forney work. Its conservative service bound is
+**3502 clocks/block**, versus 6766 for the baseline. Both use eight DSPs.
+
 **Important:** the shortened-code symbol-position convention and final Forney correction mapping still need bit-exact validation against ARIB-compatible test vectors. Until then, this block is suitable for **resource/timing sizing**, not as a production-qualified RS decoder.
 
 ### Memory controller
@@ -82,7 +125,8 @@ The reference sources are not vendored.
 
 ## CI variants
 
-Four 9K-only jobs run:
+The original matrix retains 9K and inherited 20K comparison/regression jobs
+at the 110 MHz margin target. Optimization measurements target 9K only.
 
 | Job | Viterbi | RS | Memory | Measurement |
 |---|---:|---:|---|---|
@@ -90,6 +134,17 @@ Four 9K-only jobs run:
 | `9k / mem` | yes | yes | PSRAM, two x8 channels | synthesis + P&R |
 | `9k / viterbi-only` | yes | no | none | synthesis + packing |
 | `9k / rs-only` | no | yes | none | synthesis + packing |
+| `9k / core-32acs` | 32 ACS | serialized | none | synthesis + P&R |
+| `9k / mem-32acs` | 32 ACS | serialized | PSRAM | synthesis + P&R |
+| `9k / viterbi-32acs` | 32 ACS | no | none | synthesis + packing |
+| `9k / core-32acs-rsconst` | 32 ACS | constant 16-way | none | synthesis + P&R |
+| `9k / mem-32acs-rsconst` | 32 ACS | constant 16-way | PSRAM | synthesis + P&R |
+
+Two additional jobs run `core-32acs-rsconst` and `mem-32acs-rsconst` at
+**65 MHz / seed 4**. Their names and artifacts include `65 MHz`/`65mhz`.
+The driver accepts `--freq` and `--seed`; without them it retains 110 MHz /
+seed 4 from `ci/performance.json`. Overrides change placement constraints,
+not workload rates or service bounds.
 
 The same decoder RTL is used in core and mem. Diagnostics disable exactly one
 decoder; packing success does not establish a fit or achieved timing.
@@ -106,19 +161,20 @@ GitHub Actions uses OSS CAD Suite 2026-10-04:
 
 The CI does place-and-route, not synthesis-only, so timing is based on a routed design.
 
-## Result
+## Historical 16-ACS results
 
 Measurements use the pinned toolchain below; resources are consistently the
 **packed utilization before placement**, including overflow. Final JSON utilization
 can account for shared LUT/ALU/RAM occupancy differently and is retained as raw
 evidence, but is not mixed into this comparison. DSP usage is listed explicitly per measured variant.
 
-The current decoder RTL and common seed 4 remain those published at
+The historical 16-ACS decoder RTL and common seed 4 were published at
 [`8754c5f`](https://github.com/kazuki0824/tangviterbi/commit/8754c5f92991d107bf62ee7f978f69cfe847e61f).
-The latest comparison tests syndrome parallelism with 8, 12 and 20 DSPs, and
+That comparison tested syndrome parallelism with 8, 12 and 20 DSPs, and
 constant-factor XOR transforms. They reduce RS service clocks but regress the
-memory-inclusive capacity at their measured routed clocks, so they remain
-isolated experiments. No workload or timing requirement is relaxed.
+memory-inclusive capacity at their measured routed clocks, so those 16-ACS
+measurements remained isolated experiments. The current 32-ACS combination is
+measured separately above. No workload rate is reduced.
 
 | Variant | LUT4 | FF | BSRAM | MULT18X18 | Routed Fmax | 110 MHz |
 |---|---:|---:|---:|---:|---:|---|
