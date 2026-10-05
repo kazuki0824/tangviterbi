@@ -116,6 +116,12 @@ repacking/replacing aborts at `array2d.h:78` (`x >= 0 && x < m_width`).
 Thus this investigation has the normal critical-path reports, not a new
 near-critical-path census. No conclusion is based on incomplete routing.
 
+**Follow-up:** [normal P&R with detailed reporting](endpoint-arrivals.md)
+works in both variants and reproduces the baseline physical result. The
+JSON-reload failure above is therefore specific to that attempted method.
+The follow-up records endpoint arrivals and physical locations; those
+arrivals are screening data, not complete setup paths or per-endpoint slack.
+
 ## Decision and the next useful evidence
 
 **Retain baseline RTL, seed 1 and default P&R settings.** No new performance
@@ -132,6 +138,8 @@ routed trials and preserve GF results, output ordering and cycle budgets.
 The two nextpnr assertions above block the attempted supplementary methods;
 normal P&R remains usable. This is an evidence requirement, not a claim
 that further optimization is impossible.
+The linked follow-up supplies a usable diagnostic method and identifies
+repeated RS data/control endpoint families for the next cone investigation.
 
 There is a separate remaining functional question: sustained Viterbi -> RS
 stream service, convolutional output against transmitted bits, ARIB RS
