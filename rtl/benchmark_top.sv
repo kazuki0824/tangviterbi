@@ -1,7 +1,8 @@
 module benchmark_top #(
     parameter integer WITH_MEM = 0,
     parameter integer WITH_VITERBI = 1,
-    parameter integer WITH_RS = 1
+    parameter integer WITH_RS = 1,
+    parameter integer VITERBI_ACS = 16
 ) (
     input  wire clk,
     input  wire resetn,
@@ -44,22 +45,37 @@ module benchmark_top #(
         end
     end
 
-    generate if (WITH_VITERBI) begin : g_viterbi
-    viterbi_k7_16acs u_viterbi (
-        .clk(clk),
-        .resetn(resetn),
-        .in_valid(vit_ready),
-        .in_ready(vit_ready),
-        .soft0(lfsr[7:0]),
-        .soft1(lfsr[15:8]),
-        .out_valid(vit_valid),
-        .out_bit(vit_bit)
-    );
-    end else begin : g_no_viterbi
-        assign vit_ready = 1'b0;
-        assign vit_valid = 1'b0;
-        assign vit_bit = 1'b0;
-    end endgenerate
+    generate
+        if (WITH_VITERBI) begin : g_viterbi
+            if (VITERBI_ACS == 32) begin : g_32acs
+                viterbi_k7_32acs u_viterbi (
+                    .clk(clk),
+                    .resetn(resetn),
+                    .in_valid(vit_ready),
+                    .in_ready(vit_ready),
+                    .soft0(lfsr[7:0]),
+                    .soft1(lfsr[15:8]),
+                    .out_valid(vit_valid),
+                    .out_bit(vit_bit)
+                );
+            end else begin : g_16acs
+                viterbi_k7_16acs u_viterbi (
+                    .clk(clk),
+                    .resetn(resetn),
+                    .in_valid(vit_ready),
+                    .in_ready(vit_ready),
+                    .soft0(lfsr[7:0]),
+                    .soft1(lfsr[15:8]),
+                    .out_valid(vit_valid),
+                    .out_bit(vit_bit)
+                );
+            end
+        end else begin : g_no_viterbi
+            assign vit_ready = 1'b0;
+            assign vit_valid = 1'b0;
+            assign vit_bit = 1'b0;
+        end
+    endgenerate
 
     generate if (WITH_RS) begin : g_rs
     rs204_188_compact u_rs (

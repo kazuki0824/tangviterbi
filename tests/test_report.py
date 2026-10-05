@@ -120,6 +120,28 @@ class ReportTests(unittest.TestCase):
                               ("FAIL" if syndrome_cycles == 16 else "PASS") + "**", result)
                 self.assertIn("110 MHz timing criterion: **FAIL**", result)
 
+    def test_32acs_constant_rs_exposes_terrestrial_and_satellite_floors(self):
+        settings = json.loads(Path("ci/performance.json").read_text())
+        profile = {
+            **settings,
+            "acs_lanes": 32,
+            "rs_syndrome_cycles_per_byte": 0,
+        }
+        result = self.report(
+            "Info: Routing complete.\n",
+            {"fmax": {"clk": {"achieved": 80}}},
+            rc=1,
+            performance=profile,
+        )
+        self.assertIn("50.44 MHz Viterbi clock criterion: **PASS**", result)
+        self.assertIn("Minimum RS clock from cycle budget: **54.12 MHz**", result)
+        self.assertIn("Minimum shared clock from cycle budgets: **54.12 MHz**", result)
+        self.assertIn("ISDB-S Viterbi clock criterion: **57.72 MHz (PASS)**", result)
+        self.assertIn("ISDB-S minimum RS clock from cycle budget: **61.93 MHz**", result)
+        self.assertIn("ISDB-S minimum shared clock from cycle budgets: **61.93 MHz**", result)
+        self.assertIn("ISDB-S hard throughput clock criterion: **PASS**", result)
+        self.assertIn("110 MHz timing criterion: **FAIL**", result)
+
 
 if __name__ == "__main__":
     unittest.main()
