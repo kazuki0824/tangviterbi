@@ -10,11 +10,9 @@ import shutil
 import subprocess
 
 
-def run_pnr(command, cwd, output, diagnostic=False):
+def run_pnr(command, cwd, output):
     env = dict(os.environ)
     env.pop("NEXTPNR_ENDPOINT_DIAGNOSTICS", None)
-    if diagnostic:
-        env["NEXTPNR_ENDPOINT_DIAGNOSTICS"] = "1"
     with output.open("w") as log:
         result = subprocess.run(command, cwd=cwd, env=env, stdout=log,
                                 stderr=subprocess.STDOUT, timeout=900)
@@ -83,13 +81,13 @@ def main():
         common = ["--json", "build/design.json", "--device", "GW1NR-LV9QN88PC6/I5",
                   "--vopt", "family=GW1N-9C", "--vopt", "cst=constraints/tangnano9k.cst",
                   "--freq", "110", "--seed", "1"]
-        modes = (("official", official, False), ("control", str(instrumented), False),
-                 ("diagnostic", str(instrumented), True))
+        modes = (("official", official), ("control", str(instrumented)),
+                 ("diagnostic", str(instrumented)))
         logs, reports, exits = {}, {}, {}
-        for name, binary, enabled in modes:
+        for name, binary in modes:
             report_path = case / f"{name}.json"
             command = [binary, *common, "--report", str(report_path), "--detailed-timing-report"]
-            logs[name], exits[name] = run_pnr(command, case, case / f"{name}.log", enabled)
+            logs[name], exits[name] = run_pnr(command, case, case / f"{name}.log")
             reports[name] = json.loads(report_path.read_text())
         checksums = {name: re.findall(r"Checksum: 0x([0-9a-f]+)", log)
                      for name, log in logs.items()}

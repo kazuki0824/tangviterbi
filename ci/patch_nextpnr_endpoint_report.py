@@ -8,8 +8,7 @@ ANCHOR = "            clock_reports[launch.clock] = build_critical_path_report(i
 EXTRA = r'''
             // Diagnostic only: retain tied endpoints and expose the engine's
             // setup slack plus a complete path. Normal Fmax and P&R are unchanged.
-            if (std::getenv("NEXTPNR_ENDPOINT_DIAGNOSTICS") != nullptr &&
-                ctx->settings.count(ctx->id("diagnostics/final_report"))) {
+            if (ctx->settings.count(ctx->id("diagnostics/final_report"))) {
                 std::vector<CellPortKey> diagnostic_endpoints;
                 for (const auto &ep : domains.at(dp.key.capture).endpoints) {
                     const auto &pd = ports.at(ep.first);
@@ -39,7 +38,7 @@ EXTRA = r'''
 REPORT_ANCHOR = "        ctx->writeJsonReport(f);\n"
 REPORT_PRELUDE = '''        // Re-analyse only after routing has finished. Earlier timing reports
         // are used by the placer and router; diagnostic paths must not feed them.
-        if (std::getenv("NEXTPNR_ENDPOINT_DIAGNOSTICS") != nullptr) {
+        if (std::filesystem::path(filename).filename() == "diagnostic.json") {
             ctx->settings[ctx->id("diagnostics/final_report")] = std::to_string(1);
             timing_analysis(ctx.get(), false, true, false, false, true);
         }
@@ -47,9 +46,9 @@ REPORT_PRELUDE = '''        // Re-analyse only after routing has finished. Earli
 
 
 def patch_timing(source):
-    if source.count(ANCHOR) != 1 or "NEXTPNR_ENDPOINT_DIAGNOSTICS" in source:
+    if source.count(ANCHOR) != 1 or "diagnostics/final_report" in source:
         raise ValueError("Unexpected or already patched timing source")
-    return "#include <cstdlib>\n" + source.replace(ANCHOR, ANCHOR + EXTRA)
+    return source.replace(ANCHOR, ANCHOR + EXTRA)
 
 
 def patch_chipdb_build(source):
@@ -65,7 +64,7 @@ def patch_chipdb_build(source):
 def patch_report_writer(source):
     if source.count(REPORT_ANCHOR) != 1 or "diagnostics/final_report" in source:
         raise ValueError("Unexpected or already patched report writer")
-    return "#include <cstdlib>\n" + source.replace(REPORT_ANCHOR, REPORT_PRELUDE + REPORT_ANCHOR)
+    return source.replace(REPORT_ANCHOR, REPORT_PRELUDE + REPORT_ANCHOR)
 
 
 def main():
