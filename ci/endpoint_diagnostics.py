@@ -73,7 +73,10 @@ def main():
         for folder in ("rtl", "ci", "constraints", "experiments"):
             shutil.copytree(repo / folder, case / folder, dirs_exist_ok=True)
         (case / "build").mkdir(exist_ok=True)
-        script = repo / "reports/survivor-prefetch" / f"{label}-110-seed1.synth.ys"
+        # Frequency is a nextpnr constraint, not part of this synthesis script.
+        script = repo / "reports/survivor-prefetch" / f"{label}-65-seed1.synth.ys"
+        if not script.is_file():
+            raise FileNotFoundError(f"Missing recorded synthesis script: {script}")
         with (case / "synth.log").open("w") as log:
             subprocess.run(["yosys", "-s", str(script)], cwd=case, stdout=log,
                            stderr=subprocess.STDOUT, check=True, timeout=900)
