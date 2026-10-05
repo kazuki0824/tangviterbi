@@ -18,6 +18,16 @@ jobs:
         board: [9k, 20k]
         variant: [core-only, mem, viterbi-only, rs-only]
         include:
+          - board: 9k
+            variant: core-32acs
+          - board: 9k
+            variant: mem-32acs
+          - board: 9k
+            variant: viterbi-32acs
+          - board: 9k
+            variant: core-32acs-rsconst
+          - board: 9k
+            variant: mem-32acs-rsconst
           - board: 20k
             variant: core-32acs
           - board: 20k
