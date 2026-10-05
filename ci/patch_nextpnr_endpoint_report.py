@@ -40,7 +40,7 @@ REPORT_ANCHOR = "        ctx->writeJsonReport(f);\n"
 REPORT_PRELUDE = '''        // Re-analyse only after routing has finished. Earlier timing reports
         // are used by the placer and router; diagnostic paths must not feed them.
         if (std::getenv("NEXTPNR_ENDPOINT_DIAGNOSTICS") != nullptr) {
-            ctx->settings[ctx->id("diagnostics/final_report")] = "1";
+            ctx->settings[ctx->id("diagnostics/final_report")] = std::to_string(1);
             timing_analysis(ctx.get(), false, true, false, false, true);
         }
 '''
