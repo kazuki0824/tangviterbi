@@ -3,69 +3,77 @@ module rs_equivalence_tb;
     reg clk = 0;
     always #5 clk = ~clk;
     reg resetn = 0;
-    reg in_valid = 0;
-    reg [7:0] in_byte = 0;
+    reg in_valid = 0, ref_in_valid = 0;
+    reg [7:0] in_byte = 0, ref_in_byte = 0;
     wire ready, ref_ready, valid, ref_valid, fail, ref_fail;
     wire [7:0] data_out, ref_out;
     reg [31:0] rng = 32'h18a726bd;
-    integer epoch, cycle, accepted, emitted;
+    reg [7:0] packet [0:203];
+    reg [7:0] actual [0:187], expected [0:187];
+    integer epoch, cycle, accepted, ref_accepted, emitted, ref_emitted, symbol, interruption;
     rs204_188_compact dut(clk, resetn, in_valid, ready, in_byte, valid, data_out, fail);
-    rs204_188_compact_reference ref_dut(clk, resetn, in_valid, ref_ready, in_byte, ref_valid, ref_out, ref_fail);
-    always @(negedge clk) begin
-        if (resetn) begin
-            if ({ready, valid, fail} !== {ref_ready, ref_valid, ref_fail})
-                $fatal(1, "control mismatch epoch=%0d cycle=%0d", epoch, cycle);
-            if (valid && data_out !== ref_out)
-                $fatal(1, "output mismatch epoch=%0d byte=%0d: %h != %h", epoch, emitted, data_out, ref_out);
-        end
-    end
+    rs204_188_compact_reference ref_dut(clk, resetn, ref_in_valid, ref_ready, ref_in_byte, ref_valid, ref_out, ref_fail);
+
     initial begin
-        // Zero, eight-root, noisy, and stalled blocks; some run consecutively
-        // without resetting the decoder so block reset/prefetch are exercised.
-        // The added blocks vary 1..8 injected symbols with three byte values.
+        // Independent handshakes feed the same codeword to both decoders.
+        // Different latency is permitted; byte count, byte order and fail are not.
         for (epoch = 0; epoch < 48; epoch = epoch + 1) begin
-            if ((epoch % 3) == 0) begin
-                @(negedge clk); resetn = 0; in_valid = 0;
+            if ((epoch % 4) == 0) begin
+                @(negedge clk); resetn = 0; in_valid = 0; ref_in_valid = 0;
+                repeat (3) @(negedge clk);
+                resetn = 1;
+                interruption = epoch / 4;
+                // Abort different processing phases, then decode a clean block.
+                for (cycle = 0; cycle < 400 + interruption * 490; cycle = cycle + 1) begin
+                    @(negedge clk);
+                    rng = {rng[30:0], rng[31] ^ rng[21] ^ rng[1] ^ rng[0]};
+                    in_valid = ready; ref_in_valid = ref_ready;
+                    in_byte = rng[15:8]; ref_in_byte = rng[15:8];
+                end
+                @(negedge clk); resetn = 0; in_valid = 0; ref_in_valid = 0;
                 repeat (3) @(negedge clk);
                 resetn = 1;
             end
-            accepted = 0; emitted = 0;
-            for (cycle = 0; cycle < 9000 && emitted < 188; cycle = cycle + 1) begin
+            for (symbol = 0; symbol < 204; symbol = symbol + 1) begin
+                rng = {rng[30:0], rng[31] ^ rng[21] ^ rng[1] ^ rng[0]};
+                if (epoch >= 24)
+                    packet[symbol] = (symbol < (1 + epoch % 8)) ?
+                                     ((epoch < 32) ? 8'h01 : (epoch < 40) ? 8'h53 : 8'ha7) : 0;
+                else if ((epoch % 6) == 0) packet[symbol] = 0;
+                else if ((epoch % 6) == 1) packet[symbol] = (symbol < 8) ? 1 : 0;
+                else packet[symbol] = rng[15:8];
+            end
+            accepted = 0; ref_accepted = 0; emitted = 0; ref_emitted = 0;
+            for (cycle = 0; cycle < 10000 && (emitted < 188 || ref_emitted < 188); cycle = cycle + 1) begin
                 @(negedge clk);
                 rng = {rng[30:0], rng[31] ^ rng[21] ^ rng[1] ^ rng[0]};
                 in_valid = (accepted < 204) && ((rng & 7) != 0);
-                if (epoch >= 24)
-                    in_byte = (accepted < (1 + epoch % 8)) ?
-                              ((epoch < 32) ? 8'h01 : (epoch < 40) ? 8'h53 : 8'ha7) : 0;
-                else if ((epoch % 6) == 0) in_byte = 0;
-                else if ((epoch % 6) == 1) in_byte = (accepted < 8) ? 1 : 0;
-                else in_byte = rng[15:8];
+                ref_in_valid = (ref_accepted < 204) && (((rng >> 3) & 7) != 0);
+                in_byte = (accepted < 204) ? packet[accepted] : 0;
+                ref_in_byte = (ref_accepted < 204) ? packet[ref_accepted] : 0;
                 @(posedge clk);
                 if (in_valid && ready) accepted = accepted + 1;
+                if (ref_in_valid && ref_ready) ref_accepted = ref_accepted + 1;
                 #1;
-                if (valid) emitted = emitted + 1;
+                if (valid) begin
+                    if (emitted >= 188) $fatal(1, "extra DUT output epoch=%0d", epoch);
+                    actual[emitted] = data_out; emitted = emitted + 1;
+                end
+                if (ref_valid) begin
+                    if (ref_emitted >= 188) $fatal(1, "extra reference output epoch=%0d", epoch);
+                    expected[ref_emitted] = ref_out; ref_emitted = ref_emitted + 1;
+                end
             end
-            if (emitted != 188 || accepted != 204)
+            if (emitted != 188 || ref_emitted != 188 || accepted != 204 || ref_accepted != 204)
                 $fatal(1, "incomplete block epoch=%0d", epoch);
-            @(negedge clk); in_valid = 0;
+            if (fail !== ref_fail) $fatal(1, "fail mismatch epoch=%0d", epoch);
+            for (symbol = 0; symbol < 188; symbol = symbol + 1)
+                if (actual[symbol] !== expected[symbol])
+                    $fatal(1, "output mismatch epoch=%0d byte=%0d: %h != %h", epoch, symbol, actual[symbol], expected[symbol]);
+            @(negedge clk); in_valid = 0; ref_in_valid = 0;
             repeat (3) @(posedge clk);
         end
-        // Abort processing in multiple phases and restart with a clean block.
-        for (epoch = 0; epoch < 12; epoch = epoch + 1) begin
-            @(negedge clk); resetn = 0; in_valid = 0;
-            repeat (2) @(negedge clk);
-            resetn = 1;
-            for (cycle = 0; cycle < 400 + epoch * 490; cycle = cycle + 1) begin
-                @(negedge clk);
-                rng = {rng[30:0], rng[31] ^ rng[21] ^ rng[1] ^ rng[0]};
-                in_valid = ready; in_byte = rng[15:8];
-            end
-            @(negedge clk); resetn = 0; in_valid = 0;
-            repeat (2) @(negedge clk);
-            resetn = 1;
-            repeat (4) @(posedge clk);
-        end
-        $display("PASS: RS cycle-exact equivalence, 48 blocks (including 1..8 injected symbols) and 12 reset interruptions");
+        $display("PASS: RS latency-independent equivalence, 48 blocks and 12 reset interruptions followed by clean blocks");
         $finish;
     end
 endmodule

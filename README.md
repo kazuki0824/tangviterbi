@@ -113,33 +113,36 @@ Measurements use the pinned toolchain below; resources are consistently the
 can account for shared LUT/ALU/RAM occupancy differently and is retained as raw
 evidence, but is not mixed into this comparison. DSP usage is listed explicitly per measured variant.
 
-The latest measurements keep the decoder/controller RTL from
-[`7670242`](https://github.com/kazuki0824/tangviterbi/commit/7670242ee36b6d122c34f816560f57ad0c984187)
-and use **common placement seed 4** for both full designs. Eleven RTL alternatives
-and three common seeds were compared; seed 4 improves both variants without
-extra DSPs or cycles. OSS CAD Suite 2026-10-04, CST, synthesis settings and the
-110-MHz target remain unchanged. Previous default-seed results are verified by
-[CI run 37242331746](https://github.com/kazuki0824/tangviterbi/actions/runs/37242331746).
+The current decoder RTL and common seed 4 remain those published at
+[`8754c5f`](https://github.com/kazuki0824/tangviterbi/commit/8754c5f92991d107bf62ee7f978f69cfe847e61f).
+The latest comparison tests syndrome parallelism with 8, 12 and 20 DSPs, and
+constant-factor XOR transforms. They reduce RS service clocks but regress the
+memory-inclusive capacity at their measured routed clocks, so they remain
+isolated experiments. No workload or timing requirement is relaxed.
 
-| Variant | LUT4 | FF | BSRAM | MULT18X18 | Routed Fmax default → seed 4 | 110 MHz |
+| Variant | LUT4 | FF | BSRAM | MULT18X18 | Routed Fmax | 110 MHz |
 |---|---:|---:|---:|---:|---:|---|
-| core-only | 4052 | 1775 | 19 | 8 | 83.80 → 87.61 MHz | FAIL |
-| mem | 4217 | 1913 | 19 | 8 | 88.57 → 91.18 MHz | FAIL |
+| core-only | 4052 | 1775 | 19 | 8 | 87.61 MHz | FAIL |
+| mem | 4217 | 1913 | 19 | 8 | 91.18 MHz | FAIL |
 | viterbi-only | 2440 | 792 | 18 | 0 | not routed | unknown |
 | rs-only | 1992 | 1015 | 1 | 8 | not routed | unknown |
 
-Core / mem Fmax improves by 4.55% / 2.95%; packed resource counts are unchanged.
-Both complete routing but still fail 110 MHz and the full-rate clock floors.
-A fresh synthesis-and-routing run reproduces the seed sweep. Seed 4 is recorded
-in `ci/performance.json`, passed to nextpnr and shown in the job summary.
-The sixteen tests include exhaustive GF products, cycle-exact RS comparison
-for 48 blocks plus twelve processing reset interruptions, service deadlines
-and 4000 Viterbi recurrence/output steps. RS service clocks and four Viterbi
-clocks/step are unchanged.
+Both full designs complete routing but fail the 110-MHz margin target and the
+104.56-MHz shared hard throughput floor. CI summaries now separately report the
+conservative RS service bound, RS minimum clock, shared minimum clock and target.
+The full suite has seventeen unittest methods. The RS budget comparison feeds
+identical precomputed codewords to both decoders: zero 3658 clocks, eight-root
+6458, noisy observed maximum 6481, with unchanged conservative bound 6766.
+Historical 6518-clock noisy results used a different clock-dependent stimulus.
+Stream comparison permits changed latency while checking output order and fail,
+48 blocks, 1..8-symbol injections, stalls and twelve reset interruptions.
+Viterbi remains four clocks/step and its independent 4000-step test is unchanged.
 
-[Latest search, comparison and remaining paths](reports/routing-search.md)
-include [measurement JSON and exact RTL hashes](reports/routing-search.json).
-The [coefficient/control improvement](reports/control-storage.md),
+[Latest syndrome comparison, rejection reasons and reproduction](reports/syndrome-search.md)
+includes [measurement JSON, exact RTL hashes and derived clock floors](reports/syndrome-search.json).
+Candidate RTL and a unittest runner live in `experiments/` and are excluded from
+normal synthesis. The [previous timing search](reports/routing-search.md),
+[coefficient/control improvement](reports/control-storage.md),
 [first optimization stage](reports/performance-optimization.md),
 [historical metric BSRAM results](reports/metric-storage.md) and
 [performance contract](reports/performance.md) remain available.

@@ -71,7 +71,7 @@ class RtlTests(unittest.TestCase):
             ], check=True)
             subprocess.run(["vvp", program], check=True, timeout=30)
 
-    def test_rs_prefetch_matches_frozen_reference(self):
+    def test_rs_stream_matches_frozen_reference(self):
         with tempfile.TemporaryDirectory() as temp:
             program = str(Path(temp) / "rs-equivalence")
             subprocess.run([
@@ -91,7 +91,8 @@ class RtlTests(unittest.TestCase):
             subprocess.run([
                 "iverilog", "-g2012", "-s", "rs_budget_tb",
                 f"-Prs_budget_tb.MAX_CYCLES={deadline}", "-o", program,
-                "rtl/rs204_188_compact.sv", "tests/rs_budget_tb.sv",
+                f"-Prs_budget_tb.EXPECTED_SAVING={(16-performance['rs_syndrome_cycles_per_byte'])*performance['rs_codeword_bytes']}",
+                "rtl/rs204_188_compact.sv", "tests/fixtures/rs_reference.sv", "tests/rs_budget_tb.sv",
             ], check=True)
             subprocess.run(["vvp", program], check=True, timeout=30)
 

@@ -18,6 +18,13 @@ performance = json.loads(Path(__file__).with_name("performance.json").read_text(
 target_mhz = performance["target_clock_mhz"]
 minimum_viterbi_mhz = (performance["trellis_steps_per_second"] *
                        performance["viterbi_cycles_per_step"] / 1e6)
+rs_bound = (performance["rs_codeword_bytes"] *
+            (1 + performance["rs_syndrome_cycles_per_byte"]) +
+            performance["rs_other_bound_cycles"])
+minimum_rs_mhz = (rs_bound * performance["trellis_steps_per_second"] /
+                  (performance["rs_codeword_bytes"] * 8 * 1e6))
+clock_floor = {"rs-only": minimum_rs_mhz, "viterbi-only": minimum_viterbi_mhz}.get(
+    a.variant, max(minimum_rs_mhz, minimum_viterbi_mhz))
 
 report = {}
 rp = Path(a.report)
@@ -95,7 +102,13 @@ else:
 if a.seed is not None:
     seed_scope = "Configured seed (packing only)" if a.pack_only else "Placement/routing seed"
     print(f"- {seed_scope}: **{a.seed}**")
-print(f"- {minimum_viterbi_mhz:g} MHz Viterbi clock criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= minimum_viterbi_mhz else 'FAIL')}**")
+if a.variant != "rs-only":
+    print(f"- {minimum_viterbi_mhz:g} MHz Viterbi clock criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= minimum_viterbi_mhz else 'FAIL')}**")
+if a.variant != "viterbi-only":
+    print(f"- Conservative RS service bound: **{rs_bound} clocks/block**")
+    print(f"- Minimum RS clock from cycle budget: **{minimum_rs_mhz:.2f} MHz**")
+print(f"- Minimum shared clock from cycle budgets: **{clock_floor:.2f} MHz**")
+print(f"- Hard throughput clock criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= clock_floor else 'FAIL')}**")
 print("- End-to-end sustained throughput: **not measured by the sizing harness**")
 print(f"- {target_mhz:g} MHz timing criterion: **{margin}**")
 if fmax is not None:

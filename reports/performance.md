@@ -55,10 +55,12 @@ proof that the complete serialized RS architecture meets its block deadline.
 110 MHz remains the target, leaving only 352 clocks/block against this bound.
 Blindly doubling GF-operation latency would consume more than this slack.
 
-The new `rs_budget_tb` measures service time for zero-error, eight injected
+The current `rs_budget_tb` measures service time for zero-error, eight injected
 errors into an all-zero codeword, and eight deterministic noisy blocks. At the
-measured decoder revision these take 3658, 6458 and up to 6518 clocks/block.
-The test enforces the profile deadline and 188 output bytes; it does not prove
+measured decoder revision these take 3658, 6458 and up to 6481 clocks/block.
+The bench precomputes identical codewords for the current decoder and frozen
+reference, independently of readiness. It enforces the profile deadline, 188
+matching output bytes and fail; it does not prove
 RS correction accuracy or exhaust all error patterns. The analytical bound and
 observed test maximum are deliberately kept separate.
 
@@ -71,15 +73,29 @@ adds registered one-hot read/write masks, constant coefficient writers, two
 separate GF operand paths and byte-prefetched traceback. These preserve the
 6766-clock conservative RS bound and four Viterbi clocks/step. The [latest timing search](routing-search.md) keeps this RTL and uses common
 placement seed 4: core and PSRAM-inclusive timing reach 87.61 and 91.18 MHz,
-still below all required clock floors. Sixteen tests include all GF operand pairs, 48 cycle-exact old/new
-RS blocks plus twelve processing reset interruptions, and 4000 Viterbi steps.
+still below all required clock floors. Seventeen tests include all GF operand pairs, 48 latency-independent old/new
+RS blocks plus twelve reset interruptions, 4000 Viterbi steps and separate
+RS/shared-clock reporting. The [latest syndrome comparison](syndrome-search.md)
+measures two-way (8 or 12 DSP), four-way (20 DSP) and constant-factor transforms.
+The analytical bounds fall to 5134, 4318 and 3502 respectively. RS clock floors
+become 79.34, 66.73 and 54.12 MHz; **shared clock floor remains 100.88 MHz because
+Viterbi remains four clocks/step**. Their memory-inclusive capacity regresses at
+actual routed Fmax, so the current RTL and 6766-clock bound remain adopted.
+Historical noisy maximum 6518 used a different stimulus; it is not the baseline
+of the new equal-input comparison.
 
 | Order | Remaining change | Required check |
 |---|---|---|
-| 1 | Shorten RS FSM control/data paths; source and sink now both map to the FSM process | both complete routed designs; output equivalence and service clocks |
-| 2 | Register transition/write predicates in earlier FSM slots; tested read/GF alternatives did not outperform common seed 4 in both designs | 6766-clock bound, 7118-clock deadline, 1..8-error cases and reset transitions |
-| 3 | Add bounded FIFO / ping-pong input buffering; consider separate decoder clocks if useful | average service rate, burst backlog and CDC correctness; FIFO alone cannot fix a rate deficit |
-| 4 | Reconsider ACS parallelism and metric banking if required | full memory-port/BSRAM/LUT budget; extra lanes need actual architecture changes |
+| 1 | Make syndrome parallelism fit the timing/fanout of both complete designs; shorten remaining RS FSM paths | routed clock plus RS service bound; compare shared-clock capacity in both core and mem |
+| 2 | Study 32 ACS / two clocks per step if a lower Viterbi floor is needed | memory ports, BSRAM/LUT/DSP budget, actual architecture and recurrence correctness |
+| 3 | Add bounded FIFO / ping-pong buffering; consider separate decoder clocks | average service rate, burst backlog and CDC correctness; FIFO alone cannot fix a rate deficit |
+
+The reviewed throughput floor and margin target are distinct. CI derives
+`rs_min_clock_mhz` from the profile's syndrome schedule and other phase bounds,
+then uses `max(viterbi_min_clock_mhz, rs_min_clock_mhz)` for complete designs.
+The 110-MHz target remains unchanged. Transition/write predicate prefetch was
+also tested in seven variants; none improved both routed designs. See the new
+comparison for exact measurements and candidate sources.
 
 The existing metric store already uses 16 BSRAMs; with survivor and RS storage
 it uses 19 of 26 before additional stream buffering; RS now uses eight of twenty

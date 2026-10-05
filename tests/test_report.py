@@ -6,14 +6,17 @@ import unittest
 
 
 class ReportTests(unittest.TestCase):
-    def report(self, log, data=None, rc=0, diagnostic=False):
+    def report(self, log, data=None, rc=0, diagnostic=False, performance=None):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "report.py").write_text(Path("ci/report.py").read_text())
+            (root / "performance.json").write_text(json.dumps(
+                performance or json.loads(Path("ci/performance.json").read_text())))
             (root / "pnr.log").write_text(log)
             if data is not None:
                 (root / "report.json").write_text(json.dumps(data))
             return subprocess.check_output([
-                "python3", "ci/report.py", "--board", "9k", "--variant", "rs-only" if diagnostic else "mem",
+                "python3", str(root / "report.py"), "--board", "9k", "--variant", "rs-only" if diagnostic else "mem",
                 "--report", str(root / "report.json"),
                 "--pnr-log", str(root / "pnr.log"),
                 "--synth-log", str(root / "synth.log"), "--exit-code", str(rc),
@@ -100,6 +103,22 @@ class ReportTests(unittest.TestCase):
         self.assertIn("100.88 MHz Viterbi clock criterion: **PASS**", result)
         self.assertIn("110 MHz timing criterion: **PASS**", result)
         self.assertIn("End-to-end sustained throughput: **not measured", result)
+
+    def test_rs_parallelism_changes_floor_without_changing_workload_or_target(self):
+        settings = json.loads(Path("ci/performance.json").read_text())
+        for syndrome_cycles, bound in ((16, 6766), (8, 5134), (4, 4318), (0, 3502)):
+            with self.subTest(syndrome_cycles=syndrome_cycles):
+                profile = {**settings, "rs_syndrome_cycles_per_byte": syndrome_cycles}
+                result = self.report("Info: Routing complete.\n", {
+                    "fmax": {"clk": {"achieved": 102}}}, rc=1, performance=profile)
+                rs_minimum = bound * 25220000 / (204 * 8 * 1e6)
+                self.assertIn(f"RS service bound: **{bound} clocks/block**", result)
+                self.assertIn(f"Minimum RS clock from cycle budget: **{rs_minimum:.2f} MHz**", result)
+                self.assertIn(f"Minimum shared clock from cycle budgets: **{max(100.88, rs_minimum):.2f} MHz**", result)
+                self.assertIn("100.88 MHz Viterbi clock criterion: **PASS**", result)
+                self.assertIn("Hard throughput clock criterion: **" +
+                              ("FAIL" if syndrome_cycles == 16 else "PASS") + "**", result)
+                self.assertIn("110 MHz timing criterion: **FAIL**", result)
 
 
 if __name__ == "__main__":
