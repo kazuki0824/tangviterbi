@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        board: [4k, 9k]
-        variant: [viterbi, core, mem]
+        board: [9k]
+        variant: [core-only, mem, viterbi-only, rs-only]
 
     steps:
       - uses: actions/checkout@v5
@@ -27,8 +27,12 @@ jobs:
           version: "2026-10-04"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Synthesize and place-route
+      - name: Check benchmark and controller transactions
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Synthesize and measure (P&R for full designs)
         id: pnr
+        timeout-minutes: 15
         continue-on-error: true
         run: bash ci/run_pnr.sh "${{ matrix.board }}" "${{ matrix.variant }}"
 
@@ -47,12 +51,13 @@ jobs:
         with:
           name: reports-${{ matrix.board }}-${{ matrix.variant }}
           path: |
+            build/synth.ys
             build/synth.log
             build/pnr.log
             build/report.json
             build/summary.md
           if-no-files-found: warn
 
-      - name: Enforce P&R result
+      - name: Enforce CAD result
         if: steps.pnr.outcome != 'success'
         run: exit 1

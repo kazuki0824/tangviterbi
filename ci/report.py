@@ -11,7 +11,20 @@ p.add_argument("--report", required=True)
 p.add_argument("--synth-log", required=True)
 p.add_argument("--pnr-log", required=True)
 p.add_argument("--exit-code", type=int, required=True)
+p.add_argument("--pack-only", action="store_true")
+p.add_argument("--seed", type=int)
 a = p.parse_args()
+performance = json.loads(Path(__file__).with_name("performance.json").read_text())
+target_mhz = performance["target_clock_mhz"]
+minimum_viterbi_mhz = (performance["trellis_steps_per_second"] *
+                       performance["viterbi_cycles_per_step"] / 1e6)
+rs_bound = (performance["rs_codeword_bytes"] *
+            (1 + performance["rs_syndrome_cycles_per_byte"]) +
+            performance["rs_other_bound_cycles"])
+minimum_rs_mhz = (rs_bound * performance["trellis_steps_per_second"] /
+                  (performance["rs_codeword_bytes"] * 8 * 1e6))
+clock_floor = {"rs-only": minimum_rs_mhz, "viterbi-only": minimum_viterbi_mhz}.get(
+    a.variant, max(minimum_rs_mhz, minimum_viterbi_mhz))
 
 report = {}
 rp = Path(a.report)
@@ -21,70 +34,92 @@ if rp.exists():
     except Exception:
         report = {}
 
-def walk(obj, path=()):
-    if isinstance(obj, dict):
-        for k, v in obj.items():
-            yield from walk(v, path + (str(k),))
-    elif isinstance(obj, list):
-        for i, v in enumerate(obj):
-            yield from walk(v, path + (str(i),))
-    else:
-        yield path, obj
+pnr_text = Path(a.pnr_log).read_text(errors="replace")
 
-flat = list(walk(report))
-
-def find_numeric(names):
-    names = tuple(n.lower() for n in names)
-    candidates = []
-    for path, val in flat:
-        if not isinstance(val, (int, float)):
-            continue
-        joined = ".".join(path).lower()
-        if any(n in joined for n in names):
-            candidates.append((joined, val))
-    return candidates
-
-# nextpnr report schemas have changed over time. Keep the raw JSON artifact and
-# extract the most useful fields opportunistically instead of hard-coding one schema.
+# A partial JSON report can include pre-route clock estimates. Accept achieved
+# clock values only after the router explicitly completed, including a routed
+# design that subsequently failed timing. Never substitute target MHz.
 fmax = None
-for path, val in flat:
-    if isinstance(val, (int, float)) and "achieved" in ".".join(path).lower():
-        # Usually MHz in current nextpnr report JSON.
-        if 1 <= float(val) <= 5000:
-            fmax = max(float(val), fmax or 0.0)
+routed_log = pnr_text.partition("Routing complete")[2]
+if routed_log and not a.pack_only:
+    achieved = [
+        float(clock["achieved"])
+        for clock in report.get("fmax", {}).values()
+        if isinstance(clock, dict)
+        and isinstance(clock.get("achieved"), (int, float))
+        and not isinstance(clock.get("achieved"), bool)
+        and 0 < clock["achieved"] <= 5000
+    ]
+    if achieved:
+        fmax = min(achieved)
+    else:
+        clocks = {}
+        for clock, value in re.findall(
+            r"Max frequency for clock '([^']+)':\s*([0-9]+(?:\.[0-9]+)?)\s*MHz",
+            routed_log,
+        ):
+            clocks[clock] = float(value)
+        if clocks:
+            fmax = min(clocks.values())
 
-if fmax is None:
-    text = Path(a.pnr_log).read_text(errors="replace")
-    vals = [float(x) for x in re.findall(r"([0-9]+(?:\.[0-9]+)?)\s*MHz", text)]
-    if vals:
-        # The log contains both target and achieved clocks; maximum is useful as
-        # a fallback but the raw log remains authoritative.
-        fmax = max(vals)
+packed_rows = re.findall(
+    r"Info:\s+([A-Za-z0-9_]+):\s+(\d+)/\s*(\d+)\s+\d+%",
+    pnr_text,
+)
 
 def resource_lines():
-    util = report.get("utilization") if isinstance(report, dict) else None
+    # Use one comparable accounting stage for successful and failed jobs.
+    # Final report utilization can count placed LUT/ALU/RAM overlap differently.
+    if packed_rows:
+        yield from packed_rows
+        return
+    util = report.get("utilization") if isinstance(report, dict) and not a.pack_only else None
     if isinstance(util, dict):
         for key, value in util.items():
             if isinstance(value, dict):
                 used = value.get("used", value.get("utilized", "?"))
                 avail = value.get("available", value.get("total", "?"))
                 yield key, used, avail
+        return
 
 status = "PASS" if a.exit_code == 0 else "FAIL"
 margin = "unknown"
 if fmax is not None:
-    margin = "PASS" if fmax >= 110.0 else "FAIL"
+    margin = "PASS" if fmax >= target_mhz else "FAIL"
 
 print(f"# {a.board} / {a.variant}")
 print()
-print(f"- P&R: **{status}**")
-print(f"- 110 MHz timing criterion: **{margin}**")
+controller = "PSRAM 2 x8 channels" if a.variant == "mem" else "none"
+blocks = {"viterbi-only": "Viterbi", "rs-only": "RS"}.get(a.variant, "Viterbi + RS")
+print(f"- Blocks: {blocks}; controller: **{controller}**")
+print("- Scope: protocol RTL only; DDR PHY, initialization and calibration excluded")
+if a.pack_only:
+    print(f"- Synthesis/packing: **{status}**")
+    print("- P&R: **not run (diagnostic)**")
+else:
+    print(f"- P&R at {target_mhz:g} MHz: **{status}**")
+    print(f"- Placement/routing completed: **{'yes' if routed_log else 'no'}**")
+if a.seed is not None:
+    seed_scope = "Configured seed (packing only)" if a.pack_only else "Placement/routing seed"
+    print(f"- {seed_scope}: **{a.seed}**")
+if a.variant != "rs-only":
+    print(f"- {minimum_viterbi_mhz:g} MHz Viterbi clock criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= minimum_viterbi_mhz else 'FAIL')}**")
+if a.variant != "viterbi-only":
+    print(f"- Conservative RS service bound: **{rs_bound} clocks/block**")
+    print(f"- Minimum RS clock from cycle budget: **{minimum_rs_mhz:.2f} MHz**")
+print(f"- Minimum shared clock from cycle budgets: **{clock_floor:.2f} MHz**")
+print(f"- Hard throughput clock criterion: **{'unknown' if fmax is None else ('PASS' if fmax >= clock_floor else 'FAIL')}**")
+print("- End-to-end sustained throughput: **not measured by the sizing harness**")
+print(f"- {target_mhz:g} MHz timing criterion: **{margin}**")
 if fmax is not None:
     print(f"- extracted routed Fmax: **{fmax:.2f} MHz**")
 print()
+rows = list(resource_lines())
+if packed_rows:
+    print("Resource counts below are packed utilization before placement.")
+    print()
 print("| Resource | Used | Available |")
 print("|---|---:|---:|")
-rows = list(resource_lines())
 if rows:
     for key, used, avail in rows:
         print(f"| {key} | {used} | {avail} |")

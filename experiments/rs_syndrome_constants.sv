@@ -56,8 +56,8 @@ endmodule
 // Compact, sequential RS(204,188) architecture for resource/timing benchmarking.
 //
 // Two GF(256) multipliers separate coefficient and feedback operations.
-// Syndrome/BM/Omega use one; inversion/Chien/Forney use the other. At 110 MHz the
-// serialized architecture has enough cycle budget for the ~25.2 Mbit/s
+// Sixteen constant-factor XOR networks update all syndromes per accepted byte.
+// The serialized later phases retain the budget for the ~25.2 Mbit/s
 // post-Viterbi worst-case stream considered by this repository.
 //
 // The shortened-code position convention and final Forney correction mapping
@@ -75,7 +75,6 @@ module rs204_188_compact (
     output reg        block_fail
 );
     localparam ST_INPUT          = 6'd0;
-    localparam ST_SYND           = 6'd1;
     localparam ST_BM_INIT        = 6'd2;
     localparam ST_BM_START       = 6'd3;
     localparam ST_BM_DISC        = 6'd4;
@@ -115,9 +114,7 @@ module rs204_188_compact (
     reg [7:0] error_x [0:7];
     reg [7:0] error_pos [0:7];
 
-    reg [7:0] byte_q;
     reg [7:0] byte_count;
-    reg [4:0] synd_idx;
     reg syndrome_nonzero;
 
     reg [4:0] bm_n;
@@ -169,7 +166,7 @@ module rs204_188_compact (
     // without adding cycles to syndrome, BM, Chien or Forney processing.
     reg [7:0] lambda_q, omega_q;
     reg [7:0] error_x_q, error_pos_q;
-    reg [15:0] synd_select, omega_select, synd_write, omega_write;
+    reg [15:0] synd_select, omega_select, omega_write;
     reg [8:0] lambda_select, bpoly_select, lambda_write;
     reg [7:0] synd_operand, lambda_operand, bpoly_operand, omega_operand;
     integer read_slot;
@@ -195,8 +192,6 @@ module rs204_188_compact (
         bpoly_select <= 9'd1;
         omega_select <= 16'h4000;
         case (state)
-            ST_INPUT: synd_select <= 16'd2;
-            ST_SYND: synd_select <= synd_select << 1;
             ST_BM_INIT: begin
                 synd_select <= 16'd0;
                 lambda_select <= 9'd2;
@@ -262,8 +257,6 @@ module rs204_188_compact (
             ST_FORNEY_D0: lambda_select <= 9'd2;
             default: begin end
         endcase
-        if (state == ST_INPUT) synd_write <= 16'd1;
-        else if (state == ST_SYND) synd_write <= synd_write << 1;
         if (state == ST_BM_COEF) lambda_write <= lambda_select;
         else if (state == ST_BM_UPDATE) lambda_write <= lambda_write << 1;
         if (state == ST_OMEGA_INIT) omega_write <= 16'd1;
@@ -295,8 +288,8 @@ module rs204_188_compact (
             end else begin
                 if (state == ST_BLOCK_RESET)
                     synd[slot] <= 8'd0;
-                else if ((state == ST_SYND) && synd_write[slot])
-                    synd[slot] <= coefficient_y ^ byte_q;
+                else if ((state == ST_INPUT) && in_valid)
+                    synd[slot] <= gf_constant(synd[slot], alpha_factor(slot+1)) ^ in_byte;
                 if ((state == ST_OMEGA_STORE) && omega_write[slot])
                     omega[slot] <= omega_acc;
             end
@@ -377,27 +370,35 @@ module rs204_188_compact (
         end
     end
 
-    function automatic [7:0] alpha_power_1_to_16;
-        input [3:0] idx;
+    function automatic [7:0] gf_xtime;
+        input [7:0] x;
         begin
-            case (idx)
-                4'd0:  alpha_power_1_to_16 = 8'h02;
-                4'd1:  alpha_power_1_to_16 = 8'h04;
-                4'd2:  alpha_power_1_to_16 = 8'h08;
-                4'd3:  alpha_power_1_to_16 = 8'h10;
-                4'd4:  alpha_power_1_to_16 = 8'h20;
-                4'd5:  alpha_power_1_to_16 = 8'h40;
-                4'd6:  alpha_power_1_to_16 = 8'h80;
-                4'd7:  alpha_power_1_to_16 = 8'h1d;
-                4'd8:  alpha_power_1_to_16 = 8'h3a;
-                4'd9:  alpha_power_1_to_16 = 8'h74;
-                4'd10: alpha_power_1_to_16 = 8'he8;
-                4'd11: alpha_power_1_to_16 = 8'hcd;
-                4'd12: alpha_power_1_to_16 = 8'h87;
-                4'd13: alpha_power_1_to_16 = 8'h13;
-                4'd14: alpha_power_1_to_16 = 8'h26;
-                default: alpha_power_1_to_16 = 8'h4c;
-            endcase
+            gf_xtime = {x[6:0], 1'b0} ^ (8'h1d & {8{x[7]}});
+        end
+    endfunction
+
+    function automatic [7:0] alpha_factor;
+        input integer power;
+        reg [7:0] x;
+        integer i;
+        begin
+            x = 8'd1;
+            for (i=0; i<power; i=i+1) x = gf_xtime(x);
+            alpha_factor = x;
+        end
+    endfunction
+
+    function automatic [7:0] gf_constant;
+        input [7:0] x, factor;
+        reg [7:0] shifted, product;
+        integer i;
+        begin
+            shifted = x; product = 0;
+            for (i=0; i<8; i=i+1) begin
+                product = product ^ (shifted & {8{factor[i]}});
+                shifted = gf_xtime(shifted);
+            end
+            gf_constant = product;
         end
     endfunction
 
@@ -420,13 +421,6 @@ module rs204_188_compact (
         coefficient_next_a = 0; coefficient_next_b = 0;
         feedback_next_a = 0; feedback_next_b = 0;
         case (state)
-            ST_INPUT: begin
-                coefficient_next_a = synd[0]; coefficient_next_b = 8'h02;
-            end
-            ST_SYND: begin
-                coefficient_next_a = synd_operand;
-                coefficient_next_b = alpha_power_1_to_16(synd_idx[3:0] + 4'd1);
-            end
             ST_BM_START, ST_BM_DISC, ST_OMEGA_INIT, ST_OMEGA_ACC, ST_OMEGA_STORE: begin
                 coefficient_next_a = lambda_operand; coefficient_next_b = synd_operand;
             end
@@ -499,9 +493,7 @@ module rs204_188_compact (
     always @(posedge clk or negedge resetn) begin
         if (!resetn) begin
             state <= ST_INPUT;
-            byte_q <= 8'd0;
             byte_count <= 8'd0;
-            synd_idx <= 5'd0;
             syndrome_nonzero <= 1'b0;
             out_valid <= 1'b0;
             out_byte <= 8'd0;
@@ -541,19 +533,12 @@ module rs204_188_compact (
             case (state)
                 ST_INPUT: begin
                     if (in_valid) begin
-                        byte_q <= in_byte;
-                        synd_idx <= 5'd0;
-                        state <= ST_SYND;
-                    end
-                end
-
-                ST_SYND: begin
-                    if ((coefficient_y ^ byte_q) != 8'd0)
-                        syndrome_nonzero <= 1'b1;
-
-                    if (synd_idx == 5'd15) begin
+                        // The sticky flag matches the original decoder: the
+                        // first nonzero byte makes every running syndrome
+                        // nonzero, and the flag stays set until block reset.
+                        if (in_byte != 0) syndrome_nonzero <= 1'b1;
                         if (byte_count == 8'd203) begin
-                            if (!(syndrome_nonzero || ((coefficient_y ^ byte_q) != 8'd0))) begin
+                            if (!(syndrome_nonzero || (in_byte != 0))) begin
                                 out_index <= 8'd0;
                                 out_primed <= 1'b0;
                                 block_fail <= 1'b0;
@@ -563,10 +548,7 @@ module rs204_188_compact (
                             end
                         end else begin
                             byte_count <= byte_count + 8'd1;
-                            state <= ST_INPUT;
                         end
-                    end else begin
-                        synd_idx <= synd_idx + 5'd1;
                     end
                 end
 
@@ -812,8 +794,7 @@ module rs204_188_compact (
                 default: begin
                     byte_count <= 8'd0;
                     out_primed <= 1'b0;
-                    synd_idx <= 5'd0;
-                    syndrome_nonzero <= 1'b0;
+                            syndrome_nonzero <= 1'b0;
                     state <= ST_INPUT;
                 end
             endcase
