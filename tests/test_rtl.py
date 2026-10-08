@@ -25,6 +25,11 @@ class RtlTests(unittest.TestCase):
                 ("9k", "mem", (1, 1, 1, 16), False),
                 ("9k", "viterbi-only", (0, 1, 0, 16), False),
                 ("9k", "rs-only", (0, 0, 1, 16), False),
+                ("9k", "core-32acs", (0, 1, 1, 32), False),
+                ("9k", "mem-32acs", (1, 1, 1, 32), False),
+                ("9k", "viterbi-32acs", (0, 1, 0, 32), False),
+                ("9k", "core-32acs-rsconst", (0, 1, 1, 32), True),
+                ("9k", "mem-32acs-rsconst", (1, 1, 1, 32), True),
                 ("20k", "core-32acs", (0, 1, 1, 32), False),
                 ("20k", "mem-32acs", (1, 1, 1, 32), False),
                 ("20k", "viterbi-32acs", (0, 1, 0, 32), False),
@@ -54,10 +59,28 @@ class RtlTests(unittest.TestCase):
                 "bash", "ci/run_pnr.sh", "unsupported", "core-only",
             ], cwd=root, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             self.assertEqual(result.returncode, 2)
-            result = subprocess.run([
+            subprocess.run([
                 "bash", "ci/run_pnr.sh", "9k", "core-32acs",
-            ], cwd=root, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            self.assertEqual(result.returncode, 2)
+            ], cwd=root, env=env, check=True, stdout=subprocess.DEVNULL)
+            script = (root / "build/synth.ys").read_text()
+            self.assertIn("synth_gowin -top benchmark_top", script)
+            self.assertNotIn("synth_gowin ''", script)
+            subprocess.run([
+                "bash", "ci/run_pnr.sh", "9k", "core-32acs-rsconst", "--freq", "65", "--seed", "7",
+            ], cwd=root, env=env, check=True, stdout=subprocess.DEVNULL)
+            args = (root / "nextpnr-himbaechel.args").read_text().splitlines()
+            self.assertEqual(args[args.index("--freq") + 1], "65.0")
+            self.assertEqual(args[args.index("--seed") + 1], "7")
+            summary = (root / "build/summary.md").read_text()
+            self.assertIn("P&R at 65 MHz", summary)
+            self.assertIn("Minimum shared clock from cycle budgets: **54.12 MHz**", summary)
+            self.assertIn("110 MHz margin target criterion: **unknown**", summary)
+            self.assertEqual(json.loads((root / "ci/performance.json").read_text()), settings)
+            for options in (("--freq", "nan"), ("--seed", "-1"), ("--freq",), ("--wrong", "65")):
+                result = subprocess.run([
+                    "bash", "ci/run_pnr.sh", "9k", "core-32acs-rsconst", *options,
+                ], cwd=root, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                self.assertEqual(result.returncode, 2)
 
     def test_main_and_diagnostic_variants_elaborate(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -105,6 +128,24 @@ class RtlTests(unittest.TestCase):
                 "rtl/rs204_188_compact.sv", "tests/gf256_tb.sv",
             ], check=True)
             subprocess.run(["vvp", program], check=True, timeout=30)
+
+    def test_rs_constant_parallel_schedule(self):
+        performance = json.loads(Path("ci/performance.json").read_text())
+        deadline = int(65e6 * performance["rs_codeword_bytes"] * 8 /
+                       performance["isdb_s_trellis_steps_per_second"])
+        with tempfile.TemporaryDirectory() as temp:
+            for top, sources, parameters in (
+                ("gf256_tb", ["experiments/gf256_constants_tb.sv"], []),
+                ("rs_equivalence_tb", ["tests/fixtures/rs_reference.sv", "tests/rs_equivalence_tb.sv"], []),
+                ("rs_budget_tb", ["tests/fixtures/rs_reference.sv", "tests/rs_budget_tb.sv"],
+                 [f"-Prs_budget_tb.MAX_CYCLES={deadline}", "-Prs_budget_tb.EXPECTED_SAVING=3264"]),
+            ):
+                program = str(Path(temp) / top)
+                subprocess.run([
+                    "iverilog", "-g2012", "-s", top, *parameters, "-o", program,
+                    "experiments/rs_syndrome_constants.sv", *sources,
+                ], check=True)
+                subprocess.run(["vvp", program], check=True, timeout=120)
 
     def test_rs_stream_matches_frozen_reference(self):
         with tempfile.TemporaryDirectory() as temp:

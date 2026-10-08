@@ -6,7 +6,7 @@ import unittest
 
 
 class ReportTests(unittest.TestCase):
-    def report(self, log, data=None, rc=0, diagnostic=False, performance=None):
+    def report(self, log, data=None, rc=0, diagnostic=False, performance=None, target=None):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "report.py").write_text(Path("ci/report.py").read_text())
@@ -21,6 +21,7 @@ class ReportTests(unittest.TestCase):
                 "--pnr-log", str(root / "pnr.log"),
                 "--synth-log", str(root / "synth.log"), "--exit-code", str(rc),
                 *(["--pack-only"] if diagnostic else []),
+                *(["--target-clock-mhz", str(target)] if target is not None else []),
             ], text=True)
 
     def test_failed_fit_retains_utilization_but_not_target_fmax(self):
@@ -141,6 +142,17 @@ class ReportTests(unittest.TestCase):
         self.assertIn("ISDB-S minimum shared clock from cycle budgets: **61.93 MHz**", result)
         self.assertIn("ISDB-S hard throughput clock criterion: **PASS**", result)
         self.assertIn("110 MHz timing criterion: **FAIL**", result)
+
+    def test_feasibility_constraint_is_separate_from_workload_and_margin(self):
+        settings = json.loads(Path("ci/performance.json").read_text())
+        result = self.report("Info: Routing complete.\n", {
+            "fmax": {"clk": {"achieved": 64.2}}}, rc=1,
+            performance={**settings, "acs_lanes": 32, "rs_syndrome_cycles_per_byte": 0}, target=65)
+        self.assertIn("65 MHz timing criterion: **FAIL**", result)
+        self.assertIn("110 MHz margin target criterion: **FAIL**", result)
+        self.assertIn("ISDB-S minimum shared clock from cycle budgets: **61.93 MHz**", result)
+        self.assertIn("ISDB-S hard throughput clock criterion: **PASS**", result)
+        self.assertIn("End-to-end sustained throughput: **not measured", result)
 
 
 if __name__ == "__main__":

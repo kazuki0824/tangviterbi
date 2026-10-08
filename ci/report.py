@@ -13,6 +13,7 @@ p.add_argument("--pnr-log", required=True)
 p.add_argument("--exit-code", type=int, required=True)
 p.add_argument("--pack-only", action="store_true")
 p.add_argument("--seed", type=int)
+p.add_argument("--target-clock-mhz", type=float)
 p.add_argument("--acs-lanes", type=int)
 p.add_argument("--rs-syndrome-cycles", type=int)
 p.add_argument("--rs-label", default="current")
@@ -22,7 +23,7 @@ p.add_argument("--with-mem", type=int, choices=(0, 1))
 a = p.parse_args()
 
 performance = json.loads(Path(__file__).with_name("performance.json").read_text())
-target_mhz = performance["target_clock_mhz"]
+target_mhz = performance["target_clock_mhz"] if a.target_clock_mhz is None else a.target_clock_mhz
 acs_lanes = a.acs_lanes or performance["acs_lanes"]
 if performance["states"] % acs_lanes:
     raise SystemExit("ACS lane count must divide the 64-state trellis")
@@ -177,6 +178,8 @@ if clock_floor_isdb_s is not None:
     print(f"- ISDB-S hard throughput clock criterion: **{criterion(clock_floor_isdb_s)}**")
 print("- End-to-end sustained throughput: **not measured by the sizing harness**")
 print(f"- {target_mhz:g} MHz timing criterion: **{margin}**")
+if target_mhz != performance["target_clock_mhz"]:
+    print(f"- {performance['target_clock_mhz']:g} MHz margin target criterion: **{criterion(performance['target_clock_mhz'])}**")
 if fmax is not None:
     print(f"- extracted routed Fmax: **{fmax:.2f} MHz**")
 print()

@@ -18,6 +18,18 @@ jobs:
         board: [9k, 20k]
         variant: [core-only, mem, viterbi-only, rs-only]
         include:
+          - board: 9k
+            variant: core-32acs
+          - board: 9k
+            variant: mem-32acs
+          - board: 9k
+            variant: viterbi-32acs
+          - board: 9k
+            variant: core-32acs-rsconst
+            pnr_seed: 1
+          - board: 9k
+            variant: mem-32acs-rsconst
+            pnr_seed: 1
           - board: 20k
             variant: core-32acs
           - board: 20k
@@ -45,7 +57,7 @@ jobs:
         id: pnr
         timeout-minutes: 15
         continue-on-error: true
-        run: bash ci/run_pnr.sh "${{ matrix.board }}" "${{ matrix.variant }}"
+        run: bash ci/run_pnr.sh "${{ matrix.board }}" "${{ matrix.variant }}" --seed "${{ matrix.pnr_seed || 4 }}"
 
       - name: Publish job summary
         if: always()
@@ -61,6 +73,58 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reports-${{ matrix.board }}-${{ matrix.variant }}
+          path: |
+            build/synth.ys
+            build/synth.log
+            build/pnr.log
+            build/report.json
+            build/summary.md
+          if-no-files-found: warn
+
+      - name: Enforce CAD result
+        if: steps.pnr.outcome != 'success'
+        run: exit 1
+
+  feasibility-9k:
+    name: 9k / ${{ matrix.variant }} / 65 MHz
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [core-32acs-rsconst, mem-32acs-rsconst]
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up OSS CAD Suite
+        uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: "2026-10-04"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check benchmark and controller transactions
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Synthesize and measure (P&R for full designs)
+        id: pnr
+        timeout-minutes: 15
+        continue-on-error: true
+        run: bash ci/run_pnr.sh 9k "${{ matrix.variant }}" --freq 65 --seed 1
+
+      - name: Publish job summary
+        if: always()
+        run: |
+          if test -f build/summary.md; then
+            cat build/summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No summary generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-9k-${{ matrix.variant }}-65mhz
           path: |
             build/synth.ys
             build/synth.log

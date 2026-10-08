@@ -1,0 +1,1636 @@
+{
+  "baseline_commit": "754c111695dc64651466e729155846fcc08d2bbb",
+  "toolchain": "OSS CAD Suite 2026-10-04",
+  "device": "GW1NR-LV9QN88PC6/I5",
+  "target_mhz": 110,
+  "required_clock_floors_mhz": {
+    "ISDB-T": 54.12,
+    "legacy_ISDB-S": 61.93
+  },
+  "feasibility_constraint_mhz": 65,
+  "margin_target_mhz": 110,
+  "source_sha256": {
+    "baseline": "db0c8e9eccce77e065bd2285357179a8355dca29baefd93c843965041c61fa64",
+    "address": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+    "hold": "86b1e58697082f5e762f1b340892b94b6c98b4be2ab6f5187bf3f533aa4a8e6b",
+    "balanced": "7d584401e89fbcc2a4bb01fff33278952c2e493ce065ee00cfb1e9d706c09bf5",
+    "registered": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+    "flat": "7c9f1725d35b6059783970bb89ed9b500fa1c0d641e01c398600b04ef625136b",
+    "flat-or": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+    "karatsuba": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b"
+  },
+  "measurements": [
+    {
+      "variant": "core-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 107.94,
+      "packed_utilization": {
+        "LUT4": 4882,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "00554c6cf619a62f5acc732e1c8c152f8dc77af30faa68834d2cbbea24cbf827",
+      "evidence_path": "trials/address/core-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.synd_select_DFFR_Q_13",
+        "sink_cell": "g_rs.u_rs.coefficient_b_DFFR_Q_2",
+        "logic_ns": 4.433000087738037,
+        "routing_ns": 4.830999910831451
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 100.14,
+      "packed_utilization": {
+        "LUT4": 5050,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "2da375ae5ce1fff7d0a3f9e4e675a80c4a07bfff97ee03f0e814f638335d4551",
+      "evidence_path": "trials/address/mem-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_viterbi.g_32acs.u_viterbi.survivor_lo.0.0",
+        "sink_cell": "g_viterbi.g_32acs.u_viterbi.survivor_byte_q_DFF_Q_1",
+        "logic_ns": 6.680000126361847,
+        "routing_ns": 3.3060000240802765
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 2,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 102.29,
+      "netlist_sha256": "54c3896cd64dbc4c681ac7e056e76479dba38d394a3a31c5b43e87210198d9ee",
+      "packed_utilization": {
+        "LUT4": 4882,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "8fda704911b618c23df7bf8f44beda66ccce2733bcdbce712e2eb53b7ebfdd69",
+      "evidence_path": "trials/address/core-32acs-rsconst/seed2",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_F_LUT4_F_I0_LUT2_I0_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT4_F_1_I1_DFFCE_Q",
+        "logic_ns": 5.474000096321106,
+        "routing_ns": 4.3019999563694
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 3,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 103.93,
+      "netlist_sha256": "54c3896cd64dbc4c681ac7e056e76479dba38d394a3a31c5b43e87210198d9ee",
+      "packed_utilization": {
+        "LUT4": 4882,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "bcd083f7317f7a349003fc9bb4bb476a9769f0f6107453166284d48b8d7c9aac",
+      "evidence_path": "trials/address/core-32acs-rsconst/seed3",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_F_LUT4_F_I0_LUT2_I0_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT4_F_1_I1_DFFCE_Q",
+        "logic_ns": 5.080000042915344,
+        "routing_ns": 4.541999965906143
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 4,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 89.87,
+      "netlist_sha256": "54c3896cd64dbc4c681ac7e056e76479dba38d394a3a31c5b43e87210198d9ee",
+      "packed_utilization": {
+        "LUT4": 4882,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "40e3db664f1914d7725e13a3ad8139389fdae44d261bb2913af80d084a15c947",
+      "evidence_path": "trials/address/core-32acs-rsconst/seed4",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_F_LUT4_F_I0_LUT2_I0_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT4_F_1_I1_LUT4_I3_F_DFFCE_Q_1",
+        "logic_ns": 5.474000096321106,
+        "routing_ns": 5.652999997138977
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 5,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 109.89,
+      "netlist_sha256": "54c3896cd64dbc4c681ac7e056e76479dba38d394a3a31c5b43e87210198d9ee",
+      "packed_utilization": {
+        "LUT4": 4882,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "9c74a7c6e195f290a6627268adbb25a9363c87c450005dfaf88996e004c86bfb",
+      "evidence_path": "trials/address/core-32acs-rsconst/seed5",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_F_LUT4_F_I0_LUT2_I0_F_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT4_F_1_I1_DFFCE_Q",
+        "logic_ns": 5.277000069618225,
+        "routing_ns": 3.822999954223633
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 2,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 94.96,
+      "netlist_sha256": "d2278a004b87d0df879315e5403a2b479c09be3f284ec71fff89372dc4da1ca7",
+      "packed_utilization": {
+        "LUT4": 5050,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "f7f29dd28b864e24ca8ac9da262eb236c719696bd4177db82fa994b557b690b3",
+      "evidence_path": "trials/address/mem-32acs-rsconst/seed2",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT4_F_I3_LUT4_F_1_I3_LUT2_I1_F_DFFCE_D_Q_LUT2_I0_F_DFFCE_D_Q_LUT4_I3_F_LUT4_I3_F_DFFC_Q_D_LUT3_F_I2_LUT2_I1_F_DFFC_D_Q_DFFC_Q",
+        "sink_cell": "g_rs.u_rs.synd_select_DFFS_Q_D_LUT4_F_I3_LUT2_I0_F_DFFCE_CE_Q_DFFPE_Q_D_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT2_I1_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFC_Q_D_LUT2_F_I1_LUT2_F_1_I0_DFFCE_Q",
+        "logic_ns": 3.848000083118677,
+        "routing_ns": 6.683000147342682
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 3,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 90.67,
+      "netlist_sha256": "d2278a004b87d0df879315e5403a2b479c09be3f284ec71fff89372dc4da1ca7",
+      "packed_utilization": {
+        "LUT4": 5050,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "b9dea313f7f6466e73f9c60d819d6c31adbebd0ba04b99869bd07d32fc3ddff6",
+      "evidence_path": "trials/address/mem-32acs-rsconst/seed3",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT4_F_I3_LUT4_F_1_I3_LUT2_I1_F_DFFCE_D_Q_LUT2_I0_F_DFFCE_D_Q_LUT4_I3_F_LUT4_I3_F_DFFC_Q",
+        "sink_cell": "g_rs.u_rs.synd_select_DFFS_Q_D_LUT4_F_I3_LUT2_I0_F_DFFCE_CE_Q_DFFPE_Q_D_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT2_I1_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFC_Q_D_LUT2_F_I1_LUT2_F_1_I0_DFFCE_Q",
+        "logic_ns": 3.7810000516474247,
+        "routing_ns": 7.2480000257492065
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 4,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 84.01,
+      "netlist_sha256": "d2278a004b87d0df879315e5403a2b479c09be3f284ec71fff89372dc4da1ca7",
+      "packed_utilization": {
+        "LUT4": 5050,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "dbd5fa251fcc700b6a7d1f69dd60dd8b93b0aaca60776957706c9d72fd581a21",
+      "evidence_path": "trials/address/mem-32acs-rsconst/seed4",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.coefficient_b_DFFR_Q_1_D_LUT4_F_I3_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_I3_LUT3_I2_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I2_LUT4_I1_F_LUT4_I3_F_LUT4_F_I0_LUT3_I0_F_DFFCE_Q_D_LUT4_F_I2_LUT4_I2_F_LUT4_F_I3_LUT3_I0_F_LUT4_F_1_I1_LUT3_I2_F_DFFCE_D_Q_DFFC_Q",
+        "sink_cell": "g_rs.u_rs.synd_select_DFFS_Q_D_LUT4_F_I3_LUT2_I0_F_DFFCE_CE_Q_DFFPE_Q_D_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT2_I1_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFC_Q_D_LUT2_F_I1_LUT2_F_1_I0_DFFCE_Q",
+        "logic_ns": 2.902000043541193,
+        "routing_ns": 9.002000123262405
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 5,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 95.27,
+      "netlist_sha256": "d2278a004b87d0df879315e5403a2b479c09be3f284ec71fff89372dc4da1ca7",
+      "packed_utilization": {
+        "LUT4": 5050,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "address",
+      "source_sha256": "2fe7385c5c28ca0275fd6d3c5f60dccb0838c826254a16bf2af3fe83ce1a805a",
+      "kind": "RTL",
+      "raw_pnr_sha256": "f65641e1a863b5df106c8ac6d4f6efb19b8aae3e1d445cb79fd35439e86585a5",
+      "evidence_path": "trials/address/mem-32acs-rsconst/seed5",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT4_F_I3_LUT4_F_1_I3_LUT2_I1_F_DFFCE_D_Q_LUT2_I0_F_DFFCE_D_Q_LUT4_I3_F_LUT4_I3_F_DFFC_Q_D_LUT3_F_I2_LUT2_I1_F_DFFC_D_Q_DFFC_Q",
+        "sink_cell": "g_rs.u_rs.synd_select_DFFS_Q_D_LUT4_F_I3_LUT2_I0_F_DFFCE_CE_Q_DFFPE_Q_D_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT2_I1_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFC_Q_D_LUT2_F_I1_LUT4_I2_F_DFFCE_CE_Q_DFFCE_Q_1",
+        "logic_ns": 4.2960000820457935,
+        "routing_ns": 6.200999885797501
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 89.53,
+      "packed_utilization": {
+        "LUT4": 4879,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "hold",
+      "source_sha256": "86b1e58697082f5e762f1b340892b94b6c98b4be2ab6f5187bf3f533aa4a8e6b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "8f29d15d733aa823ce084ce1133949dad57e678aa1fb027f87307d85a66b66c2",
+      "evidence_path": "trials/hold/core-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.synd_select_DFFR_Q_11_D_LUT3_F_I2_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT3_F_I1_LUT4_F_I0_ALU_I1_SUM_LUT2_F_I1_LUT3_I2_F_DFFCE_CE_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_F_LUT2_I1_F_DFFCE_Q",
+        "logic_ns": 5.419000029563904,
+        "routing_ns": 5.750000059604645
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 97.76,
+      "packed_utilization": {
+        "LUT4": 5039,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "hold",
+      "source_sha256": "86b1e58697082f5e762f1b340892b94b6c98b4be2ab6f5187bf3f533aa4a8e6b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "9eea20cd68922287cef6ca6637f86ba350f2b41a97b490ecc7c4a02cc2272027",
+      "evidence_path": "trials/hold/mem-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT4_F_I2_LUT4_F_I3_LUT4_F_I3_LUT3_I2_F_DFFCE_CE_Q_ALU_SUM_CIN_ALU_COUT_SUM_DFFCE_Q_1_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_SUM_LUT2_F_I1_LUT2_F_I1_LUT2_I1_F_LUT3_I2_F_DFFPE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.error_x_q_DFFE_Q_7_D_LUT3_F_I2_LUT4_F_1_I3_LUT3_F_I1_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I0_F_DFFCE_Q_1",
+        "logic_ns": 5.486000061035156,
+        "routing_ns": 4.743000030517578
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 89.75,
+      "packed_utilization": {
+        "LUT4": 4894,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "balanced",
+      "source_sha256": "7d584401e89fbcc2a4bb01fff33278952c2e493ce065ee00cfb1e9d706c09bf5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "42b6e32d8f8f96d6e8ccf1d896367d496d6e5c1441ce3cdaa4de114707eb7a74",
+      "evidence_path": "trials/balanced/core-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFS_Q_D_LUT4_F_I2_LUT3_F_I2_DFFC_D_Q_DFFC_Q",
+        "sink_cell": "g_rs.u_rs.coefficient_b_DFFR_Q_7",
+        "logic_ns": 3.903000056743622,
+        "routing_ns": 7.239000201225281
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 102.75,
+      "packed_utilization": {
+        "LUT4": 5052,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "balanced",
+      "source_sha256": "7d584401e89fbcc2a4bb01fff33278952c2e493ce065ee00cfb1e9d706c09bf5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "595a9ca32ca0342315c4e9e641942ed510e54ae820658a9b54a2774abafdee30",
+      "evidence_path": "trials/balanced/mem-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.feedback_a_DFFR_Q_D_LUT4_F_I3_LUT4_F_I3_DFFCE_D_Q_LUT3_F_I1_LUT3_I0_1_F_DFFC_D_Q_LUT4_F_I3_LUT3_I1_F_DFFCE_Q_D_LUT2_F_I1_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I1_F_DFFCE_D",
+        "sink_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_1_F_LUT3_I2_F_LUT4_F_1_I1_LUT4_I3_F_DFFCE_Q_1",
+        "logic_ns": 5.277000069618225,
+        "routing_ns": 4.455000042915344
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 90.23,
+      "packed_utilization": {
+        "LUT4": 4886,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "1ea64cf4a7f8a7de6450c07b0d727561ee2f3a28129ddc6f96d8e0c8c38dbe4a",
+      "evidence_path": "trials/registered/core-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFS_Q_D_LUT3_F_I2_LUT4_F_I0_LUT2_I1_F_LUT2_F_I1_LUT2_I1_F_LUT3_I2_1_I1_LUT4_F_I2_LUT2_I0_1_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_1_F_LUT4_I3_F_LUT4_F_1_I1_DFFCE_Q_1",
+        "logic_ns": 5.277000069618225,
+        "routing_ns": 5.805999934673309
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 90.7,
+      "packed_utilization": {
+        "LUT4": 5044,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "77e3af48bcf7d9d9e4105dbded9e0598a457f4d7522950837e958bd69f956952",
+      "evidence_path": "trials/registered/mem-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_viterbi.g_32acs.u_viterbi.survivor_lo.0.0",
+        "sink_cell": "g_viterbi.g_32acs.u_viterbi.survivor_byte_q_DFF_Q_5",
+        "logic_ns": 7.15200012922287,
+        "routing_ns": 3.8729999661445618
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 2,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 101.6,
+      "netlist_sha256": "9029ccff94b5267475e3cd521ffc3a540a7d2809f9034a5f710c5c9bee77cab3",
+      "packed_utilization": {
+        "LUT4": 4886,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "a15923c0af87681b381422220cc84dc62f556a0ad9bf83ba28b903b28829ad07",
+      "evidence_path": "trials/registered/core-32acs-rsconst/seed2",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFS_Q_D_LUT3_F_I2_LUT4_F_I0_LUT2_I1_F_LUT2_F_I1_LUT2_I1_F_LUT3_I2_1_I1_LUT4_F_I2_LUT2_I0_1_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.error_x_q_DFFE_Q_2_D_LUT3_F_I2_LUT4_F_I2_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I2_DFFCE_Q",
+        "logic_ns": 5.474000096321106,
+        "routing_ns": 4.3689999878406525
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 3,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 98.72,
+      "netlist_sha256": "9029ccff94b5267475e3cd521ffc3a540a7d2809f9034a5f710c5c9bee77cab3",
+      "packed_utilization": {
+        "LUT4": 4886,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "264bcfc4d421ccbba40b41f1bcde7c4d3499f0495b1fb5c656c76aa6faf615ec",
+      "evidence_path": "trials/registered/core-32acs-rsconst/seed3",
+      "critical_path": {
+        "source_cell": "g_viterbi.g_32acs.u_viterbi.survivor_lo.0.0",
+        "sink_cell": "g_viterbi.g_32acs.u_viterbi.survivor_byte_q_DFF_Q_4",
+        "logic_ns": 6.680000126361847,
+        "routing_ns": 3.449999988079071
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 4,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 94.26,
+      "netlist_sha256": "9029ccff94b5267475e3cd521ffc3a540a7d2809f9034a5f710c5c9bee77cab3",
+      "packed_utilization": {
+        "LUT4": 4886,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "db071d13cbc166e409abc8e6c22632e6b8bff34428e37fd474d4baca2ab0af4d",
+      "evidence_path": "trials/registered/core-32acs-rsconst/seed4",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFS_Q_D_LUT3_F_I2_LUT4_F_I0_LUT2_I1_F_LUT2_F_I1_LUT2_I1_F_LUT3_I2_1_I1_LUT4_F_I2_LUT2_I0_1_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_F_DFFCE_Q",
+        "logic_ns": 5.683000087738037,
+        "routing_ns": 4.925999999046326
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 5,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 104.67,
+      "netlist_sha256": "9029ccff94b5267475e3cd521ffc3a540a7d2809f9034a5f710c5c9bee77cab3",
+      "packed_utilization": {
+        "LUT4": 4886,
+        "DFF": 2495,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "bf8a136acb22cbf576caf461d911a5ceed775adf2a5cdb4e6418742ad526db94",
+      "evidence_path": "trials/registered/core-32acs-rsconst/seed5",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFS_Q_D_LUT3_F_I2_LUT4_F_I0_LUT2_I1_F_LUT2_F_I1_LUT2_I1_F_LUT3_I2_1_I1_LUT4_F_I2_LUT2_I0_1_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_1_F_LUT4_I3_F_DFFCE_Q",
+        "logic_ns": 5.7500001192092896,
+        "routing_ns": 3.8040000200271606
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 2,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 95.53,
+      "netlist_sha256": "125c04470090385b082da2cea4ea3dbf85b27de481170091332d5866341d14ae",
+      "packed_utilization": {
+        "LUT4": 5044,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "7f401ab4acf69fa7d052d4980e0c3c99e02db8c41bf7062e40d8767e8c9b387c",
+      "evidence_path": "trials/registered/mem-32acs-rsconst/seed2",
+      "critical_path": {
+        "source_cell": "g_viterbi.g_32acs.u_viterbi.survivor_lo.0.0",
+        "sink_cell": "g_viterbi.g_32acs.u_viterbi.survivor_byte_q_DFF_Q_6",
+        "logic_ns": 7.15200012922287,
+        "routing_ns": 3.315999984741211
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 3,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 95.53,
+      "netlist_sha256": "125c04470090385b082da2cea4ea3dbf85b27de481170091332d5866341d14ae",
+      "packed_utilization": {
+        "LUT4": 5044,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "e48d30b1fa35e9e64f840cde1787554a4de6b5a76fffe5be176c258768c7b515",
+      "evidence_path": "trials/registered/mem-32acs-rsconst/seed3",
+      "critical_path": {
+        "source_cell": "g_viterbi.g_32acs.u_viterbi.survivor_lo.0.0",
+        "sink_cell": "g_viterbi.g_32acs.u_viterbi.survivor_byte_q_DFF_Q_5",
+        "logic_ns": 7.15200012922287,
+        "routing_ns": 3.315999984741211
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 4,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 95.35,
+      "netlist_sha256": "125c04470090385b082da2cea4ea3dbf85b27de481170091332d5866341d14ae",
+      "packed_utilization": {
+        "LUT4": 5044,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "481dff439bde2abc28340a80b86f810bd0e8ab614bf6978b457273dbd618cff5",
+      "evidence_path": "trials/registered/mem-32acs-rsconst/seed4",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFR_Q_7_D_LUT4_F_I3_LUT4_F_I0_LUT3_I0_F_DFFCE_Q_CE_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT3_I2_F_DFFPE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.error_x_q_DFFE_Q_5_D_LUT3_F_I2_LUT4_F_1_I2_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I2_DFFCE_Q",
+        "logic_ns": 5.486000061035156,
+        "routing_ns": 5.002000033855438
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 5,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 101.98,
+      "netlist_sha256": "125c04470090385b082da2cea4ea3dbf85b27de481170091332d5866341d14ae",
+      "packed_utilization": {
+        "LUT4": 5044,
+        "DFF": 2633,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "registered",
+      "source_sha256": "50466583e609d11a2b2c954881f56e2b5392970b1fd0e7df9e561e51f527f1a5",
+      "kind": "RTL",
+      "raw_pnr_sha256": "d001ad96a48a63efae3feaf519e3514e382b3974331624bd14dd3a0a2449220a",
+      "evidence_path": "trials/registered/mem-32acs-rsconst/seed5",
+      "critical_path": {
+        "source_cell": "g_viterbi.g_32acs.u_viterbi.survivor_lo.0.0",
+        "sink_cell": "g_viterbi.g_32acs.u_viterbi.survivor_byte_q_DFF_Q_5",
+        "logic_ns": 7.15200012922287,
+        "routing_ns": 2.653999984264374
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 99.9,
+      "packed_utilization": {
+        "LUT4": 4840,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "flat",
+      "source_sha256": "7c9f1725d35b6059783970bb89ed9b500fa1c0d641e01c398600b04ef625136b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "2c03da38e6a9113bfb2f84cb6a9e924dfd3e9050f4d9c97f9cee3bd68dfe268d",
+      "evidence_path": "trials/flat/core-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT2_F_I1_LUT4_I2_F_LUT4_F_I3_LUT4_F_1_I2_LUT2_I0_F_DFFCE_CE_Q_DFFCE_Q_2_D_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_SUM_DFFCE_Q_1_D_LUT2_F_I0_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_F_I1_LUT2_F_I1_LUT2_I1_F_LUT3_I2_F_DFFPE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT2_F_I1_LUT4_I2_F_LUT4_F_I3_LUT4_F_1_I2_LUT4_I3_F_DFFC_Q_D_LUT3_F_I0_LUT3_I0_1_F_DFFCE_Q",
+        "logic_ns": 4.137000039219856,
+        "routing_ns": 5.8730000257492065
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 93.52,
+      "packed_utilization": {
+        "LUT4": 5008,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "flat",
+      "source_sha256": "7c9f1725d35b6059783970bb89ed9b500fa1c0d641e01c398600b04ef625136b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "5a74f9766469828d8a35586508cf015358ab602ee3ccb4ce5379f9b2d12326a5",
+      "evidence_path": "trials/flat/mem-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_1_F_LUT4_I0_I3_LUT2_I1_F_DFFC_Q_D_LUT2_I0_F_DFFC_Q_D_LUT4_F_I3_LUT3_F_I2_LUT2_I1_F_LUT2_I1_I0_LUT4_I2_F_LUT4_F_I1_LUT2_F_I1_ALU_SUM_CIN_ALU_COUT_I0_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_I1_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_block_ram.mem.0.0_ADA_1_LUT4_F_I3_LUT4_F_I3_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "logic_ns": 6.496000107377768,
+        "routing_ns": 4.196999967098236
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 103.14,
+      "packed_utilization": {
+        "LUT4": 4842,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "21182f19330c8a218a1ff1e32b1a0594c0bd8d99b2f0ae83fda6e518229028d1",
+      "evidence_path": "trials/flat-or/core-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT2_I1_F_LUT4_F_I3_LUT2_I0_F_DFFCE_CE_1_Q_DFFPE_Q_D_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT2_I1_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_1_F_LUT3_I2_F_DFFCE_Q",
+        "logic_ns": 5.0010000467300415,
+        "routing_ns": 4.6949999034404755
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 95.08,
+      "packed_utilization": {
+        "LUT4": 5027,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "3851d2dd64cbbfaa5d83bf9a274e479edcb4b429a5da2e6ec26399e4c21e5973",
+      "evidence_path": "trials/flat-or/mem-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I1_MUX2_LUT5_O_S0_LUT4_F_I3_LUT4_F_I3_LUT3_I2_F_DFFCE_CE_Q_ALU_I1_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.coefficient_b_DFF_Q_D_LUT4_F_I3_LUT3_F_I2_LUT4_F_I3_LUT4_F_I3_DFFCE_Q_D_LUT3_F_I2_LUT4_F_I2_LUT3_I1_F_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_D_LUT3_F_I2_LUT4_F_I3_LUT3_F_I0_LUT4_I0_F_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1",
+        "logic_ns": 5.277000069618225,
+        "routing_ns": 5.241000026464462
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 2,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 106.24,
+      "netlist_sha256": "d06714144efa06488df3ba4f90bcbf52d2f406b0a3558dc40c59e1c89f9f5d66",
+      "packed_utilization": {
+        "LUT4": 4842,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "e5db009afca8167e0bbf0344f6b856e2ee4468510cf74cc445e4688593ccb299",
+      "evidence_path": "trials/flat-or/core-32acs-rsconst/seed2",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT2_I1_F_LUT4_F_I3_LUT2_I0_F_DFFCE_CE_1_Q_DFFPE_Q_D_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT2_I1_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_1_F_LUT3_I2_F_DFFCE_Q",
+        "logic_ns": 4.804000020027161,
+        "routing_ns": 4.60900005698204
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 3,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 91.47,
+      "netlist_sha256": "d06714144efa06488df3ba4f90bcbf52d2f406b0a3558dc40c59e1c89f9f5d66",
+      "packed_utilization": {
+        "LUT4": 4842,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "aca13a086c4d54a66a8ea825a97761ebfe9f8049007fc3b6405bc221fb858c58",
+      "evidence_path": "trials/flat-or/core-32acs-rsconst/seed3",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT2_F_I1_LUT4_I2_F_LUT2_I1_F_DFFCE_CE_Q_LUT4_F_1_I1_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.u_block_ram.mem.0.0_DOB_1_DFF_Q_1",
+        "logic_ns": 5.748000122606754,
+        "routing_ns": 5.185000061988831
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 4,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 101.11,
+      "netlist_sha256": "d06714144efa06488df3ba4f90bcbf52d2f406b0a3558dc40c59e1c89f9f5d66",
+      "packed_utilization": {
+        "LUT4": 4842,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "fb44cb632834a5210cd62269cb47e12003732d2803bf27ac4b8bd8e585c23e04",
+      "evidence_path": "trials/flat-or/core-32acs-rsconst/seed4",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT2_I1_F_LUT4_F_I3_LUT2_I0_F_DFFCE_CE_1_Q_DFFPE_Q_D_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT2_I1_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.coefficient_b_DFF_Q_2_D_LUT4_F_I3_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_F_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1",
+        "logic_ns": 5.683000087738037,
+        "routing_ns": 4.2069999277591705
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 5,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 100.7,
+      "netlist_sha256": "d06714144efa06488df3ba4f90bcbf52d2f406b0a3558dc40c59e1c89f9f5d66",
+      "packed_utilization": {
+        "LUT4": 4842,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "f9f09dcaca5f2db066672c5082f113512926718ae6326ce482846700a7247d4c",
+      "evidence_path": "trials/flat-or/core-32acs-rsconst/seed5",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_coefficient_mul.low_product_LUT4_I0_F_LUT2_I1_F_LUT4_F_I3_LUT2_I0_F_DFFCE_CE_1_Q_DFFPE_Q_D_LUT3_F_I2_LUT2_F_I1_LUT2_I1_F_LUT2_I1_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.coefficient_b_DFF_Q_2_D_LUT4_F_I3_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_2_I3_LUT4_I1_F_LUT4_I3_F_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1",
+        "logic_ns": 5.474000096321106,
+        "routing_ns": 4.456000030040741
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 2,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 103.67,
+      "netlist_sha256": "cc56cccdde0c62011c3981f543b88f0d80c4a5d7f7c39e014bbec8f5962ffd3a",
+      "packed_utilization": {
+        "LUT4": 5027,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "7c12b67427838b5ac45d629bf0487445b8ed97f39cfb84ed80b0eb82690bbce5",
+      "evidence_path": "trials/flat-or/mem-32acs-rsconst/seed2",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I1_MUX2_LUT5_O_S0_LUT4_F_I3_LUT4_F_I3_LUT3_I2_F_DFFCE_CE_Q_ALU_I1_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I1_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I1_F_DFFCE_D",
+        "sink_cell": "g_rs.u_rs.coefficient_b_DFF_Q_D_LUT4_F_I3_LUT3_F_I2_LUT4_F_I3_LUT4_F_I3_DFFCE_Q_D_LUT3_F_I2_LUT4_F_I2_LUT3_I1_F_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_D_LUT3_F_I2_LUT4_F_I3_LUT3_F_I0_LUT4_I0_F_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1",
+        "logic_ns": 5.277000069618225,
+        "routing_ns": 4.368999928236008
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 3,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 100.1,
+      "netlist_sha256": "cc56cccdde0c62011c3981f543b88f0d80c4a5d7f7c39e014bbec8f5962ffd3a",
+      "packed_utilization": {
+        "LUT4": 5027,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "f20febbb4e8b63356bc64271b8bd7838ff5c87da52358ac8cb64086da413a697",
+      "evidence_path": "trials/flat-or/mem-32acs-rsconst/seed3",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_feedback_mul.low_product_LUT4_I0_1_F_LUT2_I1_F_DFFC_Q_1",
+        "sink_cell": "g_rs.u_rs.lambda_select_DFFS_Q",
+        "logic_ns": 4.432000041007996,
+        "routing_ns": 5.557999849319458
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 4,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 102.61,
+      "netlist_sha256": "cc56cccdde0c62011c3981f543b88f0d80c4a5d7f7c39e014bbec8f5962ffd3a",
+      "packed_utilization": {
+        "LUT4": 5027,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "c0a0434154c63299d43f822689ee66dcde010fdec156dac1cd01c51c7d6098d7",
+      "evidence_path": "trials/flat-or/mem-32acs-rsconst/seed4",
+      "critical_path": {
+        "source_cell": "g_viterbi.g_32acs.u_viterbi.survivor_lo.0.0",
+        "sink_cell": "g_viterbi.g_32acs.u_viterbi.survivor_byte_q_DFF_Q_1",
+        "logic_ns": 6.680000126361847,
+        "routing_ns": 3.0660000145435333
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 5,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 103.67,
+      "netlist_sha256": "cc56cccdde0c62011c3981f543b88f0d80c4a5d7f7c39e014bbec8f5962ffd3a",
+      "packed_utilization": {
+        "LUT4": 5027,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "flat-or",
+      "source_sha256": "ce4646a7434554676528de4cfc058153b7f4f68c086a128907a654a3bd2844c6",
+      "kind": "RTL",
+      "raw_pnr_sha256": "8347e008542c9ec82dffd2ebb8cfed606b583f304ed33c3881a045bbdcab6edb",
+      "evidence_path": "trials/flat-or/mem-32acs-rsconst/seed5",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I1_MUX2_LUT5_O_S0_LUT4_F_I3_LUT4_F_I3_LUT3_I2_F_DFFCE_CE_Q_ALU_I1_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I1_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I1_F_DFFCE_D",
+        "sink_cell": "g_rs.u_rs.coefficient_b_DFF_Q_D_LUT4_F_I3_LUT3_F_I2_LUT4_F_I3_LUT4_F_I3_DFFCE_Q_D_LUT3_F_I2_LUT4_F_I2_LUT3_I1_F_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_D_LUT3_F_I2_LUT4_F_I3_LUT3_F_I0_LUT4_I0_F_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_DFFCE_D",
+        "logic_ns": 5.277000069618225,
+        "routing_ns": 4.368999928236008
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 101.21,
+      "packed_utilization": {
+        "LUT4": 4911,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "f054f2183ce6ae14762c7ee6a88a7164dd01777eda4a3150515aac03dd766d52",
+      "evidence_path": "trials/karatsuba/core-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.synd_select_DFFS_Q_D_LUT3_F_I2_LUT4_F_I3_LUT4_F_I2_LUT2_I0_F_DFFCE_CE",
+        "sink_cell": "g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_1_CE_LUT2_I0_F_DFFC_D_Q_DFFCE_Q_D_LUT4_F_I3_LUT4_F_I3_LUT2_I1_F_LUT3_I2_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I3_LUT4_I3_F_LUT4_F_I3_LUT4_I1_F_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I3_LUT4_I3_F_LUT4_F_1_I2_LUT4_I1_1_F_LUT4_I3_I2_LUT4_I3_F_DFFCE_D_Q_LUT4_I1_F_LUT4_F_1_I0_LUT2_I0_F_LUT3_F_1_I2_LUT4_I0_F_LUT4_I3_F_LUT4_I3_F_DFFCE_D",
+        "logic_ns": 5.013000011444092,
+        "routing_ns": 4.866999924182892
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "target_mhz": 110.0,
+      "seed": 1,
+      "exit_code": 1,
+      "routing_completed": true,
+      "fmax_mhz": 98.76,
+      "packed_utilization": {
+        "LUT4": 5055,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "timeout": false,
+      "viterbi32_sha256": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+      "viterbi16_sha256": "79d3c7a6ae6782fd81a0c19651b3898be81f02c43c782da104f5f8a9a592d8e0",
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "6fad215295a5b58c6374cef983b21bd8b98b5b31ab44c6a9ff4894415f9a59df",
+      "evidence_path": "trials/karatsuba/mem-32acs-rsconst/seed1",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT2_I1_I0_LUT4_I1_F_DFFC_D",
+        "sink_cell": "g_rs.u_rs.feedback_b_DFFR_Q_7",
+        "logic_ns": 2.7250000424683094,
+        "routing_ns": 7.400999903678894
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 2,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 103.93,
+      "netlist_sha256": "b1c7af16a55c47385ec5422341550165e28b961d20187b1fcc6652c54414b779",
+      "packed_utilization": {
+        "LUT4": 4911,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "d3ae65975aa1f3b96394316a0a0ee72d72ffb4a5b2221f5159bd8f855e191be2",
+      "evidence_path": "trials/karatsuba/core-32acs-rsconst/seed2",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.synd_select_DFFS_Q_D_LUT3_F_I2_LUT4_F_I3_LUT4_F_I2_LUT2_I0_F_DFFCE_CE_Q_DFFCE_Q_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.feedback_a_DFFR_Q_1_D_LUT4_F_I3_LUT4_I3_I1_DFFCE_Q_1",
+        "logic_ns": 5.013000011444092,
+        "routing_ns": 4.609000027179718
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 3,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 104.52,
+      "netlist_sha256": "b1c7af16a55c47385ec5422341550165e28b961d20187b1fcc6652c54414b779",
+      "packed_utilization": {
+        "LUT4": 4911,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "cac0798fa07299767f1cf4d5f43e3aff768a2b505d3055b33e33ccb10078b7cd",
+      "evidence_path": "trials/karatsuba/core-32acs-rsconst/seed3",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.synd_select_DFFS_Q_D_LUT3_F_I2_LUT4_F_I3_LUT4_F_I2_LUT2_I0_F_DFFCE_CE_Q_DFFCE_Q_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.feedback_a_DFFR_Q_1_D_LUT4_F_I3_LUT4_I3_I1_DFFCE_Q_1",
+        "logic_ns": 5.419000029563904,
+        "routing_ns": 4.148999989032745
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 4,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 91.22,
+      "netlist_sha256": "b1c7af16a55c47385ec5422341550165e28b961d20187b1fcc6652c54414b779",
+      "packed_utilization": {
+        "LUT4": 4911,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "ce004c1b21852c69f27eafe274fb62407420bc8921b4bd88f246912616c567a9",
+      "evidence_path": "trials/karatsuba/core-32acs-rsconst/seed4",
+      "critical_path": {
+        "source_cell": "g_viterbi.g_32acs.u_viterbi.survivor_lo.0.0_DI_7_DFF_D_Q_DFFCE_Q",
+        "sink_cell": "g_viterbi.g_32acs.u_viterbi.survivor_byte_q_DFF_Q_4",
+        "logic_ns": 3.2329999804496765,
+        "routing_ns": 7.729000121355057
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 5,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 100.47,
+      "netlist_sha256": "b1c7af16a55c47385ec5422341550165e28b961d20187b1fcc6652c54414b779",
+      "packed_utilization": {
+        "LUT4": 4911,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "aeaddd570e829765e3d311d10b01d4ebded7efbaa7581d69db61692b5089b057",
+      "evidence_path": "trials/karatsuba/core-32acs-rsconst/seed5",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.synd_select_DFFS_Q_D_LUT3_F_I2_LUT4_F_I3_LUT4_F_I2_LUT2_I0_F_DFFCE_CE_Q_DFFCE_Q_D_LUT2_F_I1_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.feedback_b_DFFR_Q_3_D_LUT3_F_I2_DFFCE_Q_D_MUX2_LUT5_O_I1_LUT4_F_I2_LUT4_I0_F_DFFCE_Q",
+        "logic_ns": 5.277000069618225,
+        "routing_ns": 4.6760000586509705
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 2,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 96.1,
+      "netlist_sha256": "253f717e8f0ca721bf9977eae684999596c45c9def512e1f2673af7c33d53eb4",
+      "packed_utilization": {
+        "LUT4": 5055,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "598d09a626e7ce8c9f19b57cfd93f3852999dd2a5328bf5bb04c07616e016b79",
+      "evidence_path": "trials/karatsuba/mem-32acs-rsconst/seed2",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.feedback_a_DFFR_Q_3_D_LUT4_F_I3_LUT4_F_I3_DFFCE_D_Q_LUT4_F_I3_LUT4_I3_F_DFFCE_D_Q_LUT4_I2_F_LUT4_F_1_I3_MUX2_LUT5_S0_O_LUT4_F_I1_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.feedback_a_DFFR_Q_4",
+        "logic_ns": 4.302000045776367,
+        "routing_ns": 6.1039999127388
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 3,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 100.41,
+      "netlist_sha256": "253f717e8f0ca721bf9977eae684999596c45c9def512e1f2673af7c33d53eb4",
+      "packed_utilization": {
+        "LUT4": 5055,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "b59d7f4d66b1065829c291ad9efca8ee797b2d18091936e331584b636e7bbf32",
+      "evidence_path": "trials/karatsuba/mem-32acs-rsconst/seed3",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I1_LUT4_F_I1_LUT2_F_I1_LUT2_I1_F_ALU_SUM_COUT_ALU_CIN_SUM_DFFCE_Q",
+        "sink_cell": "g_rs.u_rs.feedback_a_DFFR_Q_6_D_LUT4_F_I3_LUT4_I3_I1_LUT4_I1_1_I3_DFFCE_Q_1",
+        "logic_ns": 5.4070000648498535,
+        "routing_ns": 4.551999986171722
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 4,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 99.87,
+      "netlist_sha256": "253f717e8f0ca721bf9977eae684999596c45c9def512e1f2673af7c33d53eb4",
+      "packed_utilization": {
+        "LUT4": 5055,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "48c65d93293137498eec3f4b3e17c32856304af07517b4639035c46388fa0d9b",
+      "evidence_path": "trials/karatsuba/mem-32acs-rsconst/seed4",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_Q_DFFP_Q_D_LUT3_F_I2_LUT3_I1_F_LUT2_I1_I0_LUT2_F_I1_LUT4_I3_F_LUT3_I2_F_DFFCE_CE_Q_DFFCE_Q_2",
+        "sink_cell": "g_rs.u_rs.feedback_a_DFFR_Q_1",
+        "logic_ns": 4.552000060677528,
+        "routing_ns": 5.460999965667725
+      }
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 5,
+      "target_mhz": 110,
+      "exit_code": 1,
+      "timeout": false,
+      "routing_completed": true,
+      "fmax_mhz": 101.0,
+      "netlist_sha256": "253f717e8f0ca721bf9977eae684999596c45c9def512e1f2673af7c33d53eb4",
+      "packed_utilization": {
+        "LUT4": 5055,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 6
+      },
+      "trial": "karatsuba",
+      "source_sha256": "b4d06744345b33332e8eac75561b68577fc5106973ac4e01f3bb2efc9152982b",
+      "kind": "RTL",
+      "raw_pnr_sha256": "c1ec4f19fff7563859cf7b6676d7245f2ed9f7392615624aa0f7efbcf12b6028",
+      "evidence_path": "trials/karatsuba/mem-32acs-rsconst/seed5",
+      "critical_path": {
+        "source_cell": "g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I1_LUT4_F_I1_LUT2_F_I1_LUT2_I1_F_DFFCE_Q_1_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_F_I1_LUT2_F_I1_LUT2_I1_F_LUT3_I2_F_DFFPE_D_Q_DFFCE_Q_1",
+        "sink_cell": "g_rs.u_rs.u_block_ram.mem.0.0_DOB_LUT3_I2_F_DFFCE_D_1_CE_LUT2_I0_F_DFFC_D_Q_DFFCE_Q_D_LUT4_F_I3_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_D_LUT3_F_I2_DFFCE_Q_D_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I2_LUT4_I1_F_LUT4_I3_F_LUT4_I3_F_DFFCE_D",
+        "logic_ns": 4.334000065922737,
+        "routing_ns": 5.567000091075897
+      }
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 1,
+      "target_mhz": 110,
+      "command": [
+        "nextpnr-himbaechel",
+        "--json",
+        "/tmp/tang-pr3-survivor-byte/core-32acs-rsconst-65-seed1/build/design.json",
+        "--device",
+        "GW1NR-LV9QN88PC6/I5",
+        "--vopt",
+        "family=GW1N-9C",
+        "--vopt",
+        "cst=/tmp/tang-pr3-survivor-byte/core-32acs-rsconst-65-seed1/constraints/tangnano9k.cst",
+        "--freq",
+        "110",
+        "--seed",
+        "1",
+        "--report",
+        "/tmp/tang-pr3-pnr-tuning/router2-timing/core-32acs-rsconst/report.json",
+        "--router",
+        "router2",
+        "--tmg-ripup"
+      ],
+      "exit_code": -6,
+      "routing_completed": false,
+      "timeout": false,
+      "fmax_mhz": null,
+      "netlist_sha256": "d6c9806ed216216457fca5ee0f84aad49dc8352987b7347acdcc6a397549a5dc",
+      "packed_utilization": {
+        "LUT4": 4902,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "router2-timing",
+      "kind": "P&R setting",
+      "evidence_path": "trials/router2-timing/core-32acs-rsconst/seed1",
+      "raw_pnr_sha256": "bf39cb075f0c62390431554e8f7aa72aa0aab6c0016ff334fa9e625a7aa93ac1",
+      "blocked_reason": "nextpnr assertion_failure: w2n_entry == nullptr (base_arch.h:259); no completed routed Fmax"
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 1,
+      "target_mhz": 110,
+      "command": [
+        "nextpnr-himbaechel",
+        "--json",
+        "/tmp/tang-pr3-survivor-byte/mem-32acs-rsconst-65-seed1/build/design.json",
+        "--device",
+        "GW1NR-LV9QN88PC6/I5",
+        "--vopt",
+        "family=GW1N-9C",
+        "--vopt",
+        "cst=/tmp/tang-pr3-survivor-byte/mem-32acs-rsconst-65-seed1/constraints/tangnano9k.cst",
+        "--freq",
+        "110",
+        "--seed",
+        "1",
+        "--report",
+        "/tmp/tang-pr3-pnr-tuning/router2-timing/mem-32acs-rsconst/report.json",
+        "--router",
+        "router2",
+        "--tmg-ripup"
+      ],
+      "exit_code": -6,
+      "routing_completed": false,
+      "timeout": false,
+      "fmax_mhz": null,
+      "netlist_sha256": "522439cd45499f7dc0fa4f6eff697a57f1fbaa2bde7157d60110d20381283e90",
+      "packed_utilization": {
+        "LUT4": 5045,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "router2-timing",
+      "kind": "P&R setting",
+      "evidence_path": "trials/router2-timing/mem-32acs-rsconst/seed1",
+      "raw_pnr_sha256": "f0404cbe04e3d6dc25b3c396f650dbea7c6d70c2d0a62889045ade9e2989346f",
+      "blocked_reason": "nextpnr assertion_failure: w2n_entry == nullptr (base_arch.h:259); no completed routed Fmax"
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 1,
+      "target_mhz": 110,
+      "command": [
+        "nextpnr-himbaechel",
+        "--json",
+        "/tmp/tang-pr3-survivor-byte/core-32acs-rsconst-65-seed1/build/design.json",
+        "--device",
+        "GW1NR-LV9QN88PC6/I5",
+        "--vopt",
+        "family=GW1N-9C",
+        "--vopt",
+        "cst=/tmp/tang-pr3-survivor-byte/core-32acs-rsconst-65-seed1/constraints/tangnano9k.cst",
+        "--freq",
+        "110",
+        "--seed",
+        "1",
+        "--report",
+        "/tmp/tang-pr3-pnr-tuning/weight20/core-32acs-rsconst/report.json",
+        "--placer-heap-timingweight",
+        "20"
+      ],
+      "exit_code": 1,
+      "routing_completed": true,
+      "timeout": false,
+      "fmax_mhz": 95.67,
+      "netlist_sha256": "d6c9806ed216216457fca5ee0f84aad49dc8352987b7347acdcc6a397549a5dc",
+      "packed_utilization": {
+        "LUT4": 4902,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "weight20",
+      "kind": "P&R setting",
+      "evidence_path": "trials/weight20/core-32acs-rsconst/seed1",
+      "raw_pnr_sha256": "d969a87875430b2d225e7b2783574f11a4c44b352ae6104c82464be9dae4a676"
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 1,
+      "target_mhz": 110,
+      "command": [
+        "nextpnr-himbaechel",
+        "--json",
+        "/tmp/tang-pr3-survivor-byte/mem-32acs-rsconst-65-seed1/build/design.json",
+        "--device",
+        "GW1NR-LV9QN88PC6/I5",
+        "--vopt",
+        "family=GW1N-9C",
+        "--vopt",
+        "cst=/tmp/tang-pr3-survivor-byte/mem-32acs-rsconst-65-seed1/constraints/tangnano9k.cst",
+        "--freq",
+        "110",
+        "--seed",
+        "1",
+        "--report",
+        "/tmp/tang-pr3-pnr-tuning/weight20/mem-32acs-rsconst/report.json",
+        "--placer-heap-timingweight",
+        "20"
+      ],
+      "exit_code": 1,
+      "routing_completed": true,
+      "timeout": false,
+      "fmax_mhz": 108.13,
+      "netlist_sha256": "522439cd45499f7dc0fa4f6eff697a57f1fbaa2bde7157d60110d20381283e90",
+      "packed_utilization": {
+        "LUT4": 5045,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "weight20",
+      "kind": "P&R setting",
+      "evidence_path": "trials/weight20/mem-32acs-rsconst/seed1",
+      "raw_pnr_sha256": "00c8e808f38f12475820145515955af56ef05e48057f7b9aa04550a499d4d25b"
+    },
+    {
+      "variant": "core-32acs-rsconst",
+      "seed": 1,
+      "target_mhz": 110,
+      "command": [
+        "nextpnr-himbaechel",
+        "--json",
+        "/tmp/tang-pr3-survivor-byte/core-32acs-rsconst-65-seed1/build/design.json",
+        "--device",
+        "GW1NR-LV9QN88PC6/I5",
+        "--vopt",
+        "family=GW1N-9C",
+        "--vopt",
+        "cst=/tmp/tang-pr3-survivor-byte/core-32acs-rsconst-65-seed1/constraints/tangnano9k.cst",
+        "--freq",
+        "110",
+        "--seed",
+        "1",
+        "--report",
+        "/tmp/tang-pr3-pnr-tuning/weight40/core-32acs-rsconst/report.json",
+        "--placer-heap-timingweight",
+        "40"
+      ],
+      "exit_code": 1,
+      "routing_completed": true,
+      "timeout": false,
+      "fmax_mhz": 101.33,
+      "netlist_sha256": "d6c9806ed216216457fca5ee0f84aad49dc8352987b7347acdcc6a397549a5dc",
+      "packed_utilization": {
+        "LUT4": 4902,
+        "DFF": 2487,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "weight40",
+      "kind": "P&R setting",
+      "evidence_path": "trials/weight40/core-32acs-rsconst/seed1",
+      "raw_pnr_sha256": "d7a5ba58975f676afde0e818fd8097455cbbd77b3eea489b0c516c4371d159dc"
+    },
+    {
+      "variant": "mem-32acs-rsconst",
+      "seed": 1,
+      "target_mhz": 110,
+      "command": [
+        "nextpnr-himbaechel",
+        "--json",
+        "/tmp/tang-pr3-survivor-byte/mem-32acs-rsconst-65-seed1/build/design.json",
+        "--device",
+        "GW1NR-LV9QN88PC6/I5",
+        "--vopt",
+        "family=GW1N-9C",
+        "--vopt",
+        "cst=/tmp/tang-pr3-survivor-byte/mem-32acs-rsconst-65-seed1/constraints/tangnano9k.cst",
+        "--freq",
+        "110",
+        "--seed",
+        "1",
+        "--report",
+        "/tmp/tang-pr3-pnr-tuning/weight40/mem-32acs-rsconst/report.json",
+        "--placer-heap-timingweight",
+        "40"
+      ],
+      "exit_code": 1,
+      "routing_completed": true,
+      "timeout": false,
+      "fmax_mhz": 108.78,
+      "netlist_sha256": "522439cd45499f7dc0fa4f6eff697a57f1fbaa2bde7157d60110d20381283e90",
+      "packed_utilization": {
+        "LUT4": 5045,
+        "DFF": 2625,
+        "BSRAM": 3,
+        "MULT18X18": 8
+      },
+      "trial": "weight40",
+      "kind": "P&R setting",
+      "evidence_path": "trials/weight40/mem-32acs-rsconst/seed1",
+      "raw_pnr_sha256": "5c2e6897f30c8a7febcfd34996c5f1f6d15f768273ebcd483d23fa91bcfbf2a3"
+    }
+  ],
+  "paired_seed_statistics": {
+    "baseline": {
+      "paired_minima_mhz": {
+        "1": 104.32,
+        "2": 100.26,
+        "3": 100.14,
+        "4": 89.43,
+        "5": 97.45
+      },
+      "seeds": 5,
+      "median_mhz": 100.14,
+      "mean_mhz": 98.32000000000001,
+      "best_pair_minimum_mhz": 104.32,
+      "best_common_seed": 1
+    },
+    "address": {
+      "paired_minima_mhz": {
+        "1": 100.14,
+        "2": 94.96,
+        "3": 90.67,
+        "4": 84.01,
+        "5": 95.27
+      },
+      "seeds": 5,
+      "median_mhz": 94.96,
+      "mean_mhz": 93.01,
+      "best_pair_minimum_mhz": 100.14,
+      "best_common_seed": 1
+    },
+    "hold": {
+      "paired_minima_mhz": {
+        "1": 89.53
+      },
+      "seeds": 1,
+      "median_mhz": 89.53,
+      "mean_mhz": 89.53,
+      "best_pair_minimum_mhz": 89.53,
+      "best_common_seed": 1
+    },
+    "balanced": {
+      "paired_minima_mhz": {
+        "1": 89.75
+      },
+      "seeds": 1,
+      "median_mhz": 89.75,
+      "mean_mhz": 89.75,
+      "best_pair_minimum_mhz": 89.75,
+      "best_common_seed": 1
+    },
+    "registered": {
+      "paired_minima_mhz": {
+        "1": 90.23,
+        "2": 95.53,
+        "3": 95.53,
+        "4": 94.26,
+        "5": 101.98
+      },
+      "seeds": 5,
+      "median_mhz": 95.53,
+      "mean_mhz": 95.506,
+      "best_pair_minimum_mhz": 101.98,
+      "best_common_seed": 5
+    },
+    "flat": {
+      "paired_minima_mhz": {
+        "1": 93.52
+      },
+      "seeds": 1,
+      "median_mhz": 93.52,
+      "mean_mhz": 93.52,
+      "best_pair_minimum_mhz": 93.52,
+      "best_common_seed": 1
+    },
+    "flat-or": {
+      "paired_minima_mhz": {
+        "1": 95.08,
+        "2": 103.67,
+        "3": 91.47,
+        "4": 101.11,
+        "5": 100.7
+      },
+      "seeds": 5,
+      "median_mhz": 100.7,
+      "mean_mhz": 98.406,
+      "best_pair_minimum_mhz": 103.67,
+      "best_common_seed": 2
+    },
+    "karatsuba": {
+      "paired_minima_mhz": {
+        "1": 98.76,
+        "2": 96.1,
+        "3": 100.41,
+        "4": 91.22,
+        "5": 100.47
+      },
+      "seeds": 5,
+      "median_mhz": 98.76,
+      "mean_mhz": 97.392,
+      "best_pair_minimum_mhz": 100.47,
+      "best_common_seed": 5
+    }
+  },
+  "decision": "Keep baseline hardware and P&R settings: no tested candidate raises the best common core/mem Fmax above the adopted 104.32 MHz pair minimum. No tested completed run meets 110 MHz. Flat-OR median over seeds 1..5 increases by 0.56 MHz but best pair decreases by 0.65 MHz; no universal ineffectiveness claim.",
+  "scope": "Timing/resource sizing only; sustained receiver, convolutional bit output and ARIB RS qualification remain unverified.",
+  "validation": {
+    "full_unittest": {
+      "methods": 21,
+      "elapsed_seconds": 73.997,
+      "result": "PASS"
+    },
+    "rs_output_entry_contexts_covered": 3,
+    "constant_rs_correction_reads": 157,
+    "serialized_rs_correction_reads": 148,
+    "sat_operand_equivalence": "PASS for flat and flat-or; intentional Horner mutation FAIL",
+    "hardware_sources_unchanged": true,
+    "performance_profile_unchanged": true,
+    "rs_equivalence_tb_sha256": "98cf0378d645b922886c4a0a342fcb8780abbfb031cc857df6c6fb22e79d4fad"
+  }
+}
