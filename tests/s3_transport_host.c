@@ -153,6 +153,15 @@ static void packed_adc_values(void)
 
 int main(void)
 {
+    s3_batch_timing timing={4800,60}; // Conditional 20 us API / 0.25 us segment
+    const uint64_t deadline=249480, release=120000, fft_cost=103824, rf3=41934;
+    uint64_t last3=deadline-fft_cost-rf3;
+    assert(s3_t_rf_batch(3,last3,release,deadline,0,timing)==3);
+    assert(s3_t_rf_batch(3,last3+1,release,deadline,0,timing)==2);
+    assert(s3_t_rf_batch(3,release,release,deadline,0,timing)==0);
+    assert(s3_t_rf_batch(1,0,release,deadline,1000,timing)==0); // wait for batch
+    assert(s3_t_rf_batch(1,100000,release,deadline,200000,timing)==1);
+    assert(s3_t_rf_batch(3,UINT64_MAX-10,UINT64_MAX-5,UINT64_MAX,0,timing)==0);
     wire(); boundaries(); packed_adc_values();
     assert(s3_ring_init(&ring,data,sizeof(data),7)==S3_OK);
     pthread_t producer,consumer;

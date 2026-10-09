@@ -33,7 +33,8 @@ esp_err_t s3_spi_queue(s3_spi_port *port);
 esp_err_t s3_spi_reap(s3_spi_port *port);
 esp_err_t s3_spi_close(s3_spi_port *port);
 
-/* RF adapter: at most 3 pages per SCT batch, or 1 on SPI3. One scheduler
+/* RF adapter: zero-initialize before first use. At most 3 pages per SCT batch,
+ * or 1 on SPI3. One scheduler
  * services both objects. The buffer lease is committed to hardware only after
  * prepare; a failed queue poisons the port and keeps all leases retained.
  */

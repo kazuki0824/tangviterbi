@@ -61,7 +61,13 @@ if elf_file.exists() and os.environ["PROBE_TRANSPORT"] == "1":
         result["transport_sizes_bytes"] = dict(zip(("port", "segment", "ring_control", "DMA_descriptor",
             "SPI2_DMA_pool", "SPI3_DMA_pool", "peak_SCT_configuration", "ATOMIC_INT_LOCK_FREE"), values))
         result["hot_functions"] = {name: hex(table.get_symbol_by_name(name)[0]["st_value"])
-            for name in ("s3_fft_stage_tile", "s3_fft_reverse_tile", "spi_device_queue_trans")}
+            for name in ("s3_fft_stage_tile", "s3_fft_reverse_tile", "spi_device_queue_trans",
+                         "s3_iq10_push", "s3_ring_begin", "s3_ring_complete", "s3_t_rf_batch",
+                         "s3_spi_prepare_pages", "s3_spi_queue", "s3_rf_submit")}
+        result["hot_symbols_in_IRAM"] = all(0x40374000 <= int(v, 16) < 0x403a0000
+                                            for v in result["hot_functions"].values())
+        result["linked_atomic_helpers"] = sorted(s.name for s in table.iter_symbols()
+                                                  if s["st_shndx"] != "SHN_UNDEF" and s.name.startswith("__atomic_"))
 (out / "result.json").write_text(json.dumps(result, indent=2) + "\n")
 print(json.dumps(result, indent=2))
 print("\n".join(log.splitlines()[-35:]))

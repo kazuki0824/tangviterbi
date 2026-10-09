@@ -1,6 +1,7 @@
 #include "s3_spi_transport.h"
 #include "esp_idf_version.h"
 #include "esp_memory_utils.h"
+#include "esp_attr.h"
 #include <string.h>
 
 #if ESP_IDF_VERSION != ESP_IDF_VERSION_VAL(5, 5, 1)
@@ -46,7 +47,7 @@ esp_err_t s3_spi_open(s3_spi_port *p, spi_host_device_t host,
     return err;
 }
 
-esp_err_t s3_spi_prepare_pages(s3_spi_port *p, unsigned stream, unsigned epoch,
+esp_err_t IRAM_ATTR s3_spi_prepare_pages(s3_spi_port *p, unsigned stream, unsigned epoch,
                                 uint32_t offset, void *const payloads[], unsigned pages)
 {
     if (!p || !p->device || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
@@ -83,7 +84,7 @@ esp_err_t s3_spi_prepare_pages(s3_spi_port *p, unsigned stream, unsigned epoch,
     return ESP_OK;
 }
 
-esp_err_t s3_spi_prepare(s3_spi_port *p, unsigned stream, unsigned epoch,
+esp_err_t IRAM_ATTR s3_spi_prepare(s3_spi_port *p, unsigned stream, unsigned epoch,
                           uint32_t offset, void *payload, unsigned pages)
 {
     if (!p || !p->device || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
@@ -94,7 +95,7 @@ esp_err_t s3_spi_prepare(s3_spi_port *p, unsigned stream, unsigned epoch,
     return s3_spi_prepare_pages(p, stream, epoch, offset, buffers, pages);
 }
 
-esp_err_t s3_spi_queue(s3_spi_port *p)
+esp_err_t IRAM_ATTR s3_spi_queue(s3_spi_port *p)
 {
     if (!p || !p->device || p->busy || p->poisoned || !p->count)
         return ESP_ERR_INVALID_STATE;
@@ -107,7 +108,7 @@ esp_err_t s3_spi_queue(s3_spi_port *p)
     return err;
 }
 
-esp_err_t s3_spi_reap(s3_spi_port *p)
+esp_err_t IRAM_ATTR s3_spi_reap(s3_spi_port *p)
 {
     if (!p || !p->device || !p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
     esp_err_t err;
@@ -137,7 +138,7 @@ esp_err_t s3_spi_close(s3_spi_port *p)
     return spi_bus_free(p->host);
 }
 
-esp_err_t s3_rf_submit(s3_rf_transfer *x, s3_spi_port *p, s3_tx_ring *r, unsigned pages)
+esp_err_t IRAM_ATTR s3_rf_submit(s3_rf_transfer *x, s3_spi_port *p, s3_tx_ring *r, unsigned pages)
 {
     if (!x || !p || !r || pages == 0 || pages > 3 || pages > p->capacity)
         return ESP_ERR_INVALID_ARG;
@@ -163,7 +164,7 @@ esp_err_t s3_rf_submit(s3_rf_transfer *x, s3_spi_port *p, s3_tx_ring *r, unsigne
     return s3_spi_queue(p);
 }
 
-esp_err_t s3_rf_reap(s3_rf_transfer *x)
+esp_err_t IRAM_ATTR s3_rf_reap(s3_rf_transfer *x)
 {
     if (!x || !x->count || !x->port || !x->ring) return ESP_ERR_INVALID_STATE;
     esp_err_t err = s3_spi_reap(x->port);

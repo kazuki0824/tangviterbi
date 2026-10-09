@@ -1,16 +1,22 @@
 #include "s3_transport.h"
 #include <limits.h>
 #include <string.h>
+#ifdef ESP_PLATFORM
+#include "esp_attr.h"
+#define S3_HOT IRAM_ATTR
+#else
+#define S3_HOT
+#endif
 
 _Static_assert(sizeof(unsigned) == 4, "32-bit state required");
 enum { FREE, FILLING, READY, INFLIGHT, DONE };
 
-static bool stream_valid(unsigned stream)
+static S3_HOT bool stream_valid(unsigned stream)
 {
     return stream == S3_RF || stream == S3_FFT || stream == S3_IQ;
 }
 
-int s3_wire_make(s3_wire_header *out, unsigned stream, unsigned epoch,
+int S3_HOT s3_wire_make(s3_wire_header *out, unsigned stream, unsigned epoch,
                  uint32_t offset, size_t bytes)
 {
     if (!out || !stream_valid(stream) || epoch == 0 || epoch > UINT16_MAX ||
@@ -40,12 +46,12 @@ void s3_wire_bytes(s3_wire_header h, uint8_t out[10])
     for (unsigned i = 0; i < 8; ++i) out[2+i] = (uint8_t)(h.address >> (56-8*i));
 }
 
-static s3_ring_page *page(s3_tx_ring *r, uint32_t sequence)
+static S3_HOT s3_ring_page *page(s3_tx_ring *r, uint32_t sequence)
 {
     return &r->pages[sequence & (S3_RING_PAGES - 1)];
 }
 
-static bool matches(s3_tx_ring *r, s3_lease lease, unsigned state)
+static S3_HOT bool matches(s3_tx_ring *r, s3_lease lease, unsigned state)
 {
     s3_ring_page *p = page(r, lease.sequence);
     return lease.epoch == r->epoch &&
@@ -66,7 +72,7 @@ int s3_ring_init(s3_tx_ring *r, void *payload, size_t size, unsigned epoch)
     return S3_OK;
 }
 
-int s3_ring_begin(s3_tx_ring *r, s3_lease *lease, uint8_t **payload)
+int S3_HOT s3_ring_begin(s3_tx_ring *r, s3_lease *lease, uint8_t **payload)
 {
     if (!r || !lease || !payload) return S3_RANGE;
     s3_ring_page *p = page(r, r->write_sequence);
@@ -80,7 +86,7 @@ int s3_ring_begin(s3_tx_ring *r, s3_lease *lease, uint8_t **payload)
     return S3_OK;
 }
 
-int s3_ring_publish(s3_tx_ring *r, s3_lease lease)
+int S3_HOT s3_ring_publish(s3_tx_ring *r, s3_lease lease)
 {
     if (!r || lease.sequence != r->write_sequence || !matches(r, lease, FILLING))
         return S3_STALE;
@@ -96,7 +102,7 @@ int s3_ring_cancel_write(s3_tx_ring *r, s3_lease lease)
     return S3_OK;
 }
 
-int s3_ring_take(s3_tx_ring *r, s3_lease *lease, const uint8_t **payload)
+int S3_HOT s3_ring_take(s3_tx_ring *r, s3_lease *lease, const uint8_t **payload)
 {
     if (!r || !lease || !payload) return S3_RANGE;
     s3_ring_page *p = page(r, r->submit_sequence);
@@ -109,7 +115,7 @@ int s3_ring_take(s3_tx_ring *r, s3_lease *lease, const uint8_t **payload)
     return S3_OK;
 }
 
-int s3_ring_undo_take(s3_tx_ring *r, s3_lease lease)
+int S3_HOT s3_ring_undo_take(s3_tx_ring *r, s3_lease lease)
 {
     if (!r || r->submit_sequence != lease.sequence + 1 || !matches(r, lease, INFLIGHT))
         return S3_STALE;
@@ -118,7 +124,7 @@ int s3_ring_undo_take(s3_tx_ring *r, s3_lease lease)
     return S3_OK;
 }
 
-int s3_ring_complete(s3_tx_ring *r, s3_lease lease)
+int S3_HOT s3_ring_complete(s3_tx_ring *r, s3_lease lease)
 {
     if (!r || !matches(r, lease, INFLIGHT)) return S3_STALE;
     atomic_store_explicit(&page(r, lease.sequence)->state, DONE, memory_order_relaxed);
@@ -148,7 +154,7 @@ void s3_iq10_init(s3_iq10_packer *p, s3_tx_ring *r)
     memset(p, 0, sizeof(*p)); p->ring = r;
 }
 
-static void pack_eight(uint8_t *dst, const uint32_t *src)
+static S3_HOT void pack_eight(uint8_t *dst, const uint32_t *src)
 {
     const uint32_t a=src[0]&0xfffffu, b=src[1]&0xfffffu, c=src[2]&0xfffffu, d=src[3]&0xfffffu;
     const uint32_t e=src[4]&0xfffffu, f=src[5]&0xfffffu, g=src[6]&0xfffffu, h=src[7]&0xfffffu;
@@ -161,7 +167,7 @@ static void pack_eight(uint8_t *dst, const uint32_t *src)
 #endif
 }
 
-int s3_iq10_push(s3_iq10_packer *p, const uint32_t *words, size_t count, size_t *consumed)
+int S3_HOT s3_iq10_push(s3_iq10_packer *p, const uint32_t *words, size_t count, size_t *consumed)
 {
     if (!p || !p->ring || !consumed || (!words && count)) return S3_RANGE;
     *consumed=0;
@@ -206,4 +212,24 @@ int s3_iq10_discard(s3_iq10_packer *p)
     }
     s3_iq10_init(p,p->ring);
     return S3_OK;
+}
+
+unsigned S3_HOT s3_t_rf_batch(unsigned available, uint64_t now, uint64_t release,
+                              uint64_t deadline, uint64_t full_ready, s3_batch_timing b)
+{
+    if (now >= release || deadline <= now || release > deadline) return 0;
+    /* At 240 MHz CPU and 80 MHz Octal: (4096+10) bytes take 12318 cycles. */
+    uint64_t segment = 12318u + (uint64_t)b.segment_cycles;
+    uint64_t fft = b.API_cycles + 8u*segment;
+    uint64_t remain = deadline - now;
+    if (fft > remain || release-now > remain-fft) return 0;
+    remain -= fft;
+    if (available < 3 && full_ready < release) {
+        uint64_t wait = full_ready > now ? full_ready-now : 0;
+        uint64_t rf = b.API_cycles + 3u*segment;
+        if (wait <= remain && rf <= remain-wait) return 0;
+    }
+    unsigned n = available > 3 ? 3 : available;
+    while (n && b.API_cycles + n*segment > remain) --n;
+    return n;
 }

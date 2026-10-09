@@ -72,6 +72,7 @@ void app_main(void)
         (uintptr_t)&s3_ring_complete ^ (uintptr_t)&s3_ring_reset ^ (uintptr_t)&s3_ring_undo_take;
     probe_keep ^= (uintptr_t)&s3_iq10_init ^ (uintptr_t)&s3_iq10_push ^ (uintptr_t)&s3_iq10_discard;
     probe_keep ^= (uintptr_t)&s3_rf_submit ^ (uintptr_t)&s3_rf_reap;
+    probe_keep ^= (uintptr_t)&s3_t_rf_batch;
     probe_keep ^= (uintptr_t)&s3_fft_reverse_tile ^ (uintptr_t)&s3_fft_stage_tile;
 #elif PROBE_ZEROCOPY
     probe_keep ^= (uintptr_t)link_headers ^ (uintptr_t)link_descriptor_reserve;

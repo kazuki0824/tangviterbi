@@ -66,4 +66,13 @@ void s3_iq10_init(s3_iq10_packer *packer, s3_tx_ring *ring);
 int s3_iq10_push(s3_iq10_packer *packer, const uint32_t *words, size_t count, size_t *consumed);
 int s3_iq10_discard(s3_iq10_packer *packer); /* mode stop only */
 
+/* Scheduler clock is the coordinator core's extended 240-MHz cycle count.
+ * These bounds MUST be supplied/validated by the caller; zero-copy and SCT
+ * do not prove them. Zero means wait for more RF pages or service the FFT.
+ */
+typedef struct { uint32_t API_cycles, segment_cycles; } s3_batch_timing;
+unsigned s3_t_rf_batch(unsigned available_pages, uint64_t now, uint64_t fft_release,
+                       uint64_t fft_deadline, uint64_t three_pages_ready,
+                       s3_batch_timing timing);
+
 #endif
