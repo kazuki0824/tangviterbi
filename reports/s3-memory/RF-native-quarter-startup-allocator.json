@@ -1,0 +1,104 @@
+{
+  "scope": "Necessary startup-memory bound for the native-upper-fft IDF5.5.1 probe.\n\nNot a simulated boot. Overestimates available memory (mapped RTC fast RAM, with no\nheap metadata) and underestimates required memory. Target TCB sizes are\noptional, extracted from the ELF. Wi-Fi/driver allocations and fragmentation\nare not included. This is a capacity bound, not a startup execution simulation.\nA failed bound is enough to reject this exact configuration even if it links.\n",
+  "profile": "native-quarter-fft",
+  "map_sha256": "06c6616975e518f14a0445138d004dcca034c24da7620a75c583dadb04ab5c0a",
+  "internal_DMA_heap_upper_bound_bytes": 20680,
+  "RTC_fast_heap_generous_upper_bound_bytes": 8168,
+  "total_internal_heap_generous_upper_bound_bytes": 28848,
+  "startup_stack_lower_bound_bytes": {
+    "main": 8704,
+    "esp_timer": 4096,
+    "IPC_two_cores": 2560,
+    "idle_two_cores": 3072
+  },
+  "total_stack_lower_bound_bytes": 18432,
+  "shortage_lower_bound_bytes": 0,
+  "startup_necessary_capacity_pass": true,
+  "stack_only_headroom_upper_bound_bytes": 10416,
+  "startup_sufficient_capacity_proven": false,
+  "target_StaticTask_t_bytes": 340,
+  "startup_task_count": 6,
+  "FreeRTOS_timer_constructor_object": "tasks",
+  "FreeRTOS_timer_task_created": false,
+  "startup_TCB_lower_bound_bytes": 2040,
+  "task_extra_stack_bytes_per_main_and_esp_timer": 512,
+  "internal_free_before_DMA_pool_upper_bound_bytes": 8376,
+  "startup_pool_necessary_capacity_pass": true,
+  "startup_pool_shortage_lower_bound_bytes": 0,
+  "pool_allocation_order": "main task carves pool after all startup tasks are live, before app_main; do not add pool bytes again to later runtime demand",
+  "native_event_stack_bytes": 2816,
+  "headroom_after_startup_tasks_and_native_event_upper_bound_bytes": 5220,
+  "not_counted": [
+    "heap headers/alignment/fragmentation",
+    "idle extra stack overhead",
+    "FreeRTOS timer queue if linked",
+    "event queue",
+    "Wi-Fi task and queues",
+    "Wi-Fi static RX buffers",
+    "PHY/calibration allocations",
+    "SPI/GDMA/SCT runtime objects",
+    "receiver worker stacks"
+  ],
+  "configured_internal_DMA_pool_target_bytes": 8192,
+  "internal_DMA_pool_has_distinct_byte_capacity": true,
+  "heap_start": "0x3fcaaf38",
+  "fft_slot1": "0x3fc9d0e0",
+  "twiddle": "0x3fc9c0d0",
+  "default_dynamic_FreeRTOS_allocation": "MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT; allowing explicit external static stacks does not relocate xTaskCreatePinnedToCore stacks",
+  "sources": [
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/port/esp32s3/memory_layout.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/heap_idf.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/port_common.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/app_startup.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_system/esp_ipc.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_timer/src/esp_timer.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_system/include/esp_task.h",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_psram/system_layer/esp_psram.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/config/include/freertos/FreeRTOSConfig.h",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/esp_additions/freertos_tasks_c_additions.h",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_event/default_event_loop.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_wifi/esp32s3/esp_adapter.c"
+  ],
+  "hardware_boot_executed": false,
+  "receiver_adopted": false,
+  "allocator_refinement": {
+    "target_layout": {
+      "multi_heap_info": 20,
+      "control_t": 36,
+      "pointer_bytes": 4
+    },
+    "heaps": [
+      {
+        "name": "DIRAM",
+        "region_bytes": 20680,
+        "tlsf_control_bytes": 716,
+        "metadata_lower_bound_bytes": 744
+      },
+      {
+        "name": "RTC_fast",
+        "region_bytes": 8168,
+        "tlsf_control_bytes": 360,
+        "metadata_lower_bound_bytes": 388
+      }
+    ],
+    "live_task_allocation_headers_lower_bound_bytes": 48,
+    "allocator_overhead_lower_bound_bytes": 1180,
+    "free_before_DMA_pool_upper_bound_bytes": 7196,
+    "DMA_pool_target_bytes": 8192,
+    "pool_necessary_capacity_pass": false,
+    "pool_shortage_lower_bound_bytes": 996,
+    "scope": "Necessary capacity only; ignores allocation ordering, other constructors, heap_caps records, Wi-Fi, event, drivers, fragmentation and additional pool metadata",
+    "sources": [
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/multi_heap.c",
+      "https://github.com/espressif/tlsf/blob/2867f6883a12920b1969ff9624c0ab0e4185c2ce/tlsf.c"
+    ]
+  },
+  "ELF_sha256": "22bf3691944e2dc4d5107d67d5c45fa3345244cf927161b0cf75347764afa472",
+  "evidence": {
+    "target_ELF_source_commit": "3304404a175dca2e61cab1231b13e50e26965c90",
+    "target_ELF_run": 37954537615,
+    "target_ELF_artifact": 11627966248,
+    "local_audit_source_commit": "7267d82bf3338da531abca955c1c71b54f7af97c",
+    "calculation_executed_on": "host using actual target ELF and pinned SDK/TLSF source"
+  }
+}

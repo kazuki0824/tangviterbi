@@ -5,7 +5,7 @@
 
 実機なしで実施できる計算・ホスト試験・実SDKリンク・PR上の合成を進めた結果、
 過去の成立見積もりには訂正が必要になった。旧Viterbiの復号不良、32 KiB RFキューの
-期限違反、RF本体を含めたSRAM不足がある。PSRAMを有効にした再配置は静的linkに通ったが、起動stackだけでも容量不足だった。修正したViterbiも共通99 MHzには届かない。
+期限違反、RF本体を含めたSRAM不足がある。PSRAMを有効にした旧再配置は起動stackだけでも容量不足だった。今回、FFT係数表の同値圧縮でSRAMを追加確保し、逆tracebackのパイプライン化で部分FECの共通99 MHz未達を解消した。受信機全体の成立はまだ確認していない。
 **実機以外の作業を全部完了した段階ではない。未実装のソフトウェア/RTLを「実機待ち」に移さない。**
 
 ## 1. この環境で実行したこと
@@ -15,12 +15,12 @@
 | Viterbiの独立検算 | RTLと独立した171/133符号化器で無雑音入力を生成 | 旧32-ACS版は出力1792 bitの区間に対し、−256〜256の位置合わせを探索しても最小551 bit不一致。旧Fmaxを正しい復号器の根拠として使わない |
 | 正しい方向のtraceback | 256行survivor、124段逆追跡、64 bit単位の出力を実装 | normalized14/modulo13の2方式で独立ビット列に一致。入力停止、長期metric周回、未知の初期状態、処理途中resetも検査 |
 | metric幅の削減 | 13-bit剰余metricと符号付き差による比較を実装 | 無限精度Python oracleと2048 step×64状態＝131072値で一致。入力soft 8 bitを維持し、再量子化していない |
-| FPGA面積・周波数 | PR workflowで実合成・配置配線 | modulo13 FEC+メモリprotocol部分は4789 LUT4、2588 FF、4 BSRAM、80.08 MHz。99 MHz未達 |
+| FPGA面積・周波数 | survivor RAMと64択selectorの間に64-bit registerを追加し、PR workflowで実配置配線 | modulo13-pipe FEC+メモリprotocol部分は4782 LUT4、2653 FF、4 BSRAM、104.06 MHz。共通99 MHzを達成 |
 | RS検証 | 独立ISDB RSベクトル、0〜8誤り、訂正不能、reset境界 | 262/262合格、最大2666 clocks/block。最新RS単体は107.52 MHz。全受信機の結果ではない |
 | RF bank寿命 | sentinel書込み/再使用前の所有権確認と、期限・sequence・wrap・停止処理をCで実装 | 90 unit、1109925 sample、2772992 Bの完了payloadを独立に検査。未消費bankを黙って捨てずfaultへ移る。RFレジスタループとの接続は未完 |
 | キュー拡張 | 8/16頁、2ポート完了順逆転、分割arenaに対応 | 32/64 KiBそれぞれ10000頁＝40960000 Bを照合。全1048576種類のnative20値の梱包/復元も検査 |
 | deadline再計算 | raw bank単位のバースト公開、有限packing速度、FFT停止区間をeventモデルに追加 | 検討中の方針ではTの32/48 KiBが失敗。64 KiBは4/6 cycles/sample仮定で4位相×100 msを通過。ただしCPU割込み全体を含む証明ではない |
-| 実SDKのメモリ配置 | ESP-IDF 5.5.1で実SPI/SCT・capture bridge・scalar FFTをリンク | 64 KiBキューの配置成功。RF初期化＋PSRAM対応では再配置後8664 B余白。ただしSDKの起動stack必要条件を満たさない |
+| 実SDKのメモリ配置 | 8192点のFFT係数をquarter表で厳密に再構成し、RF初期化＋PSRAM＋SPIと実リンク | 係数16384→4098 B、下位余白8664→20680 B。初期stackだけの不足を解消したが、全runtime allocationが収まる証明は未完 |
 | 外付けNOR切替 | 3 imageの配置/次アドレス/容量/SHA256/readback検査、停止→再構成→epoch→RF lockの制御モデルを実装 | T/S/recoveryのモデル試験に合格。実際のT/S受信bitstream、S3レジスタdriver、実書込み/起動試験は未完 |
 | 完成基板の配線 | Sipeed 3674回路図とS3-N16R8の予約GPIOを照合 | SPI2/3、制御、serial TSの割当案を作成。MSPI strap変更と1.8 V RECONFIG接続が必要。無改造完成基板のまま外部NOR切替が可能とは扱わない |
 
@@ -35,9 +35,10 @@
 | 16-bit既知初期状態・逆traceback | 5347 / 1650 | 7248 / — | 7410 / — / — | 配置失敗 | 除外 |
 | 14-bit未知初期状態・正規化 | 3173 / 1490 | 5078 / 2531 | 5250 / 2669 / 4 | 76.49 MHz | 共通99 MHz不可 |
 | 13-bit未知初期状態・剰余比較 | 2788 / 1409 | 4629 / 2450 | 4789 / 2588 / 4 | 80.08 MHz | 面積改善、共通99 MHz不可 |
+| 13-bit剰余比較＋survivor出力register | 2799 / 1474 | 4641 / 2515 | 4782 / 2653 / 4 | **104.06 MHz** | **この部分回路で共通99 MHz達成** |
 
 logic equivalentsは合成時のLUT+ALU尺度であり、packed LUT4と同じ意味ではない。
-最後のFEC+memは8640 LUT4に対し55.43%、6480 FFに対し39.94%、26 BSRAMに対し15.38%。
+最新FEC+memは8640 LUT4に対し55.35%、6480 FFに対し40.94%、26 BSRAMに対し15.38%。
 復調・通信endpoint・物理PSRAM・PLLを含まない。
 
 13-bit比較の条件は、branch cost最大510、64状態のmetric差最大6×510＝3060、
@@ -48,8 +49,8 @@ logic equivalentsは合成時のLUT+ALU尺度であり、packed LUT4と同じ意
 
 SのRS期限は188 B / 6.52125 MB/s＝28.828829 us/block。
 2666 clocksを99 MHzで処理すると26.929293 us、余裕1.899536 us（6.589%）。
-実測80.08 MHzの共通clockでは33.291708 usとなり、この期限を満たさない。
-RS用の別clockとCDC、または共通clockの高速化が必要であり、両者を接続したSTAは未完。
+旧80.08 MHzの共通clockでは33.291708 usだったが、今回の部分回路は99 MHz制約に通った。
+この部分のRS期限のために別clockを追加する必要はなくなった。ただしbenchmarkのViterbi/RSは負荷回路であり、deinterleave等を含む実データ経路、全復調器、SPI endpoint、PLL/IOの全体STAは未完。
 SのTC8PSKには8PSKの距離、並列枝の選択、対応する情報bitの保存等が必要で、現在の
 2個のbinary soft入力/1-bit出力のViterbiを置いただけではSの復号器にならない。
 
@@ -58,9 +59,14 @@ SのTC8PSKには8PSKの距離、並列枝の選択、対応する情報bitの保
 - 16-bit：`49bc76a0c5f7317e5d8c32b70dbecb1430145421`、[run 37941691903](https://github.com/kazuki0824/tangviterbi/actions/runs/37941691903)、[JSON](s3-area/traceback16-99.json)
 - 14-bit：`e8c457ab7864db6e5aaa2be4b1423fdb8ae78eb8`、[run 37943442608](https://github.com/kazuki0824/tangviterbi/actions/runs/37943442608)、[JSON](s3-area/traceback14-99.json)
 - modulo13：`73ecc582e97bfcfb6bbd277cc9af96659324c194`、[run 37945570775](https://github.com/kazuki0824/tangviterbi/actions/runs/37945570775)、[JSON](s3-area/traceback-modulo13-99.json)
+- modulo13-pipe：`1b8f772b4b41f1c9e6d5503b0e4cd4b4f1de21e6`、[run 37953530987](https://github.com/kazuki0824/tangviterbi/actions/runs/37953530987)、[JSON](s3-area/traceback-modulo13-pipe-99.json)
 
 workflowのsuccessは「計測完了」を意味する。個別JSONのFmax/`meets_constraint_MHz`を判定に使う。
-後続のparameter誤用検出とreset試験追加は上記実測sourceより後の変更である。
+最新pipeの合成sourceにはparameter guardとreset試験も含む。
+
+旧critical pathはsurvivor BSRAM→64択selectorで12.49 nsだった。RAM読出しの後に64-bit registerを置き、trace開始のprimingを1 clock増やした。124段追跡＋2 clockの準備＝126 clocksで、128-clockごとの64-bit出力blockに間に合う。inputは従来どおり2 clocks/step。量子化・入力レート・出力bit数は削減していない。最新critical pathはRS制御側9.61 nsへ移った。1 seedの部分配置配線結果なので、統合後の余裕に読み替えない。
+
+host/CIとも3方式×5入力ケース（無雑音、孤立誤り、停止、16384 stepのmetric周回）を検査。pipe版はさらに未知初期状態＋処理中resetの8 epoch、2048 step×64状態の無限精度metric oracleに合格。RS独立262ベクトルも再度全合格。
 
 ## 3. 構成・帯域・CPU期限の現在位置
 
@@ -157,6 +163,58 @@ TCB、heap管理領域、追加stack補正、Wi-Fi/event task、SPI/GDMA/PHYのr
 [起動容量の検算](s3-memory/RF-native-upper-startup-bound.json)は実map/SDKソースによる必要条件判定で、実機でbootさせた結果ではない。
 SDKタスク/stack/heapと配置の再設計を、実機待ちにせず残作業とする。
 
+### 4.1 今回の係数表同値圧縮
+
+quarter表にはsinの絶対値2049個をunsigned 16-bitで保持する。終点32768を残し、
+正の+1のみ32767へ飽和、負の−1は−32768として復元するため、元のcomplex Q15係数に厳密一致する。
+全8192 bin、2個の32 KiB FFT slot、192 KiB raw bank、64 KiB RF queueは維持。
+追加のdecimate/requantizeは行わない。scalar実装なので500 usの実行期限達成とは別である。
+
+| 比較 | 旧full係数表 | quarter係数表 |
+|---|---:|---:|
+| 8192点係数容量 | 16384 B | 4098 B |
+| RF/PSRAM/SPIを含む実linkの下位SRAM余白 | 8664 B | **20680 B** |
+| IRAM終端 | 0x40389700 | 0x40389800 |
+| `_heap_start` | 0x3fcade28 | 0x3fcaaf38 |
+| 2個のFFT slot | 各32768 B | 各32768 B |
+
+係数自体は12286 B減少し、追加code・配置alignmentを含めた正味余白は12016 B増えた。
+4/32/256/8192点の全4242係数を独立sin/cos量子化と比較し、完全一致。
+32/256/8192点×5信号では、2 thread tileのFFT出力も旧係数表と完全一致し、独立NumPy FFTとの8 LSB検査に通った。
+[数値試験](s3-fft-quarter.json)、[実link](s3-memory/RF-native-quarter-fft.json)、
+[run 37953530983](https://github.com/kazuki0824/tangviterbi/actions/runs/37953530983)、source `1b8f772b4b41f1c9e6d5503b0e4cd4b4f1de21e6`。
+
+起動容量の新監査はmain/esp_timerへの各512 B追加を含め、実mapからRTC予約24 Bも差し引く。
+FreeRTOS software timerはKconfigだけでは数えない。このlinkは`tasks.c.obj`のweak空constructorを使い、
+`timers.c.obj`をリンクしていないため追加timer taskを作らない。構造体TCB容量はhost sizeofではなくtarget ELFのDWARFから抽出する。
+DMA poolは、startup taskが確保された後に残るDMA heapから予約する順序で判定する。
+「予約前の静的余白が8 KiB以上」だけでは合格にしない。以後のruntime需要へpoolを二重加算もしない。
+最新の容量内訳は [quarter起動監査](s3-memory/RF-native-quarter-startup-refined.json) を参照。
+
+さらに、実ELFのTCB340 B、multi_heap_info20 B、TLSF control_t36 Bと、IDFが固定する
+TLSF sourceを照合した。内部2 arenaのallocator初期領域は最低744＋388＝1132 B、
+6 task×stack/TCBの12 allocation headerは最低48 B。これだけで1180 Bを消費する。
+管理領域無視の8376 Bから差し引くと、DMA pool予約前の内部空きは最大7196 B。
+したがって**quarter表でも8 KiB poolの設定は最低996 B不足する**。動作未測定というだけでなく、
+この設定の容量必要条件が不成立。[allocatorを含む検算](s3-memory/RF-native-quarter-startup-allocator.json)。
+
+この判定ではheap_caps管理用record/lock、allocation順序、fragmentation、Wi-Fi、event queue、
+PHY、SPIをまだ含めない。Wi-Fi static RX bufferも4個設定のままである。
+4 KiB pool比較はこの起動予約を見直す案であり、総容量が増えたり、RF初期化全体が収まる証明になるわけではない。
+
+`native-quarter-pool4`を比較profileとして実装した。同じ配置なら、管理領域を含む起動予約前の上限7196 Bに対し4096 Bを予約する必要条件には3100 Bの差がある。
+これは旧mapを用いた条件計算で、4 KiB版の実link成功ではない。
+source `7267d82bf3338da531abca955c1c71b54f7af97c` の
+[run 37955618892](https://github.com/kazuki0824/tangviterbi/actions/runs/37955618892)は全jobがstep開始前に失敗し、対象jobの再試行でも同じ状態だった。
+ログを取得できず原因は確定していない。課金・quota・ソースのコンパイル失敗とは断定しない。
+[実行状態の記録](s3-memory/pool4-ci-blocker.json)を残し、4 KiB版は**実SDK再リンク未完**として扱う。
+
+今回追加したhost検査は、Viterbi3 method（15入力ケース＋metric/reset oracle）、FFT2 method、起動/allocator監査5 methodが全合格。
+FEC合成source、target ELF、local再計算の出所を別々に記録し、実機boot・全受信機成立は未判定のままにする。
+
+
+
+
 ## 5. 基板と外付けNOR
 
 データ配線は[pin proposal JSON](s3-board-pin-proposal.json)のとおり。S3のN16R8用予約GPIOを
@@ -179,12 +237,13 @@ S→Tは2回の再構成となる。実行時に任意address registerを書け�
 
 | 残作業 | 今回までに進めた範囲 | 閉じるために必要な成果 |
 |---|---|---|
+| 4 KiB DMA予約profileの実SDK link | 実装・host必要条件検算、PR実行と再試行まで実施 | Actionsのstep実行が可能になった後に再リンク。現状のCI開始前失敗は実機の有無とは別の障害 |
 | native RF driverとRTOS/SPIの結合 | bank lease C、上流割込み/core1監査、RF初期化の実link | silent dropのないMMIO loop、core役割、割込み配置、fault停止。実runtime確保を含むfirmware |
-| 高速FFT/梱包と統合scheduler | scalar FFT並列tileの数値試験、梱包の完全値試験、45条件のdeadline計算 | S3 SIMD tile、2 core間barrier、必要ならSの並列packing、実SDKでコンパイルした全schedule。500 usはまだ目標値 |
+| 高速FFT/梱包と統合scheduler | quarter係数の厳密復元＋scalar FFT並列tile、梱包の完全値試験、45条件のdeadline計算 | S3 SIMD tile、2 core間barrier、必要ならSの並列packing、実SDKでコンパイルした全schedule。500 usはまだ目標値 |
 | T全復調RTL | FEC修正とFFT入出力契約、部分資源合成 | RF FIR/resample、AGC/CFO/clock同期、Mode1/2/3/GI、TMCC、等化、階層/demap、time/frequency/bit/byte deinterleave、depuncture、energy descramble、TS framingの結合と独立TS照合 |
 | S全復調RTL | RS修正、K=7共通部の機能/面積検証、TC8PSKとの差の明確化 | matched filter/timing/carrier recovery、TC8PSK/QPSK/BPSK、burst/frame同期、TMCCとそのFEC、slot/TS選択、frame deinterleave、descrambleの結合と独立TS照合 |
 | 通信endpointと物理PSRAM | SPI/SCT側のwire/lease契約、pin候補、protocol-controller部分合成 | FPGA側80 MHz IO、CDC、2 port並べ替え、IQ ready/epoch/status/error検出、実PSRAM PHY/turnaround/refreshと競合検証 |
-| 全体clock/容量成立 | 正しいFECで99 MHz不成立を計測 | RS別clock＋CDCまたは高速化、全PLL/reset/IO制約、T/S各bitstreamの全体合成・配置配線・STA。必要に応じてFFT等の処理分担から再探索。旧予算の流用だけでは閉じない |
+| 全体clock/容量成立 | 正しい部分FECが104.06 MHzで99 MHz制約を通過。FFT係数表削減を実SDK linkで確認 | 起動からRF/PHY/SPI初期化までの同時live allocation、全PLL/reset/IO制約、T/S各bitstreamの全体配置配線・STA。必要なら処理分担を再探索 |
 | 切替firmware/復旧image | NOR配置と状態機械を実装/試験 | 実T/S/recovery image、書込み/読戻しdriver、RECONFIG drive、identity/epoch確認、壊れたheaderを含む復旧手順 |
 | RF前段・電源の実装設計 | S3内蔵RFへUHF/LNB IFを直接入れる構成では不足と確認 | 周波数変換器、LO、T/S切替filter、利得/attenuator、LNB給電/保護、S3電源、clock、connector、終端を選定した回路図/BOM/PCB。部品値・製品BOMは未確定 |
 

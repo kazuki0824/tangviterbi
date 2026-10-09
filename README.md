@@ -4,7 +4,9 @@
 > The legacy Viterbi benchmark below fails an independent no-noise decoding
 > test. Its old Fmax numbers do not qualify a working receiver decoder.
 > A reverse-traceback experiment now passes independent bit/metric/reset
-> tests, but the measured combined FEC still fails the 99 MHz shared clock.
+> tests. Its pipelined survivor read now reaches 104.06 MHz in the partial
+> FEC/protocol benchmark (99 MHz target). Exact quarter FFT coefficients
+> increase the RF/PSRAM link gap to 20,680 B; runtime memory remains unproven.
 > See the [current blockers and actual evidence](reports/s3-receiver-blockers.md)
 > before using any earlier resource, transport, or SRAM estimate.
 
