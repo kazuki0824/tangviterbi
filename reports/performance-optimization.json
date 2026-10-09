@@ -1,0 +1,266 @@
+{
+  "device": "GW1NR-LV9QN88PC6/I5",
+  "family": "GW1N-9C",
+  "toolchain": "OSS CAD Suite 2026-10-04",
+  "yosys": "0.69+190 (0e8336b4e)",
+  "nextpnr": "0.11.1-47-ge2fe86b3",
+  "constraint": "constraints/tangnano9k.cst",
+  "measurement": "packed utilization before placement; routed Fmax only after routing completes",
+  "pnr_options": "ci/run_pnr.sh unchanged, default nextpnr seed, 110 MHz target",
+  "baseline_commit": "10d54fab300f06d994ebf822c42bbcbeafba338c",
+  "baseline_ci_run": 37235747258,
+  "baseline": {
+    "core-only": {
+      "LUT4": 6298,
+      "DFF": 1637,
+      "BSRAM": 19,
+      "MULT18X18": 0,
+      "routed_fmax_mhz": 36.98
+    },
+    "mem": {
+      "LUT4": 6378,
+      "DFF": 1775,
+      "BSRAM": 19,
+      "MULT18X18": 0,
+      "routed_fmax_mhz": 36.99
+    },
+    "viterbi-only": {
+      "LUT4": 2330,
+      "DFF": 784,
+      "BSRAM": 18,
+      "MULT18X18": 0,
+      "routed_fmax_mhz": null
+    },
+    "rs-only": {
+      "LUT4": 4221,
+      "DFF": 885,
+      "BSRAM": 1,
+      "MULT18X18": 0,
+      "routed_fmax_mhz": null
+    }
+  },
+  "selected": {
+    "core-only": {
+      "LUT4": 4422,
+      "DFF": 1661,
+      "BSRAM": 19,
+      "MULT18X18": 4,
+      "routed_fmax_mhz": 72.54,
+      "routing_completed": true,
+      "target_110_mhz": "FAIL"
+    },
+    "mem": {
+      "LUT4": 4545,
+      "DFF": 1799,
+      "BSRAM": 19,
+      "MULT18X18": 4,
+      "routed_fmax_mhz": 79.02,
+      "routing_completed": true,
+      "target_110_mhz": "FAIL"
+    },
+    "viterbi-only": {
+      "LUT4": 2440,
+      "DFF": 784,
+      "BSRAM": 18,
+      "MULT18X18": 0,
+      "routed_fmax_mhz": null,
+      "routing_completed": false,
+      "target_110_mhz": "unknown"
+    },
+    "rs-only": {
+      "LUT4": 2066,
+      "DFF": 909,
+      "BSRAM": 1,
+      "MULT18X18": 4,
+      "routed_fmax_mhz": null,
+      "routing_completed": false,
+      "target_110_mhz": "unknown"
+    }
+  },
+  "source_sha256": {
+    "rtl/rs204_188_compact.sv": "215ed7f513a30301ce489bceae17cecb299f6615580f4678951693a4d4cb024b",
+    "rtl/viterbi_k7_16acs.sv": "6252167ac4072f16f5938e564f9f910e6fe4349be67584bb3f8a9839982cfa46"
+  },
+  "trials": [
+    {
+      "trial": "prefetch1",
+      "description": "Coefficient prefetch, original GF and Viterbi",
+      "core-only": {
+        "LUT4": 3994,
+        "DFF": 1685,
+        "BSRAM": 19,
+        "MULT18X18": 0,
+        "routed_fmax_mhz": 54.29,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      },
+      "mem": null
+    },
+    {
+      "trial": "prefetch3",
+      "description": "Registered GF operands, balanced XOR GF, parallel Viterbi branch costs",
+      "core-only": {
+        "LUT4": 4478,
+        "DFF": 1661,
+        "BSRAM": 19,
+        "MULT18X18": 0,
+        "routed_fmax_mhz": 59.63,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      },
+      "mem": {
+        "LUT4": 4673,
+        "DFF": 1799,
+        "BSRAM": 19,
+        "MULT18X18": 0,
+        "routed_fmax_mhz": 77.45,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      }
+    },
+    {
+      "trial": "prefetch4",
+      "description": "Explicit decoded coefficient read ports",
+      "core-only": {
+        "LUT4": 4579,
+        "DFF": 1661,
+        "BSRAM": 19,
+        "MULT18X18": 0,
+        "routed_fmax_mhz": 67.56,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      },
+      "mem": {
+        "LUT4": 4770,
+        "DFF": 1799,
+        "BSRAM": 19,
+        "MULT18X18": 0,
+        "routed_fmax_mhz": 70.01,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      }
+    },
+    {
+      "trial": "prefetch6",
+      "description": "LUT Karatsuba GF plus sliced Viterbi comparator",
+      "core-only": {
+        "LUT4": 4995,
+        "DFF": 1661,
+        "BSRAM": 19,
+        "MULT18X18": 0,
+        "routed_fmax_mhz": 54.52,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      },
+      "mem": {
+        "LUT4": 5522,
+        "DFF": 1799,
+        "BSRAM": 19,
+        "MULT18X18": 0,
+        "routed_fmax_mhz": 54.18,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      }
+    },
+    {
+      "trial": "dsp2",
+      "description": "Three DSP products, original traceback selection",
+      "core-only": {
+        "LUT4": 4442,
+        "DFF": 1661,
+        "BSRAM": 19,
+        "MULT18X18": 3,
+        "routed_fmax_mhz": 82.88,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      },
+      "mem": {
+        "LUT4": 4548,
+        "DFF": 1799,
+        "BSRAM": 19,
+        "MULT18X18": 3,
+        "routed_fmax_mhz": 70.21,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      }
+    },
+    {
+      "trial": "tracebyte1",
+      "description": "Three DSP products plus byte-prefetched traceback",
+      "core-only": {
+        "LUT4": 4399,
+        "DFF": 1669,
+        "BSRAM": 19,
+        "MULT18X18": 3,
+        "routed_fmax_mhz": 84.92,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      },
+      "mem": {
+        "LUT4": 4412,
+        "DFF": 1807,
+        "BSRAM": 19,
+        "MULT18X18": 3,
+        "routed_fmax_mhz": 63.16,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      }
+    },
+    {
+      "trial": "tracebyte4dsp",
+      "description": "Four DSP products plus byte-prefetched traceback",
+      "core-only": {
+        "LUT4": 4399,
+        "DFF": 1669,
+        "BSRAM": 19,
+        "MULT18X18": 4,
+        "routed_fmax_mhz": 65.24,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      },
+      "mem": {
+        "LUT4": 4598,
+        "DFF": 1807,
+        "BSRAM": 19,
+        "MULT18X18": 4,
+        "routed_fmax_mhz": 59.03,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      }
+    },
+    {
+      "trial": "fourdsp",
+      "description": "Four DSP products, original traceback selection (selected)",
+      "core-only": {
+        "LUT4": 4422,
+        "DFF": 1661,
+        "BSRAM": 19,
+        "MULT18X18": 4,
+        "routed_fmax_mhz": 72.54,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      },
+      "mem": {
+        "LUT4": 4545,
+        "DFF": 1799,
+        "BSRAM": 19,
+        "MULT18X18": 4,
+        "routed_fmax_mhz": 79.02,
+        "routing_completed": true,
+        "target_110_mhz": "FAIL"
+      }
+    }
+  ],
+  "verification": {
+    "unittest_count": 16,
+    "gf_operand_pairs": 65536,
+    "rs_reference_blocks": 24,
+    "rs_reset_interruptions": 12,
+    "viterbi_reference_steps": 4000,
+    "rs_service_observed_max_clocks": 6518,
+    "rs_service_conservative_bound_clocks": 6766,
+    "rs_service_deadline_clocks_at_110mhz": 7118,
+    "end_to_end_throughput": "unmeasured",
+    "ARIB_bit_exact_decoder": "unqualified"
+  }
+}
