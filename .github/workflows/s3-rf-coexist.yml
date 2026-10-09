@@ -9,6 +9,10 @@ permissions:
   contents: read
 jobs:
   link:
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [full, native-phy]
     runs-on: ubuntu-latest
     container: espressif/idf:v5.5.1
     timeout-minutes: 25
@@ -20,7 +24,9 @@ jobs:
           ref: e74f2a470972ec163c247f1fe88d32e08579242a
           path: build/esp-sdr
           submodules: recursive
-      - name: Compile complete upstream RF call graph with new static reservations
+      - name: Measure RF call graph with new static reservations
+        env:
+          RF_PROFILE: ${{ matrix.profile }}
         shell: bash
         run: |
           . "$IDF_PATH/export.sh"
@@ -28,9 +34,10 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: s3-rf-coexist-link-only-do-not-flash
+          name: s3-rf-${{ matrix.profile }}-link-only-do-not-flash
           path: |
-            build/s3-rf-coexist/result.json
-            build/s3-rf-coexist/build.log
-            build/s3-rf-coexist/idf/*.map
+            build/s3-rf-coexist/${{ matrix.profile }}/result.json
+            build/s3-rf-coexist/${{ matrix.profile }}/build.log
+            build/s3-rf-coexist/${{ matrix.profile }}/idf/*.map
+            build/esp-sdr/main/targets/esp32s3/receiver.c
           retention-days: 30

@@ -18,9 +18,9 @@ def simulate(mode='T', pack_cycles=6, fft_us=500, bank_samples=12288,
              phase_us=0, duration_us=100000, batch_us=20, segment_us=.25, ring_bytes=32768):
     rate = 16 if mode == 'T' else 40
     bank_period = bank_samples/rate
-    # Upstream prep reservation: 20000 CPU cycles plus 1024 sample pairs.
+    # Upstream prep reservation: 20000 CPU cycles plus 1024 sample pairs and LATE_LIMIT=2000.
     # Actual sentinel/reset lead times still need to be measured.
-    prep_lead = 20000/240 + 1024/rate
+    prep_lead = 20000/240 + (1024+2000)/rate
     t = 0.; next_bank = bank_period; bank_id=0
     banks=[]; packed=0.; claimed=retired=0; done=set(); ports=[None,None]
     producer=None; fft_due=phase_us; frames=[]; quad=None; fft_busy_until=0.
