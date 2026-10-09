@@ -22,13 +22,17 @@ result = {"profile": name, "IDF_version": subprocess.check_output(
         ["git", "-C", os.environ["IDF_PATH"], "rev-parse", "HEAD"], text=True).strip(),
     "build_exit_code": rc, "link_succeeded": rc == 0,
     "RF_reserved_range": ["0x3fcb0000", "0x3fce0000"],
+    "zero_copy_reservation": os.environ.get("PROBE_ZEROCOPY") == "1",
+    "late_twiddle_reserved_range": (["0x3fce0000", "0x3fce4000"]
+                                    if os.environ.get("PROBE_ZEROCOPY") == "1" else None),
     "scope": "Optimistic link-only static-buffer probe. No RF/PHY, dual-core FFT, application hot IRAM, DMA descriptors or full runtime stacks. Success is not a receiver memory fit.",
     "symbols": {}, "guard_errors": [line.strip() for line in log.splitlines()
                                       if "S3 RF ring overlaps" in line]}
 if map_file.exists():
     text = map_file.read_text(errors="replace")
     symbols = ("_iram_start", "_iram_end", "_data_start", "_data_end", "_bss_start", "_bss_end",
-               "rf_packed_queue", "link_staging", "fft_transfer_slots", "fft_twiddle_reservation")
+               "rf_packed_queue", "link_staging", "fft_transfer_slots", "fft_twiddle_reservation",
+               "link_headers", "link_descriptor_reserve")
     for symbol in symbols:
         matches = re.findall(r"^\s*(0x[0-9a-fA-F]+)\s+" + symbol + r"\b", text, re.M)
         if matches:

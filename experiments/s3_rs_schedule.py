@@ -53,7 +53,9 @@ def source(chien=True, bounded=True):
 """ + "".join(f"        inverse_rom[{i}] = 8'h{inverse(i):02x};\n" for i in range(256)) + """    end
     always @(posedge clk) inverse_q <= inverse_rom[inverse_address];
 """
-    text = replace_once(text, "    reg [7:0] inv_acc;", rom + "\n    reg [7:0] inv_acc;")
+    # Recent Icarus rejects continuous-initializer forward references. Emit
+    # the ROM after all FSM/operand declarations, before executable processes.
+    text = replace_once(text, "    integer read_slot;", rom + "\n    integer read_slot;")
     start = text.index("                ST_INV_SQUARE: begin\n                    inv_acc")
     end = text.index("                ST_BM_COEF: begin", start)
     text = text[:start] + """                ST_INV_SQUARE: begin
@@ -108,15 +110,16 @@ def source(chien=True, bounded=True):
         text = replace_once(text, old, new)
     if not chien:
         return text
-    text = replace_once(text, "    reg [7:0] chien_acc;", """    reg [7:0] chien_acc;
-    reg [7:0] chien_top;
+    text = replace_once(text, "    reg [7:0] chien_acc;", "    reg [7:0] chien_acc;\n    reg [7:0] chien_top;")
+    text = replace_once(text, "    integer read_slot;", """
     wire chien_finish = ((state == ST_CHIEN_EVAL) && (chien_k == 0)) ||
                          (state == ST_CHIEN_CHECK);
     wire [7:0] chien_result = (state == ST_CHIEN_CHECK) ?
         chien_acc : (feedback_y ^ lambda_q);
     // Captured before the first position; no extra coefficient-array mux.
     always @(posedge clk)
-        if (state == ST_CHIEN_INIT) chien_top <= lambda_q;""")
+        if (state == ST_CHIEN_INIT) chien_top <= lambda_q;
+    integer read_slot;""")
     start = text.index("            ST_CHIEN_INIT, ST_CHIEN_EVAL: begin")
     end = text.index("            ST_FORNEY_INIT, ST_FORNEY_WRITE:", start)
     text = text[:start] + """            ST_CHIEN_INIT: begin
