@@ -1,0 +1,266 @@
+{
+  "scope": "Synthesis only of RX wire+CDC, per-port guard, native unpack. No PSRAM/reorder/status/TX endpoint or full demodulator; no timing or board proof.",
+  "modules": {
+    "iq10": {
+      "cells": {
+        "ALU": 10,
+        "DFFC": 69,
+        "GND": 1,
+        "LUT1": 1,
+        "LUT2": 48,
+        "LUT3": 151,
+        "LUT4": 74,
+        "VCC": 1
+      },
+      "logic_equivalents": 284,
+      "FF": 69,
+      "BSRAM": 0,
+      "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "sha256": {
+        "rtl/s3_iq10_unpack.sv": "8c35e2f4cdc2a72ba309286942a61f9c87b6d298027b84d515a889a550f44e8f"
+      }
+    },
+    "spi8": {
+      "cells": {
+        "$scopeinfo": 1,
+        "ALU": 52,
+        "DFFC": 58,
+        "DFFCE": 55,
+        "DFFE": 36,
+        "GND": 1,
+        "LUT1": 6,
+        "LUT2": 24,
+        "LUT3": 61,
+        "LUT4": 38,
+        "SDPX9B": 1,
+        "VCC": 1
+      },
+      "logic_equivalents": 181,
+      "FF": 149,
+      "BSRAM": 1,
+      "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "sha256": {
+        "rtl/s3_async_fifo.sv": "83916a51ad13a2f45f745ca2a9962542a9d80ab329dfb7ae4c295843c02ce03f",
+        "rtl/s3_spi_rx.sv": "143912e0fadb6f90ed1fe3a3987f805437818c418eb8326d862f9e1214845a68"
+      }
+    },
+    "spi4": {
+      "cells": {
+        "$scopeinfo": 1,
+        "ALU": 52,
+        "DFFC": 31,
+        "DFFCE": 87,
+        "DFFE": 36,
+        "GND": 1,
+        "LUT1": 7,
+        "LUT2": 26,
+        "LUT3": 54,
+        "LUT4": 45,
+        "SDPX9B": 1,
+        "VCC": 1
+      },
+      "logic_equivalents": 184,
+      "FF": 154,
+      "BSRAM": 1,
+      "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "sha256": {
+        "rtl/s3_async_fifo.sv": "83916a51ad13a2f45f745ca2a9962542a9d80ab329dfb7ae4c295843c02ce03f",
+        "rtl/s3_spi_rx.sv": "143912e0fadb6f90ed1fe3a3987f805437818c418eb8326d862f9e1214845a68"
+      }
+    },
+    "guard": {
+      "cells": {
+        "ALU": 10,
+        "DFFC": 5,
+        "DFFCE": 45,
+        "DFFP": 1,
+        "GND": 1,
+        "LUT1": 1,
+        "LUT2": 22,
+        "LUT3": 16,
+        "LUT4": 43,
+        "VCC": 1
+      },
+      "logic_equivalents": 92,
+      "FF": 51,
+      "BSRAM": 0,
+      "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "sha256": {
+        "rtl/s3_page_guard.sv": "16b1a52deb3d9c446c933cfe4949e1bf26a5595986eaf77635b7c4606e16ee97"
+      }
+    }
+  },
+  "receiver_adopted": false,
+  "RX_pin_placement": {
+    "exit_code": 0,
+    "fmax": {
+      "g[0].guard.clk": {
+        "achieved": 121.59532928466797,
+        "constraint": 99.0000991821289
+      },
+      "p2.spi_clk": {
+        "achieved": 113.32728576660156,
+        "constraint": 80
+      },
+      "p3.spi_clk": {
+        "achieved": 93.89671325683594,
+        "constraint": 80
+      }
+    },
+    "utilization": {
+      "ALU": {
+        "available": 6480,
+        "used": 152
+      },
+      "ALU54D": {
+        "available": 10,
+        "used": 0
+      },
+      "BSRAM": {
+        "available": 26,
+        "used": 2
+      },
+      "BUFG": {
+        "available": 22,
+        "used": 1
+      },
+      "CLKDIV": {
+        "available": 8,
+        "used": 0
+      },
+      "CLKDIV2": {
+        "available": 16,
+        "used": 0
+      },
+      "DCS": {
+        "available": 8,
+        "used": 0
+      },
+      "DFF": {
+        "available": 6480,
+        "used": 469
+      },
+      "DHCEN": {
+        "available": 24,
+        "used": 0
+      },
+      "DQCE": {
+        "available": 24,
+        "used": 0
+      },
+      "FLASH608K": {
+        "available": 1,
+        "used": 0
+      },
+      "GND": {
+        "available": 1,
+        "used": 1
+      },
+      "GSR": {
+        "available": 1,
+        "used": 1
+      },
+      "IDES16": {
+        "available": 80,
+        "used": 0
+      },
+      "IOB": {
+        "available": 276,
+        "used": 19
+      },
+      "IOLOGICI": {
+        "available": 276,
+        "used": 0
+      },
+      "IOLOGICO": {
+        "available": 276,
+        "used": 0
+      },
+      "LUT4": {
+        "available": 8640,
+        "used": 766
+      },
+      "MIPI_IBUF": {
+        "available": 22,
+        "used": 0
+      },
+      "MIPI_OBUF": {
+        "available": 20,
+        "used": 0
+      },
+      "MULT18X18": {
+        "available": 20,
+        "used": 0
+      },
+      "MULT36X36": {
+        "available": 5,
+        "used": 0
+      },
+      "MULT9X9": {
+        "available": 40,
+        "used": 0
+      },
+      "MULTADDALU18X18": {
+        "available": 10,
+        "used": 0
+      },
+      "MULTALU18X18": {
+        "available": 10,
+        "used": 0
+      },
+      "MULTALU36X18": {
+        "available": 10,
+        "used": 0
+      },
+      "MUX2_LUT5": {
+        "available": 4320,
+        "used": 0
+      },
+      "MUX2_LUT6": {
+        "available": 2160,
+        "used": 0
+      },
+      "MUX2_LUT7": {
+        "available": 1080,
+        "used": 0
+      },
+      "MUX2_LUT8": {
+        "available": 1080,
+        "used": 0
+      },
+      "OSC": {
+        "available": 1,
+        "used": 0
+      },
+      "OSER16": {
+        "available": 80,
+        "used": 0
+      },
+      "PADD18": {
+        "available": 20,
+        "used": 0
+      },
+      "PADD9": {
+        "available": 40,
+        "used": 0
+      },
+      "RAM16SDP4": {
+        "available": 270,
+        "used": 0
+      },
+      "VCC": {
+        "available": 1,
+        "used": 1
+      },
+      "rPLL": {
+        "available": 2,
+        "used": 0
+      }
+    },
+    "source_sha256": {
+      "experiments/s3_spi_rx_benchmark.sv": "2cd99587791fe22fb3f7fb17345c6a91934197f4c0d37708223693f3153cd00c",
+      "experiments/s3_spi_rx_benchmark.cst": "e8ad3693191d316fbe82619833f4225d09b54c95850db62d98e06cc4b0715998"
+    },
+    "scope": "Two RX ports with per-port guards and checksum sinks. Clock targets 99/80/80 MHz; core PLL and external IO delay/CDC skew constraints are not included. No full receiver claim."
+  }
+}

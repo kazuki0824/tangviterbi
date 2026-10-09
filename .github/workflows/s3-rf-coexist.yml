@@ -4,6 +4,8 @@ on:
     paths:
       - 'ci/s3_rf_coexist_probe.py'
       - 'ci/s3_startup_memory_bound.py'
+      - 'ci/s3_rom_layout_audit.py'
+      - 'experiments/s3_native_capture.*'
       - 'tests/test_s3_startup_memory_bound.py'
       - 'experiments/s3_fft_tiles.*'
       - 'experiments/s3_memory_probe/**'
@@ -16,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        profile: [native-quarter-fft, native-quarter-pool4]
+        profile: [native-quarter-pool4, native-quarter-romsafe, native-direct-phy]
     runs-on: ubuntu-latest
     container: espressif/idf:v5.5.1
     timeout-minutes: 25
@@ -31,6 +33,7 @@ jobs:
       - name: Measure RF call graph with new static reservations
         env:
           RF_PROFILE: ${{ matrix.profile }}
+          IDF_COMPONENT_MANAGER: 0
         shell: bash
         run: |
           . "$IDF_PATH/export.sh"
@@ -39,7 +42,9 @@ jobs:
       - name: Audit startup stacks against the generous internal heap bound
         shell: bash
         run: |
+          . "$IDF_PATH/export.sh"
           python3 ci/s3_startup_memory_bound.py --profile ${{ matrix.profile }} \
+            --rom-elf "$ESP_ROM_ELF_DIR/esp32s3_rev0_rom.elf" \
             --elf build/s3-rf-coexist/${{ matrix.profile }}/idf/esp_sdr.elf \
             --map build/s3-rf-coexist/${{ matrix.profile }}/idf/esp_sdr.map \
             --sdkconfig build/s3-rf-coexist/${{ matrix.profile }}/idf/config/sdkconfig.json \

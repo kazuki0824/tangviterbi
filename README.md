@@ -1,3 +1,10 @@
+> S3 receiver status update: the old late SRAM ring overlaps ROM-reserved data
+> and is rejected. A ROM-safe direct-PHY link profile passes necessary startup
+> capacity checks but is not verified on hardware. New native bank capture,
+> SPI RX/CDC, depuncturing/erasures and TC8PSK metric/survivor components are
+> implemented; the full receiver remains unadopted. See the
+> [current evidence and separate offline/hardware gaps](reports/s3-receiver-blockers.md).
+
 # tangviterbi
 
 > **S3-N16R8 receiver audit (2026-10-09): not a qualified receiver.**

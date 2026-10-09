@@ -68,4 +68,21 @@ class StartupBoundTest(unittest.TestCase):
         for bad in ('', valid+valid.replace('340','344')):
             with self.assertRaises(ValueError):m.tcb_size_from_dwarf(bad)
 
+    def test_rtc_metadata_is_not_charged_against_dma_bound(self):
+        layout={'multi_heap_info':20,'control_t':36,'pointer_bytes':4}
+        r=m.allocator_refinement(4096,32768,1,layout,30000,3000)
+        dma_meta=r['heaps'][0]['metadata_lower_bound_bytes']
+        self.assertEqual(r['free_before_DMA_pool_upper_bound_bytes'],4096-dma_meta)
+
+    def test_late_heap_cannot_rescue_early_task_allocation(self):
+        layout={'multi_heap_info':20,'control_t':36,'pointer_bytes':4}
+        live=18432+6*340
+        early=m.allocator_refinement(12488,8168,6,layout,12488+8168-live,0)
+        self.assertEqual(early['pool_shortage_lower_bound_bytes'],676)
+        later=m.allocator_refinement(12488,8168,6,layout,12488+8168+3636-live,4096,3636)
+        self.assertEqual(later['pool_shortage_lower_bound_bytes'],1488)
+        direct=m.allocator_refinement(31832,8168,6,layout,31832+8168+3636-live,4096,3636)
+        self.assertEqual(direct['free_before_DMA_pool_upper_bound_bytes'],21632)
+        self.assertTrue(direct['pool_necessary_capacity_pass'])
+
 if __name__=='__main__':unittest.main()

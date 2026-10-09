@@ -11,6 +11,7 @@
 #include "s3_spi_transport.h"
 #include "s3_fft_tiles.h"
 #include "s3_capture_bridge.h"
+#include "s3_native_capture.h"
 #include "hal/dma_types.h"
 static s3_spi_port transport_ports[2];
 static spi_multi_transaction_t octal_segments[8], quad_segments[1];
@@ -18,6 +19,7 @@ static s3_tx_ring transport_ring;
 static s3_iq10_packer transport_packer;
 static s3_rf_transfer transport_RF_transfers[2];
 static s3_capture_bridge capture_bridge;
+static s3_native_capture native_capture;
 const uint32_t transport_object_sizes[] = {
     sizeof(s3_spi_port), sizeof(spi_multi_transaction_t), sizeof(s3_tx_ring),
     sizeof(dma_descriptor_align4_t), 24*2*sizeof(dma_descriptor_align4_t),
@@ -35,7 +37,11 @@ SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);
 #if !CONFIG_ESP32S3_DATA_CACHE_32KB
 #error "64 KiB RF queue requires the audited 32 KiB data cache layout"
 #endif
-#if PROBE_UPPER_FFT
+#if PROBE_ROM_SAFE
+// Rev0 ROM reserves [0x3fceee34,0x3fcf0000); never reclaim it.
+SOC_RESERVE_MEMORY_REGION(0x3fce0000, 0x3fcee000, s3_late_rf_queue);
+DMA_ATTR uint8_t rf_queue_tail[8192];
+#elif PROBE_UPPER_FFT
 SOC_RESERVE_MEMORY_REGION(0x3fce8000, 0x3fcf8000, s3_late_rf_queue);
 #else
 SOC_RESERVE_MEMORY_REGION(0x3fce4000, 0x3fcf4000, s3_late_rf_queue);
@@ -43,7 +49,9 @@ SOC_RESERVE_MEMORY_REGION(0x3fce4000, 0x3fcf4000, s3_late_rf_queue);
 #else
 SOC_RESERVE_MEMORY_REGION(0x3fce4000, 0x3fcec000, s3_late_rf_queue);
 #endif
-#if PROBE_UPPER_FFT
+#if PROBE_ROM_SAFE
+static uint8_t *const rf_packed_queue = (uint8_t *)0x3fce0000;
+#elif PROBE_UPPER_FFT
 static uint8_t *const rf_packed_queue = (uint8_t *)0x3fce8000;
 #else
 static uint8_t *const rf_packed_queue = (uint8_t *)0x3fce4000;
@@ -67,9 +75,17 @@ DMA_ATTR uint8_t link_staging[PROBE_LINKS][2][4092];
 #if PROBE_UPPER_FFT
 // One contiguous FFT slot replaces the late twiddle arena. Its peer and
 // full twiddle table stay below the RF aperture, saving 16 KiB there.
+#if PROBE_ROM_SAFE
+SOC_RESERVE_MEMORY_REGION(0x3fcf0000, 0x3fcf8000, s3_late_fft_slot0);
+#else
 SOC_RESERVE_MEMORY_REGION(0x3fce0000, 0x3fce8000, s3_late_fft_slot0);
+#endif
 DMA_ATTR __attribute__((aligned(16))) uint8_t fft_slot1[32768];
+#if PROBE_ROM_SAFE
+static uint8_t *const fft_transfer_slots[2] = {(uint8_t *)0x3fcf0000, fft_slot1};
+#else
 static uint8_t *const fft_transfer_slots[2] = {(uint8_t *)0x3fce0000, fft_slot1};
+#endif
 #if PROBE_QUARTER_FFT
 DRAM_ATTR __attribute__((aligned(16))) uint16_t fft_twiddle_reservation[2049];
 #else
@@ -95,6 +111,11 @@ void app_main(void)
 {
     // Live references prevent section GC; no PSRAM fallback or fake malloc fit.
     probe_keep = (uintptr_t)rf_packed_queue;
+#if PROBE_ROM_SAFE
+    probe_keep ^= (uintptr_t)rf_queue_tail;
+    // The existing split-ring implementation retains all sixteen DMA pages.
+    probe_keep ^= s3_ring_init_split(&transport_ring,rf_packed_queue,14,rf_queue_tail,2,1);
+#endif
 #if PROBE_TRANSPORT
     probe_keep ^= (uintptr_t)transport_ports ^ (uintptr_t)octal_segments ^
         (uintptr_t)quad_segments ^ (uintptr_t)&transport_ring ^ (uintptr_t)transport_object_sizes ^
@@ -114,6 +135,8 @@ void app_main(void)
 #else
     probe_keep ^= (uintptr_t)&s3_fft_reverse_tile ^ (uintptr_t)&s3_fft_stage_tile;
 #endif
+    probe_keep ^= (uintptr_t)&native_capture ^ (uintptr_t)&s3_native_start ^ (uintptr_t)&s3_native_poll ^
+        (uintptr_t)&s3_native_stop ^ (uintptr_t)&s3_native_mmio;
     probe_keep ^= (uintptr_t)&capture_bridge ^ (uintptr_t)&s3_capture_init ^
         (uintptr_t)&s3_capture_accept ^ (uintptr_t)&s3_capture_reclaim ^ (uintptr_t)&s3_capture_step;
 #elif PROBE_ZEROCOPY

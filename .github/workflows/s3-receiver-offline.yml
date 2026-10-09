@@ -5,6 +5,9 @@ on:
       - 'experiments/s3_*'
       - 'tests/test_s3_*'
       - 'ci/s3_area_benchmark.py'
+      - 'ci/s3_comm_benchmark.py'
+      - 'ci/s3_fec_extension_benchmark.py'
+      - 'rtl/s3_*.sv'
       - '.github/workflows/s3-receiver-offline.yml'
   workflow_dispatch:
 permissions:
@@ -15,12 +18,15 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - run: python3 -m unittest discover -s tests -p test_s3_capture_bridge.py -v
+      - run: python3 -m unittest discover -s tests -p test_s3_native_capture.py -v
       - run: python3 -m unittest discover -s tests -p test_s3_bank_schedule.py -v
       - run: python3 -m unittest discover -s tests -p test_s3_nor_images.py -v
       - uses: actions/upload-artifact@v4
         with:
           name: s3-capture-bridge
-          path: build/s3-capture/
+          path: |
+            build/s3-capture/
+            build/s3-native-capture/
   fec:
     runs-on: ubuntu-latest
     timeout-minutes: 35
@@ -41,3 +47,33 @@ jobs:
           path: |
             build/s3-viterbi/
             build/s3-area/isdb-predecode4-99-traceback-modulo13-pipe/
+  new-components:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Independent communication and FEC vectors
+        run: |
+          for t in iq10_unpack spi_rx page_guard depuncture tc8psk tc8psk_metric; do
+            python3 -m unittest discover -s tests -p "test_s3_${t}.py" -v || exit 1
+          done
+      - name: Measure communication IO and extended FEC
+        run: |
+          python3 ci/s3_comm_benchmark.py
+          python3 ci/s3_fec_extension_benchmark.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-new-components-partial-design
+          path: |
+            build/s3-comm-area/
+            build/s3-comm-pnr/
+            build/s3-fec-extensions/
+            build/s3-tc8psk*/
+            build/s3-depuncture/
+            reports/s3-comm-area.json
+            reports/s3-fec-extensions.json
