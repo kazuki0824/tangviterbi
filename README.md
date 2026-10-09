@@ -66,8 +66,11 @@ remain outside the measured scope.
 The separate [S3-N16R8 receiver proposal](reports/s3-internal-sram-proposal.md)
 records six zero-DSP area experiments, corrected internal-SRAM accounting,
 and conditional T/S transport budgets. It does not replace the adopted RTL
-or qualify a full receiver; its S service-cycle and firmware changes remain
-implementation work.
+or qualify a full receiver. The [offline follow-up](reports/s3-offline-closure.md)
+implements a bounded RS experiment with independent ISDB outer-code vectors,
+checks a real ESP-IDF memory map, and tests concurrent Q15 FFT tiles and stream
+ownership. It also records failed intermediate layouts and timing results.
+Production RTL and the original benchmark gates are unchanged.
 
 ## RTL
 

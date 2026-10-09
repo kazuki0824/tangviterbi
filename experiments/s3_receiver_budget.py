@@ -6,6 +6,7 @@ Inputs freeze the previous estimate's stage budgets; only measured FEC cells
 and the explicitly corrected SRAM layout are substituted. Requires ortools.
 """
 import argparse
+import csv
 import itertools
 import json
 import math
@@ -29,6 +30,7 @@ def profile(p):
 
 def enumerate_mode(mode, inputs, fec):
     st = mode["standard"]
+    current = fec.get("ISDB_conventions", False)
     ports = [profile(p) for p in inputs["ports"]]
     flows = [dict(f, direction="down" if f["direction"] == "SoC→FPGA" else "up") for f in mode["flows"]]
     nonraw = sum(f["MBps"] for f in flows if f["source"] != "RF")
@@ -41,12 +43,17 @@ def enumerate_mode(mode, inputs, fec):
     stage["logic_sites_estimate"] += (fec["RS"]["logic_equivalents"] - 2085
                                       + fec["Viterbi"]["logic_equivalents"] - 2952)
     stage["FF"] += fec["RS"]["FF"] - 960 + fec["Viterbi"]["FF"] - 1502
+    if current:
+        bsram = sum(fec["RS"]["cells"].get(k, 0) for k in
+                    ("DPB", "DPX9B", "SP", "SPX9", "SDPB", "SDPX9B", "ROM", "ROMX9"))
+        stage["BSRAM"] += bsram - 1
     if st == "S":
-        # Proposed S-only cycle reduction, NOT measured RTL. Explicitly charge
-        # its controller/operand work, inverse-ROM BSRAM and additional FIFO.
-        stage["logic_sites_estimate"] += 256
-        stage["FF"] += 128
-        stage["BSRAM"] += 2
+        # The historical model reserves the then-unimplemented RS optimization.
+        # ISDB measurements already include its ROM/controller; retain only
+        # the separate, still-estimated CDC/FIFO integration reserve.
+        stage["logic_sites_estimate"] += 128 if current else 256
+        stage["FF"] += 64 if current else 128
+        stage["BSRAM"] += 1 if current else 2
     rows = []
     for count in range(1, len(ports) + 1):
         for ps in itertools.combinations(ports, count):
@@ -66,15 +73,26 @@ def enumerate_mode(mode, inputs, fec):
             if any(resources[k] > inputs["capacity"][k] for k in resources):
                 continue
             sram = 196608 + 98304 + 65536 + 32768 + 8184 * count + (100352 if st == "T" else 0)
+            if current:
+                # DMA payload aliases the RF queue / two FFT slots. Reserve
+                # 32 B of headers + 512 B of descriptors per port; N/2 complex
+                # twiddles (16 KiB) live in the reserved late upper-SRAM arena.
+                sram = 196608 + 98304 + 65536 + 32768 + 544 * count + (81920 if st == "T" else 0)
             if sram > 524288:
                 continue
             solver = pywraplp.Solver.CreateSolver("GLOP")
             u = solver.NumVar(0, 1, "utilization")
             allocations = []
+            primary = current and st == "T" and names == ["SPI2_Octal80", "SPI3_Quad80"]
             for i, f in enumerate(flows):
                 vv = []
                 for j, p in enumerate(ps):
                     if p["kind"] not in ("half", f["direction"]):
+                        continue
+                    # Preserve the direction-separated primary allocation
+                    # tested by s3_stream_schedule; generic LP balancing would
+                    # produce a different, untested half-duplex schedule.
+                    if primary and j != (1 if f["direction"] == "up" else 0):
                         continue
                     x = solver.NumVar(0, solver.infinity(), f"flow{i}_{j}")
                     vv.append(x)
@@ -100,6 +118,7 @@ def enumerate_mode(mode, inputs, fec):
                 links.append(dict(p, used_MBps=load, spare_MBps=p["effective_MBps"] - load,
                                   arrival_us=period, additional_gap_limit_us=period - p["service_us"]))
             rows.append({"ports": names, "allocation": aa, "links": links,
+                         "allocation_policy": "fixed primary directions" if primary else "one feasible minimum-peak allocation",
                          "resources": resources, "SRAM_bytes": sram,
                          "CPU_Mcycles_s": total_cpu, "CPU_average_utilization": cpu,
                          "joint_budget_utilization": u.solution_value(),
@@ -116,9 +135,19 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--fec", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--csv", type=Path)
     args = parser.parse_args()
     inputs = json.loads((ROOT / "reports/s3-receiver-inputs.json").read_text())
     fec = json.loads(args.fec.read_text())
+    current = fec.get("ISDB_conventions", False)
+    if current:
+        # The revised T slot contains 8192 samples after FPGA GI removal.
+        # The frozen historical input used 8448 samples (including the GI).
+        t = inputs["modes"]["T"]
+        t["flows"][1]["MBps"] = 8192 * 4 / t["period_us"]
+        t["flows"][1]["format"] = "8192 time-domain complex Q15 samples after hardware GI removal"
+        for st, mode in inputs["modes"].items():
+            mode["stage_required_MHz"]["RS"] = fec["receiver_RS_minimum_MHz"][st]
     result = {"scope": "Two fixed ownerships; all subsets of the explicitly listed ports. GPIO count is a necessary condition, not an electrical pin/timing proof. No receiver is certified.",
               "FEC_kind": fec["kind"], "FEC_tool": fec["RS"]["creator"],
               "planned_S_RS": {"implemented": False, "cycles_per_block_target": 2758,
@@ -133,6 +162,32 @@ def main():
                                    "physical pin mapping/IO constraints", "full receiver synthesis and decoder correctness"],
               "receiver_adopted": False}
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    if current:
+        result.pop("planned_S_RS")
+        result["FEC_rtl_sha256"] = fec["rtl_sha256"]
+        result["FEC_routed_timing"] = {name: {k: data[k] for k in
+            ("Fmax_MHz", "routing_complete", "meets_constraint_MHz", "meets_receiver_RS_S_floor")}
+            for name, data in fec["routed"].items()}
+        result["ownership_and_flows"] = {st: {key: mode[key] for key in
+            ("owners", "flows", "period_us", "stage_required_MHz", "TS_MBps")}
+            for st, mode in inputs["modes"].items()}
+        result["implemented_RS"] = {"cycles_per_block": fec["RS_conservative_cycles"],
+                                   "minimum_clock_MHz": fec["receiver_RS_minimum_MHz"],
+                                   "independent_vectors": fec["independent_ISDB_vectors"],
+                                   "S_remaining_CDC_reserve": {"logic": 128, "FF": 64, "BSRAM": 1}}
+        result["memory_layout"] = "zero-copy payload, 544 B/port header+descriptor reserve, 2x32768 B FFT slots, 16384 B late twiddle arena; full RF firmware fit remains unproven"
+    if args.csv:
+        args.csv.parent.mkdir(parents=True, exist_ok=True)
+        with args.csv.open("w", newline="") as output:
+            writer = csv.writer(output)
+            writer.writerow(("standard", "port_set", "minimal", "port", "effective_MBps", "used_MBps", "spare_MBps", "arrival_us", "service_us", "additional_gap_limit_us", "logic_estimate", "FF", "BSRAM", "DSP18", "SRAM_B", "receiver_adopted"))
+            for st, rows in result["modes"].items():
+                for row in rows:
+                    for link in row["links"]:
+                        writer.writerow((st, " + ".join(row["ports"]), row["inclusion_minimal"], link["name"],
+                                         *[link[k] for k in ("effective_MBps", "used_MBps", "spare_MBps", "arrival_us", "service_us", "additional_gap_limit_us")],
+                                         *[row["resources"][k] for k in ("logic_sites_estimate", "FF", "BSRAM", "DSP18")],
+                                         row["SRAM_bytes"], row["receiver_adopted"]))
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print({st: {"sets": len(v), "minimal_sets": sum(r["inclusion_minimal"] for r in v)}
            for st, v in result["modes"].items()})
