@@ -35,6 +35,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Check mutually exclusive operands and cycle equivalence
         run: python3 -m unittest discover -s tests -p test_s3_rs_area.py -v
+      - name: Check conditional stream scheduling
+        run: python3 -m unittest discover -s tests -p test_s3_stream_schedule.py -v
       - name: Compare module area and routed timing result
         run: python3 ci/s3_area_benchmark.py '${{ matrix.kind }}' --frequency '${{ matrix.frequency }}'
       - name: Upload raw measurements

@@ -16,8 +16,12 @@ from s3_rs_schedule import source as schedule_source
 
 def run(command, log):
     with log.open("w") as output:
-        return subprocess.run(command, cwd=ROOT, stdout=output,
-                              stderr=subprocess.STDOUT, timeout=720).returncode
+        rc = subprocess.run(command, cwd=ROOT, stdout=output,
+                            stderr=subprocess.STDOUT, timeout=720).returncode
+    if rc:
+        print(f"Command failed ({rc}): {command}", flush=True)
+        print(log.read_text()[-16000:], flush=True)
+    return rc
 
 
 def synth(sources, top, directory, mem=None, narrow=False, vit=True):
