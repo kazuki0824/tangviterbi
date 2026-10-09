@@ -14,8 +14,8 @@ trace = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(trace)
 
 
-def stimulus(bits, noise=False):
-    state = 0
+def stimulus(bits, noise=False, initial_state=0):
+    state = initial_state
     result = []
     for i, bit in enumerate(bits):
         state = ((state << 1) | bit) & 127
@@ -58,6 +58,53 @@ endmodule''')
 
 @unittest.skipUnless(shutil.which("iverilog"), "Icarus required")
 class DecodeTest(unittest.TestCase):
+    def test_unknown_state_and_reset_aborts_inflight_traceback(self):
+        rng=random.Random(0xC1EA2)
+        epochs=[[rng.randrange(2) for _ in range(512+73*i)] for i in range(8)]
+        words=[w for i,b in enumerate(epochs) for w in stimulus(b,initial_state=(7+9*i)%64)]
+        with tempfile.TemporaryDirectory() as directory:
+            d=Path(directory)
+            (d/'dut.sv').write_text(trace.generate('modulo13'))
+            (d/'input.hex').write_text(''.join(f'{v:04x}\n' for v in words))
+            counts='\n'.join(f'lengths[{i}]={len(b)};' for i,b in enumerate(epochs))
+            (d/'tb.sv').write_text(f'''module tb;
+reg clk=0;always #5 clk=~clk;
+reg resetn=0,valid=0;reg [7:0]a=0,b=0;wire ready,ov,ob;
+integer lengths[0:7];reg[15:0]words[0:{len(words)-1}];
+integer e=0,n,at=0,tick=0,f;
+s3_viterbi_traceback dut(clk,resetn,valid,ready,a,b,ov,ob);
+initial begin {counts}
+f=$fopen("epochs.txt","w");$readmemh("input.hex",words);
+for(e=0;e<8;e=e+1)begin
+resetn=0;valid=0;repeat(3)@(negedge clk);resetn=1;n=0;
+while(n<lengths[e])begin
+@(negedge clk);valid=0;
+// Long stalls let traceback finish while input is idle.
+if(ready && (tick%503<410))begin
+a=words[at][15:8];b=words[at][7:0];valid=1;n=n+1;at=at+1;end
+tick=tick+1;end
+@(negedge clk);valid=0;repeat(e%3)@(negedge clk);
+// Abort with outstanding output; no tail from epoch e may leak to e+1.
+resetn=0;
+end
+$fclose(f);$finish;end
+always @(posedge clk)begin #1;
+if(!resetn && ov)$fatal(1,"output remained valid during reset");
+if(resetn && ov)$fdisplay(f,"%0d %0d",e,ob);end
+endmodule''')
+            subprocess.run(['iverilog','-g2012','-s','tb','-o',str(d/'sim'),str(d/'dut.sv'),str(d/'tb.sv')],check=True,capture_output=True)
+            subprocess.run(['vvp',str(d/'sim')],cwd=d,check=True,capture_output=True,timeout=90)
+            actual=[[] for _ in epochs]
+            for line in (d/'epochs.txt').read_text().splitlines():
+                e,bit=map(int,line.split());actual[e].append(bit)
+        for e,(got,want) in enumerate(zip(actual,epochs)):
+            self.assertGreater(len(got),128,e)
+            self.assertEqual(got[64:],want[64:len(got)],e)
+        dest=ROOT/'build/s3-viterbi';dest.mkdir(parents=True,exist_ok=True)
+        (dest/'reset-oracle.json').write_text(json.dumps({'epochs':len(epochs),'unknown_initial_states':True,
+            'inflight_reset':True,'long_input_stalls':True,'discard_first_bits_each_epoch':64,
+            'checked_outputs':[len(a)-64 for a in actual],'errors':0},indent=2)+'\n')
+
     def test_independent_encoder(self):
         for mode in ("normalized14","modulo13"):
             with self.subTest(arithmetic=mode): self.check_mode(mode)

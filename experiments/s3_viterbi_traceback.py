@@ -132,6 +132,12 @@ endmodule
         src = src.replace("            if (cand1 < cand0) begin",
                           "            metric_difference = cand1[METRIC_W-1:0] - cand0[METRIC_W-1:0];\n            if (metric_difference < 0) begin")
         src = src.replace("            if (normalize)\n                lane_metric[i] = lane_metric[i] - (1 << (METRIC_W-2));", "")
+    # These are fixed-width architectures, not generic parameter variants.
+    src = src.replace("    integer i;", '''    initial begin
+        if (METRIC_W != EXPECTED_WIDTH || TRACEBACK != 64)
+            $fatal(1, "unsupported traceback/metric parameter override");
+    end
+    integer i;'''.replace('EXPECTED_WIDTH', '13' if mode == 'modulo13' else '14'))
     return src
 
 

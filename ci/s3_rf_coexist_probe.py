@@ -15,12 +15,12 @@ import shutil
 import subprocess
 ROOT=Path(__file__).resolve().parents[1]
 PROFILE=os.environ.get('RF_PROFILE','full')
-if PROFILE not in ('full','native-phy'):raise SystemExit('unknown RF_PROFILE')
+if PROFILE not in ('full','native-phy','native-phy-flash'):raise SystemExit('unknown RF_PROFILE')
 UP=ROOT/'build/esp-sdr';OUT=ROOT/'build/s3-rf-coexist'/PROFILE;OUT.mkdir(parents=True,exist_ok=True)
 EXPECTED='e74f2a470972ec163c247f1fe88d32e08579242a'
 actual=subprocess.check_output(['git','-C',str(UP),'rev-parse','HEAD'],text=True).strip()
 if actual!=EXPECTED:raise SystemExit('upstream pin mismatch')
-if PROFILE=='native-phy':
+if PROFILE.startswith('native-phy'):
     # A lower-bound link profile, NOT a replacement receiver. Retain upstream
     # tuning/calibration/PHY startup but omit SPEC/IQS/USB commands and the
     # manual core1 reset. No RF-bank MMIO loop is retained in this profile.
@@ -55,6 +55,13 @@ defaults=defaults.replace('CONFIG_ESPTOOLPY_FLASHSIZE_2MB=y','CONFIG_ESPTOOLPY_F
 defaults=defaults.replace('CONFIG_FREERTOS_UNICORE=y','# CONFIG_FREERTOS_UNICORE is not set')
 defaults+='\n'+(ROOT/'experiments/s3_memory_probe/sdkconfig.transport.defaults').read_text()
 defaults+='\nCONFIG_SPIRAM=y\nCONFIG_SPIRAM_MODE_OCT=y\nCONFIG_SPIRAM_SPEED_80M=y\nCONFIG_ESP32S3_DATA_CACHE_32KB=y\n'
+if PROFILE=='native-phy-flash':
+    # RF MMIO acquisition is a different path from ordinary Wi-Fi packets.
+    # Keep our SPI/packing/FFT hot code in IRAM; move optional Wi-Fi packet
+    # speed-optimization code to flash. This does NOT prove RF runtime timing.
+    for key in ('ESP_WIFI_IRAM_OPT','ESP_WIFI_RX_IRAM_OPT','ESP_WIFI_EXTRA_IRAM_OPT'):
+        defaults=re.sub(r'^(?:# )?CONFIG_'+key+r'(?:=.*| is not set)$','',defaults,flags=re.M)
+        defaults+='\n# CONFIG_'+key+' is not set\n'
 (UP/'sdkconfig.coexist.defaults').write_text(defaults)
 cmd=['idf.py','-B',str(OUT/'idf'),'-DIDF_TARGET=esp32s3',
      '-DSDKCONFIG=sdkconfig.coexist','-DSDKCONFIG_DEFAULTS=sdkconfig.coexist.defaults','build']
@@ -62,7 +69,7 @@ with (OUT/'build.log').open('w') as f:rc=subprocess.run(cmd,cwd=UP,stdout=f,stde
 log=(OUT/'build.log').read_text(errors='replace')
 result={'scope':__doc__,'profile':PROFILE,
         'RF_bank_loop_linked':PROFILE=='full',
-        'native_PHY_only_lower_bound':PROFILE=='native-phy',
+        'native_PHY_only_lower_bound':PROFILE.startswith('native-phy'),
         'upstream_commit':actual,'upstream_requested_IDF':'25fe69f946311abdaf9ad56591f25fedbc20ac98',
         'IDF_commit':subprocess.check_output(['git','-C',os.environ['IDF_PATH'],'rev-parse','HEAD'],text=True).strip(),
         'exit_code':rc,'link_succeeded':rc==0,'symbols':{},'receiver_adopted':False,
@@ -75,6 +82,19 @@ if p.exists():
         a=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+'+sym+r'\b',m,re.M)
         if a:result['symbols'][sym]=a[-1]
     if '_bss_end' in result['symbols']:result['static_gap_to_RF_bytes']=0x3fcb0000-int(result['symbols']['_bss_end'],16)
+    result['hot_functions']={}
+    for name in ('s3_fft_stage_tile','s3_fft_reverse_tile','s3_iq10_push','s3_spi_queue',
+                 's3_rf_submit','s3_capture_accept','s3_capture_reclaim','s3_capture_step'):
+        found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+'+name+r'\s*$',m,re.M)
+        if found:result['hot_functions'][name]=found[-1]
+    result['inspected_hot_functions_in_IRAM']=(len(result['hot_functions'])==8 and
+        all(0x40374000<=int(x,16)<0x403a0000 for x in result['hot_functions'].values()))
+config=OUT/'idf/config/sdkconfig.json'
+if config.exists():
+    values=json.loads(config.read_text())
+    result['effective_config']={key:values.get(key) for key in
+        ('ESP_WIFI_IRAM_OPT','ESP_WIFI_RX_IRAM_OPT','ESP_WIFI_EXTRA_IRAM_OPT',
+         'SPI_MASTER_IN_IRAM','SPI_MASTER_ISR_IN_IRAM','ESP32S3_DATA_CACHE_32KB')}
 (OUT/'result.json').write_text(json.dumps(result,indent=2)+'\n')
 print(json.dumps(result,indent=2));print('\n'.join(log.splitlines()[-45:]))
 # A measured overlap is a result, not an infrastructure failure. Never turn
