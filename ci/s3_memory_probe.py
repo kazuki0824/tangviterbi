@@ -57,13 +57,14 @@ if elf_file.exists() and os.environ["PROBE_TRANSPORT"] == "1":
         sym = table.get_symbol_by_name("transport_object_sizes")[0]
         section = elf.get_section(sym["st_shndx"])
         offset = sym["st_value"] - section["sh_addr"]
-        values = struct.unpack("<8I", section.data()[offset:offset+32])
+        values = struct.unpack("<9I", section.data()[offset:offset+36])
         result["transport_sizes_bytes"] = dict(zip(("port", "segment", "ring_control", "DMA_descriptor",
-            "SPI2_DMA_pool", "SPI3_DMA_pool", "peak_SCT_configuration", "ATOMIC_INT_LOCK_FREE"), values))
+            "SPI2_DMA_pool", "SPI3_DMA_pool", "peak_SCT_configuration", "ATOMIC_INT_LOCK_FREE", "capture_bridge"), values))
         result["hot_functions"] = {name: hex(table.get_symbol_by_name(name)[0]["st_value"])
             for name in ("s3_fft_stage_tile", "s3_fft_reverse_tile", "spi_device_queue_trans",
                          "s3_iq10_push", "s3_ring_begin", "s3_ring_complete", "s3_t_rf_batch",
-                         "s3_spi_prepare_pages", "s3_spi_queue", "s3_rf_submit")}
+                         "s3_spi_prepare_pages", "s3_spi_queue", "s3_rf_submit",
+                         "s3_capture_accept", "s3_capture_reclaim", "s3_capture_step")}
         result["hot_symbols_in_IRAM"] = all(0x40374000 <= int(v, 16) < 0x403a0000
                                             for v in result["hot_functions"].values())
         result["linked_atomic_helpers"] = sorted(s.name for s in table.iter_symbols()

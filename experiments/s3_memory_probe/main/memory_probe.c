@@ -6,16 +6,19 @@
 #if PROBE_TRANSPORT
 #include "s3_spi_transport.h"
 #include "s3_fft_tiles.h"
+#include "s3_capture_bridge.h"
 #include "hal/dma_types.h"
 static s3_spi_port transport_ports[2];
 static spi_multi_transaction_t octal_segments[8], quad_segments[1];
 static s3_tx_ring transport_ring;
 static s3_iq10_packer transport_packer;
 static s3_rf_transfer transport_RF_transfers[2];
+static s3_capture_bridge capture_bridge;
 const uint32_t transport_object_sizes[] = {
     sizeof(s3_spi_port), sizeof(spi_multi_transaction_t), sizeof(s3_tx_ring),
     sizeof(dma_descriptor_align4_t), 24*2*sizeof(dma_descriptor_align4_t),
-    2*2*sizeof(dma_descriptor_align4_t), 8*60, ATOMIC_INT_LOCK_FREE
+    2*2*sizeof(dma_descriptor_align4_t), 8*60, ATOMIC_INT_LOCK_FREE,
+    sizeof(s3_capture_bridge)
 };
 #endif
 
@@ -74,6 +77,8 @@ void app_main(void)
     probe_keep ^= (uintptr_t)&s3_rf_submit ^ (uintptr_t)&s3_rf_reap;
     probe_keep ^= (uintptr_t)&s3_t_rf_batch;
     probe_keep ^= (uintptr_t)&s3_fft_reverse_tile ^ (uintptr_t)&s3_fft_stage_tile;
+    probe_keep ^= (uintptr_t)&capture_bridge ^ (uintptr_t)&s3_capture_init ^
+        (uintptr_t)&s3_capture_accept ^ (uintptr_t)&s3_capture_reclaim ^ (uintptr_t)&s3_capture_step;
 #elif PROBE_ZEROCOPY
     probe_keep ^= (uintptr_t)link_headers ^ (uintptr_t)link_descriptor_reserve;
 #else

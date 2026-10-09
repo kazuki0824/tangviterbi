@@ -13,6 +13,11 @@ ROOT = Path(__file__).resolve().parents[1]
 def generate():
     src = (ROOT / "rtl/viterbi_k7_32acs.sv").read_text()
     src = src.replace("module viterbi_k7_32acs", "module s3_viterbi_traceback")
+    src = src.replace("parameter integer METRIC_W = 16", "parameter integer METRIC_W = 14")
+    # Continuous reception starts in an unknown convolutional state. Equal
+    # initial metrics avoid a hardware INF path and let the first block act
+    # as acquisition warmup. The caller must discard that first 64-bit block.
+    src = src.replace("(metric_slot == 0) ? {METRIC_W{1'b0}} : INF", "{METRIC_W{1'b0}}")
     start = src.index("    reg [5:0] wr_ptr;")
     end = src.index("    integer i;", start)
     src = src[:start] + '''    reg [7:0] wr_ptr;
@@ -37,15 +42,11 @@ def generate():
     wire decision = survivor_q[state];
 
 ''' + src[end:]
-    src = src.replace("            cand0 = {1'b0, src0} + branch0;",
-                      "            cand0 = src0 == INF ? {1'b0, INF} : {1'b0, src0} + branch0;")
-    src = src.replace("            cand1 = {1'b0, src1} + branch1;",
-                      "            cand1 = src1 == INF ? {1'b0, INF} : {1'b0, src1} + branch1;")
     # Subtract 2^(W-2), not a complete min-tree; reachable metric spread is
     # bounded by six branch costs once all 64 states are reachable.
     key = "                lane_decision[i] = 1'b0;\n            end"
     src = src.replace(key, key + '''
-            if (normalize && lane_metric[i] != INF)
+            if (normalize)
                 lane_metric[i] = lane_metric[i] - (1 << (METRIC_W-2));''')
     start = src.index("    always @(posedge clk) begin\n        // At the output edge")
     src = src[:start] + '''    always @(posedge clk) begin
