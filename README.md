@@ -70,6 +70,12 @@ or qualify a full receiver. The [offline follow-up](reports/s3-offline-closure.m
 implements a bounded RS experiment with independent ISDB outer-code vectors,
 checks a real ESP-IDF memory map, and tests concurrent Q15 FFT tiles and stream
 ownership. It also records failed intermediate layouts and timing results.
+The [SPI transport follow-up](reports/s3-transport-followup.md) adds a pinned
+ESP-IDF SPI/SCT adapter, lossless IQ10 packing, page leases, and an FFT-aware
+RF admission guard. Actual hot-IRAM SDK links leave 24768 bytes before the RF
+banks after relocating the RF queue to reserved post-startup SRAM. The former
+2-us transport-gap assumption is superseded by explicit API/SCT timing contracts;
+these remain conditional and do not qualify the complete receiver.
 Production RTL and the original benchmark gates are unchanged.
 
 ## RTL

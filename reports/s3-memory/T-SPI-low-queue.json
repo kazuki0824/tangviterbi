@@ -1,0 +1,37 @@
+{
+  "profile": "T-SPI-low-queue",
+  "IDF_version": "ESP-IDF v5.5.1",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "build_exit_code": 2,
+  "link_succeeded": false,
+  "RF_reserved_range": [
+    "0x3fcb0000",
+    "0x3fce0000"
+  ],
+  "zero_copy_reservation": true,
+  "real_SPI_transport_linked": true,
+  "late_RF_queue_reserved_range": null,
+  "late_twiddle_reserved_range": [
+    "0x3fce0000",
+    "0x3fce4000"
+  ],
+  "scope": "Link-only probe. Optional real SPI/SCT adapter and scalar FFT hot IRAM; no RF/PHY acquisition, SIMD or complete runtime heap/stacks. No silicon execution. Success is not a receiver memory fit.",
+  "symbols": {
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x40386300",
+    "_data_start": "0x3fc96300",
+    "_data_end": "0x3fcb12c8",
+    "_bss_start": "0x3fcb12c8",
+    "_bss_end": "0x3fcb1f40",
+    "rf_packed_queue": "0x3fca7b68",
+    "fft_transfer_slots": "0x3fc97b68",
+    "transport_object_sizes": "0x3c02a6bc"
+  },
+  "guard_errors": [
+    "/opt/esp/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/14.2.0/../../../../xtensa-esp-elf/bin/ld: S3 RF ring overlaps data",
+    "/opt/esp/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/14.2.0/../../../../xtensa-esp-elf/bin/ld: S3 RF ring overlaps BSS"
+  ],
+  "static_gap_to_RF_bytes": -8000,
+  "source_commit": "b5c6aae44001105aaf59446e0ab64a1a5f70a5c2",
+  "workflow_run_id": 37907725179
+}
