@@ -54,10 +54,12 @@ def main():
     parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4", "inverse4", "schedule4", "isdb4", "isdb-predecode4"))
     parser.add_argument("--frequency", type=float, default=125)
     parser.add_argument("--receiver-viterbi", action="store_true")
+    parser.add_argument("--viterbi-metric", choices=("normalized14","modulo13"), default="normalized14")
     args = parser.parse_args()
     out = Path("build/s3-area") / f"{args.kind}-{args.frequency:g}"
     if args.receiver_viterbi:
         out = out.with_name(out.name + "-traceback")
+        if args.viterbi_metric != "normalized14": out=out.with_name(out.name+"-"+args.viterbi_metric)
     out.mkdir(parents=True, exist_ok=True)
     rtl = out / "rs.sv"
     isdb = args.kind.startswith("isdb")
@@ -107,8 +109,9 @@ def main():
     if args.receiver_viterbi:
         from s3_viterbi_traceback import generate
         vit_rtl = out / "viterbi.sv"
-        vit_rtl.write_text(generate().replace("module s3_viterbi_traceback", "module viterbi_k7_32acs"))
-        result["Viterbi_decode_contract"] = "124-step reverse traceback, 64 decoded bits/block, 2 cycles/input, metric renormalization"
+        vit_rtl.write_text(generate(args.viterbi_metric).replace("module s3_viterbi_traceback", "module viterbi_k7_32acs"))
+        result["Viterbi_decode_contract"] = "124-step reverse traceback, 64 decoded bits/block, 2 cycles/input; unknown state, discard first block"
+        result["Viterbi_metric_arithmetic"] = args.viterbi_metric
         result["Viterbi_rtl_sha256"] = hashlib.sha256(vit_rtl.read_bytes()).hexdigest()
     result["Viterbi"] = synth([vit_rtl], "viterbi_k7_32acs", out / "vit-module", narrow=narrow)
     result["routed"] = {}

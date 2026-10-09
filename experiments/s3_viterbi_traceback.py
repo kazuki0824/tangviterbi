@@ -10,7 +10,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def generate():
+def generate(mode="normalized14"):
+    if mode not in ("normalized14", "modulo13"):
+        raise ValueError("unknown path-metric arithmetic")
     src = (ROOT / "rtl/viterbi_k7_32acs.sv").read_text()
     src = src.replace("module viterbi_k7_32acs", "module s3_viterbi_traceback")
     src = src.replace("parameter integer METRIC_W = 16", "parameter integer METRIC_W = 14")
@@ -119,6 +121,17 @@ def generate():
     end
 endmodule
 '''
+    if mode == "modulo13":
+        # Any two 64-state path metrics differ by at most 6*510=3060:
+        # from the state of the minimum path six steps earlier, every state
+        # is reachable in six branches. Candidate spread <= 7*510=3570.
+        # This is below half the modulus 8192, so signed modular comparison
+        # preserves the full-precision ordering without normalization or INF.
+        src = src.replace("parameter integer METRIC_W = 14", "parameter integer METRIC_W = 13")
+        src = src.replace("    reg [METRIC_W:0] cand1;", "    reg [METRIC_W:0] cand1;\n    reg signed [METRIC_W-1:0] metric_difference;")
+        src = src.replace("            if (cand1 < cand0) begin",
+                          "            metric_difference = cand1[METRIC_W-1:0] - cand0[METRIC_W-1:0];\n            if (metric_difference < 0) begin")
+        src = src.replace("            if (normalize)\n                lane_metric[i] = lane_metric[i] - (1 << (METRIC_W-2));", "")
     return src
 
 
@@ -126,6 +139,7 @@ if __name__ == "__main__":
     import argparse
     p = argparse.ArgumentParser()
     p.add_argument("output", type=Path)
+    p.add_argument("--mode", choices=("normalized14","modulo13"), default="normalized14")
     args = p.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(generate())
+    args.output.write_text(generate(args.mode))
