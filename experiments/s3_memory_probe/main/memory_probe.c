@@ -32,11 +32,19 @@ SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);
 #if !CONFIG_ESP32S3_DATA_CACHE_32KB
 #error "64 KiB RF queue requires the audited 32 KiB data cache layout"
 #endif
+#if PROBE_UPPER_FFT
+SOC_RESERVE_MEMORY_REGION(0x3fce8000, 0x3fcf8000, s3_late_rf_queue);
+#else
 SOC_RESERVE_MEMORY_REGION(0x3fce4000, 0x3fcf4000, s3_late_rf_queue);
+#endif
 #else
 SOC_RESERVE_MEMORY_REGION(0x3fce4000, 0x3fcec000, s3_late_rf_queue);
 #endif
+#if PROBE_UPPER_FFT
+static uint8_t *const rf_packed_queue = (uint8_t *)0x3fce8000;
+#else
 static uint8_t *const rf_packed_queue = (uint8_t *)0x3fce4000;
+#endif
 #else
 DMA_ATTR uint8_t rf_packed_queue[32768];
 #endif
@@ -53,6 +61,14 @@ DMA_ATTR uint8_t link_staging[PROBE_LINKS][2][4092];
 #endif
 #if PROBE_TERRESTRIAL
 #if PROBE_ZEROCOPY
+#if PROBE_UPPER_FFT
+// One contiguous FFT slot replaces the late twiddle arena. Its peer and
+// full twiddle table stay below the RF aperture, saving 16 KiB there.
+SOC_RESERVE_MEMORY_REGION(0x3fce0000, 0x3fce8000, s3_late_fft_slot0);
+DMA_ATTR __attribute__((aligned(16))) uint8_t fft_slot1[32768];
+static uint8_t *const fft_transfer_slots[2] = {(uint8_t *)0x3fce0000, fft_slot1};
+DRAM_ATTR __attribute__((aligned(16))) int16_t fft_twiddle_reservation[8192];
+#else
 DMA_ATTR uint8_t fft_transfer_slots[2][32768];
 // IDF v5.5.1 exposes [0x3fce0000, 0x3fce9710) as internal heap at boot.
 // Reserve a 16-KiB SIMD-aligned arena from that exact interval. It is never
@@ -60,6 +76,7 @@ DMA_ATTR uint8_t fft_transfer_slots[2][32768];
 // The tile kernel needs N/2 complex Q15 twiddles: 8192*2 = 16384 bytes.
 SOC_RESERVE_MEMORY_REGION(0x3fce0000, 0x3fce4000, s3_fft_twiddle);
 static int16_t *const fft_twiddle_reservation = (int16_t *)0x3fce0000;
+#endif
 #else
 DMA_ATTR uint8_t fft_transfer_slots[2][33792];
 DRAM_ATTR int16_t fft_twiddle_reservation[16384];

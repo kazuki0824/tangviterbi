@@ -5,7 +5,8 @@ Unlike s3_sct_schedule this retains unconsumed samples in the three raw banks.
 One serialized packing owner runs on core0; a T FFT blocks both cores. Quad IQ
 arrival precedes FFT; slot reuse is two symbol periods after input starts.
 SPI API time is charged to the wire service, NOT scheduled on the CPU here.
-Therefore passes are optimistic, never a joint CPU/IRQ WCET certificate.
+Bank preparation is charged only in the reported CPU lower-bound envelope,
+not as individual scheduled events. Passes are never joint CPU/IRQ certificates.
 """
 import argparse
 import json
@@ -104,6 +105,10 @@ def simulate(mode='T', pack_cycles=6, fft_us=500, bank_samples=12288,
             'slot_deadline_us':2*PERIOD if mode=='T' else None,
             'packing_core_utilization_lower_bound':rate*pack_cycles/240,
             'packing_plus_FFT_core0_utilization_lower_bound':rate*pack_cycles/240+(fft_us/PERIOD if mode=='T' else 0),
+            'bank_prepare_cycles_budget':20000,
+            'bank_prepare_core_utilization_budget':(20000/240)/bank_period,
+            'core0_utilization_with_prepare_budget':rate*pack_cycles/240+(fft_us/PERIOD if mode=='T' else 0)+(20000/240)/bank_period,
+            'core0_average_with_prepare_budget_pass':rate*pack_cycles/240+(fft_us/PERIOD if mode=='T' else 0)+(20000/240)/bank_period < 1,
             'failure':fault,'optimistic_event_pass':fault is None,
             'receiver_adopted':False,'CPU_IRQ_WCET_verified':False}
 

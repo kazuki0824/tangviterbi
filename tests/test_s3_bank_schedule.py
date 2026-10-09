@@ -20,6 +20,8 @@ class BankScheduleTest(unittest.TestCase):
         x=simulate('S',6)
         self.assertTrue(x['optimistic_event_pass'])
         self.assertEqual(x['packing_core_utilization_lower_bound'],1)
+        self.assertFalse(x['core0_average_with_prepare_budget_pass'])
+        self.assertGreater(x['core0_utilization_with_prepare_budget'],1.27)
         self.assertFalse(x['receiver_adopted'])
         self.assertEqual(simulate('S',8)['failure'],'raw_bank_prep_deadline')
     def test_report_grid(self):
