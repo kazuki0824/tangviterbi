@@ -44,13 +44,13 @@ def synth(sources, top, directory, mem=None, narrow=False, vit=True):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless"))
+    parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4"))
     args = parser.parse_args()
     out = Path("build/s3-area") / args.kind
     out.mkdir(parents=True, exist_ok=True)
     rtl = out / "rs.sv"
-    text = source(args.kind == "shared4")
-    if args.kind == "resetless":
+    text = source(args.kind.startswith("shared"))
+    if "resetless" in args.kind:
         text = text.replace("""if (!resetn) begin
                 lambda[slot] <= 8'd0;
                 bpoly[slot] <= 8'd0;

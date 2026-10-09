@@ -20,7 +20,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        kind: [dual, dual4, shared4, resetless]
+        # The four isolated controls are recorded at e6c0552 / run 37879016201.
+        # Follow up only with combinations, preserving those raw measurements.
+        kind: [resetless4, shared-resetless4]
     steps:
       - uses: actions/checkout@v5
       - uses: YosysHQ/setup-oss-cad-suite@v4
