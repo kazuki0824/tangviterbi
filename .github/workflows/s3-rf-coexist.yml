@@ -31,12 +31,21 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           python3 ci/s3_rf_coexist_probe.py
+      - name: Audit startup stacks against the generous internal heap bound
+        if: matrix.profile == 'native-upper-fft'
+        shell: bash
+        run: |
+          python3 ci/s3_startup_memory_bound.py \
+            --map build/s3-rf-coexist/native-upper-fft/idf/esp_sdr.map \
+            --sdkconfig build/s3-rf-coexist/native-upper-fft/idf/config/sdkconfig.json \
+            --output build/s3-rf-coexist/native-upper-fft/startup-bound.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: s3-rf-${{ matrix.profile }}-link-only-do-not-flash
           path: |
             build/s3-rf-coexist/${{ matrix.profile }}/result.json
+            build/s3-rf-coexist/${{ matrix.profile }}/startup-bound.json
             build/s3-rf-coexist/${{ matrix.profile }}/build.log
             build/s3-rf-coexist/${{ matrix.profile }}/idf/*.map
             build/s3-rf-coexist/${{ matrix.profile }}/idf/config/sdkconfig.json

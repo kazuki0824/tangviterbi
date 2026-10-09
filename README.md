@@ -1,5 +1,14 @@
 # tangviterbi
 
+> **S3-N16R8 receiver audit (2026-10-09): not a qualified receiver.**
+> The legacy Viterbi benchmark below fails an independent no-noise decoding
+> test. Its old Fmax numbers do not qualify a working receiver decoder.
+> A reverse-traceback experiment now passes independent bit/metric/reset
+> tests, but the measured combined FEC still fails the 99 MHz shared clock.
+> See the [current blockers and actual evidence](reports/s3-receiver-blockers.md)
+> before using any earlier resource, transport, or SRAM estimate.
+
+
 Resource/timing benchmark for an ISDB-T-oriented FEC partition on Sipeed Tang Nano 9K.
 
 The benchmark answers a specific sizing question:
@@ -27,7 +36,7 @@ The job driver/report/test share [performance.json](ci/performance.json).
 Optimization target FPGA: **GW1NR-LV9QN88PC6/I5**. The legacy ISDB-S rate is a
 sizing profile, not a qualified satellite receiver implementation.
 
-## Current 9K result
+## Historical 9K benchmark result
 
 At 65 MHz constraint and adopted common seed 1, both complete 32-ACS +
 constant-RS designs finish routing and clear the ISDB-T / legacy ISDB-S sizing
@@ -44,7 +53,7 @@ on the output edge, splitting selection across the existing two phases.
 It retains 16-bit metrics and two clocks/step. Both Viterbi versions saturate
 the warm-up counter, so output no longer stops again every 256 steps.
 
-The full suite passes **21 unittest methods**. The 32-ACS test independently
+The original baseline report recorded **21 passing unittest methods**. The 32-ACS test independently
 models metrics, survivor rows, pointer/state and selected output bits; it
 checks 936 outputs per 1000-step reset epoch, all 64 selector indices,
 uninterrupted two-clock input, randomized stalls and a reset between phases.
