@@ -11,6 +11,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "experiments"))
 from s3_rs_area import source
+from s3_rs_schedule import source as schedule_source
 
 
 def run(command, log):
@@ -44,12 +45,14 @@ def synth(sources, top, directory, mem=None, narrow=False, vit=True):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4"))
+    parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4", "inverse4", "schedule4"))
+    parser.add_argument("--frequency", type=float, default=125)
     args = parser.parse_args()
-    out = Path("build/s3-area") / args.kind
+    out = Path("build/s3-area") / f"{args.kind}-{args.frequency:g}"
     out.mkdir(parents=True, exist_ok=True)
     rtl = out / "rs.sv"
-    text = source(args.kind.startswith("shared"))
+    scheduled = args.kind in ("inverse4", "schedule4")
+    text = schedule_source(args.kind == "schedule4") if scheduled else source(args.kind.startswith("shared"))
     if "resetless" in args.kind:
         text = text.replace("""if (!resetn) begin
                 lambda[slot] <= 8'd0;
@@ -61,14 +64,26 @@ def main():
         always @(posedge clk)""")
     rtl.write_text(text)
     narrow = args.kind.endswith("4")
+    bound = 2758 if args.kind == "schedule4" else 3166 if scheduled else 3502
+    floor = bound * 6.52125 / 188
     result = {"kind": args.kind, "rtl_sha256": hashlib.sha256(rtl.read_bytes()).hexdigest(),
               "scope": "Partial FEC + protocol controller benchmark, not a receiver",
-              "RS_conservative_cycles": 3502,
-              "receiver_RS_minimum_MHz": {"T": 54.101010101, "S": 121.475625},
-              "constraint_MHz": 125, "seed": 1}
+              "RS_conservative_cycles": bound,
+              "receiver_RS_minimum_MHz": {"T": bound * 2.90433749 / 188, "S": floor},
+              "bounded_uncorrectable_degree": scheduled,
+              "constraint_MHz": args.frequency, "seed": 1}
+    extra = (["--inverse-saving", "14", "--chien-saving", "408" if args.kind == "schedule4" else "0",
+              "--max-cycles", str(bound)] if scheduled else [])
     if run([sys.executable, "experiments/compare_rs.py", "--rtl", str(rtl),
-            "--syndrome-cycles", "0"], out / "tests.log"):
+            "--syndrome-cycles", "0", *extra], out / "tests.log"):
         raise RuntimeError("candidate equivalence/arithmetic/service checks failed")
+    if scheduled:
+        executable = out / "schedule-test"
+        if run(["iverilog", "-g2012", "-s", "rs_schedule_tb", "-o", str(executable),
+                f"-Prs_schedule_tb.FAST_CHIEN={int(args.kind == 'schedule4')}",
+                str(rtl), "tests/rs_schedule_tb.sv"], out / "schedule-compile.log") or run(
+                    ["vvp", str(executable)], out / "schedule-tests.log"):
+            raise RuntimeError("inverse ROM, Chien scheduling or early-fail test failed")
     result["RS"] = synth([rtl], "rs204_188_compact", out / "rs-module", narrow=narrow)
     result["Viterbi"] = synth(["rtl/viterbi_k7_32acs.sv"], "viterbi_k7_32acs", out / "vit-module", narrow=narrow)
     result["routed"] = {}
@@ -80,7 +95,7 @@ def main():
         rc = run(["nextpnr-himbaechel", "--json", str(d / "design.json"),
                   "--write", str(d / "routed.json"), "--device", "GW1NR-LV9QN88PC6/I5",
                   "--vopt", "family=GW1N-9C", "--vopt", "cst=constraints/tangnano9k.cst",
-                  "--freq", "125", "--seed", "1", "--report", str(d / "report.json")],
+                  "--freq", str(args.frequency), "--seed", "1", "--report", str(d / "report.json")],
                  d / "pnr.log")
         log = (d / "pnr.log").read_text()
         routed = log.partition("Routing complete")[2]
@@ -92,7 +107,8 @@ def main():
         result["routed"][name] = {"synthesis": counts, "packed": packed,
             "exit_code": rc, "routing_complete": bool(routed), "Fmax_MHz": fmax,
             "meets_125_MHz": fmax is not None and fmax >= 125,
-            "meets_receiver_RS_S_floor": fmax is not None and fmax >= 121.475625}
+            "meets_constraint_MHz": fmax is not None and fmax >= args.frequency,
+            "meets_receiver_RS_S_floor": fmax is not None and fmax >= floor}
     (out / "result.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))
     # This is a measurement job: incomplete CAD and arithmetic errors fail it;
