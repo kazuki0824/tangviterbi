@@ -4,6 +4,7 @@ on:
     paths:
       - 'ci/s3_rf_coexist_probe.py'
       - 'ci/s3_startup_memory_bound.py'
+      - 'tests/test_s3_startup_memory_bound.py'
       - 'experiments/s3_fft_tiles.*'
       - 'experiments/s3_memory_probe/**'
       - '.github/workflows/s3-rf-coexist.yml'
@@ -34,11 +35,13 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           python3 ci/s3_rf_coexist_probe.py
+      - run: python3 -m unittest discover -s tests -p test_s3_startup_memory_bound.py -v
       - name: Audit startup stacks against the generous internal heap bound
         if: matrix.profile == 'native-upper-fft' || matrix.profile == 'native-quarter-fft'
         shell: bash
         run: |
           python3 ci/s3_startup_memory_bound.py --profile ${{ matrix.profile }} \
+            --elf build/s3-rf-coexist/${{ matrix.profile }}/idf/esp_sdr.elf \
             --map build/s3-rf-coexist/${{ matrix.profile }}/idf/esp_sdr.map \
             --sdkconfig build/s3-rf-coexist/${{ matrix.profile }}/idf/config/sdkconfig.json \
             --output build/s3-rf-coexist/${{ matrix.profile }}/startup-bound.json
@@ -51,6 +54,7 @@ jobs:
             build/s3-rf-coexist/${{ matrix.profile }}/startup-bound.json
             build/s3-rf-coexist/${{ matrix.profile }}/build.log
             build/s3-rf-coexist/${{ matrix.profile }}/idf/*.map
+            build/s3-rf-coexist/${{ matrix.profile }}/idf/*.elf
             build/s3-rf-coexist/${{ matrix.profile }}/idf/config/sdkconfig.json
             build/esp-sdr/main/targets/esp32s3/receiver.c
           retention-days: 30
