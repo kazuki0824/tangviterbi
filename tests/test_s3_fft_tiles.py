@@ -30,6 +30,10 @@ class FFTTilesTest(unittest.TestCase):
         cls.pointer = ctypes.POINTER(ctypes.c_int16)
         cls.lib.s3_fft_reverse_tile.argtypes = [cls.pointer, ctypes.c_uint, ctypes.c_uint, ctypes.c_uint]
         cls.lib.s3_fft_stage_tile.argtypes = [cls.pointer, cls.pointer, *([ctypes.c_uint] * 4)]
+        cls.upointer = ctypes.POINTER(ctypes.c_uint16)
+        cls.lib.s3_fft_stage_quarter_tile.argtypes = [cls.pointer, cls.upointer, *([ctypes.c_uint] * 4)]
+        cls.lib.s3_fft_quarter_pair.argtypes = [cls.upointer, ctypes.c_uint, ctypes.c_uint,
+                                               cls.pointer, cls.pointer]
 
     @classmethod
     def tearDownClass(cls):
@@ -41,9 +45,11 @@ class FFTTilesTest(unittest.TestCase):
                 "Q15_test_error_limit_LSB": 8,
                 "S3_500us_deadline_verified": False,
                 "8192_point_twiddle_bytes": 16384,
+                "8192_point_quarter_twiddle_bytes": 4098,
+                "quarter_table_all_coefficients_bit_exact": True,
             }, indent=2) + "\n")
 
-    def transform(self, samples, parallel):
+    def transform(self, samples, parallel, quarter=False):
         n = len(samples)
         data = np.empty(2*n, dtype=np.int16)
         data[::2] = samples.real; data[1::2] = samples.imag
@@ -52,6 +58,10 @@ class FFTTilesTest(unittest.TestCase):
         twiddle[::2] = np.clip(np.rint(32768*np.cos(angle)), -32768, 32767).astype(np.int16)
         twiddle[1::2] = np.clip(np.rint(32768*np.sin(angle)), -32768, 32767).astype(np.int16)
         dp, wp = data.ctypes.data_as(self.pointer), twiddle.ctypes.data_as(self.pointer)
+        if quarter:
+            table = np.rint(32768*np.sin(2*np.pi*np.arange(n//4+1)/n)).astype(np.uint16)
+            wp = table.ctypes.data_as(self.upointer)
+        stage = self.lib.s3_fft_stage_quarter_tile if quarter else self.lib.s3_fft_stage_tile
         phases = [(0, n)] + [(1 << i, n//2) for i in range(1, n.bit_length())]
         barrier = threading.Barrier(2)
 
@@ -64,7 +74,7 @@ class FFTTilesTest(unittest.TestCase):
                     if span == 0:
                         self.lib.s3_fft_reverse_tile(dp, n, start, end)
                     else:
-                        self.lib.s3_fft_stage_tile(dp, wp, n, span, start, end)
+                        stage(dp, wp, n, span, start, end)
                 barrier.wait(timeout=10)
 
         if parallel:
@@ -77,8 +87,19 @@ class FFTTilesTest(unittest.TestCase):
                 if span == 0:
                     self.lib.s3_fft_reverse_tile(dp, n, 0, count)
                 else:
-                    self.lib.s3_fft_stage_tile(dp, wp, n, span, 0, count)
+                    stage(dp, wp, n, span, 0, count)
         return data[::2].astype(float) + 1j * data[1::2].astype(float)
+
+    def test_quarter_coefficients_match_independent_trigonometric_oracle(self):
+        for n in (4, 32, 256, 8192):
+            table = np.rint(32768*np.sin(2*np.pi*np.arange(n//4+1)/n)).astype(np.uint16)
+            wp = table.ctypes.data_as(self.upointer)
+            for w in range(n//2):
+                real, imag = ctypes.c_int16(), ctypes.c_int16()
+                self.lib.s3_fft_quarter_pair(wp, n, w, ctypes.byref(real), ctypes.byref(imag))
+                expected = np.clip(np.rint(32768*np.array([np.cos(-2*np.pi*w/n),
+                                                           np.sin(-2*np.pi*w/n)])), -32768, 32767)
+                self.assertEqual((real.value, imag.value), tuple(expected), (n,w))
 
     def test_parallel_tiles_match_sequential_and_independent_fft(self):
         rng = np.random.default_rng(8123)
@@ -96,6 +117,7 @@ class FFTTilesTest(unittest.TestCase):
                 with self.subTest(n=n, name=name):
                     actual = self.transform(signal, True)
                     np.testing.assert_array_equal(actual, self.transform(signal, False))
+                    np.testing.assert_array_equal(actual, self.transform(signal, True, quarter=True))
                     reference = np.fft.fft(signal) / n
                     error = float(np.max(np.abs(actual - reference)))
                     self.measurements.append({"n": n, "input": name,

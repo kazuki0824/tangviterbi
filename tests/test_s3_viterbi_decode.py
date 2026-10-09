@@ -64,7 +64,7 @@ class DecodeTest(unittest.TestCase):
         words=[w for i,b in enumerate(epochs) for w in stimulus(b,initial_state=(7+9*i)%64)]
         with tempfile.TemporaryDirectory() as directory:
             d=Path(directory)
-            (d/'dut.sv').write_text(trace.generate('modulo13'))
+            (d/'dut.sv').write_text(trace.generate('modulo13-pipe'))
             (d/'input.hex').write_text(''.join(f'{v:04x}\n' for v in words))
             counts='\n'.join(f'lengths[{i}]={len(b)};' for i,b in enumerate(epochs))
             (d/'tb.sv').write_text(f'''module tb;
@@ -106,7 +106,7 @@ endmodule''')
             'checked_outputs':[len(a)-64 for a in actual],'errors':0},indent=2)+'\n')
 
     def test_independent_encoder(self):
-        for mode in ("normalized14","modulo13"):
+        for mode in ("normalized14","modulo13","modulo13-pipe"):
             with self.subTest(arithmetic=mode): self.check_mode(mode)
 
     def check_mode(self,mode):
@@ -147,7 +147,7 @@ class MetricOracleTest(unittest.TestCase):
             self.assertLessEqual(max(nxt)-min(nxt),3060)
             metrics=nxt;gold.append([x&8191 for x in metrics])
         with tempfile.TemporaryDirectory() as directory:
-            d=Path(directory);(d/'dut.sv').write_text(trace.generate('modulo13'))
+            d=Path(directory);(d/'dut.sv').write_text(trace.generate('modulo13-pipe'))
             (d/'input.hex').write_text(''.join(f'{a:02x}{b:02x}\n' for a,b in pairs))
             (d/'tb.sv').write_text(f'''module tb;
 reg clk=0;always #5 clk=~clk;reg resetn=0,valid=0;reg[7:0]a,b;wire ready,ov,ob;

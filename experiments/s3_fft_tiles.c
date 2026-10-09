@@ -49,3 +49,35 @@ void S3_FFT_HOT s3_fft_stage_tile(int16_t *data, const int16_t *twiddle, unsigne
         data[2*b] = rounded_q16(ar - br); data[2*b+1] = rounded_q16(ai - bi);
     }
 }
+
+void S3_FFT_HOT s3_fft_quarter_pair(const uint16_t *quarter, unsigned n, unsigned w,
+                                  int16_t *real, int16_t *imag)
+{
+    unsigned q = n / 4;
+    unsigned sin_index = w <= q ? w : 2*q - w;
+    unsigned cos_index = w <= q ? q - w : w - q;
+    int32_t r = quarter[cos_index];
+    // Positive +1 clips to 32767, negative -1 remains exactly -32768.
+    // Keeping 32768 in the unsigned table is essential to bit equivalence.
+    if (w > q) r = -r;
+    else if (r > INT16_MAX) r = INT16_MAX;
+    *real = (int16_t)r;
+    *imag = (int16_t)-(int32_t)quarter[sin_index];
+}
+
+void S3_FFT_HOT s3_fft_stage_quarter_tile(int16_t *data, const uint16_t *quarter,
+                                      unsigned n, unsigned span,
+                                      unsigned begin, unsigned end)
+{
+    unsigned half = span / 2;
+    for (unsigned id = begin; id < end; ++id) {
+        unsigned j = id % half, a = (id / half) * span + j, b = a + half;
+        int16_t wr, wi;
+        s3_fft_quarter_pair(quarter, n, j * (n / span), &wr, &wi);
+        int64_t ar = (int64_t)data[2*a] * 32768, ai = (int64_t)data[2*a+1] * 32768;
+        int64_t br = (int64_t)data[2*b] * wr - (int64_t)data[2*b+1] * wi;
+        int64_t bi = (int64_t)data[2*b] * wi + (int64_t)data[2*b+1] * wr;
+        data[2*a] = rounded_q16(ar + br); data[2*a+1] = rounded_q16(ai + bi);
+        data[2*b] = rounded_q16(ar - br); data[2*b+1] = rounded_q16(ai - bi);
+    }
+}

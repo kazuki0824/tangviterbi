@@ -33,11 +33,11 @@ jobs:
       - name: Decode independently encoded bits
         run: python3 -m unittest discover -s tests -p test_s3_viterbi_decode.py -v
       - name: Measure functional Viterbi and ISDB RS together
-        run: python3 ci/s3_area_benchmark.py isdb-predecode4 --frequency 99 --receiver-viterbi --viterbi-metric modulo13
+        run: python3 ci/s3_area_benchmark.py isdb-predecode4 --frequency 99 --receiver-viterbi --viterbi-metric modulo13-pipe
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: s3-receiver-fec
           path: |
             build/s3-viterbi/
-            build/s3-area/isdb-predecode4-99-traceback-modulo13/
+            build/s3-area/isdb-predecode4-99-traceback-modulo13-pipe/

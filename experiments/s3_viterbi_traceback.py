@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def generate(mode="normalized14"):
-    if mode not in ("normalized14", "modulo13"):
+    if mode not in ("normalized14", "modulo13", "modulo13-pipe"):
         raise ValueError("unknown path-metric arithmetic")
     src = (ROOT / "rtl/viterbi_k7_32acs.sv").read_text()
     src = src.replace("module viterbi_k7_32acs", "module s3_viterbi_traceback")
@@ -121,7 +121,7 @@ def generate(mode="normalized14"):
     end
 endmodule
 '''
-    if mode == "modulo13":
+    if mode.startswith("modulo13"):
         # Any two 64-state path metrics differ by at most 6*510=3060:
         # from the state of the minimum path six steps earlier, every state
         # is reachable in six branches. Candidate spread <= 7*510=3570.
@@ -132,12 +132,28 @@ endmodule
         src = src.replace("            if (cand1 < cand0) begin",
                           "            metric_difference = cand1[METRIC_W-1:0] - cand0[METRIC_W-1:0];\n            if (metric_difference < 0) begin")
         src = src.replace("            if (normalize)\n                lane_metric[i] = lane_metric[i] - (1 << (METRIC_W-2));", "")
+    if mode == "modulo13-pipe":
+        # Routed critical path: BSRAM clock-to-Q plus 64:1 selection. Register
+        # the complete row before selecting. 124+2=126 clocks fits the 128
+        # clock block cadence; input throughput is still one bit/2 clocks.
+        src = src.replace('    reg [63:0] survivor_q;',
+                          '    reg [63:0] survivor_q, survivor_pipe;\n    reg prime_extra;')
+        src = src.replace('wire decision = survivor_q[state];',
+                          'wire decision = survivor_pipe[state];')
+        src = src.replace('        survivor_q <= {survivor_hi[read_ptr], survivor_lo[read_ptr]};',
+                          '        survivor_q <= {survivor_hi[read_ptr], survivor_lo[read_ptr]};\n        survivor_pipe <= survivor_q;')
+        src = src.replace('            tracing <= 0; priming <= 0;',
+                          '            prime_extra <= 0;\n            tracing <= 0; priming <= 0;')
+        src = src.replace('                priming <= 1; tracing <= 0;',
+                          '                priming <= 1; prime_extra <= 1; tracing <= 0;')
+        src = src.replace('                priming <= 0; tracing <= 1;',
+                          '                if (prime_extra) prime_extra <= 0;\n                else begin priming <= 0; tracing <= 1; end')
     # These are fixed-width architectures, not generic parameter variants.
     src = src.replace("    integer i;", '''    initial begin
         if (METRIC_W != EXPECTED_WIDTH || TRACEBACK != 64)
             $fatal(1, "unsupported traceback/metric parameter override");
     end
-    integer i;'''.replace('EXPECTED_WIDTH', '13' if mode == 'modulo13' else '14'))
+    integer i;'''.replace('EXPECTED_WIDTH', '13' if mode.startswith('modulo13') else '14'))
     return src
 
 
@@ -145,7 +161,7 @@ if __name__ == "__main__":
     import argparse
     p = argparse.ArgumentParser()
     p.add_argument("output", type=Path)
-    p.add_argument("--mode", choices=("normalized14","modulo13"), default="normalized14")
+    p.add_argument("--mode", choices=("normalized14","modulo13","modulo13-pipe"), default="normalized14")
     args = p.parse_args()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(generate(args.mode))

@@ -3,6 +3,9 @@ on:
   pull_request:
     paths:
       - 'ci/s3_rf_coexist_probe.py'
+      - 'ci/s3_startup_memory_bound.py'
+      - 'experiments/s3_fft_tiles.*'
+      - 'experiments/s3_memory_probe/**'
       - '.github/workflows/s3-rf-coexist.yml'
   workflow_dispatch:
 permissions:
@@ -12,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        profile: [native-phy-psram, native-upper-fft]
+        profile: [native-upper-fft, native-quarter-fft]
     runs-on: ubuntu-latest
     container: espressif/idf:v5.5.1
     timeout-minutes: 25
@@ -32,13 +35,13 @@ jobs:
           . "$IDF_PATH/export.sh"
           python3 ci/s3_rf_coexist_probe.py
       - name: Audit startup stacks against the generous internal heap bound
-        if: matrix.profile == 'native-upper-fft'
+        if: matrix.profile == 'native-upper-fft' || matrix.profile == 'native-quarter-fft'
         shell: bash
         run: |
-          python3 ci/s3_startup_memory_bound.py \
-            --map build/s3-rf-coexist/native-upper-fft/idf/esp_sdr.map \
-            --sdkconfig build/s3-rf-coexist/native-upper-fft/idf/config/sdkconfig.json \
-            --output build/s3-rf-coexist/native-upper-fft/startup-bound.json
+          python3 ci/s3_startup_memory_bound.py --profile ${{ matrix.profile }} \
+            --map build/s3-rf-coexist/${{ matrix.profile }}/idf/esp_sdr.map \
+            --sdkconfig build/s3-rf-coexist/${{ matrix.profile }}/idf/config/sdkconfig.json \
+            --output build/s3-rf-coexist/${{ matrix.profile }}/startup-bound.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -1,4 +1,7 @@
 /* Link-only resource probe. This is not a receiver firmware or a timing test. */
+#ifndef PROBE_QUARTER_FFT
+#define PROBE_QUARTER_FFT 0
+#endif
 #include <stdint.h>
 #include <stdio.h>
 #include "esp_attr.h"
@@ -67,7 +70,11 @@ DMA_ATTR uint8_t link_staging[PROBE_LINKS][2][4092];
 SOC_RESERVE_MEMORY_REGION(0x3fce0000, 0x3fce8000, s3_late_fft_slot0);
 DMA_ATTR __attribute__((aligned(16))) uint8_t fft_slot1[32768];
 static uint8_t *const fft_transfer_slots[2] = {(uint8_t *)0x3fce0000, fft_slot1};
+#if PROBE_QUARTER_FFT
+DRAM_ATTR __attribute__((aligned(16))) uint16_t fft_twiddle_reservation[2049];
+#else
 DRAM_ATTR __attribute__((aligned(16))) int16_t fft_twiddle_reservation[8192];
+#endif
 #else
 DMA_ATTR uint8_t fft_transfer_slots[2][32768];
 // IDF v5.5.1 exposes [0x3fce0000, 0x3fce9710) as internal heap at boot.
@@ -102,7 +109,11 @@ void app_main(void)
     probe_keep ^= (uintptr_t)&s3_iq10_init ^ (uintptr_t)&s3_iq10_push ^ (uintptr_t)&s3_iq10_discard;
     probe_keep ^= (uintptr_t)&s3_rf_submit ^ (uintptr_t)&s3_rf_reap;
     probe_keep ^= (uintptr_t)&s3_t_rf_batch;
+#if PROBE_QUARTER_FFT
+    probe_keep ^= (uintptr_t)&s3_fft_reverse_tile ^ (uintptr_t)&s3_fft_stage_quarter_tile;
+#else
     probe_keep ^= (uintptr_t)&s3_fft_reverse_tile ^ (uintptr_t)&s3_fft_stage_tile;
+#endif
     probe_keep ^= (uintptr_t)&capture_bridge ^ (uintptr_t)&s3_capture_init ^
         (uintptr_t)&s3_capture_accept ^ (uintptr_t)&s3_capture_reclaim ^ (uintptr_t)&s3_capture_step;
 #elif PROBE_ZEROCOPY
@@ -114,7 +125,7 @@ void app_main(void)
     probe_keep ^= (uintptr_t)fft_transfer_slots ^ (uintptr_t)fft_twiddle_reservation;
 #if PROBE_ZEROCOPY
     // Explicit late initialization; no loader/static initializer touches it.
-    for (unsigned i=0; i<8192; ++i) fft_twiddle_reservation[i] = 0;
+    for (unsigned i=0; i<(PROBE_QUARTER_FFT ? 2049u : 8192u); ++i) fft_twiddle_reservation[i] = 0;
 #endif
 #endif
     printf("Link-only probe: T=%d links=%d; RF/FFT/PHY are not running.\n",

@@ -54,7 +54,7 @@ def main():
     parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4", "inverse4", "schedule4", "isdb4", "isdb-predecode4"))
     parser.add_argument("--frequency", type=float, default=125)
     parser.add_argument("--receiver-viterbi", action="store_true")
-    parser.add_argument("--viterbi-metric", choices=("normalized14","modulo13"), default="normalized14")
+    parser.add_argument("--viterbi-metric", choices=("normalized14","modulo13","modulo13-pipe"), default="normalized14")
     args = parser.parse_args()
     out = Path("build/s3-area") / f"{args.kind}-{args.frequency:g}"
     if args.receiver_viterbi:
