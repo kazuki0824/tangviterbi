@@ -45,7 +45,7 @@ def source(chien=True, bounded=True):
         always @(posedge clk)""")
     rom = """
     // Registered read, no asynchronous reset: infer one Gowin BSRAM ROM.
-    reg [7:0] inverse_rom [0:255];
+    (* ram_style = "block" *) reg [7:0] inverse_rom [0:255];
     reg [7:0] inverse_q;
     wire [7:0] inverse_address = (state == ST_FORNEY_D2) ?
         (feedback_y ^ lambda_q) : bval;

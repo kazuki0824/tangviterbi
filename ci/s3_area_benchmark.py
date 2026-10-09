@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "experiments"))
 from s3_rs_area import source
 from s3_rs_schedule import source as schedule_source
+from s3_rs_isdb import source as isdb_source
+from s3_rs_deadline import derive
 
 
 def run(command, log):
@@ -49,14 +51,15 @@ def synth(sources, top, directory, mem=None, narrow=False, vit=True):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4", "inverse4", "schedule4"))
+    parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4", "inverse4", "schedule4", "isdb4"))
     parser.add_argument("--frequency", type=float, default=125)
     args = parser.parse_args()
     out = Path("build/s3-area") / f"{args.kind}-{args.frequency:g}"
     out.mkdir(parents=True, exist_ok=True)
     rtl = out / "rs.sv"
-    scheduled = args.kind in ("inverse4", "schedule4")
-    text = schedule_source(args.kind == "schedule4") if scheduled else source(args.kind.startswith("shared"))
+    isdb = args.kind == "isdb4"
+    scheduled = args.kind in ("inverse4", "schedule4", "isdb4")
+    text = isdb_source() if isdb else schedule_source(args.kind == "schedule4") if scheduled else source(args.kind.startswith("shared"))
     if "resetless" in args.kind:
         text = text.replace("""if (!resetn) begin
                 lambda[slot] <= 8'd0;
@@ -68,23 +71,31 @@ def main():
         always @(posedge clk)""")
     rtl.write_text(text)
     narrow = args.kind.endswith("4")
-    bound = 2758 if args.kind == "schedule4" else 3166 if scheduled else 3502
+    bound = derive(isdb)["worst_control_path"]["cycles"] if args.kind in ("schedule4", "isdb4") else 3166 if scheduled else 3502
     floor = bound * 6.52125 / 188
     result = {"kind": args.kind, "rtl_sha256": hashlib.sha256(rtl.read_bytes()).hexdigest(),
               "scope": "Partial FEC + protocol controller benchmark, not a receiver",
               "RS_conservative_cycles": bound,
               "receiver_RS_minimum_MHz": {"T": bound * 2.90433749 / 188, "S": floor},
               "bounded_uncorrectable_degree": scheduled,
+              "ISDB_conventions": isdb,
               "constraint_MHz": args.frequency, "seed": 1}
     extra = (["--inverse-saving", "14", "--chien-saving", "408" if args.kind == "schedule4" else "0",
               "--max-cycles", str(bound)] if scheduled else [])
-    if run([sys.executable, "experiments/compare_rs.py", "--rtl", str(rtl),
-            "--syndrome-cycles", "0", *extra], out / "tests.log"):
+    test_command = ([sys.executable, "experiments/check_isdb_rs.py", "--rtl", str(rtl),
+                     "--output", str(out / "vectors.json")] if isdb else
+                    [sys.executable, "experiments/compare_rs.py", "--rtl", str(rtl),
+                     "--syndrome-cycles", "0", *extra])
+    if run(test_command, out / "tests.log"):
         raise RuntimeError("candidate equivalence/arithmetic/service checks failed")
+    if isdb:
+        result["independent_ISDB_vectors"] = json.loads((out / "vectors.json").read_text())
+        result["independent_ISDB_vectors"].pop("tests")
     if scheduled:
         executable = out / "schedule-test"
         if run(["iverilog", "-g2012", "-s", "rs_schedule_tb", "-o", str(executable),
-                f"-Prs_schedule_tb.FAST_CHIEN={int(args.kind == 'schedule4')}",
+                f"-Prs_schedule_tb.FAST_CHIEN={int(args.kind != 'inverse4')}",
+                f"-Prs_schedule_tb.ISDB={int(isdb)}",
                 str(rtl), "tests/rs_schedule_tb.sv"], out / "schedule-compile.log") or run(
                     ["vvp", str(executable)], out / "schedule-tests.log"):
             raise RuntimeError("inverse ROM, Chien scheduling or early-fail test failed")

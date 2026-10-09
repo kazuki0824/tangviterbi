@@ -1,6 +1,7 @@
 `timescale 1ns/1ps
 module rs_schedule_tb;
 parameter integer FAST_CHIEN=1;
+parameter integer ISDB=0;
 reg clk=0; always #5 clk=~clk;
 reg resetn=0, in_valid=0;
 reg [7:0] in_byte=0;
@@ -9,6 +10,7 @@ wire [7:0] data_out;
 rs204_188_compact dut(clk,resetn,in_valid,ready,in_byte,valid,data_out,fail);
 integer a, b, k, degree, cycle, outputs, accepted, maxcycles=0;
 integer j, p, expected_cycles;
+integer bm_cycles, omega_cycles, chien_cycles, forney_cycles, output_cycles;
 reg [7:0] product, x, y;
 reg [7:0] poly[0:8], positions[0:7], root;
 function automatic [7:0] gf;
@@ -75,6 +77,7 @@ initial begin
   poly[0]=1;
   for(j=0;j<degree;j=j+1) begin
    root=1;
+   if(ISDB)for(p=0;p<52;p=p+1)root=gf(root,2);
    for(p=0;p<positions[j];p=p+1)root=gf(root,2);
    for(k=j+1;k>0;k=k-1)poly[k]=poly[k-1]^gf(poly[k],root);
    poly[0]=gf(poly[0],root);
@@ -94,6 +97,42 @@ initial begin
    if(b!=1)$fatal(1,"missing/duplicate root at %0d",positions[j]);
   end
  end
+ // Force the worst CONTROL trajectory (not an encoded golden codeword):
+ // all 16 BM discrepancies nonzero, followed by eight Forney entries.
+ @(negedge clk); resetn=0; in_valid=0;
+ repeat(3) @(negedge clk); resetn=1; accepted=0;
+ while(accepted<204) begin
+  in_valid=1; in_byte=1;
+  @(posedge clk); if(ready)accepted=accepted+1;
+  @(negedge clk);
+ end
+ in_valid=0; outputs=0;
+ bm_cycles=0; omega_cycles=0; chien_cycles=0; forney_cycles=0; output_cycles=0;
+ for(cycle=0;cycle<3300 && !ready;cycle=cycle+1) begin
+  if(dut.state==dut.ST_BM_CHECK)dut.discrepancy=1;
+  if(dut.state==dut.ST_FORNEY_INIT) begin
+   dut.error_count=8;
+   for(k=0;k<8;k=k+1) begin dut.error_x[k]=k+1; dut.error_pos[k]=k; end
+  end
+  if(dut.state>=dut.ST_BM_INIT && dut.state<=dut.ST_BM_POST)bm_cycles=bm_cycles+1;
+  else if(dut.state>=dut.ST_OMEGA_INIT && dut.state<=dut.ST_OMEGA_STORE)omega_cycles=omega_cycles+1;
+  else if(dut.state>=dut.ST_CHIEN_INIT && dut.state<=dut.ST_CHIEN_NEXT)chien_cycles=chien_cycles+1;
+  else if(dut.state>=dut.ST_FORNEY_INIT && dut.state<=dut.ST_FORNEY_WRITE)forney_cycles=forney_cycles+1;
+  else if(ISDB && dut.state==29)forney_cycles=forney_cycles+1;
+  else output_cycles=output_cycles+1;
+  @(posedge clk); #1;
+  if(valid)outputs=outputs+1;
+  @(negedge clk);
+ end
+ // Eight inverse handoffs during Forney have numeric state INV_SQUARE (6),
+ // so the range counters place those eight cycles in BM. Correct that tally.
+ bm_cycles=bm_cycles-8; forney_cycles=forney_cycles+8;
+ expected_cycles=(FAST_CHIEN?2658:3066)+8*ISDB;
+ if(!ready || outputs!=188 || cycle+204!=expected_cycles)
+  $fatal(1,"worst control path got %0d expected %0d",cycle+204,expected_cycles);
+ if(bm_cycles!=305 || omega_cycles!=141 || chien_cycles!=(FAST_CHIEN?1633:2041) ||
+    forney_cycles!=185+8*ISDB || output_cycles!=190)$fatal(1,"phase bound mismatch");
+ $display("PASS: worst control trajectory=%0d cycles: input=204 BM=%0d Omega=%0d Chien=%0d Forney=%0d output/reset=%0d",cycle+204,bm_cycles,omega_cycles,chien_cycles,forney_cycles,output_cycles);
  $display("PASS: 256 inverse entries; degree 9..16 early-fail maximum=%0d; Chien degrees 0..8 with first/last roots and exact cycle counts",maxcycles);
  $finish;
 end

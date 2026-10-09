@@ -5,6 +5,9 @@ on:
       - 'experiments/gf256_boolean.sv'
       - 'experiments/s3_rs_area.py'
       - 'experiments/s3_rs_schedule.py'
+      - 'experiments/s3_rs_isdb.py'
+      - 'experiments/s3_rs_deadline.py'
+      - 'experiments/check_isdb_rs.py'
       - 'experiments/compare_rs.py'
       - 'ci/s3_area_benchmark.py'
       - '.github/workflows/s3-area.yml'
@@ -25,7 +28,7 @@ jobs:
       fail-fast: false
       matrix:
         # Prior area controls remain archived under reports/s3-area.
-        kind: [schedule4]
+        kind: [isdb4]
         frequency: [99, 125]
     steps:
       - uses: actions/checkout@v5
