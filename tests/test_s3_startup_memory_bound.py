@@ -50,6 +50,18 @@ class StartupBoundTest(unittest.TestCase):
         self.assertEqual(r['total_stack_lower_bound_bytes'],18432)
         self.assertEqual(r['startup_TCB_lower_bound_bytes'],2040)
 
+    def test_allocator_metadata_rejects_the_eight_kib_pool(self):
+        layout={'multi_heap_info':20,'control_t':36,'pointer_bytes':4}
+        r=m.allocator_refinement(20680,8168,6,layout,8376,8192)
+        self.assertEqual([h['metadata_lower_bound_bytes'] for h in r['heaps']],[744,388])
+        self.assertEqual(r['allocator_overhead_lower_bound_bytes'],1180)
+        self.assertEqual(r['free_before_DMA_pool_upper_bound_bytes'],7196)
+        self.assertEqual(r['pool_shortage_lower_bound_bytes'],996)
+        self.assertFalse(r['pool_necessary_capacity_pass'])
+        p=m.allocator_refinement(20680,8168,6,layout,8376,4096)
+        self.assertTrue(p['pool_necessary_capacity_pass'])
+        self.assertEqual(p['free_before_DMA_pool_upper_bound_bytes'],7196)
+
     def test_target_layout_requires_unique_dwarf_evidence(self):
         valid='    DW_AT_name : xSTATIC_TCB\n    DW_AT_byte_size : 340\n'
         self.assertEqual(m.tcb_size_from_dwarf(valid*2),340)

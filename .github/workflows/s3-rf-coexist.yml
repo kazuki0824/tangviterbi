@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        profile: [native-upper-fft, native-quarter-fft]
+        profile: [native-quarter-fft, native-quarter-pool4]
     runs-on: ubuntu-latest
     container: espressif/idf:v5.5.1
     timeout-minutes: 25
@@ -37,7 +37,6 @@ jobs:
           python3 ci/s3_rf_coexist_probe.py
       - run: python3 -m unittest discover -s tests -p test_s3_startup_memory_bound.py -v
       - name: Audit startup stacks against the generous internal heap bound
-        if: matrix.profile == 'native-upper-fft' || matrix.profile == 'native-quarter-fft'
         shell: bash
         run: |
           python3 ci/s3_startup_memory_bound.py --profile ${{ matrix.profile }} \

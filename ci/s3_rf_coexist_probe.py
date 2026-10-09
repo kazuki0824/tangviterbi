@@ -15,9 +15,9 @@ import shutil
 import subprocess
 ROOT=Path(__file__).resolve().parents[1]
 PROFILE=os.environ.get('RF_PROFILE','full')
-if PROFILE not in ('full','native-phy','native-phy-flash','native-phy-psram','native-upper-fft','native-quarter-fft'):raise SystemExit('unknown RF_PROFILE')
+if PROFILE not in ('full','native-phy','native-phy-flash','native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4'):raise SystemExit('unknown RF_PROFILE')
 NATIVE=PROFILE!='full'
-PSRAM=PROFILE in ('native-phy-psram','native-upper-fft','native-quarter-fft')
+PSRAM=PROFILE in ('native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4')
 UP=ROOT/'build/esp-sdr';OUT=ROOT/'build/s3-rf-coexist'/PROFILE;OUT.mkdir(parents=True,exist_ok=True)
 EXPECTED='e74f2a470972ec163c247f1fe88d32e08579242a'
 actual=subprocess.check_output(['git','-C',str(UP),'rev-parse','HEAD'],text=True).strip()
@@ -51,8 +51,8 @@ target_include_directories(${COMPONENT_LIB} PRIVATE s3_probe)
 target_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_TERRESTRIAL=1 PROBE_LINKS=2 PROBE_TRANSPORT=1 PROBE_ZEROCOPY=1 PROBE_LATE_RF=1 PROBE_RING64=1 S3_RING_PAGE_COUNT=16)
 target_link_options(${COMPONENT_LIB} INTERFACE "-Wl,-u,s3_extras_link_probe")
 '''
-if PROFILE in ('native-upper-fft','native-quarter-fft'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_UPPER_FFT=1)\n'
-if PROFILE=='native-quarter-fft':s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_QUARTER_FFT=1)\n'
+if PROFILE in ('native-upper-fft','native-quarter-fft','native-quarter-pool4'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_UPPER_FFT=1)\n'
+if PROFILE in ('native-quarter-fft','native-quarter-pool4'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_QUARTER_FFT=1)\n'
 p.write_text(s)
 # Retain RF PHY options; explicitly override module/cache/CPU configuration.
 defaults=(UP/'sdkconfig.defaults.esp32s3').read_text()
@@ -67,10 +67,11 @@ if PROFILE=='native-phy-flash':
     for key in ('ESP_WIFI_IRAM_OPT','ESP_WIFI_RX_IRAM_OPT','ESP_WIFI_EXTRA_IRAM_OPT'):
         defaults=re.sub(r'^(?:# )?CONFIG_'+key+r'(?:=.*| is not set)$','',defaults,flags=re.M)
         defaults+='\n# CONFIG_'+key+' is not set\n'
-if PROFILE=='native-quarter-fft':
+if PROFILE in ('native-quarter-fft','native-quarter-pool4'):
     # Reservation is a pool carved from internal heap, not extra capacity.
-    # 8 KiB is a design allocation, still subject to runtime-driver audit.
-    defaults+='\nCONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL=8192\n'
+    # Compare 8/4 KiB pools; neither proves the later RF/driver allocations.
+    pool=4096 if PROFILE=='native-quarter-pool4' else 8192
+    defaults+='\nCONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL='+str(pool)+'\n'
 (UP/'sdkconfig.coexist.defaults').write_text(defaults)
 cmd=['idf.py','-B',str(OUT/'idf'),'-DIDF_TARGET=esp32s3',
      '-DSDKCONFIG=sdkconfig.coexist','-DSDKCONFIG_DEFAULTS=sdkconfig.coexist.defaults','build']
@@ -78,8 +79,8 @@ with (OUT/'build.log').open('w') as f:rc=subprocess.run(cmd,cwd=UP,stdout=f,stde
 log=(OUT/'build.log').read_text(errors='replace')
 result={'scope':('Native RF initialization/tuning plus SPI/FFT reservations; no RF bank loop or integrated scheduler.' if NATIVE else __doc__),
         'profile':PROFILE,'esp_psram_component_required':PSRAM,
-        'quarter_FFT_coefficients':PROFILE=='native-quarter-fft',
-        'upper_FFT_slot':PROFILE in ('native-upper-fft','native-quarter-fft'),
+        'quarter_FFT_coefficients':PROFILE in ('native-quarter-fft','native-quarter-pool4'),
+        'upper_FFT_slot':PROFILE in ('native-upper-fft','native-quarter-fft','native-quarter-pool4'),
         'RF_bank_loop_linked':PROFILE=='full',
         'native_PHY_only_lower_bound':NATIVE,
         'upstream_commit':actual,'upstream_requested_IDF':'25fe69f946311abdaf9ad56591f25fedbc20ac98',
@@ -95,7 +96,7 @@ if p.exists():
         if a:result['symbols'][sym]=a[-1]
     if '_bss_end' in result['symbols']:result['static_gap_to_RF_bytes']=0x3fcb0000-int(result['symbols']['_bss_end'],16)
     result['hot_functions']={}
-    for name in (('s3_fft_stage_quarter_tile' if PROFILE=='native-quarter-fft' else 's3_fft_stage_tile'),'s3_fft_reverse_tile','s3_iq10_push','s3_spi_queue',
+    for name in (('s3_fft_stage_quarter_tile' if PROFILE in ('native-quarter-fft','native-quarter-pool4') else 's3_fft_stage_tile'),'s3_fft_reverse_tile','s3_iq10_push','s3_spi_queue',
                  's3_rf_submit','s3_capture_accept','s3_capture_reclaim','s3_capture_step'):
         found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+'+name+r'\s*$',m,re.M)
         if found:result['hot_functions'][name]=found[-1]

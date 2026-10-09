@@ -14,15 +14,53 @@ from pathlib import Path
 import re
 import subprocess
 
-def tcb_size_from_dwarf(text):
+def structure_size_from_dwarf(text, name):
     # Read the target compiler's structure layout, never substitute host ABI.
-    sizes = set(map(int, re.findall(r'DW_AT_name[^\n]*: xSTATIC_TCB\n[^\n]*DW_AT_byte_size\s*:\s*(\d+)', text)))
+    sizes = set(map(int, re.findall(r'DW_AT_name[^\n]*: '+re.escape(name)+r'\n[^\n]*DW_AT_byte_size\s*:\s*(\d+)', text)))
     if len(sizes) != 1:
-        raise ValueError('missing or conflicting target StaticTask_t layouts')
+        raise ValueError('missing or conflicting target structure '+name)
     return sizes.pop()
 
 
-def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None):
+def tcb_size_from_dwarf(text):
+    return structure_size_from_dwarf(text, 'xSTATIC_TCB')
+
+
+def allocator_refinement(dma, rtc, tasks, layout, free_before_pool, pool):
+    # ESP-IDF 5.5.1 pins espressif/tlsf 2867f688. Target ELF validates the
+    # ABI; host sizeof is never used. Both remaining internal arenas are
+    # initially empty heaps; all other internal ranges are reserved by this
+    # fixed layout. Ignore further heap_caps records/locks and allocations.
+    assert layout == {'multi_heap_info':20, 'control_t':36, 'pointer_bytes':4}
+    heaps=[]
+    for name, region in (('DIRAM',dma),('RTC_fast',rtc)):
+        if not region:continue
+        available=region-layout['multi_heap_info']
+        assert available>=36
+        sl_log2=3 if available<=16*1024 else 4 if available<=256*1024 else 5
+        first_levels=available.bit_length()-(sl_log2+2)+1
+        control=36+4*first_levels+4*first_levels*(1<<sl_log2)
+        # two 4-byte free/sentinel block headers, TLSF pool alignment.
+        overhead=20+control+8+(available-control-8)%4
+        heaps.append(dict(name=name,region_bytes=region,tlsf_control_bytes=control,
+                          metadata_lower_bound_bytes=overhead))
+    # Each live task owns a distinct stack allocation and TCB allocation.
+    allocation_headers=tasks*2*4
+    total=sum(h['metadata_lower_bound_bytes'] for h in heaps)+allocation_headers
+    free=free_before_pool-total
+    return {'target_layout':layout,'heaps':heaps,
+            'live_task_allocation_headers_lower_bound_bytes':allocation_headers,
+            'allocator_overhead_lower_bound_bytes':total,
+            'free_before_DMA_pool_upper_bound_bytes':free,
+            'DMA_pool_target_bytes':pool,
+            'pool_necessary_capacity_pass':free>=pool,
+            'pool_shortage_lower_bound_bytes':max(0,pool-free),
+            'scope':'Necessary capacity only; ignores allocation ordering, other constructors, heap_caps records, Wi-Fi, event, drivers, fragmentation and additional pool metadata',
+            'sources':['https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/multi_heap.c',
+                       'https://github.com/espressif/tlsf/blob/2867f6883a12920b1969ff9624c0ab0e4185c2ce/tlsf.c']}
+
+
+def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_layout=None):
     assert config['FREERTOS_NUMBER_OF_CORES']==2 and config['ESP_IPC_ENABLE']
     assert config['ESP32S3_DATA_CACHE_32KB'] and config['SPIRAM_MODE_OCT']
     assert config['ESP_SYSTEM_MEMPROT_FEATURE']
@@ -68,7 +106,7 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None):
     pool = config['SPIRAM_MALLOC_RESERVE_INTERNAL']
     event_stack = config['ESP_SYSTEM_EVENT_TASK_STACK_SIZE']+extra
     if config.get('LWIP_TCPIP_CORE_LOCKING'): event_stack += 2048
-    return {'scope':__doc__,'profile':profile,
+    result={'scope':__doc__,'profile':profile,
         'map_sha256':hashlib.sha256(map_text.encode()).hexdigest(),
         'internal_DMA_heap_upper_bound_bytes':dma_upper,
         'RTC_fast_heap_generous_upper_bound_bytes':rtc_upper,
@@ -106,18 +144,26 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None):
              'esp_event/default_event_loop.c',
              'esp_wifi/esp32s3/esp_adapter.c')],
         'hardware_boot_executed':False,'receiver_adopted':False}
+    if allocator_layout is not None:
+        if tcb_bytes is None:raise ValueError('target TCB evidence required')
+        result['allocator_refinement']=allocator_refinement(dma_upper,rtc_upper,tasks,
+            allocator_layout,free_before_pool_upper,pool)
+    return result
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--map',type=Path,required=True)
     p.add_argument('--sdkconfig',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--profile',default='native-upper-fft',choices=('native-upper-fft','native-quarter-fft'))
+    p.add_argument('--profile',default='native-upper-fft',choices=('native-upper-fft','native-quarter-fft','native-quarter-pool4'))
     p.add_argument('--elf',type=Path)
     p.add_argument('--readelf',default='readelf')
-    a=p.parse_args();tcb=None
+    a=p.parse_args();tcb=None;layout=None
     if a.elf:
         dwarf=subprocess.check_output([a.readelf,'--debug-dump=info',str(a.elf)],text=True)
         tcb=tcb_size_from_dwarf(dwarf)
-    r=audit(a.map.read_text(),json.loads(a.sdkconfig.read_text()),a.profile,tcb)
+        if a.elf.read_bytes()[:5]!=b'\x7fELF\x01':raise ValueError('ELF32 required')
+        layout={name:structure_size_from_dwarf(dwarf,name) for name in ('multi_heap_info','control_t')}
+        layout['pointer_bytes']=4
+    r=audit(a.map.read_text(),json.loads(a.sdkconfig.read_text()),a.profile,tcb,layout)
     if a.elf:r['ELF_sha256']=hashlib.sha256(a.elf.read_bytes()).hexdigest()
     a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(r,indent=2)+'\n')
     print(json.dumps(r,indent=2))
