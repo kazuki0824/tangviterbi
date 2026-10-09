@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'experiments/s3_memory_probe/**'
+      - 'experiments/s3*transport*'
+      - 'experiments/s3_fft_tiles.*'
       - 'ci/s3_memory_probe.py'
       - '.github/workflows/s3-memory.yml'
   workflow_dispatch:
@@ -19,8 +21,9 @@ jobs:
       matrix:
         include:
           # Initial static-layout failures are archived in reports/s3-memory.
-          - {name: T-zero-copy-two-links, terrestrial: 1, links: 2, zero_copy: 1}
-          - {name: T-zero-copy-three-links, terrestrial: 1, links: 3, zero_copy: 1}
+          - {name: T-SPI-low-queue, terrestrial: 1, links: 2, zero_copy: 1, transport: 1, late_rf: 0}
+          - {name: T-SPI-late-queue, terrestrial: 1, links: 2, zero_copy: 1, transport: 1, late_rf: 1}
+          - {name: S-SPI-late-queue, terrestrial: 0, links: 2, zero_copy: 1, transport: 1, late_rf: 1}
     steps:
       - uses: actions/checkout@v5
       - name: Link fixed internal buffers and enforce RF bank guards
@@ -30,6 +33,8 @@ jobs:
           PROBE_TERRESTRIAL: ${{ matrix.terrestrial }}
           PROBE_LINKS: ${{ matrix.links }}
           PROBE_ZEROCOPY: ${{ matrix.zero_copy }}
+          PROBE_TRANSPORT: ${{ matrix.transport }}
+          PROBE_LATE_RF: ${{ matrix.late_rf }}
         run: |
           . "$IDF_PATH/export.sh"
           python3 ci/s3_memory_probe.py

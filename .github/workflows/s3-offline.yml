@@ -4,6 +4,9 @@ on:
     paths:
       - 'experiments/s3_fft_tiles.*'
       - 'experiments/s3_stream_schedule.py'
+      - 'experiments/s3_transport.*'
+      - 'tests/s3_transport_host.c'
+      - 'tests/test_s3_transport.py'
       - 'tests/test_s3_fft_tiles.py'
       - 'tests/test_s3_stream_schedule.py'
       - '.github/workflows/s3-offline.yml'
@@ -28,6 +31,10 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -p test_s3_stream_schedule.py -v
           python3 experiments/s3_stream_schedule.py --output s3-stream-schedule.json
+      - name: Exercise zero-copy ownership with concurrent producer and scheduler
+        run: |
+          python3 -m unittest discover -s tests -p test_s3_transport.py -v
+          cp build/s3-transport/host.json s3-transport-host.json
       - uses: actions/upload-artifact@v4
         with:
           name: s3-host-contracts

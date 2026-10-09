@@ -1,7 +1,13 @@
 #include "s3_fft_tiles.h"
 #include <limits.h>
+#ifdef ESP_PLATFORM
+#include "esp_attr.h"
+#define S3_FFT_HOT IRAM_ATTR
+#else
+#define S3_FFT_HOT
+#endif
 
-static int16_t rounded_q16(int64_t value)
+static S3_FFT_HOT int16_t rounded_q16(int64_t value)
 {
     // Round to nearest, ties away from zero; avoid negative signed shifts.
     int64_t q = value >= 0 ? (value + 32768) / 65536 : -((-value + 32768) / 65536);
@@ -10,7 +16,7 @@ static int16_t rounded_q16(int64_t value)
     return (int16_t)q;
 }
 
-void s3_fft_reverse_tile(int16_t *data, unsigned n, unsigned begin, unsigned end)
+void S3_FFT_HOT s3_fft_reverse_tile(int16_t *data, unsigned n, unsigned begin, unsigned end)
 {
     unsigned bits = 0;
     for (unsigned value = n; value > 1; value >>= 1) ++bits;
@@ -27,7 +33,7 @@ void s3_fft_reverse_tile(int16_t *data, unsigned n, unsigned begin, unsigned end
     }
 }
 
-void s3_fft_stage_tile(int16_t *data, const int16_t *twiddle, unsigned n,
+void S3_FFT_HOT s3_fft_stage_tile(int16_t *data, const int16_t *twiddle, unsigned n,
                        unsigned span, unsigned begin, unsigned end)
 {
     unsigned half = span / 2;
