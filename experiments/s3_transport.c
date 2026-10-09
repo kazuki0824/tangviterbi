@@ -1,7 +1,7 @@
 #include "s3_transport.h"
 #include <limits.h>
+#include <string.h>
 
-_Static_assert(ATOMIC_INT_LOCK_FREE == 2, "32-bit state must be lock-free");
 _Static_assert(sizeof(unsigned) == 4, "32-bit state required");
 enum { FREE, FILLING, READY, INFLIGHT, DONE };
 
@@ -70,9 +70,10 @@ int s3_ring_begin(s3_tx_ring *r, s3_lease *lease, uint8_t **payload)
 {
     if (!r || !lease || !payload) return S3_RANGE;
     s3_ring_page *p = page(r, r->write_sequence);
-    unsigned expected = FREE;
-    if (!atomic_compare_exchange_strong_explicit(&p->state, &expected, FILLING,
-            memory_order_acquire, memory_order_relaxed)) return S3_BUSY;
+    if (atomic_load_explicit(&p->state, memory_order_acquire) != FREE) return S3_BUSY;
+    /* Only this producer can claim FREE. The consumer only releases DONE;
+     * a CAS is unnecessary, including on Xtensa's conditional-lock-free ABI. */
+    atomic_store_explicit(&p->state, FILLING, memory_order_relaxed);
     p->sequence = r->write_sequence;
     *lease = (s3_lease){p->sequence, r->epoch};
     *payload = r->payload + (p->sequence & (S3_RING_PAGES - 1)) * S3_PAGE_BYTES;
@@ -85,6 +86,13 @@ int s3_ring_publish(s3_tx_ring *r, s3_lease lease)
         return S3_STALE;
     atomic_store_explicit(&page(r, lease.sequence)->state, READY, memory_order_release);
     ++r->write_sequence;
+    return S3_OK;
+}
+
+int s3_ring_cancel_write(s3_tx_ring *r, s3_lease lease)
+{
+    if (!r || lease.sequence != r->write_sequence || !matches(r, lease, FILLING)) return S3_STALE;
+    atomic_store_explicit(&page(r, lease.sequence)->state, FREE, memory_order_release);
     return S3_OK;
 }
 
@@ -133,4 +141,69 @@ int s3_ring_reset(s3_tx_ring *r)
         if (s == FILLING || s == INFLIGHT) return S3_BUSY;
     }
     return s3_ring_init(r, r->payload, S3_RING_BYTES, r->epoch + 1);
+}
+
+void s3_iq10_init(s3_iq10_packer *p, s3_tx_ring *r)
+{
+    memset(p, 0, sizeof(*p)); p->ring = r;
+}
+
+static void pack_eight(uint8_t *dst, const uint32_t *src)
+{
+    const uint32_t a=src[0]&0xfffffu, b=src[1]&0xfffffu, c=src[2]&0xfffffu, d=src[3]&0xfffffu;
+    const uint32_t e=src[4]&0xfffffu, f=src[5]&0xfffffu, g=src[6]&0xfffffu, h=src[7]&0xfffffu;
+    const uint32_t w[5]={a|(b<<20), (b>>12)|(c<<8)|(d<<28), (d>>4)|(e<<16),
+                          (e>>16)|(f<<4)|(g<<24), (g>>8)|(h<<12)};
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+    memcpy(dst,w,sizeof(w));
+#else
+    for (unsigned i=0;i<20;++i) dst[i]=(uint8_t)(w[i/4]>>(8*(i%4)));
+#endif
+}
+
+int s3_iq10_push(s3_iq10_packer *p, const uint32_t *words, size_t count, size_t *consumed)
+{
+    if (!p || !p->ring || !consumed || (!words && count)) return S3_RANGE;
+    *consumed=0;
+    while (*consumed<count || p->pending_index<p->pending_size) {
+        if (!p->page) {
+            int err=s3_ring_begin(p->ring,&p->writing,&p->page);
+            if (err!=S3_OK) return err;
+            p->used=0;
+        }
+        if (p->pending_index<p->pending_size) {
+            unsigned n=p->pending_size-p->pending_index;
+            if (n>S3_PAGE_BYTES-p->used) n=S3_PAGE_BYTES-p->used;
+            memcpy(p->page+p->used,p->pending+p->pending_index,n);
+            p->used+=n; p->pending_index+=n;
+        } else if (!p->have_first && !(p->used&3) && S3_PAGE_BYTES-p->used>=20 && count-*consumed>=8) {
+            pack_eight(p->page+p->used,words+*consumed);
+            p->used+=20; *consumed+=8;
+        } else {
+            if (!p->have_first) { p->first=words[(*consumed)++]&0xfffffu; p->have_first=true; }
+            if (*consumed==count) break;
+            uint32_t a=p->first,b=words[(*consumed)++]&0xfffffu;
+            p->pending[0]=(uint8_t)a; p->pending[1]=(uint8_t)(a>>8);
+            p->pending[2]=(uint8_t)((a>>16)|(b<<4));
+            p->pending[3]=(uint8_t)(b>>4); p->pending[4]=(uint8_t)(b>>12);
+            p->pending_index=0; p->pending_size=5; p->have_first=false;
+        }
+        if (p->used==S3_PAGE_BYTES) {
+            int err=s3_ring_publish(p->ring,p->writing);
+            if (err!=S3_OK) return err;
+            p->page=NULL;
+        }
+    }
+    return S3_OK;
+}
+
+int s3_iq10_discard(s3_iq10_packer *p)
+{
+    if (!p || !p->ring) return S3_RANGE;
+    if (p->page) {
+        int err=s3_ring_cancel_write(p->ring,p->writing);
+        if (err!=S3_OK) return err;
+    }
+    s3_iq10_init(p,p->ring);
+    return S3_OK;
 }

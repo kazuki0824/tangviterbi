@@ -136,3 +136,43 @@ esp_err_t s3_spi_close(s3_spi_port *p)
     p->device = NULL;
     return spi_bus_free(p->host);
 }
+
+esp_err_t s3_rf_submit(s3_rf_transfer *x, s3_spi_port *p, s3_tx_ring *r, unsigned pages)
+{
+    if (!x || !p || !r || pages == 0 || pages > 3 || pages > p->capacity)
+        return ESP_ERR_INVALID_ARG;
+    if (x->count || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
+    void *buffers[3];
+    unsigned taken = 0;
+    for (; taken < pages; ++taken) {
+        const uint8_t *buffer;
+        if (s3_ring_take(r, &x->leases[taken], &buffer) != S3_OK) break;
+        buffers[taken] = (void *)buffer;
+    }
+    esp_err_t err = taken == pages ? s3_spi_prepare_pages(p, S3_RF, r->epoch,
+        x->leases[0].sequence * S3_PAGE_BYTES, buffers, pages) : ESP_ERR_NOT_FINISHED;
+    if (err != ESP_OK) {
+        while (taken) {
+            if (s3_ring_undo_take(r, x->leases[--taken]) != S3_OK) {
+                p->poisoned = true; return ESP_ERR_INVALID_STATE;
+            }
+        }
+        return err;
+    }
+    x->ring = r; x->port = p; x->count = pages;
+    return s3_spi_queue(p);
+}
+
+esp_err_t s3_rf_reap(s3_rf_transfer *x)
+{
+    if (!x || !x->count || !x->port || !x->ring) return ESP_ERR_INVALID_STATE;
+    esp_err_t err = s3_spi_reap(x->port);
+    if (err != ESP_OK) return err;
+    for (unsigned i = 0; i < x->count; ++i) {
+        if (s3_ring_complete(x->ring, x->leases[i]) != S3_OK) {
+            x->port->poisoned = true; return ESP_ERR_INVALID_STATE;
+        }
+    }
+    x->count = 0;
+    return ESP_OK;
+}

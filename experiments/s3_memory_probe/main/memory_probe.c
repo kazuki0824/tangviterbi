@@ -10,10 +10,12 @@
 static s3_spi_port transport_ports[2];
 static spi_multi_transaction_t octal_segments[8], quad_segments[1];
 static s3_tx_ring transport_ring;
+static s3_iq10_packer transport_packer;
+static s3_rf_transfer transport_RF_transfers[2];
 const uint32_t transport_object_sizes[] = {
     sizeof(s3_spi_port), sizeof(spi_multi_transaction_t), sizeof(s3_tx_ring),
     sizeof(dma_descriptor_align4_t), 24*2*sizeof(dma_descriptor_align4_t),
-    2*2*sizeof(dma_descriptor_align4_t), 8*60
+    2*2*sizeof(dma_descriptor_align4_t), 8*60, ATOMIC_INT_LOCK_FREE
 };
 #endif
 
@@ -60,13 +62,16 @@ void app_main(void)
     probe_keep = (uintptr_t)rf_packed_queue;
 #if PROBE_TRANSPORT
     probe_keep ^= (uintptr_t)transport_ports ^ (uintptr_t)octal_segments ^
-        (uintptr_t)quad_segments ^ (uintptr_t)&transport_ring ^ (uintptr_t)transport_object_sizes;
+        (uintptr_t)quad_segments ^ (uintptr_t)&transport_ring ^ (uintptr_t)transport_object_sizes ^
+        (uintptr_t)&transport_packer ^ (uintptr_t)transport_RF_transfers;
     // Retain real SDK/adapter/kernel call graphs without claiming a hardware
     // run or choosing unverified pins in this link-only program.
     probe_keep ^= (uintptr_t)&s3_spi_open ^ (uintptr_t)&s3_spi_prepare ^
         (uintptr_t)&s3_spi_queue ^ (uintptr_t)&s3_spi_reap ^ (uintptr_t)&s3_spi_close ^
         (uintptr_t)&s3_ring_begin ^ (uintptr_t)&s3_ring_publish ^ (uintptr_t)&s3_ring_take ^
         (uintptr_t)&s3_ring_complete ^ (uintptr_t)&s3_ring_reset ^ (uintptr_t)&s3_ring_undo_take;
+    probe_keep ^= (uintptr_t)&s3_iq10_init ^ (uintptr_t)&s3_iq10_push ^ (uintptr_t)&s3_iq10_discard;
+    probe_keep ^= (uintptr_t)&s3_rf_submit ^ (uintptr_t)&s3_rf_reap;
     probe_keep ^= (uintptr_t)&s3_fft_reverse_tile ^ (uintptr_t)&s3_fft_stage_tile;
 #elif PROBE_ZEROCOPY
     probe_keep ^= (uintptr_t)link_headers ^ (uintptr_t)link_descriptor_reserve;

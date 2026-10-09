@@ -40,6 +40,7 @@ typedef struct {
 int s3_ring_init(s3_tx_ring *ring, void *payload, size_t size, unsigned epoch);
 int s3_ring_begin(s3_tx_ring *ring, s3_lease *lease, uint8_t **payload);
 int s3_ring_publish(s3_tx_ring *ring, s3_lease lease);
+int s3_ring_cancel_write(s3_tx_ring *ring, s3_lease lease);
 int s3_ring_take(s3_tx_ring *ring, s3_lease *lease, const uint8_t **payload);
 int s3_ring_undo_take(s3_tx_ring *ring, s3_lease lease);
 int s3_ring_complete(s3_tx_ring *ring, s3_lease lease);
@@ -47,5 +48,22 @@ int s3_ring_complete(s3_tx_ring *ring, s3_lease lease);
  * pages. Discards unsent old-mode data, advances epoch, never wraps epoch.
  */
 int s3_ring_reset(s3_tx_ring *ring);
+
+/* Low 20 bits are the source's native I10/Q10 fields. No decimation or
+ * quantization. Input may end between samples/pairs and output between pages.
+ * BUSY preserves pending bytes; consumed counts words already owned here.
+ */
+typedef struct {
+    s3_tx_ring *ring;
+    s3_lease writing;
+    uint8_t *page;
+    unsigned used, pending_index, pending_size;
+    uint8_t pending[5];
+    uint32_t first;
+    bool have_first;
+} s3_iq10_packer;
+void s3_iq10_init(s3_iq10_packer *packer, s3_tx_ring *ring);
+int s3_iq10_push(s3_iq10_packer *packer, const uint32_t *words, size_t count, size_t *consumed);
+int s3_iq10_discard(s3_iq10_packer *packer); /* mode stop only */
 
 #endif

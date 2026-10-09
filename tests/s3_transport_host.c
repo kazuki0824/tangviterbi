@@ -110,9 +110,50 @@ static void wire(void)
     s3_wire_bytes(h,bytes); assert(bytes[1]==0x1b);
 }
 
+static void packed_adc_values(void)
+{
+    assert(s3_ring_init(&ring,data,sizeof(data),8)==S3_OK);
+    s3_iq10_packer packer; s3_iq10_init(&packer,&ring);
+    uint32_t source=0,decoded=0;
+    uint64_t bits=0; unsigned bit_count=0,full_count=0;
+    while (source < (1u<<20)) {
+        uint32_t words[97];
+        unsigned n=(source%97)+1;
+        if (n>(1u<<20)-source) n=(1u<<20)-source;
+        for (unsigned i=0;i<n;++i) words[i]=(source+i)|0xa5a00000u;
+        size_t consumed=0;
+        int err=s3_iq10_push(&packer,words,n,&consumed);
+        assert(err==S3_OK || err==S3_BUSY); source+=(uint32_t)consumed;
+        if (err==S3_BUSY || source==(1u<<20)) {
+            full_count+=err==S3_BUSY;
+            s3_lease l; const uint8_t *p;
+            while (s3_ring_take(&ring,&l,&p)==S3_OK) {
+                for (unsigned i=0;i<S3_PAGE_BYTES;++i) {
+                    bits|=(uint64_t)p[i]<<bit_count; bit_count+=8;
+                    if (bit_count>=20) {
+                        assert((bits&0xfffffu)==decoded++); bits>>=20; bit_count-=20;
+                    }
+                }
+                assert(s3_ring_complete(&ring,l)==S3_OK);
+            }
+        }
+    }
+    /* Flush saved bytes without inventing a final partial word or padding. */
+    size_t consumed=123;
+    assert(s3_iq10_push(&packer,NULL,0,&consumed)==S3_OK && consumed==0);
+    assert(decoded==(1u<<20) && bit_count==0 && bits==0 && full_count>0);
+    assert(packer.page==NULL && !packer.have_first);
+    /* A partial native sample pair is discarded only on explicit mode stop. */
+    const uint32_t one=0xabcde;
+    assert(s3_iq10_push(&packer,&one,1,&consumed)==S3_OK && consumed==1);
+    assert(s3_ring_reset(&ring)==S3_BUSY);
+    assert(s3_iq10_discard(&packer)==S3_OK);
+    assert(s3_ring_reset(&ring)==S3_OK);
+}
+
 int main(void)
 {
-    wire(); boundaries();
+    wire(); boundaries(); packed_adc_values();
     assert(s3_ring_init(&ring,data,sizeof(data),7)==S3_OK);
     pthread_t producer,consumer;
     assert(pthread_create(&producer,NULL,produce,NULL)==0);
@@ -120,7 +161,7 @@ int main(void)
     assert(pthread_join(producer,NULL)==0); assert(pthread_join(consumer,NULL)==0);
     assert(ring.retire_sequence==TEST_PAGES);
     printf("{\"pages\":%d,\"payload_bytes_checked\":%u,\"out_of_order_pairs\":%d,"
-           "\"wire_and_wrap_and_stop_boundaries\":true,\"all_pass\":true}\n",
+           "\"native_IQ10_values_checked\":1048576,\"wire_and_wrap_and_stop_boundaries\":true,\"all_pass\":true}\n",
            TEST_PAGES,TEST_PAGES*S3_PAGE_BYTES,TEST_PAGES/2);
     return 0;
 }

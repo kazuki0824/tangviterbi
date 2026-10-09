@@ -32,4 +32,18 @@ esp_err_t s3_spi_prepare(s3_spi_port *port, unsigned stream, unsigned epoch,
 esp_err_t s3_spi_queue(s3_spi_port *port);
 esp_err_t s3_spi_reap(s3_spi_port *port);
 esp_err_t s3_spi_close(s3_spi_port *port);
+
+/* RF adapter: at most 3 pages per SCT batch, or 1 on SPI3. One scheduler
+ * services both objects. The buffer lease is committed to hardware only after
+ * prepare; a failed queue poisons the port and keeps all leases retained.
+ */
+typedef struct {
+    s3_tx_ring *ring;
+    s3_spi_port *port;
+    s3_lease leases[3];
+    unsigned count;
+} s3_rf_transfer;
+esp_err_t s3_rf_submit(s3_rf_transfer *transfer, s3_spi_port *port,
+                       s3_tx_ring *ring, unsigned pages);
+esp_err_t s3_rf_reap(s3_rf_transfer *transfer);
 #endif

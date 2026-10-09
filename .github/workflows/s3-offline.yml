@@ -5,8 +5,10 @@ on:
       - 'experiments/s3_fft_tiles.*'
       - 'experiments/s3_stream_schedule.py'
       - 'experiments/s3_transport.*'
+      - 'experiments/s3_sct_schedule.py'
       - 'tests/s3_transport_host.c'
       - 'tests/test_s3_transport.py'
+      - 'tests/test_s3_sct_schedule.py'
       - 'tests/test_s3_fft_tiles.py'
       - 'tests/test_s3_stream_schedule.py'
       - '.github/workflows/s3-offline.yml'
@@ -35,6 +37,10 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -p test_s3_transport.py -v
           cp build/s3-transport/host.json s3-transport-host.json
+      - name: Test SCT arbitration and overloaded API timing contracts
+        run: |
+          python3 -m unittest discover -s tests -p test_s3_sct_schedule.py -v
+          python3 experiments/s3_sct_schedule.py --output s3-sct-schedule.json
       - uses: actions/upload-artifact@v4
         with:
           name: s3-host-contracts

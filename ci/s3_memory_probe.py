@@ -57,9 +57,9 @@ if elf_file.exists() and os.environ["PROBE_TRANSPORT"] == "1":
         sym = table.get_symbol_by_name("transport_object_sizes")[0]
         section = elf.get_section(sym["st_shndx"])
         offset = sym["st_value"] - section["sh_addr"]
-        values = struct.unpack("<7I", section.data()[offset:offset+28])
+        values = struct.unpack("<8I", section.data()[offset:offset+32])
         result["transport_sizes_bytes"] = dict(zip(("port", "segment", "ring_control", "DMA_descriptor",
-            "SPI2_DMA_pool", "SPI3_DMA_pool", "peak_SCT_configuration"), values))
+            "SPI2_DMA_pool", "SPI3_DMA_pool", "peak_SCT_configuration", "ATOMIC_INT_LOCK_FREE"), values))
         result["hot_functions"] = {name: hex(table.get_symbol_by_name(name)[0]["st_value"])
             for name in ("s3_fft_stage_tile", "s3_fft_reverse_tile", "spi_device_queue_trans")}
 (out / "result.json").write_text(json.dumps(result, indent=2) + "\n")
