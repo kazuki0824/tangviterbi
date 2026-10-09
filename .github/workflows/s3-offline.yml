@@ -36,7 +36,8 @@ jobs:
       - name: Exercise zero-copy ownership with concurrent producer and scheduler
         run: |
           python3 -m unittest discover -s tests -p test_s3_transport.py -v
-          cp build/s3-transport/host.json s3-transport-host.json
+          cp build/s3-transport/host-8.json s3-transport-host-8.json
+          cp build/s3-transport/host-16.json s3-transport-host-16.json
       - name: Test SCT arbitration and overloaded API timing contracts
         run: |
           python3 -m unittest discover -s tests -p test_s3_sct_schedule.py -v

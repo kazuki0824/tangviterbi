@@ -12,7 +12,11 @@
  * The request header cannot certify FPGA freshness; endpoint status/ready
  * and electrical integrity still need an implementation and validation.
  */
-enum { S3_PAGE_BYTES = 4096, S3_RING_PAGES = 8, S3_RING_BYTES = 32768 };
+#ifndef S3_RING_PAGE_COUNT
+#define S3_RING_PAGE_COUNT 8
+#endif
+enum { S3_PAGE_BYTES = 4096, S3_RING_PAGES = S3_RING_PAGE_COUNT,
+       S3_RING_BYTES = S3_RING_PAGES*S3_PAGE_BYTES };
 enum s3_stream { S3_RF = 1, S3_FFT = 2, S3_IQ = 11 };
 enum s3_result { S3_OK, S3_BUSY, S3_EMPTY, S3_STALE, S3_RANGE, S3_EXHAUSTED };
 typedef struct { uint16_t command; uint64_t address; } s3_wire_header;
@@ -26,6 +30,8 @@ typedef struct { uint32_t sequence; uint16_t epoch; } s3_lease;
 typedef struct { atomic_uint state; uint32_t sequence; } s3_ring_page;
 typedef struct {
     uint8_t *payload;
+    uint8_t *payload_tail;
+    unsigned head_pages;
     s3_ring_page pages[S3_RING_PAGES];
     uint32_t write_sequence;  /* one producer only */
     uint32_t submit_sequence, retire_sequence; /* one scheduler only */
@@ -38,6 +44,9 @@ typedef struct {
  * object. Payload is never copied here and remains leased until retirement.
  */
 int s3_ring_init(s3_tx_ring *ring, void *payload, size_t size, unsigned epoch);
+/* Two nonoverlapping internal SRAM arenas, still zero-copy per DMA page. */
+int s3_ring_init_split(s3_tx_ring *ring, void *head, unsigned head_pages,
+                        void *tail, unsigned tail_pages, unsigned epoch);
 int s3_ring_begin(s3_tx_ring *ring, s3_lease *lease, uint8_t **payload);
 int s3_ring_publish(s3_tx_ring *ring, s3_lease lease);
 int s3_ring_cancel_write(s3_tx_ring *ring, s3_lease lease);

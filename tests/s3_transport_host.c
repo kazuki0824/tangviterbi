@@ -50,23 +50,23 @@ static void *consume(void *unused)
 
 static void boundaries(void)
 {
-    assert(s3_ring_init(&ring,data,sizeof(data),1)==S3_OK);
-    s3_lease l[8], out, stale; uint8_t *p; const uint8_t *q;
+    assert(s3_ring_init_split(&ring,data+S3_RING_BYTES/4,3*S3_RING_PAGES/4,data,S3_RING_PAGES/4,1)==S3_OK);
+    s3_lease l[S3_RING_PAGES], out, stale; uint8_t *p; const uint8_t *q;
     assert(s3_ring_take(&ring,&out,&q)==S3_EMPTY);
     assert(s3_ring_begin(&ring,&stale,&p)==S3_OK);
     assert(s3_ring_reset(&ring)==S3_BUSY);
     assert(s3_ring_publish(&ring,stale)==S3_OK);
-    for (unsigned i=1;i<8;++i) {
+    for (unsigned i=1;i<S3_RING_PAGES;++i) {
         assert(s3_ring_begin(&ring,&out,&p)==S3_OK);
         assert(s3_ring_publish(&ring,out)==S3_OK);
     }
     assert(s3_ring_begin(&ring,&out,&p)==S3_BUSY);
-    for (unsigned i=0;i<8;++i) assert(s3_ring_take(&ring,&l[i],&q)==S3_OK);
+    for (unsigned i=0;i<S3_RING_PAGES;++i) assert(s3_ring_take(&ring,&l[i],&q)==S3_OK);
     assert(s3_ring_reset(&ring)==S3_BUSY);
     assert(s3_ring_undo_take(&ring,l[0])==S3_STALE);
-    assert(s3_ring_undo_take(&ring,l[7])==S3_OK);
-    assert(s3_ring_take(&ring,&l[7],&q)==S3_OK);
-    for (unsigned i=7;i>0;--i) assert(s3_ring_complete(&ring,l[i])==S3_OK);
+    assert(s3_ring_undo_take(&ring,l[S3_RING_PAGES-1])==S3_OK);
+    assert(s3_ring_take(&ring,&l[S3_RING_PAGES-1],&q)==S3_OK);
+    for (unsigned i=S3_RING_PAGES-1;i>0;--i) assert(s3_ring_complete(&ring,l[i])==S3_OK);
     assert(s3_ring_begin(&ring,&out,&p)==S3_BUSY); // no prefix retired
     assert(s3_ring_complete(&ring,l[0])==S3_OK);
     assert(s3_ring_reset(&ring)==S3_OK);
@@ -163,7 +163,8 @@ int main(void)
     assert(s3_t_rf_batch(1,100000,release,deadline,200000,timing)==1);
     assert(s3_t_rf_batch(3,UINT64_MAX-10,UINT64_MAX-5,UINT64_MAX,0,timing)==0);
     wire(); boundaries(); packed_adc_values();
-    assert(s3_ring_init(&ring,data,sizeof(data),7)==S3_OK);
+    assert(s3_ring_init_split(&ring,data+S3_RING_BYTES/4,3*S3_RING_PAGES/4,
+                               data,S3_RING_PAGES/4,7)==S3_OK);
     pthread_t producer,consumer;
     assert(pthread_create(&producer,NULL,produce,NULL)==0);
     assert(pthread_create(&consumer,NULL,consume,NULL)==0);

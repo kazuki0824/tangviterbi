@@ -9,6 +9,7 @@
 #endif
 
 _Static_assert(sizeof(unsigned) == 4, "32-bit state required");
+_Static_assert(S3_RING_PAGES && !(S3_RING_PAGES&(S3_RING_PAGES-1)), "power-of-two ring");
 enum { FREE, FILLING, READY, INFLIGHT, DONE };
 
 static S3_HOT bool stream_valid(unsigned stream)
@@ -59,17 +60,38 @@ static S3_HOT bool matches(s3_tx_ring *r, s3_lease lease, unsigned state)
            p->sequence == lease.sequence;
 }
 
-int s3_ring_init(s3_tx_ring *r, void *payload, size_t size, unsigned epoch)
+static S3_HOT uint8_t *page_payload(s3_tx_ring *r, uint32_t sequence)
 {
-    if (!r || !payload || ((uintptr_t)payload & 3) || size != S3_RING_BYTES ||
+    unsigned i=sequence&(S3_RING_PAGES-1);
+    return i<r->head_pages ? r->payload+i*S3_PAGE_BYTES :
+           r->payload_tail+(i-r->head_pages)*S3_PAGE_BYTES;
+}
+
+int s3_ring_init_split(s3_tx_ring *r, void *payload, unsigned head_pages,
+                        void *tail, unsigned tail_pages, unsigned epoch)
+{
+    if (!r || !payload || ((uintptr_t)payload & 3) || !head_pages ||
+        head_pages>S3_RING_PAGES || tail_pages!=S3_RING_PAGES-head_pages ||
+        (tail_pages && (!tail || ((uintptr_t)tail&3))) ||
         !epoch || epoch > UINT16_MAX) return S3_RANGE;
+    uintptr_t a=(uintptr_t)payload,b=(uintptr_t)tail;
+    size_t na=head_pages*S3_PAGE_BYTES,nb=tail_pages*S3_PAGE_BYTES;
+    if (a>UINTPTR_MAX-na || (tail_pages && (b>UINTPTR_MAX-nb ||
+        (a<b+nb && b<a+na)))) return S3_RANGE;
     r->payload = payload;
+    r->payload_tail=tail;r->head_pages=head_pages;
     r->write_sequence = r->submit_sequence = r->retire_sequence = 0;
     r->epoch = (uint16_t)epoch;
     for (unsigned i = 0; i < S3_RING_PAGES; ++i) {
         atomic_init(&r->pages[i].state, FREE); r->pages[i].sequence = 0;
     }
     return S3_OK;
+}
+
+int s3_ring_init(s3_tx_ring *r, void *payload, size_t size, unsigned epoch)
+{
+    if (size!=S3_RING_BYTES) return S3_RANGE;
+    return s3_ring_init_split(r,payload,S3_RING_PAGES,NULL,0,epoch);
 }
 
 int S3_HOT s3_ring_begin(s3_tx_ring *r, s3_lease *lease, uint8_t **payload)
@@ -82,7 +104,7 @@ int S3_HOT s3_ring_begin(s3_tx_ring *r, s3_lease *lease, uint8_t **payload)
     atomic_store_explicit(&p->state, FILLING, memory_order_relaxed);
     p->sequence = r->write_sequence;
     *lease = (s3_lease){p->sequence, r->epoch};
-    *payload = r->payload + (p->sequence & (S3_RING_PAGES - 1)) * S3_PAGE_BYTES;
+    *payload = page_payload(r,p->sequence);
     return S3_OK;
 }
 
@@ -109,7 +131,7 @@ int S3_HOT s3_ring_take(s3_tx_ring *r, s3_lease *lease, const uint8_t **payload)
     if (atomic_load_explicit(&p->state, memory_order_acquire) != READY ||
         p->sequence != r->submit_sequence) return S3_EMPTY;
     *lease = (s3_lease){p->sequence, r->epoch};
-    *payload = r->payload + (p->sequence & (S3_RING_PAGES - 1)) * S3_PAGE_BYTES;
+    *payload = page_payload(r,p->sequence);
     atomic_store_explicit(&p->state, INFLIGHT, memory_order_relaxed);
     ++r->submit_sequence;
     return S3_OK;
@@ -146,7 +168,8 @@ int s3_ring_reset(s3_tx_ring *r)
         unsigned s = atomic_load_explicit(&r->pages[i].state, memory_order_acquire);
         if (s == FILLING || s == INFLIGHT) return S3_BUSY;
     }
-    return s3_ring_init(r, r->payload, S3_RING_BYTES, r->epoch + 1);
+    return s3_ring_init_split(r,r->payload,r->head_pages,r->payload_tail,
+                              S3_RING_PAGES-r->head_pages,r->epoch+1);
 }
 
 void s3_iq10_init(s3_iq10_packer *p, s3_tx_ring *r)

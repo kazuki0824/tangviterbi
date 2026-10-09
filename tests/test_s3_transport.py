@@ -12,9 +12,13 @@ ROOT = Path(__file__).resolve().parents[1]
 class TransportTest(unittest.TestCase):
     @unittest.skipUnless(shutil.which("cc"), "C compiler required")
     def test_ring_concurrency_wire_and_lifecycle(self):
+        for pages in (8,16):
+            with self.subTest(pages=pages): self.run_variant(pages)
+
+    def run_variant(self,pages):
         with tempfile.TemporaryDirectory() as out:
             exe = Path(out) / "transport"
-            subprocess.run(["cc", "-std=c11", "-O2", "-Wall", "-Wextra", "-Werror",
+            subprocess.run(["cc", f"-DS3_RING_PAGE_COUNT={pages}", "-std=c11", "-O2", "-Wall", "-Wextra", "-Werror",
                             "-fsanitize=undefined", "-fno-sanitize-recover=all", "-pthread",
                             "-I", str(ROOT / "experiments"),
                             str(ROOT / "experiments/s3_transport.c"),
@@ -25,7 +29,7 @@ class TransportTest(unittest.TestCase):
         self.assertEqual(report["payload_bytes_checked"], 40960000)
         dest = ROOT / "build/s3-transport"
         dest.mkdir(parents=True, exist_ok=True)
-        (dest / "host.json").write_text(json.dumps(report, indent=2) + "\n")
+        (dest / f"host-{pages}.json").write_text(json.dumps(report, indent=2) + "\n")
 
 
 if __name__ == "__main__":

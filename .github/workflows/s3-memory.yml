@@ -25,6 +25,7 @@ jobs:
           - {name: T-SPI-low-queue, terrestrial: 1, links: 2, zero_copy: 1, transport: 1, late_rf: 0}
           - {name: T-SPI-late-queue, terrestrial: 1, links: 2, zero_copy: 1, transport: 1, late_rf: 1}
           - {name: S-SPI-late-queue, terrestrial: 0, links: 2, zero_copy: 1, transport: 1, late_rf: 1}
+          - {name: T-SPI-late64-queue, terrestrial: 1, links: 2, zero_copy: 1, transport: 1, late_rf: 1, ring64: 1}
     steps:
       - uses: actions/checkout@v5
       - name: Link fixed internal buffers and enforce RF bank guards
@@ -36,6 +37,7 @@ jobs:
           PROBE_ZEROCOPY: ${{ matrix.zero_copy }}
           PROBE_TRANSPORT: ${{ matrix.transport }}
           PROBE_LATE_RF: ${{ matrix.late_rf }}
+          PROBE_RING64: ${{ matrix.ring64 || 0 }}
         run: |
           . "$IDF_PATH/export.sh"
           python3 ci/s3_memory_probe.py

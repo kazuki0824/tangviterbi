@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "esp_attr.h"
 #include "heap_memory_layout.h"
+#include "sdkconfig.h"
 #if PROBE_TRANSPORT
 #include "s3_spi_transport.h"
 #include "s3_fft_tiles.h"
@@ -27,7 +28,14 @@ SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);
 #if PROBE_LATE_RF
 // IDF enables the non-OS startup-stack heap before calling app_main. This
 // entire interval is excluded from that heap; no pre-app_main accesses.
+#if PROBE_RING64
+#if !CONFIG_ESP32S3_DATA_CACHE_32KB
+#error "64 KiB RF queue requires the audited 32 KiB data cache layout"
+#endif
+SOC_RESERVE_MEMORY_REGION(0x3fce4000, 0x3fcf4000, s3_late_rf_queue);
+#else
 SOC_RESERVE_MEMORY_REGION(0x3fce4000, 0x3fcec000, s3_late_rf_queue);
+#endif
 static uint8_t *const rf_packed_queue = (uint8_t *)0x3fce4000;
 #else
 DMA_ATTR uint8_t rf_packed_queue[32768];
@@ -73,6 +81,7 @@ void app_main(void)
         (uintptr_t)&s3_spi_queue ^ (uintptr_t)&s3_spi_reap ^ (uintptr_t)&s3_spi_close ^
         (uintptr_t)&s3_ring_begin ^ (uintptr_t)&s3_ring_publish ^ (uintptr_t)&s3_ring_take ^
         (uintptr_t)&s3_ring_complete ^ (uintptr_t)&s3_ring_reset ^ (uintptr_t)&s3_ring_undo_take;
+    probe_keep ^= (uintptr_t)&s3_ring_init_split;
     probe_keep ^= (uintptr_t)&s3_iq10_init ^ (uintptr_t)&s3_iq10_push ^ (uintptr_t)&s3_iq10_discard;
     probe_keep ^= (uintptr_t)&s3_rf_submit ^ (uintptr_t)&s3_rf_reap;
     probe_keep ^= (uintptr_t)&s3_t_rf_batch;
