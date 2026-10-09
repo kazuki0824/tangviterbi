@@ -1,5 +1,0 @@
-idf_component_register(SRCS "memory_probe.c" INCLUDE_DIRS "." PRIV_REQUIRES heap)
-target_compile_definitions(${COMPONENT_LIB} PRIVATE
-    PROBE_TERRESTRIAL=$ENV{PROBE_TERRESTRIAL} PROBE_LINKS=$ENV{PROBE_LINKS}
-    PROBE_ZEROCOPY=$ENV{PROBE_ZEROCOPY})
-target_link_options(${COMPONENT_LIB} INTERFACE "-T${CMAKE_CURRENT_LIST_DIR}/sram_guard.ld")

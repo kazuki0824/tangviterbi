@@ -1,5 +1,0 @@
-read_verilog -sv rtl/viterbi_k7_16acs.sv rtl/viterbi_k7_32acs.sv experiments/rs_syndrome_constants.sv rtl/psram_ctrl.sv rtl/benchmark_top.sv
-chparam -set WITH_MEM 1 -set WITH_VITERBI 1 -set WITH_RS 1 -set VITERBI_ACS 32 benchmark_top
-hierarchy -check -top benchmark_top
-synth_gowin -top benchmark_top -json build/design.json
-stat -top benchmark_top

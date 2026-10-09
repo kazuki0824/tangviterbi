@@ -28,8 +28,8 @@ jobs:
       fail-fast: false
       matrix:
         # Prior area controls remain archived under reports/s3-area.
-        kind: [isdb4]
-        frequency: [99, 125]
+        kind: [isdb-predecode4]
+        frequency: [99]
     steps:
       - uses: actions/checkout@v5
       - uses: YosysHQ/setup-oss-cad-suite@v4

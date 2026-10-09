@@ -51,15 +51,15 @@ def synth(sources, top, directory, mem=None, narrow=False, vit=True):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4", "inverse4", "schedule4", "isdb4"))
+    parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4", "inverse4", "schedule4", "isdb4", "isdb-predecode4"))
     parser.add_argument("--frequency", type=float, default=125)
     args = parser.parse_args()
     out = Path("build/s3-area") / f"{args.kind}-{args.frequency:g}"
     out.mkdir(parents=True, exist_ok=True)
     rtl = out / "rs.sv"
-    isdb = args.kind == "isdb4"
-    scheduled = args.kind in ("inverse4", "schedule4", "isdb4")
-    text = isdb_source() if isdb else schedule_source(args.kind == "schedule4") if scheduled else source(args.kind.startswith("shared"))
+    isdb = args.kind.startswith("isdb")
+    scheduled = args.kind in ("inverse4", "schedule4") or isdb
+    text = isdb_source("predecode" in args.kind) if isdb else schedule_source(args.kind == "schedule4") if scheduled else source(args.kind.startswith("shared"))
     if "resetless" in args.kind:
         text = text.replace("""if (!resetn) begin
                 lambda[slot] <= 8'd0;
@@ -71,7 +71,7 @@ def main():
         always @(posedge clk)""")
     rtl.write_text(text)
     narrow = args.kind.endswith("4")
-    bound = derive(isdb)["worst_control_path"]["cycles"] if args.kind in ("schedule4", "isdb4") else 3166 if scheduled else 3502
+    bound = derive(isdb)["worst_control_path"]["cycles"] if args.kind == "schedule4" or isdb else 3166 if scheduled else 3502
     floor = bound * 6.52125 / 188
     result = {"kind": args.kind, "rtl_sha256": hashlib.sha256(rtl.read_bytes()).hexdigest(),
               "scope": "Partial FEC + protocol controller benchmark, not a receiver",
