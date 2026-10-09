@@ -1,0 +1,32 @@
+name: S3 receiver functional closure
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_*'
+      - 'tests/test_s3_*'
+      - 'ci/s3_area_benchmark.py'
+      - '.github/workflows/s3-receiver-offline.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Decode independently encoded bits
+        run: python3 -m unittest discover -s tests -p test_s3_viterbi_decode.py -v
+      - name: Measure functional Viterbi and ISDB RS together
+        run: python3 ci/s3_area_benchmark.py isdb-predecode4 --frequency 99 --receiver-viterbi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-receiver-fec
+          path: |
+            build/s3-viterbi/
+            build/s3-area/isdb-predecode4-99-traceback/

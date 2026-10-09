@@ -53,8 +53,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("kind", choices=("dual", "dual4", "shared4", "resetless", "resetless4", "shared-resetless4", "inverse4", "schedule4", "isdb4", "isdb-predecode4"))
     parser.add_argument("--frequency", type=float, default=125)
+    parser.add_argument("--receiver-viterbi", action="store_true")
     args = parser.parse_args()
     out = Path("build/s3-area") / f"{args.kind}-{args.frequency:g}"
+    if args.receiver_viterbi:
+        out = out.with_name(out.name + "-traceback")
     out.mkdir(parents=True, exist_ok=True)
     rtl = out / "rs.sv"
     isdb = args.kind.startswith("isdb")
@@ -100,11 +103,18 @@ def main():
                     ["vvp", str(executable)], out / "schedule-tests.log"):
             raise RuntimeError("inverse ROM, Chien scheduling or early-fail test failed")
     result["RS"] = synth([rtl], "rs204_188_compact", out / "rs-module", narrow=narrow)
-    result["Viterbi"] = synth(["rtl/viterbi_k7_32acs.sv"], "viterbi_k7_32acs", out / "vit-module", narrow=narrow)
+    vit_rtl = Path("rtl/viterbi_k7_32acs.sv")
+    if args.receiver_viterbi:
+        from s3_viterbi_traceback import generate
+        vit_rtl = out / "viterbi.sv"
+        vit_rtl.write_text(generate().replace("module s3_viterbi_traceback", "module viterbi_k7_32acs"))
+        result["Viterbi_decode_contract"] = "124-step reverse traceback, 64 decoded bits/block, 2 cycles/input, metric renormalization"
+        result["Viterbi_rtl_sha256"] = hashlib.sha256(vit_rtl.read_bytes()).hexdigest()
+    result["Viterbi"] = synth([vit_rtl], "viterbi_k7_32acs", out / "vit-module", narrow=narrow)
     result["routed"] = {}
     for name, mem in (("core", 0), ("mem", 1), ("rs-clock", 0)):
         d = out / name
-        counts = synth(["rtl/viterbi_k7_16acs.sv", "rtl/viterbi_k7_32acs.sv", rtl,
+        counts = synth(["rtl/viterbi_k7_16acs.sv", vit_rtl, rtl,
                         "rtl/psram_ctrl.sv", "rtl/benchmark_top.sv"], "benchmark_top", d, mem,
                        narrow=narrow, vit=name != "rs-clock")
         rc = run(["nextpnr-himbaechel", "--json", str(d / "design.json"),
