@@ -63,6 +63,12 @@ End-to-end sustained throughput, complete convolutional decoder output and
 ARIB-compatible RS correction qualification, and a physical PSRAM interface
 remain outside the measured scope.
 
+The separate [S3-N16R8 receiver proposal](reports/s3-internal-sram-proposal.md)
+records six zero-DSP area experiments, corrected internal-SRAM accounting,
+and conditional T/S transport budgets. It does not replace the adopted RTL
+or qualify a full receiver; its S service-cycle and firmware changes remain
+implementation work.
+
 ## RTL
 
 ### Viterbi
