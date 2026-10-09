@@ -1,0 +1,49 @@
+name: S3 zero-DSP RS area comparison
+on:
+  pull_request:
+    paths:
+      - 'experiments/gf256_boolean.sv'
+      - 'experiments/s3_rs_area.py'
+      - 'ci/s3_area_benchmark.py'
+      - '.github/workflows/s3-area.yml'
+      - 'tests/test_s3_rs_area.py'
+      - 'rtl/**'
+      - 'experiments/rs_syndrome_constants.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  measure:
+    name: zero-DSP RS / ${{ matrix.kind }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [dual, dual4, shared4, resetless]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check mutually exclusive operands and cycle equivalence
+        run: python3 -m unittest discover -s tests -p test_s3_rs_area.py -v
+      - name: Compare module area and routed 125 MHz result
+        run: python3 ci/s3_area_benchmark.py '${{ matrix.kind }}'
+      - name: Upload raw measurements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: s3-area-${{ matrix.kind }}
+          path: build/s3-area/${{ matrix.kind }}/
+          retention-days: 30
+      - name: Publish result
+        if: always()
+        run: |
+          if test -f 'build/s3-area/${{ matrix.kind }}/result.json'; then
+            echo 'Measurement completion is not a timing or receiver PASS.' >> "$GITHUB_STEP_SUMMARY"
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            cat 'build/s3-area/${{ matrix.kind }}/result.json' >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
