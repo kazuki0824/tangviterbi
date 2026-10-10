@@ -1,0 +1,359 @@
+{
+  "scope": "Physical-pin PSRAM BIST synthesis, P&R and evidence (not receiver fit).",
+  "variant": "s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16",
+  "exit_code": 125,
+  "sources": {
+    "rtl/s3_psram_burst.sv": "aae2589df74c0a1dd8e101bf5768d68c839b38c7a3f869c22ce54f571cba0136",
+    "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16-pnr/queue.sv": "af5b9316d9d301f582430a75da09d00a2b2faeff0346df47778038b44b7880bd",
+    "rtl/s3_psram_phy.sv": "e17c4eca3500a19407cfea6a43a7725fe46cac80e6484fead00095f1c83209d7",
+    "rtl/s3_psram_clock.sv": "195e62dc708aa8f905b37fb848e543277ad09f7fc9c20c1064516c0b95631d31",
+    "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+    "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+    "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+    "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+    "rtl/s3_rx_page_store.sv": "682e9ab1095474e23f5ae838442622d942e697879d5692f587bbe09054b0793e",
+    "rtl/s3_psram_page_reader.sv": "b63c42df60dae56e72e1a10186c617e4dddc0542d0954604743e2609a12d91c6",
+    "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16-pnr/lcd_bridge.sv": "807ab43c4f22f57a506d8786b2c1ec508738ca0c2253b5393b2ae90c530a8d97",
+    "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16-pnr/lcd_top.sv": "34eddba7926125b96853fad80dc38506916e5213a7c29abc357aa4c4579bffe3",
+    "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
+    "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16-pnr/viterbi.sv": "7327bac155b406ddd8ff400e74f7ea7580e4393b345e60f58569c0b03531f7a2",
+    "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16-pnr/rs.sv": "f9bc05db6885248932d12d2ecf5a0e15badec84ff739f519891183a87d38df34",
+    "rtl/s3_lcd16_rx.sv": "b5981e7d876d55e67480b42c8267dee6490d3ae9b0704d9790138df4d44fa6d8"
+  },
+  "clock_constraints": [
+    [
+      "clocking.clk27",
+      27
+    ],
+    [
+      "bridge.clk",
+      99
+    ],
+    [
+      "bridge.clk_ck",
+      99
+    ],
+    [
+      "bridge.p2.spi_clk",
+      80
+    ],
+    [
+      "bridge.p3.wr_clk",
+      40
+    ]
+  ],
+  "synthesis_flags": "-nowidelut",
+  "logic_site_audit": {
+    "packed_json_sha256": "e11f6d95373b49abb6316c30fe8bdd652094f42b2e3d0cb89847709a5a4b0660",
+    "LUT_cells": 4634,
+    "ALU_cells": 2014,
+    "ALU_blockers_excluded": 2014,
+    "fabric_FFs": 3761,
+    "maximum_LUT_or_ALU_FF_pairs": 1781,
+    "minimum_additional_FF_sites": 1980,
+    "minimum_required_logic_sites": 8628,
+    "available_logic_sites": 8640,
+    "minimum_site_utilization_percent": 99.86111111111111,
+    "minimum_site_deficit": 0,
+    "mapped_netlist_ruled_out": false,
+    "FF_D_driver_types": {
+      "LUT2": 496,
+      "LUT3": 651,
+      "DFF": 174,
+      "ALU": 183,
+      "DFFCE": 553,
+      "LUT1": 23,
+      "LUT4": 1138,
+      "DFFE": 122,
+      "GOWIN_VCC": 12,
+      "DFFPE": 30,
+      "DFFC": 58,
+      "DFFP": 2,
+      "DFFRE": 145,
+      "DFFSE": 1,
+      "DFFS": 1,
+      "MULT18X18": 60,
+      "SDP": 72,
+      "IBUF": 40
+    },
+    "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+    "limitations": [
+      "narrow LUT mapping only",
+      "no retiming/resynthesis/transformation allowed in this bound",
+      "passing this bound does not prove placement or timing",
+      "CE/reset/clock/adjacency restrictions ignored"
+    ]
+  },
+  "synthesis": {
+    "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+    "invocation": "stat -json ",
+    "modules": {
+      "\\s3_memory_fec_benchmark": {
+        "num_wires": 8181,
+        "num_wire_bits": 16744,
+        "num_pub_wires": 8181,
+        "num_pub_wire_bits": 16744,
+        "num_ports": 16,
+        "num_port_bits": 58,
+        "num_memories": 0,
+        "num_memory_bits": 0,
+        "num_processes": 0,
+        "num_cells": 10238,
+        "num_submodules": 0,
+        "num_cells_by_type": {
+          "$scopeinfo": 20,
+          "ALU": 1704,
+          "BUFG": 2,
+          "DFF": 465,
+          "DFFC": 181,
+          "DFFCE": 1383,
+          "DFFE": 1342,
+          "DFFNC": 1,
+          "DFFP": 4,
+          "DFFPE": 32,
+          "DFFR": 127,
+          "DFFRE": 221,
+          "DFFS": 3,
+          "DFFSE": 2,
+          "DPB": 2,
+          "DPX9B": 3,
+          "GND": 1,
+          "IBUF": 31,
+          "IDDR": 18,
+          "IOBUF": 18,
+          "LUT1": 34,
+          "LUT2": 951,
+          "LUT3": 1623,
+          "LUT4": 2026,
+          "MULT18X18": 2,
+          "OBUF": 9,
+          "ODDR": 24,
+          "SDPX9B": 6,
+          "SPX9": 1,
+          "VCC": 1,
+          "rPLL": 1
+        }
+      }
+    },
+    "design": {
+      "num_wires": 8181,
+      "num_wire_bits": 16744,
+      "num_pub_wires": 8181,
+      "num_pub_wire_bits": 16744,
+      "num_ports": 16,
+      "num_port_bits": 58,
+      "num_memories": 0,
+      "num_memory_bits": 0,
+      "num_processes": 0,
+      "num_cells": 10238,
+      "num_submodules": 0,
+      "num_cells_by_type": {
+        "$scopeinfo": 20,
+        "ALU": 1704,
+        "BUFG": 2,
+        "DFF": 465,
+        "DFFC": 181,
+        "DFFCE": 1383,
+        "DFFE": 1342,
+        "DFFNC": 1,
+        "DFFP": 4,
+        "DFFPE": 32,
+        "DFFR": 127,
+        "DFFRE": 221,
+        "DFFS": 3,
+        "DFFSE": 2,
+        "DPB": 2,
+        "DPX9B": 3,
+        "GND": 1,
+        "IBUF": 31,
+        "IDDR": 18,
+        "IOBUF": 18,
+        "LUT1": 34,
+        "LUT2": 951,
+        "LUT3": 1623,
+        "LUT4": 2026,
+        "MULT18X18": 2,
+        "OBUF": 9,
+        "ODDR": 24,
+        "SDPX9B": 6,
+        "SPX9": 1,
+        "VCC": 1,
+        "rPLL": 1
+      }
+    }
+  },
+  "pnr_trials": [
+    {
+      "seed": 1,
+      "exit_code": 125,
+      "fmax": null,
+      "notes": [
+        "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+      ],
+      "preplacement_utilization": {
+        "VCC": {
+          "used": 1,
+          "available": 1
+        },
+        "IOB": {
+          "used": 40,
+          "available": 276
+        },
+        "LUT4": {
+          "used": 6648,
+          "available": 8640
+        },
+        "OSER16": {
+          "used": 0,
+          "available": 80
+        },
+        "IDES16": {
+          "used": 0,
+          "available": 80
+        },
+        "IOLOGICI": {
+          "used": 18,
+          "available": 276
+        },
+        "IOLOGICO": {
+          "used": 24,
+          "available": 276
+        },
+        "MUX2_LUT5": {
+          "used": 0,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 0,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 0,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 0,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 2014,
+          "available": 6480
+        },
+        "GND": {
+          "used": 1,
+          "available": 1
+        },
+        "DFF": {
+          "used": 3761,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 12,
+          "available": 26
+        },
+        "ALU54D": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTADDALU18X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTALU18X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTALU36X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULT36X36": {
+          "used": 0,
+          "available": 5
+        },
+        "MULT18X18": {
+          "used": 2,
+          "available": 20
+        },
+        "MULT9X9": {
+          "used": 0,
+          "available": 40
+        },
+        "PADD18": {
+          "used": 0,
+          "available": 20
+        },
+        "PADD9": {
+          "used": 0,
+          "available": 40
+        },
+        "GSR": {
+          "used": 1,
+          "available": 1
+        },
+        "OSC": {
+          "used": 0,
+          "available": 1
+        },
+        "rPLL": {
+          "used": 1,
+          "available": 2
+        },
+        "FLASH608K": {
+          "used": 0,
+          "available": 1
+        },
+        "BUFG": {
+          "used": 2,
+          "available": 22
+        },
+        "DQCE": {
+          "used": 0,
+          "available": 24
+        },
+        "DCS": {
+          "used": 0,
+          "available": 8
+        },
+        "DHCEN": {
+          "used": 0,
+          "available": 24
+        },
+        "CLKDIV": {
+          "used": 0,
+          "available": 8
+        },
+        "CLKDIV2": {
+          "used": 0,
+          "available": 16
+        },
+        "MIPI_IBUF": {
+          "used": 0,
+          "available": 22
+        },
+        "MIPI_OBUF": {
+          "used": 0,
+          "available": 20
+        }
+      },
+      "timeout_seconds": 0,
+      "placer": "heap",
+      "heap_cell_timeout": 8
+    }
+  ],
+  "utilization": null,
+  "fmax": null,
+  "physical_timing_proven": false,
+  "receiver_adopted": false,
+  "safe_to_flash": false,
+  "absent": [
+    "validated DQ/RWDS sampling eye",
+    "phase-related external IO STA",
+    "full receiver integration",
+    "real hardware BIST"
+  ]
+}

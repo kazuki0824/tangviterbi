@@ -66,13 +66,14 @@ def evaluate(partial=None):
         unclosed=['connected T/S receiver RTL and firmware',
             'T FIR/sync/equalizer/demapper/time deinterleaver/TS',
             'S FIR/sync/frame deinterleaver/TS',
-            'LCD16 endpoint, bidirectional octal endpoint and pin/CDC closure',
+            'LCD16 receiver integration, bidirectional octal endpoint and pin/CDC closure',
             'S3 RF capture + FFT/equalizer/demapper WCET and memory contention',
             'PSRAM arbitration/interleaver deadline and external IO STA',
             'two-image NOR boot/reconfiguration and uninterrupted stream ownership',
             'complete top-level routed timing and RF-to-TS conformance vectors'])
     if partial is not None:
-        if partial.get('variant') != 's3-memory-fec-compact-b1-rs-acs22-q15-folded-rr':
+        if partial.get('variant') not in ('s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr',
+                                          's3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16'):
             raise ValueError('not the fixed full-FPGA-RS/SHIFT22/99MHz prerequisite')
         r['partial_FEC_memory_PnR'] = dict(exit_code=partial['exit_code'],
             logic_site_audit=partial.get('logic_site_audit'),

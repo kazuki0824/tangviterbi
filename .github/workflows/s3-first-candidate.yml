@@ -5,6 +5,8 @@ on:
       - 'experiments/s3_first_candidate.py'
       - 'tests/test_s3_first_candidate.py'
       - 'ci/s3_psram_benchmark.py'
+      - 'rtl/s3_lcd16_rx.sv'
+      - 'tests/test_s3_lcd16_rx.py'
       - '.github/workflows/s3-first-candidate.yml'
   workflow_dispatch:
 permissions:
@@ -23,24 +25,36 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -p test_s3_first_candidate.py -v
           python3 -m unittest discover -s tests -p test_s3_rs_compact.py -v
-      - name: Co-place fixed SHIFT22 full-RS memory prerequisite at 99 MHz
+          python3 -m unittest discover -s tests -p test_s3_lcd16_rx.py -v
+      - name: Co-place fixed SHIFT22 full-RS memory and LCD16 prerequisite at 99 MHz
         id: pnr
         continue-on-error: true
-        run: python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --core-mhz 99 --seeds 1 2 3 --pnr-timeout 0
+        run: python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --lcd16 --core-mhz 99 --seeds 1 2 3 --pnr-timeout 0
       - name: Record qualification gaps even on synthesis or routing failure
         if: always()
         run: |
-          python3 experiments/s3_first_candidate.py --partial reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr.json --output reports/s3-first-candidate.json
+          python3 experiments/s3_first_candidate.py --partial reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16.json --output reports/s3-first-candidate.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: first-candidate-prerequisites-not-receiver
           path: |
             reports/s3-first-candidate.json
-            reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr.json
-            build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/
+            reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16.json
+            build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16-pnr/
+            build/s3-lcd16-rx/
+            build/s3-lcd16-faults/
             build/s3-rs-compact/
             build/s3-rs-compact-failures/
       - name: Propagate physical prerequisite failure
-        if: steps.pnr.outcome == 'failure'
-        run: exit 1
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          report = Path('reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16.json')
+          status = json.loads(report.read_text())['exit_code'] if report.exists() else None
+          print(f'Partial physical placement status: {status}')
+          sys.exit(0 if status == 0 else 1)
+          PY

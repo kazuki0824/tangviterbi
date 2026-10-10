@@ -6,6 +6,8 @@ PR #4 の `82ac49bef066f7c468898ba60f21b599ba5ef447` を親とする。
 今回追加したものは第一候補専用の検算器・回帰試験・再実行CI・実装監査であり、完成受信機RTL/ファームウェアではない。
 以前の「第一候補」は条件付き帯域・段階別コスト見積もりに基づく実装検討の優先順位であった。
 その順位は、全体収容やリアルタイム動作が確認済みであるという意味ではない。
+今回の共配置結果を受け、第一候補という順位も再評価が必要である。部分topの配置失敗から
+全9K構成の不可能性まで一般化できないが、この案を採用可能として他案より優先する根拠は失われた。
 
 ## 固定する処理分担
 
@@ -28,12 +30,13 @@ TのLLRはデマッパ出力契約の各8 bitであり、帯域不足対策の�
 | T Viterbi / RS | 独立した演算器と試験 | T全レート、インターリーブを通した接続・TS出力 |
 | S TC8PSK / RS | SHIFT22 folded metric、22ACS、コンパクト全RSの独立試験 | FIR/同期、フレームデインターリーブ、連結FEC/TSの適合試験 |
 | 外部メモリ | 実PSRAM PHY/queueとSPI memory bridgeの検証top | 全インターリーブのメモリ配置・競合・期限、外部I/Oタイミング |
-| 通信 | Octal/Quad SPI受信部品、頁管理 | LCD16受信、Octal上り、固定ピン割当、CDC、全流量スケジューラ |
+| 通信 | Octal SPI受信、LCD16受信と4096-byte頁試験、頁管理 | 実S3 LCD DMAとの接続、Octal上り、全ポート同時ピン割当、CDC/全流量スケジューラ |
 | モード切替 | NOR関連の個別試験 | 2つの完成画像、切替時所有権/リセット/再捕捉を含む連結制御 |
 
 `s3_memory_fec_benchmark.sv` は **独立LFSRによるFECと実メモリ通信の共配置top**。
 FEC入力はRFから復調・デインターリーブされた符号語ではない。
-そのピン配置はOctal+Quadであり、本候補のOctal+LCD16のピン収容証明にもならない。
+元のtopのピン配置はOctal+Quadだった。今回、検証用Quad受信をLCD16受信に
+置き換えた共配置topも追加した。ただしLCD16の頁試験と共配置はS3 DMA接続や全受信機のピン収容証明ではない。
 合成/P&Rが成功しても、この表の未完了欄は消えない。
 
 ## 処理期限
@@ -93,8 +96,17 @@ Sの元モデルは90 MHz・RS2エンジンであり、99 MHz・RS1エンジン�
 P&R timeoutは収容不能の証明ではない。詳細とseed別終了理由は共配置reportに保存する。
 初回seed 1/2/3はすべて私が設定した120秒でplacement timeout、routed Fmaxは取得できなかった。
 120秒が配置完了に十分という根拠はなく、その打切りを検証の停止点として扱ったのは不適切だった。
-再検証では `--pnr-timeout 0` によりローカルの経過秒数による打切りを撤廃する。
+再検証で `--pnr-timeout 0` とし、同一Octal+Quad netlistのseed 1/2/3はそれぞれ
+配置器自身の `Unable to find legal placement for all cells` で終了した。
+反復13/11/8まで進み、経過時間による中断ではなく、受信処理のdeadline missでもない。
+生ログとSHA256を `reports/s3-first-candidate-unbounded-pnr.json` と付属logに保存した。
+LCD16置換後の部分topは配置前の必要logic-site下限が8628/8640 (99.861111%)。
+残る12箇所を完成回路の余裕とはみなせない。seed 1は配置器自身の同じ合法配置エラーで終了し、
+Fmaxは得られなかった。全seedの終了結果は別reportに記録する。
+この共配置測定は一つの合成netlistについての必要条件であり、別RTLの最適化まで否定しない。
 Actionsのjob上限はサービス側の6時間とし、これに到達した場合も受信処理のdeadline missとは扱わない。
+検証スクリプト自体が配置失敗時にもJSON保存後に0で終了するため、CIはそのJSONの
+`exit_code` を明示的に読み、失敗時にjobを赤にする。
 共配置netlistのFF 3784/6480、BSRAM 12/26、DSP18 2/20はpack時の値であり、完成受信機の占有率ではない。
 seed 2/3は同一合成netlistを再利用して個別に実行し、コマンドと終了理由をreportに保存した。
 
@@ -108,8 +120,9 @@ OSS CAD Suite 2026-10-04を使用。配布archive SHA256:
 ```sh
 python3 -m unittest discover -s tests -p test_s3_first_candidate.py -v
 python3 -m unittest discover -s tests -p test_s3_rs_compact.py -v
-python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --core-mhz 99 --seeds 1 2 3 --pnr-timeout 0
-python3 experiments/s3_first_candidate.py --partial reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr.json --output reports/s3-first-candidate.json
+python3 -m unittest discover -s tests -p test_s3_lcd16_rx.py -v
+python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --lcd16 --core-mhz 99 --seeds 1 2 3 --pnr-timeout 0
+python3 experiments/s3_first_candidate.py --partial reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16.json --output reports/s3-first-candidate.json
 ```
 
 `all_receiver_implemented=false` / `all_deadlines_verified=false` / `receiver_adopted=false` / `safe_to_flash=false` を維持する。

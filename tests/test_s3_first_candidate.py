@@ -39,6 +39,7 @@ class FirstCandidateTest(unittest.TestCase):
                   'receiver_adopted', 'safe_to_flash'):
             self.assertFalse(r[k])
         self.assertFalse(r['partial_FEC_memory_PnR']['proves_full_receiver'])
+        self.assertFalse(evaluate(dict(p, variant=p['variant']+'-lcd16'))['receiver_adopted'])
         for suffix in ('-shift24', '-rs-offload', '-90MHz'):
             with self.assertRaises(ValueError):
                 evaluate(dict(p, variant=p['variant']+suffix))
