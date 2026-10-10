@@ -35,10 +35,11 @@ p.add_argument('--rr-table',action='store_true',help='Elaborate constant round-r
 p.add_argument('--core-mhz',type=int,choices=(90,99),default=99,help='Static 27 MHz PLL target; 90 uses VCO 720 MHz')
 p.add_argument('--wide-lut',action='store_true',help='Permit Gowin LUT5..8 mapping')
 p.add_argument('--no-ce',action='store_true',help='Map FF enables to explicit feedback muxes')
-p.add_argument('--pnr-timeout',type=int,default=180,help='Wall seconds per placement seed; timeout is NOT a fit proof')
+p.add_argument('--pnr-timeout',type=int,default=180,help='Wall seconds per placement seed; 0 disables the local limit; timeout is NOT a fit proof')
 p.add_argument('--placer',choices=('heap','sa'),default='heap')
 p.add_argument('--heap-cell-timeout',type=int,default=8,help='nextpnr cell-placement divisor; larger bounds each search sooner')
 args=p.parse_args()
+if args.pnr_timeout<0:p.error('--pnr-timeout must be >= 0')
 if args.rpc_clock27:args.rpc_bit_ranges=True
 if args.rpc_bit_ranges:args.rpc_payload_flag=True
 if args.rpc_payload_flag:args.rs_rpc_guard=True
@@ -250,7 +251,7 @@ for seed in args.seeds:
                 '--pre-pack',str(out/'clocks.py'),'--seed',str(seed),'--report',str(rp),
                 '--placer',args.placer,'--placer-heap-cell-placement-timeout',str(args.heap_cell_timeout),
                 '--write',str(out/'routed.json')],
-                cwd=ROOT,stdout=f,stderr=subprocess.STDOUT,timeout=args.pnr_timeout).returncode
+                cwd=ROOT,stdout=f,stderr=subprocess.STDOUT,timeout=args.pnr_timeout or None).returncode
         except subprocess.TimeoutExpired:
             rc=124;f.write(f'\nERROR: P&R timed out after {args.pnr_timeout} seconds; fit remains unknown\n')
     report=json.loads(rp.read_text()) if rp.exists() else {}

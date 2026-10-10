@@ -91,7 +91,10 @@ Sの元モデルは90 MHz・RS2エンジンであり、99 MHz・RS1エンジン�
 これはFF共有を楽観的に見積もった必要下限であり、70箇所を完成回路の空きとして扱えない。
 前段FIR/同期・デインターリーブ/TS・LCD16/上り/制御はこのtopに含まれない。
 P&R timeoutは収容不能の証明ではない。詳細とseed別終了理由は共配置reportに保存する。
-今回seed 1/2/3はすべて120秒でplacement timeout、routed Fmaxは取得できなかった。
+初回seed 1/2/3はすべて私が設定した120秒でplacement timeout、routed Fmaxは取得できなかった。
+120秒が配置完了に十分という根拠はなく、その打切りを検証の停止点として扱ったのは不適切だった。
+再検証では `--pnr-timeout 0` によりローカルの経過秒数による打切りを撤廃する。
+Actionsのjob上限はサービス側の6時間とし、これに到達した場合も受信処理のdeadline missとは扱わない。
 共配置netlistのFF 3784/6480、BSRAM 12/26、DSP18 2/20はpack時の値であり、完成受信機の占有率ではない。
 seed 2/3は同一合成netlistを再利用して個別に実行し、コマンドと終了理由をreportに保存した。
 
@@ -105,7 +108,7 @@ OSS CAD Suite 2026-10-04を使用。配布archive SHA256:
 ```sh
 python3 -m unittest discover -s tests -p test_s3_first_candidate.py -v
 python3 -m unittest discover -s tests -p test_s3_rs_compact.py -v
-python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --core-mhz 99 --seeds 1 2 3 --pnr-timeout 120
+python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --core-mhz 99 --seeds 1 2 3 --pnr-timeout 0
 python3 experiments/s3_first_candidate.py --partial reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr.json --output reports/s3-first-candidate.json
 ```
 

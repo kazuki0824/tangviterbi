@@ -12,7 +12,7 @@ permissions:
 jobs:
   fixed-candidate:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v5
       - uses: YosysHQ/setup-oss-cad-suite@v4
@@ -26,7 +26,7 @@ jobs:
       - name: Co-place fixed SHIFT22 full-RS memory prerequisite at 99 MHz
         id: pnr
         continue-on-error: true
-        run: python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --core-mhz 99 --seeds 1 2 3 --pnr-timeout 120
+        run: python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --core-mhz 99 --seeds 1 2 3 --pnr-timeout 0
       - name: Record qualification gaps even on synthesis or routing failure
         if: always()
         run: |
