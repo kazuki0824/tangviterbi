@@ -16,12 +16,16 @@ a=p.parse_args()
 out=ROOT/'reports/s3-psram-evidence';out.mkdir(parents=True,exist_ok=True)
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 record=dict(receiver_adopted=False,hardware_verified=False,physical_timing_proven=False,
-            implementation_complete=False,synthesis={},tests={},prior_trials={})
+            implementation_complete=False,synthesis={},tests={},prior_trials={},
+            routed_logic_positions={},resource_accounting='Post-route LUT4 + ALU; pre-placement LUT4 contains ALU blockers and is not directly comparable')
 for name in ('s3-psram','s3-memory-bridge','s3-memory-fec','s3-comm-pingpong'):
     report=json.loads((ROOT/f'reports/{name}.json').read_text())
     for source,digest in report['sources'].items():
         if sha(ROOT/source)!=digest:raise ValueError('stale synthesis: '+source)
     record['synthesis'][name]=report
+    if report.get('utilization'):
+        u=report['utilization'];sites=u['LUT4']['used']+u['ALU']['used']
+        record['routed_logic_positions'][name]=dict(used=sites,available=8640,percent=sites*100/8640)
     build=ROOT/'build'/(name if name=='s3-comm-pingpong' else name+'-pnr')
     shutil.copy2(build/'pnr.log',out/f'{name}-pnr.log')
     record['prior_trials'][name]=[json.loads(f.read_text()) for f in sorted((build/'trials').glob('*/result.json'))]

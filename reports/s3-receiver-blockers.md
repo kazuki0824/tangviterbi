@@ -3,9 +3,40 @@
 2026-10-10更新。対象はISDB-T全セグメントと従来ISDB-SのTS出力、実行時切替。
 採用済み受信機は0。`receiver_adopted=false`を維持する。
 
+**資源見積もりを訂正する。配置後のJSONのLUT4欄だけではロジック位置の占有率にならない。**
+ALUが同じ位置を占めるため、今回のnarrow-LUT構成では配置後のLUT4＋ALUを使う。
+旧S距離/TC8PSK/RSの5602 LUT4には別に2028 ALUがあり、合計7630/8640＝88.31%。
+実PSRAM受信経路は2461＋616＝3077/8640＝35.61%。
+単体の数値をそのまま足して全体配置にすることはできない。
+
+さらにpacked netlistから、LUT/ALUと同じ位置を共有できないFFを数える下限監査を追加した。
+旧S用同時配置topは最低10498位置、出力bufferを1 BSRAMへ移した版でも最低9946位置を要し、
+8640位置をそれぞれ1858/1306超える。これら**既存mapped netlistは収まらない**。
+RTL再設計まで不可能という意味ではない。計算時間だけ増やす試行から資源構成の変更へ進む。
+根拠は `ci/s3_logic_site_audit.py`、`reports/s3-logic-site-audit.json` と
+nextpnr e2fe86b3 の `GowinImpl::slice_valid/create_passthrough_luts`。
+監査の下限は、配置済みPSRAM単体1648位置・受信経路3077位置とも矛盾しないことを確認した。
+
 **今回も実装を進めたが、「この環境で可能な全作業を完了」した状態ではない。**
 全復調器、RTOS統合、PSRAM校正/全体STA、全体配線の実装はなお残り、実機待ちには分類しない。
 以下の第6節が残る設計・実装、第7節が今の環境で実行できない物理確認である。
+
+## 2026-10-10追記：資源・期限を満たさない圧縮候補を明示
+
+[圧縮の実装・独立検証・採否](s3-fec-compaction.md)、
+[再現証拠](s3-fec-compaction-evidence/results.json)を追加した。
+TC8PSK出力/B1保存、RS表のBSRAM化、22 ACS、Q15契約下の正確な12-bit modulo、
+距離演算の3クロック共有を実装した。新たなSoCデシメート・再量子化はない。
+
+| 現在の判定 | 結果 |
+|---|---|
+| 同時配置topの必要位置下限 | 10498→8616。最後の版もheap/seed1で合法配置未発見、Fmaxなし |
+| 圧縮FEC＋抽象メモリ単体の実Fmax | seed1/2/3＝75.59/83.86/83.44 MHz。全て99 MHz不合格 |
+| 最良配置での実時間 | TC8PSK27.9548 MSymbol/s＜28.86、RS31.8013 µs＞28.8288。性能条件を満たさず採用しない |
+| 復号機能 | 最終S3 unittest 56件全合格。任意cost/Q15それぞれ655360状態を無限精度ACSで照合。RS262 vectors、途中reset、失敗経路も合格 |
+| 残る環境内作業の優先項目 | 面積と実時間を同時に満たすFEC/メモリ分担の再設計。下限に残る24位置は使用可能な余裕ではない |
+
+以下の履歴表にあるLUTのみの列は物理位置占有率ではない。最新値は上記圧縮レポートを優先する。
 
 ## 2026-10-10追加：PSRAMとIQ返送の実装を前進
 
@@ -260,7 +291,7 @@ S→Tは2回の再構成となる。実行時に任意address registerを書け�
 | T全復調RTL | FEC、5率depuncture、消去cost、FFT入出力契約、部分合成 | RF FIR/resample、AGC/CFO/clock同期、Mode1/2/3/GI、TMCC、等化、階層/demap、time/frequency/bit/byte deinterleave、energy descramble、TS framingの結合と独立TS照合 |
 | S全復調RTL | RS修正、TC8PSK距離/並列枝/B1保存/逆追跡までの機能試験 | matched filter/timing/carrier recovery、TC8PSK/QPSK/BPSK、burst/frame同期、TMCCとそのFEC、slot/TS選択、frame deinterleave、descrambleの結合と独立TS照合 |
 | 通信endpointと物理PSRAM | SPI/SCT adapter、RX/CDC/guard/unpack、ack付き頁store、PSRAM burst/DDR/初期化/頁reader、2面IQ TXを実装。wire→DDR pin-model→頁readが一致。ack timeoutも試験 | RF/FFT別ring、実IQ producerと2面TX接続、ready/status/creditのfirmware統合、IODELAY校正、全アクセス/refresh競合のworst-case設計 |
-| 全体clock/容量成立 | binary/TC8PSK部分FEC、PSRAM＋RX頁reader、2面IQ通信は各topで99 MHz制約PASS。PSRAM用PLL追加。全体は未測定。ROM-safe直接PHY版の必要条件PASS | 起動からRF/PHY/SPI初期化までの同時live allocation、通信とFEC等の統合、全PLL/reset/IO/位相/CDC制約、T/S各bitstreamの全体配置配線・STA。必要なら処理分担を再探索 |
+| 全体clock/容量成立 | 旧部分FEC・PSRAM/RX・2面IQは別topで99 MHz制約PASS。実PSRAM＋FECの旧netlistは資源超過。圧縮版も同時配置未達、単体Fmax83.86 MHzでS期限未達。ROM-safe直接PHY版の必要条件PASS | 起動からRF/PHY/SPI初期化までの同時live allocation、通信とFEC等の統合、全PLL/reset/IO/位相/CDC制約、T/S各bitstreamの全体配置配線・STA。必要なら処理分担を再探索 |
 | 切替firmware/復旧image | NOR配置と状態機械を実装/試験 | 実T/S/recovery image、書込み/読戻しdriver、RECONFIG drive、identity/epoch確認、壊れたheaderを含む復旧手順 |
 | RF前段・電源の実装設計 | S3内蔵RFへUHF/LNB IFを直接入れる構成では不足と確認 | 周波数変換器、LO、T/S切替filter、利得/attenuator、LNB給電/保護、S3電源、clock、connector、終端を選定した回路図/BOM/PCB。部品値・製品BOMは未確定 |
 

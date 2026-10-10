@@ -9,11 +9,11 @@ from s3_area_benchmark import synth,run
 out=r/'build/s3-fec-extensions';out.mkdir(exist_ok=True)
 (out/'rs.sv').write_text(rs(True))
 parser=argparse.ArgumentParser()
-parser.add_argument('--kind',choices=['tc8psk','erasure','tc8psk-metric'],action='append')
+parser.add_argument('--kind',choices=['tc8psk','erasure','tc8psk-metric','tc8psk-compact'],action='append')
 parser.add_argument('--seeds',type=int,nargs='+',default=[1,2,3])
 a=parser.parse_args()
 results={}
-for kind,gen in [('tc8psk',source),('erasure',erasure),('tc8psk-metric',source)]:
+for kind,gen in [('tc8psk',source),('erasure',erasure),('tc8psk-metric',source),('tc8psk-compact',lambda:source(True,True,22,True))]:
  if a.kind and kind not in a.kind:continue
  tc=kind.startswith('tc8psk')
  d=out/kind;d.mkdir(exist_ok=True);s=gen();top='s3_'+('tc8psk' if tc else 'viterbi_erasure');p=d/'viterbi.sv';p.write_text(s)
@@ -33,15 +33,21 @@ for kind,gen in [('tc8psk',source),('erasure',erasure),('tc8psk-metric',source)]
  else:
   bench=bench.replace('.soft0(lfsr[7:0]),','.erasure(lfsr[17:16]),\n                    .soft0(lfsr[7:0]),',1)
  extra=[]
- if kind=='tc8psk-metric':
-  extra=[r/'rtl/s3_tc8psk_metric.sv']
-  results[kind]['metric_module']=synth(extra,'s3_tc8psk_metric',d/'metric-module',narrow=True)
+ if kind in ('tc8psk-metric','tc8psk-compact'):
+  metric_top='s3_tc8psk_metric_folded' if kind=='tc8psk-compact' else 's3_tc8psk_metric'
+  extra=[r/('rtl/'+metric_top+'.sv')]
+  results[kind]['metric_module']=synth(extra,metric_top,d/'metric-module',narrow=True)
   results[kind]['metric_rtl_sha256']=hashlib.sha256(extra[0].read_bytes()).hexdigest()
   bench=bench.replace('    wire vit_ready;', "    wire vit_ready,mv; wire [35:0] mc; wire [3:0] mb;\n    s3_tc8psk_metric metric(clk,resetn,1'b1,,lfsr[15:0],lfsr[31:16],mv,vit_ready,mc,mb);")
+  bench=bench.replace('s3_tc8psk_metric metric',metric_top+' metric')
   bench=bench.replace('.in_valid(vit_ready)', '.in_valid(mv)',1).replace('.costs(lfsr[35:0])','.costs(mc)',1).replace('.b1_choice(lfsr[39:36])','.b1_choice(mb)',1)
  bp=d/'benchmark_top.sv';bp.write_text(bench)
  routed=d/'fec-mem';routed.mkdir(exist_ok=True)
- results[kind]['FEC_mem_synthesis']=synth([r/'rtl/viterbi_k7_16acs.sv',p,out/'rs.sv',r/'rtl/psram_ctrl.sv',bp]+extra, 'benchmark_top',routed,mem=1,narrow=True)
+ rp_source=out/'rs.sv'
+ if kind=='tc8psk-compact':
+  rp_source=d/'rs.sv';rp_source.write_text(rs(True,True))
+ results[kind]['FEC_mem_synthesis']=synth([r/'rtl/viterbi_k7_16acs.sv',p,rp_source,r/'rtl/psram_ctrl.sv',bp]+extra, 'benchmark_top',routed,mem=1,narrow=True)
+ results[kind]['rs_rtl_sha256']=hashlib.sha256(rp_source.read_bytes()).hexdigest()
  trials=[]
  for seed in a.seeds:
   suffix='' if seed==1 else '-seed'+str(seed)

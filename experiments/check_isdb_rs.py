@@ -120,6 +120,7 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--quick", action="store_true")
     parser.add_argument("--diagnostic", action="store_true")
+    parser.add_argument("--max-cycles",type=int,default=2666)
     args = parser.parse_args()
     cases = vectors(args.quick)
     with tempfile.TemporaryDirectory() as tmp:
@@ -136,12 +137,13 @@ def main():
             _,i,cycles,emitted,mismatch,fail=line.split()
             row={"case":cases[int(i)][0],"cycles":int(cycles),"emitted":int(emitted),
                  "mismatched_bytes":int(mismatch),"block_fail":int(fail)}
-            row["pass"]=row["emitted"]==188 and row["mismatched_bytes"]==0 and row["block_fail"]==0 and row["cycles"]<=2666
+            row["pass"]=row["emitted"]==188 and row["mismatched_bytes"]==0 and row["block_fail"]==0 and row["cycles"]<=args.max_cycles
             rows.append(row)
     result={"profile":"RS(204,188), GF 0x11d, alpha 2, roots 0..15, high-order byte first",
             "sources":["https://www.arib.or.jp/english/html/overview/doc/6-STD-B31v2_2-E1.pdf#page=32",
                        "https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-0-199910-S!!PDF-E.pdf#page=3"],
             "rtl_sha256":hashlib.sha256(args.rtl.read_bytes()).hexdigest(),
+            "cycle_limit":args.max_cycles,
             "tests":rows,"passed":sum(r["pass"] for r in rows),"total":len(cases),
             "reset_abort_trials":(len(cases)+15)//16,
             "non_reset_block_boundaries":len(cases)-(len(cases)+15)//16,

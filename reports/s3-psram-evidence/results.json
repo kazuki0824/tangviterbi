@@ -6040,6 +6040,24 @@
     ],
     "s3-comm-pingpong": []
   },
+  "routed_logic_positions": {
+    "s3-psram": {
+      "used": 1648,
+      "available": 8640,
+      "percent": 19.074074074074073
+    },
+    "s3-memory-bridge": {
+      "used": 3077,
+      "available": 8640,
+      "percent": 35.613425925925924
+    },
+    "s3-comm-pingpong": {
+      "used": 2147,
+      "available": 8640,
+      "percent": 24.849537037037038
+    }
+  },
+  "resource_accounting": "Post-route LUT4 + ALU; pre-placement LUT4 contains ALU blockers and is not directly comparable",
   "conditional_bandwidth": {
     "burst_bytes": 256,
     "write_command_cycles": 82,
@@ -6053,8 +6071,8 @@
     "scope": "functional model and sequential RF ring only; no CPU/API/control cost, real IO or interleaver traffic included"
   },
   "source_sha256": {
-    "ci/s3_psram_benchmark.py": "f761eb60298f51bd6ca766421d7d23fd4d5540d81762db78a1b0e6a0f73230c0",
-    "ci/s3_psram_evidence.py": "72330acdf7386241925d647612b06c67142227fce8315dcd4f0f7212dc429e42",
+    "ci/s3_psram_benchmark.py": "3fcb757d928ee12882ce4ea7197f2ea65b73725e6872e2b3097bd40a4e8e40d9",
+    "ci/s3_psram_evidence.py": "baaf7cb6c3f0dfbec001ec387359913de0efcc4ef83309966ef837f5c3835fcb",
     "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
     "rtl/s3_depuncture.sv": "83a0a087b3595d4196b319ccec32944c4d943fb2a6a41a160c814730f4fc267a",
     "rtl/s3_iq10_unpack.sv": "8c35e2f4cdc2a72ba309286942a61f9c87b6d298027b84d515a889a550f44e8f",
@@ -6071,6 +6089,7 @@
     "rtl/s3_spi_memory_bridge.sv": "72433465f88dc9f01b4be1c2f06c6e1ab45046ad859f1141c07abf497b6033a9",
     "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
     "rtl/s3_tc8psk_metric.sv": "c0fae23cefd664fd3ba2be641b6c1e387ab259e102a1d2b5a718e3e709953146",
+    "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
     "tests/fixtures/gowin_ddr_model.sv": "9f42161a4fe8e13592a39664ff33e7f133ac10e5ef715c2668e2e697dec34570",
     "tests/fixtures/w955_ddr_model.sv": "14cd729d1cf7b7a5aad444461ecb7ca719b69c697d7b5c51bb2df20f31cab52a",
     "tests/fixtures/w955_pair_model.sv": "d78640586f5becae8f168987a5d70b23d4f0ddbf68cf9360149dcd64963f2df8",
@@ -6082,7 +6101,7 @@
     "yosys": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
     "nextpnr-himbaechel": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
   },
-  "unittest_log_sha256": "9ffdbc97495b0434ff303a9675ea659d601a639770227e5b12af9bac241bf1b5",
+  "unittest_log_sha256": "a4273a6f5090317a067ab54262035252b144fb5ad796d9ac80cfef6f6c1e08d9",
   "BIST_bitstream": {
     "fs_bytes": 3556680,
     "sha256": "04a21feb2c38e4131a70a47ee781aec07a0dfa4574beb93c4478b1c766676f51",

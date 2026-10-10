@@ -10,6 +10,8 @@ on:
       - 'ci/s3_comm_evidence.py'
       - 'ci/s3_psram_benchmark.py'
       - 'ci/s3_psram_evidence.py'
+      - 'ci/s3_logic_site_audit.py'
+      - 'ci/s3_fec_compaction_evidence.py'
       - 'ci/s3_fec_extension_benchmark.py'
       - 'rtl/s3_*.sv'
       - '.github/workflows/s3-receiver-offline.yml'
@@ -53,7 +55,7 @@ jobs:
             build/s3-area/isdb-predecode4-99-traceback-modulo13-pipe/
   new-components:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
       - uses: YosysHQ/setup-oss-cad-suite@v4
@@ -62,9 +64,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Independent communication and FEC vectors
         run: |
-          for t in iq10_unpack spi_rx spi_rx_faults page_guard page_reorder rx_page_store spi_iq_tx spi_iq_pingpong spi_page_pipeline psram psram_pipeline depuncture tc8psk tc8psk_metric; do
-            python3 -m unittest discover -s tests -p "test_s3_${t}.py" -v || exit 1
-          done
+          set -o pipefail
+          mkdir -p build
+          python3 -m unittest discover -s tests -p 'test_s3_*.py' -v 2>&1 | tee build/s3-compaction-all-tests.log
       - name: Measure communication IO and extended FEC
         run: |
           python3 ci/s3_comm_benchmark.py
@@ -73,9 +75,16 @@ jobs:
           python3 ci/s3_psram_benchmark.py
           python3 ci/s3_psram_benchmark.py --bridge
           python3 ci/s3_psram_benchmark.py --fec
+          python3 ci/s3_psram_benchmark.py --compact-output
+          python3 ci/s3_psram_benchmark.py --compact-b1
+          python3 ci/s3_psram_benchmark.py --compact-rs
+          python3 ci/s3_psram_benchmark.py --acs22
+          python3 ci/s3_psram_benchmark.py --metric-q15
+          python3 ci/s3_psram_benchmark.py --folded-metric
           python3 ci/s3_fec_extension_benchmark.py
           python3 ci/s3_comm_evidence.py
           python3 ci/s3_psram_evidence.py
+          python3 ci/s3_fec_compaction_evidence.py --test-log build/s3-compaction-all-tests.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -88,6 +97,8 @@ jobs:
             build/s3-psram*/
             build/s3-memory-bridge-pnr/
             build/s3-memory-fec-pnr/
+            build/s3-memory-fec-compact*/
+            build/s3-rs-compact*/
             build/s3-iq-pingpong/
             build/s3-page-*/
             build/s3-rx-page-store/
@@ -102,5 +113,7 @@ jobs:
             reports/s3-psram.json
             reports/s3-memory-bridge.json
             reports/s3-memory-fec.json
+            reports/s3-memory-fec-compact*.json
+            reports/s3-fec-compaction-evidence/
             reports/s3-comm-pingpong.json
             reports/s3-fec-extensions.json

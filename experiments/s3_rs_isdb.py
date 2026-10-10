@@ -10,7 +10,7 @@ from pathlib import Path
 from s3_rs_schedule import source as schedule_source, replace_once
 
 
-def source(predecode=False):
+def source(predecode=False,compact_storage=False):
     text = schedule_source()
     text = replace_once(text, "alpha_factor(slot+1)", "alpha_factor(slot)")
     text = replace_once(text, "    localparam ST_BLOCK_RESET    = 6'd28;",
@@ -85,6 +85,81 @@ def source(predecode=False):
         degree_mask <= 9'd1 << bm_l;
     end
     integer read_slot;""")
+    if compact_storage:
+        # Both tables are completely produced before a consumer can read
+        # them. Keep the existing synchronous prefetch latency and move the
+        # serially accessed arrays into two small block RAMs.
+        text=replace_once(text,'    reg [7:0] omega [0:15];',
+            '    (* ram_style="block" *) reg [7:0] omega_mem [0:15];\n    reg [7:0] omega_top;')
+        text=replace_once(text,'    reg [7:0] error_x [0:7];\n    reg [7:0] error_pos [0:7];',
+            '    (* ram_style="block" *) reg [15:0] error_mem [0:7];')
+        text=replace_once(text,'    reg [7:0] lambda_q, omega_q;\n    reg [7:0] error_x_q, error_pos_q;', '''    reg [7:0] lambda_q, omega_read_q;
+    reg omega_empty_q;
+    wire [7:0] omega_q=omega_empty_q?8'd0:omega_read_q;
+    reg [15:0] error_read_q;
+    reg [2:0] error_prefetch_index;
+    reg [7:0] error_x_q,error_pos_q;
+    function [3:0] onehot_address;
+        input [15:0] selection;
+        integer address_bit;
+        begin
+            onehot_address=0;
+            for(address_bit=0;address_bit<16;address_bit=address_bit+1)
+                onehot_address=onehot_address | ({4{selection[address_bit]}} & address_bit[3:0]);
+        end
+    endfunction''')
+        text=text.replace(' bpoly_operand, omega_operand;', ' bpoly_operand;')
+        text=text.replace('bpoly_operand = 0; omega_operand = 0;', 'bpoly_operand = 0;')
+        text=text.replace('            omega_operand = omega_operand | (omega[read_slot] & {8{omega_select[read_slot]}});\n','')
+        text=replace_once(text,'''        omega_q <= omega_operand;
+        if (state == ST_FORNEY_INIT) begin
+            error_x_q <= error_x[0];
+            error_pos_q <= error_pos[0];
+        end else if (state == ST_FORNEY_WRITE) begin
+            error_x_q <= error_x[error_i + 4'd1];
+            error_pos_q <= error_pos[error_i + 4'd1];
+        end''','''        omega_read_q <= omega_mem[onehot_address(omega_select)];
+        omega_empty_q <= omega_select == 0;
+        error_read_q <= error_mem[error_prefetch_index];
+        if (state == ST_CHIEN_INIT) error_prefetch_index <= 0;
+        if (state == ST_FORNEY_INIT) error_prefetch_index <= 1;
+        if (state == ST_FORNEY_WRITE) error_prefetch_index <= error_i[2:0]+3'd2;
+        if (state == ST_FORNEY_INIT || state == ST_FORNEY_WRITE) begin
+            error_x_q <= error_read_q[15:8];error_pos_q <= error_read_q[7:0];
+        end''')
+        text=replace_once(text,"                omega[slot] <= 8'd0;\n",'')
+        text=replace_once(text,'''                if ((state == ST_OMEGA_STORE) && omega_write[slot])
+                    omega[slot] <= omega_acc;
+''','')
+        text=replace_once(text,'''    for (slot=0; slot<8; slot=slot+1) begin : g_error
+        always @(posedge clk) begin
+            if (resetn && chien_finish && (chien_result == 0) && (error_count == slot)) begin
+                error_pos[slot] <= chien_pos;
+                error_x[slot] <= chien_x;
+            end
+        end
+    end endgenerate''','''    endgenerate
+    always @(posedge clk) begin
+        if (resetn && state == ST_OMEGA_STORE)
+            omega_mem[omega_j[3:0]] <= omega_acc;
+        if (resetn && state == ST_OMEGA_STORE && omega_j == 15)
+            omega_top <= omega_acc;
+        if (resetn && chien_finish && chien_result == 0 && error_count < 8)
+            error_mem[error_count[2:0]] <= {chien_x,chien_pos};
+    end''')
+        text=text.replace('omega[15]','omega_top')
+        text=text.replace('error_x[0]','error_read_q[15:8]')
+        text=text.replace("error_x[error_i + 4'd1]",'error_read_q[15:8]')
+        text=replace_once(text,"    localparam ST_BLOCK_RESET    = 6'd28;",
+            "    localparam ST_BLOCK_RESET    = 6'd28;\n    localparam ST_FORNEY_PRIME = 6'd30;")
+        text=replace_once(text,"if (chien_pos == 8'd203) state <= ST_FORNEY_INIT;",
+            "if (chien_pos == 8'd203) state <= ST_FORNEY_PRIME;")
+        text=replace_once(text,'''                ST_FORNEY_INIT: begin
+                    block_fail''','''                // One extra clock makes even a last-byte-only error's
+                // freshly written table entry visible to the first read.
+                ST_FORNEY_PRIME: state <= ST_FORNEY_INIT;
+                ST_FORNEY_INIT: begin
+                    block_fail''')
     return text
 
 
