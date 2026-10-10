@@ -1,5 +1,9 @@
 # S用FECの資源圧縮と採否の再検算
 
+追記：RS部分移管による90 MHz部分配置と、RSの平均/連続上限の期限を
+[s3-rs-offload.md](s3-rs-offload.md)で更新した。本書の28.8288 µsはTS平均。
+新しい保守的な連続上限は28.135828 µsで、ここに記載した圧縮候補の不合格は変わらない。
+
 2026-10-10。対象はTang Nano 9K＋ESP32-S3-WROOM-1U-N16R8。
 ISDB-T/Sは実行時切替。`receiver_adopted=false`、`safe_to_flash=false`。
 

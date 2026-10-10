@@ -1,0 +1,825 @@
+{
+  "codewords_per_second": 35541.87192118227,
+  "batch_codewords": 204,
+  "batch_period_us": 5739.708939708939,
+  "rate_basis": "continuous 28.86 MSymbol/s, 2 inner-decoded bits/symbol, 203 transmitted bytes; no framing gaps credited",
+  "average_TS_reference_codewords_per_second": 34687.5,
+  "source": "https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-1-200204-I!!PDF-E.pdf#page=8",
+  "spare_core_cycles_per_codeword_at_240_MHz": 6752.598752598752,
+  "CPU_budget_is_not_WCET": true,
+  "RF_MBps": 100,
+  "existing_port_capacity_MBps": [
+    70.32765774788953,
+    33.3958418263351
+  ],
+  "existing_aggregate_spare_MBps": 3.7234995742246326,
+  "RPC_header_bytes": 16,
+  "wire_header_bits": 80,
+  "receiver_adopted": false,
+  "profiles": {
+    "CPU_all_RS": {
+      "records": [
+        {
+          "name": "received_codewords",
+          "bytes": 208,
+          "direction": "FPGA_to_S3",
+          "pages": 11
+        },
+        {
+          "name": "TS_payload",
+          "bytes": 192,
+          "direction": "S3_to_FPGA",
+          "pages": 10
+        }
+      ],
+      "RPC_padded_payload_MBps": 14.986125760649088,
+      "unframed_minimum_MBps": 14.216748768472907,
+      "CPU_performance_pass": null,
+      "FPGA_fit_pass": null,
+      "communication_assignments": [
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.19566758729353811,
+            0.0
+          ],
+          "RF_remaining_capacity_MBps": 89.96265646268938,
+          "RF_margin_MBps": -10.037343537310619,
+          "necessary_bandwidth_pass": false
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.10232661728484499,
+            0.21368679368299046
+          ],
+          "RF_remaining_capacity_MBps": 89.39085789310293,
+          "RF_margin_MBps": -10.609142106897067,
+          "necessary_bandwidth_pass": false
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.09334097000869314,
+            0.23505547305128952
+          ],
+          "RF_remaining_capacity_MBps": 89.30917238316201,
+          "RF_margin_MBps": -10.690827616837993,
+          "necessary_bandwidth_pass": false
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.0,
+            0.44874226673427997
+          ],
+          "RF_remaining_capacity_MBps": 88.73737381357554,
+          "RF_margin_MBps": -11.262626186424455,
+          "necessary_bandwidth_pass": false
+        }
+      ],
+      "adopted": false,
+      "reason": "CPU deadline and FPGA split implementation unverified; bandwidth screening alone cannot adopt"
+    },
+    "CPU_BM_Chien_Forney": {
+      "records": [
+        {
+          "name": "syndromes",
+          "bytes": 19,
+          "direction": "FPGA_to_S3",
+          "pages": 1
+        },
+        {
+          "name": "corrections",
+          "bytes": 20,
+          "direction": "S3_to_FPGA",
+          "pages": 1
+        }
+      ],
+      "RPC_padded_payload_MBps": 1.4272500724427704,
+      "unframed_minimum_MBps": 1.3861330049261085,
+      "CPU_performance_pass": null,
+      "FPGA_fit_pass": null,
+      "communication_assignments": [
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.024940289046653148,
+            0.0
+          ],
+          "RF_remaining_capacity_MBps": 101.96950746201817,
+          "RF_margin_MBps": 1.9695074620181714,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 246.1985550935642,
+            "RPC_slot_deadline_us": 2869.8544698544697,
+            "RPC_completed": 200,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.012470144523326574,
+            0.021368679368299046
+          ],
+          "RF_remaining_capacity_MBps": 102.13287848190001,
+          "RF_margin_MBps": 2.1328784819000077,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 244.35572765069082,
+            "RPC_slot_deadline_us": 2869.8544698544697,
+            "RPC_completed": 200,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.012470144523326574,
+            0.021368679368299046
+          ],
+          "RF_remaining_capacity_MBps": 102.13287848190001,
+          "RF_margin_MBps": 2.1328784819000077,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 244.87725571735064,
+            "RPC_slot_deadline_us": 2869.8544698544697,
+            "RPC_completed": 200,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.0,
+            0.04273735873659809
+          ],
+          "RF_remaining_capacity_MBps": 102.29624950178186,
+          "RF_margin_MBps": 2.2962495017818583,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.2458212058118,
+            "RPC_slot_deadline_us": 2869.8544698544697,
+            "RPC_completed": 200,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        }
+      ],
+      "adopted": false,
+      "reason": "CPU deadline and FPGA split implementation unverified; bandwidth screening alone cannot adopt"
+    },
+    "CPU_BM_Omega": {
+      "records": [
+        {
+          "name": "syndromes",
+          "bytes": 19,
+          "direction": "FPGA_to_S3",
+          "pages": 1
+        },
+        {
+          "name": "lambda_omega",
+          "bytes": 29,
+          "direction": "S3_to_FPGA",
+          "pages": 2
+        }
+      ],
+      "RPC_padded_payload_MBps": 2.1408751086641553,
+      "unframed_minimum_MBps": 1.706009852216749,
+      "CPU_performance_pass": null,
+      "FPGA_fit_pass": null,
+      "communication_assignments": [
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.03392593632280499,
+            0.0
+          ],
+          "RF_remaining_capacity_MBps": 101.33756793573771,
+          "RF_margin_MBps": 1.3375679357377095,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 40960,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 297.7735550935613,
+            "RPC_slot_deadline_us": 2869.8544698544697,
+            "RPC_completed": 200,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.012470144523326574,
+            0.04273735873659809
+          ],
+          "RF_remaining_capacity_MBps": 101.41925344567862,
+          "RF_margin_MBps": 1.4192534456786206,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 40960,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 366.0699168399151,
+            "RPC_slot_deadline_us": 2869.8544698544697,
+            "RPC_completed": 200,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.021455791799478416,
+            0.021368679368299046
+          ],
+          "RF_remaining_capacity_MBps": 101.50093895561955,
+          "RF_margin_MBps": 1.5009389556195458,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 40960,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 294.7877754677902,
+            "RPC_slot_deadline_us": 2869.8544698544697,
+            "RPC_completed": 200,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.0,
+            0.06410603810489714
+          ],
+          "RF_remaining_capacity_MBps": 101.58262446556049,
+          "RF_margin_MBps": 1.5826244655604853,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 40960,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 367.1586902287672,
+            "RPC_slot_deadline_us": 2869.8544698544697,
+            "RPC_completed": 200,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        }
+      ],
+      "adopted": false,
+      "reason": "CPU deadline and FPGA split implementation unverified; bandwidth screening alone cannot adopt"
+    },
+    "CPU_BM_Omega_Forney": {
+      "records": [
+        {
+          "name": "syndromes",
+          "bytes": 19,
+          "direction": "FPGA_to_S3",
+          "pages": 1
+        },
+        {
+          "name": "lambda",
+          "bytes": 13,
+          "direction": "S3_to_FPGA",
+          "pages": 1
+        },
+        {
+          "name": "roots",
+          "bytes": 12,
+          "direction": "FPGA_to_S3",
+          "pages": 1
+        },
+        {
+          "name": "magnitudes",
+          "bytes": 12,
+          "direction": "S3_to_FPGA",
+          "pages": 1
+        }
+      ],
+      "RPC_padded_payload_MBps": 2.8545001448855407,
+      "unframed_minimum_MBps": 1.990344827586207,
+      "CPU_performance_pass": null,
+      "FPGA_fit_pass": null,
+      "communication_assignments": [
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI2_Octal80",
+            "SPI2_Octal80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.049880578093306295,
+            0.0
+          ],
+          "RF_remaining_capacity_MBps": 100.21551534981171,
+          "RF_margin_MBps": 0.21551534981171017,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 246.1985550935642,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI2_Octal80",
+            "SPI2_Octal80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.03741043356997972,
+            0.021368679368299046
+          ],
+          "RF_remaining_capacity_MBps": 100.37888636969355,
+          "RF_margin_MBps": 0.3788863696935465,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 244.72429313929752,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI2_Octal80",
+            "SPI3_Quad80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.03741043356997972,
+            0.021368679368299046
+          ],
+          "RF_remaining_capacity_MBps": 100.37888636969355,
+          "RF_margin_MBps": 0.3788863696935465,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 246.11571725570684,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI2_Octal80",
+            "SPI3_Quad80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.024940289046653148,
+            0.04273735873659809
+          ],
+          "RF_remaining_capacity_MBps": 100.5422573895754,
+          "RF_margin_MBps": 0.542257389575397,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 246.01427234933362,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI3_Quad80",
+            "SPI2_Octal80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.03741043356997972,
+            0.021368679368299046
+          ],
+          "RF_remaining_capacity_MBps": 100.37888636969355,
+          "RF_margin_MBps": 0.3788863696935465,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 246.1985550935642,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI3_Quad80",
+            "SPI2_Octal80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.024940289046653148,
+            0.04273735873659809
+          ],
+          "RF_remaining_capacity_MBps": 100.5422573895754,
+          "RF_margin_MBps": 0.542257389575397,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.93143451143987,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI3_Quad80",
+            "SPI3_Quad80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.024940289046653148,
+            0.04273735873659809
+          ],
+          "RF_remaining_capacity_MBps": 100.5422573895754,
+          "RF_margin_MBps": 0.542257389575397,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.5628690228914,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI2_Octal80",
+            "SPI3_Quad80",
+            "SPI3_Quad80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.012470144523326574,
+            0.06410603810489714
+          ],
+          "RF_remaining_capacity_MBps": 100.70562840945723,
+          "RF_margin_MBps": 0.7056284094572334,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.092858627846,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI2_Octal80",
+            "SPI2_Octal80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.03741043356997972,
+            0.021368679368299046
+          ],
+          "RF_remaining_capacity_MBps": 100.37888636969355,
+          "RF_margin_MBps": 0.3788863696935465,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.23988565488798,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI2_Octal80",
+            "SPI2_Octal80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.024940289046653148,
+            0.04273735873659809
+          ],
+          "RF_remaining_capacity_MBps": 100.5422573895754,
+          "RF_margin_MBps": 0.542257389575397,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 40960,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 244.97276507276501,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI2_Octal80",
+            "SPI3_Quad80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.024940289046653148,
+            0.04273735873659809
+          ],
+          "RF_remaining_capacity_MBps": 100.5422573895754,
+          "RF_margin_MBps": 0.542257389575397,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.2458212058118,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI2_Octal80",
+            "SPI3_Quad80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.012470144523326574,
+            0.06410603810489714
+          ],
+          "RF_remaining_capacity_MBps": 100.70562840945723,
+          "RF_margin_MBps": 0.7056284094572334,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 244.97276507276501,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI3_Quad80",
+            "SPI2_Octal80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.024940289046653148,
+            0.04273735873659809
+          ],
+          "RF_remaining_capacity_MBps": 100.5422573895754,
+          "RF_margin_MBps": 0.542257389575397,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 244.87725571735064,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI3_Quad80",
+            "SPI2_Octal80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.012470144523326574,
+            0.06410603810489714
+          ],
+          "RF_remaining_capacity_MBps": 100.70562840945723,
+          "RF_margin_MBps": 0.7056284094572334,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 40960,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.06153846165398,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI3_Quad80",
+            "SPI3_Quad80",
+            "SPI2_Octal80"
+          ],
+          "port_time_fraction": [
+            0.012470144523326574,
+            0.06410603810489714
+          ],
+          "RF_remaining_capacity_MBps": 100.70562840945723,
+          "RF_margin_MBps": 0.7056284094572334,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.2458212058118,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        },
+        {
+          "ports": [
+            "SPI3_Quad80",
+            "SPI3_Quad80",
+            "SPI3_Quad80",
+            "SPI3_Quad80"
+          ],
+          "port_time_fraction": [
+            0.0,
+            0.08547471747319618
+          ],
+          "RF_remaining_capacity_MBps": 100.86899942933908,
+          "RF_margin_MBps": 0.8689994293390839,
+          "necessary_bandwidth_pass": true,
+          "event_model": {
+            "batches": 100,
+            "duration_us": 573970.8939708939,
+            "peak_RF_reserved_bytes": 36864,
+            "RF_ring_bytes": 65536,
+            "maximum_RPC_completion_latency_us": 245.29153846163535,
+            "RPC_slot_deadline_us": 1434.9272349272348,
+            "RPC_completed": 400,
+            "conditional_contract_pass": true,
+            "CPU_release_contract_verified": false,
+            "physical_SPI_timing_verified": false
+          }
+        }
+      ],
+      "adopted": false,
+      "reason": "CPU deadline and FPGA split implementation unverified; bandwidth screening alone cannot adopt"
+    }
+  },
+  "negative_control_40us_API": {
+    "batches": 20,
+    "duration_us": 114794.17879417879,
+    "peak_RF_reserved_bytes": 1290240,
+    "RF_ring_bytes": 65536,
+    "maximum_RPC_completion_latency_us": 281.20829521829637,
+    "RPC_slot_deadline_us": 1434.9272349272348,
+    "RPC_completed": 80,
+    "conditional_contract_pass": false,
+    "CPU_release_contract_verified": false,
+    "physical_SPI_timing_verified": false
+  }
+}

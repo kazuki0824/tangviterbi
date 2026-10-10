@@ -1,0 +1,92 @@
+
+/workspace/scratch/5bc736d51023/tangviterbi/build/s3-rs-offload-target/workspace-O3.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .literal.s3_rs_workspace_init:
+
+00000000 <.literal.s3_rs_workspace_init>:
+   0:	00001bec 	
+   4:	000037d8 	
+   8:	000053c4 	
+	...
+			c: R_XTENSA_32	s3_rs_rpc_reset
+			10: R_XTENSA_32	s3_rs_rpc_reset
+			14: R_XTENSA_32	s3_rs_rpc_reset
+			18: R_XTENSA_32	s3_rs_rpc_reset
+			1c: R_XTENSA_32	s3_rs_rpc_reset
+			20: R_XTENSA_32	s3_rs_rpc_crc_init
+			24: R_XTENSA_32	s3_rs_tables_init
+
+Disassembly of section .literal.s3_rs_workspace_context:
+
+00000000 <.literal.s3_rs_workspace_context>:
+   0:	00001bec 	
+
+Disassembly of section .text.s3_rs_workspace_init:
+
+00000000 <s3_rs_workspace_init>:
+   0:	004136        	entry	a1, 32
+   3:	20a220        	or	a10, a2, a2
+   6:	000081        	l32r	a8, fffc0008 <s3_rs_workspace_init+0xfffc0008>
+			6: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0xc
+			6: R_XTENSA_ASM_EXPAND	s3_rs_rpc_reset
+   9:	0008e0        	callx8	a8
+   c:	000061        	l32r	a6, fffc000c <s3_rs_workspace_init+0xfffc000c>
+			c: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init
+   f:	80a260        	add	a10, a2, a6
+  12:	000081        	l32r	a8, fffc0014 <s3_rs_workspace_init+0xfffc0014>
+			12: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0x10
+			12: R_XTENSA_ASM_EXPAND	s3_rs_rpc_reset
+  15:	0008e0        	callx8	a8
+  18:	000071        	l32r	a7, fffc0018 <s3_rs_workspace_init+0xfffc0018>
+			18: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0x4
+  1b:	80a270        	add	a10, a2, a7
+  1e:	000081        	l32r	a8, fffc0020 <s3_rs_workspace_init+0xfffc0020>
+			1e: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0x14
+			1e: R_XTENSA_ASM_EXPAND	s3_rs_rpc_reset
+  21:	0008e0        	callx8	a8
+  24:	20a330        	or	a10, a3, a3
+  27:	000081        	l32r	a8, fffc0028 <s3_rs_workspace_init+0xfffc0028>
+			27: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0x18
+			27: R_XTENSA_ASM_EXPAND	s3_rs_rpc_reset
+  2a:	0008e0        	callx8	a8
+  2d:	a36a      	add.n	a10, a3, a6
+  2f:	000081        	l32r	a8, fffc0030 <s3_rs_workspace_init+0xfffc0030>
+			2f: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0x1c
+			2f: R_XTENSA_ASM_EXPAND	s3_rs_rpc_reset
+  32:	0008e0        	callx8	a8
+  35:	0000a1        	l32r	a10, fffc0038 <s3_rs_workspace_init+0xfffc0038>
+			35: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0x8
+  38:	a2aa      	add.n	a10, a2, a10
+  3a:	000081        	l32r	a8, fffc003c <s3_rs_workspace_init+0xfffc003c>
+			3a: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0x20
+			3a: R_XTENSA_ASM_EXPAND	s3_rs_rpc_crc_init
+  3d:	0008e0        	callx8	a8
+  40:	a37a      	add.n	a10, a3, a7
+  42:	000081        	l32r	a8, fffc0044 <s3_rs_workspace_init+0xfffc0044>
+			42: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_init+0x24
+			42: R_XTENSA_ASM_EXPAND	s3_rs_tables_init
+  45:	0008e0        	callx8	a8
+  48:	f01d      	retw.n
+
+Disassembly of section .text.s3_rs_workspace_context:
+
+00000000 <s3_rs_workspace_context>:
+   0:	004136        	entry	a1, 32
+   3:	0a34f6        	bgeui	a4, 3, 11 <s3_rs_workspace_context+0x11>
+			3: R_XTENSA_SLOT0_OP	.text.s3_rs_workspace_context+0x11
+   6:	000081        	l32r	a8, fffc0008 <s3_rs_workspace_context+0xfffc0008>
+			6: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_context
+   9:	824480        	mull	a4, a4, a8
+   c:	224a      	add.n	a2, a2, a4
+   e:	0003c6        	j	21 <s3_rs_workspace_context+0x21>
+			e: R_XTENSA_SLOT0_OP	.text.s3_rs_workspace_context+0x21
+  11:	020c      	movi.n	a2, 0
+  13:	0a54f6        	bgeui	a4, 5, 21 <s3_rs_workspace_context+0x21>
+			13: R_XTENSA_SLOT0_OP	.text.s3_rs_workspace_context+0x21
+  16:	000081        	l32r	a8, fffc0018 <s3_rs_workspace_context+0xfffc0018>
+			16: R_XTENSA_SLOT0_OP	.literal.s3_rs_workspace_context
+  19:	fdc442        	addi	a4, a4, -3
+  1c:	c12480        	mul16u	a2, a4, a8
+  1f:	232a      	add.n	a2, a3, a2
+  21:	f01d      	retw.n

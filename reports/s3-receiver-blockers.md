@@ -21,6 +21,19 @@ nextpnr e2fe86b3 の `GowinImpl::slice_valid/create_passthrough_luts`。
 全復調器、RTOS統合、PSRAM校正/全体STA、全体配線の実装はなお残り、実機待ちには分類しない。
 以下の第6節が残る設計・実装、第7節が今の環境で実行できない物理確認である。
 
+## 2026-10-10追記：RS部分移管と90 MHz部分配置
+
+[分担・全SPI割当・実装結果](s3-rs-offload.md)を追加。RSのBM/Omega/ForneyをS3へ
+移す部分topは90 MHzで配置配線に合格。さらにbyte訂正を加えた末尾flag登録版も
+seed3で合格し、7958/8640ロジック位置を使用する（残り682、全体の余裕ではない）。
+FPGAのsyndrome/Chien/byte訂正、S3のRS solver/RPCを独立検査した。
+FPGA RPC/符号語保存/TS出力と全復調器は未統合であり、採用済み受信機は依然0。
+
+**RS期限も訂正**：旧28.8288 µsは52.17 Mbit/s TSの平均。新予算は203伝送byteと
+28.86 MSymbol/sの連続2 bit/symbolから28.135828 µs/codeword、CPU 240 MHzの
+1 coreで6752.598753 cycles/codeword。TMCC/burstの空きを差し引かない保守的上限で、
+規格の正確な瞬間到着波形とは区別する。旧compact FEC不合格という判定は変わらない。
+
 ## 2026-10-10追記：資源・期限を満たさない圧縮候補を明示
 
 [圧縮の実装・独立検証・採否](s3-fec-compaction.md)、

@@ -12,6 +12,8 @@ on:
       - 'ci/s3_psram_evidence.py'
       - 'ci/s3_logic_site_audit.py'
       - 'ci/s3_fec_compaction_evidence.py'
+      - 'ci/s3_rs_offload_compile.py'
+      - 'ci/s3_rs_offload_evidence.py'
       - 'ci/s3_fec_extension_benchmark.py'
       - 'rtl/s3_*.sv'
       - '.github/workflows/s3-receiver-offline.yml'
@@ -19,6 +21,59 @@ on:
 permissions:
   contents: read
 jobs:
+  rs-split-pnr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: split99
+            flags: --rs-offload
+          - name: split99-rr
+            flags: --rs-offload --rr-table
+          - name: split90-rr
+            flags: --rs-offload --rr-table --core-mhz 90
+          - name: correction90
+            flags: --rs-correction --rr-table --core-mhz 90
+          - name: correction90-ready
+            flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90
+          - name: correction90-four-port
+            flags: --rs-correction --syndrome4 --rr-table --core-mhz 90
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Preserve partial-design fit and failed timing seeds
+        run: python3 ci/s3_psram_benchmark.py ${{ matrix.flags }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rs-${{ matrix.name }}-partial-not-receiver
+          path: |
+            build/s3-memory-fec-compact*/
+            reports/s3-memory-fec-compact*.json
+  rs-split-target:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Fetch and verify IDF 5.5.1 S3 compiler
+        run: |
+          mkdir -p build/rs-toolchain
+          curl --fail --location --retry 3 -o build/rs-toolchain/compiler.tar.xz https://github.com/espressif/crosstool-NG/releases/download/esp-14.2.0_20241119/xtensa-esp-elf-14.2.0_20241119-x86_64-linux-gnu.tar.xz
+          echo 'e3e6dcf3d275c3c9ab0e4c8a9d93fd10e7efc035d435460576c9d95b4140c676  build/rs-toolchain/compiler.tar.xz' | sha256sum --check
+          tar -xJf build/rs-toolchain/compiler.tar.xz -C build/rs-toolchain
+      - name: Compile scalar solver for S3, without a WCET claim
+        run: python3 ci/s3_rs_offload_compile.py --cc build/rs-toolchain/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-rs-split-target-objects-not-a-firmware
+          path: |
+            build/s3-rs-offload-target/
+            reports/s3-rs-offload-evidence/
   capture:
     runs-on: ubuntu-latest
     steps:
@@ -99,6 +154,10 @@ jobs:
             build/s3-memory-fec-pnr/
             build/s3-memory-fec-compact*/
             build/s3-rs-compact*/
+            build/s3-rs-offload*/
+            build/s3-rs-split*/
+            build/s3-rs-rpc/
+            build/s3-rs-correction/
             build/s3-iq-pingpong/
             build/s3-page-*/
             build/s3-rx-page-store/

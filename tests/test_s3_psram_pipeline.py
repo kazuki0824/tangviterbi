@@ -10,7 +10,12 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class PsramPipelineTest(unittest.TestCase):
     def test_two_spi_ports_through_physical_memory_protocol(self):
-        out=ROOT/'build/s3-psram-pipeline';out.mkdir(parents=True,exist_ok=True)
+        self.check_pipeline()
+    def test_90_MHz_with_constant_round_robin(self):
+        self.check_pipeline(90,True)
+    def check_pipeline(self,core_mhz=99,rotated=False):
+        name='s3-psram-pipeline' if not rotated else f's3-psram-pipeline-{core_mhz}-rr'
+        out=ROOT/'build'/name;out.mkdir(parents=True,exist_ok=True)
         rng=random.Random(724016)
         wire=[bytearray(),bytearray()];raw=bytearray()
         pages=96
@@ -83,17 +88,25 @@ initial begin
  join
 end
 endmodule'''
+        if core_mhz!=99:
+            tb=tb.replace('#5.050505',f'#{500/core_mhz:.9f}').replace('#2.5252525',f'#{250/core_mhz:.9f}')
         (out/'tb.sv').write_text(tb)
         names=['s3_async_fifo','s3_spi_rx','s3_page_guard','s3_page_reorder','s3_rx_page_store',
                's3_psram_burst','s3_psram_queue','s3_psram_phy','s3_psram_page_reader','s3_spi_memory_bridge']
         sources=[f'rtl/{name}.sv' for name in names]+['tests/fixtures/gowin_ddr_model.sv','tests/fixtures/w955_ddr_model.sv']
+        if rotated:
+            import sys
+            sys.path.insert(0,str(ROOT/'experiments'))
+            from s3_psram_queue_rotated import source
+            (out/'queue.sv').write_text(source())
+            sources=[str((out/'queue.sv').relative_to(ROOT)) if s=='rtl/s3_psram_queue.sv' else s for s in sources]
         c=subprocess.run(['iverilog','-g2012','-s','tb','-o',str(out/'sim'),*[str(ROOT/s) for s in sources],str(out/'tb.sv')],text=True,capture_output=True)
         self.assertEqual(c.returncode,0,c.stderr)
         r=subprocess.run(['vvp','sim'],cwd=out,text=True,capture_output=True,timeout=90)
         (out/'simulation.log').write_text(r.stdout+r.stderr)
         self.assertEqual(r.returncode,0,r.stdout+r.stderr)
         report=dict(pages=pages,payload_bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),
-            SPI_MHz=80,core_MHz=99,die_output_delays_ns=[1,5.5],output=r.stdout.strip(),
+            SPI_MHz=80,core_MHz=core_mhz,constant_round_robin=rotated,die_output_delays_ns=[1,5.5],output=r.stdout.strip(),
             scope='two SPI ports through IDDR/ODDR and independent W955 pin model, with output stalls; no analog IO timing proof',
             receiver_adopted=False)
         (out/'result.json').write_text(json.dumps(report,indent=2)+'\n')
