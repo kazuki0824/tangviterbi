@@ -1,0 +1,356 @@
+{
+  "scope": "Reassessment of the previous S3-WROOM-1U-N16R8 / Tang Nano 9K stage-grain shortlist with measured placement of only one partial S RTL. No full receiver or new first candidate has been validated.",
+  "source": {
+    "archive_name": "isdb-ts-s3-tang9k-calculations.zip",
+    "archive_sha256": "7c5c1f95a6719576e92ae21151b53fd112f7ffc2df07506ef7a9c813f37c997e",
+    "ledger_sha256": "0c1dc5e74f1c0c08f7296eeea53391ddfa7f4339cdc794ca0fc6cfc896f49c5b",
+    "routes_sha256": "2274cb7f4890d4c79f4f7ee9f117829f4f0a51e231501ef02dceb626fe9a27b3"
+  },
+  "catalogue_counts": {
+    "ownerships": 320,
+    "representation_rows": 640,
+    "S_rows_with_model_performance_and_route": 4,
+    "T_rows_with_model_performance_and_route": 70,
+    "common_port_pairs_in_old_model": 280
+  },
+  "O_plus_LCD16_selected": [
+    {
+      "id": "S3-T-00c/v2",
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "FFT": "SoC",
+        "equalize_demap": "SoC",
+        "time_deinterleave": "FPGA",
+        "Viterbi": "FPGA",
+        "RS": "FPGA",
+        "TS": "FPGA",
+        "RF": "SoC"
+      },
+      "CPU_low_percent": 68.93548831569666,
+      "CPU_high_percent": 93.35427940115441,
+      "stage_resources_low": {
+        "logic_sites_estimate": 5874,
+        "FF": 4474,
+        "BSRAM": 7,
+        "DSP18": 9
+      },
+      "stage_resources_high": {
+        "logic_sites_estimate": 7202,
+        "FF": 6458,
+        "BSRAM": 7,
+        "DSP18": 9
+      },
+      "old_bandwidth_route_count": 41,
+      "O_plus_LCD16": {
+        "maximum_port_utilization_percent": 94.44973575425779,
+        "ports": [
+          {
+            "name": "O",
+            "down_MBps": 27.68487677859357,
+            "up_MBps": 31.522847522847524,
+            "equivalent_spare_MBps": 3.903370842849063
+          },
+          {
+            "name": "L16",
+            "down_MBps": 65.12897603525924,
+            "up_MBps": 0,
+            "equivalent_spare_MBps": 3.8272529209697117
+          }
+        ]
+      }
+    },
+    {
+      "id": "S3-T-08c/v2",
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "FFT": "SoC",
+        "equalize_demap": "SoC",
+        "time_deinterleave": "FPGA",
+        "Viterbi": "FPGA",
+        "RS": "FPGA",
+        "TS": "SoC",
+        "RF": "SoC"
+      },
+      "CPU_low_percent": 68.93548831569666,
+      "CPU_high_percent": 93.35427940115441,
+      "stage_resources_low": {
+        "logic_sites_estimate": 5810,
+        "FF": 4410,
+        "BSRAM": 7,
+        "DSP18": 9
+      },
+      "stage_resources_high": {
+        "logic_sites_estimate": 7074,
+        "FF": 6330,
+        "BSRAM": 7,
+        "DSP18": 9
+      },
+      "old_bandwidth_route_count": 37,
+      "O_plus_LCD16": {
+        "maximum_port_utilization_percent": 99.09748686212106,
+        "ports": [
+          {
+            "name": "O",
+            "down_MBps": 27.384300375912485,
+            "up_MBps": 34.427185015420314,
+            "equivalent_spare_MBps": 0.634716350737236
+          },
+          {
+            "name": "L16",
+            "down_MBps": 68.33388993051311,
+            "up_MBps": 0,
+            "equivalent_spare_MBps": 0.6223390257158449
+          }
+        ]
+      }
+    },
+    {
+      "id": "S3-S-000/v0",
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "TC8PSK": "FPGA",
+        "frame_deinterleave": "FPGA",
+        "RS": "FPGA",
+        "TS": "FPGA",
+        "RF": "SoC"
+      },
+      "CPU_low_percent": 76.75781250000001,
+      "CPU_high_percent": 93.42447916666669,
+      "stage_resources_low": {
+        "logic_sites_estimate": 7830,
+        "FF": 5262,
+        "BSRAM": 17,
+        "DSP18": 15
+      },
+      "stage_resources_high": {
+        "logic_sites_estimate": 9214,
+        "FF": 6990,
+        "BSRAM": 17,
+        "DSP18": 15
+      },
+      "old_bandwidth_route_count": 112,
+      "O_plus_LCD16": {
+        "maximum_port_utilization_percent": 71.7958138348268,
+        "ports": [
+          {
+            "name": "O",
+            "down_MBps": 50.49231423106892,
+            "up_MBps": 0,
+            "equivalent_spare_MBps": 19.835343516820615
+          },
+          {
+            "name": "L16",
+            "down_MBps": 49.507685768931076,
+            "up_MBps": 0,
+            "equivalent_spare_MBps": 19.44854318729788
+          }
+        ]
+      },
+      "sensitivity_only": {
+        "same_partial_netlist_sites": 8628,
+        "old_omitted_stage_estimate_sites": 1128,
+        "sum_sites_if_disjoint": 9756,
+        "excess_over_8640_if_disjoint": 1116,
+        "not_a_lower_bound_on_redesigned_RTL": true
+      }
+    },
+    {
+      "id": "S3-S-008/v0",
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "TC8PSK": "FPGA",
+        "frame_deinterleave": "SoC",
+        "RS": "FPGA",
+        "TS": "FPGA",
+        "RF": "SoC"
+      },
+      "CPU_low_percent": 97.80896705665025,
+      "CPU_high_percent": 123.4943837233169,
+      "stage_resources_low": {
+        "logic_sites_estimate": 7574,
+        "FF": 5134,
+        "BSRAM": 15,
+        "DSP18": 15
+      },
+      "stage_resources_high": {
+        "logic_sites_estimate": 8702,
+        "FF": 6734,
+        "BSRAM": 15,
+        "DSP18": 15
+      },
+      "old_bandwidth_route_count": 64,
+      "O_plus_LCD16": {
+        "maximum_port_utilization_percent": 83.36734640721176,
+        "ports": [
+          {
+            "name": "O",
+            "down_MBps": 49.76356360863173,
+            "up_MBps": 7.215,
+            "equivalent_spare_MBps": 11.697355693128172
+          },
+          {
+            "name": "L16",
+            "down_MBps": 57.486978263289444,
+            "up_MBps": 0,
+            "equivalent_spare_MBps": 11.469250692939505
+          }
+        ]
+      },
+      "sensitivity_only": {
+        "same_partial_netlist_sites": 8628,
+        "old_omitted_stage_estimate_sites": 872,
+        "sum_sites_if_disjoint": 9500,
+        "excess_over_8640_if_disjoint": 860,
+        "not_a_lower_bound_on_redesigned_RTL": true
+      }
+    },
+    {
+      "id": "S3-S-020/v0",
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "TC8PSK": "FPGA",
+        "frame_deinterleave": "FPGA",
+        "RS": "FPGA",
+        "TS": "SoC",
+        "RF": "SoC"
+      },
+      "CPU_low_percent": 76.75781250000001,
+      "CPU_high_percent": 93.42447916666669,
+      "stage_resources_low": {
+        "logic_sites_estimate": 7766,
+        "FF": 5198,
+        "BSRAM": 17,
+        "DSP18": 15
+      },
+      "stage_resources_high": {
+        "logic_sites_estimate": 9086,
+        "FF": 6862,
+        "BSRAM": 17,
+        "DSP18": 15
+      },
+      "old_bandwidth_route_count": 82,
+      "O_plus_LCD16": {
+        "maximum_port_utilization_percent": 82.48867501356156,
+        "ports": [
+          {
+            "name": "O",
+            "down_MBps": 49.80079231587112,
+            "up_MBps": 6.681871921182267,
+            "equivalent_spare_MBps": 12.315304703583086
+          },
+          {
+            "name": "L16",
+            "down_MBps": 56.881079605311136,
+            "up_MBps": 0,
+            "equivalent_spare_MBps": 12.075149350917817
+          }
+        ]
+      },
+      "sensitivity_only": {
+        "same_partial_netlist_sites": 8628,
+        "old_omitted_stage_estimate_sites": 1064,
+        "sum_sites_if_disjoint": 9692,
+        "excess_over_8640_if_disjoint": 1052,
+        "not_a_lower_bound_on_redesigned_RTL": true
+      }
+    },
+    {
+      "id": "S3-S-028/v0",
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "TC8PSK": "FPGA",
+        "frame_deinterleave": "SoC",
+        "RS": "FPGA",
+        "TS": "SoC",
+        "RF": "SoC"
+      },
+      "CPU_low_percent": 97.80896705665025,
+      "CPU_high_percent": 123.4943837233169,
+      "stage_resources_low": {
+        "logic_sites_estimate": 7510,
+        "FF": 5070,
+        "BSRAM": 15,
+        "DSP18": 15
+      },
+      "stage_resources_high": {
+        "logic_sites_estimate": 8574,
+        "FF": 6606,
+        "BSRAM": 15,
+        "DSP18": 15
+      },
+      "old_bandwidth_route_count": 34,
+      "O_plus_LCD16": {
+        "maximum_port_utilization_percent": 94.06020758594651,
+        "ports": [
+          {
+            "name": "O",
+            "down_MBps": 49.07204169343393,
+            "up_MBps": 13.896871921182267,
+            "equivalent_spare_MBps": 4.177316879890644
+          },
+          {
+            "name": "L16",
+            "down_MBps": 64.8603720996695,
+            "up_MBps": 0,
+            "equivalent_spare_MBps": 4.095856856559451
+          }
+        ]
+      },
+      "sensitivity_only": {
+        "same_partial_netlist_sites": 8628,
+        "old_omitted_stage_estimate_sites": 808,
+        "sum_sites_if_disjoint": 9436,
+        "excess_over_8640_if_disjoint": 796,
+        "not_a_lower_bound_on_redesigned_RTL": true
+      }
+    }
+  ],
+  "measured_partial_S": {
+    "variant": "s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16",
+    "logic_sites_necessary_for_exact_mapped_netlist": 8628,
+    "logic_sites_available": 8640,
+    "local_wall_timeout_seconds": null,
+    "placement_exits": [
+      {
+        "seed": 1,
+        "code": 125,
+        "fmax": null,
+        "error": "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+      },
+      {
+        "seed": 2,
+        "code": 125,
+        "fmax": null,
+        "error": "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+      },
+      {
+        "seed": 3,
+        "code": 125,
+        "fmax": null,
+        "error": "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+      }
+    ],
+    "missing": "FIR/sync/frame-deinterleave/TS, connected RF-to-TS, Octal upstream, S3 DMA/WCET"
+  },
+  "other_partial_RS_split": {
+    "source": "reports/s3-memory-fec-compact-b1-q15-folded-shift24-rs-offload-correct-rpcguard-rpcflag-rpcranges-rpc27-syready-rr-90MHz.json",
+    "placed_LUT_plus_ALU_sites": 8226,
+    "placed_core_Fmax_MHz": 93.21401977539062,
+    "old_missing_stage_sensitivity_sites": 1128,
+    "projected_excess_over_8640_if_disjoint": 714,
+    "uses_changed_FPGA_branch_quantization_SHIFT24": true,
+    "host_RS_WCET_and_receiver_BER_unverified": true
+  },
+  "conclusion": {
+    "new_qualified_first": null,
+    "confirmed_full_T_and_S_receivers": 0,
+    "all_9K_implementations_proven_impossible": false,
+    "next_experiment": "Reduce/remove 64-KiB FPGA RF/PSRAM transport bridge via bounded page/credit buffering without signal-loss; co-place actual S FIR/sync/interleave/TS at SHIFT22, then verify placement, clocks, S3 WCET and page-level schedule. Reconsider partial RS split only with same precision and measured host WCET."
+  }
+}
