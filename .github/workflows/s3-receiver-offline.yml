@@ -40,6 +40,8 @@ jobs:
             flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90
           - name: correction90-four-port
             flags: --rs-correction --syndrome4 --rr-table --core-mhz 90
+          - name: correction90-22acs
+            flags: --rs-correction --split-acs22 --syndrome-ready --rr-table --core-mhz 90
     steps:
       - uses: actions/checkout@v5
       - uses: YosysHQ/setup-oss-cad-suite@v4

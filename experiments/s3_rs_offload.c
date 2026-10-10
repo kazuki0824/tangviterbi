@@ -7,17 +7,17 @@
 #else
 #define COUNT(t,field) ((void)0)
 #endif
-static uint8_t mul(s3_rs_tables *t,uint8_t a,uint8_t b) {
+static uint8_t S3_RS_HOT mul(s3_rs_tables *t,uint8_t a,uint8_t b) {
  COUNT(t,mul_calls);
  if(!a || !b)return 0;
  COUNT(t,mul_nonzero);
  return t->exp[(unsigned)t->log[a]+t->log[b]];
 }
-static uint8_t div_nonzero(s3_rs_tables *t,uint8_t a,uint8_t b) {
+static uint8_t S3_RS_HOT div_nonzero(s3_rs_tables *t,uint8_t a,uint8_t b) {
  COUNT(t,div_calls);
  return a?t->exp[255u+t->log[a]-t->log[b]]:0;
 }
-void s3_rs_tables_init(s3_rs_tables *t) {
+void S3_RS_HOT s3_rs_tables_init(s3_rs_tables *t) {
  memset(t,0,sizeof(*t));unsigned x=1;
  for(unsigned n=0;n<255;n++){
   t->exp[n]=(uint8_t)x;t->log[x]=(uint8_t)n;
@@ -27,7 +27,7 @@ void s3_rs_tables_init(s3_rs_tables *t) {
  for(unsigned row=0;row<8;row++)for(unsigned a=1;a<256;a++)
   t->step[row][a]=t->exp[(unsigned)t->log[a]+row+1];
 }
-int s3_rs_solve(s3_rs_tables *t,const uint8_t syndrome[16],s3_rs_solution *s) {
+int S3_RS_HOT s3_rs_solve(s3_rs_tables *t,const uint8_t syndrome[16],s3_rs_solution *s) {
  uint8_t bpoly[17]={1},previous[17],b=1;
  unsigned degree=0,shift=1;
  memset(s,0,sizeof(*s));s->lambda[0]=1;
@@ -49,7 +49,7 @@ int s3_rs_solve(s3_rs_tables *t,const uint8_t syndrome[16],s3_rs_solution *s) {
   for(unsigned i=0;i<=degree && i<=n;i++)s->omega[n]^=mul(t,s->lambda[i],syndrome[n-i]);
  return 1;
 }
-int s3_rs_chien(s3_rs_tables *t,const s3_rs_solution *s,uint8_t positions[8]) {
+int S3_RS_HOT s3_rs_chien(s3_rs_tables *t,const s3_rs_solution *s,uint8_t positions[8]) {
  if(s->degree>8)return -1;
  uint8_t term[8]={0};unsigned count=0;
  for(unsigned i=0;i<s->degree;i++)term[i]=mul(t,s->lambda[i+1],t->exp[(52*(i+1))%255]);
@@ -63,7 +63,7 @@ int s3_rs_chien(s3_rs_tables *t,const s3_rs_solution *s,uint8_t positions[8]) {
  }
  return count==s->degree?(int)count:-1;
 }
-int s3_rs_magnitudes(s3_rs_tables *t,const s3_rs_solution *s,
+int S3_RS_HOT s3_rs_magnitudes(s3_rs_tables *t,const s3_rs_solution *s,
                     const uint8_t *positions,unsigned count,uint8_t magnitudes[8]) {
  if(s->degree>8 || count!=s->degree)return 0;
  for(unsigned e=0;e<count;e++){

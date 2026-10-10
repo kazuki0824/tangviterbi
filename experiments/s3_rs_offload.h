@@ -1,6 +1,12 @@
 #ifndef S3_RS_OFFLOAD_H
 #define S3_RS_OFFLOAD_H
 #include <stdint.h>
+#ifdef ESP_PLATFORM
+#include "esp_attr.h"
+#define S3_RS_HOT IRAM_ATTR
+#else
+#define S3_RS_HOT
+#endif
 /* Experimental RS split solver. Not integrated with RF/RTOS/SPI. All tables
  * must live in internal SRAM for a future target timing claim. */
 typedef struct {

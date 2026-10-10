@@ -16,8 +16,10 @@ for log in [a.test_log,*a.additional_test_log]:
  if not text.rstrip().endswith('OK'):raise ValueError('test suite incomplete/failed: '+str(log))
  shutil.copy2(log,out/log.name);r['test_logs'][log.name]=dict(sha256=sha(log),tail=text.splitlines()[-5:])
 base='s3-memory-fec-compact-b1-q15-folded-rs-offload'
-for suffix in ('','-rr','-rr-90MHz','-correct-rr-90MHz','-correct-syready-rr-90MHz','-correct-sy4-rr-90MHz'):
- name=base+suffix;build=ROOT/f'build/{name}-pnr'
+names=[base+suffix for suffix in ('','-rr','-rr-90MHz','-correct-rr-90MHz','-correct-syready-rr-90MHz','-correct-sy4-rr-90MHz')]
+names+=['s3-memory-fec-compact-b1-acs22-q15-folded-rs-offload-correct-syready-rr-90MHz']
+for name in names:
+ build=ROOT/f'build/{name}-pnr'
  d=json.loads((ROOT/f'reports/{name}.json').read_text())
  for source,h in d['sources'].items():
   if sha(ROOT/source)!=h:raise ValueError('stale P&R source: '+source)

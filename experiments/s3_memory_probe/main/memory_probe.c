@@ -7,6 +7,12 @@
 #include "esp_attr.h"
 #include "heap_memory_layout.h"
 #include "sdkconfig.h"
+#if PROBE_RS_OFFLOAD
+#include "s3_rs_workspace.h"
+#if !PROBE_ROM_SAFE || !PROBE_UPPER_FFT || !PROBE_TERRESTRIAL
+#error "RS mode union requires the ROM-safe two-slot terrestrial memory plan"
+#endif
+#endif
 #if PROBE_TRANSPORT
 #include "s3_spi_transport.h"
 #include "s3_fft_tiles.h"
@@ -80,7 +86,14 @@ SOC_RESERVE_MEMORY_REGION(0x3fcf0000, 0x3fcf8000, s3_late_fft_slot0);
 #else
 SOC_RESERVE_MEMORY_REGION(0x3fce0000, 0x3fce8000, s3_late_fft_slot0);
 #endif
+#if PROBE_RS_OFFLOAD
+// DMA_ATTR requests four-byte alignment and can override the type's larger
+// alignment. Repeat the 32-byte requirement on the actual variable.
+DMA_ATTR __attribute__((aligned(32))) s3_mode_slot1 fft_mode_slot1;
+#define fft_slot1 fft_mode_slot1.fft
+#else
 DMA_ATTR __attribute__((aligned(16))) uint8_t fft_slot1[32768];
+#endif
 #if PROBE_ROM_SAFE
 static uint8_t *const fft_transfer_slots[2] = {(uint8_t *)0x3fcf0000, fft_slot1};
 #else
@@ -111,6 +124,15 @@ void app_main(void)
 {
     // Live references prevent section GC; no PSRAM fallback or fake malloc fit.
     probe_keep = (uintptr_t)rf_packed_queue;
+#if PROBE_RS_OFFLOAD
+    // Same physical late 32 KiB slot, selected only after T-mode DMA drains.
+    // Link-only: retain code/layout; do not execute the receiver or solver.
+    probe_keep ^= (uintptr_t)(s3_mode_slot0 *)0x3fcf0000 ^ (uintptr_t)&fft_mode_slot1;
+    probe_keep ^= (uintptr_t)s3_rs_workspace_layout ^ (uintptr_t)&s3_rs_workspace_init ^
+        (uintptr_t)&s3_rs_workspace_context ^ (uintptr_t)&s3_rs_rpc_syndromes ^
+        (uintptr_t)&s3_rs_rpc_roots ^ (uintptr_t)&s3_rs_rpc_ack ^
+        (uintptr_t)&s3_rs_rpc_crc ^ (uintptr_t)&s3_rs_solve ^ (uintptr_t)&s3_rs_magnitudes;
+#endif
 #if PROBE_ROM_SAFE
     probe_keep ^= (uintptr_t)rf_queue_tail;
     // The existing split-ring implementation retains all sixteen DMA pages.

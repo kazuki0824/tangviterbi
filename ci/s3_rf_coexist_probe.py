@@ -8,6 +8,7 @@ The diagnostic uses the same IDF 5.5.1 as our actual SPI adapter. Upstream's own
 25fe69f SDK pin differs: report compatibility rather than silently conflating it.
 """
 import json
+import hashlib
 import os
 from pathlib import Path
 import re
@@ -15,10 +16,18 @@ import shutil
 import subprocess
 ROOT=Path(__file__).resolve().parents[1]
 PROFILE=os.environ.get('RF_PROFILE','full')
+VARIANT=PROFILE
+RS_OFFLOAD=PROFILE=='native-direct-phy-rs'
+if RS_OFFLOAD:PROFILE='native-direct-phy'
 if PROFILE not in ('full','native-phy','native-phy-flash','native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):raise SystemExit('unknown RF_PROFILE')
 NATIVE=PROFILE!='full'
 PSRAM=PROFILE in ('native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy')
-UP=ROOT/'build/esp-sdr';OUT=ROOT/'build/s3-rf-coexist'/PROFILE;OUT.mkdir(parents=True,exist_ok=True)
+UP=ROOT/'build/esp-sdr';OUT=ROOT/'build/s3-rf-coexist'/VARIANT;OUT.mkdir(parents=True,exist_ok=True)
+if (OUT/'build.log').exists():
+    prior=OUT/'prior-trials'/hashlib.sha256((OUT/'build.log').read_bytes()).hexdigest()[:12]
+    prior.mkdir(parents=True,exist_ok=True)
+    for f in ('build.log','result.json','sdkconfig'):
+        if (OUT/f).exists():shutil.copy2(OUT/f,prior/f)
 EXPECTED='e74f2a470972ec163c247f1fe88d32e08579242a'
 actual=subprocess.check_output(['git','-C',str(UP),'rev-parse','HEAD'],text=True).strip()
 if actual!=EXPECTED:raise SystemExit('upstream pin mismatch')
@@ -49,6 +58,9 @@ for p in ('s3_transport.c','s3_transport.h','s3_spi_transport.c','s3_spi_transpo
           's3_capture_bridge.c','s3_capture_bridge.h','s3_fft_tiles.c','s3_fft_tiles.h',
           's3_native_capture.c','s3_native_capture.h'):
     shutil.copy2(ROOT/'experiments'/p,extra/p)
+if RS_OFFLOAD:
+    for name in ('s3_rs_offload','s3_rs_rpc','s3_rs_workspace'):
+        for suffix in ('.c','.h'):shutil.copy2(ROOT/'experiments'/(name+suffix),extra/(name+suffix))
 s=(ROOT/'experiments/s3_memory_probe/main/memory_probe.c').read_text().replace('void app_main(void)','void s3_extras_link_probe(void)')
 # Upstream already reserves exactly this physical RF interval.
 s=s.replace('SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);','')
@@ -63,6 +75,9 @@ target_link_options(${COMPONENT_LIB} INTERFACE "-Wl,-u,s3_extras_link_probe")
 if PROFILE in ('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_UPPER_FFT=1)\n'
 if PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_QUARTER_FFT=1)\n'
 if PROFILE in ('native-quarter-romsafe','native-direct-phy'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_ROM_SAFE=1)\n'
+if RS_OFFLOAD:
+    s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_RS_OFFLOAD=1)\n'
+    s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_rs_offload.c s3_probe/s3_rs_rpc.c s3_probe/s3_rs_workspace.c)\n'
 p.write_text(s)
 # Retain RF PHY options; explicitly override module/cache/CPU configuration.
 defaults=(UP/'sdkconfig.defaults.esp32s3').read_text()
@@ -88,7 +103,7 @@ cmd=['idf.py','-B',str(OUT/'idf'),'-DIDF_TARGET=esp32s3',
 with (OUT/'build.log').open('w') as f:rc=subprocess.run(cmd,cwd=UP,stdout=f,stderr=subprocess.STDOUT).returncode
 log=(OUT/'build.log').read_text(errors='replace')
 result={'scope':('Native RF initialization/tuning plus SPI/FFT/native-bank code and reservations; no integrated scheduler.' if NATIVE else __doc__),
-        'profile':PROFILE,'esp_psram_component_required':PSRAM,
+        'profile':VARIANT,'esp_psram_component_required':PSRAM,'RS_offload_mode_union':RS_OFFLOAD,
         'quarter_FFT_coefficients':PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'),
         'upper_FFT_slot':PROFILE in ('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'),
         'RF_bank_loop_linked':True,
@@ -115,6 +130,16 @@ if p.exists():
         if found:result['hot_functions'][name]=found[-1]
     result['inspected_hot_functions_in_IRAM']=(len(result['hot_functions'])==8 and
         all(0x40374000<=int(x,16)<0x403a0000 for x in result['hot_functions'].values()))
+    if RS_OFFLOAD:
+        result['RS_hot_functions']={}
+        for name in ('s3_rs_solve','s3_rs_magnitudes','s3_rs_rpc_syndromes','s3_rs_rpc_roots','s3_rs_rpc_crc','s3_rs_rpc_ack'):
+            found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+'+name+r'\s*$',m,re.M)
+            if found:result['RS_hot_functions'][name]=found[-1]
+        result['RS_inspected_hot_functions_in_IRAM']=len(result['RS_hot_functions'])==6 and all(
+            0x40374000<=int(v,16)<0x403a0000 for v in result['RS_hot_functions'].values())
+        found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+fft_mode_slot1\s*$',m,re.M)
+        result['RS_slot1_base']=found[-1] if found else None
+        result['RS_slot1_base_aligned32']=bool(found) and int(found[-1],16)%32==0
 config=OUT/'idf/config/sdkconfig.json'
 if config.exists():
     values=json.loads(config.read_text())

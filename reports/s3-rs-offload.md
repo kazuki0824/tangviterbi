@@ -2,6 +2,8 @@
 
 2026-10-10。対象はTang Nano 9K＋ESP32-S3-WROOM-1U-N16R8、T/S実行時切替。
 **受信機の採用は0件。`receiver_adopted=false`、`safe_to_flash=false`を維持する。**
+追記：下記第4節のobject/配置検査に続き、実ESP-IDF linkとROM/起動メモリの必要条件監査も実施した。
+追加後の実SDK結果は第4節末尾を優先し、object検査だけの古い到達点と区別する。
 今回の進展は、実PSRAM受信経路とSの距離/TC8PSK/RS部分処理を一緒に配置し、
 内部90 MHzとSPI各80 MHz制約に合格したこと。まだ全復調器・RPCのFPGA側・TS出力を含まない。
 
@@ -105,6 +107,7 @@ PSRAM仲裁はround-robinの順序を変えず、動的剰余/加算を5個の�
 | RS分割、定数仲裁、90 MHz PLL | seed1合格、core92.4129、SPI107.2156/150.9662 MHz | 5269 LUT4＋2324 ALU＝7593/8640＝87.88% | 3265 FF、10/26 BSRAM、2/20 MULT18X18、1/2 PLL |
 | 上記へbyte訂正を追加 | seed1/2/3不合格、72.74/71.68/82.34 MHz | seed3 7954 | 追加前のFmaxを使わない |
 | byte訂正＋syndrome末尾flagをregister化 | seed1/2は88.55/82.82 MHzで不合格、seed3でcore91.4495、SPI143.7814/131.3888 MHz合格 | 5598 LUT4＋2360 ALU＝7958/8640＝92.11% | 残り682位置。FPGA RPC等は未実装 |
+| byte訂正＋22 ACS（3 clocks）、2-port登録版 | seed1/2/3全て不合格、77.15/70.81/75.48 MHz | seed3 5752＋1940＝7692 | 面積は266位置減るがSの速度不足、32 ACSを保持 |
 | byte訂正＋4-port syndrome | seed1/2/3全て不合格、88.64/84.50/89.15 MHz | seed3 5602＋2356＝7958 | 12 BSRAM。採用せず2-port登録版を保持 |
 
 このtopは実PSRAM受信経路と独立な合成負荷を同時配置したもの。
@@ -212,12 +215,43 @@ contextはFREE→WAIT_ROOTS→WAIT_ACK→FREE、最後のackはresponse DMA完�
 重複、未知batch、古いepochの再送は拒否する。callerが次batchとepochを管理し、
 epoch変更時は古いDMA/FPGA処理を止めてdrainする必要がある。この所有権管理自体は未結合。
 
+### 実ESP-IDF link・IRAM・ROM・起動メモリの追加監査
+
+ESP-IDF v5.5.1（fcae32885b0296b32044cb99ecbdc50d98dddb83）、固定RF source、
+固定esp-dspを取得し、既存RF/transport/FFT予約へRS/RPC/unionを加えた実ELFを再生成した。
+BM/Forney/RPCの主要6 APIと既存hot処理8 APIは実mapでIRAM内。
+RF loop/RS workerは呼び出していないLINK用probeであり、完成firmwareの実行ではない。
+
+この検査で、**union型を32 B alignedにしても、変数側のDMA_ATTRが4 B alignmentへ
+上書きし、実slot1が0x3fc9bb84へ置かれる不具合**を発見した。
+変数にも明示的なaligned(32)を追加し、再link・実ELFの4 DMA page住所検査・回帰試験を実施。
+初回の不正配置は[棄却記録](s3-rs-link-evidence/initial-bad-alignment/rejection.json)に保持する。
+
+| 実SDKで確認したもの | 修正後の結果 | 限界 |
+|---|---|---|
+| RF/SPI/FFT＋RS/RPC link | 成功、S3 ISA | 全worker/driverを動かすschedulerではない |
+| slot1の実住所 | 0x3fc9bba0、32 B aligned | slot0は0x3fcf0000のlate領域、app_mainより前には触れない |
+| S用4 DMA頁 | ELFから抽出したoffsetを実baseへ加算し、全て32 B aligned・予約内 | DMAを実行していない |
+| RF予約手前の静的余白 | 29,512 B | runtime heapの空きとは異なる |
+| 起動task/TCB/allocator後、DMA pool前の内部空き上限 | 19,312 B | 多めに見積もった上限。PHY/driver/追加worker/断片化をまだ引く必要がある |
+| 4 KiB DMA poolの必要容量条件 | PASS | 起動・runtimeの十分条件ではない。poolを空き容量へ二重加算しない |
+| ROM rev0との予約衝突 | なし | 実moduleのROM revisionは未確認 |
+| 起動/配置監査の回帰試験 | 8件PASS、4 Bへずれた配置の拒否を含む | 実機起動試験ではない |
+
+[SDK linkのsource hash・実住所・ABI](s3-rs-link-evidence/results.json)、
+[環境pin](s3-rs-link-evidence/environment.json)、実ログと生成RF sourceを保存した。
+今回閉じたのは「RSを加えた実SDK link/静的配置/起動必要容量」の検査で、
+全RTOS allocation、native RF互換、CPU WCET、連続受信、全T/S切替は未完。
+
+GitHub Actionsもcommit d9f1e3bで起動したが、raw APIの全jobが`steps=[]`、`runner_id=0`で失敗。
+原因診断用check-run endpointはconnectorで非対応。これはローカル合成/実linkの失敗とは区別する。
+
 ## 5. 環境内で残る実装と、実機が必要な確認
 
 | まだ環境内で進められるもの | 今回から残る具体物 |
 |---|---|
 | RS分割の統合 | FPGAのRPC頁codec/CRC、RFとは別のqueue、5 batch所有権/credit、符号語保存、訂正read/write、TS packet scheduler |
-| S3 firmware | C RPCをSPI/SCT/status/RTOSへ結合、全target link、mode unionのSRAM監査、実機cyclesを記録する計測入口 |
+| S3 firmware | C RPCをSPI/SCT/status/RTOSへ結合、全workerを含む最終link/runtime SRAM監査、実機cyclesを記録する計測入口。部分RF/FFT/RSの実SDK linkとunion配置監査は今回完了 |
 | 受信処理 | T/Sの同期・追従・TMCC・全interleave・descramble・TS選択、T FFT/SIMD/core間連携、規格波形との結合試験 |
 | FPGA完成時の合否 | 上記全回路を含むP&R、IO/CDC/phase STA、PSRAM校正ロジックと全負荷のmemory deadline検査 |
 | 切替/前段 | 外部NORのT/S/recovery実image、writer/RECONFIG/recovery driver、RF回路図/BOM/PCB |

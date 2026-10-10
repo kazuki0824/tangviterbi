@@ -21,6 +21,7 @@ p.add_argument('--acs22',action='store_true',help='Use 22 ACS lanes in three clo
 p.add_argument('--metric-q15',action='store_true',help='Exact 12-bit path metrics under fixed Q15/SHIFT22 metric-unit contract')
 p.add_argument('--folded-metric',action='store_true',help='Share exact metric arithmetic at one symbol/3 clocks')
 p.add_argument('--rs-offload',action='store_true',help='Partial host-RS split: 32 ACS + FPGA syndrome/Chien, no RPC/correction buffers')
+p.add_argument('--split-acs22',action='store_true',help='Use 22 ACS/3 clocks in the partial RS offload workload')
 p.add_argument('--rs-correction',action='store_true',help='Also co-place the byte correction stream, still without RPC/memory scheduling')
 p.add_argument('--syndrome-ready',action='store_true',help='Use a registered last-byte flag in the syndrome input-ready path')
 p.add_argument('--syndrome4',action='store_true',help='Use four GF lookup ports/four clocks per byte')
@@ -33,6 +34,7 @@ p.add_argument('--placer',choices=('heap','sa'),default='heap')
 p.add_argument('--heap-cell-timeout',type=int,default=8,help='nextpnr cell-placement divisor; larger bounds each search sooner')
 args=p.parse_args()
 if args.rs_correction:args.rs_offload=True
+if args.split_acs22:args.rs_offload=True
 if args.syndrome_ready:args.rs_offload=True
 if args.syndrome4:args.rs_offload=True
 if args.syndrome4 and args.syndrome_ready:p.error('choose one syndrome implementation')
@@ -44,7 +46,7 @@ if args.compact_rs:args.compact_b1=True
 if args.compact_b1:args.compact_output=True
 if args.compact_output:args.fec=True
 if args.fec:args.bridge=True
-if args.rs_offload:args.acs22=False;args.compact_rs=False
+if args.rs_offload:args.acs22=args.split_acs22;args.compact_rs=False
 name='s3-memory-fec-compact' if args.compact_output else 's3-memory-fec' if args.fec else 's3-memory-bridge' if args.bridge else 's3-psram'
 if args.wide_lut:name+='-wide'
 if args.no_ce:name+='-noce'

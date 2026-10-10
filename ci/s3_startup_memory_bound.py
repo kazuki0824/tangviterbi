@@ -75,6 +75,8 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
         if not a:raise ValueError('missing symbol '+name)
         return int(a[-1],16)
     heap_start=symbol('_heap_start');data_start=symbol('_data_start');iram_end=symbol('_iram_end')
+    if profile=='native-direct-phy-rs' and symbol('fft_mode_slot1')%32:
+        raise ValueError('RS/FFT slot1 base is not 32-byte aligned in the actual linked map')
     assert data_start==iram_end-0x6f0000
     assert 0x3fc88000<data_start<heap_start<0x3fcb0000
     # No unreserved upper DMA arena: raw RF [b0000,e0000), FFT0 [e0000,e8000),
@@ -134,15 +136,15 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
         'startup_pool_shortage_lower_bound_bytes':max(0,pool-free_before_pool_upper),
         'pool_allocation_order':'main task carves pool after all startup tasks are live, before app_main; do not add pool bytes again to later runtime demand',
         'native_event_stack_bytes':event_stack,
-        'native_event_task_retained':profile!='native-direct-phy',
-        'headroom_after_startup_tasks_and_native_event_upper_bound_bytes':maximum+late_dma_bytes-minimum-tcb_min-(event_stack+(tcb_bytes or 0) if profile!='native-direct-phy' else 0),
+        'native_event_task_retained':profile not in ('native-direct-phy','native-direct-phy-rs'),
+        'headroom_after_startup_tasks_and_native_event_upper_bound_bytes':maximum+late_dma_bytes-minimum-tcb_min-(event_stack+(tcb_bytes or 0) if profile not in ('native-direct-phy','native-direct-phy-rs') else 0),
         'not_counted':['heap headers/alignment/fragmentation','idle extra stack overhead',
                        'FreeRTOS timer queue if linked','event queue','Wi-Fi task and queues',
                        'Wi-Fi static RX buffers','PHY/calibration allocations',
                        'SPI/GDMA/SCT runtime objects','receiver worker stacks'],
         'configured_internal_DMA_pool_target_bytes':config['SPIRAM_MALLOC_RESERVE_INTERNAL'],
         'internal_DMA_pool_has_distinct_byte_capacity':config['SPIRAM_MALLOC_RESERVE_INTERNAL']<=dma_upper,
-        'heap_start':hex(heap_start),'fft_slot1':hex(symbol('fft_slot1')),
+        'heap_start':hex(heap_start),'fft_slot1':hex(symbol('fft_mode_slot1' if profile=='native-direct-phy-rs' else 'fft_slot1')),
         'twiddle':hex(symbol('fft_twiddle_reservation')),
         'default_dynamic_FreeRTOS_allocation':'MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT; allowing explicit external static stacks does not relocate xTaskCreatePinnedToCore stacks',
         'sources':[f'https://github.com/espressif/esp-idf/blob/v5.5.1/components/{p}' for p in
@@ -165,7 +167,7 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--map',type=Path,required=True)
     p.add_argument('--sdkconfig',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--profile',default='native-upper-fft',choices=('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'))
+    p.add_argument('--profile',default='native-upper-fft',choices=('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy','native-direct-phy-rs'))
     p.add_argument('--elf',type=Path)
     p.add_argument('--rom-elf',type=Path)
     p.add_argument('--readelf',default='readelf')
@@ -181,11 +183,11 @@ if __name__=='__main__':
         from s3_rom_layout_audit import ELF32,audit as rom_audit
         if not a.elf:raise ValueError('app ELF required with ROM ELF')
         rom_result=rom_audit(ELF32(a.elf),ELF32(a.rom_elf))
-        if a.profile in ('native-quarter-romsafe','native-direct-phy'):
+        if a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs'):
             rom_start=int(rom_result['ROM_reserved_start'],16)
             if not 0x3fcee000<=rom_start<=0x3fcf0000:raise ValueError('unsupported ROM layout')
             late=rom_start-0x3fcee000
-    elif a.profile in ('native-quarter-romsafe','native-direct-phy'):raise ValueError('ROM ELF evidence required')
+    elif a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs'):raise ValueError('ROM ELF evidence required')
     r=audit(a.map.read_text(),json.loads(a.sdkconfig.read_text()),a.profile,tcb,layout,late)
     if rom_result:r['ROM_layout_audit']=rom_result
     if a.elf:r['ELF_sha256']=hashlib.sha256(a.elf.read_bytes()).hexdigest()

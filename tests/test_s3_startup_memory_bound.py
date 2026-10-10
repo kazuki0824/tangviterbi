@@ -7,7 +7,7 @@ spec = importlib.util.spec_from_file_location('startup_bound', ROOT/'ci/s3_start
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 
 class StartupBoundTest(unittest.TestCase):
-    def audit(self, gap=21000, pool=8192, tcb=340, timer="timers"):
+    def audit(self, gap=21000, pool=8192, tcb=340, timer="timers",profile='native-quarter-fft',slot=0x3fc9cfe0):
         config = dict(FREERTOS_NUMBER_OF_CORES=2, ESP_IPC_ENABLE=True,
                       ESP32S3_DATA_CACHE_32KB=True, SPIRAM_MODE_OCT=True,
                       ESP_SYSTEM_MEMPROT_FEATURE=True, ESP32S3_INSTRUCTION_CACHE_16KB=True,
@@ -21,9 +21,19 @@ class StartupBoundTest(unittest.TestCase):
                        _iram_end=0x40389700, fft_slot1=0x3fc9cfe0,
                        fft_twiddle_reservation=0x3fc9bfd0, _rtc_force_fast_end=0x600fe000,
                        _rtc_reserved_start=0x60100000, _rtc_reserved_end=0x60100000)
+        if profile=='native-direct-phy-rs':
+            del symbols['fft_slot1'];symbols['fft_mode_slot1']=slot
         text = ''.join(f'  0x{value:08x} {key}\n' for key,value in symbols.items())
         text += '.text.xTimerCreateTimerTask\n 0x4038271c 0x7 esp-idf/freertos/libfreertos.a('+timer+'.c.obj)\n'
-        return m.audit(text, config, 'native-quarter-fft', tcb)
+        return m.audit(text, config, profile, tcb)
+
+    def test_linked_rs_union_alignment_and_direct_phy_task_accounting(self):
+        with self.assertRaisesRegex(ValueError,'32-byte aligned'):
+            self.audit(profile='native-direct-phy-rs',slot=0x3fc9bb84)
+        r=self.audit(gap=29504,pool=4096,timer='tasks',profile='native-direct-phy-rs',slot=0x3fc9bba0)
+        self.assertEqual(r['fft_slot1'],'0x3fc9bba0')
+        self.assertFalse(r['native_event_task_retained'])
+        self.assertFalse(r['startup_sufficient_capacity_proven'])
 
     def test_pool_must_fit_after_live_stacks_not_before_them(self):
         r=self.audit()

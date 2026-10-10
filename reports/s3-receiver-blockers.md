@@ -29,6 +29,13 @@ seed3で合格し、7958/8640ロジック位置を使用する（残り682、全
 FPGAのsyndrome/Chien/byte訂正、S3のRS solver/RPCを独立検査した。
 FPGA RPC/符号語保存/TS出力と全復調器は未統合であり、採用済み受信機は依然0。
 
+さらに実ESP-IDF5.5.1へRS/RPCを加えてlinkし、型のalignmentがDMA_ATTRで実配置へ
+反映されない不具合を発見・修正した。実slot1は32 B aligned、主要RS/RPC 6 APIはIRAM内。
+ROM rev0予約との衝突なし。静的RF手前余白29,512 B、起動task/TCB/allocator後・
+DMA pool前の内部空き上限19,312 B。4 KiB poolの必要条件には通るが、PHY/driver/workerと
+断片化を含めたruntimeの十分条件ではない。証拠は[s3-rs-link-evidence/results.json](s3-rs-link-evidence/results.json)。
+22 ACSへの再縮小も試したが、全3 seedで90 MHz不合格のため32 ACS版を残した。
+
 **RS期限も訂正**：旧28.8288 µsは52.17 Mbit/s TSの平均。新予算は203伝送byteと
 28.86 MSymbol/sの連続2 bit/symbolから28.135828 µs/codeword、CPU 240 MHzの
 1 coreで6752.598753 cycles/codeword。TMCC/burstの空きを差し引かない保守的上限で、
