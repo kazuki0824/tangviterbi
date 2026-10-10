@@ -6,6 +6,8 @@ on:
       - 'tests/test_s3_*'
       - 'ci/s3_area_benchmark.py'
       - 'ci/s3_comm_benchmark.py'
+      - 'ci/s3_comm_endpoint_benchmark.py'
+      - 'ci/s3_comm_evidence.py'
       - 'ci/s3_fec_extension_benchmark.py'
       - 'rtl/s3_*.sv'
       - '.github/workflows/s3-receiver-offline.yml'
@@ -58,13 +60,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Independent communication and FEC vectors
         run: |
-          for t in iq10_unpack spi_rx page_guard depuncture tc8psk tc8psk_metric; do
+          for t in iq10_unpack spi_rx spi_rx_faults page_guard page_reorder rx_page_store spi_iq_tx spi_page_pipeline depuncture tc8psk tc8psk_metric; do
             python3 -m unittest discover -s tests -p "test_s3_${t}.py" -v || exit 1
           done
       - name: Measure communication IO and extended FEC
         run: |
           python3 ci/s3_comm_benchmark.py
+          python3 ci/s3_comm_endpoint_benchmark.py
           python3 ci/s3_fec_extension_benchmark.py
+          python3 ci/s3_comm_evidence.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -72,8 +76,14 @@ jobs:
           path: |
             build/s3-comm-area/
             build/s3-comm-pnr/
+            build/s3-comm-endpoint/
+            build/s3-page-*/
+            build/s3-rx-page-store/
+            build/s3-spi-*/
             build/s3-fec-extensions/
             build/s3-tc8psk*/
             build/s3-depuncture/
             reports/s3-comm-area.json
+            reports/s3-comm-endpoint.json
+            reports/s3-communication-evidence/
             reports/s3-fec-extensions.json

@@ -9,17 +9,21 @@ module s3_page_guard #(parameter MAX_FRAME_CYCLES=32768)(
  input wire page_ready, output reg page_start,
  output reg [1:0] stream, output reg [31:0] offset,
  output wire data_valid,input wire data_ready,output wire [31:0] data,
- output reg commit,output reg fault
+ output reg commit,output reg fault,output wire page_request
 );
- localparam IDLE=0,OFFSET=1,LENGTH=2,BODY=3;
- reg [1:0] state;
+ localparam IDLE=0,OFFSET=1,LENGTH=2,RESERVE=3,BODY=4;
+ reg [2:0] state;
  reg [9:0] words;
  localparam TIMER_W=$clog2(MAX_FRAME_CYCLES+1);
  initial if(MAX_FRAME_CYCLES<2) $fatal(1,"frame watchdog too small");
  reg [TIMER_W-1:0] age;
  wire [3:0] tag=token[35:32];
  wire good_data=state==BODY && ((words==1023 && tag==8) || (words!=1023 && tag==0));
- assign ready=!fault && (state==LENGTH ? page_ready : good_data ? data_ready : 1'b1);
+ // Validate/consume length first; reserve on a separate registered state.
+ // This keeps wide header checks out of the cross-port credit/ownership path.
+ // A following payload token remains buffered until the grant is accepted.
+ assign page_request=!fault && state==RESERVE;
+ assign ready=!fault && state!=RESERVE && (good_data ? data_ready : 1'b1);
  assign data_valid=valid && !fault && good_data;
  assign data=token[31:0];
  always @(posedge clk or negedge resetn) begin
@@ -29,6 +33,9 @@ module s3_page_guard #(parameter MAX_FRAME_CYCLES=32768)(
    if(state==IDLE) age<=0;
    else if(!fault) age<=age+1'b1;
    if(state!=IDLE && age==MAX_FRAME_CYCLES-1) fault<=1;
+   else if(!fault && state==RESERVE && page_ready)begin
+    page_start<=1;words<=0;state<=BODY;
+   end
    else if(valid&&ready) case(state)
     IDLE: if(tag!=1 || epoch==0 || token[15:0]!=epoch ||
               (token[31:16]!=16'hd711 && token[31:16]!=16'hd712)) fault<=1;
@@ -36,7 +43,7 @@ module s3_page_guard #(parameter MAX_FRAME_CYCLES=32768)(
     OFFSET: if(tag!=2 || token[11:0]!=0) fault<=1;
             else begin offset<=token[31:0];state<=LENGTH;end
     LENGTH: if(tag!=3 || token[31:0]!=4096) fault<=1;
-            else begin page_start<=1;words<=0;state<=BODY;end
+            else state<=RESERVE;
     BODY: if(!good_data) fault<=1;
           else if(words==1023) begin commit<=1;state<=IDLE;end
           else words<=words+1'b1;

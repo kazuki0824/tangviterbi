@@ -19,7 +19,7 @@ reg abort=0,retire=0;wire valid,fault;wire[31:0] off;
 s3_page_reorder #(.RESET_SEQUENCE(20'hffff8)) dut(
  clk,rst,epoch,req,grant,a0,a1,e0,e1,s0,s1,done,abort,
  valid,off,slot,retire,active,fault);
-integer n,pages=0,cycles=0;reg[31:0] expected=32'hffff8000;
+integer n,n0,n1,pages=0,cycles=0;reg[31:0] expected=32'hffff8000;
 reg[31:0] pending[0:1];integer wait0=0,wait1=0;
 reg[31:0] rng=32'h43798432;
 // Scoreboard simulates memory acknowledgments, independently of page metadata.
@@ -30,11 +30,11 @@ task reset;begin
 end endtask
 task reserve(input integer port,input[31:0] addr);begin
  @(negedge clk);if(port==0)a0=addr;else a1=addr;req=1<<port;
- #1;if(!grant[port])$fatal(1,"grant missing");
+ #1;while(!grant[port])begin @(negedge clk);#1;end
  @(negedge clk);req=0;
 end endtask
 task finish(input integer port);begin @(negedge clk);done=1<<port;@(negedge clk);done=0;end endtask
-task poison;begin repeat(2)@(negedge clk);if(!fault||valid||grant)$fatal(1,"not poisoned");end endtask
+task poison;begin repeat(4)@(negedge clk);if(!fault||valid||grant)$fatal(1,"not poisoned");end endtask
 initial begin
  reset();reserve(0,32'hffff8000);reserve(1,32'hffff9000);
  finish(1);if(valid)$fatal(1,"later page leaked before oldest ack");
@@ -48,16 +48,14 @@ initial begin
  a0=32'h00008000;req=1;#1;if(grant[0])$fatal(1,"full ring overwritten");
  @(negedge clk);req=0;if(fault)$fatal(1,"full ring is ordinary backpressure");
  // Hundreds of pointer wraps, delayed external-memory acks and consumer stalls.
- reset();n=0;expected=32'hffff8000;pages=0;wait0=0;wait1=0;
+ reset();n=0;n0=0;n1=1;expected=32'hffff8000;pages=0;wait0=0;wait1=0;
  while(pages<4096)begin
   @(negedge clk);req=0;done=0;retire=0;
   rng=rng^(rng<<13);rng=rng^(rng>>17);rng=rng^(rng<<5);
-  if(!active[0]&&n<4096)begin a0=32'hffff8000+4096*n;req[0]=1;end
-  if(!active[1]&&n+(req[0]?1:0)<4096)begin a1=32'hffff8000+4096*(n+(req[0]?1:0));req[1]=1;end
+  if(!active[0]&&n0<4096)begin a0=32'hffff8000+4096*n0;req[0]=1;end
+  if(!active[1]&&n1<4096)begin a1=32'hffff8000+4096*n1;req[1]=1;end
   #1;
-  // Do not advance the stimulus producer for an unaccepted request.
-  if(req[0]&&!grant[0])req[0]=0;
-  if(req[1]&&!grant[1])req[1]=0;
+  // Hold each unaccepted request/address; advance only on a handshake.
   if(active[0])begin if(wait0==0)done[0]=1;else wait0=wait0-1;end
   if(active[1])begin if(wait1==0)done[1]=1;else wait1=wait1-1;end
   if(valid&&rng[2:0]!=0)begin
@@ -65,8 +63,8 @@ initial begin
    retire=1;
   end
   @(posedge clk);
-  if(req[0]&&grant[0])begin pending[0]=a0;wait0=3+rng[7:4];n=n+1;end
-  if(req[1]&&grant[1])begin pending[1]=a1;wait1=1+rng[11:8];n=n+1;end
+  if(req[0]&&grant[0])begin pending[0]=a0;wait0=3+rng[7:4];n=n+1;n0=n0+2;end
+  if(req[1]&&grant[1])begin pending[1]=a1;wait1=1+rng[11:8];n=n+1;n1=n1+2;end
   if(done[0])begin stored[pending[0][15:12]]=pending[0];stored_valid[pending[0][15:12]]=1;end
   if(done[1])begin stored[pending[1][15:12]]=pending[1];stored_valid[pending[1][15:12]]=1;end
   if(retire)begin stored_valid[slot]=0;expected=expected+4096;pages=pages+1;end

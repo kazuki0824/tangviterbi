@@ -7,8 +7,8 @@ class GuardTest(unittest.TestCase):
         tb='''module tb;
 reg clk=0;always #5 clk=~clk;
 reg rst=0,valid=0,pr=1,dr=1;reg [35:0] token;
-wire ready,start,dv,commit,fault;wire [1:0] stream;wire [31:0] offset,data;
-s3_page_guard #(.MAX_FRAME_CYCLES(8192)) dut(clk,rst,16'd17,valid,ready,token,pr,start,stream,offset,dv,dr,data,commit,fault);
+wire ready,start,dv,commit,fault,request;wire [1:0] stream;wire [31:0] offset,data;
+s3_page_guard #(.MAX_FRAME_CYCLES(8192)) dut(clk,rst,16'd17,valid,ready,token,pr,start,stream,offset,dv,dr,data,commit,fault,request);
 integer writes=0,commits=0,starts=0,i,j;
 always @(posedge clk) if(rst) begin
  if(dv&&dr) begin if(data!==writes) $fatal(1,"payload");writes=writes+1;end

@@ -1,11 +1,36 @@
 # Tang Nano 9K + ESP32-S3-WROOM-1U-N16R8：成立までの不足と実行結果
 
-2026-10-09。対象はISDB-T全セグメントと従来ISDB-SのTS出力、実行時切替。
+2026-10-10更新。対象はISDB-T全セグメントと従来ISDB-SのTS出力、実行時切替。
 採用済み受信機は0。`receiver_adopted=false`を維持する。
 
 **今回も実装を進めたが、「この環境で可能な全作業を完了」した状態ではない。**
 全復調器、RTOS統合、物理PSRAM、全体配線の実装はなお残り、実機待ちには分類しない。
 以下の第6節が残る設計・実装、第7節が今の環境で実行できない物理確認である。
+
+## 2026-10-10追記：通信の実装・結合検査
+
+今回、以下を追加した。詳しい契約・制約は[s3-communication.md](s3-communication.md)、
+検算可能な結果・source hash・失敗した配置履歴は
+[通信証拠](s3-communication-evidence/results.json)を参照。
+
+| 今回進めた不足 | 実施結果 | まだ含まないもの |
+|---|---|---|
+| 2 portの頁順序復元と書込み完了管理 | 16-slot ring、registered grant、未ack数、安定したwrite仲裁を実装。64頁262144 Bを照合 | 物理PSRAM/read経路、RF/FFT別ringの統合 |
+| FPGA→S3のIQ返送 | 4 KiB RAMを全量fill後に公開。Quad/Octal各8頁、32768 Bが一致。最後のSCKで解放、6種の異常はepoch停止 | ready/status firmware、上流IQ producer、CRC、実IO setup/hold |
+| 2本のSPIからの結合試験 | Octal/Quad各80 MHz→CDC→guard→reorder→ack付きメモリモデルで24頁98304 Bが一致 | メモリモデルはPSRAMの実帯域証明ではない |
+| 受信異常の停止 | 切断/停止SCKのwatchdog、FIFO満杯、4096 B超過を試験。CS解除ではfatal状態を消さない | 電気的bit誤り・長時間実機試験 |
+| 通信pin配置配線 | 1511 LUT4 /879 FF /4 BSRAM、seed3でcore100.25・Octal123.61・Quad84.29 MHz。99/80/80 MHz制約PASS。seed1/2の失敗も[s3-comm-endpoint.json](s3-comm-endpoint.json)に保持。SPI専用配線警告をBUFGで解消 | PLL、外部IO遅延、Gray/bundled-data制約、全受信機のSTA |
+| S距離回路＋TC8PSK＋RSの再測定 | 5602 LUT4 /3498 FF /6 BSRAM /2 MULT18X18、100.16 MHz、99 MHz制約PASS | 全S復調、実PSRAM、通信を含む全体ではない |
+
+38件のS3 unittestを再実行しすべてPASS。通信RTLの各修正にも、頁関連4件
+（guard/reorder/store/wire結合）を再実行した。最終ログとsource hashを通信証拠に保持する。
+以前に未commitだったログが失われたため、今回のFEC・通信結果は固定CAD環境で再生成した。
+実ESP-IDFの旧リンクJSONは保存済みだが、この追記でSDKを再ビルドしたとは主張しない。
+
+以下は2026-10-09までの履歴も含む。特に「送信endpoint・2 port再構成・独立timeout未完」
+という旧行は上表で更新し、物理PSRAM/status/full receiverの不足と区別する。
+
+## 2026-10-09までの実装履歴
 
 今回、GitHub Actionsのstep開始前失敗に依存しないよう、実ESP-IDF5.5.1/Xtensa toolchainと
 固定OSS CAD suite 2026-10-04をこの環境へ導入し、実コンパイル・合成・配置配線を行った。
@@ -72,7 +97,7 @@ SのRS期限は188 B / 6.52125 MB/s＝28.828829 us/block。
 2666 clocksを99 MHzで処理すると26.929293 us、余裕1.899536 us（6.589%）。
 旧80.08 MHzの共通clockでは33.291708 usだったが、今回の部分回路は99 MHz制約に通った。
 この部分のRS期限のために別clockを追加する必要はなくなった。ただしbenchmarkのViterbi/RSは負荷回路であり、deinterleave等を含む実データ経路、全復調器、SPI endpoint、PLL/IOの全体STAは未完。
-SのTC8PSK用距離・並列枝選択・非符号化bit保存は今回別回路として実装した。binary版の104.06 MHzをSへ流用しない。TC8PSKの逆追跡に1段追加し機能試験はPASSだが、RSを含むseed1は76.41 MHzで99 MHz未達。距離回路を含めた計測・seed別結果は拡張FEC JSONを参照。
+SのTC8PSK用距離・並列枝選択・非符号化bit保存は別回路として実装した。binary版の104.06 MHzをSへ流用しない。survivor＋RSの旧seed1は76.41 MHzで99 MHz未達だった。2026-10-10に距離回路を含む別構成を再生成し、100.16 MHzで99 MHz制約を通過した。source/各構成の結果は拡張FEC JSONを参照。構成を跨いでFmaxを転用しない。
 
 実測sourceと証拠：
 
@@ -214,8 +239,8 @@ S→Tは2回の再構成となる。実行時に任意address registerを書け�
 | 高速FFT/梱包と統合scheduler | quarter係数の厳密復元＋scalar FFT並列tile、梱包の完全値試験、45条件のdeadline計算 | S3 SIMD tile、2 core間barrier、必要ならSの並列packing、実SDKでコンパイルした全schedule。500 usはまだ目標値 |
 | T全復調RTL | FEC、5率depuncture、消去cost、FFT入出力契約、部分合成 | RF FIR/resample、AGC/CFO/clock同期、Mode1/2/3/GI、TMCC、等化、階層/demap、time/frequency/bit/byte deinterleave、energy descramble、TS framingの結合と独立TS照合 |
 | S全復調RTL | RS修正、TC8PSK距離/並列枝/B1保存/逆追跡までの機能試験 | matched filter/timing/carrier recovery、TC8PSK/QPSK/BPSK、burst/frame同期、TMCCとそのFEC、slot/TS選択、frame deinterleave、descrambleの結合と独立TS照合 |
-| 通信endpointと物理PSRAM | SPI/SCT側adapter、FPGA受信/CDC/頁guard/IQ unpackの実装・試験とpin配置配線 | 外部IO/CDC制約、2 port並べ替え、IQ ready/epoch/status/error検出、実PSRAM PHY/turnaround/refreshと競合検証 |
-| 全体clock/容量成立 | binary部分FECは99 MHz制約PASS。TC8PSK追加版と全体は別途未達/未測定。ROM-safe直接PHY版の必要条件PASS | 起動からRF/PHY/SPI初期化までの同時live allocation、全PLL/reset/IO制約、T/S各bitstreamの全体配置配線・STA。必要なら処理分担を再探索 |
+| 通信endpointと物理PSRAM | SPI/SCT adapter、RX/CDC/guard/unpack、2 port ack付き頁store、IQ TX RAMを実装。wire-to-memory結合試験PASS | RF/FFT別ringのrouting、IQ producer、ready/statusとreload時間のscheduler反映、物理PSRAM PHY/read/turnaround/refresh競合とack timeout検証 |
+| 全体clock/容量成立 | binary部分FECおよび距離回路込みTC8PSK部分FECは99 MHz制約PASS。通信部分は個別JSONを判定。全体は未測定。ROM-safe直接PHY版の必要条件PASS | 起動からRF/PHY/SPI初期化までの同時live allocation、通信とFEC等の統合、全PLL/reset/IO/CDC制約、T/S各bitstreamの全体配置配線・STA。必要なら処理分担を再探索 |
 | 切替firmware/復旧image | NOR配置と状態機械を実装/試験 | 実T/S/recovery image、書込み/読戻しdriver、RECONFIG drive、identity/epoch確認、壊れたheaderを含む復旧手順 |
 | RF前段・電源の実装設計 | S3内蔵RFへUHF/LNB IFを直接入れる構成では不足と確認 | 周波数変換器、LO、T/S切替filter、利得/attenuator、LNB給電/保護、S3電源、clock、connector、終端を選定した回路図/BOM/PCB。部品値・製品BOMは未確定 |
 
@@ -252,7 +277,9 @@ python -m unittest discover -s tests -p 'test_s3_*.py' -v
 python ci/s3_legacy_decode_audit.py
 python experiments/s3_bank_schedule.py --output build/s3-capture/bank-schedule.json
 python ci/s3_comm_benchmark.py
+python ci/s3_comm_endpoint_benchmark.py
 python ci/s3_fec_extension_benchmark.py
+python ci/s3_comm_evidence.py
 ```
 
 過去の全S3試験17 methodと旧decoder反例は既存記録を保持。今回は追加回路/driver/起動監査を個別に検査し、実施していない全体試験へ読み替えない。

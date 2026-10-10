@@ -1,5 +1,5 @@
 {
-  "scope": "Synthesis only of RX wire+CDC, per-port guard, native unpack. No PSRAM/reorder/status/TX endpoint or full demodulator; no timing or board proof.",
+  "scope": "Module synthesis of RX wire+CDC, guard, reorder/write arbiter, native unpack and IQ TX. No physical PSRAM/status/full demodulator; module areas are not integrated fit or timing proof.",
   "modules": {
     "iq10": {
       "cells": {
@@ -29,19 +29,19 @@
         "DFFE": 36,
         "GND": 1,
         "LUT1": 6,
-        "LUT2": 24,
-        "LUT3": 61,
-        "LUT4": 38,
+        "LUT2": 26,
+        "LUT3": 56,
+        "LUT4": 40,
         "SDPX9B": 1,
         "VCC": 1
       },
-      "logic_equivalents": 181,
+      "logic_equivalents": 180,
       "FF": 149,
       "BSRAM": 1,
       "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
       "sha256": {
-        "rtl/s3_async_fifo.sv": "83916a51ad13a2f45f745ca2a9962542a9d80ab329dfb7ae4c295843c02ce03f",
-        "rtl/s3_spi_rx.sv": "143912e0fadb6f90ed1fe3a3987f805437818c418eb8326d862f9e1214845a68"
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251"
       }
     },
     "spi4": {
@@ -54,39 +54,103 @@
         "GND": 1,
         "LUT1": 7,
         "LUT2": 26,
-        "LUT3": 54,
-        "LUT4": 45,
+        "LUT3": 55,
+        "LUT4": 42,
         "SDPX9B": 1,
         "VCC": 1
       },
-      "logic_equivalents": 184,
+      "logic_equivalents": 182,
       "FF": 154,
       "BSRAM": 1,
       "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
       "sha256": {
-        "rtl/s3_async_fifo.sv": "83916a51ad13a2f45f745ca2a9962542a9d80ab329dfb7ae4c295843c02ce03f",
-        "rtl/s3_spi_rx.sv": "143912e0fadb6f90ed1fe3a3987f805437818c418eb8326d862f9e1214845a68"
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251"
       }
     },
     "guard": {
       "cells": {
-        "ALU": 10,
-        "DFFC": 5,
-        "DFFCE": 45,
-        "DFFP": 1,
+        "ALU": 26,
+        "DFFC": 2,
+        "DFFCE": 64,
         "GND": 1,
         "LUT1": 1,
-        "LUT2": 22,
-        "LUT3": 16,
-        "LUT4": 43,
+        "LUT2": 45,
+        "LUT3": 18,
+        "LUT4": 54,
         "VCC": 1
       },
-      "logic_equivalents": 92,
-      "FF": 51,
+      "logic_equivalents": 144,
+      "FF": 66,
       "BSRAM": 0,
       "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
       "sha256": {
-        "rtl/s3_page_guard.sv": "16b1a52deb3d9c446c933cfe4949e1bf26a5595986eaf77635b7c4606e16ee97"
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b"
+      }
+    },
+    "order": {
+      "cells": {
+        "ALU": 85,
+        "DFFC": 1,
+        "DFFCE": 91,
+        "GND": 1,
+        "LUT1": 5,
+        "LUT2": 52,
+        "LUT3": 82,
+        "LUT4": 163,
+        "VCC": 1
+      },
+      "logic_equivalents": 387,
+      "FF": 92,
+      "BSRAM": 0,
+      "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "sha256": {
+        "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878"
+      }
+    },
+    "store": {
+      "cells": {
+        "$scopeinfo": 3,
+        "ALU": 201,
+        "DFFC": 5,
+        "DFFCE": 327,
+        "GND": 1,
+        "LUT1": 5,
+        "LUT2": 134,
+        "LUT3": 208,
+        "LUT4": 249,
+        "VCC": 1
+      },
+      "logic_equivalents": 797,
+      "FF": 332,
+      "BSRAM": 0,
+      "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "sha256": {
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+        "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+        "rtl/s3_rx_page_store.sv": "f929cf3a9fd184076c0ed272a61fbf086c9397144aada1cea36f8383340a2c4a"
+      }
+    },
+    "iqtx4": {
+      "cells": {
+        "ALU": 77,
+        "DFFC": 10,
+        "DFFCE": 172,
+        "DFFNC": 5,
+        "DPX9B": 2,
+        "GND": 1,
+        "LUT1": 7,
+        "LUT2": 56,
+        "LUT3": 39,
+        "LUT4": 129,
+        "VCC": 1
+      },
+      "logic_equivalents": 308,
+      "FF": 187,
+      "BSRAM": 2,
+      "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "sha256": {
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d"
       }
     }
   },
@@ -95,22 +159,22 @@
     "exit_code": 0,
     "fmax": {
       "g[0].guard.clk": {
-        "achieved": 121.59532928466797,
+        "achieved": 109.76948547363281,
         "constraint": 99.0000991821289
       },
       "p2.spi_clk": {
-        "achieved": 113.32728576660156,
+        "achieved": 132.5556640625,
         "constraint": 80
       },
       "p3.spi_clk": {
-        "achieved": 93.89671325683594,
+        "achieved": 145.62399291992188,
         "constraint": 80
       }
     },
     "utilization": {
       "ALU": {
         "available": 6480,
-        "used": 152
+        "used": 188
       },
       "ALU54D": {
         "available": 10,
@@ -138,7 +202,7 @@
       },
       "DFF": {
         "available": 6480,
-        "used": 469
+        "used": 499
       },
       "DHCEN": {
         "available": 24,
@@ -178,7 +242,7 @@
       },
       "LUT4": {
         "available": 8640,
-        "used": 766
+        "used": 841
       },
       "MIPI_IBUF": {
         "available": 22,
@@ -258,7 +322,7 @@
       }
     },
     "source_sha256": {
-      "experiments/s3_spi_rx_benchmark.sv": "2cd99587791fe22fb3f7fb17345c6a91934197f4c0d37708223693f3153cd00c",
+      "experiments/s3_spi_rx_benchmark.sv": "548b6190b509182a62fba3197ea060435dcfa62c76c48a5c2472069ca4fd161b",
       "experiments/s3_spi_rx_benchmark.cst": "e8ad3693191d316fbe82619833f4225d09b54c95850db62d98e06cc4b0715998"
     },
     "scope": "Two RX ports with per-port guards and checksum sinks. Clock targets 99/80/80 MHz; core PLL and external IO delay/CDC skew constraints are not included. No full receiver claim."

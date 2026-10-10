@@ -1,0 +1,390 @@
+Info: Using uarch 'gowin' for device 'GW1NR-LV9QN88PC6/I5'
+Info: constraining clock net 'p2.clk' to 99.00 MHz
+Info: constraining clock net 'p2.spi_clk' to 80.00 MHz
+Info: constraining clock net 'p3.spi_clk' to 80.00 MHz
+
+Info: Cell O_psram_ck[0] not found
+Info: Cell O_psram_ck[1] not found
+Info: Cell O_psram_ck_n[0] not found
+Info: Cell O_psram_ck_n[1] not found
+Info: Cell O_psram_cs_n[0] not found
+Info: Cell O_psram_cs_n[1] not found
+Info: Cell O_psram_reset_n[0] not found
+Info: Cell O_psram_reset_n[1] not found
+Info: Cell IO_psram_dq[0] not found
+Info: Cell IO_psram_dq[1] not found
+Info: Cell IO_psram_dq[2] not found
+Info: Cell IO_psram_dq[3] not found
+Info: Cell IO_psram_dq[4] not found
+Info: Cell IO_psram_dq[5] not found
+Info: Cell IO_psram_dq[6] not found
+Info: Cell IO_psram_dq[7] not found
+Info: Cell IO_psram_dq[8] not found
+Info: Cell IO_psram_dq[9] not found
+Info: Cell IO_psram_dq[10] not found
+Info: Cell IO_psram_dq[11] not found
+Info: Cell IO_psram_dq[12] not found
+Info: Cell IO_psram_dq[13] not found
+Info: Cell IO_psram_dq[14] not found
+Info: Cell IO_psram_dq[15] not found
+Info: Cell IO_psram_rwds[0] not found
+Info: Cell IO_psram_rwds[1] not found
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:0, MUX2_LU7:0, MUX2_LUT6:0, MUX2_LUT5:0
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 316 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack GW JTAG...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0x65f3e9fb
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:      15/    276     5%
+Info: 	                LUT4:    1480/   8640    17%
+Info: 	              OSER16:       0/     80     0%
+Info: 	              IDES16:       0/     80     0%
+Info: 	            IOLOGICI:       0/    276     0%
+Info: 	            IOLOGICO:       0/    276     0%
+Info: 	           MUX2_LUT5:       0/   4320     0%
+Info: 	           MUX2_LUT6:       0/   2160     0%
+Info: 	           MUX2_LUT7:       0/   1080     0%
+Info: 	           MUX2_LUT8:       0/   1080     0%
+Info: 	                 ALU:     466/   6480     7%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:     879/   6480    13%
+Info: 	           RAM16SDP4:       0/    270     0%
+Info: 	               BSRAM:       4/     26    15%
+Info: 	              ALU54D:       0/     10     0%
+Info: 	     MULTADDALU18X18:       0/     10     0%
+Info: 	        MULTALU18X18:       0/     10     0%
+Info: 	        MULTALU36X18:       0/     10     0%
+Info: 	           MULT36X36:       0/      5     0%
+Info: 	           MULT18X18:       0/     20     0%
+Info: 	             MULT9X9:       0/     40     0%
+Info: 	              PADD18:       0/     20     0%
+Info: 	               PADD9:       0/     40     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       0/      2     0%
+Info: 	           FLASH608K:       0/      1     0%
+Info: 	                BUFG:       2/     22     9%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+Info: 	           MIPI_IBUF:       0/     22     0%
+Info: 	           MIPI_OBUF:       0/     20     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 1618 cells, random placement wirelen = 66299.
+Info:     at initial placer iter 0, wirelen = 1176
+Info:     at initial placer iter 1, wirelen = 1148
+Info:     at initial placer iter 2, wirelen = 1124
+Info:     at initial placer iter 3, wirelen = 1154
+Info: Running main analytical placer, max placement attempts per cell = 1017451.
+Info:     at iteration #1, type ALL: wirelen solved = 1133, spread = 10481, legal = 16022; time = 0.06s
+Info:     at iteration #2, type ALL: wirelen solved = 1431, spread = 9618, legal = 14676; time = 0.05s
+Info:     at iteration #3, type ALL: wirelen solved = 1799, spread = 9430, legal = 14174; time = 0.04s
+Info:     at iteration #4, type ALL: wirelen solved = 2152, spread = 8425, legal = 12681; time = 0.04s
+Info:     at iteration #5, type ALL: wirelen solved = 2485, spread = 8249, legal = 11841; time = 0.04s
+Info:     at iteration #6, type ALL: wirelen solved = 2850, spread = 10630, legal = 12118; time = 0.04s
+Info:     at iteration #7, type ALL: wirelen solved = 3097, spread = 8286, legal = 11525; time = 0.04s
+Info:     at iteration #8, type ALL: wirelen solved = 3178, spread = 9252, legal = 11868; time = 0.05s
+Info:     at iteration #9, type ALL: wirelen solved = 3396, spread = 8913, legal = 11819; time = 0.16s
+Info:     at iteration #10, type ALL: wirelen solved = 3337, spread = 9271, legal = 14979; time = 0.09s
+Info:     at iteration #11, type ALL: wirelen solved = 3574, spread = 9383, legal = 13460; time = 0.05s
+Info:     at iteration #12, type ALL: wirelen solved = 3761, spread = 8758, legal = 12461; time = 0.04s
+Info: HeAP Placer Time: 0.89s
+Info:   of which solving equations: 0.46s
+Info:   of which spreading cells: 0.03s
+Info:   of which strict legalisation: 0.30s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 97, wirelen = 11525
+Info:   at iteration #5: temp = 0.000000, timing cost = 60, wirelen = 9208
+Info:   at iteration #10: temp = 0.000000, timing cost = 43, wirelen = 8368
+Info:   at iteration #15: temp = 0.000000, timing cost = 39, wirelen = 7958
+Info:   at iteration #20: temp = 0.000000, timing cost = 42, wirelen = 7662
+Info:   at iteration #25: temp = 0.000000, timing cost = 42, wirelen = 7410
+Info:   at iteration #30: temp = 0.000000, timing cost = 41, wirelen = 7300
+Info:   at iteration #33: temp = 0.000000, timing cost = 41, wirelen = 7257 
+Info: SA placement time 2.21s
+
+Info: Max frequency for clock 'p3.spi_clk': 125.38 MHz (PASS at 80.00 MHz)
+Info: Max frequency for clock 'p2.spi_clk': 177.65 MHz (PASS at 80.00 MHz)
+Info: Max frequency for clock     'p2.clk': 140.35 MHz (PASS at 99.00 MHz)
+
+Info: Max delay posedge p2.clk     -> posedge p2.spi_clk: 0.86 ns
+Info: Max delay posedge p2.clk     -> posedge p3.spi_clk: 5.03 ns
+Info: Max delay posedge p2.spi_clk -> posedge p2.clk    : 1.06 ns
+Info: Max delay posedge p3.spi_clk -> posedge p2.clk    : 0.86 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 2 endpoint(s)
+Info:          + represents [1,2) endpoint(s)
+Info: [  2362,   2844) |+
+Info: [  2844,   3326) |*+
+Info: [  3326,   3808) |***+
+Info: [  3808,   4290) |***+
+Info: [  4290,   4772) |***+
+Info: [  4772,   5254) |**********+
+Info: [  5254,   5736) |**************+
+Info: [  5736,   6218) |*****************************+
+Info: [  6218,   6700) |*****************************************+
+Info: [  6700,   7182) |*****************+
+Info: [  7182,   7664) |******************+
+Info: [  7664,   8146) |********+
+Info: [  8146,   8628) |**************************+
+Info: [  8628,   9110) |************************************************************ 
+Info: [  9110,   9592) |*************************************************+
+Info: [  9592,  10074) |***********+
+Info: [ 10074,  10556) |**********+
+Info: [ 10556,  11038) |********+
+Info: [ 11038,  11520) |***************************+
+Info: [ 11520,  12002) |*******************************+
+Info: Checksum: 0x5a8b37e5
+Info: Routing globals...
+Info:     'p3.spi_clk' net was routed.
+Info:     'p2.spi_clk' net was routed.
+Info:     'p2.clk' net was routed using global resources only.
+Info:     'p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_DFFC_D_Q_DFFC_D_Q_LUT4_F_I2_DFFCE_Q_CE_LUT3_I2_F_DFFCE_D_Q_LUT2_I0_F' is routed using segments.
+Info:     'p3.fifo.mem.0.0_DI_32_LUT2_F_I0_LUT4_F_I1_LUT2_F_I1_ALU_I1_COUT_ALU_CIN_SUM_DFFCE_D_Q_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT' is routed using segments.
+Info:     'p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I1[0]' is routed using segments.
+Info:     'p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2[3]' is routed using segments.
+Info:     'p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q[2]' is routed using segments.
+Info:     'p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_F_I1[0]' is routed using segments.
+Info:     'p3.fifo.mem.0.0_DI_10_LUT3_F_I1[2]' is routed using segments.
+Info:     'p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_I0_F_LUT4_I2_I3_LUT3_I2_F_DFFCE_D_Q_DFFCE_Q_D_LUT3_I2_F' is routed using segments.
+Info:     'p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_I0_I1_LUT3_I2_F[1]' is routed using segments.
+Info:     'p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT3_I2_1_F_LUT4_I3_F_LUT2_I0_F_DFFCE_D_Q[3]' is routed using segments.
+Info:     'p2.cs_n_LUT4_I0_I3_LUT2_F_I1_LUT3_I2_F[2]' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 7045 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |       81        833 |   81   833 |      6133|       0.34       0.34|
+Info:       2000 |      103       1691 |   22   858 |      5157|       0.21       0.55|
+Info:       3000 |      111       2646 |    8   955 |      4165|       0.35       0.90|
+Info:       4000 |      117       3600 |    6   954 |      3171|       0.31       1.20|
+Info:       5000 |      133       4548 |   16   948 |      2196|       0.37       1.57|
+Info:       6000 |      180       5459 |   47   911 |      1251|       0.43       2.00|
+Info:       7000 |      267       6340 |   87   881 |       359|       0.60       2.60|
+Info:       7416 |      309       6699 |   42   359 |         0|       0.24       2.84|
+Info: Routing complete.
+Info: Router1 time 2.84s
+Info: Checksum: 0x1d8dcf15
+
+Info: Critical path report for clock 'p3.spi_clk' (posedge -> negedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_I3_LUT3_I2_F_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_Q_DFFCE_Q_1.Q
+Info:    routing  1.37  1.83 Net p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_I3_LUT3_I2_F_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_Q[2] (31,6) -> (34,8)
+Info:                          Sink tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.I0
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.96  2.79 Source tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.COUT
+Info:    routing  0.00  2.79 Net tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT (34,8) -> (34,8)
+Info:                          Sink tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               rtl/s3_spi_iq_tx.sv:112.22-112.40
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.84 Source tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.COUT
+Info:    routing  0.00  2.84 Net tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT (34,8) -> (34,8)
+Info:                          Sink tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               rtl/s3_spi_iq_tx.sv:112.22-112.40
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.90 Source tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.COUT
+Info:    routing  0.00  2.90 Net tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT (34,8) -> (34,8)
+Info:                          Sink tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               rtl/s3_spi_iq_tx.sv:112.22-112.40
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.96 Source tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.COUT
+Info:    routing  0.00  2.96 Net tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT (34,8) -> (34,8)
+Info:                          Sink tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               rtl/s3_spi_iq_tx.sv:112.22-112.40
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  3.01 Source tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.COUT
+Info:    routing  0.00  3.01 Net tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT (34,8) -> (34,8)
+Info:                          Sink tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               rtl/s3_spi_iq_tx.sv:112.22-112.40
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  3.07 Source tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM.COUT
+Info:    routing  0.00  3.07 Net tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT (34,8) -> (35,8)
+Info:                          Sink tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT_ALU_CIN.CIN
+Info:                          Defined in:
+Info:                               rtl/s3_spi_iq_tx.sv:112.22-112.40
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  3.13 Source tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT_ALU_CIN.COUT
+Info:    routing  0.00  3.13 Net tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT_ALU_CIN_TAIL_ALULC (35,8) -> (35,8)
+Info:                          Sink tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT_ALU_CIN_TAIL_ALULC.CIN
+Info:      logic  0.56  3.69 Source tx.mem.0.1_ADB_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_I1_ALU_SUM_COUT_ALU_CIN_TAIL_ALULC.SUM
+Info:    routing  1.22  4.91 Net tx.mem.0.1_ADB_LUT2_F_I1[0] (35,8) -> (36,6)
+Info:                          Sink p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  5.53 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F.F
+Info:    routing  0.00  5.53 Net p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D (36,6) -> (36,6)
+Info:                          Sink p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q.D
+Info:      setup  0.40  5.93 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q.D
+Info: 3.35 ns logic, 2.59 ns routing
+
+Info: Critical path report for clock 'p2.spi_clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source p2.cs_n_LUT4_I0_I3_LUT2_F_I1_LUT4_F_I3_LUT4_F_1_I3_DFFCE_Q_2.Q
+Info:    routing  1.22  1.67 Net p2.cs_n_LUT4_I0_I3_LUT2_F_I1_LUT4_F_I3_LUT4_F_1_I3[2] (10,12) -> (11,10)
+Info:                          Sink p2.cs_n_LUT4_I0_I3_LUT2_F_I1_LUT4_F_I3_LUT4_F_1.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  2.50 Source p2.cs_n_LUT4_I0_I3_LUT2_F_I1_LUT4_F_I3_LUT4_F_1.F
+Info:    routing  0.89  3.39 Net p2.cs_n_LUT4_I0_I3_LUT2_F_I1_LUT4_F_I3[2] (11,10) -> (11,11)
+Info:                          Sink p2.cs_n_LUT4_I0_I3_LUT2_F_I1_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  4.21 Source p2.cs_n_LUT4_I0_I3_LUT2_F_I1_LUT4_F.F
+Info:    routing  0.81  5.01 Net p2.cs_n_LUT4_I0_I3_LUT2_F_I1[2] (11,11) -> (13,11)
+Info:                          Sink p2.cs_n_LUT4_I0_I1_LUT2_I1_F_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  5.64 Source p2.cs_n_LUT4_I0_I1_LUT2_I1_F_LUT4_F.F
+Info:    routing  0.89  6.53 Net p2.cs_n_LUT4_I0_I1_LUT2_I1_F[3] (13,11) -> (14,10)
+Info:                          Sink p2.cs_n_LUT4_I0_I1_LUT2_I1_F_LUT4_F_1_I2_LUT4_I3_F_LUT4_I1.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  7.16 Source p2.cs_n_LUT4_I0_I1_LUT2_I1_F_LUT4_F_1_I2_LUT4_I3_F_LUT4_I1.F
+Info:    routing  0.89  8.05 Net p2.cs_n_LUT4_I0_I1_LUT2_I1_F_LUT4_F_1_I2_LUT4_I3_F_LUT4_I1_F[1] (14,10) -> (15,11)
+Info:                          Sink p2.fifo.mem.0.0_ADA_2_DFFCE_Q.CE
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      setup  0.04  8.09 Source p2.fifo.mem.0.0_ADA_2_DFFCE_Q.CE
+Info: 3.39 ns logic, 4.70 ns routing
+
+Info: Critical path report for clock 'p2.clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT2_I0_F_LUT3_F_I2_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT3_I1_F_DFFCE_D_Q_DFFCE_Q_1.Q
+Info:    routing  0.41  0.87 Net p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT2_I0_F_LUT3_F_I2_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT3_I1_F_DFFCE_D_Q[1] (18,12) -> (18,12)
+Info:                          Sink p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT2_I0_F_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.10  1.97 Source p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT2_I0_F_LUT4_F.F
+Info:    routing  0.33  2.29 Net p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT2_I0_F[2] (18,12) -> (18,12)
+Info:                          Sink p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT2_I0_F_LUT4_I3.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  3.12 Source p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT2_I0_F_LUT4_I3.F
+Info:    routing  3.54  6.66 Net p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT3_F_I2_LUT2_F_I1_LUT4_I0_F_LUT4_F_I3_LUT4_F_I2_LUT2_F_I1_LUT4_I0_F_DFFC_D_Q[2] (18,12) -> (14,7)
+Info:                          Sink p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_ALU_SUM_CIN_ALU_COUT_SUM_LUT4_F_1_I3_LUT3_I2_F_LUT4_I2_I3_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1_D_LUT4_F_I3_LUT3_F_I2_LUT4_I3_F_LUT2_F_I1_LUT4_F_1.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  7.28 Source p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_ALU_SUM_CIN_ALU_COUT_SUM_LUT4_F_1_I3_LUT3_I2_F_LUT4_I2_I3_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1_D_LUT4_F_I3_LUT3_F_I2_LUT4_I3_F_LUT2_F_I1_LUT4_F_1.F
+Info:    routing  0.33  7.61 Net p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_ALU_SUM_CIN_ALU_COUT_SUM_LUT4_F_1_I3_LUT3_I2_F_LUT4_I2_I3_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1_D_LUT4_F_I3_LUT3_F_I2_LUT4_I3_F_LUT2_F_I1[2] (14,7) -> (14,7)
+Info:                          Sink p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_ALU_SUM_CIN_ALU_COUT_SUM_LUT4_F_1_I3_LUT3_I2_F_LUT4_I2_I3_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1_D_LUT4_F_I3_LUT3_F_I2_LUT4_I3_F_LUT2_F_I1_LUT4_I3.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  8.43 Source p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_ALU_SUM_CIN_ALU_COUT_SUM_LUT4_F_1_I3_LUT3_I2_F_LUT4_I2_I3_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1_D_LUT4_F_I3_LUT3_F_I2_LUT4_I3_F_LUT2_F_I1_LUT4_I3.F
+Info:    routing  0.33  8.75 Net p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_ALU_SUM_CIN_ALU_COUT_SUM_LUT4_F_1_I3_LUT3_I2_F_LUT4_I2_I3_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1_D_LUT4_F_I3_LUT3_F_I2_LUT4_I3_F_LUT2_F_I1_LUT4_I3_F[2] (14,7) -> (14,7)
+Info:                          Sink p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_LUT3_I2_F_LUT3_I1_F_DFFCE_D_Q_LUT4_I1_F_LUT4_F_I0_DFFCE_Q_D_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  9.58 Source p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_LUT3_I2_F_LUT3_I1_F_DFFCE_D_Q_LUT4_I1_F_LUT4_F_I0_DFFCE_Q_D_LUT4_F.F
+Info:    routing  0.00  9.58 Net p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_LUT3_I2_F_LUT3_I1_F_DFFCE_D_Q_LUT4_I1_F_LUT4_F_I0_DFFCE_Q_D (14,7) -> (14,7)
+Info:                          Sink p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_LUT3_I2_F_LUT3_I1_F_DFFCE_D_Q_LUT4_I1_F_LUT4_F_I0_DFFCE_Q.D
+Info:      setup  0.40  9.98 Source p2.cs_n_LUT4_I0_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I1_F_LUT2_I1_F_LUT3_F_I2_DFFCE_Q_D_LUT4_F_I1_LUT4_I1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F_I2_LUT3_F_I2_LUT3_I2_F_LUT3_I1_F_DFFCE_D_Q_LUT4_I1_F_LUT4_F_I0_DFFCE_Q.D
+Info: 5.05 ns logic, 4.93 ns routing
+
+Info: Critical path report for cross-domain path 'posedge p2.clk' -> 'posedge p3.spi_clk':
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_F_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT4_I3_1_F_DFFCE_Q_1_D_DFFCE_Q_D_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFFCE_D.Q
+Info:    routing  0.89  1.35 Net p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_F_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT4_I3_1_F_DFFCE_Q_1_D_DFFCE_Q_D_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFFCE_D_Q[1] (31,13) -> (32,12)
+Info:                          Sink p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_F_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT4_I3_1_F_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.10  2.45 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_F_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT4_I3_1_F_LUT4_F.F
+Info:    routing  0.81  3.25 Net p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_F_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT4_I3_1_F[3] (32,12) -> (32,10)
+Info:                          Sink p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_F_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  3.88 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_F_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_LUT4_F.F
+Info:    routing  0.41  4.29 Net p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_LUT4_I0_F_LUT4_F_I3_LUT4_F_I3_LUT3_F_I0_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F[2] (32,10) -> (33,10)
+Info:                          Sink p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I2_LUT3_I2_F_LUT4_F_1.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  5.11 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I2_LUT3_I2_F_LUT4_F_1.F
+Info:    routing  0.33  5.44 Net p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I2_LUT3_I2_F[1] (33,10) -> (33,10)
+Info:                          Sink p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_DFFCE_Q_CE_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.10  6.53 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_DFFCE_Q_CE_LUT4_F.F
+Info:    routing  0.33  6.86 Net p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_DFFCE_Q_CE (33,10) -> (33,10)
+Info:                          Sink p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_DFFCE_Q.CE
+Info:      setup  0.04  6.90 Source p3.dq_IOBUF_O_OEN_LUT3_F_I2_DFFNC_Q_D_LUT4_F_I0_DFFCE_Q.CE
+Info: 4.14 ns logic, 2.76 ns routing
+
+Info: Max frequency for clock 'p3.spi_clk': 84.29 MHz (PASS at 80.00 MHz)
+Info: Max frequency for clock 'p2.spi_clk': 123.61 MHz (PASS at 80.00 MHz)
+Info: Max frequency for clock     'p2.clk': 100.25 MHz (PASS at 99.00 MHz)
+
+Info: Max delay posedge p2.clk -> posedge p3.spi_clk: 6.90 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [   126,    700) |****** 
+Info: [   700,   1274) |********* 
+Info: [  1274,   1848) |************ 
+Info: [  1848,   2422) |****** 
+Info: [  2422,   2996) |************ 
+Info: [  2996,   3570) |************************************************ 
+Info: [  3570,   4144) |************************************** 
+Info: [  4144,   4718) |***************************** 
+Info: [  4718,   5292) |*********************** 
+Info: [  5292,   5866) |***************** 
+Info: [  5866,   6440) |********************************* 
+Info: [  6440,   7014) |***** 
+Info: [  7014,   7588) |******************************** 
+Info: [  7588,   8162) |********************************* 
+Info: [  8162,   8736) |******************************************************** 
+Info: [  8736,   9310) |************************ 
+Info: [  9310,   9884) |***** 
+Info: [  9884,  10458) |******************************* 
+Info: [ 10458,  11032) |***** 
+Info: [ 11032,  11606) |****** 
+
+Info: Program finished normally.
