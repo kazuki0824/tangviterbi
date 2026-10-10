@@ -1,0 +1,218 @@
+name: S3 receiver functional closure
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_*'
+      - 'tests/test_s3_*'
+      - 'ci/s3_area_benchmark.py'
+      - 'ci/s3_comm_benchmark.py'
+      - 'ci/s3_comm_endpoint_benchmark.py'
+      - 'ci/s3_comm_evidence.py'
+      - 'ci/s3_psram_benchmark.py'
+      - 'ci/s3_psram_evidence.py'
+      - 'ci/s3_logic_site_audit.py'
+      - 'ci/s3_fec_compaction_evidence.py'
+      - 'ci/s3_rs_offload_compile.py'
+      - 'ci/s3_rs_offload_evidence.py'
+      - 'ci/s3_precision_ber.py'
+      - 'ci/s3_precision_evidence.py'
+      - 'ci/s3_fec_extension_benchmark.py'
+      - 'rtl/s3_*.sv'
+      - '.github/workflows/s3-receiver-offline.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rs-split-pnr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: split99
+            flags: --rs-offload
+          - name: split99-rr
+            flags: --rs-offload --rr-table
+          - name: split90-rr
+            flags: --rs-offload --rr-table --core-mhz 90
+          - name: correction90
+            flags: --rs-correction --rr-table --core-mhz 90
+          - name: correction90-ready
+            flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90
+          - name: correction90-four-port
+            flags: --rs-correction --syndrome4 --rr-table --core-mhz 90
+          - name: correction90-22acs
+            flags: --rs-correction --split-acs22 --syndrome-ready --rr-table --core-mhz 90
+          - name: correction90-shift23
+            flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90 --cost-shift 23
+          - name: correction90-shift24
+            flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: correction90-shift25
+            flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90 --cost-shift 25
+          - name: guard90-shift22
+            flags: --rs-rpc-guard --syndrome-ready --rr-table --core-mhz 90 --pnr-timeout 480
+          - name: guard90-shift24
+            flags: --rs-rpc-guard --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: guard90-shift24-flag
+            flags: --rpc-payload-flag --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: guard90-shift24-ranges
+            flags: --rpc-bit-ranges --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: guard27-shift24-fifo
+            flags: --rpc-clock27 --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: guard27-shift22-fifo
+            flags: --rpc-clock27 --syndrome-ready --rr-table --core-mhz 90
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Preserve partial-design fit and failed timing seeds
+        run: python3 ci/s3_psram_benchmark.py ${{ matrix.flags }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rs-${{ matrix.name }}-partial-not-receiver
+          path: |
+            build/s3-memory-fec-compact*/
+            reports/s3-memory-fec-compact*.json
+  rs-split-target:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Fetch and verify IDF 5.5.1 S3 compiler
+        run: |
+          mkdir -p build/rs-toolchain
+          curl --fail --location --retry 3 -o build/rs-toolchain/compiler.tar.xz https://github.com/espressif/crosstool-NG/releases/download/esp-14.2.0_20241119/xtensa-esp-elf-14.2.0_20241119-x86_64-linux-gnu.tar.xz
+          echo 'e3e6dcf3d275c3c9ab0e4c8a9d93fd10e7efc035d435460576c9d95b4140c676  build/rs-toolchain/compiler.tar.xz' | sha256sum --check
+          tar -xJf build/rs-toolchain/compiler.tar.xz -C build/rs-toolchain
+      - name: Compile scalar solver for S3, without a WCET claim
+        run: python3 ci/s3_rs_offload_compile.py --cc build/rs-toolchain/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-rs-split-target-objects-not-a-firmware
+          path: |
+            build/s3-rs-offload-target/
+            reports/s3-rs-offload-evidence/
+  precision-ber:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compare identical noisy Q15 symbols through four RTL quantizers
+        run: python3 ci/s3_precision_ber.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-fpga-precision-experiment-not-CN-qualification
+          path: build/s3-precision-ber/
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 -m unittest discover -s tests -p test_s3_capture_bridge.py -v
+      - run: python3 -m unittest discover -s tests -p test_s3_native_capture.py -v
+      - run: python3 -m unittest discover -s tests -p test_s3_bank_schedule.py -v
+      - run: python3 -m unittest discover -s tests -p test_s3_nor_images.py -v
+      - uses: actions/upload-artifact@v4
+        with:
+          name: s3-capture-bridge
+          path: |
+            build/s3-capture/
+            build/s3-native-capture/
+  fec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Decode independently encoded bits
+        run: python3 -m unittest discover -s tests -p test_s3_viterbi_decode.py -v
+      - name: Measure functional Viterbi and ISDB RS together
+        run: python3 ci/s3_area_benchmark.py isdb-predecode4 --frequency 99 --receiver-viterbi --viterbi-metric modulo13-pipe
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-receiver-fec
+          path: |
+            build/s3-viterbi/
+            build/s3-area/isdb-predecode4-99-traceback-modulo13-pipe/
+  new-components:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Independent communication and FEC vectors
+        run: |
+          set -o pipefail
+          mkdir -p build
+          python3 -m unittest discover -s tests -p 'test_s3_*.py' -v 2>&1 | tee build/s3-compaction-all-tests.log
+      - name: Measure communication IO and extended FEC
+        run: |
+          python3 ci/s3_comm_benchmark.py
+          python3 ci/s3_comm_endpoint_benchmark.py
+          python3 ci/s3_comm_endpoint_benchmark.py --pingpong
+          python3 ci/s3_psram_benchmark.py
+          python3 ci/s3_psram_benchmark.py --bridge
+          python3 ci/s3_psram_benchmark.py --fec
+          python3 ci/s3_psram_benchmark.py --compact-output
+          python3 ci/s3_psram_benchmark.py --compact-b1
+          python3 ci/s3_psram_benchmark.py --compact-rs
+          python3 ci/s3_psram_benchmark.py --acs22
+          python3 ci/s3_psram_benchmark.py --metric-q15
+          python3 ci/s3_psram_benchmark.py --folded-metric
+          python3 ci/s3_fec_extension_benchmark.py
+          python3 ci/s3_comm_evidence.py
+          python3 ci/s3_psram_evidence.py
+          python3 ci/s3_fec_compaction_evidence.py --test-log build/s3-compaction-all-tests.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-new-components-partial-design
+          path: |
+            build/s3-comm-area/
+            build/s3-comm-pnr/
+            build/s3-comm-endpoint/
+            build/s3-comm-pingpong/
+            build/s3-psram*/
+            build/s3-memory-bridge-pnr/
+            build/s3-memory-fec-pnr/
+            build/s3-memory-fec-compact*/
+            build/s3-rs-compact*/
+            build/s3-rs-offload*/
+            build/s3-rs-split*/
+            build/s3-rs-rpc/
+            build/s3-rs-correction/
+            build/s3-rs-rpc-guard*/
+            build/s3-precision*/
+            build/s3-iq-pingpong/
+            build/s3-page-*/
+            build/s3-rx-page-store/
+            build/s3-spi-*/
+            build/s3-fec-extensions/
+            build/s3-tc8psk*/
+            build/s3-depuncture/
+            reports/s3-comm-area.json
+            reports/s3-comm-endpoint.json
+            reports/s3-communication-evidence/
+            reports/s3-psram-evidence/
+            reports/s3-psram.json
+            reports/s3-memory-bridge.json
+            reports/s3-memory-fec.json
+            reports/s3-memory-fec-compact*.json
+            reports/s3-fec-compaction-evidence/
+            reports/s3-comm-pingpong.json
+            reports/s3-fec-extensions.json

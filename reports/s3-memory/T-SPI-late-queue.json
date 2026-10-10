@@ -1,0 +1,71 @@
+{
+  "profile": "T-SPI-late-queue",
+  "IDF_version": "ESP-IDF v5.5.1",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "build_exit_code": 0,
+  "link_succeeded": true,
+  "RF_reserved_range": [
+    "0x3fcb0000",
+    "0x3fce0000"
+  ],
+  "zero_copy_reservation": true,
+  "real_SPI_transport_linked": true,
+  "late_RF_queue_reserved_range": [
+    "0x3fce4000",
+    "0x3fcec000"
+  ],
+  "late_twiddle_reserved_range": [
+    "0x3fce0000",
+    "0x3fce4000"
+  ],
+  "scope": "Link-only probe. Optional real SPI/SCT adapter and scalar FFT hot IRAM; no RF/PHY acquisition, SIMD or complete runtime heap/stacks. No silicon execution. Success is not a receiver memory fit.",
+  "symbols": {
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x40386300",
+    "_data_start": "0x3fc96300",
+    "_data_end": "0x3fca92c8",
+    "_bss_start": "0x3fca92c8",
+    "_bss_end": "0x3fca9f40",
+    "fft_transfer_slots": "0x3fc97b68",
+    "transport_object_sizes": "0x3c02a6bc"
+  },
+  "guard_errors": [],
+  "static_gap_to_RF_bytes": 24768,
+  "transport_sizes_bytes": {
+    "port": 28,
+    "segment": 56,
+    "ring_control": 84,
+    "DMA_descriptor": 12,
+    "SPI2_DMA_pool": 576,
+    "SPI3_DMA_pool": 48,
+    "peak_SCT_configuration": 480,
+    "ATOMIC_INT_LOCK_FREE": 1
+  },
+  "hot_functions": {
+    "s3_fft_stage_tile": "0x40377140",
+    "s3_fft_reverse_tile": "0x40379a50",
+    "spi_device_queue_trans": "0x40379214",
+    "s3_iq10_push": "0x40376a48",
+    "s3_ring_begin": "0x40379854",
+    "s3_ring_complete": "0x403799d8",
+    "s3_t_rf_batch": "0x40376c24",
+    "s3_spi_prepare_pages": "0x40376d8c",
+    "s3_spi_queue": "0x40376f68",
+    "s3_rf_submit": "0x40377024"
+  },
+  "hot_symbols_in_IRAM": true,
+  "linked_atomic_helpers": [
+    "__atomic_compare_exchange_1",
+    "__atomic_compare_exchange_4",
+    "__atomic_fetch_and_4",
+    "__atomic_fetch_and_8",
+    "__atomic_fetch_or_4",
+    "__atomic_fetch_or_8",
+    "__atomic_s32c1i_compare_exchange_1",
+    "__atomic_s32c1i_compare_exchange_4",
+    "__atomic_s32c1i_fetch_and_4",
+    "__atomic_s32c1i_fetch_or_4"
+  ],
+  "source_commit": "b5c6aae44001105aaf59446e0ab64a1a5f70a5c2",
+  "workflow_run_id": 37907725179
+}

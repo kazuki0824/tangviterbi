@@ -1,0 +1,55 @@
+name: S3 actual linker-map probe
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_memory_probe/**'
+      - 'experiments/s3*transport*'
+      - 'experiments/s3_fft_tiles.*'
+      - 'experiments/s3_capture_bridge.*'
+      - 'experiments/s3_native_capture.*'
+      - 'ci/s3_memory_probe.py'
+      - '.github/workflows/s3-memory.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  link:
+    name: S3 memory / ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.5.1
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Initial static-layout failures are archived in reports/s3-memory.
+          - {name: T-SPI-low-queue, terrestrial: 1, links: 2, zero_copy: 1, transport: 1, late_rf: 0}
+          - {name: T-SPI-late-queue, terrestrial: 1, links: 2, zero_copy: 1, transport: 1, late_rf: 1}
+          - {name: S-SPI-late-queue, terrestrial: 0, links: 2, zero_copy: 1, transport: 1, late_rf: 1}
+          - {name: T-SPI-late64-queue, terrestrial: 1, links: 2, zero_copy: 1, transport: 1, late_rf: 1, ring64: 1}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Link fixed internal buffers and enforce RF bank guards
+        shell: bash
+        env:
+          PROBE_NAME: ${{ matrix.name }}
+          PROBE_TERRESTRIAL: ${{ matrix.terrestrial }}
+          PROBE_LINKS: ${{ matrix.links }}
+          PROBE_ZEROCOPY: ${{ matrix.zero_copy }}
+          PROBE_TRANSPORT: ${{ matrix.transport }}
+          PROBE_LATE_RF: ${{ matrix.late_rf }}
+          PROBE_RING64: ${{ matrix.ring64 || 0 }}
+        run: |
+          . "$IDF_PATH/export.sh"
+          python3 ci/s3_memory_probe.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-memory-${{ matrix.name }}
+          path: |
+            build/s3-memory/${{ matrix.name }}/result.json
+            build/s3-memory/${{ matrix.name }}/build.log
+            build/s3-memory/${{ matrix.name }}/idf/*.map
+            build/s3-memory/${{ matrix.name }}/idf/*.elf
+            build/s3-memory/${{ matrix.name }}/idf/config/sdkconfig.json
+          retention-days: 30

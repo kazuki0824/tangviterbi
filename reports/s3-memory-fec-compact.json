@@ -1,0 +1,206 @@
+{
+  "scope": "Physical-pin PSRAM BIST synthesis, P&R and evidence (not receiver fit).",
+  "variant": "s3-memory-fec-compact",
+  "exit_code": 126,
+  "sources": {
+    "rtl/s3_psram_burst.sv": "aae2589df74c0a1dd8e101bf5768d68c839b38c7a3f869c22ce54f571cba0136",
+    "rtl/s3_psram_queue.sv": "65af08d7971eb9c1102801913e2a4d0e84210b1f7a6b80428451c46345f627df",
+    "rtl/s3_psram_phy.sv": "e17c4eca3500a19407cfea6a43a7725fe46cac80e6484fead00095f1c83209d7",
+    "rtl/s3_psram_clock.sv": "195e62dc708aa8f905b37fb848e543277ad09f7fc9c20c1064516c0b95631d31",
+    "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+    "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+    "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+    "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+    "rtl/s3_rx_page_store.sv": "682e9ab1095474e23f5ae838442622d942e697879d5692f587bbe09054b0793e",
+    "rtl/s3_psram_page_reader.sv": "b63c42df60dae56e72e1a10186c617e4dddc0542d0954604743e2609a12d91c6",
+    "rtl/s3_spi_memory_bridge.sv": "72433465f88dc9f01b4be1c2f06c6e1ab45046ad859f1141c07abf497b6033a9",
+    "experiments/s3_memory_fec_benchmark.sv": "5da2bc5df60647fe1122e0d0d1706ae299989db3bd01966572b4bcd946ab8b95",
+    "rtl/s3_tc8psk_metric.sv": "c0fae23cefd664fd3ba2be641b6c1e387ab259e102a1d2b5a718e3e709953146",
+    "build/s3-memory-fec-compact-pnr/viterbi.sv": "1ec9d9b50d9dd6ca8b9abc8eaaf784cc281c9bffbd2da6f24f9a427ecf16abb1",
+    "build/s3-memory-fec-compact-pnr/rs.sv": "08594ea679ff1a779e0a72b241d0de1fa87c520e292414b2bb07cf1144e3d610"
+  },
+  "clock_constraints": [
+    [
+      "clocking.clk27",
+      27
+    ],
+    [
+      "bridge.clk",
+      99
+    ],
+    [
+      "bridge.clk_ck",
+      99
+    ],
+    [
+      "bridge.p2.spi_clk",
+      80
+    ],
+    [
+      "bridge.p3.spi_clk",
+      80
+    ]
+  ],
+  "synthesis_flags": "-nowidelut",
+  "logic_site_audit": {
+    "packed_json_sha256": "92d7d13ea5da55b3249cd6c3ce73ce428745e00c3eb2ab03028430df94c9cade",
+    "LUT_cells": 4833,
+    "ALU_cells": 2626,
+    "ALU_blockers_excluded": 2626,
+    "fabric_FFs": 4513,
+    "maximum_LUT_or_ALU_FF_pairs": 2026,
+    "minimum_additional_FF_sites": 2487,
+    "minimum_required_logic_sites": 9946,
+    "available_logic_sites": 8640,
+    "minimum_site_utilization_percent": 115.11574074074075,
+    "minimum_site_deficit": 1306,
+    "mapped_netlist_ruled_out": true,
+    "FF_D_driver_types": {
+      "LUT3": 744,
+      "DFF": 210,
+      "DFFCE": 765,
+      "LUT2": 492,
+      "ALU": 179,
+      "LUT1": 24,
+      "LUT4": 1212,
+      "DFFE": 386,
+      "DFFP": 2,
+      "DFFC": 61,
+      "DFFRE": 191,
+      "DFFSE": 2,
+      "GOWIN_GND": 33,
+      "DFFS": 1,
+      "DFFPE": 49,
+      "MULT18X18": 62,
+      "GOWIN_VCC": 12,
+      "SDP": 72,
+      "IBUF": 16
+    },
+    "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+    "limitations": [
+      "narrow LUT mapping only",
+      "no retiming/resynthesis/transformation allowed in this bound",
+      "passing this bound does not prove placement or timing",
+      "CE/reset/clock/adjacency restrictions ignored"
+    ]
+  },
+  "synthesis": {
+    "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+    "invocation": "stat -json ",
+    "modules": {
+      "\\s3_memory_fec_benchmark": {
+        "num_wires": 9621,
+        "num_wire_bits": 19261,
+        "num_pub_wires": 9621,
+        "num_pub_wire_bits": 19261,
+        "num_ports": 15,
+        "num_port_bits": 45,
+        "num_memories": 0,
+        "num_memory_bits": 0,
+        "num_processes": 0,
+        "num_cells": 11812,
+        "num_submodules": 0,
+        "num_cells_by_type": {
+          "$scopeinfo": 20,
+          "ALU": 2341,
+          "BUFG": 2,
+          "DFF": 593,
+          "DFFC": 167,
+          "DFFCE": 1564,
+          "DFFE": 1756,
+          "DFFNC": 1,
+          "DFFP": 3,
+          "DFFPE": 32,
+          "DFFR": 127,
+          "DFFRE": 264,
+          "DFFS": 3,
+          "DFFSE": 3,
+          "DPB": 1,
+          "DPX9B": 1,
+          "GND": 1,
+          "IBUF": 18,
+          "IDDR": 18,
+          "IOBUF": 18,
+          "LUT1": 39,
+          "LUT2": 848,
+          "LUT3": 1790,
+          "LUT4": 2156,
+          "MULT18X18": 2,
+          "OBUF": 9,
+          "ODDR": 24,
+          "SDPX9B": 8,
+          "SPX9": 1,
+          "VCC": 1,
+          "rPLL": 1
+        }
+      }
+    },
+    "design": {
+      "num_wires": 9621,
+      "num_wire_bits": 19261,
+      "num_pub_wires": 9621,
+      "num_pub_wire_bits": 19261,
+      "num_ports": 15,
+      "num_port_bits": 45,
+      "num_memories": 0,
+      "num_memory_bits": 0,
+      "num_processes": 0,
+      "num_cells": 11812,
+      "num_submodules": 0,
+      "num_cells_by_type": {
+        "$scopeinfo": 20,
+        "ALU": 2341,
+        "BUFG": 2,
+        "DFF": 593,
+        "DFFC": 167,
+        "DFFCE": 1564,
+        "DFFE": 1756,
+        "DFFNC": 1,
+        "DFFP": 3,
+        "DFFPE": 32,
+        "DFFR": 127,
+        "DFFRE": 264,
+        "DFFS": 3,
+        "DFFSE": 3,
+        "DPB": 1,
+        "DPX9B": 1,
+        "GND": 1,
+        "IBUF": 18,
+        "IDDR": 18,
+        "IOBUF": 18,
+        "LUT1": 39,
+        "LUT2": 848,
+        "LUT3": 1790,
+        "LUT4": 2156,
+        "MULT18X18": 2,
+        "OBUF": 9,
+        "ODDR": 24,
+        "SDPX9B": 8,
+        "SPX9": 1,
+        "VCC": 1,
+        "rPLL": 1
+      }
+    }
+  },
+  "pnr_trials": [
+    {
+      "seed": 1,
+      "exit_code": 126,
+      "notes": [
+        "ERROR: Mapped netlist needs at least 9946 logic sites, exceeding 8640; placement skipped (not an RTL-wide impossibility claim)"
+      ],
+      "placement_skipped": true
+    }
+  ],
+  "utilization": null,
+  "fmax": null,
+  "physical_timing_proven": false,
+  "receiver_adopted": false,
+  "safe_to_flash": false,
+  "absent": [
+    "validated DQ/RWDS sampling eye",
+    "phase-related external IO STA",
+    "full receiver integration",
+    "real hardware BIST"
+  ]
+}

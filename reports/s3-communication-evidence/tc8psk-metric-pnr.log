@@ -1,0 +1,321 @@
+Info: Using uarch 'gowin' for device 'GW1NR-LV9QN88PC6/I5'
+
+Info: Cell O_psram_ck[0] not found
+Info: Cell O_psram_ck[1] not found
+Info: Cell O_psram_ck_n[0] not found
+Info: Cell O_psram_ck_n[1] not found
+Info: Cell O_psram_cs_n[0] not found
+Info: Cell O_psram_cs_n[1] not found
+Info: Cell O_psram_reset_n[0] not found
+Info: Cell O_psram_reset_n[1] not found
+Info: Cell IO_psram_dq[0] not found
+Info: Cell IO_psram_dq[1] not found
+Info: Cell IO_psram_dq[2] not found
+Info: Cell IO_psram_dq[3] not found
+Info: Cell IO_psram_dq[4] not found
+Info: Cell IO_psram_dq[5] not found
+Info: Cell IO_psram_dq[6] not found
+Info: Cell IO_psram_dq[7] not found
+Info: Cell IO_psram_dq[8] not found
+Info: Cell IO_psram_dq[9] not found
+Info: Cell IO_psram_dq[10] not found
+Info: Cell IO_psram_dq[11] not found
+Info: Cell IO_psram_dq[12] not found
+Info: Cell IO_psram_dq[13] not found
+Info: Cell IO_psram_dq[14] not found
+Info: Cell IO_psram_dq[15] not found
+Info: Cell IO_psram_rwds[0] not found
+Info: Cell IO_psram_rwds[1] not found
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:0, MUX2_LU7:0, MUX2_LUT6:0, MUX2_LUT5:0
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 1646 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack GW JTAG...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0xb5af18a2
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:       3/    276     1%
+Info: 	                LUT4:    5812/   8640    67%
+Info: 	              OSER16:       0/     80     0%
+Info: 	              IDES16:       0/     80     0%
+Info: 	            IOLOGICI:       0/    276     0%
+Info: 	            IOLOGICO:       0/    276     0%
+Info: 	           MUX2_LUT5:       0/   4320     0%
+Info: 	           MUX2_LUT6:       0/   2160     0%
+Info: 	           MUX2_LUT7:       0/   1080     0%
+Info: 	           MUX2_LUT8:       0/   1080     0%
+Info: 	                 ALU:    2028/   6480    31%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:    3498/   6480    53%
+Info: 	           RAM16SDP4:       0/    270     0%
+Info: 	               BSRAM:       6/     26    23%
+Info: 	              ALU54D:       0/     10     0%
+Info: 	     MULTADDALU18X18:       0/     10     0%
+Info: 	        MULTALU18X18:       0/     10     0%
+Info: 	        MULTALU36X18:       0/     10     0%
+Info: 	           MULT36X36:       0/      5     0%
+Info: 	           MULT18X18:       2/     20    10%
+Info: 	             MULT9X9:       0/     40     0%
+Info: 	              PADD18:       0/     20     0%
+Info: 	               PADD9:       0/     40     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       0/      2     0%
+Info: 	           FLASH608K:       0/      1     0%
+Info: 	                BUFG:       0/     22     0%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+Info: 	           MIPI_IBUF:       0/     22     0%
+Info: 	           MIPI_OBUF:       0/     20     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 5790 cells, random placement wirelen = 234135.
+Info:     at initial placer iter 0, wirelen = 2028
+Info:     at initial placer iter 1, wirelen = 1994
+Info:     at initial placer iter 2, wirelen = 1960
+Info:     at initial placer iter 3, wirelen = 1970
+Info: Running main analytical placer, max placement attempts per cell = 16131200.
+Info:     at iteration #1, type ALL: wirelen solved = 1978, spread = 69750, legal = 177053; time = 5.04s
+Info:     at iteration #2, type ALL: wirelen solved = 3579, spread = 61382, legal = 134932; time = 4.96s
+Info:     at iteration #3, type ALL: wirelen solved = 6106, spread = 49224, legal = 104581; time = 1.94s
+Info:     at iteration #4, type ALL: wirelen solved = 9078, spread = 44762, legal = 115071; time = 4.53s
+Info:     at iteration #5, type ALL: wirelen solved = 10293, spread = 44243, legal = 131057; time = 5.36s
+Info:     at iteration #6, type ALL: wirelen solved = 11837, spread = 45400, legal = 125334; time = 3.29s
+Info:     at iteration #7, type ALL: wirelen solved = 13726, spread = 41458, legal = 115714; time = 2.56s
+Info:     at iteration #8, type ALL: wirelen solved = 15763, spread = 39278, legal = 102337; time = 2.50s
+Info:     at iteration #9, type ALL: wirelen solved = 17385, spread = 45496, legal = 93813; time = 2.11s
+Info:     at iteration #10, type ALL: wirelen solved = 17870, spread = 44317, legal = 85867; time = 1.64s
+Info:     at iteration #11, type ALL: wirelen solved = 18978, spread = 41026, legal = 87212; time = 3.99s
+Info:     at iteration #12, type ALL: wirelen solved = 20151, spread = 40011, legal = 92271; time = 2.59s
+Info:     at iteration #13, type ALL: wirelen solved = 21584, spread = 40469, legal = 106555; time = 3.48s
+Info:     at iteration #14, type ALL: wirelen solved = 24176, spread = 39414, legal = 89862; time = 4.10s
+Info:     at iteration #15, type ALL: wirelen solved = 24895, spread = 40318, legal = 84479; time = 3.59s
+Info:     at iteration #16, type ALL: wirelen solved = 25626, spread = 40955, legal = 92886; time = 3.03s
+Info:     at iteration #17, type ALL: wirelen solved = 28398, spread = 43430, legal = 92918; time = 3.15s
+Info:     at iteration #18, type ALL: wirelen solved = 30930, spread = 45177, legal = 86104; time = 3.36s
+Info:     at iteration #19, type ALL: wirelen solved = 32345, spread = 46739, legal = 85635; time = 3.12s
+Info:     at iteration #20, type ALL: wirelen solved = 35305, spread = 47327, legal = 87869; time = 2.35s
+Info: HeAP Placer Time: 67.90s
+Info:   of which solving equations: 2.89s
+Info:   of which spreading cells: 0.28s
+Info:   of which strict legalisation: 63.96s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 29, wirelen = 84479
+Info:   at iteration #5: temp = 0.000000, timing cost = 213, wirelen = 65234
+Info:   at iteration #10: temp = 0.000000, timing cost = 127, wirelen = 60420
+Info:   at iteration #15: temp = 0.000000, timing cost = 147, wirelen = 58432
+Info:   at iteration #20: temp = 0.000000, timing cost = 141, wirelen = 56971
+Info:   at iteration #25: temp = 0.000000, timing cost = 138, wirelen = 56433
+Info:   at iteration #30: temp = 0.000000, timing cost = 122, wirelen = 56282
+Info:   at iteration #33: temp = 0.000000, timing cost = 128, wirelen = 56226 
+Info: SA placement time 28.50s
+
+Info: Max frequency for clock 'g_mem.u_mem.clk': 93.84 MHz (FAIL at 99.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 10 endpoint(s)
+Info:          + represents [1,10) endpoint(s)
+Info: [  -556,    -48) |+
+Info: [   -48,    460) | 
+Info: [   460,    968) |+
+Info: [   968,   1476) | 
+Info: [  1476,   1984) |+
+Info: [  1984,   2492) |+
+Info: [  2492,   3000) |**+
+Info: [  3000,   3508) |***+
+Info: [  3508,   4016) |*********+
+Info: [  4016,   4524) |***********+
+Info: [  4524,   5032) |********+
+Info: [  5032,   5540) |*******+
+Info: [  5540,   6048) |***************+
+Info: [  6048,   6556) |****************+
+Info: [  6556,   7064) |********************+
+Info: [  7064,   7572) |******************************+
+Info: [  7572,   8080) |****************************+
+Info: [  8080,   8588) |************************************************************ 
+Info: [  8588,   9096) |********************************+
+Info: [  9096,   9604) |********************************************+
+Info: Checksum: 0x6e27dbd8
+Info: Routing globals...
+Info:     'g_mem.u_mem.clk' net was routed using global resources only.
+Info:     'metric.projection[3]_DFFE_Q_12_D_LUT3_I1_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I0_DFFCE_Q_D_LUT2_F_I0_DFFCE_Q_D_LUT3_F_I0[1]' is routed using segments.
+Info:     'g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_I3_F_DFFCE_CE_Q_DFFCE_Q_CE_DFFPE_CE_Q_LUT4_I3_F_DFFCE_Q_D_LUT3_F_I2_LUT3_F_I2_LUT2_F_I1_LUT4_F_I3_LUT3_F_1_I2[0]' is routed using segments.
+Info:     'g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT2_I1_F[0]' is routed using segments.
+Info:     'metric.projection[0]_DFFE_Q_7_D_LUT2_I0_1_F_DFFCE_D_Q_LUT2_I0_F_DFFCE_D_Q_LUT3_I0_F_DFFCE_D_Q_LUT3_I0_F_DFFCE_D_Q_LUT3_I0_F_DFFCE_D_Q_LUT2_I0_F_DFFCE_D_Q_LUT4_I1_1_F_DFFCE_D_Q_DFFCE_Q_D_LUT4_F_I1_DFFCE_Q_1_D_LUT3_F_I0_DFFCE_Q_D_LUT3_F_I0[1]' is routed using segments.
+Info:     'metric.projection[0]_DFFE_Q_13_D_LUT3_I1_F_DFFCE_D_CE[2]' is routed using segments.
+Info:     'metric.projection[0]_DFFE_Q_7_D_LUT2_I0_1_F_DFFCE_D_Q[1]' is routed using segments.
+Info:     'metric.projection[0]_DFFE_Q_7_D_LUT2_I0_1_F_DFFCE_D_Q_LUT2_I0_F_DFFCE_D_Q_LUT3_I0_F_DFFCE_D_Q[1]' is routed using segments.
+Info:     'g_mem.u_mem.resetn' is routed using segments.
+Info:     'metric.projection[0]_DFFE_Q_7_D_LUT2_I0_1_F_DFFCE_D_Q_LUT2_I0_F_DFFCE_D_Q_LUT3_I0_F_DFFCE_D_Q_LUT3_I0_F_DFFCE_D_Q_LUT3_I0_F_DFFCE_D_Q_LUT2_I0_F_DFFCE_D_Q_LUT4_I1_F_DFFCE_D_Q_DFFCE_Q_1_D_LUT4_F_I1_DFFCE_Q_1_D_LUT3_F_I0_DFFCE_Q_D_LUT3_F_I0[1]' is routed using segments.
+Info:     'g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT2_I0_F[1]' is routed using segments.
+Info:     'g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I2_LUT3_F_I2_LUT3_F_I2_LUT4_F_I2_LUT3_F_I1_LUT4_I2_I3_LUT4_F_I3_LUT4_F_I3_LUT3_F_I2_LUT4_I2_F_LUT4_I3_I0_LUT3_I0_F_LUT4_I2_F_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_LUT3_I2_3_F' is routed using segments.
+Info:     'metric.magnitude[0]_DFFRE_Q_RESET' is routed using segments.
+Info:     'g_rs.u_rs.inverse_rom.0.0_AD_2_LUT3_F_I2_LUT4_F_I3_LUT4_I1_F_LUT4_F_1_I3_LUT3_F_I1_LUT4_I2_1_F_LUT4_I3_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT2_I1_I0_LUT2_F_I1_ALU_SUM_CIN_ALU_COUT_I0_ALU_SUM_CIN_ALU_COUT_I1_DFFCE_Q_CE_LUT2_F_I1_LUT3_I2_F_DFFCE_CE_Q_DFFCE_Q_1_D_LUT2_F_I1[0]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_I0_LUT3_F_I1_DFFCE_Q_CE_LUT3_F_I0_LUT3_I0_1_F[1]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.uncoded_lo.0.0_ADB_ALU_I0_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_Q_DFF_D_Q[0]' is routed using segments.
+Info:     'metric.peak_DFFE_Q_1_D_LUT3_F_I1_LUT3_F_I2' is routed using segments.
+Info:     'metric.magnitude[2]_DFFE_Q_10_D_LUT3_F_I2[1]' is routed using segments.
+Info:     'g_rs.u_rs.error_x_q_DFFE_Q_CE[2]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.decoded[0]_DFFE_Q_22_D_LUT3_F_I2_LUT4_F_I3[0]' is routed using segments.
+Info:     'metric.magnitude[1]_DFFE_Q_10_D_LUT3_F_I2[1]' is routed using segments.
+Info:     'g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I2_LUT3_F_I2_LUT3_F_I2_LUT4_F_I2_LUT3_F_I1_LUT4_I2_I3_LUT4_F_I3_LUT4_F_I3[2]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[56]_DFFE_Q_6_D_LUT4_F_I2_ALU_SUM_I1_ALU_I1_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM[3]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_1_I0_LUT3_F_I1_LUT3_I1_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I0_F_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_I0_LUT3_F_I1_DFFCE_Q_CE[1]' is routed using segments.
+Info:     'g_rs.u_rs.bm_m_mask_DFFR_Q_7_D_LUT2_F_I0_DFFCE_Q_CE_LUT4_I3_F_DFFCE_CE_Q' is routed using segments.
+Info:     'g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_I3_F_DFFCE_CE_Q_DFFCE_Q_CE_LUT4_F_I0_LUT3_I0_F_LUT2_I1_F_LUT2_I1_F' is routed using segments.
+Info:     'g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I2_LUT3_F_I2_LUT3_F_I2_LUT4_F_I2_LUT3_F_I1[0]' is routed using segments.
+Info:     'metric.magnitude[3]_DFFRE_Q_RESET' is routed using segments.
+Info:     'g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_I3_F_DFFCE_CE_Q_DFFCE_Q_CE_DFFPE_CE_Q_LUT4_I3_F_DFFCE_Q_D_LUT3_F_I2_LUT3_F_I2_LUT2_F_I1_LUT4_F_I3[0]' is routed using segments.
+Info:     'metric.magnitude[0]_DFFE_Q_10_D_LUT3_F_I2[1]' is routed using segments.
+Info:     'g_rs.u_rs.inverse_rom.0.0_AD_2_LUT3_F_I2_LUT4_F_I3_LUT4_I1_F_LUT4_F_I2_LUT3_I2_F_LUT4_I3_F_LUT4_I3_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_1_I0_LUT3_F_I1_DFFCE_Q_1_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_I0_LUT3_F_I1_DFFCE_Q_1_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I0_F_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_I0_LUT3_F_I1_DFFCE_Q_1_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I0_F_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[4]_DFFE_Q_12_D_LUT4_F_I2[3]' is routed using segments.
+Info:     'g_rs.u_rs.lambda_select_DFFR_Q_6_D_LUT3_F_I2_LUT3_F_I2_LUT3_F_I2_LUT4_F_I2_LUT3_F_I1_LUT4_I2_I3_LUT4_F_I3_LUT4_F_I3_LUT3_F_I2_LUT4_I2_F_LUT4_I3_I0_LUT3_I0_F_LUT4_I2_F_LUT4_I3_F_LUT4_I3_F_LUT4_I3_I2_LUT2_I1_F_LUT4_I2_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[0]_DFFE_Q_12_D_LUT4_F_I2_ALU_I1_SUM_LUT3_F_1_I1_LUT3_I1_F[0]' is routed using segments.
+Info:     'g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_1_D_LUT2_F_I1[0]' is routed using segments.
+Info:     'g_rs.u_rs.inverse_rom.0.0_AD_2_LUT3_F_I2_LUT4_F_I3_LUT4_I1_F_LUT4_F_1_I3_LUT3_F_I1_LUT4_I2_F_LUT2_I1_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.inverse_rom.0.0_AD_2_LUT3_F_I2_LUT3_I2_F_DFFCE_D_CE_DFFCE_CE_Q[0]' is routed using segments.
+Info:     'g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT2_I0_F_LUT2_I1_F_DFFC_D_Q[0]' is routed using segments.
+Info:     'metric.projection[0]_DFFE_Q_7_D_LUT2_I0_F_DFFCE_D_Q_DFFC_D_Q[3]' is routed using segments.
+Info:     'g_rs.u_rs.inverse_rom.0.0_AD_2_LUT3_F_I2_LUT4_F_I3_LUT4_I1_F_LUT4_I3_F_LUT3_I2_F_DFFCE_D_Q[0]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[48]_DFFE_Q_7_D_LUT4_F_I2[3]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[46]_DFFE_Q_9_D_LUT4_F_I2[3]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[55]_DFFE_Q_7_D_LUT4_F_I2[3]' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_I0_LUT3_F_I1_LUT3_I1_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I0_F_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_1_I0_LUT3_F_I1_LUT3_I1_F_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I0_F_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_1_I0_LUT3_F_I1_DFFCE_Q_1_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I1_F_DFFCE_D_Q_LUT3_I1_1_F_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_1_I0_LUT3_F_I1_DFFCE_Q_1_D_LUT2_F_I0_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I0_F_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'g_viterbi.g_32acs.u_viterbi.metrics[8]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_1_I0' is routed using segments.
+Info:     'metric.projection[0]_DFFE_Q_7_D_LUT2_I0_F_DFFCE_D_Q_DFFC_D_Q[0]' is routed using segments.
+Info:     'metric.projection[3]_DFFE_Q_13_D_DFFCE_Q_CE' is routed using segments.
+Info:     'metric.projection[0]_DFFE_Q_6_D_DFFCE_D_Q[1]' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 27651 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |        3        996 |    3   996 |     26655|       0.63       0.63|
+Info:       2000 |       17       1982 |   14   986 |     25670|       0.40       1.02|
+Info:       3000 |       58       2892 |   41   910 |     24723|       0.24       1.26|
+Info:       4000 |       68       3819 |   10   927 |     23733|       0.19       1.45|
+Info:       5000 |       69       4749 |    1   930 |     22734|       0.35       1.81|
+Info:       6000 |       72       5684 |    3   935 |     21737|       0.35       2.16|
+Info:       7000 |       74       6607 |    2   923 |     20741|       0.35       2.51|
+Info:       8000 |       78       7533 |    4   926 |     19745|       0.38       2.88|
+Info:       9000 |       79       8451 |    1   918 |     18746|       0.44       3.33|
+Info:      10000 |       86       9379 |    7   928 |     17754|       0.42       3.75|
+Info:      11000 |       95      10304 |    9   925 |     16765|       0.45       4.20|
+Info:      12000 |      110      11210 |   15   906 |     15781|       0.48       4.68|
+Info:      13000 |      120      12121 |   10   911 |     14794|       0.55       5.23|
+Info:      14000 |      131      13024 |   11   903 |     13805|       0.48       5.71|
+Info:      15000 |      161      13926 |   30   902 |     12841|       0.66       6.37|
+Info:      16000 |      184      14812 |   23   886 |     11871|       0.64       7.01|
+Info:      17000 |      214      15694 |   30   882 |     10904|       0.67       7.68|
+Info:      18000 |      265      16577 |   51   883 |      9966|       0.76       8.44|
+Info:      19000 |      315      17454 |   50   877 |      9023|       0.75       9.19|
+Info:      20000 |      406      18312 |   91   858 |      8149|       0.91      10.10|
+Info:      21000 |      514      19139 |  108   827 |      7293|       0.98      11.07|
+Info:      22000 |      633      19954 |  119   815 |      6452|       1.06      12.13|
+Info:      23000 |      782      20740 |  149   786 |      5642|       1.13      13.26|
+Info:      24000 |      951      21519 |  169   779 |      4842|       1.24      14.50|
+Info:      25000 |     1202      22225 |  251   706 |      4265|       1.54      16.04|
+Info:      26000 |     1394      22964 |  192   739 |      3547|       1.40      17.45|
+Info:      27000 |     1644      23683 |  250   719 |      2950|       1.48      18.93|
+Info:      28000 |     1860      24433 |  216   750 |      2470|       1.36      20.29|
+Info:      29000 |     2162      25093 |  302   660 |      1912|       1.51      21.80|
+Info:      30000 |     2513      25709 |  351   616 |      1444|       1.69      23.49|
+Info:      31000 |     2852      26345 |  339   636 |       989|       1.91      25.40|
+Info:      32000 |     3206      26965 |  354   620 |       488|       1.89      27.29|
+Info:      33000 |     3575      27571 |  369   606 |        56|       2.15      29.44|
+Info:      33148 |     3638      27653 |   63    82 |         0|       0.34      29.78|
+Info: Routing complete.
+Info: Router1 time 29.78s
+Info: Checksum: 0xdbd46630
+
+Info: Critical path report for clock 'g_mem.u_mem.clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  3.46  3.46 Source g_rs.u_rs.inverse_rom.0.0.DO6
+Info:    routing  1.60  5.06 Net g_rs.u_rs.bpoly_select_DFFR_Q_6_D[1] (7,9) -> (7,16)
+Info:                          Sink g_rs.u_rs.feedback_a_DFFR_Q_D_LUT3_F_I2_LUT2_F_I1_LUT4_I3_I2_LUT4_F_1.I0
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tangviterbi/build/s3-fec-extensions/rs.sv:261.15-261.24
+Info:      logic  1.03  6.09 Source g_rs.u_rs.feedback_a_DFFR_Q_D_LUT3_F_I2_LUT2_F_I1_LUT4_I3_I2_LUT4_F_1.F
+Info:    routing  1.44  7.53 Net g_rs.u_rs.feedback_a_DFFR_Q_D_LUT3_F_I2_LUT2_F_I1_LUT4_I3_I2[2] (7,16) -> (9,19)
+Info:                          Sink g_rs.u_rs.feedback_a_DFFR_Q_D_LUT3_F_I2_LUT2_F_I1_LUT4_I3.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  8.35 Source g_rs.u_rs.feedback_a_DFFR_Q_D_LUT3_F_I2_LUT2_F_I1_LUT4_I3.F
+Info:    routing  0.41  8.76 Net g_rs.u_rs.feedback_a_DFFR_Q_D_LUT3_F_I2_LUT2_F_I1_LUT4_I3_F[2] (9,19) -> (9,19)
+Info:                          Sink g_rs.u_rs.feedback_b_DFFR_Q_D_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  9.59 Source g_rs.u_rs.feedback_b_DFFR_Q_D_LUT4_F.F
+Info:    routing  0.00  9.59 Net g_rs.u_rs.feedback_b_DFFR_Q_D (9,19) -> (9,19)
+Info:                          Sink g_rs.u_rs.feedback_b_DFFR_Q.D
+Info:      setup  0.40  9.98 Source g_rs.u_rs.feedback_b_DFFR_Q.D
+Info: 6.53 ns logic, 3.45 ns routing
+
+Info: Max frequency for clock 'g_mem.u_mem.clk': 100.16 MHz (PASS at 99.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 3 endpoint(s)
+Info:          + represents [1,3) endpoint(s)
+Info: [   117,    571) |+
+Info: [   571,   1025) |+
+Info: [  1025,   1479) |+
+Info: [  1479,   1933) |**+
+Info: [  1933,   2387) |******+
+Info: [  2387,   2841) |*********************************+
+Info: [  2841,   3295) |*******************************************************+
+Info: [  3295,   3749) |************************+
+Info: [  3749,   4203) |********************************+
+Info: [  4203,   4657) |********************************+
+Info: [  4657,   5111) |***********************************+
+Info: [  5111,   5565) |********************************************+
+Info: [  5565,   6019) |************************************************************ 
+Info: [  6019,   6473) |***************************************+
+Info: [  6473,   6927) |*****************************+
+Info: [  6927,   7381) |**********************+
+Info: [  7381,   7835) |**************************+
+Info: [  7835,   8289) |****************************+
+Info: [  8289,   8743) |**********+
+Info: [  8743,   9197) |+
+
+Info: Program finished normally.

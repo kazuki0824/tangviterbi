@@ -1,0 +1,49 @@
+name: S3 host FFT and stream contracts
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_fft_tiles.*'
+      - 'experiments/s3_stream_schedule.py'
+      - 'experiments/s3_transport.*'
+      - 'experiments/s3_sct_schedule.py'
+      - 'tests/s3_transport_host.c'
+      - 'tests/test_s3_transport.py'
+      - 'tests/test_s3_sct_schedule.py'
+      - 'tests/test_s3_fft_tiles.py'
+      - 'tests/test_s3_stream_schedule.py'
+      - '.github/workflows/s3-offline.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install numpy==2.3.5
+      - name: Run actual C tiles concurrently and compare independent FFT
+        env:
+          S3_FFT_REPORT: s3-fft-tiles.json
+        run: python3 -m unittest discover -s tests -p test_s3_fft_tiles.py -v
+      - name: Test nominal and failing stream contracts
+        run: |
+          python3 -m unittest discover -s tests -p test_s3_stream_schedule.py -v
+          python3 experiments/s3_stream_schedule.py --output s3-stream-schedule.json
+      - name: Exercise zero-copy ownership with concurrent producer and scheduler
+        run: |
+          python3 -m unittest discover -s tests -p test_s3_transport.py -v
+          cp build/s3-transport/host-8.json s3-transport-host-8.json
+          cp build/s3-transport/host-16.json s3-transport-host-16.json
+      - name: Test SCT arbitration and overloaded API timing contracts
+        run: |
+          python3 -m unittest discover -s tests -p test_s3_sct_schedule.py -v
+          python3 experiments/s3_sct_schedule.py --output s3-sct-schedule.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: s3-host-contracts
+          path: s3-*.json
+          retention-days: 30

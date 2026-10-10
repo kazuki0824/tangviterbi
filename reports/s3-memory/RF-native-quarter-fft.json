@@ -1,0 +1,57 @@
+{
+  "scope": "Native RF initialization/tuning plus SPI/FFT reservations; no RF bank loop or integrated scheduler.",
+  "profile": "native-quarter-fft",
+  "esp_psram_component_required": true,
+  "quarter_FFT_coefficients": true,
+  "upper_FFT_slot": true,
+  "RF_bank_loop_linked": false,
+  "native_PHY_only_lower_bound": true,
+  "upstream_commit": "e74f2a470972ec163c247f1fe88d32e08579242a",
+  "upstream_requested_IDF": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "exit_code": 0,
+  "link_succeeded": true,
+  "symbols": {
+    "_bss_start": "0x3fca77f8",
+    "_bss_end": "0x3fcaaf38",
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x40389800",
+    "_data_end": "0x3fca77f4"
+  },
+  "receiver_adopted": false,
+  "functional_RF_SPI_integration": false,
+  "safe_to_flash": false,
+  "errors": [],
+  "static_gap_to_RF_bytes": 20680,
+  "hot_functions": {
+    "s3_fft_stage_quarter_tile": "0x403775ec",
+    "s3_fft_reverse_tile": "0x4037bc64",
+    "s3_iq10_push": "0x40376d20",
+    "s3_spi_queue": "0x40377240",
+    "s3_rf_submit": "0x403772fc",
+    "s3_capture_accept": "0x40377418",
+    "s3_capture_reclaim": "0x4037bc34",
+    "s3_capture_step": "0x403774ec"
+  },
+  "inspected_hot_functions_in_IRAM": true,
+  "effective_config": {
+    "ESP_WIFI_IRAM_OPT": false,
+    "ESP_WIFI_RX_IRAM_OPT": false,
+    "ESP_WIFI_EXTRA_IRAM_OPT": false,
+    "SPI_MASTER_IN_IRAM": true,
+    "SPI_MASTER_ISR_IN_IRAM": true,
+    "ESP32S3_DATA_CACHE_32KB": true,
+    "SPIRAM": true,
+    "SPIRAM_MODE_OCT": true,
+    "SPIRAM_SPEED_80M": true,
+    "FREERTOS_UNICORE": false
+  },
+  "requested_PSRAM_configuration_effective": true,
+  "evidence": {
+    "source_commit": "1b8f772b4b41f1c9e6d5503b0e4cd4b4f1de21e6",
+    "workflow_run": 37953530983,
+    "job": 113898143303,
+    "artifact": 11627835583
+  }
+}
+

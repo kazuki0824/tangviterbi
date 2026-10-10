@@ -1,4 +1,22 @@
+> S3 receiver status update: the old late SRAM ring overlaps ROM-reserved data
+> and is rejected. A ROM-safe direct-PHY link profile passes necessary startup
+> capacity checks but is not verified on hardware. New native bank capture,
+> SPI RX/CDC, depuncturing/erasures and TC8PSK metric/survivor components are
+> implemented; the full receiver remains unadopted. See the
+> [current evidence and separate offline/hardware gaps](reports/s3-receiver-blockers.md).
+
 # tangviterbi
+
+> **S3-N16R8 receiver audit (2026-10-09): not a qualified receiver.**
+> The legacy Viterbi benchmark below fails an independent no-noise decoding
+> test. Its old Fmax numbers do not qualify a working receiver decoder.
+> A reverse-traceback experiment now passes independent bit/metric/reset
+> tests. Its pipelined survivor read now reaches 104.06 MHz in the partial
+> FEC/protocol benchmark (99 MHz target). Exact quarter FFT coefficients
+> increase the RF/PSRAM link gap to 20,680 B; runtime memory remains unproven.
+> See the [current blockers and actual evidence](reports/s3-receiver-blockers.md)
+> before using any earlier resource, transport, or SRAM estimate.
+
 
 Resource/timing benchmark for an ISDB-T-oriented FEC partition on Sipeed Tang Nano 9K.
 
@@ -27,7 +45,7 @@ The job driver/report/test share [performance.json](ci/performance.json).
 Optimization target FPGA: **GW1NR-LV9QN88PC6/I5**. The legacy ISDB-S rate is a
 sizing profile, not a qualified satellite receiver implementation.
 
-## Current 9K result
+## Historical 9K benchmark result
 
 At 65 MHz constraint and adopted common seed 1, both complete 32-ACS +
 constant-RS designs finish routing and clear the ISDB-T / legacy ISDB-S sizing
@@ -44,7 +62,7 @@ on the output edge, splitting selection across the existing two phases.
 It retains 16-bit metrics and two clocks/step. Both Viterbi versions saturate
 the warm-up counter, so output no longer stops again every 256 steps.
 
-The full suite passes **21 unittest methods**. The 32-ACS test independently
+The original baseline report recorded **21 passing unittest methods**. The 32-ACS test independently
 models metrics, survivor rows, pointer/state and selected output bits; it
 checks 936 outputs per 1000-step reset epoch, all 64 selector indices,
 uninterrupted two-clock input, randomized stalls and a reset between phases.
@@ -62,6 +80,21 @@ do not demonstrate better routed timing.
 End-to-end sustained throughput, complete convolutional decoder output and
 ARIB-compatible RS correction qualification, and a physical PSRAM interface
 remain outside the measured scope.
+
+The separate [S3-N16R8 receiver proposal](reports/s3-internal-sram-proposal.md)
+records six zero-DSP area experiments, corrected internal-SRAM accounting,
+and conditional T/S transport budgets. It does not replace the adopted RTL
+or qualify a full receiver. The [offline follow-up](reports/s3-offline-closure.md)
+implements a bounded RS experiment with independent ISDB outer-code vectors,
+checks a real ESP-IDF memory map, and tests concurrent Q15 FFT tiles and stream
+ownership. It also records failed intermediate layouts and timing results.
+The [SPI transport follow-up](reports/s3-transport-followup.md) adds a pinned
+ESP-IDF SPI/SCT adapter, lossless IQ10 packing, page leases, and an FFT-aware
+RF admission guard. Actual hot-IRAM SDK links leave 24768 bytes before the RF
+banks after relocating the RF queue to reserved post-startup SRAM. The former
+2-us transport-gap assumption is superseded by explicit API/SCT timing contracts;
+these remain conditional and do not qualify the complete receiver.
+Production RTL and the original benchmark gates are unchanged.
 
 ## RTL
 

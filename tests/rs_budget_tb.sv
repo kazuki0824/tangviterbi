@@ -2,6 +2,8 @@
 module rs_budget_tb;
 parameter integer MAX_CYCLES=7118;
 parameter integer EXPECTED_SAVING=0;
+parameter integer INVERSE_SAVING=0;
+parameter integer CHIEN_SAVING=0;
 reg clk=0; always #5 clk=~clk;
 reg resetn=0, in_valid=0, ref_in_valid=0;
 wire ready, valid, fail, ref_ready, ref_valid, ref_fail;
@@ -11,6 +13,7 @@ reg [31:0] rng;
 reg [7:0] packet [0:203], actual [0:187], expected [0:187];
 integer mode, input_count, ref_input_count, output_count, ref_output_count;
 integer cycle, start, gap, ref_gap, maxgap=0, max_ref_gap=0, symbol;
+integer inverse_calls, chien_calls, saving;
 rs204_188_compact dut(clk,resetn,in_valid,ready,bytein,valid,byteout,fail);
 rs204_188_compact_reference ref_dut(clk,resetn,ref_in_valid,ref_ready,ref_bytein,ref_valid,ref_byteout,ref_fail);
 initial begin
@@ -28,12 +31,16 @@ initial begin
   end
   input_count=0; ref_input_count=0; output_count=0; ref_output_count=0;
   gap=0; ref_gap=0;
+  inverse_calls=0; chien_calls=0;
   for(cycle=0; cycle<9000 && (gap==0 || ref_gap==0); cycle=cycle+1) begin
    // No input stalls: service includes receive, correction, output and reset.
    in_valid=input_count<204; ref_in_valid=ref_input_count<204;
    bytein=input_count<204?packet[input_count]:0;
    ref_bytein=ref_input_count<204?packet[ref_input_count]:0;
    @(posedge clk);
+   if ((ref_dut.state==ref_dut.ST_BM_CHECK && ref_dut.discrepancy!=0) ||
+       ref_dut.state==ref_dut.ST_FORNEY_D2) inverse_calls=inverse_calls+1;
+   if (ref_dut.state==ref_dut.ST_CHIEN_INIT) chien_calls=chien_calls+1;
    if(in_valid && ready)input_count=input_count+1;
    if(ref_in_valid && ref_ready)ref_input_count=ref_input_count+1;
    #1;
@@ -56,7 +63,8 @@ initial begin
   for(symbol=0; symbol<188; symbol=symbol+1)
    if(actual[symbol] !== expected[symbol])$fatal(1,"byte mismatch");
   // Compare identical codewords; changed readiness must not change noisy data.
-  if(ref_gap-gap != EXPECTED_SAVING)$fatal(1,"unexpected service saving %0d",ref_gap-gap);
+  saving=EXPECTED_SAVING+inverse_calls*INVERSE_SAVING+chien_calls*CHIEN_SAVING;
+  if(ref_gap-gap != saving)$fatal(1,"unexpected service saving %0d expected %0d",ref_gap-gap,saving);
   if(gap>maxgap)maxgap=gap;
   if(ref_gap>max_ref_gap)max_ref_gap=ref_gap;
   $display("mode=%0d cycles=%0d reference=%0d saving=%0d outputs=%0d fail=%0d",mode,gap,ref_gap,ref_gap-gap,output_count,fail);

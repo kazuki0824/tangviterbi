@@ -1,0 +1,93 @@
+{
+  "result": "pass",
+  "shift": 25,
+  "epochs": 3,
+  "symbols": 6144,
+  "state_checks": 393216,
+  "maximum_observed_candidate_difference": 94,
+  "proof": {
+    "cost_shift": 25,
+    "branch_cost_bits": 6,
+    "maximum_cost": 45,
+    "rounded_branch_difference_bounds": {
+      "0": 0,
+      "1": 32,
+      "2": 32,
+      "3": 46
+    },
+    "merging_candidate_difference_bound": 248,
+    "metric_width": 9,
+    "half_modulus": 256,
+    "geometric_vertices": [
+      [
+        "-32768",
+        "-32768"
+      ],
+      [
+        "-32768",
+        "0"
+      ],
+      [
+        "-32768",
+        "32767"
+      ],
+      [
+        "-32767",
+        "32767"
+      ],
+      [
+        "0",
+        "-32768"
+      ],
+      [
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "32767"
+      ],
+      [
+        "32767",
+        "-32768"
+      ],
+      [
+        "32767",
+        "-32767"
+      ],
+      [
+        "32767",
+        "0"
+      ],
+      [
+        "32767",
+        "32767"
+      ]
+    ],
+    "absolute_projection_difference_bounds": {
+      "1": 1073741824,
+      "2": 1073741824,
+      "3": 1518469120
+    },
+    "encoder_impulse_label_xor": [
+      3,
+      1,
+      0,
+      3,
+      3,
+      2,
+      3
+    ],
+    "native_RF_precision_changed": false,
+    "Q15_symbol_precision_changed": false,
+    "FPGA_branch_cost_quantization_changed": true,
+    "BER_equivalence_to_shift22_verified": false,
+    "receiver_adopted": false
+  },
+  "receiver_adopted": false,
+  "sources": {
+    "tb.sv": "0b9160ea45361754a9503bef93142af39cf447ad95696a80dd5d5e6f760fa45a",
+    "dut.sv": "db03ebf47d6b4259b44e2a859d6a53f5790705fdc29deca9448f4226809f9d93",
+    "reference.sv": "5c7e020e811dd2ef39d44dd8292c5043df2c7d8ed9d307d67c798855027080d3"
+  }
+}

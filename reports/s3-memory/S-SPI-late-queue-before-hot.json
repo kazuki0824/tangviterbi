@@ -1,0 +1,48 @@
+{
+  "profile": "S-SPI-late-queue",
+  "IDF_version": "ESP-IDF v5.5.1",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "build_exit_code": 0,
+  "link_succeeded": true,
+  "RF_reserved_range": [
+    "0x3fcb0000",
+    "0x3fce0000"
+  ],
+  "zero_copy_reservation": true,
+  "real_SPI_transport_linked": true,
+  "late_RF_queue_reserved_range": [
+    "0x3fce4000",
+    "0x3fcec000"
+  ],
+  "late_twiddle_reserved_range": null,
+  "scope": "Link-only probe. Optional real SPI/SCT adapter and scalar FFT hot IRAM; no RF/PHY acquisition, SIMD or complete runtime heap/stacks. No silicon execution. Success is not a receiver memory fit.",
+  "symbols": {
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x40385900",
+    "_data_start": "0x3fc95900",
+    "_data_end": "0x3fc988c8",
+    "_bss_start": "0x3fc988c8",
+    "_bss_end": "0x3fc99540",
+    "transport_object_sizes": "0x3c02a6bc"
+  },
+  "guard_errors": [],
+  "static_gap_to_RF_bytes": 92864,
+  "transport_sizes_bytes": {
+    "port": 28,
+    "segment": 56,
+    "ring_control": 84,
+    "DMA_descriptor": 12,
+    "SPI2_DMA_pool": 576,
+    "SPI3_DMA_pool": 48,
+    "peak_SCT_configuration": 480,
+    "ATOMIC_INT_LOCK_FREE": 1
+  },
+  "hot_functions": {
+    "s3_fft_stage_tile": "0x403769c0",
+    "s3_fft_reverse_tile": "0x403790d4",
+    "spi_device_queue_trans": "0x40378a94"
+  },
+  "source_commit": "5c8f1c8d384ff2b65bb22b4d200f559423d6f072",
+  "workflow_run": 37906945056,
+  "stage": "Before moving transport hot functions into IRAM"
+}
