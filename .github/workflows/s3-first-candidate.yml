@@ -10,6 +10,8 @@ on:
       - 'rtl/s3*page*.sv'
       - 'rtl/s3_bram2_memory_bridge.sv'
       - 'rtl/s3_rx_page_store.sv'
+      - 'rtl/s3_rs_syndrome_pipelined.sv'
+      - 'tests/test_s3_rs_split_rtl.py'
       - 'rtl/s3_spi_rx.sv'
       - 'experiments/s3_page_credit.*'
       - 'experiments/s3_credit_schedule.py'
@@ -93,15 +95,16 @@ jobs:
           python3 -m unittest discover -s tests -p test_s3_credit_schedule.py -v
           python3 -m unittest discover -s tests -p test_s3_bram8_ingress.py -v
           python3 -m unittest discover -s tests -p test_s3_tc8psk.py -v
+          python3 -m unittest discover -s tests -p test_s3_rs_split_rtl.py -v
       - name: Route eight-page partial workload without a placer wall-time cap
         run: |
-          python3 ci/s3_bram2_benchmark.py --output build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe --slot-bits 3 --seed 1 --rs-split --acs32 --core-mhz 90 --correction --syndrome-ready --pipe-window --page-status --fixed-arbiter --parallel-traceback-choice
+          python3 ci/s3_bram2_benchmark.py --output build/s3-bram8-rs-correct-status-allpipe-90 --slot-bits 3 --seed 1 --rs-split --acs32 --core-mhz 90 --correction --syndrome-address-pipeline --pipe-window --page-status --fixed-arbiter --parallel-traceback-choice
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: reassessed-ingress-partial-not-receiver
           path: |
-            build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/
+            build/s3-bram8-rs-correct-status-allpipe-90/
             build/s3-bram8-ingress/
             build/s3-page-credit-test/
             reports/s3-credit-schedule.json

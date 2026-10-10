@@ -43,6 +43,7 @@ def main():
     ap.add_argument('--core-mhz', type=int, choices=(90, 99), default=99)
     ap.add_argument('--correction', action='store_true',
                     help='add byte correction independent workload to RS split')
+    ap.add_argument('--syndrome-address-pipeline',action='store_true')
     ap.add_argument('--syndrome-ready', action='store_true',
                     help='register syndrome end-of-input ready flag')
     ap.add_argument('--pipe-window', action='store_true',
@@ -52,7 +53,7 @@ def main():
     ap.add_argument('--page-status', action='store_true',
                     help='connect Octal retired-frontier snapshot endpoint')
     args = ap.parse_args()
-    if (args.correction or args.syndrome_ready) and not args.rs_split:
+    if (args.correction or args.syndrome_ready or args.syndrome_address_pipeline) and not args.rs_split:
         ap.error('--correction and --syndrome-ready require --rs-split')
     out = ROOT / args.output
     out.mkdir(parents=True, exist_ok=True)
@@ -111,7 +112,9 @@ def main():
  assign activity=''' ).replace('WINDOW_VALUE',str(1<<args.slot_bits)).replace('checksum,offset,',
                 'correction_ready,correction_error,correction_in_ready,correction_valid,correction_data,correction_last,correction_failed,checksum,offset,')
     (out / 'top.sv').write_text(top)
-    if args.syndrome_ready:
+    if args.syndrome_address_pipeline:
+        (out / 'syndrome.sv').write_text((ROOT/'rtl/s3_rs_syndrome_pipelined.sv').read_text())
+    elif args.syndrome_ready:
         (out / 'syndrome.sv').write_text(registered_syndrome())
     sources = [
         str((out / 'clock.sv').relative_to(ROOT)), 'rtl/s3_async_fifo.sv', 'rtl/s3_spi_rx.sv',
@@ -120,7 +123,7 @@ def main():
         'rtl/s3_bram2_memory_bridge.sv', 'rtl/s3_tc8psk_metric_folded.sv',
         str((out / 'viterbi.sv').relative_to(ROOT)),
         str((out / 'rs.sv').relative_to(ROOT)) if not args.rs_split else
-        str((out / 'syndrome.sv').relative_to(ROOT)) if args.syndrome_ready
+        str((out / 'syndrome.sv').relative_to(ROOT)) if (args.syndrome_ready or args.syndrome_address_pipeline)
         else 'rtl/s3_rs_syndrome.sv',
         str((out / 'top.sv').relative_to(ROOT)),
     ]
@@ -146,7 +149,7 @@ def main():
               'acs32': args.acs32,
               'core_mhz': args.core_mhz,
               'correction': args.correction,
-              'syndrome_ready': args.syndrome_ready,
+              'syndrome_ready': args.syndrome_ready,'syndrome_address_pipeline':args.syndrome_address_pipeline,
               'pipe_window': args.pipe_window,
               'page_status': args.page_status,'page_window':1<<args.slot_bits,'fixed_arbiter':args.fixed_arbiter,'parallel_traceback_choice':args.parallel_traceback_choice,
               'source_sha256': source_hashes,

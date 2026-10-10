@@ -239,3 +239,14 @@ RTL試験 `test_s3_bram8_ingress.py` は8周期・32頁をnative 100 MB/sで送�
 この段階では新第一候補の採用、全受信機の成立、全deadline合格、実機bootのいずれも宣言しない。RS BM/Omega/ForneyのCPU分担も、CPU実測とRPC deadlineが通ることが採用条件である。
 
 固定arbiterとstatus shift化後は、必要logic位置下限7066/8640、Octal189.39 MHz、LCD170.33 MHzと両転送clockを通過したが、core80.89 MHzで90 MHzに届かなかった。配置・配線は完了しており、静的タイミング不合格である。次の変更ではトレースバックのB1選択について、各定数stateの固定encodeとB1選択を並列に行ってから64:1選択する。入力cost/標本精度やtrellisは変えない。旧回路と同cycle出力が一致する試験を追加し、その後の配置・配線を実施する。
+
+
+その後、トレースバック並列化のみでは必要位置7204、core74.20 MHzで不合格となり、律速はsyndromeレジスタ選択→ROMアドレスへ移った。入力/出力の所有権を保つ10 clocks/byteのROM-address pipeline版を追加し、262独立RSブロックの16 syndrome全値、途中reset、入力停止と出力保持を検算した（その試験の最大2103 clocks/block）。
+
+**ROM-address pipelineまで含む8頁の独立部分回路**はseed1で配置・配線を完了し、core93.99/90 MHz、Octal128.44/80 MHz、LCD98.21/40 MHzでSTA合格した。配線後占有はLUT5018+ALU2230=7248/8640（83.888889%）、fabric DFF3255/6480（50.231481%）、BSRAM24/26（92.307692%）、DSP18 2/20（10%）。配置前の必要位置下限は7202であり、7248という実配置値と混同しない。このclock合格はLFSRで駆動する独立FECとtransportの共配置であり、全受信機のdeadline合格ではない。最新生成RTL、constraints、実PnRログを `reports/s3-credit-physical-evidence/` に保存した。
+
+10 clocks/byteのsyndromeサービスは無停止で約2040/90=22.666667 µs/block、連続2-bit/symbolを課したcodeword周期28.135828 µsより短い。262例で観測した2103 clocks/blockの23.366667 µsも同周期より短い。ただし任意の入力停止、RPC待ち、他段と競合する時の全WCETではない。
+
+CPU分担の余裕は `reports/s3-first-candidate-host-rs-budget.json` で再計算した。旧S-RF処理見積もり368.4375〜448.4375 Mcycles/sを2core合計480 Mcycles/sから引くと、RSとcredit・通信制御・RTOS等に残るのは111.5625〜31.5625 Mcycles/s、連続35541.871921 codewords/sに対し3138.903326〜888.037076 cycles/codewordである。旧RS splitの単独budgetにある6752.598753 cycles/codeword（240 MHzの1core分）を、この候補の空き時間として使うことはできない。RFの見積もり自体も実WCETではないため、この数字で全実装を不可能とは断定しない。既存262ブロックのGF演算数も実cycle数ではない。RF packingとBM/Omega/Forneyが同時動作する実CPU deadlineを満たすことが採用条件である。
+
+RSの204-codeword RPC batchを待つraw codeword保持だけでも204×204=41616バイトが必要になる。部分回路の残り2 BSRAMには収まらず、外部PSRAM等の記憶・転送・待ち時間をさらに実装する必要がある。BSRAM24/26やlogic83.89%を、未接続段やこの保持領域を含んだ占有率として提示しない。

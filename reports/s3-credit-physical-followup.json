@@ -1,5 +1,5 @@
 {
-  "scope": "Historical partial co-placement checkpoints, source hashes at measurement; current RTL is under follow-up routing",
+  "scope": "Partial independent transport/TC8PSK/RS co-placement. Latest tested inputs and PnR log archived; no FIR/sync/frame/TS or RS RPC/data retention.",
   "historical_source_snapshots_archived": false,
   "measurements": [
     {
@@ -435,9 +435,302 @@
         "ERROR: Max frequency for clock           'bridge.clk': 80.89 MHz (FAIL at 90.00 MHz)"
       ],
       "sources_unchanged_during_run": true
+    },
+    {
+      "variant": "s3-bram8-rs-correct-status-fixed-parallel-90-pipe",
+      "scope": "partial independent FEC/transport area experiment; no RF-to-TS connection",
+      "synth_exit_code": 0,
+      "seed": 1,
+      "chunked_compare": false,
+      "rs_split": true,
+      "acs32": true,
+      "core_mhz": 90,
+      "correction": true,
+      "syndrome_ready": true,
+      "pipe_window": true,
+      "page_status": true,
+      "page_window": 8,
+      "fixed_arbiter": true,
+      "parallel_traceback_choice": true,
+      "source_sha256": {
+        "build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/clock.sv": "f97ef664b7a0fc7cd714a578d02932c73c293c8f7bb012ef2bd96d8d726c430f",
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "6182981dfd88d0848d77d8109860f8c6513a95f1749b34731af1c846707ac040",
+        "rtl/s3_lcd16_rx.sv": "b5981e7d876d55e67480b42c8267dee6490d3ae9b0704d9790138df4d44fa6d8",
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+        "rtl/s3_page_reorder.sv": "2aa984febb45e50c2ab6b71e02f165416c4c755ae9148707284b68fb518efe14",
+        "rtl/s3_rx_page_store.sv": "4b0bbe0512a171e39884c4675c015ed9785a375b506d95229a002569e8c3de9a",
+        "rtl/s3_bram2_memory_bridge.sv": "7681157556d5d7137071ba197ecff4cab7bf62abea5727fab7e2a21cbdc6c4d6",
+        "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
+        "build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/viterbi.sv": "609eda618642946e5e51292fec80d5cd87bb9d1e4f42f011229fe9687ff65c0f",
+        "build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/syndrome.sv": "a87e53977ab87c3948e836aa0eeca9624283ed29263b4eaf856be5149f964104",
+        "build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/top.sv": "36254f452aab72937bd251ba2532cbe814bcc5e1f92c9b2c9b03ac6310bb5cd1",
+        "rtl/s3_rs_chien.sv": "6188108eb8f7cc751ed2a341a51d5725e2c9bfe15788f7e52cd96a6c25b3b965",
+        "rtl/s3_rs_correction.sv": "ef644b572509e4846d30885ab3699ef048d352fd05509cfc3cf9c5e5599e8803",
+        "rtl/s3_spi_page_status.sv": "059b1f915bcdc03412abe7f5e31d253e7c556aec51893908f12f706f89e431b0"
+      },
+      "constraints_sha256": {
+        "experiments/s3_bram2_pins.cst": "d3a88f46718827e9d5183d8a0221513a7e37c573723bbb39251eabfa908825b2",
+        "build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/clocks.py": "b0470efe06d94862a25c9d603847fa4aebf2075e59d50f22379e2e4b30423851"
+      },
+      "benchmark_script_sha256": "fab80a7b7a1a434416b35f90c7ca7e4889b51bb791a1e677756c9fa832220c02",
+      "synth_script_sha256": "8fd690850ce6432523a3b7531b1e9642f31af043790f8d84d706ea15bac52701",
+      "pack_exit_code": 0,
+      "site_audit": {
+        "packed_json_sha256": "5f0c63688345504c0058d49dbaec35f7bad56c90d881560c681c2d0ba1d84ab0",
+        "LUT_cells": 3299,
+        "ALU_cells": 2230,
+        "ALU_blockers_excluded": 2230,
+        "fabric_FFs": 3231,
+        "maximum_LUT_or_ALU_FF_pairs": 1556,
+        "minimum_additional_FF_sites": 1675,
+        "minimum_required_logic_sites": 7204,
+        "available_logic_sites": 8640,
+        "minimum_site_utilization_percent": 83.37962962962963,
+        "minimum_site_deficit": 0,
+        "mapped_netlist_ruled_out": false,
+        "FF_D_driver_types": {
+          "LUT3": 654,
+          "DFF": 102,
+          "ALU": 206,
+          "DFFCE": 439,
+          "LUT2": 314,
+          "LUT1": 24,
+          "LUT4": 909,
+          "DFFE": 302,
+          "DFFPE": 34,
+          "GOWIN_VCC": 16,
+          "DFFRE": 2,
+          "MULT18X18": 60,
+          "DFFC": 49,
+          "SDP": 72,
+          "IOBUF": 16,
+          "IBUF": 32
+        },
+        "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+        "limitations": [
+          "narrow LUT mapping only",
+          "no retiming/resynthesis/transformation allowed in this bound",
+          "passing this bound does not prove placement or timing",
+          "CE/reset/clock/adjacency restrictions ignored"
+        ]
+      },
+      "pnr_exit_code": 1,
+      "pnr_command": [
+        "nextpnr-himbaechel",
+        "--json",
+        "/workspace/scratch/855136e48ca2/tangviterbi/build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/design.json",
+        "--device",
+        "GW1NR-LV9QN88PC6/I5",
+        "--vopt",
+        "family=GW1N-9C",
+        "--vopt",
+        "cst=experiments/s3_bram2_pins.cst",
+        "--pre-pack",
+        "/workspace/scratch/855136e48ca2/tangviterbi/build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/clocks.py",
+        "--freq",
+        "90",
+        "--seed",
+        "1",
+        "--report",
+        "/workspace/scratch/855136e48ca2/tangviterbi/build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/report.json",
+        "--placer",
+        "heap",
+        "--placer-heap-cell-placement-timeout",
+        "0",
+        "--write",
+        "/workspace/scratch/855136e48ca2/tangviterbi/build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/routed.json"
+      ],
+      "pnr_log_sha256": "44c5629297a936e8a61270be271f3aa9a06ae073de62e96b6c5a0fe2892c04a4",
+      "route_completed": true,
+      "final_fmax_mhz": {
+        "bridge.octal.spi_clk": 81.16,
+        "bridge.lcd.wr_clk": 125.69,
+        "bridge.clk": 74.2
+      },
+      "pre_route_fmax_mhz": null,
+      "errors": [
+        "ERROR: Max frequency for clock           'bridge.clk': 74.20 MHz (FAIL at 90.00 MHz)"
+      ],
+      "sources_unchanged_during_run": true
+    },
+    {
+      "variant": "s3-bram8-rs-correct-status-allpipe-90",
+      "scope": "partial independent FEC/transport area experiment; no RF-to-TS connection",
+      "synth_exit_code": 0,
+      "seed": 1,
+      "chunked_compare": false,
+      "rs_split": true,
+      "acs32": true,
+      "core_mhz": 90,
+      "correction": true,
+      "syndrome_ready": false,
+      "syndrome_address_pipeline": true,
+      "pipe_window": true,
+      "page_status": true,
+      "page_window": 8,
+      "fixed_arbiter": true,
+      "parallel_traceback_choice": true,
+      "source_sha256": {
+        "build/s3-bram8-rs-correct-status-allpipe-90/clock.sv": "f97ef664b7a0fc7cd714a578d02932c73c293c8f7bb012ef2bd96d8d726c430f",
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "6182981dfd88d0848d77d8109860f8c6513a95f1749b34731af1c846707ac040",
+        "rtl/s3_lcd16_rx.sv": "b5981e7d876d55e67480b42c8267dee6490d3ae9b0704d9790138df4d44fa6d8",
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+        "rtl/s3_page_reorder.sv": "2aa984febb45e50c2ab6b71e02f165416c4c755ae9148707284b68fb518efe14",
+        "rtl/s3_rx_page_store.sv": "4b0bbe0512a171e39884c4675c015ed9785a375b506d95229a002569e8c3de9a",
+        "rtl/s3_bram2_memory_bridge.sv": "7681157556d5d7137071ba197ecff4cab7bf62abea5727fab7e2a21cbdc6c4d6",
+        "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
+        "build/s3-bram8-rs-correct-status-allpipe-90/viterbi.sv": "609eda618642946e5e51292fec80d5cd87bb9d1e4f42f011229fe9687ff65c0f",
+        "build/s3-bram8-rs-correct-status-allpipe-90/syndrome.sv": "80f427c4094d05182463c2d5231e9d0a368fd0081b84ac4c2e522299906cd00a",
+        "build/s3-bram8-rs-correct-status-allpipe-90/top.sv": "36254f452aab72937bd251ba2532cbe814bcc5e1f92c9b2c9b03ac6310bb5cd1",
+        "rtl/s3_rs_chien.sv": "6188108eb8f7cc751ed2a341a51d5725e2c9bfe15788f7e52cd96a6c25b3b965",
+        "rtl/s3_rs_correction.sv": "ef644b572509e4846d30885ab3699ef048d352fd05509cfc3cf9c5e5599e8803",
+        "rtl/s3_spi_page_status.sv": "059b1f915bcdc03412abe7f5e31d253e7c556aec51893908f12f706f89e431b0"
+      },
+      "constraints_sha256": {
+        "experiments/s3_bram2_pins.cst": "d3a88f46718827e9d5183d8a0221513a7e37c573723bbb39251eabfa908825b2",
+        "build/s3-bram8-rs-correct-status-allpipe-90/clocks.py": "b0470efe06d94862a25c9d603847fa4aebf2075e59d50f22379e2e4b30423851"
+      },
+      "benchmark_script_sha256": "d2e7832c1b06cc3bb6a7152f242a06cfdae1004e7ae9de4435ba9ba7e403105e",
+      "synth_script_sha256": "003e8af8d0cedd25bd4b7dad2c0f54f7586840687a89dcb2e1e1e1aed22c6004",
+      "pack_exit_code": 0,
+      "site_audit": {
+        "packed_json_sha256": "b930e577030418006efb97008e937947263073dbeb8205993cffeaafde7288ef",
+        "LUT_cells": 3287,
+        "ALU_cells": 2230,
+        "ALU_blockers_excluded": 2230,
+        "fabric_FFs": 3255,
+        "maximum_LUT_or_ALU_FF_pairs": 1570,
+        "minimum_additional_FF_sites": 1685,
+        "minimum_required_logic_sites": 7202,
+        "available_logic_sites": 8640,
+        "minimum_site_utilization_percent": 83.35648148148148,
+        "minimum_site_deficit": 0,
+        "mapped_netlist_ruled_out": false,
+        "FF_D_driver_types": {
+          "LUT3": 683,
+          "DFF": 102,
+          "ALU": 206,
+          "DFFCE": 448,
+          "LUT2": 294,
+          "LUT1": 24,
+          "LUT4": 914,
+          "DFFE": 302,
+          "DFFPE": 34,
+          "DFFC": 50,
+          "GOWIN_VCC": 16,
+          "DFFRE": 2,
+          "MULT18X18": 60,
+          "SDP": 72,
+          "IOBUF": 16,
+          "IBUF": 32
+        },
+        "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+        "limitations": [
+          "narrow LUT mapping only",
+          "no retiming/resynthesis/transformation allowed in this bound",
+          "passing this bound does not prove placement or timing",
+          "CE/reset/clock/adjacency restrictions ignored"
+        ]
+      },
+      "pnr_exit_code": 0,
+      "pnr_command": [
+        "nextpnr-himbaechel",
+        "--json",
+        "/workspace/scratch/855136e48ca2/tangviterbi/build/s3-bram8-rs-correct-status-allpipe-90/design.json",
+        "--device",
+        "GW1NR-LV9QN88PC6/I5",
+        "--vopt",
+        "family=GW1N-9C",
+        "--vopt",
+        "cst=experiments/s3_bram2_pins.cst",
+        "--pre-pack",
+        "/workspace/scratch/855136e48ca2/tangviterbi/build/s3-bram8-rs-correct-status-allpipe-90/clocks.py",
+        "--freq",
+        "90",
+        "--seed",
+        "1",
+        "--report",
+        "/workspace/scratch/855136e48ca2/tangviterbi/build/s3-bram8-rs-correct-status-allpipe-90/report.json",
+        "--placer",
+        "heap",
+        "--placer-heap-cell-placement-timeout",
+        "0",
+        "--write",
+        "/workspace/scratch/855136e48ca2/tangviterbi/build/s3-bram8-rs-correct-status-allpipe-90/routed.json"
+      ],
+      "pnr_log_sha256": "d7aea05d10d2f951e0c3010fd1371a4d103d815ec275f6a477677c5104cc3aa5",
+      "route_completed": true,
+      "final_fmax_mhz": {
+        "bridge.octal.spi_clk": 128.44,
+        "bridge.lcd.wr_clk": 98.21,
+        "bridge.clk": 93.99
+      },
+      "pre_route_fmax_mhz": null,
+      "errors": [],
+      "sources_unchanged_during_run": true,
+      "routed_resource_utilization": {
+        "LUT4": {
+          "available": 8640,
+          "used": 5018
+        },
+        "ALU": {
+          "available": 6480,
+          "used": 2230
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 3255
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 24
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 2
+        }
+      },
+      "routed_occupied_logic_sites": 7248,
+      "routed_occupied_logic_sites_percent": 83.88888888888889
     }
   ],
   "receiver_adopted": false,
   "all_receiver_implemented": false,
-  "all_deadlines_verified": false
+  "all_deadlines_verified": false,
+  "current_reproducible_measurement": "s3-bram8-rs-correct-status-allpipe-90",
+  "current_source_snapshot_archived": true,
+  "qualifying_complete_receivers": 0,
+  "partial_service_contracts": {
+    "scope": "Independent stage throughput checks; no end-to-end deadline claim",
+    "BRAM_page": {
+      "bytes": 4096,
+      "RF_arrival_us": 40.96,
+      "consumer_contract_us": 22.822222222222223,
+      "integrated_consumer_WCET_verified": false
+    },
+    "TC8PSK_metric": {
+      "cycles_per_symbol": 3,
+      "required_MHz": 86.58,
+      "core_MHz": 90,
+      "sample_and_cost_precision": "unchanged Q15 / SHIFT22"
+    },
+    "Viterbi_ACS": {
+      "lanes": 32,
+      "cycles_per_symbol": 2,
+      "traceback_cycles_per_64_output_symbols": 127,
+      "available_cycles_at_two_clocks_per_symbol": 128,
+      "full_stream_quality_qualified": false
+    },
+    "RS_syndrome": {
+      "cycles_per_byte_without_stalls": 10,
+      "bytes_per_codeword": 204,
+      "service_us": 22.666666666666668,
+      "measured_262_case_maximum_cycles_with_test_stalls": 2103,
+      "measured_service_us": 23.366666666666667,
+      "arrival_us": 28.135828135828138,
+      "CPU_RPC_and_external_memory_wait_included": false
+    }
+  }
 }
