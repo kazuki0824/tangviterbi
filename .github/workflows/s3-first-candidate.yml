@@ -1,0 +1,46 @@
+name: First candidate prerequisites (not complete receiver)
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_first_candidate.py'
+      - 'tests/test_s3_first_candidate.py'
+      - 'ci/s3_psram_benchmark.py'
+      - '.github/workflows/s3-first-candidate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Independent rate conservation and full-FPGA RS tests
+        run: |
+          python3 -m unittest discover -s tests -p test_s3_first_candidate.py -v
+          python3 -m unittest discover -s tests -p test_s3_rs_compact.py -v
+      - name: Co-place fixed SHIFT22 full-RS memory prerequisite at 99 MHz
+        id: pnr
+        continue-on-error: true
+        run: python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --core-mhz 99 --seeds 1 2 3 --pnr-timeout 120
+      - name: Record qualification gaps even on synthesis or routing failure
+        if: always()
+        run: |
+          python3 experiments/s3_first_candidate.py --partial reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr.json --output reports/s3-first-candidate.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: first-candidate-prerequisites-not-receiver
+          path: |
+            reports/s3-first-candidate.json
+            reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr.json
+            build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/
+            build/s3-rs-compact/
+            build/s3-rs-compact-failures/
+      - name: Propagate physical prerequisite failure
+        if: steps.pnr.outcome == 'failure'
+        run: exit 1

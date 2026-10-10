@@ -175,7 +175,19 @@ synth_flags=('-nowidelut ' if not args.wide_lut else '')+('-nodffe ' if args.no_
     'tee -o '+str(out/'stat.json')+' stat -json\ncheck -assert\n')
 with (out/'synth.log').open('w') as f:
     rc=subprocess.run(['yosys','-Q','-T','-s',str(out/'synth.ys')],cwd=ROOT,stdout=f,stderr=subprocess.STDOUT).returncode
-if rc:raise RuntimeError('synthesis failed: '+str(out/'synth.log'))
+if rc:
+    # An interrupted/failed synthesis must leave reviewable evidence too.
+    # In particular, never reuse a previous routed result after this failure.
+    result=dict(scope=__doc__,variant=name,exit_code=rc,
+        pipeline_stage='synthesis',sources=hashes,
+        synthesis_flags=synth_flags.strip(),pnr_trials=[],
+        logic_site_audit=None,physical_timing_proven=False,
+        receiver_adopted=False,safe_to_flash=False,
+        absent=['successful synthesis','placement and routing',
+                'full receiver integration','real hardware BIST'])
+    (out/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+    (ROOT/f'reports/{name}.json').write_text(json.dumps(result,indent=2)+'\n')
+    raise RuntimeError(f'synthesis exited {rc}: {out / "synth.log"}')
 modules=json.loads((out/'design.json').read_text())['modules']
 tops=[m for m in modules.values() if int(str(m.get('attributes',{}).get('top','0')),2)]
 if len(tops)!=1:raise ValueError('ambiguous top')
@@ -248,7 +260,9 @@ for seed in args.seeds:
                        preplacement_utilization=packed,timeout_seconds=args.pnr_timeout,
                        placer=args.placer,heap_cell_timeout=args.heap_cell_timeout))
     shutil.copy2(log,out/'pnr.log')
-    if rc==0 or any('ERROR:' in l and 'Max frequency' not in l for l in notes):break
+    # A placement timeout says nothing about the remaining seeds. Try them;
+    # otherwise --seeds 1 2 3 silently degenerates to a single failed trial.
+    if rc==0 or (rc!=124 and any('ERROR:' in l and 'Max frequency' not in l for l in notes)):break
 result=dict(scope=__doc__,variant=name,exit_code=rc,sources=hashes,clock_constraints=clock_pairs,
     synthesis_flags=synth_flags.strip(),
     logic_site_audit=site_audit,

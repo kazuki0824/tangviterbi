@@ -1,0 +1,381 @@
+{
+  "candidate": "S3-T-00c/v2 + S3-S-000/v0",
+  "owners": {
+    "T": {
+      "RF_capture": "S3",
+      "FIR": "FPGA",
+      "sync": "FPGA",
+      "FFT": "S3",
+      "equalize_demap": "S3",
+      "time_deinterleave": "FPGA",
+      "Viterbi": "FPGA",
+      "RS": "FPGA",
+      "TS": "FPGA"
+    },
+    "S": {
+      "RF_capture": "S3",
+      "FIR": "FPGA",
+      "sync": "FPGA",
+      "TC8PSK": "FPGA",
+      "frame_deinterleave": "FPGA",
+      "RS": "FPGA",
+      "TS": "FPGA"
+    }
+  },
+  "transport": "SPI2 octal 80 MHz half duplex + LCD16 40 MHz down",
+  "transport_contract": {
+    "payload_bytes": 4096,
+    "SPI_header_bytes": 10,
+    "SPI_batch_gap_us": 20,
+    "SPI_page_gap_us": 0.25,
+    "LCD_header_bytes": 16,
+    "LCD_page_gap_us": 8,
+    "communication_signals": 29
+  },
+  "RF_formats": {
+    "T": "native 32-bit capture word, 16 MS/s",
+    "S": "lossless native I10/Q10 packed20, 40 MS/s"
+  },
+  "T_route": {
+    "feasible_under_contract": true,
+    "RF_octal_MBps": 27.684876778593573,
+    "RF_LCD16_MBps": 36.315123221406424,
+    "IQ_octal_up_MBps": 31.522847522847524,
+    "LLR_LCD16_MBps": 28.813852813852815,
+    "octal_utilization": 0.9444973575425778,
+    "LCD16_utilization": 0.9444973575425778,
+    "octal_RF_equivalent_spare_MBps": 3.903370842849068,
+    "LCD16_spare_MBps": 3.827252920969716
+  },
+  "S_route": {
+    "feasible_under_contract": true,
+    "RF_octal_MBps": 50.492314231068924,
+    "RF_LCD16_MBps": 49.507685768931076,
+    "IQ_octal_up_MBps": 0.0,
+    "LLR_LCD16_MBps": 0.0,
+    "octal_utilization": 0.717958138348268,
+    "LCD16_utilization": 0.717958138348268,
+    "octal_RF_equivalent_spare_MBps": 19.83534351682062,
+    "LCD16_spare_MBps": 19.44854318729788
+  },
+  "RS": [
+    {
+      "clock_MHz": 90,
+      "serial_RS_engines": 1,
+      "minimum_parallel_engines_for_continuous_rate": 2,
+      "maximum_tested_cycles": 2667,
+      "deadline_us": 28.135828135828135,
+      "service_us": 29.633333333333333,
+      "margin_us": -1.4975051975051976,
+      "passes": false,
+      "required_MHz": 94.7901724137931
+    },
+    {
+      "clock_MHz": 99,
+      "serial_RS_engines": 1,
+      "minimum_parallel_engines_for_continuous_rate": 1,
+      "maximum_tested_cycles": 2667,
+      "deadline_us": 28.135828135828135,
+      "service_us": 26.939393939393938,
+      "margin_us": 1.1964341964341965,
+      "passes": true,
+      "required_MHz": 94.7901724137931
+    }
+  ],
+  "TC8PSK_required_MHz": 86.58,
+  "all_receiver_implemented": false,
+  "all_deadlines_verified": false,
+  "receiver_adopted": false,
+  "safe_to_flash": false,
+  "unclosed": [
+    "connected T/S receiver RTL and firmware",
+    "T FIR/sync/equalizer/demapper/time deinterleaver/TS",
+    "S FIR/sync/frame deinterleaver/TS",
+    "LCD16 endpoint, bidirectional octal endpoint and pin/CDC closure",
+    "S3 RF capture + FFT/equalizer/demapper WCET and memory contention",
+    "PSRAM arbitration/interleaver deadline and external IO STA",
+    "two-image NOR boot/reconfiguration and uninterrupted stream ownership",
+    "complete top-level routed timing and RF-to-TS conformance vectors"
+  ],
+  "partial_FEC_memory_PnR": {
+    "exit_code": 124,
+    "logic_site_audit": {
+      "packed_json_sha256": "2142fa3569a26268cf1dc94212c70d7da794e517fa13cb3e681fc030c1ead1ee",
+      "LUT_cells": 4592,
+      "ALU_cells": 2010,
+      "ALU_blockers_excluded": 2010,
+      "fabric_FFs": 3784,
+      "maximum_LUT_or_ALU_FF_pairs": 1816,
+      "minimum_additional_FF_sites": 1968,
+      "minimum_required_logic_sites": 8570,
+      "available_logic_sites": 8640,
+      "minimum_site_utilization_percent": 99.18981481481481,
+      "minimum_site_deficit": 0,
+      "mapped_netlist_ruled_out": false,
+      "FF_D_driver_types": {
+        "LUT3": 684,
+        "DFF": 174,
+        "ALU": 185,
+        "DFFCE": 561,
+        "LUT2": 489,
+        "LUT1": 24,
+        "DFFPE": 30,
+        "GOWIN_VCC": 12,
+        "LUT4": 1144,
+        "DFFE": 122,
+        "DFFC": 62,
+        "DFFP": 2,
+        "DFFRE": 145,
+        "DFFSE": 1,
+        "DFFS": 1,
+        "MULT18X18": 60,
+        "SDP": 72,
+        "IBUF": 16
+      },
+      "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+      "limitations": [
+        "narrow LUT mapping only",
+        "no retiming/resynthesis/transformation allowed in this bound",
+        "passing this bound does not prove placement or timing",
+        "CE/reset/clock/adjacency restrictions ignored"
+      ]
+    },
+    "pnr_trials": [
+      {
+        "seed": 1,
+        "exit_code": 124,
+        "fmax": null,
+        "notes": [
+          "ERROR: P&R timed out after 120 seconds; fit remains unknown"
+        ],
+        "preplacement_utilization": {
+          "VCC": {
+            "used": 1,
+            "available": 1
+          },
+          "IOB": {
+            "used": 27,
+            "available": 276
+          },
+          "LUT4": {
+            "used": 6602,
+            "available": 8640
+          },
+          "OSER16": {
+            "used": 0,
+            "available": 80
+          },
+          "IDES16": {
+            "used": 0,
+            "available": 80
+          },
+          "IOLOGICI": {
+            "used": 18,
+            "available": 276
+          },
+          "IOLOGICO": {
+            "used": 24,
+            "available": 276
+          },
+          "MUX2_LUT5": {
+            "used": 0,
+            "available": 4320
+          },
+          "MUX2_LUT6": {
+            "used": 0,
+            "available": 2160
+          },
+          "MUX2_LUT7": {
+            "used": 0,
+            "available": 1080
+          },
+          "MUX2_LUT8": {
+            "used": 0,
+            "available": 1080
+          },
+          "ALU": {
+            "used": 2010,
+            "available": 6480
+          },
+          "GND": {
+            "used": 1,
+            "available": 1
+          },
+          "DFF": {
+            "used": 3784,
+            "available": 6480
+          },
+          "RAM16SDP4": {
+            "used": 0,
+            "available": 270
+          },
+          "BSRAM": {
+            "used": 12,
+            "available": 26
+          },
+          "ALU54D": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTADDALU18X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTALU18X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTALU36X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULT36X36": {
+            "used": 0,
+            "available": 5
+          },
+          "MULT18X18": {
+            "used": 2,
+            "available": 20
+          },
+          "MULT9X9": {
+            "used": 0,
+            "available": 40
+          },
+          "PADD18": {
+            "used": 0,
+            "available": 20
+          },
+          "PADD9": {
+            "used": 0,
+            "available": 40
+          },
+          "GSR": {
+            "used": 1,
+            "available": 1
+          },
+          "OSC": {
+            "used": 0,
+            "available": 1
+          },
+          "rPLL": {
+            "used": 1,
+            "available": 2
+          },
+          "FLASH608K": {
+            "used": 0,
+            "available": 1
+          },
+          "BUFG": {
+            "used": 2,
+            "available": 22
+          },
+          "DQCE": {
+            "used": 0,
+            "available": 24
+          },
+          "DCS": {
+            "used": 0,
+            "available": 8
+          },
+          "DHCEN": {
+            "used": 0,
+            "available": 24
+          },
+          "CLKDIV": {
+            "used": 0,
+            "available": 8
+          },
+          "CLKDIV2": {
+            "used": 0,
+            "available": 16
+          },
+          "MIPI_IBUF": {
+            "used": 0,
+            "available": 22
+          },
+          "MIPI_OBUF": {
+            "used": 0,
+            "available": 20
+          }
+        },
+        "timeout_seconds": 120,
+        "placer": "heap",
+        "heap_cell_timeout": 8
+      },
+      {
+        "seed": 2,
+        "exit_code": 124,
+        "fmax": null,
+        "notes": [
+          "ERROR: P&R timed out after 120 seconds; fit remains unknown"
+        ],
+        "timeout_seconds": 120,
+        "placer": "heap",
+        "heap_cell_timeout": 8,
+        "command": [
+          "nextpnr-himbaechel",
+          "--json",
+          "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/design.json",
+          "--device",
+          "GW1NR-LV9QN88PC6/I5",
+          "--vopt",
+          "family=GW1N-9C",
+          "--vopt",
+          "cst=build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/pins.cst",
+          "--freq",
+          "99",
+          "--pre-pack",
+          "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/clocks.py",
+          "--seed",
+          "2",
+          "--report",
+          "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/report-seed2.json",
+          "--placer",
+          "heap",
+          "--placer-heap-cell-placement-timeout",
+          "8",
+          "--write",
+          "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/routed-seed2.json"
+        ]
+      },
+      {
+        "seed": 3,
+        "exit_code": 124,
+        "fmax": null,
+        "notes": [
+          "ERROR: P&R timed out after 120 seconds; fit remains unknown"
+        ],
+        "timeout_seconds": 120,
+        "placer": "heap",
+        "heap_cell_timeout": 8,
+        "command": [
+          "nextpnr-himbaechel",
+          "--json",
+          "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/design.json",
+          "--device",
+          "GW1NR-LV9QN88PC6/I5",
+          "--vopt",
+          "family=GW1N-9C",
+          "--vopt",
+          "cst=build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/pins.cst",
+          "--freq",
+          "99",
+          "--pre-pack",
+          "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/clocks.py",
+          "--seed",
+          "3",
+          "--report",
+          "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/report-seed3.json",
+          "--placer",
+          "heap",
+          "--placer-heap-cell-placement-timeout",
+          "8",
+          "--write",
+          "build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-pnr/routed-seed3.json"
+        ]
+      }
+    ],
+    "scope": "Physical-pin PSRAM BIST synthesis, P&R and evidence (not receiver fit).",
+    "proves_full_receiver": false
+  }
+}

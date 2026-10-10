@@ -1,0 +1,172 @@
+{
+  "scope": "Prior standalone stage sums and modeled CPU costs; NOT complete mapped resources or WCET",
+  "source": "Previously delivered n16r8 estimate / all-ownerships.json",
+  "candidates": [
+    {
+      "id": "S3-T-00c",
+      "variant": 2,
+      "RF_format": "raw32_copy",
+      "standard": "T",
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "FFT": "SoC",
+        "equalize_demap": "SoC",
+        "time_deinterleave": "FPGA",
+        "Viterbi": "FPGA",
+        "RS": "FPGA",
+        "TS": "FPGA",
+        "RF": "SoC"
+      },
+      "CPU_low_Mcycles_s": 330.8903439153439,
+      "CPU_high_Mcycles_s": 448.10054112554116,
+      "CPU_low_percent": 68.93548831569666,
+      "CPU_high_percent": 93.35427940115441,
+      "stage_resources_low": {
+        "logic_sites_estimate": 5874,
+        "FF": 4474,
+        "BSRAM": 7,
+        "DSP18": 9
+      },
+      "stage_resources_high": {
+        "logic_sites_estimate": 7202,
+        "FF": 6458,
+        "BSRAM": 7,
+        "DSP18": 9
+      },
+      "legacy_stage_clock_MHz": {
+        "FIR": 65.01587301587301,
+        "sync": 65.01587301587301,
+        "time_deinterleave": 9.604617604617605,
+        "trellis": 50.42424242424242,
+        "RS": 54.101010101010104,
+        "TS_node": 2.904337492572787
+      },
+      "RS_service_floor_MHz": 41.20142602495544,
+      "period_us": 1039.5,
+      "flows": [
+        {
+          "name": "RF>FIR raw32_copy",
+          "dir": "down",
+          "MBps": 64
+        },
+        {
+          "name": "sync>FFT Q15 complex",
+          "dir": "up",
+          "MBps": 31.522847522847524
+        },
+        {
+          "name": "equalize_demap>time_deinterleave 6 x 8-bit LLR / carrier",
+          "dir": "down",
+          "MBps": 28.813852813852815
+        }
+      ],
+      "prior_model_reasons": [],
+      "performance_model_only_pass": true,
+      "full_receiver_resource_and_WCET_verified": false,
+      "adopted": false,
+      "legacy_stage_core_Mcycles_s": [
+        [
+          165.44517195767196,
+          165.44517195767196
+        ],
+        [
+          224.0502705627706,
+          224.0502705627706
+        ]
+      ],
+      "stage_resource_percent_estimate": [
+        {
+          "logic_sites_estimate": 67.98611111111111,
+          "FF": 69.04320987654322,
+          "BSRAM": 26.923076923076923,
+          "DSP18": 45.0
+        },
+        {
+          "logic_sites_estimate": 83.35648148148148,
+          "FF": 99.6604938271605,
+          "BSRAM": 26.923076923076923,
+          "DSP18": 45.0
+        }
+      ],
+      "warning": "Stage arithmetic only; CPU aggregate field omits separately screened ACS-lane constraints. PHY, endpoints, all waveform processing, complete memory traffic and WCET are not closed. Not a receiver feasibility result."
+    },
+    {
+      "id": "S3-S-000",
+      "variant": 0,
+      "RF_format": "lossless20",
+      "standard": "S",
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "TC8PSK": "FPGA",
+        "frame_deinterleave": "FPGA",
+        "RS": "FPGA",
+        "TS": "FPGA",
+        "RF": "SoC"
+      },
+      "CPU_low_Mcycles_s": 368.43750000000006,
+      "CPU_high_Mcycles_s": 448.43750000000006,
+      "CPU_low_percent": 76.75781250000001,
+      "CPU_high_percent": 93.42447916666669,
+      "stage_resources_low": {
+        "logic_sites_estimate": 7830,
+        "FF": 5262,
+        "BSRAM": 17,
+        "DSP18": 15
+      },
+      "stage_resources_high": {
+        "logic_sites_estimate": 9214,
+        "FF": 6990,
+        "BSRAM": 17,
+        "DSP18": 15
+      },
+      "legacy_stage_clock_MHz": {
+        "FIR": 76.96,
+        "sync": 57.72,
+        "frame_deinterleave": 14.083125,
+        "trellis": 57.72,
+        "RS": 60.7378125,
+        "TS_node": 6.52125
+      },
+      "RS_service_floor_MHz": 94.7901724137931,
+      "period_us": 141.92654192654192,
+      "flows": [
+        {
+          "name": "RF>FIR lossless20",
+          "dir": "down",
+          "MBps": 100.0
+        }
+      ],
+      "prior_model_reasons": [],
+      "performance_model_only_pass": true,
+      "full_receiver_resource_and_WCET_verified": false,
+      "adopted": false,
+      "legacy_stage_core_Mcycles_s": [
+        [
+          184.21875,
+          184.21875
+        ],
+        [
+          224.21875,
+          224.21875
+        ]
+      ],
+      "stage_resource_percent_estimate": [
+        {
+          "logic_sites_estimate": 90.625,
+          "FF": 81.2037037037037,
+          "BSRAM": 65.38461538461539,
+          "DSP18": 75.0
+        },
+        {
+          "logic_sites_estimate": 106.64351851851852,
+          "FF": 107.87037037037037,
+          "BSRAM": 65.38461538461539,
+          "DSP18": 75.0
+        }
+      ],
+      "warning": "Stage arithmetic only; CPU aggregate field omits separately screened ACS-lane constraints. PHY, endpoints, all waveform processing, complete memory traffic and WCET are not closed. Not a receiver feasibility result."
+    }
+  ]
+}
