@@ -68,6 +68,8 @@ if elf_file.exists() and os.environ["PROBE_TRANSPORT"] == "1":
             for name in ("s3_fft_stage_tile", "s3_fft_reverse_tile", "spi_device_queue_trans",
                          "s3_iq10_push", "s3_ring_begin", "s3_ring_complete", "s3_t_rf_batch",
                          "s3_spi_prepare_pages", "s3_spi_queue", "s3_rf_submit",
+                         "s3_rf_submit_credited", "s3_spi_prepare_credit_status",
+                         "s3_credit_status", "s3_credit_reserve", "s3_credit_poison",
                          "s3_capture_accept", "s3_capture_reclaim", "s3_capture_step")}
         result["hot_symbols_in_IRAM"] = all(0x40374000 <= int(v, 16) < 0x403a0000
                                             for v in result["hot_functions"].values())

@@ -55,6 +55,7 @@ if NATIVE:
                  '\nvoid app_main(void) {'+init+'    prepare_rx();\n}\n')
 extra=UP/'main/s3_probe';extra.mkdir(exist_ok=True)
 for p in ('s3_transport.c','s3_transport.h','s3_spi_transport.c','s3_spi_transport.h',
+          's3_page_credit.c','s3_page_credit.h',
           's3_capture_bridge.c','s3_capture_bridge.h','s3_fft_tiles.c','s3_fft_tiles.h',
           's3_native_capture.c','s3_native_capture.h'):
     shutil.copy2(ROOT/'experiments'/p,extra/p)
@@ -67,7 +68,7 @@ s=s.replace('SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);','')
 (extra/'memory_probe.c').write_text(s)
 p=UP/'main/CMakeLists.txt';s=subprocess.check_output(['git','-C',str(UP),'show',EXPECTED+':main/CMakeLists.txt'],text=True).replace('set(dependencies esp_driver_gpio','set(dependencies esp_driver_spi '+('esp_psram ' if PSRAM else '')+'esp_driver_gpio')
 s+='''\n# LINK-ONLY diagnostic overlay from tangviterbi, do not flash.
-target_sources(${COMPONENT_LIB} PRIVATE s3_probe/memory_probe.c s3_probe/s3_transport.c s3_probe/s3_spi_transport.c s3_probe/s3_capture_bridge.c s3_probe/s3_fft_tiles.c s3_probe/s3_native_capture.c)
+target_sources(${COMPONENT_LIB} PRIVATE s3_probe/memory_probe.c s3_probe/s3_transport.c s3_probe/s3_spi_transport.c s3_probe/s3_page_credit.c s3_probe/s3_capture_bridge.c s3_probe/s3_fft_tiles.c s3_probe/s3_native_capture.c)
 target_include_directories(${COMPONENT_LIB} PRIVATE s3_probe)
 target_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_TERRESTRIAL=1 PROBE_LINKS=2 PROBE_TRANSPORT=1 PROBE_ZEROCOPY=1 PROBE_LATE_RF=1 PROBE_RING64=1 S3_RING_PAGE_COUNT=16)
 target_link_options(${COMPONENT_LIB} INTERFACE "-Wl,-u,s3_extras_link_probe")
@@ -130,6 +131,13 @@ if p.exists():
         if found:result['hot_functions'][name]=found[-1]
     result['inspected_hot_functions_in_IRAM']=(len(result['hot_functions'])==8 and
         all(0x40374000<=int(x,16)<0x403a0000 for x in result['hot_functions'].values()))
+    result['credit_hot_functions']={}
+    for name in ('s3_rf_submit_credited','s3_spi_prepare_credit_status',
+                 's3_credit_status','s3_credit_reserve','s3_credit_poison'):
+        found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+'+name+r'\s*$',m,re.M)
+        if found:result['credit_hot_functions'][name]=found[-1]
+    result['credit_hot_functions_in_IRAM']=(len(result['credit_hot_functions'])==5 and
+        all(0x40374000<=int(x,16)<0x403a0000 for x in result['credit_hot_functions'].values()))
     if RS_OFFLOAD:
         result['RS_hot_functions']={}
         for name in ('s3_rs_solve','s3_rs_magnitudes','s3_rs_rpc_syndromes','s3_rs_rpc_roots','s3_rs_rpc_crc','s3_rs_rpc_ack'):
@@ -156,3 +164,6 @@ print(json.dumps(result,indent=2));print('\n'.join(log.splitlines()[-45:]))
 # A measured overlap is a result, not an infrastructure failure. Never turn
 # compile errors or missing symbols into successful diagnostic jobs.
 if rc and not any('S3 RF ring overlaps' in e for e in result['errors']):raise SystemExit(rc)
+
+if rc==0 and not result.get("credit_hot_functions_in_IRAM"):
+    raise SystemExit("credit call graph missing or outside IRAM; link is not qualified")

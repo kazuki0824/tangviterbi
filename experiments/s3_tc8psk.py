@@ -6,7 +6,7 @@ binary LLRs. Outputs are (B1,B0). The RF synchronizer and metric unit are separa
 """
 from s3_viterbi_traceback import generate
 
-def source(compact_output=False,compact_b1=False,lanes=32,metric_q15=False):
+def source(compact_output=False,compact_b1=False,lanes=32,metric_q15=False,parallel_traceback_choice=False):
  if lanes not in (22,32):raise ValueError('supported ACS lane counts are 22 and 32')
  if lanes==22:compact_output=compact_b1=True
  s=generate('modulo13-pipe').replace('module s3_viterbi_traceback','module s3_tc8psk')
@@ -65,6 +65,20 @@ def source(compact_output=False,compact_b1=False,lanes=32,metric_q15=False):
   s=s.replace('            uncoded_lo[wr_ptr] <= b1_partial;\n            uncoded_hi[wr_ptr] <= lane_b1;',
       '            branch_choice[wr_ptr] <= b1_q;')
   s=s.replace('save_b1<=uncoded_pipe[state];','save_b1<=uncoded_pipe[traceback_xy];')
+ if parallel_traceback_choice:
+  if not compact_b1:raise ValueError('parallel traceback choice needs compact branch storage')
+  # Distribute the fixed encoder into each constant state before the 64:1
+  # selection. A selected survivor bit no longer feeds encode -> 4:1 B1 mux
+  # on the state feedback clock. This is an exact Boolean transformation.
+  s=s.replace('    wire [1:0] traceback_xy=encode_pair({survivor_pipe[state],state[5:1]},state[0]);',
+      """    wire [63:0] traceback_b1;
+    genvar trace_state;
+    generate for(trace_state=0;trace_state<64;trace_state=trace_state+1)begin:g_trace_b1
+        localparam [1:0] BASE=encode_pair(trace_state >> 1,trace_state & 1);
+        assign traceback_b1[trace_state]=survivor_pipe[trace_state] ?
+            uncoded_pipe[BASE ^ 2'b11] : uncoded_pipe[BASE];
+    end endgenerate""")
+  s=s.replace('save_b1<=uncoded_pipe[traceback_xy];','save_b1<=traceback_b1[state];')
  if compact_output:
   # One synchronous 128x2 SDP block replaces 256 individually enabled FFs
   # and their variable-position write/read multiplexers. The old registered

@@ -1,5 +1,7 @@
 # 第一候補の実装・期限監査
 
+> **見直し継続中（2026-10-10）**: 元の第一候補は撤回済み。以下の固定候補の記述は旧案の監査記録であり、完成受信機の採用宣言ではない。現在はS側のRS分担と受信窓を実装して検証している。T/S全体の資源・処理期限を通過した候補は依然0件。
+
 対象は `S3-T-00c/v2 + S3-S-000/v0`、通信は SPI2 Octal80 + LCD16 40 MHz に固定する。
 PR #4 の `82ac49bef066f7c468898ba60f21b599ba5ef447` を親とする。
 **全体実装と全体処理期限の確認は未完了。受信機として採用できる証拠はない。**
@@ -211,3 +213,29 @@ RPC、credit、上下バッファなども未算入。訂正追加後の0.32 MHz
 目標値切下げで処理しない。この32 ACS・RS分割を**次の実装検証対象**にするが、
 CPUのBM/Omega/Forney競合込みWCET、syndrome/locator/value上下頁期限、
 最悪休止、全段接続と配置を満たすまで新第一候補とは呼ばない。
+
+## 消費済み通知と受信窓の再検算（2026-10-10）
+
+BRAMページはDMA終了で解放しない。4096バイトの全書込み・フレーム検証を終えた後に消費可能となり、最後の出力wordが実際に受け取られた時だけfrontierを進める。SPI2 Octal上りの `D71C` コマンドで、epoch・20-bit frontier・受信窓・faultを16バイトで取得する。前半8バイトとその反転を後半に送る。単一ビット反転を検出する構成であり、CRC保証や外部IOタイミングの検証ではない。16 dummy SCKでcore側snapshot/ackを待つ。停止可能なSPI clockに対するtoggle handshakeと、CS間で保持するsnapshotを使用する。
+
+S3側には両RFポートが共有する `s3_page_credit` を追加した。初回statusが一致するまで送らず、consumption frontierのみで空きを増やす。prepare失敗はcreditを消費せず、queueの異常はcreditとportをpoisonして既存leaseを保持する。epoch不一致、窓不一致、fault、未送信ページまで進むfrontier、単一ビット反転を拒否する。SDK v5.5.1の実リンクとIRAM配置はCI対象であり、host C試験で代用しない。LCD DMAの実APIと共通スケジューラの接続は未完了。
+
+窓の見直しは**100 MB/s（40 MS/s×native I10/Q10）を維持**して行った。旧SPI帯域見積もりの3ページSCTは2ページ窓に収まらない。今回の固定スケジュールは4ページ/163.84 µs、並びはLCD[0]・Octal[1,2]・LCD[3]である。Octalの2ページは連続sequenceで、現SDK adapterと一致する。各周期のOctal下りが123.15 µs、status上りが20.775 µs、LCD下りが118.8 µs。Octal占有87.844849%、LCD72.509766%。status後のOctal空き時間は19.915 µs。
+
+条件は旧20 µs/SPI API、.25 µs/SPI頁、8 µs/LCD APIに加え、頁公開3 µs以内、consumerが2054/90=22.822222 µs以内/頁。これらは実S3と完成受信機のWCETではなく、検証すべき契約である。RF captureの4ページ先行蓄積も必要である。保守的snapshotでは毎回最後の2ページがまだ解放されず、次の4ページと合わせ最大6ページを予約する。**この固定スケジュールでは2/4ページ窓が不合格、8ページ窓が合格**。他のあらゆる2/4ページスケジュールの不可能性を証明したものではない。計算は `experiments/s3_credit_schedule.py` / `reports/s3-credit-schedule.json`。
+
+RTL試験 `test_s3_bram8_ingress.py` は8周期・32頁をnative 100 MB/sで送り、全word/offset/last、実statusのfrontier、credit上限を検査して通過した。並行してcredit Cの20-bit wrap、2/4/8窓、stale/fault/不正advanceを試験した。**下流は試験用consumerであり、FIR・同期・FEC/RPCを接続した連続受信試験ではない**。SPI上りのRS syndrome/rootsと下りのlocator/magnitudeはこのスケジュールに入っていない。19.915 µsの空きに4096-byte RPC（71.575 µs/1頁）はそのまま入らないため、平均帯域だけで通信路を合格にしない。RPCを含むRF送信の再配置・deadlineとCPU WCETが次の判定対象になる。
+
+| 部分回路の測定 | 必要logic位置下限 /8640 | core /要求 | Octal /要求 | 判定 |
+|---|---:|---:|---:|---|
+| 2頁、window演算pipeline、RS byte訂正まで | 6644 | 93.01 /90 MHz | 140.57 /80 MHz | 部分STA合格（status無し） |
+| 上記＋Octal status、共有BUFG | 6832 | 95.14 /90 MHz | 96.81 /80 MHz | 部分STA合格、BSRAM12/26 |
+| 8頁＋status、変更前arbiter | 6984 | 84.40 /90 MHz | 73.09 /80 MHz | 配置配線完了、部分STA不合格 |
+
+上記は各時点のsource hash付き測定であり、後の変更を含む現RTLの結果ではない。共有BUFG以前のstatus実験にはnextpnrのSIGSEGV（exit -11）があり、それには配線後Fmaxも処理deadlineの結論もない。reportを残す場合はpre-route値と区別する。
+
+8頁版の律速を修正した。status応答はdummy期にsnapshotをshift registerへロードし、7-bit beatの減算＋byte muxをSCKの半周期経路から除いた。BRAM側は固定交互arbiterを選べるようにし、各ポートに2 core clocksごとの書込み機会を与えて、他方のpayload decodeをready経路から外した。この変更後も同じ32頁RTL試験は通過した。配置配線の再測定結果は `reports/s3-credit-physical-followup.json` に記録する。
+
+この段階では新第一候補の採用、全受信機の成立、全deadline合格、実機bootのいずれも宣言しない。RS BM/Omega/ForneyのCPU分担も、CPU実測とRPC deadlineが通ることが採用条件である。
+
+固定arbiterとstatus shift化後は、必要logic位置下限7066/8640、Octal189.39 MHz、LCD170.33 MHzと両転送clockを通過したが、core80.89 MHzで90 MHzに届かなかった。配置・配線は完了しており、静的タイミング不合格である。次の変更ではトレースバックのB1選択について、各定数stateの固定encodeとB1選択を並列に行ってから64:1選択する。入力cost/標本精度やtrellisは変えない。旧回路と同cycle出力が一致する試験を追加し、その後の配置・配線を実施する。

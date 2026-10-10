@@ -12,12 +12,14 @@ class TC8Test(unittest.TestCase):
   (out/'legacy.sv').write_text(source().replace('module s3_tc8psk','module legacy'))
   (out/'compact.sv').write_text(source(True))
   (out/'b1.sv').write_text(source(True,True).replace('module s3_tc8psk','module compact_b1'))
+  (out/'parallel.sv').write_text(source(True,True,parallel_traceback_choice=True).replace('module s3_tc8psk','module parallel_b1'))
   tb='''module tb;
 reg clk=0;always #5 clk=~clk;
-reg rst=0,iv=0;reg[39:0] stimulus=0;wire ra,rb,rc,va,vb,vc;wire[1:0]a,b,d;
+reg rst=0,iv=0;reg[39:0] stimulus=0;wire ra,rb,rc,rd,va,vb,vc,vd;wire[1:0]a,b,d,p;
 legacy old(clk,rst,iv,ra,stimulus[35:0],stimulus[39:36],va,a);
 s3_tc8psk dut(clk,rst,iv,rb,stimulus[35:0],stimulus[39:36],vb,b);
 compact_b1 third(clk,rst,iv,rc,stimulus[35:0],stimulus[39:36],vc,d);
+parallel_b1 fourth(clk,rst,iv,rd,stimulus[35:0],stimulus[39:36],vd,p);
 reg[63:0] rng=64'hadb876aa456ff214;integer e,c,checked=0;
 initial begin
 for(e=0;e<9;e=e+1)begin
@@ -28,7 +30,7 @@ for(e=0;e<9;e=e+1)begin
   @(negedge clk);rng=rng^(rng<<13);rng=rng^(rng>>7);rng=rng^(rng<<17);
   iv=ra&&(c%71<63);stimulus=rng[39:0];
   @(posedge clk);#1;
-  if(ra!==rb||ra!==rc||va!==vb||va!==vc||(va&&(a!==b||a!==d)))$fatal(1,"cycle mismatch epoch=%0d c=%0d",e,c);
+  if(ra!==rb||ra!==rc||ra!==rd||va!==vb||va!==vc||va!==vd||(va&&(a!==b||a!==d||a!==p)))$fatal(1,"cycle mismatch epoch=%0d c=%0d",e,c);
   if(va)checked=checked+1;
  end
 end
@@ -37,7 +39,7 @@ $display("PASS epochs=9 cycles=45396 checked_pairs=%0d",checked);$finish;
 end
 endmodule'''
   (out/'tb.sv').write_text(tb)
-  c=subprocess.run(['iverilog','-g2012','-s','tb','-o',str(out/'sim'),str(out/'legacy.sv'),str(out/'compact.sv'),str(out/'b1.sv'),str(out/'tb.sv')],text=True,capture_output=True)
+  c=subprocess.run(['iverilog','-g2012','-s','tb','-o',str(out/'sim'),str(out/'legacy.sv'),str(out/'compact.sv'),str(out/'b1.sv'),str(out/'parallel.sv'),str(out/'tb.sv')],text=True,capture_output=True)
   self.assertEqual(c.returncode,0,c.stderr)
   r=subprocess.run(['vvp','sim'],cwd=out,text=True,capture_output=True,timeout=90)
   (out/'simulation.log').write_text(r.stdout+r.stderr)

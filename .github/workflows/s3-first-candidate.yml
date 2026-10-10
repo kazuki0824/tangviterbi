@@ -7,6 +7,21 @@ on:
       - 'ci/s3_psram_benchmark.py'
       - 'rtl/s3_lcd16_rx.sv'
       - 'tests/test_s3_lcd16_rx.py'
+      - 'rtl/s3*page*.sv'
+      - 'rtl/s3_bram2_memory_bridge.sv'
+      - 'rtl/s3_rx_page_store.sv'
+      - 'rtl/s3_spi_rx.sv'
+      - 'experiments/s3_page_credit.*'
+      - 'experiments/s3_credit_schedule.py'
+      - 'experiments/s3_memory_bram2_fec_benchmark.sv'
+      - 'experiments/s3_bram2_*'
+      - 'tests/test_s3_page_credit.py'
+      - 'tests/test_s3_page_reorder.py'
+      - 'tests/test_s3_bram*_*.py'
+      - 'tests/test_s3_credit_schedule.py'
+      - 'ci/s3_bram2_benchmark.py'
+      - 'experiments/s3_tc8psk.py'
+      - 'tests/test_s3_tc8psk.py'
       - '.github/workflows/s3-first-candidate.yml'
   workflow_dispatch:
 permissions:
@@ -58,3 +73,35 @@ jobs:
           print(f'Partial physical placement status: {status}')
           sys.exit(0 if status == 0 else 1)
           PY
+
+  reassessed-ingress:
+    name: Native ingress and partial RS split (not receiver qualification)
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test native pages, shared credits, wrap, faults and conditional schedule
+        run: |
+          set -e
+          python3 -m unittest discover -s tests -p test_s3_page_reorder.py -v
+          python3 -m unittest discover -s tests -p test_s3_bram2_memory_bridge.py -v
+          python3 -m unittest discover -s tests -p test_s3_page_credit.py -v
+          python3 -m unittest discover -s tests -p test_s3_credit_schedule.py -v
+          python3 -m unittest discover -s tests -p test_s3_bram8_ingress.py -v
+          python3 -m unittest discover -s tests -p test_s3_tc8psk.py -v
+      - name: Route eight-page partial workload without a placer wall-time cap
+        run: |
+          python3 ci/s3_bram2_benchmark.py --output build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe --slot-bits 3 --seed 1 --rs-split --acs32 --core-mhz 90 --correction --syndrome-ready --pipe-window --page-status --fixed-arbiter --parallel-traceback-choice
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reassessed-ingress-partial-not-receiver
+          path: |
+            build/s3-bram8-rs-correct-status-fixed-parallel-90-pipe/
+            build/s3-bram8-ingress/
+            build/s3-page-credit-test/
+            reports/s3-credit-schedule.json

@@ -1,19 +1,21 @@
-// S-mode experiment: lossless Octal/LCD16 pages in two on-chip RAM slots.
+// S-mode experiment: lossless Octal/LCD16 pages in configurable on-chip RAM slots.
 // No external PSRAM controller. A producer must obey ready/credit and the
-// two-page window; the complete RF page/deadline schedule is not yet proven.
-module s3_bram2_memory_bridge(
+// advertised page window; the complete RF page/deadline schedule is not yet proven.
+module s3_bram2_memory_bridge #(parameter PIPE_WINDOW=0, SLOT_BITS=1, FIXED_ARBITER=0)(
  input wire clk,resetn,input wire [15:0] epoch,
  input wire spi2_sclk,spi2_cs_n,input wire [7:0] spi2_d,
  input wire lcd_wr,lcd_cs_n,lcd_dc,input wire [15:0] lcd_d,
  output wire out_valid,input wire out_ready,output wire [31:0] out_data,
- output wire out_last,output wire [31:0] out_offset,output wire fault
+ output wire out_last,output wire [31:0] out_offset,output wire fault,
+ output wire [19:0] retired_sequence,output wire spi2_clock
 );
- wire spi2_clock,lcd_clock;
+ initial if(SLOT_BITS<1 || SLOT_BITS>3)$fatal(1,"page window must be 2/4/8");
+ wire lcd_clock;
  BUFG spi2_global(.I(spi2_sclk),.O(spi2_clock));
  BUFG lcd_global(.I(lcd_wr),.O(lcd_clock));
  wire [35:0] tok0,tok1;
  wire [1:0] input_valid,input_ready,overflow;
- s3_spi_rx #(.LANES(8),.FIFO_AW(7)) octal(
+ s3_spi_rx #(.LANES(8),.FIFO_AW(7),.IGNORE_STATUS_READ(1)) octal(
   spi2_clock,spi2_cs_n,clk,resetn,spi2_d,
   input_valid[0],input_ready[0],tok0,overflow[0]);
  s3_lcd16_rx #(.FIFO_AW(7)) lcd(
@@ -22,24 +24,26 @@ module s3_bram2_memory_bridge(
 
  wire write_valid,write_ready,write_tag;
  reg ack_valid,ack_tag;
- wire [10:0] write_address;
+ wire [SLOT_BITS+9:0] write_address;
  wire [31:0] write_data,page_offset;
  wire page_valid,retire,store_fault;
- wire page_slot;
+ wire [SLOT_BITS-1:0] page_slot;
  reg stopped,read_fault;
  assign fault=store_fault||(|overflow)||read_fault;
+ assign retired_sequence=page_offset[31:12];
  assign write_ready=!stopped;
- s3_rx_page_store #(.SLOT_BITS(1),.STREAM_ID(1)) store(
+ s3_rx_page_store #(.SLOT_BITS(SLOT_BITS),.STREAM_ID(1),.REORDER_PIPE_WINDOW(PIPE_WINDOW),.FIXED_ARBITER(FIXED_ARBITER)) store(
   clk,resetn,epoch,input_valid,input_ready,tok0,tok1,
   (|overflow)||read_fault,write_valid,write_ready,write_address,
   write_data,write_tag,ack_valid,ack_tag,
   page_valid,page_offset,page_slot,retire,store_fault);
 
- // One synchronous dual-port 8-KiB ring. FPGA memory inference must be
+ // One synchronous dual-port (4096 << SLOT_BITS)-byte ring. FPGA memory inference must be
  // checked in the mapped netlist, not assumed from this declaration.
- reg [31:0] mem [0:2047];
+ reg [31:0] mem [0:(1024<<SLOT_BITS)-1];
  reg [31:0] read_data;
- reg active,pending,slot;
+ reg active,pending;
+ reg [SLOT_BITS-1:0] slot;
  reg [9:0] index;
  reg [31:0] offset;
  wire write_fire=write_valid&&write_ready;

@@ -8,7 +8,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class ReorderTest(unittest.TestCase):
     def test_reordering_wrap_backpressure_and_faults(self):
-        out = ROOT / 'build/s3-page-reorder'
+        self.run_reorder(False)
+
+    def test_pipelined_reordering_wrap_backpressure_and_faults(self):
+        self.run_reorder(True)
+
+    def run_reorder(self, pipeline):
+        out = ROOT / ('build/s3-page-reorder-pipe' if pipeline else 'build/s3-page-reorder')
         out.mkdir(parents=True, exist_ok=True)
         tb = r'''module tb;
 reg clk=0;always #5 clk=~clk;
@@ -81,6 +87,8 @@ initial begin
  $display("PASS ordered pages=%0d including offset wrap and seven faults",pages);$finish;
 end
 endmodule'''
+        if pipeline:
+            tb=tb.replace('.RESET_SEQUENCE(20\'hffff8)', '.RESET_SEQUENCE(20\'hffff8),.PIPE_WINDOW(1)')
         (out / 'tb.sv').write_text(tb)
         c = subprocess.run(['iverilog', '-g2012', '-s', 'tb', '-o', str(out/'sim'),
                             str(ROOT/'rtl/s3_page_reorder.sv'), str(out/'tb.sv')],

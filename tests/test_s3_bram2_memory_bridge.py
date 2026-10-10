@@ -8,7 +8,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class TwoPageMemoryTest(unittest.TestCase):
     def test_reordered_pages_and_backpressure(self):
-        out = ROOT / 'build/s3-bram2-memory-test'
+        self.run_pages(False)
+
+    def test_pipelined_reordered_pages_and_backpressure(self):
+        self.run_pages(True)
+
+    def run_pages(self,pipeline):
+        out = ROOT / ('build/s3-bram2-memory-test-pipe' if pipeline else 'build/s3-bram2-memory-test')
         out.mkdir(parents=True, exist_ok=True)
         word0 = [0x22000000 | n for n in range(1024)]
         word1 = [0x11000000 | n for n in range(1024)]
@@ -26,9 +32,11 @@ reg clk=0;always #5.050505 clk=~clk;
 reg resetn=1,spi_clk=0,spi_cs=0,lcd_clk=0,lcd_cs=0,dc=0;
 reg[7:0] spi_d=0;reg[15:0] lcd_d=0;
 wire valid,last,fault;wire[31:0] data,offset;
+wire [19:0] retired_sequence;
+wire spi2_clock_global;
 reg ready=1;
 s3_bram2_memory_bridge dut(clk,resetn,16'd1,spi_clk,spi_cs,spi_d,
- lcd_clk,lcd_cs,dc,lcd_d,valid,ready,data,last,offset,fault);
+ lcd_clk,lcd_cs,dc,lcd_d,valid,ready,data,last,offset,fault,retired_sequence,spi2_clock_global);
 reg[7:0] spi_bytes[0:4105];reg[15:0] lcd_beats[0:2055];
 integer got=0,j,k;
 reg[31:0] expected;reg[31:0] cycles=0;
@@ -64,6 +72,10 @@ initial begin
 end
 endmodule
 ''')
+        if pipeline:
+            p=out/'tb.sv'
+            p.write_text(p.read_text().replace('s3_bram2_memory_bridge dut',
+                         's3_bram2_memory_bridge #(.PIPE_WINDOW(1)) dut'))
         sources = [ROOT / ('rtl/' + s + '.sv') for s in (
             's3_async_fifo', 's3_spi_rx', 's3_lcd16_rx', 's3_page_guard',
             's3_page_reorder', 's3_rx_page_store', 's3_bram2_memory_bridge')]

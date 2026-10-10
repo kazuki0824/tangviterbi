@@ -1,6 +1,7 @@
 #ifndef S3_SPI_TRANSPORT_H
 #define S3_SPI_TRANSPORT_H
 #include "s3_transport.h"
+#include "s3_page_credit.h"
 #include "driver/spi_master.h"
 #include "esp_private/spi_master_internal.h"
 
@@ -29,6 +30,10 @@ esp_err_t s3_spi_prepare_pages(s3_spi_port *port, unsigned stream, unsigned epoc
                                 uint32_t offset, void *const payloads[], unsigned pages);
 esp_err_t s3_spi_prepare(s3_spi_port *port, unsigned stream, unsigned epoch,
                           uint32_t offset, void *payload, unsigned pages);
+/* Octal SCT query, 16 explicit dummy SCK cycles and a 16-byte status reply.
+ * The caller validates the reply only AFTER a successful reap. */
+esp_err_t s3_spi_prepare_credit_status(s3_spi_port *port, unsigned epoch,
+                                      void *response);
 esp_err_t s3_spi_queue(s3_spi_port *port);
 esp_err_t s3_spi_reap(s3_spi_port *port);
 esp_err_t s3_spi_close(s3_spi_port *port);
@@ -46,5 +51,10 @@ typedef struct {
 } s3_rf_transfer;
 esp_err_t s3_rf_submit(s3_rf_transfer *transfer, s3_spi_port *port,
                        s3_tx_ring *ring, unsigned pages);
+/* Credit-controlled receiver: use this entry, never the uncredited submit. Prepare
+ * errors spend no credits. A queue error poisons both port and credit. */
+esp_err_t s3_rf_submit_credited(s3_rf_transfer *transfer, s3_spi_port *port,
+                               s3_tx_ring *ring, s3_page_credit *credit,
+                               unsigned pages);
 esp_err_t s3_rf_reap(s3_rf_transfer *transfer);
 #endif
