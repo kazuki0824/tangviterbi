@@ -250,3 +250,6 @@ RTL試験 `test_s3_bram8_ingress.py` は8周期・32頁をnative 100 MB/sで送�
 CPU分担の余裕は `reports/s3-first-candidate-host-rs-budget.json` で再計算した。旧S-RF処理見積もり368.4375〜448.4375 Mcycles/sを2core合計480 Mcycles/sから引くと、RSとcredit・通信制御・RTOS等に残るのは111.5625〜31.5625 Mcycles/s、連続35541.871921 codewords/sに対し3138.903326〜888.037076 cycles/codewordである。旧RS splitの単独budgetにある6752.598753 cycles/codeword（240 MHzの1core分）を、この候補の空き時間として使うことはできない。RFの見積もり自体も実WCETではないため、この数字で全実装を不可能とは断定しない。既存262ブロックのGF演算数も実cycle数ではない。RF packingとBM/Omega/Forneyが同時動作する実CPU deadlineを満たすことが採用条件である。
 
 RSの204-codeword RPC batchを待つraw codeword保持だけでも204×204=41616バイトが必要になる。部分回路の残り2 BSRAMには収まらず、外部PSRAM等の記憶・転送・待ち時間をさらに実装する必要がある。BSRAM24/26やlogic83.89%を、未接続段やこの保持領域を含んだ占有率として提示しない。
+
+
+SDK実リンクも確認した。commit `fa37110a` のActions job `114244907304`（native-direct-phy-rs）と `114244907267`（native-direct-phy）は `link_succeeded=true`、追加した5個のcredit/status hot functionは全てIRAM内、RS profileの既存RS hot functionもIRAM内だった。IDF commitは `fcae32885b0296b32044cb99ecbdc50d98dddb83`。CPU側のsourceは `a28dda3d` でも変更していない。結果・job URL・source hashは `reports/s3-credit-sdk-link.json`。この成功はRF/FFT/RS用のリンク・静的予約検査であり、RF/RS同時運転のsilicon WCET、LCD DMAの接続、完成scheduler、実機bootではない。
