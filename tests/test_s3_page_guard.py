@@ -8,7 +8,7 @@ class GuardTest(unittest.TestCase):
 reg clk=0;always #5 clk=~clk;
 reg rst=0,valid=0,pr=1,dr=1;reg [35:0] token;
 wire ready,start,dv,commit,fault;wire [1:0] stream;wire [31:0] offset,data;
-s3_page_guard dut(clk,rst,16'd17,valid,ready,token,pr,start,stream,offset,dv,dr,data,commit,fault);
+s3_page_guard #(.MAX_FRAME_CYCLES(8192)) dut(clk,rst,16'd17,valid,ready,token,pr,start,stream,offset,dv,dr,data,commit,fault);
 integer writes=0,commits=0,starts=0,i,j;
 always @(posedge clk) if(rst) begin
  if(dv&&dr) begin if(data!==writes) $fatal(1,"payload");writes=writes+1;end
@@ -44,9 +44,12 @@ initial begin
  reset();header();for(i=0;i<1023;i=i+1)send({4'h0,32'(i)});
  send(36'h0000003ff);check_fault(); // missing last
  reset();header();send(36'h1d7110011);check_fault(); // aborted CS then new header
- $display("PASS good page and seven poisoned epochs");$finish;
+ reset();header();repeat(8200)@(negedge clk);check_fault();
+ reset();send(36'h1d7110011);send(36'h200000000);pr=0;
+ repeat(8200)@(negedge clk);check_fault();pr=1;
+ $display("PASS good page and nine poisoned epochs");$finish;
 end
-initial begin #200000;$fatal(1,"timeout");end
+initial begin #400000;$fatal(1,"timeout");end
 endmodule
 '''
         (out/'tb.sv').write_text(tb)

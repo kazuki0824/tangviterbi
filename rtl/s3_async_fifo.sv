@@ -7,6 +7,7 @@ module s3_async_fifo #(parameter W=36, AW=5)(
  input wire wvalid, output wire wready, input wire [W-1:0] wdata,
  output wire rvalid, input wire rready, output wire [W-1:0] rdata
 );
+ initial if(AW<2 || W<1) $fatal(1,"unsupported FIFO dimensions");
  (* ram_style="block" *) reg [W-1:0] mem[0:(1<<AW)-1];
  reg [AW:0] wb, wg, rb, rg;
  (* async_reg="true" *) reg [AW:0] rq1,rq2,wq1,wq2;

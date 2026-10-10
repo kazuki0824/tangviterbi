@@ -3,7 +3,8 @@
 // Output token tags: 1=command/epoch, 2=byte offset, 3=payload length,
 // 0=payload, 8=last payload. Header validation/reordering belong downstream.
 // CS clears only frame parsing, NEVER the FIFO. No input backpressure exists:
-// overflow is latched until a stopped-epoch reset and must mute the TS path.
+// FIFO overflow or write-frame overrun is latched until a stopped-epoch reset
+// and must mute the TS path.
 // FIFO is a clock-crossing elasticity buffer, not a complete page store.
 // SPI reads (D71B) generate header tokens but no RX payload.
 module s3_spi_rx #(parameter LANES=8, FIFO_AW=5)(
@@ -12,6 +13,7 @@ module s3_spi_rx #(parameter LANES=8, FIFO_AW=5)(
  output wire valid, input wire ready, output wire [35:0] token,
  output wire overflow
 );
+ initial if(LANES!=4 && LANES!=8) $fatal(1,"SPI width must be 4 or 8");
  reg [13:0] byte_count;
  reg nibble;
  reg [3:0] high_nibble;
@@ -34,7 +36,7 @@ module s3_spi_rx #(parameter LANES=8, FIFO_AW=5)(
  (* async_reg="true" *) reg fault1,fault2;
  always @(posedge spi_clk or negedge resetn) begin
   if(!resetn) sticky<=0;
-  else if(wvalid&&!wrdy) sticky<=1;
+  else if((wvalid&&!wrdy) || (!cs_n && byte_end && is_write && byte_count>=4106)) sticky<=1;
  end
  always @(posedge clk or negedge resetn) begin
   if(!resetn) begin fault1<=0;fault2<=0;end
