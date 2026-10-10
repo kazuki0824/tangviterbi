@@ -8,6 +8,8 @@ on:
       - 'ci/s3_comm_benchmark.py'
       - 'ci/s3_comm_endpoint_benchmark.py'
       - 'ci/s3_comm_evidence.py'
+      - 'ci/s3_psram_benchmark.py'
+      - 'ci/s3_psram_evidence.py'
       - 'ci/s3_fec_extension_benchmark.py'
       - 'rtl/s3_*.sv'
       - '.github/workflows/s3-receiver-offline.yml'
@@ -60,15 +62,20 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Independent communication and FEC vectors
         run: |
-          for t in iq10_unpack spi_rx spi_rx_faults page_guard page_reorder rx_page_store spi_iq_tx spi_page_pipeline depuncture tc8psk tc8psk_metric; do
+          for t in iq10_unpack spi_rx spi_rx_faults page_guard page_reorder rx_page_store spi_iq_tx spi_iq_pingpong spi_page_pipeline psram psram_pipeline depuncture tc8psk tc8psk_metric; do
             python3 -m unittest discover -s tests -p "test_s3_${t}.py" -v || exit 1
           done
       - name: Measure communication IO and extended FEC
         run: |
           python3 ci/s3_comm_benchmark.py
           python3 ci/s3_comm_endpoint_benchmark.py
+          python3 ci/s3_comm_endpoint_benchmark.py --pingpong
+          python3 ci/s3_psram_benchmark.py
+          python3 ci/s3_psram_benchmark.py --bridge
+          python3 ci/s3_psram_benchmark.py --fec
           python3 ci/s3_fec_extension_benchmark.py
           python3 ci/s3_comm_evidence.py
+          python3 ci/s3_psram_evidence.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -77,6 +84,11 @@ jobs:
             build/s3-comm-area/
             build/s3-comm-pnr/
             build/s3-comm-endpoint/
+            build/s3-comm-pingpong/
+            build/s3-psram*/
+            build/s3-memory-bridge-pnr/
+            build/s3-memory-fec-pnr/
+            build/s3-iq-pingpong/
             build/s3-page-*/
             build/s3-rx-page-store/
             build/s3-spi-*/
@@ -86,4 +98,9 @@ jobs:
             reports/s3-comm-area.json
             reports/s3-comm-endpoint.json
             reports/s3-communication-evidence/
+            reports/s3-psram-evidence/
+            reports/s3-psram.json
+            reports/s3-memory-bridge.json
+            reports/s3-memory-fec.json
+            reports/s3-comm-pingpong.json
             reports/s3-fec-extensions.json

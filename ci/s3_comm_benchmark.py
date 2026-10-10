@@ -11,7 +11,8 @@ for name,top,paths,params in (
  ('guard','s3_page_guard',['rtl/s3_page_guard.sv'],''),
  ('order','s3_page_reorder',['rtl/s3_page_reorder.sv'],''),
  ('store','s3_rx_page_store',['rtl/s3_page_guard.sv','rtl/s3_page_reorder.sv','rtl/s3_rx_page_store.sv'],''),
- ('iqtx4','s3_spi_iq_tx',['rtl/s3_spi_iq_tx.sv'],'')):
+ ('iqtx4','s3_spi_iq_tx',['rtl/s3_spi_iq_tx.sv'],''),
+ ('iqtx4_pingpong','s3_spi_iq_pingpong',['rtl/s3_spi_iq_pingpong.sv'],'')):
  out=ROOT/'build/s3-comm-area'/name;out.mkdir(parents=True,exist_ok=True)
  script='read_verilog -sv '+' '.join(paths)+'\n'+params+'\nsynth_gowin -family gw1n -top '+top+' -noiopads -nowidelut\ntee -o '+str(out/'stat.json')+' stat -json\ncheck -assert\n'
  (out/'synth.ys').write_text(script)

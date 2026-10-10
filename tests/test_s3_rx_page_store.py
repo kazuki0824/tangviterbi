@@ -8,6 +8,46 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 
 class StoreTest(unittest.TestCase):
+    def test_missing_final_memory_ack_times_out_after_wire_commit(self):
+        out=ROOT/'build/s3-rx-page-store/ack-timeout';out.mkdir(parents=True,exist_ok=True)
+        tb=r'''module tb;
+reg clk=0;always #5 clk=~clk;reg rst=0;reg[1:0] iv=0;wire[1:0] ir;
+reg[35:0] token=0;wire mv,mt,pv,fault;wire[13:0] ma;wire[31:0] md,po;wire[3:0] ps;
+integer accepted=0,port,i,cycles;wire av=mv&&accepted<1023;
+s3_rx_page_store #(.ACK_TIMEOUT_CYCLES(64)) dut(clk,rst,16'd17,iv,ir,token,token,1'b0,
+ mv,1'b1,ma,md,mt,av,mt,pv,po,ps,1'b0,fault);
+always @(posedge clk)if(rst&&mv)accepted<=accepted+1;
+task send(input[35:0] t);begin
+ @(negedge clk);token=t;iv=1<<port;
+ @(posedge clk);while(!ir[port])@(posedge clk);
+ @(negedge clk);iv=0;
+end endtask
+initial begin
+ for(port=0;port<2;port=port+1)begin
+  @(negedge clk);rst=0;iv=0;repeat(3)@(negedge clk);accepted=0;rst=1;
+  send({4'h1,16'hd711,16'd17});send({4'h2,32'd0});send({4'h3,32'd4096});
+  for(i=0;i<1024;i=i+1)send({i==1023?4'h8:4'h0,32'habcdef01});
+  cycles=0;
+  while(!fault)begin
+   @(negedge clk);cycles=cycles+1;
+   if(pv)$fatal(1,"published unacknowledged page");
+   if(cycles>70)$fatal(1,"ack deadline unbounded after wire commit");
+  end
+  if(accepted!=1024||cycles<50)$fatal(1,"premature timeout");
+  repeat(100)@(negedge clk);if(!fault||pv||mv||ir)$fatal(1,"fault not sticky/masked");
+ end
+ $display("PASS missing final ack on both ports, no page published");$finish;
+end
+endmodule'''
+        (out/'tb.sv').write_text(tb)
+        sources=['s3_page_guard.sv','s3_page_reorder.sv','s3_rx_page_store.sv']
+        c=subprocess.run(['iverilog','-g2012','-s','tb','-o',str(out/'sim'),
+            *[str(ROOT/'rtl'/p) for p in sources],str(out/'tb.sv')],text=True,capture_output=True)
+        self.assertEqual(c.returncode,0,c.stderr)
+        r=subprocess.run(['vvp','sim'],cwd=out,text=True,capture_output=True,timeout=20)
+        self.assertEqual(r.returncode,0,r.stdout+r.stderr)
+        (out/'simulation.log').write_text(r.stdout)
+
     def test_payload_order_and_memory_completion(self):
         out=ROOT/'build/s3-rx-page-store'
         out.mkdir(parents=True,exist_ok=True)

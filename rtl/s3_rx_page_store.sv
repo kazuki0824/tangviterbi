@@ -3,7 +3,7 @@
 // must return exactly one ack for each accepted word, with its original tag.
 // Consumer reads from the same page-slot memory and retires after its last read.
 module s3_rx_page_store #(
- parameter SLOT_BITS=4, STREAM_ID=1,
+ parameter SLOT_BITS=4, STREAM_ID=1, ACK_TIMEOUT_CYCLES=32768,
  parameter [19:0] RESET_SEQUENCE=0
 )(
  input wire clk,resetn,input wire [15:0] epoch,
@@ -28,6 +28,9 @@ module s3_rx_page_store #(
  reg [SLOT_BITS-1:0] owned[0:1];
  reg [9:0] index[0:1];reg [10:0] outstanding[0:1];
  reg [1:0] end_seen;
+ localparam ACK_TIMER_BITS=$clog2(ACK_TIMEOUT_CYCLES+1);
+ reg [ACK_TIMER_BITS-1:0] ack_age[0:1];
+ reg [1:0] ack_timeout;
  reg memory_fault,stream_fault;
  reg stopped;
  wire reorder_fault,ordered_valid;
@@ -43,7 +46,7 @@ module s3_rx_page_store #(
  wire [1:0] push={mem_valid&&mem_ready&&choose,mem_valid&&mem_ready&&!choose};
  wire [1:0] ack={ack_valid&&ack_tag,ack_valid&&!ack_tag};
  reg [1:0] filtered_request;
- assign fault=upstream_fault || (|guard_fault) || reorder_fault || memory_fault || stream_fault;
+ assign fault=upstream_fault || (|guard_fault) || reorder_fault || memory_fault || stream_fault || (|ack_timeout);
  // Mask public handshakes immediately with fault, but register the internal
  // freeze. Tentative internal transitions during that one fatal edge cannot
  // publish a page or memory write; the epoch can only recover by full reset.
@@ -60,8 +63,14 @@ module s3_rx_page_store #(
    dv[p],dr[p],data[p],commit[p],guard_fault[p],request[p]);
   assign finish[p]=end_seen[p] && outstanding[p]==0 && !stopped;
   always @(posedge clk or negedge resetn)begin
-   if(!resetn)begin owned[p]<=0;index[p]<=0;outstanding[p]<=0;end_seen[p]<=0;end
+   if(!resetn)begin owned[p]<=0;index[p]<=0;outstanding[p]<=0;end_seen[p]<=0;ack_age[p]<=0;ack_timeout[p]<=0;end
    else if(!stopped)begin
+    // A progress watchdog covers accepted words even after the wire frame has
+    // committed (where the page guard's frame timer has already stopped).
+    // Reset only on a real tagged ack or when no writes remain outstanding.
+    if(outstanding[p]==0 || ack[p])ack_age[p]<=0;
+    else if(ack_age[p]==ACK_TIMEOUT_CYCLES-1)ack_timeout[p]<=1;
+    else ack_age[p]<=ack_age[p]+1'b1;
     if(filtered_request[p]&&grant[p])begin owned[p]<=reserve_slot[p];index[p]<=0;end
     if(push[p])index[p]<=index[p]+1'b1;
     case({push[p],ack[p]})

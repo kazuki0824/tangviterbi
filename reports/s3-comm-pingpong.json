@@ -1,6 +1,6 @@
 {
   "scope": "Physical-pin partial endpoint benchmark; never a receiver-fit certificate.",
-  "pingpong": false,
+  "pingpong": true,
   "exit_code": 0,
   "clock_nets": [
     [
@@ -12,28 +12,28 @@
       80
     ],
     [
-      "p3.spi_clk",
+      "p3.fifo.wclk",
       80
     ]
   ],
   "fmax": {
+    "double_buffer.tx.spi_clk": {
+      "achieved": 93.47541809082031,
+      "constraint": 80
+    },
     "p2.clk": {
-      "achieved": 105.57432556152344,
+      "achieved": 99.59166717529297,
       "constraint": 99.0000991821289
     },
     "p2.spi_clk": {
-      "achieved": 150.57974243164062,
-      "constraint": 80
-    },
-    "p3.spi_clk": {
-      "achieved": 86.22176361083984,
+      "achieved": 191.27772521972656,
       "constraint": 80
     }
   },
   "utilization": {
     "ALU": {
       "available": 6480,
-      "used": 502
+      "used": 520
     },
     "ALU54D": {
       "available": 10,
@@ -41,7 +41,7 @@
     },
     "BSRAM": {
       "available": 26,
-      "used": 4
+      "used": 6
     },
     "BUFG": {
       "available": 22,
@@ -61,7 +61,7 @@
     },
     "DFF": {
       "available": 6480,
-      "used": 913
+      "used": 963
     },
     "DHCEN": {
       "available": 24,
@@ -105,7 +105,7 @@
     },
     "LUT4": {
       "available": 8640,
-      "used": 1549
+      "used": 1627
     },
     "MIPI_IBUF": {
       "available": 22,
@@ -190,16 +190,16 @@
       "seed": 1,
       "exit_code": 1,
       "fmax": {
+        "double_buffer.tx.spi_clk": {
+          "achieved": 90.99181365966797,
+          "constraint": 80
+        },
         "p2.clk": {
-          "achieved": 91.31585693359375,
+          "achieved": 92.91090393066406,
           "constraint": 99.0000991821289
         },
         "p2.spi_clk": {
-          "achieved": 130.4461212158203,
-          "constraint": 80
-        },
-        "p3.spi_clk": {
-          "achieved": 97.2762680053711,
+          "achieved": 181.35655212402344,
           "constraint": 80
         }
       },
@@ -209,16 +209,16 @@
       "seed": 2,
       "exit_code": 0,
       "fmax": {
+        "double_buffer.tx.spi_clk": {
+          "achieved": 93.47541809082031,
+          "constraint": 80
+        },
         "p2.clk": {
-          "achieved": 105.57432556152344,
+          "achieved": 99.59166717529297,
           "constraint": 99.0000991821289
         },
         "p2.spi_clk": {
-          "achieved": 150.57974243164062,
-          "constraint": 80
-        },
-        "p3.spi_clk": {
-          "achieved": 86.22176361083984,
+          "achieved": 191.27772521972656,
           "constraint": 80
         }
       },
@@ -240,35 +240,35 @@
     "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
     "invocation": "stat -json ",
     "modules": {
-      "\\s3_comm_endpoint_benchmark": {
-        "num_wires": 1990,
-        "num_wire_bits": 3758,
-        "num_pub_wires": 1990,
-        "num_pub_wire_bits": 3758,
+      "$paramod\\s3_comm_endpoint_benchmark\\PINGPONG=s32'00000000000000000000000000000001": {
+        "num_wires": 2084,
+        "num_wire_bits": 3994,
+        "num_pub_wires": 2084,
+        "num_pub_wire_bits": 3994,
         "num_ports": 9,
         "num_port_bits": 19,
         "num_memories": 0,
         "num_memory_bits": 0,
         "num_processes": 0,
-        "num_cells": 2422,
+        "num_cells": 2558,
         "num_submodules": 0,
         "num_cells_by_type": {
           "$scopeinfo": 9,
-          "ALU": 434,
+          "ALU": 450,
           "BUFG": 2,
-          "DFFC": 123,
-          "DFFCE": 698,
+          "DFFC": 129,
+          "DFFCE": 742,
           "DFFE": 72,
           "DFFNC": 5,
           "DFFP": 15,
-          "DPX9B": 2,
+          "DPX9B": 4,
           "GND": 1,
           "IBUF": 14,
           "IOBUF": 4,
-          "LUT1": 23,
-          "LUT2": 247,
-          "LUT3": 303,
-          "LUT4": 466,
+          "LUT1": 22,
+          "LUT2": 285,
+          "LUT3": 316,
+          "LUT4": 484,
           "OBUF": 1,
           "SDPX9B": 2,
           "VCC": 1
@@ -276,34 +276,34 @@
       }
     },
     "design": {
-      "num_wires": 1990,
-      "num_wire_bits": 3758,
-      "num_pub_wires": 1990,
-      "num_pub_wire_bits": 3758,
+      "num_wires": 2084,
+      "num_wire_bits": 3994,
+      "num_pub_wires": 2084,
+      "num_pub_wire_bits": 3994,
       "num_ports": 9,
       "num_port_bits": 19,
       "num_memories": 0,
       "num_memory_bits": 0,
       "num_processes": 0,
-      "num_cells": 2422,
+      "num_cells": 2558,
       "num_submodules": 0,
       "num_cells_by_type": {
         "$scopeinfo": 9,
-        "ALU": 434,
+        "ALU": 450,
         "BUFG": 2,
-        "DFFC": 123,
-        "DFFCE": 698,
+        "DFFC": 129,
+        "DFFCE": 742,
         "DFFE": 72,
         "DFFNC": 5,
         "DFFP": 15,
-        "DPX9B": 2,
+        "DPX9B": 4,
         "GND": 1,
         "IBUF": 14,
         "IOBUF": 4,
-        "LUT1": 23,
-        "LUT2": 247,
-        "LUT3": 303,
-        "LUT4": 466,
+        "LUT1": 22,
+        "LUT2": 285,
+        "LUT3": 316,
+        "LUT4": 484,
         "OBUF": 1,
         "SDPX9B": 2,
         "VCC": 1

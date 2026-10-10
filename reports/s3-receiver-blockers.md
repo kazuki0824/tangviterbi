@@ -4,8 +4,28 @@
 採用済み受信機は0。`receiver_adopted=false`を維持する。
 
 **今回も実装を進めたが、「この環境で可能な全作業を完了」した状態ではない。**
-全復調器、RTOS統合、物理PSRAM、全体配線の実装はなお残り、実機待ちには分類しない。
+全復調器、RTOS統合、PSRAM校正/全体STA、全体配線の実装はなお残り、実機待ちには分類しない。
 以下の第6節が残る設計・実装、第7節が今の環境で実行できない物理確認である。
+
+## 2026-10-10追加：PSRAMとIQ返送の実装を前進
+
+[追加実装・検算](s3-psram-and-iq.md)、[source hash付き証拠](s3-psram-evidence/results.json)を保存した。
+
+| 環境内で進めた不足 | 結果 | 完了としない範囲 |
+|---|---|---|
+| 抽象メモリから実DDRプロトコルへ | 2 die、256 B wrapped burst、CR0/ID読戻し、ODDR/IDDR、27→99 MHz PLL、write/read buffer、確定ackを追加 | sampling eye/IODELAY校正と全IO/位相STA |
+| SPIとPSRAMの結合 | Octal/Quad各80 MHzからDDR端子モデルを通して96頁393216 Bが一致。出力stallとring周回を含む | S3 API/status、RF復調、散在interleaveアクセス、実機 |
+| 結合時のoverflow | 32-tokenではoverflowする反例を確認。128-tokenへ増やして再検査PASS、BSRAM数は不変 | 実CPUの送信gapと全メモリ負荷のworst case |
+| 頁commit後のack消失 | 未ackのprogress watchdog追加。両portで最終ack欠落を検出し未確定頁を公開しない | S3側の停止/再初期化 |
+| PSRAMを含む受信経路のP&R | 2461 LUT4 /1391 FF /4 BSRAM /1 PLL、seed2でcore99.91 MHz。SPI2 226.40、SPI3 160.93 MHz。99/80/80制約PASS | IQ返送/FEC/復調を含む全体の合成ではない |
+| TのIQ生成と返送の重畳 | 4 KiB×2面を追加。GIを含む129.9375 µs/頁、16頁65536 Bが一致。片面のACKで他面のtimeoutを解除しない | 実IQ producerとS3 scheduler/statusの統合 |
+| 2面IQ通信回路のP&R | 1627 LUT4 /963 FF /6 BSRAM、core99.59、Octal191.28、Quad93.48 MHz。99/80/80制約PASS | このtopのmemoryはモデル。上のPSRAM topとの同時実装ではない |
+| BIST image | PSRAM BIST `.fs` を生成・保存 | T/S受信imageではない。`safe_to_flash=false`、書込み/起動は未実施 |
+| S用FECと実PSRAM受信経路の同時配置 | 配置前8022 LUT4 /4758 FF /10 BSRAM /2 DSP /1 PLL。heap計算打切り、sa異常終了、探索上限を短くしたheapは合法配置未発見 | 合法配置・99 MHz達成は未確認。まだ同期・全復調を含まない |
+| 全S3機能試験 | unittest 45件、142.443秒、全合格 | 全受信機・実機の合格ではない |
+
+以下は旧結果の履歴も含む。最新のメモリ/2面IQの範囲は上表で判定し、
+旧「PSRAMのPHYも初期化もない」という状態とは区別する。
 
 ## 2026-10-10追記：通信の実装・結合検査
 
@@ -239,8 +259,8 @@ S→Tは2回の再構成となる。実行時に任意address registerを書け�
 | 高速FFT/梱包と統合scheduler | quarter係数の厳密復元＋scalar FFT並列tile、梱包の完全値試験、45条件のdeadline計算 | S3 SIMD tile、2 core間barrier、必要ならSの並列packing、実SDKでコンパイルした全schedule。500 usはまだ目標値 |
 | T全復調RTL | FEC、5率depuncture、消去cost、FFT入出力契約、部分合成 | RF FIR/resample、AGC/CFO/clock同期、Mode1/2/3/GI、TMCC、等化、階層/demap、time/frequency/bit/byte deinterleave、energy descramble、TS framingの結合と独立TS照合 |
 | S全復調RTL | RS修正、TC8PSK距離/並列枝/B1保存/逆追跡までの機能試験 | matched filter/timing/carrier recovery、TC8PSK/QPSK/BPSK、burst/frame同期、TMCCとそのFEC、slot/TS選択、frame deinterleave、descrambleの結合と独立TS照合 |
-| 通信endpointと物理PSRAM | SPI/SCT adapter、RX/CDC/guard/unpack、2 port ack付き頁store、IQ TX RAMを実装。wire-to-memory結合試験PASS | RF/FFT別ringのrouting、IQ producer、ready/statusとreload時間のscheduler反映、物理PSRAM PHY/read/turnaround/refresh競合とack timeout検証 |
-| 全体clock/容量成立 | binary部分FECおよび距離回路込みTC8PSK部分FECは99 MHz制約PASS。通信部分は個別JSONを判定。全体は未測定。ROM-safe直接PHY版の必要条件PASS | 起動からRF/PHY/SPI初期化までの同時live allocation、通信とFEC等の統合、全PLL/reset/IO/CDC制約、T/S各bitstreamの全体配置配線・STA。必要なら処理分担を再探索 |
+| 通信endpointと物理PSRAM | SPI/SCT adapter、RX/CDC/guard/unpack、ack付き頁store、PSRAM burst/DDR/初期化/頁reader、2面IQ TXを実装。wire→DDR pin-model→頁readが一致。ack timeoutも試験 | RF/FFT別ring、実IQ producerと2面TX接続、ready/status/creditのfirmware統合、IODELAY校正、全アクセス/refresh競合のworst-case設計 |
+| 全体clock/容量成立 | binary/TC8PSK部分FEC、PSRAM＋RX頁reader、2面IQ通信は各topで99 MHz制約PASS。PSRAM用PLL追加。全体は未測定。ROM-safe直接PHY版の必要条件PASS | 起動からRF/PHY/SPI初期化までの同時live allocation、通信とFEC等の統合、全PLL/reset/IO/位相/CDC制約、T/S各bitstreamの全体配置配線・STA。必要なら処理分担を再探索 |
 | 切替firmware/復旧image | NOR配置と状態機械を実装/試験 | 実T/S/recovery image、書込み/読戻しdriver、RECONFIG drive、identity/epoch確認、壊れたheaderを含む復旧手順 |
 | RF前段・電源の実装設計 | S3内蔵RFへUHF/LNB IFを直接入れる構成では不足と確認 | 周波数変換器、LO、T/S切替filter、利得/attenuator、LNB給電/保護、S3電源、clock、connector、終端を選定した回路図/BOM/PCB。部品値・製品BOMは未確定 |
 

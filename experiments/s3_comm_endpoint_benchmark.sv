@@ -3,7 +3,7 @@
 // Memory writes fold into a checksum and are acknowledged after one cycle;
 // ordered page descriptors are immediately retired, not physically read.
 // The IQ read RAM is filled with a synthetic data source, not real RF symbols.
-module s3_comm_endpoint_benchmark(input wire clk,resetn,
+module s3_comm_endpoint_benchmark #(parameter PINGPONG=0)(input wire clk,resetn,
  input wire spi2_sclk,spi2_cs_n,input wire [7:0] spi2_d,
  input wire spi3_sclk,spi3_cs_n,inout wire [3:0] spi3_d,
  output wire activity);
@@ -17,11 +17,18 @@ module s3_comm_endpoint_benchmark(input wire clk,resetn,
  reg av,at;reg [31:0] hash,lfsr;
  s3_rx_page_store store(clk,resetn,16'd1,v,r,tok[0],tok[1],|overflow,
   mv,1'b1,ma,md,mt,av,at,pv,po,ps,pv,store_fault);
- wire begin_ready,word_ready,iq_ready,iq_sent,iq_fault,oe;
+ wire begin_ready,word_ready,iq_sent,iq_fault,oe;wire [1:0] iq_ready;
  wire [3:0] dq;reg [31:0] iq_offset;
- s3_spi_iq_tx tx(clk,resetn,begin_ready,begin_ready,16'd1,iq_offset,
-  1'b1,word_ready,lfsr,iq_ready,iq_sent,iq_fault,1'b0,
-  spi3_clock,spi3_cs_n,spi3_d,dq,oe);
+ generate if(PINGPONG)begin:double_buffer
+  s3_spi_iq_pingpong tx(clk,resetn,begin_ready,begin_ready,16'd1,iq_offset,
+   1'b1,word_ready,lfsr,iq_ready,iq_sent,iq_fault,1'b0,
+   spi3_clock,spi3_cs_n,spi3_d,dq,oe);
+ end else begin:single_buffer
+  assign iq_ready[1]=0;
+  s3_spi_iq_tx tx(clk,resetn,begin_ready,begin_ready,16'd1,iq_offset,
+   1'b1,word_ready,lfsr,iq_ready[0],iq_sent,iq_fault,1'b0,
+   spi3_clock,spi3_cs_n,spi3_d,dq,oe);
+ end endgenerate
  assign spi3_d=oe?dq:4'bzzzz;
  always @(posedge clk or negedge resetn)begin
   if(!resetn)begin av<=0;at<=0;hash<=0;lfsr<=32'h5938172d;iq_offset<=0;end
