@@ -101,8 +101,11 @@ P&R timeoutは収容不能の証明ではない。詳細とseed別終了理由�
 反復13/11/8まで進み、経過時間による中断ではなく、受信処理のdeadline missでもない。
 生ログとSHA256を `reports/s3-first-candidate-unbounded-pnr.json` と付属logに保存した。
 LCD16置換後の部分topは配置前の必要logic-site下限が8628/8640 (99.861111%)。
-残る12箇所を完成回路の余裕とはみなせない。seed 1は配置器自身の同じ合法配置エラーで終了し、
-Fmaxは得られなかった。全seedの終了結果は別reportに記録する。
+残る12箇所を完成回路の余裕とはみなせない。seed 1/2/3はいずれも配置器自身の
+同じ合法配置エラー（exit 125）で終了し、Fmaxは得られなかった。
+合成source/制約/資源auditが同一であることを確認し、2回の起動による3 seedの結果を
+`reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16.json` にまとめた。
+seed別の生ログは `reports/s3-first-candidate-lcd16-seed{1,2,3}.log`。
 この共配置測定は一つの合成netlistについての必要条件であり、別RTLの最適化まで否定しない。
 Actionsのjob上限はサービス側の6時間とし、これに到達した場合も受信処理のdeadline missとは扱わない。
 検証スクリプト自体が配置失敗時にもJSON保存後に0で終了するため、CIはそのJSONの
@@ -128,3 +131,14 @@ python3 experiments/s3_first_candidate.py --partial reports/s3-memory-fec-compac
 `all_receiver_implemented=false` / `all_deadlines_verified=false` / `receiver_adopted=false` / `safe_to_flash=false` を維持する。
 全体確認を終えるには上記未完了実装を実際に接続し、全topの配置配線・外部I/O・S3 WCETとRF→TS適合試験を完了する必要がある。
 実機未測定だけが残っている状態ではない。
+
+## 第一候補の再選定
+
+旧モデルで「帯域・平均CPU・段階別資源・必要クロック」を満たした候補の順位は暫定値に戻す。
+旧第一候補のmapped部分topが配置できないため、現時点で9K/S3の新しい第一候補を指名できない。
+これは9K/S3のすべての分担が失敗したという件数判定でもない。
+再選定時は候補ごとに両モードの接続回路・実通信ピン・外部RAMを含めた別bitstreamを作り、
+配置配線後のクロック、S3の競合込みWCET、頁単位の上下転送期限を通過条件とする。
+今回の収容問題が出たのはSの共配置topなので、Sの処理分担とビットストリームを先に再測定する。
+T/Sは同時実行せず別画像へ切り替える契約であり、両者のFPGA資源を合算しない。
+どれも満たさなければ「成立が確認された9K候補は0」と報告し、未検証案まで不可能とは数えない。

@@ -22,6 +22,7 @@
       "TS": "FPGA"
     }
   },
+  "ranking_status": "former first candidate; physical feasibility and all-candidate ranking require reassessment",
   "transport": "SPI2 octal 80 MHz half duplex + LCD16 40 MHz down",
   "transport_contract": {
     "payload_bytes": 4096,
@@ -143,6 +144,328 @@
     "pnr_trials": [
       {
         "seed": 1,
+        "exit_code": 125,
+        "fmax": null,
+        "notes": [
+          "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+        ],
+        "preplacement_utilization": {
+          "VCC": {
+            "used": 1,
+            "available": 1
+          },
+          "IOB": {
+            "used": 40,
+            "available": 276
+          },
+          "LUT4": {
+            "used": 6648,
+            "available": 8640
+          },
+          "OSER16": {
+            "used": 0,
+            "available": 80
+          },
+          "IDES16": {
+            "used": 0,
+            "available": 80
+          },
+          "IOLOGICI": {
+            "used": 18,
+            "available": 276
+          },
+          "IOLOGICO": {
+            "used": 24,
+            "available": 276
+          },
+          "MUX2_LUT5": {
+            "used": 0,
+            "available": 4320
+          },
+          "MUX2_LUT6": {
+            "used": 0,
+            "available": 2160
+          },
+          "MUX2_LUT7": {
+            "used": 0,
+            "available": 1080
+          },
+          "MUX2_LUT8": {
+            "used": 0,
+            "available": 1080
+          },
+          "ALU": {
+            "used": 2014,
+            "available": 6480
+          },
+          "GND": {
+            "used": 1,
+            "available": 1
+          },
+          "DFF": {
+            "used": 3761,
+            "available": 6480
+          },
+          "RAM16SDP4": {
+            "used": 0,
+            "available": 270
+          },
+          "BSRAM": {
+            "used": 12,
+            "available": 26
+          },
+          "ALU54D": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTADDALU18X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTALU18X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTALU36X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULT36X36": {
+            "used": 0,
+            "available": 5
+          },
+          "MULT18X18": {
+            "used": 2,
+            "available": 20
+          },
+          "MULT9X9": {
+            "used": 0,
+            "available": 40
+          },
+          "PADD18": {
+            "used": 0,
+            "available": 20
+          },
+          "PADD9": {
+            "used": 0,
+            "available": 40
+          },
+          "GSR": {
+            "used": 1,
+            "available": 1
+          },
+          "OSC": {
+            "used": 0,
+            "available": 1
+          },
+          "rPLL": {
+            "used": 1,
+            "available": 2
+          },
+          "FLASH608K": {
+            "used": 0,
+            "available": 1
+          },
+          "BUFG": {
+            "used": 2,
+            "available": 22
+          },
+          "DQCE": {
+            "used": 0,
+            "available": 24
+          },
+          "DCS": {
+            "used": 0,
+            "available": 8
+          },
+          "DHCEN": {
+            "used": 0,
+            "available": 24
+          },
+          "CLKDIV": {
+            "used": 0,
+            "available": 8
+          },
+          "CLKDIV2": {
+            "used": 0,
+            "available": 16
+          },
+          "MIPI_IBUF": {
+            "used": 0,
+            "available": 22
+          },
+          "MIPI_OBUF": {
+            "used": 0,
+            "available": 20
+          }
+        },
+        "timeout_seconds": 0,
+        "placer": "heap",
+        "heap_cell_timeout": 8
+      },
+      {
+        "seed": 2,
+        "exit_code": 125,
+        "fmax": null,
+        "notes": [
+          "ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit."
+        ],
+        "preplacement_utilization": {
+          "VCC": {
+            "used": 1,
+            "available": 1
+          },
+          "IOB": {
+            "used": 40,
+            "available": 276
+          },
+          "LUT4": {
+            "used": 6648,
+            "available": 8640
+          },
+          "OSER16": {
+            "used": 0,
+            "available": 80
+          },
+          "IDES16": {
+            "used": 0,
+            "available": 80
+          },
+          "IOLOGICI": {
+            "used": 18,
+            "available": 276
+          },
+          "IOLOGICO": {
+            "used": 24,
+            "available": 276
+          },
+          "MUX2_LUT5": {
+            "used": 0,
+            "available": 4320
+          },
+          "MUX2_LUT6": {
+            "used": 0,
+            "available": 2160
+          },
+          "MUX2_LUT7": {
+            "used": 0,
+            "available": 1080
+          },
+          "MUX2_LUT8": {
+            "used": 0,
+            "available": 1080
+          },
+          "ALU": {
+            "used": 2014,
+            "available": 6480
+          },
+          "GND": {
+            "used": 1,
+            "available": 1
+          },
+          "DFF": {
+            "used": 3761,
+            "available": 6480
+          },
+          "RAM16SDP4": {
+            "used": 0,
+            "available": 270
+          },
+          "BSRAM": {
+            "used": 12,
+            "available": 26
+          },
+          "ALU54D": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTADDALU18X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTALU18X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULTALU36X18": {
+            "used": 0,
+            "available": 10
+          },
+          "MULT36X36": {
+            "used": 0,
+            "available": 5
+          },
+          "MULT18X18": {
+            "used": 2,
+            "available": 20
+          },
+          "MULT9X9": {
+            "used": 0,
+            "available": 40
+          },
+          "PADD18": {
+            "used": 0,
+            "available": 20
+          },
+          "PADD9": {
+            "used": 0,
+            "available": 40
+          },
+          "GSR": {
+            "used": 1,
+            "available": 1
+          },
+          "OSC": {
+            "used": 0,
+            "available": 1
+          },
+          "rPLL": {
+            "used": 1,
+            "available": 2
+          },
+          "FLASH608K": {
+            "used": 0,
+            "available": 1
+          },
+          "BUFG": {
+            "used": 2,
+            "available": 22
+          },
+          "DQCE": {
+            "used": 0,
+            "available": 24
+          },
+          "DCS": {
+            "used": 0,
+            "available": 8
+          },
+          "DHCEN": {
+            "used": 0,
+            "available": 24
+          },
+          "CLKDIV": {
+            "used": 0,
+            "available": 8
+          },
+          "CLKDIV2": {
+            "used": 0,
+            "available": 16
+          },
+          "MIPI_IBUF": {
+            "used": 0,
+            "available": 22
+          },
+          "MIPI_OBUF": {
+            "used": 0,
+            "available": 20
+          }
+        },
+        "timeout_seconds": 0,
+        "placer": "heap",
+        "heap_cell_timeout": 8
+      },
+      {
+        "seed": 3,
         "exit_code": 125,
         "fmax": null,
         "notes": [

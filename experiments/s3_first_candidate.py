@@ -52,6 +52,7 @@ def rs_service(mhz, cycles=2667):
 
 def evaluate(partial=None):
     r = dict(candidate='S3-T-00c/v2 + S3-S-000/v0', owners=OWNERS,
+        ranking_status='former first candidate; physical feasibility and all-candidate ranking require reassessment',
         transport='SPI2 octal 80 MHz half duplex + LCD16 40 MHz down',
         transport_contract=dict(payload_bytes=4096, SPI_header_bytes=10,
             SPI_batch_gap_us=20, SPI_page_gap_us=.25,
