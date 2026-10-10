@@ -194,3 +194,20 @@ RFからTSまでの接続、S3競合込みWCETを未検証のまま、この部�
 合成・配置配線の再現スクリプト、ピン・クロック制約、計測値とログSHA256は
 `ci/s3_bram2_benchmark.py` / `experiments/s3_bram2_{pins.cst,clocks.py}` /
 `reports/s3-bram2-prototype.json` に記録した。
+
+同じ2頁transportでRSのBM/Omega/ForneyをS3へ分担し、FPGA側に
+syndrome/Chien/byte訂正を残す別候補も測定した。Q15/SHIFT22のまま、
+32 ACS、27→90 MHz PLLを使う。CPUの実処理とRPCはまだ接続していない。
+
+| S部分top | 必要logic位置 / 8640 | routed core Fmax / 目標 | 判定 |
+|---|---:|---:|---|
+| 22 ACS、RS分割、99 MHz | 5881 | 78.78 / 99 MHz | 不合格 |
+| 32 ACS、RS分割、99 MHz | 6080 | 94.43 / 99 MHz | 不合格 |
+| 32 ACS、RS分割、実90 MHz PLL | 6080 | 94.43 / 90 MHz | 部分構成のみ合格 |
+| 上記＋byte訂正・登録syndrome、90 MHz | 6453 | seed 1/2/3: 89.68/87.03/85.90 / 90 MHz | 全seed不合格 |
+
+最後の構成に旧未実装段1128位置を独立に足した7581位置は感度計算だけであり、
+RPC、credit、上下バッファなども未算入。訂正追加後の0.32 MHzの不足を
+目標値切下げで処理しない。この32 ACS・RS分割を**次の実装検証対象**にするが、
+CPUのBM/Omega/Forney競合込みWCET、syndrome/locator/value上下頁期限、
+最悪休止、全段接続と配置を満たすまで新第一候補とは呼ばない。
