@@ -1,0 +1,110 @@
+name: First candidate prerequisites (not complete receiver)
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_first_candidate.py'
+      - 'tests/test_s3_first_candidate.py'
+      - 'ci/s3_psram_benchmark.py'
+      - 'rtl/s3_lcd16_rx.sv'
+      - 'tests/test_s3_lcd16_rx.py'
+      - 'rtl/s3*page*.sv'
+      - 'rtl/s3_bram2_memory_bridge.sv'
+      - 'rtl/s3_rx_page_store.sv'
+      - 'rtl/s3_rs_syndrome_pipelined.sv'
+      - 'tests/test_s3_rs_split_rtl.py'
+      - 'rtl/s3_spi_rx.sv'
+      - 'experiments/s3_page_credit.*'
+      - 'experiments/s3_credit_schedule.py'
+      - 'experiments/s3_memory_bram2_fec_benchmark.sv'
+      - 'experiments/s3_bram2_*'
+      - 'tests/test_s3_page_credit.py'
+      - 'tests/test_s3_page_reorder.py'
+      - 'tests/test_s3_bram*_*.py'
+      - 'tests/test_s3_credit_schedule.py'
+      - 'ci/s3_bram2_benchmark.py'
+      - 'experiments/s3_tc8psk.py'
+      - 'tests/test_s3_tc8psk.py'
+      - '.github/workflows/s3-first-candidate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fixed-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Independent rate conservation and full-FPGA RS tests
+        run: |
+          python3 -m unittest discover -s tests -p test_s3_first_candidate.py -v
+          python3 -m unittest discover -s tests -p test_s3_rs_compact.py -v
+          python3 -m unittest discover -s tests -p test_s3_lcd16_rx.py -v
+      - name: Co-place fixed SHIFT22 full-RS memory and LCD16 prerequisite at 99 MHz
+        id: pnr
+        continue-on-error: true
+        run: python3 ci/s3_psram_benchmark.py --folded-metric --rr-table --lcd16 --core-mhz 99 --seeds 1 2 3 --pnr-timeout 0
+      - name: Record qualification gaps even on synthesis or routing failure
+        if: always()
+        run: |
+          python3 experiments/s3_first_candidate.py --partial reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16.json --output reports/s3-first-candidate.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: first-candidate-prerequisites-not-receiver
+          path: |
+            reports/s3-first-candidate.json
+            reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16.json
+            build/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16-pnr/
+            build/s3-lcd16-rx/
+            build/s3-lcd16-faults/
+            build/s3-rs-compact/
+            build/s3-rs-compact-failures/
+      - name: Propagate physical prerequisite failure
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          report = Path('reports/s3-memory-fec-compact-b1-rs-acs22-q15-folded-rr-lcd16.json')
+          status = json.loads(report.read_text())['exit_code'] if report.exists() else None
+          print(f'Partial physical placement status: {status}')
+          sys.exit(0 if status == 0 else 1)
+          PY
+
+  reassessed-ingress:
+    name: Native ingress and partial RS split (not receiver qualification)
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test native pages, shared credits, wrap, faults and conditional schedule
+        run: |
+          set -e
+          python3 -m unittest discover -s tests -p test_s3_page_reorder.py -v
+          python3 -m unittest discover -s tests -p test_s3_bram2_memory_bridge.py -v
+          python3 -m unittest discover -s tests -p test_s3_page_credit.py -v
+          python3 -m unittest discover -s tests -p test_s3_credit_schedule.py -v
+          python3 -m unittest discover -s tests -p test_s3_bram8_ingress.py -v
+          python3 -m unittest discover -s tests -p test_s3_tc8psk.py -v
+          python3 -m unittest discover -s tests -p test_s3_rs_split_rtl.py -v
+      - name: Route eight-page partial workload without a placer wall-time cap
+        run: |
+          python3 ci/s3_bram2_benchmark.py --output build/s3-bram8-rs-correct-status-allpipe-90 --slot-bits 3 --seed 1 --rs-split --acs32 --core-mhz 90 --correction --syndrome-address-pipeline --pipe-window --page-status --fixed-arbiter --parallel-traceback-choice
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reassessed-ingress-partial-not-receiver
+          path: |
+            build/s3-bram8-rs-correct-status-allpipe-90/
+            build/s3-bram8-ingress/
+            build/s3-page-credit-test/
+            reports/s3-credit-schedule.json

@@ -29,8 +29,10 @@ class SplitRTLTest(unittest.TestCase):
   self.check_syndrome(True)
  def test_four_port_syndromes_262_independent_blocks(self):
   self.check_syndrome(parallel=True)
- def check_syndrome(self,registered=False,parallel=False):
-  out=ROOT/('build/s3-rs-split-syndrome'+('-four-port' if parallel else '-registered' if registered else ''));out.mkdir(parents=True,exist_ok=True);n=len(self.cases)
+ def test_pipelined_address_syndromes_262_blocks_reset_stalls(self):
+  self.check_syndrome(pipelined=True)
+ def check_syndrome(self,registered=False,parallel=False,pipelined=False):
+  out=ROOT/('build/s3-rs-split-syndrome'+('-address-pipe' if pipelined else '-four-port' if parallel else '-registered' if registered else ''));out.mkdir(parents=True,exist_ok=True);n=len(self.cases)
   (out/'input.hex').write_text(''.join(f'{b:02x}\n' for _,rx,_ in self.cases for b in rx))
   (out/'expected.hex').write_text(''.join(f'{sum(b<<(8*j) for j,b in enumerate(row)):032x}\n' for row in self.syndromes))
   tb=f'''module tb;
@@ -61,6 +63,9 @@ initial begin $readmemh("input.hex",input_bytes);$readmemh("expected.hex",expect
 end
 endmodule'''
   rtl='s3_rs_syndrome.sv'
+  if pipelined:
+   rtl='s3_rs_syndrome_pipelined.sv'
+   tb=tb.replace('cycles>2000','cycles>2300')
   if parallel:
    from s3_rs_syndrome_parallel import source
    (out/'syndrome.sv').write_text(source());rtl=str(out/'syndrome.sv')

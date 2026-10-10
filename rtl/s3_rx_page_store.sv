@@ -3,7 +3,7 @@
 // must return exactly one ack for each accepted word, with its original tag.
 // Consumer reads from the same page-slot memory and retires after its last read.
 module s3_rx_page_store #(
- parameter SLOT_BITS=4, STREAM_ID=1, ACK_TIMEOUT_CYCLES=32768,
+ parameter SLOT_BITS=4, STREAM_ID=1, ACK_TIMEOUT_CYCLES=32768, REORDER_PIPE_WINDOW=0, FIXED_ARBITER=0,
  parameter [19:0] RESET_SEQUENCE=0
 )(
  input wire clk,resetn,input wire [15:0] epoch,
@@ -37,7 +37,7 @@ module s3_rx_page_store #(
  assign page_valid=ordered_valid && !fault;
  assign in_ready=~token_full & {2{!fault}};
  reg prefer,held,held_port;
- wire choose=held ? held_port : ((dv[1]&&prefer)||!dv[0]);
+ wire choose=held ? held_port : (FIXED_ARBITER ? prefer : ((dv[1]&&prefer)||!dv[0]));
  assign mem_valid=!fault && dv[choose];
  assign mem_data=data[choose];assign mem_tag=choose;
  assign mem_word_address={owned[choose],index[choose]};
@@ -91,7 +91,7 @@ module s3_rx_page_store #(
    if(token_full[1]&&guarded_ready[1])token_full[1]<=0;
   end
  end
- s3_page_reorder #(.SLOT_BITS(SLOT_BITS),.RESET_SEQUENCE(RESET_SEQUENCE)) order(
+ s3_page_reorder #(.SLOT_BITS(SLOT_BITS),.RESET_SEQUENCE(RESET_SEQUENCE),.PIPE_WINDOW(REORDER_PIPE_WINDOW)) order(
   // Guard has already rejected non-page-aligned offsets. Make that invariant
   // explicit at the boundary, removing a second 12-bit alignment comparator.
   clk,resetn,epoch,filtered_request,grant,{offset[0][31:12],12'd0},{offset[1][31:12],12'd0},epoch,epoch,
@@ -101,7 +101,12 @@ module s3_rx_page_store #(
   if(!resetn)begin prefer<=0;held<=0;held_port<=0;memory_fault<=0;stream_fault<=0;end
   else if(!stopped)begin
    if(mem_valid&&!mem_ready)begin held<=1;held_port<=choose;end
-   if(mem_valid&&mem_ready)begin held<=0;prefer<=!choose;end
+   if(mem_valid&&mem_ready)held<=0;
+   // Fixed slots eliminate cross-port payload decode -> peer ready paths.
+   // Each port gets one memory opportunity per two core clocks.
+   if(FIXED_ARBITER)begin
+    if(!held || mem_ready)prefer<=!choose;
+   end else if(mem_valid&&mem_ready)prefer<=!choose;
    if((ack[0]&&outstanding[0]==0&&!push[0]) ||
       (ack[1]&&outstanding[1]==0&&!push[1]))memory_fault<=1;
    if((request[0]&&stream[0]!=STREAM_ID)||(request[1]&&stream[1]!=STREAM_ID))stream_fault<=1;

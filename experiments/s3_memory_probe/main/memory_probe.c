@@ -22,6 +22,9 @@
 static s3_spi_port transport_ports[2];
 static spi_multi_transaction_t octal_segments[8], quad_segments[1];
 static s3_tx_ring transport_ring;
+static s3_page_credit transport_credit;
+DMA_ATTR __attribute__((aligned(32))) uint8_t credit_status_response[16];
+const uint32_t credit_object_sizes[]={sizeof(s3_page_credit),sizeof(credit_status_response)};
 static s3_iq10_packer transport_packer;
 static s3_rf_transfer transport_RF_transfers[2];
 static s3_capture_bridge capture_bridge;
@@ -151,6 +154,10 @@ void app_main(void)
     probe_keep ^= (uintptr_t)&s3_ring_init_split;
     probe_keep ^= (uintptr_t)&s3_iq10_init ^ (uintptr_t)&s3_iq10_push ^ (uintptr_t)&s3_iq10_discard;
     probe_keep ^= (uintptr_t)&s3_rf_submit ^ (uintptr_t)&s3_rf_reap;
+    probe_keep ^= (uintptr_t)&transport_credit ^ (uintptr_t)credit_status_response ^ (uintptr_t)credit_object_sizes;
+    probe_keep ^= (uintptr_t)&s3_rf_submit_credited ^ (uintptr_t)&s3_spi_prepare_credit_status ^
+        (uintptr_t)&s3_credit_init ^ (uintptr_t)&s3_credit_init_window ^ (uintptr_t)&s3_credit_status ^
+        (uintptr_t)&s3_credit_reserve ^ (uintptr_t)&s3_credit_poison;
     probe_keep ^= (uintptr_t)&s3_t_rf_batch;
 #if PROBE_QUARTER_FFT
     probe_keep ^= (uintptr_t)&s3_fft_reverse_tile ^ (uintptr_t)&s3_fft_stage_quarter_tile;

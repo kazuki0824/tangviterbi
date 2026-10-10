@@ -6,7 +6,7 @@
 // page only after its final memory read/consumption, never on read issuance.
 // epoch is constant until both ports, memory and consumer are stopped/reset.
 module s3_page_reorder #(
- parameter SLOT_BITS=4,
+ parameter SLOT_BITS=4, PIPE_WINDOW=0,
  parameter [19:0] RESET_SEQUENCE=0
 )(
  input wire clk,resetn,input wire [15:0] epoch,
@@ -40,6 +40,11 @@ module s3_page_reorder #(
  // entire address again would reintroduce a wide mux/compare control path.
  wire fresh0=checked_request[0] && request[0] && checked_base==next_sequence;
  wire fresh1=checked_request[1] && request[1] && checked_base==next_sequence;
+ reg [19:0] delta0_q,delta1_q,base_q,sequence0_q,sequence1_q;
+ reg [19:0] checked_sequence0,checked_sequence1;
+ reg [1:0] request_q;
+ wire current0=!PIPE_WINDOW || checked_sequence0==sequence0;
+ wire current1=!PIPE_WINDOW || checked_sequence1==sequence1;
  wire bad0=epoch==0 || epoch0!=epoch || offset0[11:0]!=0 || old0 || (window0 && occupied[slot0]);
  wire bad1=epoch==0 || epoch1!=epoch || offset1[11:0]!=0 || old1 || (window1 && occupied[slot1]);
  assign slot0=sequence0[SLOT_BITS-1:0];
@@ -49,8 +54,8 @@ module s3_page_reorder #(
  // second offer until the first has updated occupied[], so its check cannot
  // see stale ownership. Request/address must remain stable until handshake.
  // Only page metadata uses this two-cycle arbitration; payload is unaffected.
- wire eligible0=fresh0 && request[0] && !active[0] && !bad0 && window0;
- wire eligible1=fresh1 && request[1] && !active[1] && !bad1 && window1;
+ wire eligible0=fresh0 && current0 && request[0] && !active[0] && !bad0 && window0;
+ wire eligible1=fresh1 && current1 && request[1] && !active[1] && !bad1 && window1;
  assign grant=offered & {2{!fault}};
  assign page_slot=next_sequence[SLOT_BITS-1:0];
  assign page_offset={next_sequence,12'd0};
@@ -61,6 +66,8 @@ module s3_page_reorder #(
    owned0<=0;owned1<=0;active<=0;fault<=0;
    reserve_turn<=0;offered<=0;checked_request<=0;checked_base<=0;
    window0<=0;window1<=0;old0<=0;old1<=0;
+   delta0_q<=0;delta1_q<=0;base_q<=0;sequence0_q<=0;sequence1_q<=0;
+   checked_sequence0<=0;checked_sequence1<=0;request_q<=0;
   end else if(!fault) begin
    offered<=0;
    if(offered==0)begin
@@ -68,11 +75,23 @@ module s3_page_reorder #(
     else if(eligible1)begin offered<=2;reserve_turn<=0;end
     else if(eligible0)begin offered<=1;reserve_turn<=1;end
    end
-   checked_request<=request;checked_base<=next_sequence;
-   window0<=!(|delta0[19:SLOT_BITS]);window1<=!(|delta1[19:SLOT_BITS]);
-   old0<=delta0[19];old1<=delta1[19];
+   if(PIPE_WINDOW)begin
+    // Arithmetic and reduction occupy separate clocks. Cache validity also
+    // checks the request address, so back-to-back requests cannot reuse a
+    // prior page's result. Ownership is still checked at reservation time.
+    delta0_q<=delta0;delta1_q<=delta1;base_q<=next_sequence;
+    sequence0_q<=sequence0;sequence1_q<=sequence1;request_q<=request;
+    checked_request<=request_q & request;checked_base<=base_q;
+    checked_sequence0<=sequence0_q;checked_sequence1<=sequence1_q;
+    window0<=!(|delta0_q[19:SLOT_BITS]);window1<=!(|delta1_q[19:SLOT_BITS]);
+    old0<=delta0_q[19];old1<=delta1_q[19];
+   end else begin
+    checked_request<=request;checked_base<=next_sequence;
+    window0<=!(|delta0[19:SLOT_BITS]);window1<=!(|delta1[19:SLOT_BITS]);
+    old0<=delta0[19];old1<=delta1[19];
+   end
    if(abort || (retire&&!page_valid) || (|(finish&~active)) ||
-      (fresh0&&request[0]&&!active[0]&&bad0) || (fresh1&&request[1]&&!active[1]&&bad1)) fault<=1;
+      (fresh0&&current0&&request[0]&&!active[0]&&bad0) || (fresh1&&current1&&request[1]&&!active[1]&&bad1)) fault<=1;
    // Updates on the edge detecting a fatal error are tentative: fault masks
    // every output immediately afterwards and freezes until epoch reset. Do
    // not distribute the entire error-detection cone as all metadata FF CEs.

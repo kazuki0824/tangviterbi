@@ -7,7 +7,7 @@
 // and must mute the TS path.
 // FIFO is a clock-crossing elasticity buffer, not a complete page store.
 // SPI reads (D71B) generate header tokens but no RX payload.
-module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0)(
+module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0, IGNORE_STATUS_READ=0)(
  input wire spi_clk, cs_n, clk, resetn,
  input wire [LANES-1:0] dq,
  output wire valid, input wire ready, output wire [35:0] token,
@@ -29,6 +29,7 @@ module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0)(
  wire last_word=byte_count==14'd4105;
  wire word_end=body && byte_count[1:0]==1;
  wire wvalid=!cs_n && byte_end && !(IGNORE_IQ_READ && command==16'hd71b) &&
+             !(IGNORE_STATUS_READ && command==16'hd71c) &&
              (byte_count==3 || byte_count==7 || byte_count==9 || word_end);
  wire [3:0] tag=byte_count==3 ? 1 : byte_count==7 ? 2 : byte_count==9 ? 3 : last_word ? 8 : 0;
  wire [31:0] value=body ? payload_word : byte_count==9 ? {16'd0,shift[7:0],octet} : header_word;

@@ -13,6 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--seeds',type=int,nargs='+',default=[1,2,3])
 p.add_argument('--bridge',action='store_true',help='Include SPI, page store and reader')
+p.add_argument('--lcd16',action='store_true',help='Use 40 MHz LCD16 downlink in place of the Quad SPI test input')
 p.add_argument('--fec',action='store_true',help='Co-place independent S metric/TC8PSK/RS workload, not a receiver')
 p.add_argument('--compact-output',action='store_true',help='Use one BSRAM for TC8PSK output instead of FF buffers')
 p.add_argument('--compact-b1',action='store_true',help='Store four uncoded branch choices per row rather than 64 state choices')
@@ -35,10 +36,12 @@ p.add_argument('--rr-table',action='store_true',help='Elaborate constant round-r
 p.add_argument('--core-mhz',type=int,choices=(90,99),default=99,help='Static 27 MHz PLL target; 90 uses VCO 720 MHz')
 p.add_argument('--wide-lut',action='store_true',help='Permit Gowin LUT5..8 mapping')
 p.add_argument('--no-ce',action='store_true',help='Map FF enables to explicit feedback muxes')
-p.add_argument('--pnr-timeout',type=int,default=180,help='Wall seconds per placement seed; timeout is NOT a fit proof')
+p.add_argument('--pnr-timeout',type=int,default=180,help='Wall seconds per placement seed; 0 disables the local limit; timeout is NOT a fit proof')
 p.add_argument('--placer',choices=('heap','sa'),default='heap')
 p.add_argument('--heap-cell-timeout',type=int,default=8,help='nextpnr cell-placement divisor; larger bounds each search sooner')
 args=p.parse_args()
+if args.pnr_timeout<0:p.error('--pnr-timeout must be >= 0')
+if args.lcd16:args.bridge=True
 if args.rpc_clock27:args.rpc_bit_ranges=True
 if args.rpc_bit_ranges:args.rpc_payload_flag=True
 if args.rpc_payload_flag:args.rs_rpc_guard=True
@@ -76,6 +79,7 @@ if args.rpc_clock27:name+='-rpc27'
 if args.syndrome_ready:name+='-syready'
 if args.syndrome4:name+='-sy4'
 if args.rr_table:name+='-rr'
+if args.lcd16:name+='-lcd16'
 if args.core_mhz!=99:name+=f'-{args.core_mhz}MHz'
 top='s3_memory_fec_benchmark' if args.fec else 's3_memory_bridge_benchmark' if args.bridge else 's3_psram_benchmark'
 out=ROOT/f'build/{name}-pnr';out.mkdir(parents=True,exist_ok=True)
@@ -162,6 +166,31 @@ if args.core_mhz==90:
     clock_source=(ROOT/'rtl/s3_psram_clock.sv').read_text().replace('99 MHz','90 MHz').replace('792 MHz','720 MHz').replace('.FBDIV_SEL(10)','.FBDIV_SEL(9)')
     (out/'clock.sv').write_text(clock_source)
     sources=[str((out/'clock.sv').relative_to(ROOT)) if s=='rtl/s3_psram_clock.sv' else s for s in sources]
+if args.lcd16:
+    bridge_source='rtl/s3_spi_memory_bridge.sv'
+    bridge_text=(ROOT/bridge_source).read_text()
+    before='input wire spi3_sclk,spi3_cs_n,input wire [3:0] spi3_d,'
+    after='input wire spi3_sclk,spi3_cs_n,spi3_dc,input wire [15:0] spi3_d,'
+    if bridge_text.count(before)!=1:raise ValueError('LCD16 bridge port anchor changed')
+    bridge_text=bridge_text.replace(before,after)
+    before='s3_spi_rx #(.LANES(4),.FIFO_AW(7)) p3(spi3_clock,spi3_cs_n,clk,resetn,spi3_d,v[1],r[1],tok[1],overflow[1]);'
+    after='s3_lcd16_rx #(.FIFO_AW(7)) p3(spi3_clock,spi3_cs_n,spi3_dc,clk,resetn,spi3_d,v[1],r[1],tok[1],overflow[1]);'
+    if bridge_text.count(before)!=1:raise ValueError('LCD16 receiver anchor changed')
+    (out/'lcd_bridge.sv').write_text(bridge_text.replace(before,after))
+    sources=[str((out/'lcd_bridge.sv').relative_to(ROOT)) if s==bridge_source else s for s in sources]
+    sources.append('rtl/s3_lcd16_rx.sv')
+    top_source=str((out/'top.sv').relative_to(ROOT)) if args.folded_metric else (
+        'experiments/s3_memory_fec_benchmark.sv' if args.fec else 'experiments/s3_memory_bridge_benchmark.sv')
+    top_text=(ROOT/top_source).read_text()
+    before='input wire spi3_sclk,spi3_cs_n,input wire [3:0] spi3_d'
+    after='input wire spi3_sclk,spi3_cs_n,spi3_dc,input wire [15:0] spi3_d'
+    if top_text.count(before)!=1:raise ValueError('LCD16 top port anchor changed')
+    top_text=top_text.replace(before,after)
+    before='spi3_sclk,spi3_cs_n,spi3_d,'
+    after='spi3_sclk,spi3_cs_n,spi3_dc,spi3_d,'
+    if top_text.count(before)!=1:raise ValueError('LCD16 bridge connection anchor changed')
+    (out/'lcd_top.sv').write_text(top_text.replace(before,after))
+    sources=[str((out/'lcd_top.sv').relative_to(ROOT)) if s==top_source else s for s in sources]
 hashes={s:hashlib.sha256((ROOT/s).read_bytes()).hexdigest() for s in sources}
 if (out/'result.json').exists():
     old=json.loads((out/'result.json').read_text())
@@ -175,7 +204,19 @@ synth_flags=('-nowidelut ' if not args.wide_lut else '')+('-nodffe ' if args.no_
     'tee -o '+str(out/'stat.json')+' stat -json\ncheck -assert\n')
 with (out/'synth.log').open('w') as f:
     rc=subprocess.run(['yosys','-Q','-T','-s',str(out/'synth.ys')],cwd=ROOT,stdout=f,stderr=subprocess.STDOUT).returncode
-if rc:raise RuntimeError('synthesis failed: '+str(out/'synth.log'))
+if rc:
+    # An interrupted/failed synthesis must leave reviewable evidence too.
+    # In particular, never reuse a previous routed result after this failure.
+    result=dict(scope=__doc__,variant=name,exit_code=rc,
+        pipeline_stage='synthesis',sources=hashes,
+        synthesis_flags=synth_flags.strip(),pnr_trials=[],
+        logic_site_audit=None,physical_timing_proven=False,
+        receiver_adopted=False,safe_to_flash=False,
+        absent=['successful synthesis','placement and routing',
+                'full receiver integration','real hardware BIST'])
+    (out/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+    (ROOT/f'reports/{name}.json').write_text(json.dumps(result,indent=2)+'\n')
+    raise RuntimeError(f'synthesis exited {rc}: {out / "synth.log"}')
 modules=json.loads((out/'design.json').read_text())['modules']
 tops=[m for m in modules.values() if int(str(m.get('attributes',{}).get('top','0')),2)]
 if len(tops)!=1:raise ValueError('ambiguous top')
@@ -199,13 +240,20 @@ if args.bridge:
     for port in ('spi2_sclk','spi3_sclk'):
         ib=[c for c in design['cells'].values() if c['type']=='IBUF' and c['connections']['I']==design['ports'][port]['bits']]
         gb=[c for c in design['cells'].values() if c['type']=='BUFG' and c['connections']['I']==ib[0]['connections']['O']]
-        clock_pairs.append((net_alias(gb[0]['connections']['O']),80))
+        clock_pairs.append((net_alias(gb[0]['connections']['O']),40 if args.lcd16 and port=='spi3_sclk' else 80))
 clocks=''.join(f'ctx.addClock({net!r},{freq})\n' for net,freq in clock_pairs)
 (out/'clocks.py').write_text(clocks)
 cst='experiments/s3_psram_benchmark.cst'
 if args.bridge:
     cst=str(out/'pins.cst')
-    (out/'pins.cst').write_text((ROOT/'experiments/s3_spi_rx_benchmark.cst').read_text().replace('"clk"','"clk27"'))
+    pins=(ROOT/'experiments/s3_spi_rx_benchmark.cst').read_text().replace('"clk"','"clk27"')
+    if args.lcd16:
+        pins='\n'.join(line for line in pins.splitlines() if '"spi3_cs_n"' not in line and '"spi3_d[' not in line)+'\n'
+        pins+='IO_LOC "spi3_cs_n" 76;\nIO_PORT "spi3_cs_n" IO_TYPE=LVCMOS33 PULL_MODE=NONE;\n'
+        pins+='IO_LOC "spi3_dc" 77;\nIO_PORT "spi3_dc" IO_TYPE=LVCMOS33 PULL_MODE=NONE;\n'
+        for bit,pin in enumerate((41,42,51,53,54,55,56,57,68,69,70,71,72,73,74,75)):
+            pins+=f'IO_LOC "spi3_d[{bit}]" {pin};\nIO_PORT "spi3_d[{bit}]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;\n'
+    (out/'pins.cst').write_text(pins)
 site_audit=None
 if not args.wide_lut:
     from s3_logic_site_audit import audit
@@ -238,7 +286,7 @@ for seed in args.seeds:
                 '--pre-pack',str(out/'clocks.py'),'--seed',str(seed),'--report',str(rp),
                 '--placer',args.placer,'--placer-heap-cell-placement-timeout',str(args.heap_cell_timeout),
                 '--write',str(out/'routed.json')],
-                cwd=ROOT,stdout=f,stderr=subprocess.STDOUT,timeout=args.pnr_timeout).returncode
+                cwd=ROOT,stdout=f,stderr=subprocess.STDOUT,timeout=args.pnr_timeout or None).returncode
         except subprocess.TimeoutExpired:
             rc=124;f.write(f'\nERROR: P&R timed out after {args.pnr_timeout} seconds; fit remains unknown\n')
     report=json.loads(rp.read_text()) if rp.exists() else {}
@@ -248,7 +296,10 @@ for seed in args.seeds:
                        preplacement_utilization=packed,timeout_seconds=args.pnr_timeout,
                        placer=args.placer,heap_cell_timeout=args.heap_cell_timeout))
     shutil.copy2(log,out/'pnr.log')
-    if rc==0 or any('ERROR:' in l and 'Max frequency' not in l for l in notes):break
+    # A placement timeout or legal-placement failure in one seed says nothing
+    # about the other seeds. Stop only on success or a different fatal error.
+    legal_failure=any('Unable to find legal placement' in line for line in notes)
+    if rc==0 or (rc!=124 and not legal_failure and any('ERROR:' in line for line in notes)):break
 result=dict(scope=__doc__,variant=name,exit_code=rc,sources=hashes,clock_constraints=clock_pairs,
     synthesis_flags=synth_flags.strip(),
     logic_site_audit=site_audit,

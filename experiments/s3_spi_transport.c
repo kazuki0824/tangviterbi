@@ -95,6 +95,25 @@ esp_err_t IRAM_ATTR s3_spi_prepare(s3_spi_port *p, unsigned stream, unsigned epo
     return s3_spi_prepare_pages(p, stream, epoch, offset, buffers, pages);
 }
 
+esp_err_t IRAM_ATTR s3_spi_prepare_credit_status(s3_spi_port *p,unsigned epoch,void *response)
+{
+    if(!p||!p->device||p->busy||p->poisoned)return ESP_ERR_INVALID_STATE;
+    p->count=0;
+    uint8_t *b=response;
+    if(p->host!=SPI2_HOST||p->lanes!=8||!p->sct||!epoch||epoch>UINT16_MAX||
+       !b||((uintptr_t)b&3)||!esp_ptr_internal(b)||!esp_ptr_internal(b+15)||
+       !esp_ptr_dma_capable(b)||!esp_ptr_dma_capable(b+15))return ESP_ERR_INVALID_ARG;
+    spi_multi_transaction_t *s=&p->segments[0];
+    memset(s,0,sizeof(*s));
+    s->base.flags=SPI_TRANS_MODE_OCT|SPI_TRANS_MULTILINE_CMD|
+        SPI_TRANS_MULTILINE_ADDR|SPI_TRANS_DMA_BUFFER_ALIGN_MANUAL;
+    s->base.cmd=0xd71c;s->base.addr=((uint64_t)epoch<<48)|16;
+    s->base.rxlength=128;s->base.rx_buffer=response;s->base.user=p;
+    s->seg_trans_flags=SPI_MULTI_TRANS_DUMMY_LEN_UPDATED;s->dummy_bits=16;
+    s->sct_gap_len=1;p->count=1;
+    return ESP_OK;
+}
+
 esp_err_t IRAM_ATTR s3_spi_queue(s3_spi_port *p)
 {
     if (!p || !p->device || p->busy || p->poisoned || !p->count)
@@ -138,11 +157,19 @@ esp_err_t s3_spi_close(s3_spi_port *p)
     return spi_bus_free(p->host);
 }
 
-esp_err_t IRAM_ATTR s3_rf_submit(s3_rf_transfer *x, s3_spi_port *p, s3_tx_ring *r, unsigned pages)
+static esp_err_t IRAM_ATTR rf_submit(s3_rf_transfer *x, s3_spi_port *p, s3_tx_ring *r,
+                                    s3_page_credit *credit,unsigned pages)
 {
     if (!x || !p || !r || pages == 0 || pages > 3 || pages > p->capacity)
         return ESP_ERR_INVALID_ARG;
     if (x->count || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
+    if(credit){
+        if(credit->epoch!=r->epoch||credit->poisoned||!credit->synced)
+            return ESP_ERR_INVALID_STATE;
+        uint32_t used=(credit->next-credit->retired)&0xfffff;
+        if(used>credit->window){s3_credit_poison(credit);return ESP_ERR_INVALID_STATE;}
+        if(pages>credit->window-used)return ESP_ERR_NOT_FINISHED;
+    }
     void *buffers[3];
     unsigned taken = 0;
     for (; taken < pages; ++taken) {
@@ -161,7 +188,28 @@ esp_err_t IRAM_ATTR s3_rf_submit(s3_rf_transfer *x, s3_spi_port *p, s3_tx_ring *
         return err;
     }
     x->ring = r; x->port = p; x->count = pages;
-    return s3_spi_queue(p);
+    if(credit){
+        uint32_t first;
+        if(s3_credit_reserve(credit,pages,&first)!=S3_OK||
+           first!=(x->leases[0].sequence&0xfffff)){
+            p->poisoned=true;s3_credit_poison(credit);return ESP_ERR_INVALID_STATE;
+        }
+    }
+    err=s3_spi_queue(p);
+    if(err!=ESP_OK&&credit)s3_credit_poison(credit);
+    return err;
+}
+
+esp_err_t IRAM_ATTR s3_rf_submit(s3_rf_transfer *x,s3_spi_port *p,s3_tx_ring *r,unsigned pages)
+{
+    return rf_submit(x,p,r,NULL,pages);
+}
+
+esp_err_t IRAM_ATTR s3_rf_submit_credited(s3_rf_transfer *x,s3_spi_port *p,
+                                        s3_tx_ring *r,s3_page_credit *credit,unsigned pages)
+{
+    if(!credit)return ESP_ERR_INVALID_ARG;
+    return rf_submit(x,p,r,credit,pages);
 }
 
 esp_err_t IRAM_ATTR s3_rf_reap(s3_rf_transfer *x)

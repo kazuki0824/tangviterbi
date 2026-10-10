@@ -1,0 +1,4 @@
+read_verilog -sv build/s3-bram8-rs-correct-status-allpipe-90/clock.sv rtl/s3_async_fifo.sv rtl/s3_spi_rx.sv rtl/s3_lcd16_rx.sv rtl/s3_page_guard.sv rtl/s3_page_reorder.sv rtl/s3_rx_page_store.sv rtl/s3_bram2_memory_bridge.sv rtl/s3_tc8psk_metric_folded.sv build/s3-bram8-rs-correct-status-allpipe-90/viterbi.sv build/s3-bram8-rs-correct-status-allpipe-90/syndrome.sv build/s3-bram8-rs-correct-status-allpipe-90/top.sv rtl/s3_rs_chien.sv rtl/s3_rs_correction.sv rtl/s3_spi_page_status.sv
+synth_gowin -top s3_memory_bram2_fec_benchmark -family gw1n -nowidelut -json build/s3-bram8-rs-correct-status-allpipe-90/design.json
+tee -o build/s3-bram8-rs-correct-status-allpipe-90/stat.json stat -json
+check -assert

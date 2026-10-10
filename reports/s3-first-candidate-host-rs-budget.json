@@ -1,0 +1,55 @@
+{
+  "scope": "Remaining CPU budget under historical RF cost model; not measured WCET or a rejection of every implementation",
+  "CPU_total_Mcycles_per_second": 480,
+  "codewords_per_second": 35541.87192118227,
+  "codeword_period_us": 28.135828135828135,
+  "budgets": [
+    {
+      "RF_cost_model": "low",
+      "RF_Mcycles_per_second": 368.43750000000006,
+      "remaining_total_Mcycles_per_second": 111.56249999999994,
+      "maximum_remaining_cycles_per_codeword": 3138.9033264033246,
+      "includes_RS_and_credit_and_runtime_overhead": true,
+      "measured_on_S3": false
+    },
+    {
+      "RF_cost_model": "high",
+      "RF_Mcycles_per_second": 448.43750000000006,
+      "remaining_total_Mcycles_per_second": 31.56249999999994,
+      "maximum_remaining_cycles_per_codeword": 888.0370755370739,
+      "includes_RS_and_credit_and_runtime_overhead": true,
+      "measured_on_S3": false
+    }
+  ],
+  "maximum_tested_nonzero_GF_case": {
+    "case": "random-8-errors-0",
+    "errors": 8,
+    "bm_omega": {
+      "mul_calls": 421,
+      "mul_nonzero": 237,
+      "div_calls": 16,
+      "chien_steps": 0
+    },
+    "chien": {
+      "mul_calls": 8,
+      "mul_nonzero": 8,
+      "div_calls": 0,
+      "chien_steps": 1632
+    },
+    "forney_with_locator_validation": {
+      "mul_calls": 240,
+      "mul_nonzero": 160,
+      "div_calls": 8,
+      "chien_steps": 0
+    }
+  },
+  "operation_counts_are_not_cycles": true,
+  "CPU_WCET_verified": false,
+  "receiver_adopted": false,
+  "source_sha256": {
+    "reports/s3-first-candidate-sizing-model.json": "5bebd43449f8f322d86973b735f160a20bf3b087e600f8729931e61dcec26f56",
+    "reports/s3-rs-offload-evidence/host-vectors.json": "057811559dfd58d5adc2e9b02b38befb5b8bd0741af162c17e5556170bb8bd56",
+    "experiments/s3_rs_offload.c": "053984c0edfb27dac2be61bea16e2fbc9bf54c57f48f0ad4a4306d8ff4f5c1fe",
+    "experiments/s3_rs_offload.h": "3ac412e2c19f23da4f69438b37d973d2502e24d07c95f39d83513c88645ce7b5"
+  }
+}
