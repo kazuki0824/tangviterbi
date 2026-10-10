@@ -20,9 +20,15 @@ p.add_argument('--compact-rs',action='store_true',help='Move serial RS omega/err
 p.add_argument('--acs22',action='store_true',help='Use 22 ACS lanes in three clocks per symbol')
 p.add_argument('--metric-q15',action='store_true',help='Exact 12-bit path metrics under fixed Q15/SHIFT22 metric-unit contract')
 p.add_argument('--folded-metric',action='store_true',help='Share exact metric arithmetic at one symbol/3 clocks')
+p.add_argument('--cost-shift',type=int,choices=(22,23,24,25),default=22,
+               help='Experimental FPGA-only branch quantizer; values above 22 change costs and require BER checks')
 p.add_argument('--rs-offload',action='store_true',help='Partial host-RS split: 32 ACS + FPGA syndrome/Chien, no RPC/correction buffers')
 p.add_argument('--split-acs22',action='store_true',help='Use 22 ACS/3 clocks in the partial RS offload workload')
 p.add_argument('--rs-correction',action='store_true',help='Also co-place the byte correction stream, still without RPC/memory scheduling')
+p.add_argument('--rs-rpc-guard',action='store_true',help='Also co-place the S3 response validator; no RPC storage/ownership/producer')
+p.add_argument('--rpc-payload-flag',action='store_true',help='Register payload-region membership in the RPC guard')
+p.add_argument('--rpc-bit-ranges',action='store_true',help='Use exact bit tests for RPC header/padding power-of-two bounds')
+p.add_argument('--rpc-clock27',action='store_true',help='Independent 27 MHz validator with a backpressured 90 MHz byte FIFO')
 p.add_argument('--syndrome-ready',action='store_true',help='Use a registered last-byte flag in the syndrome input-ready path')
 p.add_argument('--syndrome4',action='store_true',help='Use four GF lookup ports/four clocks per byte')
 p.add_argument('--rr-table',action='store_true',help='Elaborate constant round-robin grant priorities')
@@ -33,6 +39,11 @@ p.add_argument('--pnr-timeout',type=int,default=180,help='Wall seconds per place
 p.add_argument('--placer',choices=('heap','sa'),default='heap')
 p.add_argument('--heap-cell-timeout',type=int,default=8,help='nextpnr cell-placement divisor; larger bounds each search sooner')
 args=p.parse_args()
+if args.rpc_clock27:args.rpc_bit_ranges=True
+if args.rpc_bit_ranges:args.rpc_payload_flag=True
+if args.rpc_payload_flag:args.rs_rpc_guard=True
+if args.rs_rpc_guard:args.rs_correction=True
+if args.cost_shift!=22:args.folded_metric=True
 if args.rs_correction:args.rs_offload=True
 if args.split_acs22:args.rs_offload=True
 if args.syndrome_ready:args.rs_offload=True
@@ -55,8 +66,13 @@ if args.compact_rs:name+='-rs'
 if args.acs22:name+='-acs22'
 if args.metric_q15:name+='-q15'
 if args.folded_metric:name+='-folded'
+if args.cost_shift!=22:name+=f'-shift{args.cost_shift}'
 if args.rs_offload:name+='-rs-offload'
 if args.rs_correction:name+='-correct'
+if args.rs_rpc_guard:name+='-rpcguard'
+if args.rpc_payload_flag:name+='-rpcflag'
+if args.rpc_bit_ranges:name+='-rpcranges'
+if args.rpc_clock27:name+='-rpc27'
 if args.syndrome_ready:name+='-syready'
 if args.syndrome4:name+='-sy4'
 if args.rr_table:name+='-rr'
@@ -85,6 +101,11 @@ if args.fec:
     if args.rs_offload:
         sources=[s for s in sources if s!=str((out/'rs.sv').relative_to(ROOT))]
         sources+=['rtl/s3_rs_syndrome.sv','rtl/s3_rs_chien.sv']
+    if args.cost_shift!=22:
+        from s3_tc8psk_precision import metric_source, viterbi_source
+        (out/'metric.sv').write_text(metric_source(args.cost_shift))
+        (out/'viterbi.sv').write_text(viterbi_source(args.cost_shift,22 if args.acs22 else 32))
+        sources=[str((out/'metric.sv').relative_to(ROOT)) if s=='rtl/s3_tc8psk_metric_folded.sv' else s for s in sources]
     if args.rs_correction:
         top_text=(out/'top.sv').read_text()
         top_text=top_text.replace(' assign activity=', ''' wire correction_ready,correction_error,correction_in_ready;
@@ -97,6 +118,36 @@ if args.fec:
  'correction_ready,correction_error,correction_in_ready,correction_valid,correction_data,correction_last,correction_failed,checksum,offset,')
         (out/'top.sv').write_text(top_text)
         sources+=['rtl/s3_rs_correction.sv']
+    if args.rs_rpc_guard:
+        top_text=(out/'top.sv').read_text()
+        top_text=top_text.replace(' assign activity=', ''' // Independent validation workload; not a connected RPC protocol.
+ wire guard_cfg_ready,guard_in_ready,guard_result;wire[5:0] guard_errors;
+ s3_rs_rpc_guard guard(clk,rst,1'b1,guard_cfg_ready,lfsr[0]?8'd2:8'd4,
+  lfsr[31:16],lfsr[63:32],lfsr[24],guard_in_ready,lfsr[7:0],lfsr[42],
+  guard_result,lfsr[25],guard_errors);
+ assign activity=''').replace('checksum,offset,',
+ 'guard_cfg_ready,guard_in_ready,guard_result,guard_errors,checksum,offset,')
+        (out/'top.sv').write_text(top_text)
+        sources+=['rtl/s3_rs_rpc_guard.sv']
+        if args.rpc_payload_flag:
+            from s3_rs_rpc_guard_registered import source as guard_source
+            (out/'guard.sv').write_text(guard_source(args.rpc_bit_ranges))
+            sources=[str((out/'guard.sv').relative_to(ROOT)) if s=='rtl/s3_rs_rpc_guard.sv' else s for s in sources]
+        if args.rpc_clock27:
+            top_text=(out/'top.sv').read_text()
+            top_text=top_text.replace(' s3_rs_rpc_guard guard(clk,rst,1\'b1,guard_cfg_ready,lfsr[0]?8\'d2:8\'d4,\n  lfsr[31:16],lfsr[63:32],lfsr[24],guard_in_ready,lfsr[7:0],lfsr[42],\n  guard_result,lfsr[25],guard_errors);', ''' wire guard_clock;BUFG guard_global(.I(clk27),.O(guard_clock));
+ // Descriptor and result controls stay in the 27 MHz domain. Real owner/
+ // descriptor/result handshakes with the 90 MHz scheduler remain absent.
+ reg[63:0] guard_lfsr;
+ always @(posedge guard_clock or negedge rst)
+  if(!rst)guard_lfsr<=64'h123fedab987ace02;
+  else guard_lfsr<={guard_lfsr[62:0],guard_lfsr[63]^guard_lfsr[62]^guard_lfsr[60]^guard_lfsr[59]};
+ s3_rs_rpc_guard_cdc guard(clk,guard_clock,rst,1'b1,guard_cfg_ready,
+  guard_lfsr[0]?8'd2:8'd4,guard_lfsr[31:16],guard_lfsr[63:32],
+  lfsr[24],guard_in_ready,lfsr[7:0],lfsr[42],guard_result,guard_lfsr[25],guard_errors);''')
+            if 's3_rs_rpc_guard_cdc guard' not in top_text:raise ValueError('missing guard clock anchor')
+            (out/'top.sv').write_text(top_text)
+            sources+=['rtl/s3_rs_rpc_guard_cdc.sv']
     if args.syndrome_ready or args.syndrome4:
         if args.syndrome4:from s3_rs_syndrome_parallel import source as syndrome_source
         else:from s3_rs_syndrome_registered import source as syndrome_source
@@ -139,6 +190,11 @@ def net_alias(bits):
 pll=[c for c in design['cells'].values() if c['type']=='rPLL']
 if len(pll)!=1:raise ValueError('expected one PLL')
 clock_pairs=[(clock,27)]+[(net_alias(pll[0]['connections'][port]),args.core_mhz) for port in ('CLKOUT','CLKOUTP')]
+if args.rpc_clock27:
+    # Flattening may retain only guard.check_clk, not the top-level alias.
+    gb=[c for c in design['cells'].values() if c['type']=='BUFG' and c['connections']['I']==buf[0]['connections']['O']]
+    if len(gb)!=1:raise ValueError('missing or ambiguous 27 MHz guard buffer')
+    clock_pairs.append((net_alias(gb[0]['connections']['O']),27))
 if args.bridge:
     for port in ('spi2_sclk','spi3_sclk'):
         ib=[c for c in design['cells'].values() if c['type']=='IBUF' and c['connections']['I']==design['ports'][port]['bits']]
@@ -201,6 +257,10 @@ result=dict(scope=__doc__,variant=name,exit_code=rc,sources=hashes,clock_constra
     physical_timing_proven=False,receiver_adopted=False,safe_to_flash=False,
     absent=['validated DQ/RWDS sampling eye','phase-related external IO STA','full receiver integration','real hardware BIST'])
 if args.rs_offload:result['absent']+=['host RS WCET','RPC protocol/queues','coded-block memory and correction writes','TS output scheduler']
+if args.cost_shift!=22:
+    from s3_tc8psk_precision import bound
+    result['experimental_FPGA_quantizer']=bound(args.cost_shift)
+    result['absent']+=['receiver BER/CN acceptance for changed FPGA branch quantizer']
 (out/'result.json').write_text(json.dumps(result,indent=2)+'\n')
 (ROOT/f'reports/{name}.json').write_text(json.dumps(result,indent=2)+'\n')
 print(json.dumps({k:result[k] for k in ('exit_code','pnr_trials','utilization')},indent=2))

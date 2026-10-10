@@ -5,7 +5,11 @@
 追記：下記第4節のobject/配置検査に続き、実ESP-IDF linkとROM/起動メモリの必要条件監査も実施した。
 追加後の実SDK結果は第4節末尾を優先し、object検査だけの古い到達点と区別する。
 今回の進展は、実PSRAM受信経路とSの距離/TC8PSK/RS部分処理を一緒に配置し、
-内部90 MHzとSPI各80 MHz制約に合格したこと。まだ全復調器・RPCのFPGA側・TS出力を含まない。
+内部90 MHzとSPI各80 MHz制約に合格したこと。この時点のtopは全復調器・RPCのFPGA側・TS出力を含まない。
+
+後続の[FPGA距離精度・RS応答検査](s3-fpga-precision-and-rpc.md)で、応答page検査と
+90→27 MHzのdata FIFOを追加実装した。全RPCは未統合であり、追加後の面積・Fmaxは
+後続レポートで判定する。下表の追加前topの値をそのまま転用しない。
 
 ## 1. 期限の検算と訂正
 

@@ -14,6 +14,8 @@ on:
       - 'ci/s3_fec_compaction_evidence.py'
       - 'ci/s3_rs_offload_compile.py'
       - 'ci/s3_rs_offload_evidence.py'
+      - 'ci/s3_precision_ber.py'
+      - 'ci/s3_precision_evidence.py'
       - 'ci/s3_fec_extension_benchmark.py'
       - 'rtl/s3_*.sv'
       - '.github/workflows/s3-receiver-offline.yml'
@@ -23,7 +25,7 @@ permissions:
 jobs:
   rs-split-pnr:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -42,6 +44,24 @@ jobs:
             flags: --rs-correction --syndrome4 --rr-table --core-mhz 90
           - name: correction90-22acs
             flags: --rs-correction --split-acs22 --syndrome-ready --rr-table --core-mhz 90
+          - name: correction90-shift23
+            flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90 --cost-shift 23
+          - name: correction90-shift24
+            flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: correction90-shift25
+            flags: --rs-correction --syndrome-ready --rr-table --core-mhz 90 --cost-shift 25
+          - name: guard90-shift22
+            flags: --rs-rpc-guard --syndrome-ready --rr-table --core-mhz 90 --pnr-timeout 480
+          - name: guard90-shift24
+            flags: --rs-rpc-guard --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: guard90-shift24-flag
+            flags: --rpc-payload-flag --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: guard90-shift24-ranges
+            flags: --rpc-bit-ranges --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: guard27-shift24-fifo
+            flags: --rpc-clock27 --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
+          - name: guard27-shift22-fifo
+            flags: --rpc-clock27 --syndrome-ready --rr-table --core-mhz 90
     steps:
       - uses: actions/checkout@v5
       - uses: YosysHQ/setup-oss-cad-suite@v4
@@ -76,6 +96,22 @@ jobs:
           path: |
             build/s3-rs-offload-target/
             reports/s3-rs-offload-evidence/
+  precision-ber:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compare identical noisy Q15 symbols through four RTL quantizers
+        run: python3 ci/s3_precision_ber.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-fpga-precision-experiment-not-CN-qualification
+          path: build/s3-precision-ber/
   capture:
     runs-on: ubuntu-latest
     steps:
@@ -160,6 +196,8 @@ jobs:
             build/s3-rs-split*/
             build/s3-rs-rpc/
             build/s3-rs-correction/
+            build/s3-rs-rpc-guard*/
+            build/s3-precision*/
             build/s3-iq-pingpong/
             build/s3-page-*/
             build/s3-rx-page-store/
