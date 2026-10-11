@@ -1,0 +1,4534 @@
+{
+  "scope": "Freeze actual T FEC/physical-memory partial fit evidence, including failures.",
+  "source_sha256": {
+    "ci/s3_t_fec_evidence.py": "0fbc723693cf9cee67037da2e105f24daa90d1cf99dda23014f308b65a178e50",
+    "ci/s3_psram_benchmark.py": "0a58c2e48ceb13683b304d9e6c20027935730d7248cb8fb1739ad19c066652ea",
+    "experiments/s3_memory_t_fec_benchmark.sv": "7a26423ca5e6fdc90ae417c4251d2aa56baa4dad3011ef5fe2fe3a646b75c1bf",
+    "experiments/s3_viterbi_traceback.py": "24737f8f5c715d6a33c803e115d953cd5dd5adf119edc42c5997e35a43451d96",
+    "experiments/s3_rs_isdb.py": "12a94aa258ef7b76f8653f98ba9d26f7d9144caabc3cab21d85adcf9dfb7cde0",
+    "experiments/check_isdb_rs.py": "47cfd6da7cd927a9a2f86e8d29498cb3f55bf216e1d29225f1efb3206fb656ba"
+  },
+  "variants": {
+    "baseline": {
+      "command": [
+        "ci/s3_psram_benchmark.py",
+        "--terrestrial-fec",
+        "--rr-table",
+        "--core-mhz",
+        "90",
+        "--seeds",
+        "1",
+        "--pnr-timeout",
+        "180"
+      ],
+      "logic_site_audit": {
+        "packed_json_sha256": "7f36c6127acf1693db033ae8bee955df6341a1d88f3d834a155a1c5f9af33de3",
+        "LUT_cells": 4726,
+        "ALU_cells": 2232,
+        "ALU_blockers_excluded": 2232,
+        "fabric_FFs": 3913,
+        "maximum_LUT_or_ALU_FF_pairs": 1870,
+        "minimum_additional_FF_sites": 2043,
+        "minimum_required_logic_sites": 9001,
+        "available_logic_sites": 8640,
+        "minimum_site_utilization_percent": 104.17824074074075,
+        "minimum_site_deficit": 361,
+        "mapped_netlist_ruled_out": true,
+        "FF_D_driver_types": {
+          "LUT3": 585,
+          "DFF": 144,
+          "ALU": 174,
+          "DFFCE": 664,
+          "LUT2": 461,
+          "LUT1": 22,
+          "LUT4": 1221,
+          "DFFP": 15,
+          "DFFC": 79,
+          "DFFE": 280,
+          "DFFRE": 157,
+          "DFFSE": 2,
+          "GOWIN_GND": 1,
+          "DFFS": 1,
+          "DFFPE": 8,
+          "GOWIN_VCC": 11,
+          "SDP": 72,
+          "IBUF": 16
+        },
+        "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+        "limitations": [
+          "narrow LUT mapping only",
+          "no retiming/resynthesis/transformation allowed in this bound",
+          "passing this bound does not prove placement or timing",
+          "CE/reset/clock/adjacency restrictions ignored"
+        ]
+      },
+      "pnr_trials": [
+        {
+          "seed": 1,
+          "exit_code": 126,
+          "notes": [
+            "ERROR: Mapped netlist needs at least 9001 logic sites, exceeding 8640; placement skipped (not an RTL-wide impossibility claim)"
+          ],
+          "placement_skipped": true
+        }
+      ],
+      "RS": {
+        "profile": "RS(204,188), GF 0x11d, alpha 2, roots 0..15, high-order byte first",
+        "sources": [
+          "https://www.arib.or.jp/english/html/overview/doc/6-STD-B31v2_2-E1.pdf#page=32",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-0-199910-S!!PDF-E.pdf#page=3"
+        ],
+        "rtl_sha256": "08594ea679ff1a779e0a72b241d0de1fa87c520e292414b2bb07cf1144e3d610",
+        "cycle_limit": 2666,
+        "tests": [
+          {
+            "case": "clean-random",
+            "cycles": 698,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "clean-zero",
+            "cycles": 394,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-0",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-1",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-2",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-3",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-4",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-5",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-6",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-7",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-8",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-9",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-10",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-11",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-12",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-13",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-14",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-15",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-16",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-17",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-18",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-19",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-20",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-21",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-22",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-23",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-24",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-25",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-26",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-27",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-28",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-29",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-30",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-31",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-32",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-33",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-34",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-35",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-36",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-37",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-38",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-39",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-40",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-41",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-42",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-43",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-44",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-45",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-46",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-47",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-48",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-49",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-50",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-51",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-52",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-53",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-54",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-55",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-56",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-57",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-58",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-59",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-60",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-61",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-62",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-63",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-64",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-65",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-66",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-67",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-68",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-69",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-70",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-71",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-72",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-73",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-74",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-75",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-76",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-77",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-78",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-79",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-80",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-81",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-82",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-83",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-84",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-85",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-86",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-87",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-88",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-89",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-90",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-91",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-92",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-93",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-94",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-95",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-96",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-97",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-98",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-99",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-100",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-101",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-102",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-103",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-104",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-105",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-106",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-107",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-108",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-109",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-110",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-111",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-112",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-113",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-114",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-115",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-116",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-117",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-118",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-119",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-120",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-121",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-122",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-123",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-124",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-125",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-126",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-127",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-128",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-129",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-130",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-131",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-132",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-133",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-134",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-135",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-136",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-137",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-138",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-139",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-140",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-141",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-142",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-143",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-144",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-145",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-146",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-147",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-148",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-149",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-150",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-151",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-152",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-153",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-154",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-155",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-156",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-157",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-158",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-159",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-160",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-161",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-162",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-163",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-164",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-165",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-166",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-167",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-168",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-169",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-170",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-171",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-172",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-173",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-174",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-175",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-176",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-177",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-178",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-179",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-180",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-181",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-182",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-183",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-184",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-185",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-186",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-187",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-188",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-189",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-190",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-191",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-192",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-193",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-194",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-195",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-196",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-197",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-198",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-199",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-200",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-201",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-202",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-203",
+            "cycles": 776,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-0",
+            "cycles": 1055,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-1",
+            "cycles": 1055,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-2",
+            "cycles": 1055,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-3",
+            "cycles": 1055,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-4",
+            "cycles": 1055,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-5",
+            "cycles": 1055,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-6",
+            "cycles": 1055,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-7",
+            "cycles": 1055,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-0",
+            "cycles": 1331,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-1",
+            "cycles": 1331,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-2",
+            "cycles": 1331,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-3",
+            "cycles": 1331,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-4",
+            "cycles": 1331,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-5",
+            "cycles": 1331,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-6",
+            "cycles": 1331,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-7",
+            "cycles": 1331,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-0",
+            "cycles": 1604,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-1",
+            "cycles": 1604,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-2",
+            "cycles": 1604,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-3",
+            "cycles": 1604,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-4",
+            "cycles": 1604,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-5",
+            "cycles": 1604,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-6",
+            "cycles": 1604,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-7",
+            "cycles": 1604,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-0",
+            "cycles": 1874,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-1",
+            "cycles": 1874,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-2",
+            "cycles": 1874,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-3",
+            "cycles": 1874,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-4",
+            "cycles": 1874,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-5",
+            "cycles": 1874,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-6",
+            "cycles": 1874,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-7",
+            "cycles": 1874,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-0",
+            "cycles": 2141,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-1",
+            "cycles": 2129,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-2",
+            "cycles": 2141,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-3",
+            "cycles": 2141,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-4",
+            "cycles": 2141,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-5",
+            "cycles": 2141,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-6",
+            "cycles": 2141,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-7",
+            "cycles": 2141,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-0",
+            "cycles": 2405,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-1",
+            "cycles": 2405,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-2",
+            "cycles": 2405,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-3",
+            "cycles": 2405,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-4",
+            "cycles": 2405,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-5",
+            "cycles": 2405,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-6",
+            "cycles": 2405,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-7",
+            "cycles": 2405,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-0",
+            "cycles": 2666,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-1",
+            "cycles": 2666,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-2",
+            "cycles": 2666,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-3",
+            "cycles": 2666,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-4",
+            "cycles": 2666,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-5",
+            "cycles": 2666,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-6",
+            "cycles": 2666,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-7",
+            "cycles": 2666,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          }
+        ],
+        "passed": 262,
+        "total": 262,
+        "reset_abort_trials": 17,
+        "non_reset_block_boundaries": 245,
+        "maximum_observed_cycles": 2666,
+        "all_pass": true
+      }
+    },
+    "compact": {
+      "command": [
+        "ci/s3_psram_benchmark.py",
+        "--terrestrial-fec",
+        "--rr-table",
+        "--core-mhz",
+        "90",
+        "--seeds",
+        "1",
+        "--pnr-timeout",
+        "180",
+        "--compact-rs"
+      ],
+      "logic_site_audit": {
+        "packed_json_sha256": "50c0e9a7029020f34e396fff3a1536df8c9d785d9726a381b9f40a309aec0e03",
+        "LUT_cells": 4542,
+        "ALU_cells": 2228,
+        "ALU_blockers_excluded": 2228,
+        "fabric_FFs": 3705,
+        "maximum_LUT_or_ALU_FF_pairs": 1870,
+        "minimum_additional_FF_sites": 1835,
+        "minimum_required_logic_sites": 8605,
+        "available_logic_sites": 8640,
+        "minimum_site_utilization_percent": 99.5949074074074,
+        "minimum_site_deficit": 0,
+        "mapped_netlist_ruled_out": false,
+        "FF_D_driver_types": {
+          "LUT3": 603,
+          "DFF": 168,
+          "ALU": 174,
+          "DFFCE": 454,
+          "LUT2": 460,
+          "LUT1": 23,
+          "LUT4": 1203,
+          "DFFP": 15,
+          "DFFC": 80,
+          "DFFE": 280,
+          "DFFRE": 143,
+          "DFFSE": 1,
+          "DFFS": 1,
+          "DFFPE": 1,
+          "GOWIN_VCC": 11,
+          "SDP": 72,
+          "IBUF": 16
+        },
+        "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+        "limitations": [
+          "narrow LUT mapping only",
+          "no retiming/resynthesis/transformation allowed in this bound",
+          "passing this bound does not prove placement or timing",
+          "CE/reset/clock/adjacency restrictions ignored"
+        ]
+      },
+      "pnr_trials": [
+        {
+          "seed": 1,
+          "exit_code": 124,
+          "fmax": null,
+          "notes": [
+            "ERROR: P&R timed out after 180 seconds; fit remains unknown"
+          ],
+          "preplacement_utilization": {
+            "VCC": {
+              "used": 1,
+              "available": 1
+            },
+            "IOB": {
+              "used": 27,
+              "available": 276
+            },
+            "LUT4": {
+              "used": 6770,
+              "available": 8640
+            },
+            "OSER16": {
+              "used": 0,
+              "available": 80
+            },
+            "IDES16": {
+              "used": 0,
+              "available": 80
+            },
+            "IOLOGICI": {
+              "used": 18,
+              "available": 276
+            },
+            "IOLOGICO": {
+              "used": 24,
+              "available": 276
+            },
+            "MUX2_LUT5": {
+              "used": 0,
+              "available": 4320
+            },
+            "MUX2_LUT6": {
+              "used": 0,
+              "available": 2160
+            },
+            "MUX2_LUT7": {
+              "used": 0,
+              "available": 1080
+            },
+            "MUX2_LUT8": {
+              "used": 0,
+              "available": 1080
+            },
+            "ALU": {
+              "used": 2228,
+              "available": 6480
+            },
+            "GND": {
+              "used": 1,
+              "available": 1
+            },
+            "DFF": {
+              "used": 3705,
+              "available": 6480
+            },
+            "RAM16SDP4": {
+              "used": 0,
+              "available": 270
+            },
+            "BSRAM": {
+              "used": 10,
+              "available": 26
+            },
+            "ALU54D": {
+              "used": 0,
+              "available": 10
+            },
+            "MULTADDALU18X18": {
+              "used": 0,
+              "available": 10
+            },
+            "MULTALU18X18": {
+              "used": 0,
+              "available": 10
+            },
+            "MULTALU36X18": {
+              "used": 0,
+              "available": 10
+            },
+            "MULT36X36": {
+              "used": 0,
+              "available": 5
+            },
+            "MULT18X18": {
+              "used": 0,
+              "available": 20
+            },
+            "MULT9X9": {
+              "used": 0,
+              "available": 40
+            },
+            "PADD18": {
+              "used": 0,
+              "available": 20
+            },
+            "PADD9": {
+              "used": 0,
+              "available": 40
+            },
+            "GSR": {
+              "used": 1,
+              "available": 1
+            },
+            "OSC": {
+              "used": 0,
+              "available": 1
+            },
+            "rPLL": {
+              "used": 1,
+              "available": 2
+            },
+            "FLASH608K": {
+              "used": 0,
+              "available": 1
+            },
+            "BUFG": {
+              "used": 2,
+              "available": 22
+            },
+            "DQCE": {
+              "used": 0,
+              "available": 24
+            },
+            "DCS": {
+              "used": 0,
+              "available": 8
+            },
+            "DHCEN": {
+              "used": 0,
+              "available": 24
+            },
+            "CLKDIV": {
+              "used": 0,
+              "available": 8
+            },
+            "CLKDIV2": {
+              "used": 0,
+              "available": 16
+            },
+            "MIPI_IBUF": {
+              "used": 0,
+              "available": 22
+            },
+            "MIPI_OBUF": {
+              "used": 0,
+              "available": 20
+            }
+          },
+          "timeout_seconds": 180,
+          "placer": "heap",
+          "heap_cell_timeout": 8
+        }
+      ],
+      "RS": {
+        "profile": "RS(204,188), GF 0x11d, alpha 2, roots 0..15, high-order byte first",
+        "sources": [
+          "https://www.arib.or.jp/english/html/overview/doc/6-STD-B31v2_2-E1.pdf#page=32",
+          "https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-0-199910-S!!PDF-E.pdf#page=3"
+        ],
+        "rtl_sha256": "f9bc05db6885248932d12d2ecf5a0e15badec84ff739f519891183a87d38df34",
+        "cycle_limit": 2667,
+        "tests": [
+          {
+            "case": "clean-random",
+            "cycles": 699,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "clean-zero",
+            "cycles": 394,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-0",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-1",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-2",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-3",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-4",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-5",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-6",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-7",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-8",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-9",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-10",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-11",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-12",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-13",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-14",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-15",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-16",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-17",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-18",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-19",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-20",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-21",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-22",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-23",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-24",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-25",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-26",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-27",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-28",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-29",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-30",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-31",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-32",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-33",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-34",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-35",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-36",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-37",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-38",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-39",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-40",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-41",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-42",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-43",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-44",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-45",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-46",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-47",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-48",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-49",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-50",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-51",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-52",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-53",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-54",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-55",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-56",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-57",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-58",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-59",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-60",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-61",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-62",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-63",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-64",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-65",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-66",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-67",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-68",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-69",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-70",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-71",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-72",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-73",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-74",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-75",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-76",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-77",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-78",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-79",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-80",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-81",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-82",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-83",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-84",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-85",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-86",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-87",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-88",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-89",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-90",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-91",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-92",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-93",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-94",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-95",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-96",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-97",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-98",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-99",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-100",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-101",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-102",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-103",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-104",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-105",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-106",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-107",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-108",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-109",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-110",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-111",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-112",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-113",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-114",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-115",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-116",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-117",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-118",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-119",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-120",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-121",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-122",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-123",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-124",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-125",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-126",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-127",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-128",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-129",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-130",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-131",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-132",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-133",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-134",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-135",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-136",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-137",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-138",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-139",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-140",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-141",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-142",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-143",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-144",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-145",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-146",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-147",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-148",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-149",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-150",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-151",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-152",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-153",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-154",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-155",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-156",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-157",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-158",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-159",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-160",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-161",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-162",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-163",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-164",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-165",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-166",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-167",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-168",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-169",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-170",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-171",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-172",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-173",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-174",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-175",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-176",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-177",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-178",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-179",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-180",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-181",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-182",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-183",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-184",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-185",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-186",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-187",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-188",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-189",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-190",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-191",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-192",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-193",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-194",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-195",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-196",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-197",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-198",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-199",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-200",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-201",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-202",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "single-203",
+            "cycles": 777,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-0",
+            "cycles": 1056,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-1",
+            "cycles": 1056,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-2",
+            "cycles": 1056,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-3",
+            "cycles": 1056,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-4",
+            "cycles": 1056,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-5",
+            "cycles": 1056,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-6",
+            "cycles": 1056,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-2-errors-7",
+            "cycles": 1056,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-0",
+            "cycles": 1332,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-1",
+            "cycles": 1332,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-2",
+            "cycles": 1332,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-3",
+            "cycles": 1332,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-4",
+            "cycles": 1332,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-5",
+            "cycles": 1332,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-6",
+            "cycles": 1332,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-3-errors-7",
+            "cycles": 1332,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-0",
+            "cycles": 1605,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-1",
+            "cycles": 1605,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-2",
+            "cycles": 1605,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-3",
+            "cycles": 1605,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-4",
+            "cycles": 1605,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-5",
+            "cycles": 1605,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-6",
+            "cycles": 1605,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-4-errors-7",
+            "cycles": 1605,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-0",
+            "cycles": 1875,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-1",
+            "cycles": 1875,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-2",
+            "cycles": 1875,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-3",
+            "cycles": 1875,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-4",
+            "cycles": 1875,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-5",
+            "cycles": 1875,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-6",
+            "cycles": 1875,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-5-errors-7",
+            "cycles": 1875,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-0",
+            "cycles": 2142,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-1",
+            "cycles": 2130,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-2",
+            "cycles": 2142,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-3",
+            "cycles": 2142,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-4",
+            "cycles": 2142,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-5",
+            "cycles": 2142,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-6",
+            "cycles": 2142,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-6-errors-7",
+            "cycles": 2142,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-0",
+            "cycles": 2406,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-1",
+            "cycles": 2406,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-2",
+            "cycles": 2406,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-3",
+            "cycles": 2406,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-4",
+            "cycles": 2406,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-5",
+            "cycles": 2406,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-6",
+            "cycles": 2406,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-7-errors-7",
+            "cycles": 2406,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-0",
+            "cycles": 2667,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-1",
+            "cycles": 2667,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-2",
+            "cycles": 2667,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-3",
+            "cycles": 2667,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-4",
+            "cycles": 2667,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-5",
+            "cycles": 2667,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-6",
+            "cycles": 2667,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          },
+          {
+            "case": "random-8-errors-7",
+            "cycles": 2667,
+            "emitted": 188,
+            "mismatched_bytes": 0,
+            "block_fail": 0,
+            "pass": true
+          }
+        ],
+        "passed": 262,
+        "total": 262,
+        "reset_abort_trials": 17,
+        "non_reset_block_boundaries": 245,
+        "maximum_observed_cycles": 2667,
+        "all_pass": true
+      }
+    }
+  },
+  "whole_receiver_resources_verified": false,
+  "whole_receiver_deadlines_verified": false,
+  "receiver_adopted": false,
+  "safe_to_flash": false,
+  "absent": [
+    "FIR",
+    "synchronization/GI removal",
+    "FFT",
+    "equalization/demap",
+    "all interleavers",
+    "actual FEC stream coupling",
+    "TS scheduler",
+    "external IO STA"
+  ]
+}

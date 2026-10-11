@@ -15,6 +15,7 @@ on:
       - 'ci/s3_rs_offload_compile.py'
       - 'ci/s3_rs_offload_evidence.py'
       - 'ci/s3_rs_forney_evidence.py'
+      - 'ci/s3_t_fec_evidence.py'
       - 'ci/s3_fft_target_bound.py'
       - 'ci/s3_precision_ber.py'
       - 'ci/s3_precision_evidence.py'
@@ -25,6 +26,24 @@ on:
 permissions:
   contents: read
 jobs:
+  t-fec-pnr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Measure T FEC with physical memory, preserving failed fits
+        run: python3 ci/s3_t_fec_evidence.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: t-fec-memory-partial-not-receiver
+          path: |
+            reports/s3-t-fec-evidence/
+            build/s3-memory-fec*T*-pnr/
   rs-split-pnr:
     runs-on: ubuntu-latest
     timeout-minutes: 30

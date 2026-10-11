@@ -14,6 +14,7 @@ p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--seeds',type=int,nargs='+',default=[1,2,3])
 p.add_argument('--bridge',action='store_true',help='Include SPI, page store and reader')
 p.add_argument('--fec',action='store_true',help='Co-place independent S metric/TC8PSK/RS workload, not a receiver')
+p.add_argument('--terrestrial-fec',action='store_true',help='T traceback/RS plus physical memory before FFT/FIR/sync/demap')
 p.add_argument('--compact-output',action='store_true',help='Use one BSRAM for TC8PSK output instead of FF buffers')
 p.add_argument('--compact-b1',action='store_true',help='Store four uncoded branch choices per row rather than 64 state choices')
 p.add_argument('--compact-rs',action='store_true',help='Move serial RS omega/error tables into BSRAM')
@@ -40,6 +41,13 @@ p.add_argument('--pnr-timeout',type=int,default=180,help='Wall seconds per place
 p.add_argument('--placer',choices=('heap','sa'),default='heap')
 p.add_argument('--heap-cell-timeout',type=int,default=8,help='nextpnr cell-placement divisor; larger bounds each search sooner')
 args=p.parse_args()
+if args.terrestrial_fec:
+    if any((args.rs_offload,args.rs_forney,args.rs_correction,args.rs_rpc_guard,
+            args.rpc_clock27,args.rpc_bit_ranges,args.rpc_payload_flag,args.folded_metric,
+            args.syndrome_ready,args.syndrome4,args.acs22,args.split_acs22,
+            args.metric_q15,args.cost_shift!=22)):
+        p.error('T FEC does not accept S RS-split/metric options')
+    args.fec=True
 if args.rpc_clock27:args.rpc_bit_ranges=True
 if args.rpc_bit_ranges:args.rpc_payload_flag=True
 if args.rpc_payload_flag:args.rs_rpc_guard=True
@@ -61,6 +69,7 @@ if args.compact_output:args.fec=True
 if args.fec:args.bridge=True
 if args.rs_offload:args.acs22=args.split_acs22;args.compact_rs=False
 name='s3-memory-fec-compact' if args.compact_output else 's3-memory-fec' if args.fec else 's3-memory-bridge' if args.bridge else 's3-psram'
+if args.terrestrial_fec:name+='-T'
 if args.wide_lut:name+='-wide'
 if args.no_ce:name+='-noce'
 if args.compact_b1:name+='-b1'
@@ -96,6 +105,12 @@ if args.fec:
     (out/'viterbi.sv').write_text(tc_source(args.compact_output,args.compact_b1,22 if args.acs22 else 32,args.metric_q15))
     (out/'rs.sv').write_text(rs_source(True,args.compact_rs))
     sources+=['rtl/s3_tc8psk_metric.sv',str((out/'viterbi.sv').relative_to(ROOT)),str((out/'rs.sv').relative_to(ROOT))]
+    if args.terrestrial_fec:
+        from s3_viterbi_traceback import generate
+        (out/'viterbi.sv').write_text(generate('modulo13-pipe'))
+        sources=[s for s in sources if s!='rtl/s3_tc8psk_metric.sv']
+        sources=[s if s!='experiments/s3_memory_fec_benchmark.sv' else
+                 'experiments/s3_memory_t_fec_benchmark.sv' for s in sources]
     if args.folded_metric:
         template='experiments/s3_memory_rs_split_benchmark.sv' if args.rs_offload else 'experiments/s3_memory_fec_benchmark.sv'
         (out/'top.sv').write_text((ROOT/template).read_text().replace('s3_tc8psk_metric metric','s3_tc8psk_metric_folded metric'))
