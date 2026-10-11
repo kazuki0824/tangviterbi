@@ -77,7 +77,9 @@ def report():
   rate_basis='continuous 28.86 MSymbol/s, 2 inner-decoded bits/symbol, 203 transmitted bytes; no framing gaps credited',
   average_TS_reference_codewords_per_second=AVERAGE_RATE,
   source='https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-1-200204-I!!PDF-E.pdf#page=8',
-  spare_core_cycles_per_codeword_at_240_MHz=240e6/RATE,CPU_budget_is_not_WCET=True,
+  dedicated_core_capacity_cycles_per_codeword_at_240_MHz=240e6/RATE,
+  RF_CPU_cost_deducted=False,remaining_CPU_cycles_per_codeword=None,
+  CPU_budget_is_not_WCET=True,
   RF_MBps=100,existing_port_capacity_MBps=CAP,existing_aggregate_spare_MBps=sum(CAP)-100,
   RPC_header_bytes=16,wire_header_bits=80,receiver_adopted=False,profiles={})
  for name,records in PROFILES.items():

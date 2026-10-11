@@ -30,7 +30,13 @@
 | 204符号語/batch | 5,739.708940 µs/batch |
 | 旧compact RS 2667 cyclesに必要なclock | 94.790172 MHz |
 
-CPU予算にはBM/Omega/Forney、CRC、page検査/作成、context管理と割込み競合も収める必要がある。
+6,752.598753 cycles/codewordは**専用240 MHzコアの全容量**であり、RF処理と同時動作する
+S3の空きRS予算ではない。旧JSONの `spare_core_cycles_per_codeword_at_240_MHz` は誤った名称で、
+`dedicated_core_capacity_cycles_per_codeword_at_240_MHz` へ訂正した。
+RFのCPU費用はこの計算では差し引いておらず、残りCPU予算は未算定（null）とする。
+
+BM/Omega/Forney、CRC、page検査/作成、context管理と割込み競合は、
+RF処理を差し引いた残りCPU予算へ収める必要がある。
 旧83.86 MHz FECは平均期限でも不合格であり、この訂正によって採用へ変わらない。
 新90 MHz案は旧FPGA RS decoderを外すので、その94.79 MHz条件を適用しない。
 
@@ -170,7 +176,8 @@ CRC32、世代/batch、全204 recordのID/位置/空きbyteを検査してから
 
 mode union、起動/RTOS/driver全同時allocation、DMA descriptor、stackは未link。
 この残量を完成受信機の空きSRAMとは主張しない。
-CPUの6,752.6 cycles/codewordは上記RPCのCRC等も含む予算で、達成確認はまだない。
+CPUの6,752.6 cycles/codewordは専用コア全容量の参考値で、RF同時動作時の空き予算ではない。
+RF処理、上記RPCのCRC等、通信管理とRTOSを含む競合込みWCETの確認はまだない。
 
 ### 離れたFFT領域への配置を具体化
 
@@ -265,7 +272,7 @@ GitHub Actionsもcommit d9f1e3bで起動したが、raw APIの全jobが`steps=[]
 | 今の環境では実施できないもの | 不足する実物・条件 | 合格条件 |
 |---|---|---|
 | S3 native RF連続取得 | N16R8実moduleとRF入力 | PHY直接初期化で16/40 MSps、全sample連続・bank破壊なし |
-| CPU/GDMA/ISRのWCET | RF＋SPI＋RS/FFTを同時実行するS3 | 6,752.6 cycles/codeword等の全予算、API上限、buffer期限内 |
+| CPU/GDMA/ISRのWCET | RF＋SPI＋RS/FFTを同時実行するS3 | RFを差し引いたCPU予算、core別期限、API上限、buffer期限内。専用コアの6,752.6 cyclesを空き時間へ流用しない |
 | 2 SPIの電気的動作 | 両基板/実配線/計測器 | Octal/Quad各80 MHzで無欠落、実gapが予算内 |
 | PSRAM/clock/電源 | Tang Nano 9K実機、温度/負荷条件 | read/write/refresh競合、DQ/RWDS eye、電圧/jitter/温度条件を満たす |
 | RF前段 | 選定後の変換/LO/filter/LNB給電回路、信号源等 | 帯域・image抑圧・雑音・直線性を満たす |

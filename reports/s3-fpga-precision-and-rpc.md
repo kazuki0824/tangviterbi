@@ -143,7 +143,9 @@ Octal80 SPI2とQuad80 SPI3への16通りの上下割当、RF込み帯域余裕
 今回のguardはSPI polling等の追加取引を実装していないため、追加control通信を無料とは扱わない。
 
 連続28.86 MSymbol/sの保守的期限は28.135828 µs/codeword、204 codeword/batchで5.739709 ms。
-240 MHzの1 coreなら6752.598753 cycles/codeword。CRC/API/ISR等もこの中に収める必要がある。
+240 MHzの専用1 coreの全容量は6752.598753 cycles/codewordであり、RF同時動作時の
+空き予算ではない。RF費用を先に差し引き、残りにRS・CRC/API/ISR等を収める必要がある。
+[予算JSON](s3-rs-offload-budget.json)の旧spare-core項目名を訂正し、残り予算は未算定とした。
 CPU WCET、RPCの全stage所有権、coded-block PSRAM保存/訂正、TS出力は未証明であり、
 bandwidthモデルだけで採用することはできない。
 

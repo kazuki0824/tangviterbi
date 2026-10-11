@@ -57,7 +57,9 @@ DMA pool前の内部空き上限19,312 B。4 KiB poolの必要条件には通る
 
 **RS期限も訂正**：旧28.8288 µsは52.17 Mbit/s TSの平均。新予算は203伝送byteと
 28.86 MSymbol/sの連続2 bit/symbolから28.135828 µs/codeword、CPU 240 MHzの
-1 coreで6752.598753 cycles/codeword。TMCC/burstの空きを差し引かない保守的上限で、
+専用1 coreの全容量は6752.598753 cycles/codeword。RF処理と同時に使える空きRS予算ではない。
+RF費用を差し引いた残り予算とcore別期限を別途確認する。
+TMCC/burstの空きを差し引かない保守的上限で、
 規格の正確な瞬間到着波形とは区別する。旧compact FEC不合格という判定は変わらない。
 
 ## 2026-10-10追記：資源・期限を満たさない圧縮候補を明示

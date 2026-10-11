@@ -6,6 +6,12 @@ from s3_rs_offload_budget import report
 class BudgetTest(unittest.TestCase):
  @classmethod
  def setUpClass(cls):cls.result=report()
+ def test_dedicated_core_capacity_is_not_available_RS_budget(self):
+  self.assertNotIn('spare_core_cycles_per_codeword_at_240_MHz',self.result)
+  self.assertAlmostEqual(self.result['dedicated_core_capacity_cycles_per_codeword_at_240_MHz'],
+                         240e6/self.result['codewords_per_second'])
+  self.assertFalse(self.result['RF_CPU_cost_deducted'])
+  self.assertIsNone(self.result['remaining_CPU_cycles_per_codeword'])
  def test_full_RS_fails_before_adoption(self):
   r=self.result['profiles']['CPU_all_RS']
   self.assertTrue(all(not a['necessary_bandwidth_pass'] for a in r['communication_assignments']))
