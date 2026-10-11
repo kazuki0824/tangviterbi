@@ -30,3 +30,26 @@ pointerのnull/misalignment/overlapもkernel実行前に拒否した。
 [コンパイラ・source/object hash・disassembly・host結果](s3-fft-simd-evidence/results.json)。
 SDK workflowの`native-direct-phy-simd`はfull係数SRAMを含むlink/startup診断を行う。
 現時点の`SDK_ELF_link_verified=false`、`CPU_WCET_verified=false`、`receiver_adopted=false`を維持する。
+
+## 短いSIMD stage tile（2026-10-11追記）
+
+公式アセンブリの3種類のvector butterfly loopを短い呼出しへ分割した。
+13 stage × 1024 block、1 block＝4 butterfly、1回最大16 block＝64 butterfly。
+各coreの独立したlockで短いkernel中だけlocal interruptをmaskし、
+tileの間とstage barrierの待機中にRFをpollする契約にした。
+実RF/RTOS workerとbarrierへの接続、poll jitter/WCETは未完了。
+
+8192点の全binはbit-reversed順のまま保持する。
+位置iはFFT bin reverse13(i)。FPGA側でこのindex mappingを実装する必要があり、
+既存通信endpointへ接続済みとはしない。入力量・通信量は削減しない。
+
+接続断の前にtarget compileと未解決symbolなしのbundle結合、
+3 unittest（range拒否、vector loop抽出、2 threadのstage同期とblock所有権）を実行し合格。
+hostのrandom/extremes/zero全8192点は公式ANSI全体FFTと一致した。
+これはhost ANSI arithmeticの検証で、SIMD実行や数値bit同値の証拠ではない。
+
+実行環境のexec-server接続が切れ、復旧呼出しも回復しなかったため、
+検証済みのtile sourceをGitHub接続からcommitした。raw object/log回収はできておらず、
+このcommitのSDK profile追加・artifact回収変更の再実行は未確認。
+target bundleの観測section値はtext2832 B、IRAM470 B＋literal20 B、rodata16384 B。
+CPU cycle/WCET、受信品質、全候補判定の完了は依然として未確認。
