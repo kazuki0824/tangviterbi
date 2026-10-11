@@ -1,0 +1,101 @@
+Info: Using uarch 'gowin' for device 'GW1NR-LV9QN88PC6/I5'
+Info: constraining clock net 'clocking.clk27' to 27.00 MHz
+Info: constraining clock net 'bridge.clk' to 90.00 MHz
+Info: constraining clock net 'clk_ck' to 90.00 MHz
+Info: constraining clock net 'bridge.octal.spi_clk' to 80.00 MHz
+Info: constraining clock net 'bridge.lcd.wr_clk' to 40.00 MHz
+
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:0, MUX2_LU7:0, MUX2_LUT6:0, MUX2_LUT5:0
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 1665 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack GW JTAG...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0xaa356dd8
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:      32/    276    11%
+Info: 	                LUT4:    6457/   8640    74%
+Info: 	              OSER16:       0/     80     0%
+Info: 	              IDES16:       0/     80     0%
+Info: 	            IOLOGICI:      18/    276     6%
+Info: 	            IOLOGICO:      24/    276     8%
+Info: 	           MUX2_LUT5:       0/   4320     0%
+Info: 	           MUX2_LUT6:       0/   2160     0%
+Info: 	           MUX2_LUT7:       0/   1080     0%
+Info: 	           MUX2_LUT8:       0/   1080     0%
+Info: 	                 ALU:    2460/   6480    37%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:    3652/   6480    56%
+Info: 	           RAM16SDP4:       0/    270     0%
+Info: 	               BSRAM:      25/     26    96%
+Info: 	              ALU54D:       0/     10     0%
+Info: 	     MULTADDALU18X18:       0/     10     0%
+Info: 	        MULTALU18X18:       0/     10     0%
+Info: 	        MULTALU36X18:       0/     10     0%
+Info: 	           MULT36X36:       0/      5     0%
+Info: 	           MULT18X18:       2/     20    10%
+Info: 	             MULT9X9:       0/     40     0%
+Info: 	              PADD18:       0/     20     0%
+Info: 	               PADD9:       0/     40     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       1/      2    50%
+Info: 	           FLASH608K:       0/      1     0%
+Info: 	                BUFG:       2/     22     9%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+Info: 	           MIPI_IBUF:       0/     22     0%
+Info: 	           MIPI_OBUF:       0/     20     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 6208 cells, random placement wirelen = 258967.
+Info:     at initial placer iter 0, wirelen = 3784
+Info:     at initial placer iter 1, wirelen = 3214
+Info:     at initial placer iter 2, wirelen = 3155
+Info:     at initial placer iter 3, wirelen = 3078
+Info: Running main analytical placer.
+Info:     at iteration #1, type ALL: wirelen solved = 3562, spread = 73432, legal = 206802; time = 9.44s
+Info:     at iteration #2, type ALL: wirelen solved = 6602, spread = 69567, legal = 148484; time = 5.54s
+Info:     at iteration #3, type ALL: wirelen solved = 9544, spread = 59825, legal = 130409; time = 3.51s
+Info:     at iteration #4, type ALL: wirelen solved = 11544, spread = 72575, legal = 106881; time = 2.91s
+Info:     at iteration #5, type ALL: wirelen solved = 14486, spread = 57814, legal = 105507; time = 2.30s
+Info:     at iteration #6, type ALL: wirelen solved = 14523, spread = 57004, legal = 104530; time = 3.16s
+Info:     at iteration #7, type ALL: wirelen solved = 16971, spread = 55213, legal = 98651; time = 2.42s
+Info:     at iteration #8, type ALL: wirelen solved = 17514, spread = 52550, legal = 98116; time = 2.29s
+Info:     at iteration #9, type ALL: wirelen solved = 18740, spread = 49279, legal = 101536; time = 2.48s
+Info:     at iteration #10, type ALL: wirelen solved = 20372, spread = 50833, legal = 103355; time = 3.04s
+Info:     at iteration #11, type ALL: wirelen solved = 22184, spread = 48295, legal = 100132; time = 2.73s
+Info:     at iteration #12, type ALL: wirelen solved = 24058, spread = 51634, legal = 96461; time = 2.87s
+ERROR: Unable to find legal placement for all cells, design is probably at utilisation limit.
+0 warnings, 1 error

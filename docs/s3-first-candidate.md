@@ -121,11 +121,16 @@ Octal97.04/80、LCD87.21/40 MHzは合格した。必要logic位置下限8258は�
 |---|---:|---:|---:|---|
 | 1 | 75.52 | 98.43 | 85.04 | 配線完了、core STA未達 |
 | 2 | 80.34 | 114.67 | 79.03 | 配線完了、core STA未達 |
-| 3 | 未取得 | 未取得 | 未取得 | 合法配置探索中 |
+| 3 | 未取得 | 未取得 | 未取得 | 合法配置エラー、exit125 |
 
-seed1/2はsource/制約がrun中に不変であることを確認した。修正版の必要位置下限は
+3 seedともsource/制約がrun中に不変であることを確認した。seed3は配置器自身の
+`Unable to find legal placement for all cells`で終了し、配線後Fmaxは取得していない。
+この同一netlistの3 seedでは90 MHz合格を得られなかった。時間上限による中断ではない。修正版の必要位置下限は
 8247/8640、配線後logic占有はseed1が8281、seed2が8296、BSRAM25/26である。
 試験通過前の測定やsource変更中の診断runを採用根拠にしない。
+詳細は `reports/s3-receiver-followup.json`、source snapshot・合成/PnR生ログ・試験benchは
+`reports/s3-receiver-followup-evidence/`。この部分構成の未達を他の全9K実装の不可能性に
+一般化しないが、保持回路追加前の93.99 MHzを根拠に完成第一案の成立とは判定しない。
 
 汎用queue版のseed2と固定arbiter版は配置器の合法配置エラーで終了した。
 汎用queue版seed1は専用一つのBRAM queueへ置換した後、旧実装の試行として中止した。
