@@ -14,6 +14,8 @@ on:
       - 'ci/s3_fec_compaction_evidence.py'
       - 'ci/s3_rs_offload_compile.py'
       - 'ci/s3_rs_offload_evidence.py'
+      - 'ci/s3_rs_forney_evidence.py'
+      - 'ci/s3_fft_target_bound.py'
       - 'ci/s3_precision_ber.py'
       - 'ci/s3_precision_evidence.py'
       - 'ci/s3_fec_extension_benchmark.py'
@@ -62,6 +64,8 @@ jobs:
             flags: --rpc-clock27 --syndrome-ready --rr-table --core-mhz 90 --cost-shift 24
           - name: guard27-shift22-fifo
             flags: --rpc-clock27 --syndrome-ready --rr-table --core-mhz 90
+          - name: forney27-shift22-fifo
+            flags: --rs-forney --rpc-clock27 --syndrome-ready --rr-table --core-mhz 90
     steps:
       - uses: actions/checkout@v5
       - uses: YosysHQ/setup-oss-cad-suite@v4
@@ -89,6 +93,8 @@ jobs:
           tar -xJf build/rs-toolchain/compiler.tar.xz -C build/rs-toolchain
       - name: Compile scalar solver for S3, without a WCET claim
         run: python3 ci/s3_rs_offload_compile.py --cc build/rs-toolchain/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc
+      - name: Bound the current scalar FFT object, without claiming SIMD timing
+        run: python3 ci/s3_fft_target_bound.py --cc build/rs-toolchain/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc --core-isa reports/s3-fft-target-bound/core-isa.h
       - uses: actions/upload-artifact@v4
         if: always()
         with:
