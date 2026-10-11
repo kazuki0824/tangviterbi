@@ -9,7 +9,13 @@
 #else
 #define HOT
 #endif
-_Static_assert(ATOMIC_INT_LOCK_FREE==2,"worker requires lock-free unsigned atomics");
+/* IDF builds with -mdisable-hardware-atomics: ATOMIC_INT_LOCK_FREE may be 1
+ * because read/modify/write needs an SDK fallback. This worker uses ONLY
+ * aligned 32-bit loads/stores. Target evidence checks that those compile to
+ * l32i/s32i + memw, with no external atomic helpers under the same flag.
+ */
+_Static_assert(sizeof(atomic_uint)==4&&_Alignof(atomic_uint)>=4,
+               "worker requires naturally aligned 32-bit atomic storage");
 _Static_assert(UINT_MAX==UINT32_MAX,"worker requires 32-bit unsigned");
 enum { HALF_BLOCKS=512, END_PROGRESS=13*HALF_BLOCKS, TILE_BLOCKS=16 };
 static int HOT actual_tile(void *ctx,int16_t *data,const int16_t *table,

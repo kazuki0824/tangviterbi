@@ -101,3 +101,14 @@ source/object hash・逆アセンブル・log：
 [21 unittest](s3-fft-simd-evidence/worker-unittest.txt)。
 
 `complete_estimate=false` / `performance_stage_completed=false` / `receiver_adopted=false`。
+
+## 2026-10-12：SDK atomic前提の不具合を修正
+
+HEAD `6553225` の実SDK jobは`-mdisable-hardware-atomics`で、
+`ATOMIC_INT_LOCK_FREE==2`のassertに失敗した。SDK外のcompile成功を実SDK成功に数えない。
+workerはRMWを使わず、naturally aligned 32-bit load/storeだけを使用する。
+全atomic操作を一括したmacroではなく、storageの32-bit幅/整列を検査する形へ修正し、
+target evidenceにも同じSDK flagを追加した。実objectではload/storeがl32i/s32iとmemwへ展開され、
+未解決atomic helperなし。関連21 unittestも再実行して合格。
+実SDKでの修正後再リンクはCIへ委ね、結果回収までは未確認とする。
+[失敗jobと修正範囲](s3-fft-simd-evidence/worker-sdk-failure.json)。

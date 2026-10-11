@@ -11,7 +11,7 @@ def main():
  out=ROOT/'reports/s3-fft-simd-evidence';out.mkdir(parents=True,exist_ok=True)
  (b/'kernel.S').write_text(source())
  (b/'tiles.S').write_text(tiled_source())
- flags=['-O3','-std=c11','-Wall','-Wextra','-Werror','-mlongcalls','-fstack-usage']
+ flags=['-O3','-std=c11','-Wall','-Wextra','-Werror','-mlongcalls','-fstack-usage','-mdisable-hardware-atomics']
  for name,path in [('kernel',b/'kernel.S'),('wrapper',ROOT/'experiments/s3_fft_simd.c'),('scalar',ROOT/'experiments/s3_fft_tiles.c'),
                   ('tiles',b/'tiles.S'),('tiles-c',ROOT/'experiments/s3_fft_simd_tiles.c'),
                   ('worker',ROOT/'experiments/s3_fft_worker.c')]:
@@ -30,6 +30,7 @@ def main():
  (out/'sizes.txt').write_text(sizes)
  if 'ee.cmul.s16' not in asm or 's3_pinned_fft_aes3' not in asm:raise ValueError('missing S3 SIMD kernel')
  result=dict(scope=__doc__,compiler=subprocess.check_output([cc,'--version'],text=True).splitlines()[0],
+  compiler_flags=flags,SDK_atomic_flag_reproduced=True,
   upstream=json.loads((ROOT/'experiments/s3_fft_simd_port/upstream.json').read_text()),
   source_sha256={str(x.relative_to(ROOT)):hashlib.sha256(x.read_bytes()).hexdigest() for x in
    [ROOT/'experiments'/n for n in ('s3_fft_simd.c','s3_fft_simd.h','s3_fft_simd_coefficients.inc','s3_fft_simd_tiles.c','s3_fft_simd_tiles.h','s3_fft_worker.c','s3_fft_worker.h','s3_fft_capture_service.c','s3_fft_capture_service.h')]+[

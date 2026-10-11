@@ -1,6 +1,17 @@
 {
   "scope": "Compile pinned S3 SIMD FFT; does not execute it or establish silicon WCET.",
   "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "compiler_flags": [
+    "-O3",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-mlongcalls",
+    "-fstack-usage",
+    "-mdisable-hardware-atomics"
+  ],
+  "SDK_atomic_flag_reproduced": true,
   "upstream": {
     "repository": "https://github.com/espressif/esp-dsp",
     "tag": "v1.7.1",
@@ -18,12 +29,12 @@
     "experiments/s3_fft_simd_coefficients.inc": "6e4515981b9e41cea9ecc8a16d9dd868c075ccfde797034e54cfc523a983c75b",
     "experiments/s3_fft_simd_tiles.c": "3d62af011e8a7088904a3156c00f617c0ed148f05cb11aa2769c87b51a7ab682",
     "experiments/s3_fft_simd_tiles.h": "bfda96c03b1fb743e3326125e0403df1f5cd19d4281ea52a5ebc3a844ced4ab8",
-    "experiments/s3_fft_worker.c": "84e9f455fcae84fdeb5788905727dc5ba518d5e8cfc824cff872fe4acd734c34",
+    "experiments/s3_fft_worker.c": "408eed5463443ecf2ddd87d0d7eba2383fdc3cc7821b616e8cfba905516d6f8d",
     "experiments/s3_fft_worker.h": "dfb849bd6e88929a0222d77eafd7687c7541a1eaa990c6bdb6ca9213899fd3b8",
     "experiments/s3_fft_capture_service.c": "fb4408fa522010af24c7f127924fb21bd34d848c8917e00437e17ba79556dd5e",
     "experiments/s3_fft_capture_service.h": "da91c449e27128c025dedf87771cb4c20fc0a57601e65cff1c0a3f306170c9e7",
     "ci/s3_fft_simd_source.py": "f8b1bbc3b17f20f20f80c5fe4d77778350a4466eb6eb564cea764aa7fb4f217f",
-    "ci/s3_fft_simd_evidence.py": "5f661c03bd589af183ca20920437ba0d6660b56ba47a3667f62e38803e38e940"
+    "ci/s3_fft_simd_evidence.py": "9c2b0bca4056935fe558cab984940f2f8f54ebed465ab3bdeb2e3f7a209cc761"
   },
   "bundle_sha256": "a60b2adb923b1eedfd77fe39e91d57ec450ac0f17234b4095ec61af77ba1b047",
   "RF_service_object_sha256": "36340c1b1c602545e4014ad842c87c3084701f5c8fa6ceeddc238b77cf4c28ce",
