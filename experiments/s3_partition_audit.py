@@ -1,7 +1,7 @@
 """Reproducible finite architecture and transport screening. NOT WCET/STA.
 All rates decimal MB/s; native RF preserved. No quality-lowering transport variant.
 """
-import json,math,itertools,csv,sys,gzip,argparse,copy
+import json,math,itertools,csv,sys,gzip,argparse,copy,io
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'experiments'))
@@ -13,6 +13,7 @@ R.mkdir(parents=True,exist_ok=True)
 fixture=json.loads(gzip.decompress((ROOT/'reports/s3-partition-audit/inputs.json.gz').read_bytes()))
 import s3_rs_offload_budget as rs
 from s3_sct_schedule import service,terrestrial
+from s3_peripheral_resources import pin_count,constraints
 P=4096; rate=28.86e6*2/(203*8); interval=204/rate*1e6
 inputs=copy.deepcopy(fixture['receiver_inputs'])
 ports=inputs['ports']
@@ -41,8 +42,9 @@ for k in range(1,len(ports)+1):
  for ps in itertools.combinations(ports,k):
   groups=[p['exclusive_group'] for p in ps if p['exclusive_group']]
   if len(set(groups))!=len(groups):continue
-  pins=sum(p['pin_lower_bound'] for p in ps)
+  pins=pin_count(ps)
   if pins+3>30 or pins+6>35:continue
+  if not constraints(ps)['gdma']['selected_driver_capacity_pass']:continue
   sets.append(ps)
 
 def routes(d,u,gap=0):
@@ -66,8 +68,9 @@ def routes(d,u,gap=0):
                      spare_MBps=c-load,spare_percent=100*(c-load)/c,
                      additional_gap_us=P/load-P/c if load else None))
   out.append(dict(ports=[p['name'] for p in ps],peak_utilization=peak,
-                  GPIO_with_control=sum(p['pin_lower_bound'] for p in ps)+3,
-                  FPGA_header_pins_with_TS=sum(p['pin_lower_bound'] for p in ps)+6,
+                  GPIO_with_control=pin_count(ps)+3,
+                  FPGA_header_pins_with_TS=pin_count(ps)+6,
+                  peripheral_constraints=constraints(ps),
                   links=links,endpoint_implemented=False,WCET_verified=False))
  names=[set(x['ports']) for x in out]
  for x,n in zip(out,names):x['minimal']=not any(q<n for q in names)
@@ -152,7 +155,8 @@ def rpc_routes(profile,counts,gap):
                   RF_capacity_MBps=capacity,RF_margin_MBps=capacity-100,
                   RF_allocation_MBps=[c*100/capacity for c in remaining],
                   port_spare_MBps=[cap(p,gap)*(1-u)-r*100/capacity for p,u,r in zip(ps,used,remaining)]))
-  if winners:out.append(dict(ports=[p['name'] for p in ps],GPIO_with_control=sum(p['pin_lower_bound'] for p in ps)+3,
+  if winners:out.append(dict(ports=[p['name'] for p in ps],GPIO_with_control=pin_count(ps)+3,
+      peripheral_constraints=constraints(ps),
       assignments=winners,maximum_RF_margin_MBps=max(w['RF_margin_MBps'] for w in winners),
       minimum_RF_margin_MBps=min(w['RF_margin_MBps'] for w in winners),same_batch_deadlines_verified=False))
  names=[set(x['ports']) for x in out]
@@ -177,7 +181,8 @@ report=dict(scope='256 T + 64 S whole-stage assignments, 4 RS subpartitions, 18 
  definitions=dict(down='S3 to FPGA',up='FPGA to S3',SPI='80MHz master,20us API; octal3page .25us segment; others onepage',
                   parallel='4096B+16B framing; 0 or 8us gap scenarios, not measured',
                   SD='40MHz host,20us gap; 96+18*9 clocks overhead; FPGA card endpoint unimplemented',
-                  pins='Sum pins +3 S3 control <=30; +6 FPGA control/TS <=35; counts only; no pin/electrical proof',
+                  pins='Same-controller full-duplex I2S may share BCLK/WS with matching clock/slots; +3 S3 control <=30, +6 FPGA control/TS <=35; counts only, no pin/electrical proof',
+                  GDMA='5 TX/RX pairs; SPI reserves whole pair; LCD TX, CAM RX and each I2S direction need a channel; SDMMC separate DMA; no memory contention proof',
                   resource='All inherited partial resource numbers are labelled incomplete; no new P&R performed'),
  assignments=records,route_catalogs=cache,RS_subpartitions=special,receiver_adopted=False)
 report['provenance']=fixture['provenance']
@@ -187,7 +192,12 @@ report['all_receiver_implemented']=False
 report['safe_to_flash']=False
 report['CPU_WCET_verified']=False
 report['whole_FPGA_resources_verified']=False
-report['proposed_validation_order']=['T FFT offload','S BM/Omega offload']
+report['proposed_validation_order']=['T target SIMD FFT, separate from the failed scalar O3 object','S resource redesign, separate from the failed Forney mapped netlist']
+report['selected_implementation_observations']={
+ 'T_scalar_FFT_O3':dict(ideal_two_core_us_lower_bound=3882.6666666666665,
+  period_us=1039.5,selected_object_pass=False,evidence='reports/s3-fft-target-bound/results.json'),
+ 'S_BM_Omega_Forney_FPGA_partial':dict(minimum_required_logic_sites=9426,available_logic_sites=8640,
+  selected_mapped_netlist_pass=False,evidence='reports/s3-rs-forney-evidence/results.json')}
 report['validation_order_is_feasibility_recommendation']=False
 for row in records:
  row['performance_pass']=None
@@ -202,6 +212,18 @@ summary['CPU_average_only_screen_pass_count']=sum(x['CPU_average_model_screen_pa
 summary['pin_count_legal_subsets']=len(sets)
 summary['RS_route_counts']={n:{g:{'sets':len(v['communication_only_'+g]),'message_assignments':sum(len(x['assignments']) for x in v['communication_only_'+g])} for g in ('gap0','gap8')} for n,v in special.items()}
 (R/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
+csv_output=io.StringIO(newline='')
+writer=csv.writer(csv_output)
+writer.writerow(['partition','parallel_gap_us','port_set','minimal_set','message_ports_in_order',
+ 'RF_capacity_MBps','RF_margin_MBps','RPC_port_time_fractions','RF_port_allocation_MBps','per_port_spare_MBps'])
+for name,profile in special.items():
+ for gap in (0,8):
+  for row in profile[f'communication_only_gap{gap}']:
+   for assignment in row['assignments']:
+    writer.writerow([name,gap,'+'.join(row['ports']),row['minimal'],'+'.join(assignment['message_ports']),
+     assignment['RF_capacity_MBps'],assignment['RF_margin_MBps'],json.dumps(assignment['RPC_time_fractions']),
+     json.dumps(assignment['RF_allocation_MBps']),json.dumps(assignment['port_spare_MBps'])])
+(R/'message-assignments.csv.gz').write_bytes(gzip.compress(csv_output.getvalue().encode(),mtime=0))
 print(json.dumps({'ports':len(ports),'pin_legal_subsets':len(sets),'CPU_average_only_rows':sum(r['CPU_average_model_screen_pass'] for r in records),
                  'unique_rate_catalogs':len(cache),'rates':report['rates'],
                  'special_routes':{n:{k:len(v[k]) for k in ('communication_only_gap0','communication_only_gap8')} for n,v in special.items()}},indent=2))

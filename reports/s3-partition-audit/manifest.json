@@ -3,17 +3,21 @@
   "files_sha256": {
     "README.md": "c7b018578143db4502d9819132634d79b887bc425ca1464405ce60459e78e52d",
     "reports/s3-receiver-blockers.md": "b36d581e986ba62d6bca227cce15d9979ecc2c1a37ad36e6216771fc1fe3d75c",
-    "reports/s3-partition-audit.md": "05187ad5281f9e9be78e6be09da9a88fb3e0f04f27ba242c405649eaad7d8a65",
-    "experiments/s3_partition_audit.py": "3f8a70b5efdfa580e24d723786a1eceb8ffd27c3762f249f6b6a2aca24c04c19",
+    "reports/s3-partition-audit.md": "4d51d79fac49a2463d01a73796d4ee1a9900c5cd9c3df5ee13956ad748ff04ba",
+    "experiments/s3_partition_audit.py": "9558165e84b348155bcf021980870958bd71681d2c7059b32ad27a5de9849738",
     "tests/test_s3_partition_audit.py": "7a071476153dc2872ab13ddd883f91ae8aef99dc5406d965f6a2752988459a5d",
-    "reports/s3-partition-audit/estimate.json.gz": "64f414be856b7d16853a940ae043278769d2505987dd41d93403c997ee24e21d",
+    "reports/s3-partition-audit/estimate.json.gz": "669ee0290cc0f6efa8bce771e634e200bba6874d2ed24f4f3f145fe65ae4866d",
     "reports/s3-partition-audit/exact-rs.json": "abcf14c2f346f32ff89b204b5f94f81e5491950b47eb780b6510bae7ab7be0d6",
     "reports/s3-partition-audit/inputs.json.gz": "666b12734d08c644ea51b25f4b2b227c39e1b32de1f77de601136bff19910f3b",
-    "reports/s3-partition-audit/message-assignments.csv.gz": "41054e87c77856b0d40c5b36c99865fc922bc87aa3f286d4a09bfc542da218b4",
-    "reports/s3-partition-audit/summary.json": "a1f6de467bdcc108b41990b3f4b092d7c0c141cba55f97dfd1c218998271c646",
-    "reports/s3-partition-audit/unittest.txt": "d0f08fa5292c035ffd9c5f5f9e3770aba0d2408a4cb0db536e91d9e72b008ba8"
+    "reports/s3-partition-audit/message-assignments.csv.gz": "13979e061ef5350bff4cf6fca1c73806c88a61784db08fa5137437c96e4539ec",
+    "reports/s3-partition-audit/summary.json": "8dba89ecbdcd1c72a90211afea160f68b67a23bb5b81da6e650837bef96eeb9b",
+    "reports/s3-partition-audit/unittest.txt": "d0f08fa5292c035ffd9c5f5f9e3770aba0d2408a4cb0db536e91d9e72b008ba8",
+    "experiments/s3_peripheral_resources.py": "55097ed0634570d68919e83b5f68d85cabae7eb1290d6fade795a8a7ac29778e",
+    "tests/test_s3_peripheral_resources.py": "5ecca4f7a3e2f1531b10e236b2f68f50c04f3bac9c3b02e010183fc879a50c95",
+    "reports/s3-partition-audit/peripheral-source-evidence.json": "668e836c3d88f6d1497f0b8a9d2cf1ae76113ec136b0b17cbe215b0cddadb096"
   },
   "validation": "6 new and 4 existing unittest PASS; no new full-receiver CAD or silicon test",
   "legacy_numerical_results_preserved_with_CPU_summation_tolerance_Mcycles_s": 1e-09,
-  "maximum_observed_CPU_sum_difference_Mcycles_s": 1.8189894035458565e-12
+  "maximum_observed_CPU_sum_difference_Mcycles_s": 1.8189894035458565e-12,
+  "followup": "same-controller I2S clocks/GDMA channel assignment; scalar FFT and Forney failures are linked, not converted to universal architecture exclusions"
 }

@@ -192,7 +192,8 @@
     "SPI": "80MHz master,20us API; octal3page .25us segment; others onepage",
     "parallel": "4096B+16B framing; 0 or 8us gap scenarios, not measured",
     "SD": "40MHz host,20us gap; 96+18*9 clocks overhead; FPGA card endpoint unimplemented",
-    "pins": "Sum pins +3 S3 control <=30; +6 FPGA control/TS <=35; counts only; no pin/electrical proof",
+    "pins": "Same-controller full-duplex I2S may share BCLK/WS with matching clock/slots; +3 S3 control <=30, +6 FPGA control/TS <=35; counts only, no pin/electrical proof",
+    "GDMA": "5 TX/RX pairs; SPI reserves whole pair; LCD TX, CAM RX and each I2S direction need a channel; SDMMC separate DMA; no memory contention proof",
     "resource": "All inherited partial resource numbers are labelled incomplete; no new P&R performed"
   },
   "receiver_adopted": false,
@@ -211,13 +212,27 @@
   "CPU_WCET_verified": false,
   "whole_FPGA_resources_verified": false,
   "proposed_validation_order": [
-    "T FFT offload",
-    "S BM/Omega offload"
+    "T target SIMD FFT, separate from the failed scalar O3 object",
+    "S resource redesign, separate from the failed Forney mapped netlist"
   ],
+  "selected_implementation_observations": {
+    "T_scalar_FFT_O3": {
+      "ideal_two_core_us_lower_bound": 3882.6666666666665,
+      "period_us": 1039.5,
+      "selected_object_pass": false,
+      "evidence": "reports/s3-fft-target-bound/results.json"
+    },
+    "S_BM_Omega_Forney_FPGA_partial": {
+      "minimum_required_logic_sites": 9426,
+      "available_logic_sites": 8640,
+      "selected_mapped_netlist_pass": false,
+      "evidence": "reports/s3-rs-forney-evidence/results.json"
+    }
+  },
   "validation_order_is_feasibility_recommendation": false,
   "whole_stage_assignments": 320,
   "CPU_average_only_screen_pass_count": 24,
-  "pin_count_legal_subsets": 2012,
+  "pin_count_legal_subsets": 2169,
   "RS_route_counts": {
     "CPU_all_RS": {
       "gap0": {
@@ -231,32 +246,32 @@
     },
     "CPU_BM_Chien_Forney": {
       "gap0": {
-        "sets": 154,
-        "message_assignments": 933
+        "sets": 180,
+        "message_assignments": 1041
       },
       "gap8": {
-        "sets": 147,
-        "message_assignments": 907
+        "sets": 169,
+        "message_assignments": 1003
       }
     },
     "CPU_BM_Omega": {
       "gap0": {
-        "sets": 152,
-        "message_assignments": 925
+        "sets": 178,
+        "message_assignments": 1033
       },
       "gap8": {
-        "sets": 141,
-        "message_assignments": 875
+        "sets": 163,
+        "message_assignments": 971
       }
     },
     "CPU_BM_Omega_Forney": {
       "gap0": {
-        "sets": 159,
-        "message_assignments": 11727
+        "sets": 198,
+        "message_assignments": 14953
       },
       "gap8": {
-        "sets": 150,
-        "message_assignments": 11355
+        "sets": 185,
+        "message_assignments": 14473
       }
     }
   }

@@ -9,6 +9,8 @@ ISDB-T / S 処理分担の検算
 
 2026-10-11 · T/S排他的実行 · 追加ソフトウェア間引き・再量子化なし
 
+後続の[FPGA Forney同時合成](s3-rs-forney.md)と[RF polling・target FFT下限](s3-rf-schedule-closure.md)を反映。現行O3 scalar FFTは周期超過、今回のForney付きmapped netlistは9426位置で面積超過。下記の低費用CPU平均値は、この2つの実装の合格を意味しない。I2S共有clockとGDMA割当を追加した通信台帳は2169 subsetへ更新した。
+
 
 **未完了の検算記録：**TのFFT移管、SのBM/Omega移管は今後の検証順であり、実現可能性を確認した分担の提案ではない。ただし、性能余裕を確認してから通信路を割り当てるという指定手順で、現時点で採用を確定できる完成受信機は0件。RS部分移管のCPU WCETと全体FPGA資源・STAが未確定だからである。帯域条件だけに通るものを成立済みに数えない。
 
@@ -54,7 +56,7 @@ native I10/Q10の未使用12 bitを落として、2 sampleを5 byteへ可逆梱�
 | S-0：全RS FPGA | RF取得・梱包・制御 | FIR、同期、TC8PSK、TMCC/frame、deinterleave、RS、TS | RF等のみ低373.320＝77.775%；高453.320＝94.442%。現コンパクトFPGA実装は期限未達 |
 | S-1：全RS SoC | S-0に全RS追加 | RS以外。204 BのCWを送ってTSを受け取る | 旧22060 cycles/CWはRSだけで784.054 Mcycles/s。選択したscalar実装は除外 |
 | S-2：BM＋Chien＋Forney SoC | syndromeから誤り位置・値を算出 | syndrome、CW保存、byte訂正、その他復調 | CPU WCET未確定。旧scalar Chien6528 cycles/CWだけでRF控除後予算を超える |
-| S-3：BM＋Omega SoC | syndromeからlambda/Omega算出 | syndrome、Chien、Forney、CW保存、byte訂正、その他復調 | CPU WCETと追加FPGA Forney資源未確定。往復2段で優先評価する案 |
+| S-3：BM＋Omega SoC | syndromeからlambda/Omega算出 | syndrome、Chien、Forney、CW保存、byte訂正、その他復調 | Forney単体を検査・合成済み。同時mapped netlistは9426位置で超過。CPU WCET・別構成の全体資源は未確定 |
 | S-4：BM＋Omega＋Forney SoC | solver、FPGAからの根を検査してmagnitudes算出 | syndrome、Chien、CW保存、byte訂正、その他復調 | 独立部品の証拠が最多。往復4段、保持追加後のpartial topが90 MHz未達 |
 | SのFIR/TC8PSK/frameをSoCへ移す群 | 対応する全部又は組合せ | 残りの段 | 選択したFIRは低870.36 Mcycles/s、frame移管は総低490.000 Mcycles/s。16bit TC8PSK arithmetic profileも超過。該当実装を除外 |
 
@@ -75,7 +77,7 @@ CPUの高/低は選択した命令・コピー費用の感度条件であり、�
 | S-4、SHIFT22部分top、保持前 | 7958＝92.106% | 3438＝53.056% | 10/26＝38.462%；2/20；1/2 | seed3 91.4495 MHz、90 MHz目標合格。全復調・全RPC・CW保持なし |
 | 同系列へCW保持を追加したPR5固定commitの部分top | 8281/8296＝95.845/96.019% | この表では未確定 | 25/26＝96.154% | stable83.45 MHz；同netlist seed75.52/80.34 MHz。90 MHz未達 |
 | SHIFT24＋guard FIFOの部分top | 8226＝95.208% | 3580＝55.247% | 11/26＝42.308%；2/20；1/2 | 93.214 MHz合格。ただし弱信号で誤り増加の条件があり同等品質の代替採用はしない |
-| S-2 / S-3の完成回路 | 未確定 | 未確定 | 未確定 | S-4の占有率を流用しない。S-3はFPGA Forney追加が必要 |
+| S-2 / S-3の完成回路 | 未確定 | 未確定 | 未確定 | S-4の占有率を流用しない。S-3のForney付きpartial netlistは9426位置。全体回路の代用にはしない |
 
 
 S距離3 clocks/symbolなら90 MHzで入力需要86.58 MHz、clock容量占有96.2%。32 ACSの2 clocks/symbolは64.133%。syndromeは8 clocks/byteで11.25 MB/s能力に対し7.250542 MB/s需要、64.449%。Chien224 clocks＝2.489 µs、byte訂正268 clocks＝2.978 µs。この独立stage値だけで仲裁付きパイプラインを保証しない。compact全RS2667 clocks/CWの必要clockは94.790172 MHzであり、既存83.86 MHz測定は不合格。
@@ -139,7 +141,7 @@ S3内蔵SRAMは512 KiBで、RF raw3 bank192 KiB、packed ring64 KiB、T FFT2面6
 SPIはS3 master80 MHz、FPGA slave。S3をSPI slave80 MHzで動かす前提にはしない。OctalはRF3頁batch、API20 µs、segment0.25 µs；Quad/Dual/Singleは1頁/API20 µs。SPI header80 bit。4096 B RPC page内16 B headerを含め、部分案では各messageごとのpage数・API回数も加算した。20 µsは設計仮定でありprivate SCT APIのWCET保証ではない。SD/eMMCは40 MHz、20 µs gap、command/CRCを計上。8bit SDIOという旧名称を8bit eMMCへ訂正した。4bit eMMC DDR40はFPGA側card emulation未実装。LCD/CAMは8/16bit、40 MHz、4096＋16 B framing、gap0/8 µsの感度条件。I2Sは40 MHz bitclockの5 MB/s上限からframingを控除する。
 
 
-18 profileの全subsetを列挙し、SPI2、SPI3、LCD、CAM、SDHOST内の重複を除いた。S3信号＋3control≤30、FPGA header信号＋6control/TS≤35の必要pin条件に通る2012 subsetを検査。専用バスの方向と半二重時間を守る。I2S clock共有によるpin削減は仮定しない。pin本数を満たすことは、N16R8のPSRAM予約GPIO、strap、CLK入力、固定基板負荷、setup/holdを解決した証明ではない。T/S両modeの固定配線のunion/remapは最後に別確認する。
+18 profileの全subsetを列挙し、SPI2、SPI3、LCD、CAM、SDHOST内の重複を除いた。S3信号＋3control≤30、FPGA header信号＋6control/TS≤35の必要pin条件とGDMA容量条件に通る2169 subsetを検査。専用バスの方向と半二重時間を守る。I2Sの同一controller内でTX/RXのclock/slot設定を揃える場合はBCLK/WSを共有して2 pin削減する。controller間のclock共有は仮定しない。40 MHz profileはS3 master、PLL160→MCLK80→BCLK40 MHz、32-bit stereo625 kframe/s、MCLK pinなしの設計条件とする。同じ内部sourceのslave40 MHzはdriverの最小BCLK divisor8条件を満たさない。GDMAは5対でSPIがTX/RX対を予約し、LCD TX・CAM RX・I2S各方向が別channelを使う。SDMMCは自身のDMAを持つ。これらはcapacity条件であり、同時memory arbitrationの合格ではない。pin本数を満たすことは、N16R8のPSRAM予約GPIO、strap、CLK入力、固定基板負荷、setup/holdを解決した証明ではない。T/S両modeの固定配線のunion/remapは最後に別確認する。
 
 
 全320段分担の通信表は方向別fluid容量の必要条件。最小peak割当の一例を各subsetに保存した。deadline、barrier、ページ境界到着の十分条件にはしない。RS部分4案は各RPC messageを分割せず各対応portへ割り当てる全組合せを列挙し、RPC時間を控除した残りへRF100 MB/sを配分した。全message割当とportごとの余裕は[通信割当CSV](s3-partition-audit/message-assignments.csv.gz)と[台帳JSON](s3-partition-audit/estimate.json.gz)にある。Octal/Quadの既存有限eventモデルも別収録した。
@@ -168,9 +170,9 @@ S-4のO/Q全16割当は、Qの個数0/1/2/3/4に応じ残0.215515/0.378886/0.542
 | RS分担 | gap0 port集合 | gap0 message割当 | gap8 port集合 | gap8 message割当 | 最終採用 |
 | --- | --- | --- | --- | --- | --- |
 | CPU_all_RS | 31 | 240 | 28 | 230 | 0 / 性能未達又は未確定 |
-| CPU_BM_Chien_Forney | 154 | 933 | 147 | 907 | 0 / 性能未達又は未確定 |
-| CPU_BM_Omega | 152 | 925 | 141 | 875 | 0 / 性能未達又は未確定 |
-| CPU_BM_Omega_Forney | 159 | 11727 | 150 | 11355 | 0 / 性能未達又は未確定 |
+| CPU_BM_Chien_Forney | 180 | 1041 | 169 | 1003 | 0 / 性能未達又は未確定 |
+| CPU_BM_Omega | 178 | 1033 | 163 | 971 | 0 / 性能未達又は未確定 |
+| CPU_BM_Omega_Forney | 198 | 14953 | 185 | 14473 | 0 / 性能未達又は未確定 |
 
 
 これは明示profile、pin数、取引モデルの範囲の全候補。USB Full Speedは線上12 Mbit/sでT/S TS最大にもraw RFにも足りない。Tang上BL702のUSB-JTAG/UARTは汎用高速TS経路とはみなさない。内蔵RFをSDR取得に使うS3で独立Wi-Fi転送を同時保証しない。S3にないPARLIOやEthernet MACは借用しない。GPIO独自転送のeSpDR実例はあるが、200 MB/s受信側はArtixの240 MHz sampler等を使うため9Kへの保証に転用しない。これらを用いて帯域不足をソフトウェア間引きで救う案は採用表へ入れない。
@@ -191,7 +193,7 @@ MSPI Multi Bootはimage headerに次image addressを持たせ、停止→RF/TS/D
 ## 7. この見積もりで優先する分担と、確定に必要な測定
 
 
-今後の検証順はT-A＋S-3。全体資源と同時実行時間を満たす案とはまだ判定していない。S-3はS-4より往復を減らし、FPGA Forneyを追加する代わりにSoC負担を減らす。配線候補はOctal＋QuadとLCD16＋Quadを比較する。後者はgap0なら通信余裕が大きいが、並列endpointと固定pin/IO制約の設計が必要。現在の証拠からどちらかを成立済みハードウェアとして選ぶことはできない。
+次の評価ではT-Aのtarget SIMD FFT、S-3のraw直接stream等を含む資源再設計が必要。現行scalar FFTと今回のForney付きmapped netlistを保持した案は、追加測定で除外した。全体資源と同時実行時間を満たす案とはまだ判定していない。S-3はS-4より往復を減らすが、Forneyを実装して同時合成すると今回の構成では面積超過になった。配線候補はOctal＋QuadとLCD16＋Quadを比較する。後者はgap0なら通信余裕が大きいが、並列endpointと固定pin/IO制約の設計が必要。現在の証拠からどちらかを成立済みハードウェアとして選ぶことはできない。
 
 
 閉じるべき値は①native40 MS/sの全帯域・連続RF取得、②parallel packingとFFT/solver/RPC/RTOS込み各core WCET、③T/S全RTLそれぞれのlogic/FF/BSRAM/DSP/PLL占有とSTA、④PSRAMの全負荷と最大仲裁待ち、⑤same-batch ACK/credit/CW保持の上限、⑥実配線でのAPI/DMA gapとIO遅延、⑦NOR実image起動。特にS-3のForneyを含む新全体資源見積もりがない状態で、S-4の残682位置をそのまま空きとして使わない。
@@ -205,263 +207,263 @@ MSPI Multi Bootはimage headerに次image addressを持たせ、停止→RF/TS/D
 
 | ID | SoC段（RF共通） | CPU % L/H | stage B/D | ↑/↓ MB/s | 経路gap0/8 | 除外/保留 |
 | --- | --- | --- | --- | --- | --- | --- |
-| S3-T-000 | RFのみ | 32.360/39.027 | 24/18 | 40.000/0.000 | 1518/1518 | 全体資源/WCET未確定 |
-| S3-T-001 | FIR | 90.009/123.765 | 22/10 | 32.508/0.000 | 1683/1683 | 全体資源/WCET未確定 |
-| S3-T-002 | sync | 59.896/93.447 | 23/17 | 71.523/32.508 | 170/163 | 全体資源/WCET未確定 |
+| S3-T-000 | RFのみ | 32.360/39.027 | 24/18 | 40.000/0.000 | 1646/1646 | 全体資源/WCET未確定 |
+| S3-T-001 | FIR | 90.009/123.765 | 22/10 | 32.508/0.000 | 1821/1821 | 全体資源/WCET未確定 |
+| S3-T-002 | sync | 59.896/93.447 | 23/17 | 71.523/32.508 | 209/202 | 全体資源/WCET未確定 |
 | S3-T-003 | FIR,sync | 103.338/150.435 | 21/9 | 31.523/0.000 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-004 | FFT | 88.448/117.997 | 6/14 | 71.523/31.523 | 184/177 | 全体資源/WCET未確定 |
-| S3-T-005 | FIR,FFT | 146.096/202.736 | 4/6 | 64.031/31.523 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-006 | sync,FFT | 102.208/145.508 | 5/13 | 71.523/32.508 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-007 | FIR,sync,FFT | 145.650/202.495 | 3/5 | 31.523/0.000 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-008 | equalize_demap | 53.548/80.788 | 24/13 | 68.814/31.523 | 218/204 | 全体資源/WCET未確定 |
+| S3-T-004 | FFT | 88.448/117.997 | 6/14 | 71.523/31.523 | 225/218 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-005 | FIR,FFT | 146.096/202.736 | 4/6 | 64.031/31.523 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-006 | sync,FFT | 102.208/145.508 | 5/13 | 71.523/32.508 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-007 | FIR,sync,FFT | 145.650/202.495 | 3/5 | 31.523/0.000 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-008 | equalize_demap | 53.548/80.788 | 24/13 | 68.814/31.523 | 267/249 | 全体資源/WCET未確定 |
 | S3-T-009 | FIR,equalize_demap | 111.196/165.527 | 22/5 | 61.322/31.523 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-00a | sync,equalize_demap | 81.084/135.209 | 23/12 | 100.337/64.031 | 0/0 | 全体資源/WCET未確定 |
 | S3-T-00b | FIR,sync,equalize_demap | 124.526/192.197 | 21/4 | 60.337/31.523 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-00c | FFT,equalize_demap | 95.860/132.849 | 6/9 | 68.814/31.523 | 218/204 | 全体資源/WCET未確定 |
-| S3-T-00d | FIR,FFT,equalize_demap | 153.508/217.587 | 4/1 | 61.322/31.523 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-00e | sync,FFT,equalize_demap | 109.620/160.359 | 5/8 | 68.814/32.508 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-00f | FIR,sync,FFT,equalize_demap | 153.062/217.346 | 3/0 | 28.814/0.000 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-010 | time_deinterleave | 60.960/95.640 | 24/18 | 68.814/28.814 | 259/243 | 全体資源/WCET未確定 |
+| S3-T-00c | FFT,equalize_demap | 95.860/132.849 | 6/9 | 68.814/31.523 | 267/249 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-00d | FIR,FFT,equalize_demap | 153.508/217.587 | 4/1 | 61.322/31.523 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-00e | sync,FFT,equalize_demap | 109.620/160.359 | 5/8 | 68.814/32.508 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-00f | FIR,sync,FFT,equalize_demap | 153.062/217.346 | 3/0 | 28.814/0.000 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-010 | time_deinterleave | 60.960/95.640 | 24/18 | 68.814/28.814 | 316/300 | 全体資源/WCET未確定 |
 | S3-T-011 | FIR,time_deinterleave | 118.608/180.378 | 22/10 | 61.322/28.814 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-012 | sync,time_deinterleave | 88.496/150.061 | 23/17 | 100.337/61.322 | 0/0 | 全体資源/WCET未確定 |
 | S3-T-013 | FIR,sync,time_deinterleave | 131.938/207.048 | 21/9 | 60.337/28.814 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-014 | FFT,time_deinterleave | 117.047/174.610 | 6/14 | 100.337/60.337 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-015 | FIR,FFT,time_deinterleave | 174.696/259.349 | 4/6 | 92.845/60.337 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-016 | sync,FFT,time_deinterleave | 130.808/202.121 | 5/13 | 100.337/61.322 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-017 | FIR,sync,FFT,time_deinterleave | 174.250/259.108 | 3/5 | 60.337/28.814 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-018 | equalize_demap,time_deinterleave | 69.555/112.804 | 24/13 | 68.814/31.523 | 218/204 | 全体資源/WCET未確定 |
+| S3-T-014 | FFT,time_deinterleave | 117.047/174.610 | 6/14 | 100.337/60.337 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-015 | FIR,FFT,time_deinterleave | 174.696/259.349 | 4/6 | 92.845/60.337 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-016 | sync,FFT,time_deinterleave | 130.808/202.121 | 5/13 | 100.337/61.322 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-017 | FIR,sync,FFT,time_deinterleave | 174.250/259.108 | 3/5 | 60.337/28.814 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-018 | equalize_demap,time_deinterleave | 69.555/112.804 | 24/13 | 68.814/31.523 | 267/249 | 全体資源/WCET未確定 |
 | S3-T-019 | FIR,equalize_demap,time_deinterleave | 127.204/197.542 | 22/5 | 61.322/31.523 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-01a | sync,equalize_demap,time_deinterleave | 97.092/167.225 | 23/12 | 100.337/64.031 | 0/0 | 全体資源/WCET未確定 |
 | S3-T-01b | FIR,sync,equalize_demap,time_deinterleave | 140.534/224.212 | 21/4 | 60.337/31.523 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-01c | FFT,equalize_demap,time_deinterleave | 111.867/164.864 | 6/9 | 68.814/31.523 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-01d | FIR,FFT,equalize_demap,time_deinterleave | 169.516/249.603 | 4/1 | 61.322/31.523 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-01e | sync,FFT,equalize_demap,time_deinterleave | 125.628/192.374 | 5/8 | 68.814/32.508 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-01f | FIR,sync,FFT,equalize_demap,time_deinterleave | 169.070/249.362 | 3/0 | 28.814/0.000 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-01c | FFT,equalize_demap,time_deinterleave | 111.867/164.864 | 6/9 | 68.814/31.523 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-01d | FIR,FFT,equalize_demap,time_deinterleave | 169.516/249.603 | 4/1 | 61.322/31.523 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-01e | sync,FFT,equalize_demap,time_deinterleave | 125.628/192.374 | 5/8 | 68.814/32.508 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-01f | FIR,sync,FFT,equalize_demap,time_deinterleave | 169.070/249.362 | 3/0 | 28.814/0.000 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-020 | Viterbi | 1047.829/2069.640 | 22/18 | 43.152/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-021 | FIR,Viterbi | 1105.478/2154.379 | 20/10 | 35.659/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-022 | sync,Viterbi | 1075.366/2124.061 | 21/17 | 74.674/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-023 | FIR,sync,Viterbi | 1118.808/2181.049 | 19/9 | 34.674/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-024 | FFT,Viterbi | 1103.917/2148.611 | 4/14 | 74.674/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-025 | FIR,FFT,Viterbi | 1161.566/2233.350 | 2/6 | 67.182/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-026 | sync,FFT,Viterbi | 1117.677/2176.121 | 3/13 | 74.674/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-027 | FIR,sync,FFT,Viterbi | 1161.120/2233.109 | 1/5 | 34.674/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-024 | FFT,Viterbi | 1103.917/2148.611 | 4/14 | 74.674/60.337 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-025 | FIR,FFT,Viterbi | 1161.566/2233.350 | 2/6 | 67.182/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-026 | sync,FFT,Viterbi | 1117.677/2176.121 | 3/13 | 74.674/61.322 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-027 | FIR,sync,FFT,Viterbi | 1161.120/2233.109 | 1/5 | 34.674/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-028 | equalize_demap,Viterbi | 1069.017/2111.402 | 22/13 | 71.965/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-029 | FIR,equalize_demap,Viterbi | 1126.666/2196.141 | 20/5 | 64.473/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-02a | sync,equalize_demap,Viterbi | 1096.553/2165.823 | 21/12 | 103.488/92.845 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-02b | FIR,sync,equalize_demap,Viterbi | 1139.996/2222.810 | 19/4 | 63.488/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-02c | FFT,equalize_demap,Viterbi | 1111.329/2163.462 | 4/9 | 71.965/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-02d | FIR,FFT,equalize_demap,Viterbi | 1168.978/2248.201 | 2/1 | 64.473/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-02e | sync,FFT,equalize_demap,Viterbi | 1125.089/2190.973 | 3/8 | 71.965/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-02f | FIR,sync,FFT,equalize_demap,Viterbi | 1168.532/2247.960 | 1/0 | 31.965/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-02c | FFT,equalize_demap,Viterbi | 1111.329/2163.462 | 4/9 | 71.965/60.337 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-02d | FIR,FFT,equalize_demap,Viterbi | 1168.978/2248.201 | 2/1 | 64.473/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-02e | sync,FFT,equalize_demap,Viterbi | 1125.089/2190.973 | 3/8 | 71.965/61.322 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-02f | FIR,sync,FFT,equalize_demap,Viterbi | 1168.532/2247.960 | 1/0 | 31.965/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-030 | time_deinterleave,Viterbi | 1063.837/2101.656 | 22/18 | 43.152/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-031 | FIR,time_deinterleave,Viterbi | 1121.486/2186.394 | 20/10 | 35.659/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-032 | sync,time_deinterleave,Viterbi | 1091.373/2156.077 | 21/17 | 74.674/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-033 | FIR,sync,time_deinterleave,Viterbi | 1134.816/2213.064 | 19/9 | 34.674/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-034 | FFT,time_deinterleave,Viterbi | 1119.925/2180.626 | 4/14 | 74.674/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-035 | FIR,FFT,time_deinterleave,Viterbi | 1177.574/2265.365 | 2/6 | 67.182/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-036 | sync,FFT,time_deinterleave,Viterbi | 1133.685/2208.137 | 3/13 | 74.674/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-037 | FIR,sync,FFT,time_deinterleave,Viterbi | 1177.127/2265.124 | 1/5 | 34.674/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-034 | FFT,time_deinterleave,Viterbi | 1119.925/2180.626 | 4/14 | 74.674/60.337 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-035 | FIR,FFT,time_deinterleave,Viterbi | 1177.574/2265.365 | 2/6 | 67.182/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-036 | sync,FFT,time_deinterleave,Viterbi | 1133.685/2208.137 | 3/13 | 74.674/61.322 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-037 | FIR,sync,FFT,time_deinterleave,Viterbi | 1177.127/2265.124 | 1/5 | 34.674/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-038 | equalize_demap,time_deinterleave,Viterbi | 1072.433/2118.820 | 22/13 | 43.152/31.523 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-039 | FIR,equalize_demap,time_deinterleave,Viterbi | 1130.082/2203.558 | 20/5 | 35.659/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-03a | sync,equalize_demap,time_deinterleave,Viterbi | 1099.969/2173.241 | 21/12 | 74.674/64.031 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-03b | FIR,sync,equalize_demap,time_deinterleave,Viterbi | 1143.411/2230.228 | 19/4 | 34.674/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-03c | FFT,equalize_demap,time_deinterleave,Viterbi | 1114.745/2170.880 | 4/9 | 43.152/31.523 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-03d | FIR,FFT,equalize_demap,time_deinterleave,Viterbi | 1172.393/2255.619 | 2/1 | 35.659/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-03e | sync,FFT,equalize_demap,time_deinterleave,Viterbi | 1128.505/2198.390 | 3/8 | 43.152/32.508 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-03f | FIR,sync,FFT,equalize_demap,time_deinterleave,Viterbi | 1171.947/2255.378 | 1/0 | 3.152/0.000 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-03c | FFT,equalize_demap,time_deinterleave,Viterbi | 1114.745/2170.880 | 4/9 | 43.152/31.523 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-03d | FIR,FFT,equalize_demap,time_deinterleave,Viterbi | 1172.393/2255.619 | 2/1 | 35.659/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-03e | sync,FFT,equalize_demap,time_deinterleave,Viterbi | 1128.505/2198.390 | 3/8 | 43.152/32.508 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-03f | FIR,sync,FFT,equalize_demap,time_deinterleave,Viterbi | 1171.947/2255.378 | 1/0 | 3.152/0.000 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-040 | RS | 104.682/112.611 | 23/18 | 42.904/3.152 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-041 | FIR,RS | 162.331/197.349 | 21/10 | 35.412/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-042 | sync,RS | 132.219/167.032 | 22/17 | 74.427/35.659 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-043 | FIR,sync,RS | 175.661/224.019 | 20/9 | 34.427/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-044 | FFT,RS | 160.770/191.581 | 5/14 | 74.427/34.674 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-045 | FIR,FFT,RS | 218.419/276.320 | 3/6 | 66.935/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-046 | sync,FFT,RS | 174.530/219.092 | 4/13 | 74.427/35.659 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-047 | FIR,sync,FFT,RS | 217.973/276.079 | 2/5 | 34.427/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-044 | FFT,RS | 160.770/191.581 | 5/14 | 74.427/34.674 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-045 | FIR,FFT,RS | 218.419/276.320 | 3/6 | 66.935/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-046 | sync,FFT,RS | 174.530/219.092 | 4/13 | 74.427/35.659 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-047 | FIR,sync,FFT,RS | 217.973/276.079 | 2/5 | 34.427/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-048 | equalize_demap,RS | 125.870/154.373 | 23/13 | 71.718/34.674 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-049 | FIR,equalize_demap,RS | 183.519/239.111 | 21/5 | 64.226/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-04a | sync,equalize_demap,RS | 153.406/208.793 | 22/12 | 103.241/67.182 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-04b | FIR,sync,equalize_demap,RS | 196.849/265.781 | 20/4 | 63.241/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-04c | FFT,equalize_demap,RS | 168.182/206.433 | 5/9 | 71.718/34.674 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-04d | FIR,FFT,equalize_demap,RS | 225.831/291.171 | 3/1 | 64.226/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-04e | sync,FFT,equalize_demap,RS | 181.942/233.943 | 4/8 | 71.718/35.659 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-04f | FIR,sync,FFT,equalize_demap,RS | 225.385/290.930 | 2/0 | 31.718/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-04c | FFT,equalize_demap,RS | 168.182/206.433 | 5/9 | 71.718/34.674 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-04d | FIR,FFT,equalize_demap,RS | 225.831/291.171 | 3/1 | 64.226/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-04e | sync,FFT,equalize_demap,RS | 181.942/233.943 | 4/8 | 71.718/35.659 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-04f | FIR,sync,FFT,equalize_demap,RS | 225.385/290.930 | 2/0 | 31.718/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-050 | time_deinterleave,RS | 133.282/169.224 | 23/18 | 71.718/31.965 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-051 | FIR,time_deinterleave,RS | 190.931/253.963 | 21/10 | 64.226/31.965 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-052 | sync,time_deinterleave,RS | 160.818/223.645 | 22/17 | 103.241/64.473 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-053 | FIR,sync,time_deinterleave,RS | 204.261/280.632 | 20/9 | 63.241/31.965 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-054 | FFT,time_deinterleave,RS | 189.370/248.194 | 5/14 | 103.241/63.488 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-055 | FIR,FFT,time_deinterleave,RS | 247.019/332.933 | 3/6 | 95.749/63.488 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-056 | sync,FFT,time_deinterleave,RS | 203.130/275.705 | 4/13 | 103.241/64.473 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-057 | FIR,sync,FFT,time_deinterleave,RS | 246.572/332.692 | 2/5 | 63.241/31.965 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-054 | FFT,time_deinterleave,RS | 189.370/248.194 | 5/14 | 103.241/63.488 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-055 | FIR,FFT,time_deinterleave,RS | 247.019/332.933 | 3/6 | 95.749/63.488 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-056 | sync,FFT,time_deinterleave,RS | 203.130/275.705 | 4/13 | 103.241/64.473 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-057 | FIR,sync,FFT,time_deinterleave,RS | 246.572/332.692 | 2/5 | 63.241/31.965 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-058 | equalize_demap,time_deinterleave,RS | 141.878/186.388 | 23/13 | 71.718/34.674 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-059 | FIR,equalize_demap,time_deinterleave,RS | 199.527/271.127 | 21/5 | 64.226/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-05a | sync,equalize_demap,time_deinterleave,RS | 169.414/240.809 | 22/12 | 103.241/67.182 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-05b | FIR,sync,equalize_demap,time_deinterleave,RS | 212.856/297.796 | 20/4 | 63.241/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-05c | FFT,equalize_demap,time_deinterleave,RS | 184.190/238.448 | 5/9 | 71.718/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-05d | FIR,FFT,equalize_demap,time_deinterleave,RS | 241.838/323.187 | 3/1 | 64.226/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-05e | sync,FFT,equalize_demap,time_deinterleave,RS | 197.950/265.958 | 4/8 | 71.718/35.659 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-05f | FIR,sync,FFT,equalize_demap,time_deinterleave,RS | 241.392/322.946 | 2/0 | 31.718/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-05c | FFT,equalize_demap,time_deinterleave,RS | 184.190/238.448 | 5/9 | 71.718/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-05d | FIR,FFT,equalize_demap,time_deinterleave,RS | 241.838/323.187 | 3/1 | 64.226/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-05e | sync,FFT,equalize_demap,time_deinterleave,RS | 197.950/265.958 | 4/8 | 71.718/35.659 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-05f | FIR,sync,FFT,equalize_demap,time_deinterleave,RS | 241.392/322.946 | 2/0 | 31.718/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-060 | Viterbi,RS | 1118.775/2140.534 | 21/18 | 42.904/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-061 | FIR,Viterbi,RS | 1176.423/2225.273 | 19/10 | 35.412/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-062 | sync,Viterbi,RS | 1146.311/2194.955 | 20/17 | 74.427/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-063 | FIR,sync,Viterbi,RS | 1189.753/2251.942 | 18/9 | 34.427/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-064 | FFT,Viterbi,RS | 1174.862/2219.505 | 3/14 | 74.427/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-065 | FIR,FFT,Viterbi,RS | 1232.511/2304.243 | 1/6 | 66.935/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-066 | sync,FFT,Viterbi,RS | 1188.623/2247.015 | 2/13 | 74.427/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-067 | FIR,sync,FFT,Viterbi,RS | 1232.065/2304.002 | 0/5 | 34.427/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-064 | FFT,Viterbi,RS | 1174.862/2219.505 | 3/14 | 74.427/60.337 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-065 | FIR,FFT,Viterbi,RS | 1232.511/2304.243 | 1/6 | 66.935/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-066 | sync,FFT,Viterbi,RS | 1188.623/2247.015 | 2/13 | 74.427/61.322 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-067 | FIR,sync,FFT,Viterbi,RS | 1232.065/2304.002 | 0/5 | 34.427/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-068 | equalize_demap,Viterbi,RS | 1139.962/2182.296 | 21/13 | 71.718/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-069 | FIR,equalize_demap,Viterbi,RS | 1197.611/2267.035 | 19/5 | 64.226/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-06a | sync,equalize_demap,Viterbi,RS | 1167.499/2236.717 | 20/12 | 103.241/92.845 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-06b | FIR,sync,equalize_demap,Viterbi,RS | 1210.941/2293.704 | 18/4 | 63.241/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-06c | FFT,equalize_demap,Viterbi,RS | 1182.274/2234.356 | 3/9 | 71.718/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-06d | FIR,FFT,equalize_demap,Viterbi,RS | 1239.923/2319.095 | 1/1 | 64.226/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-06e | sync,FFT,equalize_demap,Viterbi,RS | 1196.035/2261.866 | 2/8 | 71.718/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-06f | FIR,sync,FFT,equalize_demap,Viterbi,RS | 1239.477/2318.854 | 0/0 | 31.718/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-06c | FFT,equalize_demap,Viterbi,RS | 1182.274/2234.356 | 3/9 | 71.718/60.337 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-06d | FIR,FFT,equalize_demap,Viterbi,RS | 1239.923/2319.095 | 1/1 | 64.226/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-06e | sync,FFT,equalize_demap,Viterbi,RS | 1196.035/2261.866 | 2/8 | 71.718/61.322 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-06f | FIR,sync,FFT,equalize_demap,Viterbi,RS | 1239.477/2318.854 | 0/0 | 31.718/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-070 | time_deinterleave,Viterbi,RS | 1134.782/2172.550 | 21/18 | 42.904/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-071 | FIR,time_deinterleave,Viterbi,RS | 1192.431/2257.288 | 19/10 | 35.412/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-072 | sync,time_deinterleave,Viterbi,RS | 1162.318/2226.970 | 20/17 | 74.427/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-073 | FIR,sync,time_deinterleave,Viterbi,RS | 1205.761/2283.958 | 18/9 | 34.427/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-074 | FFT,time_deinterleave,Viterbi,RS | 1190.870/2251.520 | 3/14 | 74.427/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-075 | FIR,FFT,time_deinterleave,Viterbi,RS | 1248.519/2336.259 | 1/6 | 66.935/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-076 | sync,FFT,time_deinterleave,Viterbi,RS | 1204.630/2279.030 | 2/13 | 74.427/61.322 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-077 | FIR,sync,FFT,time_deinterleave,Viterbi,RS | 1248.073/2336.018 | 0/5 | 34.427/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-074 | FFT,time_deinterleave,Viterbi,RS | 1190.870/2251.520 | 3/14 | 74.427/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-075 | FIR,FFT,time_deinterleave,Viterbi,RS | 1248.519/2336.259 | 1/6 | 66.935/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-076 | sync,FFT,time_deinterleave,Viterbi,RS | 1204.630/2279.030 | 2/13 | 74.427/61.322 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-077 | FIR,sync,FFT,time_deinterleave,Viterbi,RS | 1248.073/2336.018 | 0/5 | 34.427/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-078 | equalize_demap,time_deinterleave,Viterbi,RS | 1143.378/2189.714 | 21/13 | 42.904/31.523 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-079 | FIR,equalize_demap,time_deinterleave,Viterbi,RS | 1201.027/2274.452 | 19/5 | 35.412/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-07a | sync,equalize_demap,time_deinterleave,Viterbi,RS | 1170.914/2244.134 | 20/12 | 74.427/64.031 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-07b | FIR,sync,equalize_demap,time_deinterleave,Viterbi,RS | 1214.357/2301.122 | 18/4 | 34.427/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-07c | FFT,equalize_demap,time_deinterleave,Viterbi,RS | 1185.690/2241.774 | 3/9 | 42.904/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-07d | FIR,FFT,equalize_demap,time_deinterleave,Viterbi,RS | 1243.339/2326.512 | 1/1 | 35.412/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-07e | sync,FFT,equalize_demap,time_deinterleave,Viterbi,RS | 1199.450/2269.284 | 2/8 | 42.904/32.508 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-07f | FIR,sync,FFT,equalize_demap,time_deinterleave,Viterbi,RS | 1242.893/2326.271 | 0/0 | 2.904/0.000 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-080 | TS | 32.995/40.266 | 24/18 | 40.000/2.904 | 1497/1497 | 全体資源/WCET未確定 |
-| S3-T-081 | FIR,TS | 90.643/125.005 | 22/10 | 32.508/2.904 | 1669/1669 | 全体資源/WCET未確定 |
-| S3-T-082 | sync,TS | 60.531/94.687 | 23/17 | 71.523/35.412 | 162/158 | 全体資源/WCET未確定 |
+| S3-T-07c | FFT,equalize_demap,time_deinterleave,Viterbi,RS | 1185.690/2241.774 | 3/9 | 42.904/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-07d | FIR,FFT,equalize_demap,time_deinterleave,Viterbi,RS | 1243.339/2326.512 | 1/1 | 35.412/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-07e | sync,FFT,equalize_demap,time_deinterleave,Viterbi,RS | 1199.450/2269.284 | 2/8 | 42.904/32.508 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-07f | FIR,sync,FFT,equalize_demap,time_deinterleave,Viterbi,RS | 1242.893/2326.271 | 0/0 | 2.904/0.000 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-080 | TS | 32.995/40.266 | 24/18 | 40.000/2.904 | 1625/1625 | 全体資源/WCET未確定 |
+| S3-T-081 | FIR,TS | 90.643/125.005 | 22/10 | 32.508/2.904 | 1807/1807 | 全体資源/WCET未確定 |
+| S3-T-082 | sync,TS | 60.531/94.687 | 23/17 | 71.523/35.412 | 200/196 | 全体資源/WCET未確定 |
 | S3-T-083 | FIR,sync,TS | 103.973/151.674 | 21/9 | 31.523/2.904 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-084 | FFT,TS | 89.082/119.237 | 6/14 | 71.523/34.427 | 164/161 | 全体資源/WCET未確定 |
-| S3-T-085 | FIR,FFT,TS | 146.731/203.975 | 4/6 | 64.031/34.427 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-086 | sync,FFT,TS | 102.843/146.747 | 5/13 | 71.523/35.412 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-087 | FIR,sync,FFT,TS | 146.285/203.735 | 3/5 | 31.523/2.904 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-088 | equalize_demap,TS | 54.182/82.028 | 24/13 | 68.814/34.427 | 191/187 | 全体資源/WCET未確定 |
+| S3-T-084 | FFT,TS | 89.082/119.237 | 6/14 | 71.523/34.427 | 202/199 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-085 | FIR,FFT,TS | 146.731/203.975 | 4/6 | 64.031/34.427 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-086 | sync,FFT,TS | 102.843/146.747 | 5/13 | 71.523/35.412 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-087 | FIR,sync,FFT,TS | 146.285/203.735 | 3/5 | 31.523/2.904 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-088 | equalize_demap,TS | 54.182/82.028 | 24/13 | 68.814/34.427 | 234/230 | 全体資源/WCET未確定 |
 | S3-T-089 | FIR,equalize_demap,TS | 111.831/166.767 | 22/5 | 61.322/34.427 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-08a | sync,equalize_demap,TS | 81.718/136.449 | 23/12 | 100.337/66.935 | 0/0 | 全体資源/WCET未確定 |
 | S3-T-08b | FIR,sync,equalize_demap,TS | 125.161/193.436 | 21/4 | 60.337/34.427 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-08c | FFT,equalize_demap,TS | 96.494/134.088 | 6/9 | 68.814/34.427 | 191/187 | 全体資源/WCET未確定 |
-| S3-T-08d | FIR,FFT,equalize_demap,TS | 154.143/218.827 | 4/1 | 61.322/34.427 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-08e | sync,FFT,equalize_demap,TS | 110.254/161.599 | 5/8 | 68.814/35.412 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-08f | FIR,sync,FFT,equalize_demap,TS | 153.697/218.586 | 3/0 | 28.814/2.904 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-090 | time_deinterleave,TS | 61.594/96.880 | 24/18 | 68.814/31.718 | 215/203 | 全体資源/WCET未確定 |
+| S3-T-08c | FFT,equalize_demap,TS | 96.494/134.088 | 6/9 | 68.814/34.427 | 234/230 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-08d | FIR,FFT,equalize_demap,TS | 154.143/218.827 | 4/1 | 61.322/34.427 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-08e | sync,FFT,equalize_demap,TS | 110.254/161.599 | 5/8 | 68.814/35.412 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-08f | FIR,sync,FFT,equalize_demap,TS | 153.697/218.586 | 3/0 | 28.814/2.904 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-090 | time_deinterleave,TS | 61.594/96.880 | 24/18 | 68.814/31.718 | 264/248 | 全体資源/WCET未確定 |
 | S3-T-091 | FIR,time_deinterleave,TS | 119.243/181.618 | 22/10 | 61.322/31.718 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-092 | sync,time_deinterleave,TS | 89.130/151.300 | 23/17 | 100.337/64.226 | 0/0 | 全体資源/WCET未確定 |
 | S3-T-093 | FIR,sync,time_deinterleave,TS | 132.573/208.288 | 21/9 | 60.337/31.718 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-094 | FFT,time_deinterleave,TS | 117.682/175.850 | 6/14 | 100.337/63.241 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-095 | FIR,FFT,time_deinterleave,TS | 175.331/260.589 | 4/6 | 92.845/63.241 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-096 | sync,FFT,time_deinterleave,TS | 131.442/203.360 | 5/13 | 100.337/64.226 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-097 | FIR,sync,FFT,time_deinterleave,TS | 174.885/260.348 | 3/5 | 60.337/31.718 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-098 | equalize_demap,time_deinterleave,TS | 70.190/114.044 | 24/13 | 68.814/34.427 | 191/187 | 全体資源/WCET未確定 |
+| S3-T-094 | FFT,time_deinterleave,TS | 117.682/175.850 | 6/14 | 100.337/63.241 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-095 | FIR,FFT,time_deinterleave,TS | 175.331/260.589 | 4/6 | 92.845/63.241 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-096 | sync,FFT,time_deinterleave,TS | 131.442/203.360 | 5/13 | 100.337/64.226 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-097 | FIR,sync,FFT,time_deinterleave,TS | 174.885/260.348 | 3/5 | 60.337/31.718 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-098 | equalize_demap,time_deinterleave,TS | 70.190/114.044 | 24/13 | 68.814/34.427 | 234/230 | 全体資源/WCET未確定 |
 | S3-T-099 | FIR,equalize_demap,time_deinterleave,TS | 127.839/198.782 | 22/5 | 61.322/34.427 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-09a | sync,equalize_demap,time_deinterleave,TS | 97.726/168.464 | 23/12 | 100.337/66.935 | 0/0 | 全体資源/WCET未確定 |
 | S3-T-09b | FIR,sync,equalize_demap,time_deinterleave,TS | 141.168/225.452 | 21/4 | 60.337/34.427 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-09c | FFT,equalize_demap,time_deinterleave,TS | 112.502/166.104 | 6/9 | 68.814/34.427 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-09d | FIR,FFT,equalize_demap,time_deinterleave,TS | 170.151/250.842 | 4/1 | 61.322/34.427 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-09e | sync,FFT,equalize_demap,time_deinterleave,TS | 126.262/193.614 | 5/8 | 68.814/35.412 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-09f | FIR,sync,FFT,equalize_demap,time_deinterleave,TS | 169.704/250.601 | 3/0 | 28.814/2.904 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-09c | FFT,equalize_demap,time_deinterleave,TS | 112.502/166.104 | 6/9 | 68.814/34.427 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-09d | FIR,FFT,equalize_demap,time_deinterleave,TS | 170.151/250.842 | 4/1 | 61.322/34.427 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-09e | sync,FFT,equalize_demap,time_deinterleave,TS | 126.262/193.614 | 5/8 | 68.814/35.412 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-09f | FIR,sync,FFT,equalize_demap,time_deinterleave,TS | 169.704/250.601 | 3/0 | 28.814/2.904 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0a0 | Viterbi,TS | 1048.464/2070.880 | 22/18 | 43.152/31.718 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0a1 | FIR,Viterbi,TS | 1106.113/2155.619 | 20/10 | 35.659/31.718 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0a2 | sync,Viterbi,TS | 1076.000/2125.301 | 21/17 | 74.674/64.226 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0a3 | FIR,sync,Viterbi,TS | 1119.442/2182.288 | 19/9 | 34.674/31.718 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0a4 | FFT,Viterbi,TS | 1104.552/2149.851 | 4/14 | 74.674/63.241 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0a5 | FIR,FFT,Viterbi,TS | 1162.200/2234.589 | 2/6 | 67.182/63.241 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0a6 | sync,FFT,Viterbi,TS | 1118.312/2177.361 | 3/13 | 74.674/64.226 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0a7 | FIR,sync,FFT,Viterbi,TS | 1161.754/2234.348 | 1/5 | 34.674/31.718 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0a4 | FFT,Viterbi,TS | 1104.552/2149.851 | 4/14 | 74.674/63.241 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0a5 | FIR,FFT,Viterbi,TS | 1162.200/2234.589 | 2/6 | 67.182/63.241 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0a6 | sync,FFT,Viterbi,TS | 1118.312/2177.361 | 3/13 | 74.674/64.226 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0a7 | FIR,sync,FFT,Viterbi,TS | 1161.754/2234.348 | 1/5 | 34.674/31.718 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0a8 | equalize_demap,Viterbi,TS | 1069.652/2112.642 | 22/13 | 71.965/63.241 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0a9 | FIR,equalize_demap,Viterbi,TS | 1127.301/2197.381 | 20/5 | 64.473/63.241 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0aa | sync,equalize_demap,Viterbi,TS | 1097.188/2167.063 | 21/12 | 103.488/95.749 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0ab | FIR,sync,equalize_demap,Viterbi,TS | 1140.630/2224.050 | 19/4 | 63.488/63.241 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0ac | FFT,equalize_demap,Viterbi,TS | 1111.964/2164.702 | 4/9 | 71.965/63.241 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0ad | FIR,FFT,equalize_demap,Viterbi,TS | 1169.612/2249.441 | 2/1 | 64.473/63.241 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0ae | sync,FFT,equalize_demap,Viterbi,TS | 1125.724/2192.212 | 3/8 | 71.965/64.226 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0af | FIR,sync,FFT,equalize_demap,Viterbi,TS | 1169.166/2249.200 | 1/0 | 31.965/31.718 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0ac | FFT,equalize_demap,Viterbi,TS | 1111.964/2164.702 | 4/9 | 71.965/63.241 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0ad | FIR,FFT,equalize_demap,Viterbi,TS | 1169.612/2249.441 | 2/1 | 64.473/63.241 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0ae | sync,FFT,equalize_demap,Viterbi,TS | 1125.724/2192.212 | 3/8 | 71.965/64.226 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0af | FIR,sync,FFT,equalize_demap,Viterbi,TS | 1169.166/2249.200 | 1/0 | 31.965/31.718 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0b0 | time_deinterleave,Viterbi,TS | 1064.472/2102.896 | 22/18 | 43.152/31.718 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0b1 | FIR,time_deinterleave,Viterbi,TS | 1122.120/2187.634 | 20/10 | 35.659/31.718 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0b2 | sync,time_deinterleave,Viterbi,TS | 1092.008/2157.316 | 21/17 | 74.674/64.226 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0b3 | FIR,sync,time_deinterleave,Viterbi,TS | 1135.450/2214.304 | 19/9 | 34.674/31.718 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0b4 | FFT,time_deinterleave,Viterbi,TS | 1120.560/2181.866 | 4/14 | 74.674/63.241 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0b5 | FIR,FFT,time_deinterleave,Viterbi,TS | 1178.208/2266.605 | 2/6 | 67.182/63.241 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0b6 | sync,FFT,time_deinterleave,Viterbi,TS | 1134.320/2209.376 | 3/13 | 74.674/64.226 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0b7 | FIR,sync,FFT,time_deinterleave,Viterbi,TS | 1177.762/2266.364 | 1/5 | 34.674/31.718 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0b4 | FFT,time_deinterleave,Viterbi,TS | 1120.560/2181.866 | 4/14 | 74.674/63.241 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0b5 | FIR,FFT,time_deinterleave,Viterbi,TS | 1178.208/2266.605 | 2/6 | 67.182/63.241 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0b6 | sync,FFT,time_deinterleave,Viterbi,TS | 1134.320/2209.376 | 3/13 | 74.674/64.226 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0b7 | FIR,sync,FFT,time_deinterleave,Viterbi,TS | 1177.762/2266.364 | 1/5 | 34.674/31.718 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0b8 | equalize_demap,time_deinterleave,Viterbi,TS | 1073.068/2120.060 | 22/13 | 43.152/34.427 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0b9 | FIR,equalize_demap,time_deinterleave,Viterbi,TS | 1130.716/2204.798 | 20/5 | 35.659/34.427 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0ba | sync,equalize_demap,time_deinterleave,Viterbi,TS | 1100.604/2174.480 | 21/12 | 74.674/66.935 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0bb | FIR,sync,equalize_demap,time_deinterleave,Viterbi,TS | 1144.046/2231.468 | 19/4 | 34.674/34.427 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0bc | FFT,equalize_demap,time_deinterleave,Viterbi,TS | 1115.379/2172.120 | 4/9 | 43.152/34.427 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0bd | FIR,FFT,equalize_demap,time_deinterleave,Viterbi,TS | 1173.028/2256.858 | 2/1 | 35.659/34.427 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0be | sync,FFT,equalize_demap,time_deinterleave,Viterbi,TS | 1129.140/2199.630 | 3/8 | 43.152/35.412 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0bf | FIR,sync,FFT,equalize_demap,time_deinterleave,Viterbi,TS | 1172.582/2256.617 | 1/0 | 3.152/2.904 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0bc | FFT,equalize_demap,time_deinterleave,Viterbi,TS | 1115.379/2172.120 | 4/9 | 43.152/34.427 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0bd | FIR,FFT,equalize_demap,time_deinterleave,Viterbi,TS | 1173.028/2256.858 | 2/1 | 35.659/34.427 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0be | sync,FFT,equalize_demap,time_deinterleave,Viterbi,TS | 1129.140/2199.630 | 3/8 | 43.152/35.412 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0bf | FIR,sync,FFT,equalize_demap,time_deinterleave,Viterbi,TS | 1172.582/2256.617 | 1/0 | 3.152/2.904 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0c0 | RS,TS | 104.048/111.371 | 23/18 | 40.000/3.152 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-0c1 | FIR,RS,TS | 161.697/196.110 | 21/10 | 32.508/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0c2 | sync,RS,TS | 131.584/165.792 | 22/17 | 71.523/35.659 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-0c3 | FIR,sync,RS,TS | 175.026/222.779 | 20/9 | 31.523/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0c4 | FFT,RS,TS | 160.136/190.342 | 5/14 | 71.523/34.674 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-0c5 | FIR,FFT,RS,TS | 217.784/275.080 | 3/6 | 64.031/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0c6 | sync,FFT,RS,TS | 173.896/217.852 | 4/13 | 71.523/35.659 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-0c7 | FIR,sync,FFT,RS,TS | 217.338/274.839 | 2/5 | 31.523/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0c4 | FFT,RS,TS | 160.136/190.342 | 5/14 | 71.523/34.674 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-0c5 | FIR,FFT,RS,TS | 217.784/275.080 | 3/6 | 64.031/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0c6 | sync,FFT,RS,TS | 173.896/217.852 | 4/13 | 71.523/35.659 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-0c7 | FIR,sync,FFT,RS,TS | 217.338/274.839 | 2/5 | 31.523/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0c8 | equalize_demap,RS,TS | 125.236/153.133 | 23/13 | 68.814/34.674 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-0c9 | FIR,equalize_demap,RS,TS | 182.884/237.871 | 21/5 | 61.322/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0ca | sync,equalize_demap,RS,TS | 152.772/207.554 | 22/12 | 100.337/67.182 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-0cb | FIR,sync,equalize_demap,RS,TS | 196.214/264.541 | 20/4 | 60.337/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0cc | FFT,equalize_demap,RS,TS | 167.547/205.193 | 5/9 | 68.814/34.674 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-0cd | FIR,FFT,equalize_demap,RS,TS | 225.196/289.932 | 3/1 | 61.322/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0ce | sync,FFT,equalize_demap,RS,TS | 181.308/232.703 | 4/8 | 68.814/35.659 | 未割当 | 全体資源/WCET未確定 |
-| S3-T-0cf | FIR,sync,FFT,equalize_demap,RS,TS | 224.750/289.691 | 2/0 | 28.814/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0cc | FFT,equalize_demap,RS,TS | 167.547/205.193 | 5/9 | 68.814/34.674 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-0cd | FIR,FFT,equalize_demap,RS,TS | 225.196/289.932 | 3/1 | 61.322/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0ce | sync,FFT,equalize_demap,RS,TS | 181.308/232.703 | 4/8 | 68.814/35.659 | 未割当 | 全体資源/WCET未確定；現行O3 scalar FFT超過 |
+| S3-T-0cf | FIR,sync,FFT,equalize_demap,RS,TS | 224.750/289.691 | 2/0 | 28.814/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0d0 | time_deinterleave,RS,TS | 132.648/167.984 | 23/18 | 68.814/31.965 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-0d1 | FIR,time_deinterleave,RS,TS | 190.296/252.723 | 21/10 | 61.322/31.965 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0d2 | sync,time_deinterleave,RS,TS | 160.184/222.405 | 22/17 | 100.337/64.473 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-0d3 | FIR,sync,time_deinterleave,RS,TS | 203.626/279.392 | 20/9 | 60.337/31.965 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0d4 | FFT,time_deinterleave,RS,TS | 188.735/246.955 | 5/14 | 100.337/63.488 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0d5 | FIR,FFT,time_deinterleave,RS,TS | 246.384/331.693 | 3/6 | 92.845/63.488 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0d6 | sync,FFT,time_deinterleave,RS,TS | 202.495/274.465 | 4/13 | 100.337/64.473 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0d7 | FIR,sync,FFT,time_deinterleave,RS,TS | 245.938/331.452 | 2/5 | 60.337/31.965 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0d4 | FFT,time_deinterleave,RS,TS | 188.735/246.955 | 5/14 | 100.337/63.488 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0d5 | FIR,FFT,time_deinterleave,RS,TS | 246.384/331.693 | 3/6 | 92.845/63.488 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0d6 | sync,FFT,time_deinterleave,RS,TS | 202.495/274.465 | 4/13 | 100.337/64.473 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0d7 | FIR,sync,FFT,time_deinterleave,RS,TS | 245.938/331.452 | 2/5 | 60.337/31.965 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0d8 | equalize_demap,time_deinterleave,RS,TS | 141.243/185.148 | 23/13 | 68.814/34.674 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-0d9 | FIR,equalize_demap,time_deinterleave,RS,TS | 198.892/269.887 | 21/5 | 61.322/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0da | sync,equalize_demap,time_deinterleave,RS,TS | 168.779/239.569 | 22/12 | 100.337/67.182 | 未割当 | 全体資源/WCET未確定 |
 | S3-T-0db | FIR,sync,equalize_demap,time_deinterleave,RS,TS | 212.222/296.556 | 20/4 | 60.337/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0dc | FFT,equalize_demap,time_deinterleave,RS,TS | 183.555/237.208 | 5/9 | 68.814/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0dd | FIR,FFT,equalize_demap,time_deinterleave,RS,TS | 241.204/321.947 | 3/1 | 61.322/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0de | sync,FFT,equalize_demap,time_deinterleave,RS,TS | 197.315/264.719 | 4/8 | 68.814/35.659 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0df | FIR,sync,FFT,equalize_demap,time_deinterleave,RS,TS | 240.758/321.706 | 2/0 | 28.814/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0dc | FFT,equalize_demap,time_deinterleave,RS,TS | 183.555/237.208 | 5/9 | 68.814/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0dd | FIR,FFT,equalize_demap,time_deinterleave,RS,TS | 241.204/321.947 | 3/1 | 61.322/34.674 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0de | sync,FFT,equalize_demap,time_deinterleave,RS,TS | 197.315/264.719 | 4/8 | 68.814/35.659 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0df | FIR,sync,FFT,equalize_demap,time_deinterleave,RS,TS | 240.758/321.706 | 2/0 | 28.814/3.152 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0e0 | Viterbi,RS,TS | 1118.140/2139.294 | 21/18 | 40.000/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0e1 | FIR,Viterbi,RS,TS | 1175.789/2224.033 | 19/10 | 32.508/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0e2 | sync,Viterbi,RS,TS | 1145.676/2193.715 | 20/17 | 71.523/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0e3 | FIR,sync,Viterbi,RS,TS | 1189.118/2250.703 | 18/9 | 31.523/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0e4 | FFT,Viterbi,RS,TS | 1174.228/2218.265 | 3/14 | 71.523/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0e5 | FIR,FFT,Viterbi,RS,TS | 1231.876/2303.004 | 1/6 | 64.031/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0e6 | sync,FFT,Viterbi,RS,TS | 1187.988/2245.775 | 2/13 | 71.523/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0e7 | FIR,sync,FFT,Viterbi,RS,TS | 1231.430/2302.763 | 0/5 | 31.523/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0e4 | FFT,Viterbi,RS,TS | 1174.228/2218.265 | 3/14 | 71.523/60.337 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0e5 | FIR,FFT,Viterbi,RS,TS | 1231.876/2303.004 | 1/6 | 64.031/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0e6 | sync,FFT,Viterbi,RS,TS | 1187.988/2245.775 | 2/13 | 71.523/61.322 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0e7 | FIR,sync,FFT,Viterbi,RS,TS | 1231.430/2302.763 | 0/5 | 31.523/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0e8 | equalize_demap,Viterbi,RS,TS | 1139.328/2181.056 | 21/13 | 68.814/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0e9 | FIR,equalize_demap,Viterbi,RS,TS | 1196.977/2265.795 | 19/5 | 61.322/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0ea | sync,equalize_demap,Viterbi,RS,TS | 1166.864/2235.477 | 20/12 | 100.337/92.845 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0eb | FIR,sync,equalize_demap,Viterbi,RS,TS | 1210.306/2292.464 | 18/4 | 60.337/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0ec | FFT,equalize_demap,Viterbi,RS,TS | 1181.640/2233.116 | 3/9 | 68.814/60.337 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0ed | FIR,FFT,equalize_demap,Viterbi,RS,TS | 1239.288/2317.855 | 1/1 | 61.322/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0ee | sync,FFT,equalize_demap,Viterbi,RS,TS | 1195.400/2260.627 | 2/8 | 68.814/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
-| S3-T-0ef | FIR,sync,FFT,equalize_demap,Viterbi,RS,TS | 1238.842/2317.614 | 0/0 | 28.814/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0ec | FFT,equalize_demap,Viterbi,RS,TS | 1181.640/2233.116 | 3/9 | 68.814/60.337 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0ed | FIR,FFT,equalize_demap,Viterbi,RS,TS | 1239.288/2317.855 | 1/1 | 61.322/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0ee | sync,FFT,equalize_demap,Viterbi,RS,TS | 1195.400/2260.627 | 2/8 | 68.814/61.322 | 未割当 | T_VITERBI16_ARITHMETIC；現行O3 scalar FFT超過 |
+| S3-T-0ef | FIR,sync,FFT,equalize_demap,Viterbi,RS,TS | 1238.842/2317.614 | 0/0 | 28.814/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0f0 | time_deinterleave,Viterbi,RS,TS | 1134.148/2171.310 | 21/18 | 40.000/28.814 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0f1 | FIR,time_deinterleave,Viterbi,RS,TS | 1191.796/2256.048 | 19/10 | 32.508/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0f2 | sync,time_deinterleave,Viterbi,RS,TS | 1161.684/2225.731 | 20/17 | 71.523/61.322 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0f3 | FIR,sync,time_deinterleave,Viterbi,RS,TS | 1205.126/2282.718 | 18/9 | 31.523/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0f4 | FFT,time_deinterleave,Viterbi,RS,TS | 1190.235/2250.280 | 3/14 | 71.523/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0f5 | FIR,FFT,time_deinterleave,Viterbi,RS,TS | 1247.884/2335.019 | 1/6 | 64.031/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0f6 | sync,FFT,time_deinterleave,Viterbi,RS,TS | 1203.996/2277.791 | 2/13 | 71.523/61.322 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0f7 | FIR,sync,FFT,time_deinterleave,Viterbi,RS,TS | 1247.438/2334.778 | 0/5 | 31.523/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
+| S3-T-0f4 | FFT,time_deinterleave,Viterbi,RS,TS | 1190.235/2250.280 | 3/14 | 71.523/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0f5 | FIR,FFT,time_deinterleave,Viterbi,RS,TS | 1247.884/2335.019 | 1/6 | 64.031/60.337 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0f6 | sync,FFT,time_deinterleave,Viterbi,RS,TS | 1203.996/2277.791 | 2/13 | 71.523/61.322 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0f7 | FIR,sync,FFT,time_deinterleave,Viterbi,RS,TS | 1247.438/2334.778 | 0/5 | 31.523/28.814 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
 | S3-T-0f8 | equalize_demap,time_deinterleave,Viterbi,RS,TS | 1142.744/2188.474 | 21/13 | 40.000/31.523 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0f9 | FIR,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1200.392/2273.212 | 19/5 | 32.508/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-T-0fa | sync,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1170.280/2242.895 | 20/12 | 71.523/64.031 | 未割当 | T_VITERBI16_ARITHMETIC |
 | S3-T-0fb | FIR,sync,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1213.722/2299.882 | 18/4 | 31.523/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0fc | FFT,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1185.055/2240.534 | 3/9 | 40.000/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0fd | FIR,FFT,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1242.704/2325.273 | 1/1 | 32.508/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0fe | sync,FFT,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1198.816/2268.044 | 2/8 | 40.000/32.508 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-T-0ff | FIR,sync,FFT,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1242.258/2325.032 | 0/0 | 0.000/0.000 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-S-000 | RFのみ | 77.775/94.442 | 15/15 | 100.000/0.000 | 171/161 | 全体資源/WCET未確定 |
+| S3-T-0fc | FFT,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1185.055/2240.534 | 3/9 | 40.000/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0fd | FIR,FFT,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1242.704/2325.273 | 1/1 | 32.508/31.523 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0fe | sync,FFT,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1198.816/2268.044 | 2/8 | 40.000/32.508 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-T-0ff | FIR,sync,FFT,equalize_demap,time_deinterleave,Viterbi,RS,TS | 1242.258/2325.032 | 0/0 | 0.000/0.000 | 未割当 | T_VITERBI16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM；現行O3 scalar FFT超過 |
+| S3-S-000 | RFのみ | 77.775/94.442 | 15/15 | 100.000/0.000 | 210/196 | 全体資源/WCET未確定 |
 | S3-S-001 | FIR | 233.307/334.149 | 9/3 | 115.440/0.000 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-S-002 | sync | 176.324/289.190 | 14/13 | 215.440/115.440 | 未割当 | 全体資源/WCET未確定 |
 | S3-S-003 | FIR,sync | 281.407/430.349 | 8/1 | 115.440/0.000 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
@@ -493,7 +495,7 @@ MSPI Multi Bootはimage headerに次image addressを持たせ、停止→RF/TS/D
 | S3-S-01d | FIR,TC8PSK,frame_deinterleave,RS | 1571.098/2833.062 | 1/2 | 121.961/115.440 | 未割当 | S_TC8PSK16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-S-01e | sync,TC8PSK,frame_deinterleave,RS | 1463.666/2689.555 | 6/12 | 106.521/115.440 | 未割当 | S_TC8PSK16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
 | S3-S-01f | FIR,sync,TC8PSK,frame_deinterleave,RS | 1568.750/2830.713 | 0/0 | 6.521/0.000 | 未割当 | S_TC8PSK16_ARITHMETIC; SELECTED_KERNEL_LOW_COST_SUM |
-| S3-S-020 | TS | 79.200/97.225 | 15/15 | 100.000/6.521 | 149/139 | 全体資源/WCET未確定 |
+| S3-S-020 | TS | 79.200/97.225 | 15/15 | 100.000/6.521 | 188/174 | 全体資源/WCET未確定 |
 | S3-S-021 | FIR,TS | 234.732/336.932 | 9/3 | 115.440/6.521 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |
 | S3-S-022 | sync,TS | 177.749/291.974 | 14/13 | 215.440/121.961 | 未割当 | 全体資源/WCET未確定 |
 | S3-S-023 | FIR,sync,TS | 282.832/433.132 | 8/1 | 115.440/6.521 | 未割当 | SELECTED_KERNEL_LOW_COST_SUM |

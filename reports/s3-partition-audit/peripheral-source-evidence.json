@@ -1,0 +1,45 @@
+{
+  "version": "ESP-IDF5.5.1",
+  "primary_sources": {
+    "soc_caps.h": {
+      "url": "https://github.com/espressif/esp-idf/blob/v5.5.1/components/soc/esp32s3/include/soc/soc_caps.h",
+      "sha256": "25ff368906aaee06e77022aa50227a2ab7c9b4739da1f34c48f64c87052925a4"
+    },
+    "gdma.c": {
+      "url": "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_hw_support/dma/gdma.c",
+      "sha256": "c48b0e855c26dc07be156d678f539db22fe5207f467e0d7d0fa90a864513a7a1"
+    },
+    "spi_common.c": {
+      "url": "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_driver_spi/src/gpspi/spi_common.c",
+      "sha256": "0f25c874cff2212bf100ce54f5652580938921b2510eef5bf5f5215bf22972a4"
+    },
+    "i2s_common.c": {
+      "url": "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_driver_i2s/i2s_common.c",
+      "sha256": "9a3f1df3cfdf385c6ea9f05027dfcd8cb9f33f3f8a7af193bdc34ac0d0a7785c"
+    },
+    "i2s_std.c": {
+      "url": "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_driver_i2s/i2s_std.c",
+      "sha256": "4bd5e14770116c1b26dc8f265169c0cfb33c2f69ee4f2e3f69c40676f33ad6f8"
+    },
+    "esp_lcd_panel_io_i80.c": {
+      "url": "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_lcd/i80/esp_lcd_panel_io_i80.c",
+      "sha256": "17a492991395c7cf5ffcb821fc9587db2e22fc61898f38ab60cc32a03153f999"
+    },
+    "sdmmc_host.c": {
+      "url": "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_driver_sdmmc/src/sdmmc_host.c",
+      "sha256": "4776094721911fd516d0c55413a33b2b01a1a14dd9a3af4f7d7e591e89212c7f"
+    }
+  },
+  "verified_facts": [
+    "GDMA5 TX/RX pairs",
+    "SPI reserves a whole pair",
+    "I2S each direction allocates a channel",
+    "LCD allocates TX",
+    "SDMMC has own IDMAC",
+    "I2S master clock160/2/2=40 MHz using32-bit stereo625kHz and MCLK multiple128",
+    "I2S slave40MHz with internal PLL160 cannot satisfy min bclk_div8 and min mclk divisor1.99"
+  ],
+  "I2S_full_duplex_documentation": "https://docs.espressif.com/projects/esp-idf/en/v5.5.1/esp32s3/api-reference/peripherals/i2s.html#full-duplex",
+  "GPIO_and_IO_STA_verified": false,
+  "DMA_memory_contention_verified": false
+}

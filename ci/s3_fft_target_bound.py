@@ -86,7 +86,7 @@ def main():
   single_memory_issue_per_core_cycle_basis='One scalar load/store unit, no dual LS FLIX; optimistic one memory instruction per cycle',
   results=results,CPU_WCET_verified=False,receiver_adopted=False)
  (out/'results.json').write_text(json.dumps(result,indent=2)+'\n')
- shutil.copy2(a.core_isa,out/'core-isa.h')
+ if a.core_isa.resolve()!=(out/'core-isa.h').resolve():shutil.copy2(a.core_isa,out/'core-isa.h')
  print(json.dumps({name:{k:v for k,v in value.items() if k!='witness_path_hex'} for name,value in results.items()},indent=2))
 
 if __name__=='__main__':main()
