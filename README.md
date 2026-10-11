@@ -1,3 +1,17 @@
+> **2026-10-11 follow-up: estimate remains incomplete.**
+> Actual target-code and packed-netlist checks reject the current scalar FFT
+> (ideal two-core lower bound 3.550/3.883 ms versus a 1.0395 ms T period),
+> the selected S Forney partial netlist (9426/8640 logic sites), and the
+> baseline T FEC + physical memory netlist (9001/8640). Compact T is 8605 sites,
+> but placement timed out; fit/Fmax remain unknown.
+> [Pinned SIMD FFT and short stage tiles](reports/s3-fft-simd.md) replace the
+> missing target implementation with compilable code and host ANSI order/
+> ownership tests. Silicon timing and RF/RTOS integration are still unverified.
+> [T co-placement evidence](reports/s3-t-fec-resource.md) and
+> [RF/core deadline gates](reports/s3-rf-schedule-closure.md) preserve failures.
+> The execution server disconnected during the follow-up; new full-design
+> CAD/SDK/joint-scheduler execution is blocked and remote CI is still queued.
+>
 > **2026-10-11 partition re-audit: incomplete estimate, no adopted receiver.**
 > [The 320 ownership / 18 transport-profile audit](reports/s3-partition-audit.md)
 > records the new lossless transfer calculations and the remaining performance

@@ -3,11 +3,35 @@
 2026-10-11更新。対象はISDB-T全セグメントと従来ISDB-SのTS出力、実行時切替。
 採用済み受信機は0。`receiver_adopted=false`を維持する。
 
+
+## 2026-10-11追加：実装を進めて閉じた項目と、現在の実行阻害
+
+| 追加検証 | 判定と適用範囲 |
+|---|---|
+| FPGA Forney | 独立262 CWと不正descriptor/reset/backpressure合格、最大587 clocks。選択S共配置は最低9426/8640位置で失敗。[証拠](s3-rs-forney.md) |
+| 現行target scalar FFT | 理想2 coreのmemory issue下限でも3549.867/3882.667 µs、T周期1039.5 µsに不合格。SIMD benchmarkを流用しない。[証拠](s3-rf-schedule-closure.md) |
+| RF polling／各core予算 | 500 µs両core blackoutは全256位相失敗。100 µs×5 tileは仮定モデル通過、実装WCETとは別 |
+| I2S/GDMA | 同じI2S controllerのclock共有、5組GDMAとSPI pair予約を反映。port subsetは2169。実ピン・同時帯域保証ではない |
+| T FEC＋物理PSRAM/SPI | 通常RSは最低9001位置で収容不可。圧縮RSは8605位置・10 BSRAM、180秒の配置探索中断でfit/Fmax不明。[証拠](s3-t-fec-resource.md) |
+| 固定S3 SIMD FFT | 8192点全bin、16 KiB係数、target compile/結合とhost ANSI/NumPy試験合格。実機実行なし。[証拠](s3-fft-simd.md) |
+| SIMD stage tile | 13 stage、最大64 butterfly/call、2 threadのstage同期/所有権をhost ANSIで検査し合格。RF/RTOS・FPGA bit-reversed index受入れは未結合 |
+
+最新tile sourceまでPR4へ保存した後も、完了条件は未達。
+作業環境のexec-server transportが切断され、復旧呼出しは回復しなかった。
+GitHub接続でsource退避・PR更新は続行できたが、追加CAD/SDK実行とjoint scheduler検証は
+この実行環境で進められない。CIはqueuedで、合格と数えない。承認不足による停止ではない。
+
+残る環境内作業は、RF/RTOSとSIMD tile/barrier・DMAの接続、完全T/S復調/全interleaver/TS、
+全体資源・P&R・STA、全候補の期限と性能判定、性能通過後の実通信割当。
+元の4 SoC対象の完了判定をS3の320行だけで代用しない。
+実機依存はRF連続性、同時WCET、外部PSRAM IO/校正、受信品質/連続TS、NOR切替。
+これらを区別し、`complete_estimate=false`を維持する。
+
 ## 2026-10-11：320分担・18通信profileの検算結果を反映（完全見積もりは未完了）
 
 [今回の検算・全台帳・再現手順](s3-partition-audit.md)を追加した。
 T256通り、S64通りとRS部分4案を列挙し、18通信profileのpin数必要条件に通る
-2012 subsetを調べた。RF100 MB/sとRPCへ同じ半二重容量を二重計上せず、
+2169 subsetを調べた。RF100 MB/sとRPCへ同じ半二重容量を二重計上せず、
 全RS message-to-port割当、方向別余裕とgap感度を保存する。
 追加ソフトウェア間引き・再量子化は使わず、T/S別bitstream・基板外付けNOR切替を前提とする。
 

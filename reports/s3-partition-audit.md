@@ -570,3 +570,12 @@ python3 -m unittest discover -s tests -p 'test_s3_rs_offload_budget.py' -v
 [IDF SDMMC](https://docs.espressif.com/projects/esp-idf/en/v5.5.1/esp32s3/api-reference/peripherals/sdmmc_host.html)、
 [ITU-R BO.1408-1](https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-1-200204-I!!PDF-E.pdf)、
 [Gowin UG290](https://cdn.gowinsemi.com.cn/UG290E.pdf)。
+
+## 12. 後続の実装・測定と現在の未完了理由
+
+Forney実装と選択partialの9426位置失敗、target scalar FFTの期限下限失敗、RF pollingと各core予算、同一I2S clock/GDMA割当、T FEC/実メモリの9001位置失敗・compact8605位置の配置探索中断、固定SIMD FFTと短いstage tileまで進めた。
+[RF期限](s3-rf-schedule-closure.md)、[Forney](s3-rs-forney.md)、[T共配置](s3-t-fec-resource.md)、[SIMD FFT](s3-fft-simd.md)にsourceと判定範囲を記録する。
+
+これらは実装を測定した部分判定であり、全候補の性能ゲート完了ではない。各stageの未実装費用を0にせず、320所有者台帳の全体performance_passは未確定のまま。元の4 SoC全対象の完了も、このS3台帳だけでは成立しない。
+
+実行環境のexec-server接続が切断され、復旧が回復しなかったため追加合成/SDK/joint scheduler試験が実行できない。GitHub経由で最新tile sourceを保存したが、raw object/log回収と追加SDK profile変更の再実行は未確認。queued CIを合格扱いにしない。残る環境内の設計/実装と実機依存は[s3-receiver-blockers.md](s3-receiver-blockers.md)の追加表に記載する。
