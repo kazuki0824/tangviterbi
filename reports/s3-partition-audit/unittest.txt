@@ -1,0 +1,27 @@
+$ python3 -m unittest discover -s tests -p test_s3_partition_audit.py -v
+test_average_screen_does_not_promote_unknown_performance (test_s3_partition_audit.PartitionAuditTest.test_average_screen_does_not_promote_unknown_performance) ... ok
+test_continuous_arrival_and_RF_deduction (test_s3_partition_audit.PartitionAuditTest.test_continuous_arrival_and_RF_deduction) ... ok
+test_directions_and_RF_share_actual_port_time (test_s3_partition_audit.PartitionAuditTest.test_directions_and_RF_share_actual_port_time) ... ok
+test_every_whole_stage_ownership_is_present_once (test_s3_partition_audit.PartitionAuditTest.test_every_whole_stage_ownership_is_present_once) ... ok
+test_longer_parallel_gap_never_creates_an_assignment (test_s3_partition_audit.PartitionAuditTest.test_longer_parallel_gap_never_creates_an_assignment) ... ok
+test_message_overhead_matches_independent_OQ_arithmetic (test_s3_partition_audit.PartitionAuditTest.test_message_overhead_matches_independent_OQ_arithmetic) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.631s
+
+OK
+
+exit_code=0
+
+$ python3 -m unittest discover -s tests -p test_s3_rs_offload_budget.py -v
+test_dedicated_core_capacity_is_not_available_RS_budget (test_s3_rs_offload_budget.BudgetTest.test_dedicated_core_capacity_is_not_available_RS_budget) ... ok
+test_every_existing_port_assignment_is_screened (test_s3_rs_offload_budget.BudgetTest.test_every_existing_port_assignment_is_screened) ... ok
+test_full_RS_fails_before_adoption (test_s3_rs_offload_budget.BudgetTest.test_full_RS_fails_before_adoption) ... ok
+test_larger_API_gap_is_not_hidden_by_RPC_deadline (test_s3_rs_offload_budget.BudgetTest.test_larger_API_gap_is_not_hidden_by_RPC_deadline) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.567s
+
+OK
+
+exit_code=0
