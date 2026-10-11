@@ -1,0 +1,24 @@
+{
+  "scope": "Parallel tile ownership/order tests using ANSI arithmetic, not target SIMD execution.",
+  "cases": [
+    {
+      "input": "random",
+      "outputs": 8192,
+      "parallel_ANSI_matches_full_ANSI": true
+    },
+    {
+      "input": "extremes",
+      "outputs": 8192,
+      "parallel_ANSI_matches_full_ANSI": true
+    },
+    {
+      "input": "zeros",
+      "outputs": 8192,
+      "parallel_ANSI_matches_full_ANSI": true
+    }
+  ],
+  "maximum_butterflies_per_tile": 64,
+  "SIMD_executed": false,
+  "SIMD_ANSI_bit_equivalence_verified": false,
+  "CPU_WCET_verified": false
+}

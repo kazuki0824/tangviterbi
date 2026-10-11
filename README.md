@@ -9,8 +9,9 @@
 > ownership tests. Silicon timing and RF/RTOS integration are still unverified.
 > [T co-placement evidence](reports/s3-t-fec-resource.md) and
 > [RF/core deadline gates](reports/s3-rf-schedule-closure.md) preserve failures.
-> The execution server disconnected during the follow-up; new full-design
-> CAD/SDK/joint-scheduler execution is blocked and remote CI is still queued.
+> The execution environment recovered. All 15 SIMD/startup host tests and
+> the tiled S3 target compilation were reproduced; object/disassembly evidence
+> is retained. Full SDK/joint-scheduler validation remains pending.
 >
 > **2026-10-11 partition re-audit: incomplete estimate, no adopted receiver.**
 > [The 320 ownership / 18 transport-profile audit](reports/s3-partition-audit.md)

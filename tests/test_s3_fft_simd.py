@@ -41,7 +41,7 @@ class SIMDAdapterTest(unittest.TestCase):
    got=data[::2].astype(float)+1j*data[1::2].astype(float)
    error=float(np.max(np.abs(got-np.fft.fft(signal)/n)))
    self.assertLessEqual(error,8,(name,error));rows.append(dict(input=name,bins=len(got),maximum_complex_error_LSB=error))
-  out=ROOT/'build/s3-fft-simd';out.mkdir(exist_ok=True)
+  out=ROOT/'build/s3-fft-simd';out.mkdir(parents=True,exist_ok=True)
   (out/'host-oracle.json').write_text(json.dumps(dict(scope=__doc__,cases=rows,
    SIMD_executed=False,SIMD_ANSI_bit_equivalence_verified=False,CPU_WCET_verified=False),indent=2)+'\n')
  def test_bad_pointer_rejected_before_kernel(self):

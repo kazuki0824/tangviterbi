@@ -4,7 +4,7 @@
 採用済み受信機は0。`receiver_adopted=false`を維持する。
 
 
-## 2026-10-11追加：実装を進めて閉じた項目と、現在の実行阻害
+## 2026-10-11追加：実装を進めて閉じた項目と、復旧後の残課題
 
 | 追加検証 | 判定と適用範囲 |
 |---|---|
@@ -17,9 +17,11 @@
 | SIMD stage tile | 13 stage、最大64 butterfly/call、2 threadのstage同期/所有権をhost ANSIで検査し合格。RF/RTOS・FPGA bit-reversed index受入れは未結合 |
 
 最新tile sourceまでPR4へ保存した後も、完了条件は未達。
-作業環境のexec-server transportが切断され、復旧呼出しは回復しなかった。
-GitHub接続でsource退避・PR更新は続行できたが、追加CAD/SDK実行とjoint scheduler検証は
-この実行環境で進められない。CIはqueuedで、合格と数えない。承認不足による停止ではない。
+接続断から実行環境が復旧し、clean checkoutで15件のSIMD/startup unittestと
+S3 target compile・未解決symbolなしの結合を再現した。試験の親フォルダ作成も修正。
+raw objectのhash、disassembly、section値、試験logを証拠へ保存した。
+追加CAD/SDK実行は再開可能。全体SDK/joint scheduler検証は未完了。
+CIのqueuedを合格と数えない。
 
 残る環境内作業は、RF/RTOSとSIMD tile/barrier・DMAの接続、完全T/S復調/全interleaver/TS、
 全体資源・P&R・STA、全候補の期限と性能判定、性能通過後の実通信割当。

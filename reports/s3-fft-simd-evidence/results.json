@@ -16,10 +16,12 @@
     "experiments/s3_fft_simd.c": "7d59fd99d15481faf32baeb6e15bef7bf5e579d203d9cf300d64c0fc98c4f4a0",
     "experiments/s3_fft_simd.h": "6085ae0fb48ac5bd6ed3d42902be452a8ce13c942f5c5f765950a80b5078c15a",
     "experiments/s3_fft_simd_coefficients.inc": "6e4515981b9e41cea9ecc8a16d9dd868c075ccfde797034e54cfc523a983c75b",
-    "ci/s3_fft_simd_source.py": "5a524e3fcebab0606bee7cf5032e44387f60ea6fd8a6720a0c3f5f47e0b470ca",
-    "ci/s3_fft_simd_evidence.py": "337b398b7c4a72edd7803ccfdfa8651c25231ea335e247362f6df86525b01fc8"
+    "experiments/s3_fft_simd_tiles.c": "3d62af011e8a7088904a3156c00f617c0ed148f05cb11aa2769c87b51a7ab682",
+    "experiments/s3_fft_simd_tiles.h": "bfda96c03b1fb743e3326125e0403df1f5cd19d4281ea52a5ebc3a844ced4ab8",
+    "ci/s3_fft_simd_source.py": "f8b1bbc3b17f20f20f80c5fe4d77778350a4466eb6eb564cea764aa7fb4f217f",
+    "ci/s3_fft_simd_evidence.py": "9b6f95ae0ab4fa372f98f2c3864a1ed97571a9167a308e09174ea9b727447831"
   },
-  "bundle_sha256": "d9d4129fc46f476ceb971b0c74c1be5a105f38d7246b26d3537ec5d75226f05f",
+  "bundle_sha256": "7f921782d11cb907eb3dd829f1d3abf7f9b6eca6562694dd13736e781fc392d9",
   "coefficient_bytes": 16384,
   "frame_bytes": 32768,
   "frames": 2,
@@ -65,6 +67,30 @@
         "maximum_complex_error_LSB": 1.653289552284824
       }
     ],
+    "SIMD_executed": false,
+    "SIMD_ANSI_bit_equivalence_verified": false,
+    "CPU_WCET_verified": false
+  },
+  "tile_ANSI_oracle": {
+    "scope": "Parallel tile ownership/order tests using ANSI arithmetic, not target SIMD execution.",
+    "cases": [
+      {
+        "input": "random",
+        "outputs": 8192,
+        "parallel_ANSI_matches_full_ANSI": true
+      },
+      {
+        "input": "extremes",
+        "outputs": 8192,
+        "parallel_ANSI_matches_full_ANSI": true
+      },
+      {
+        "input": "zeros",
+        "outputs": 8192,
+        "parallel_ANSI_matches_full_ANSI": true
+      }
+    ],
+    "maximum_butterflies_per_tile": 64,
     "SIMD_executed": false,
     "SIMD_ANSI_bit_equivalence_verified": false,
     "CPU_WCET_verified": false

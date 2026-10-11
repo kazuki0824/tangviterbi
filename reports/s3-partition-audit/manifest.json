@@ -1,9 +1,9 @@
 {
-  "source_pr4_head": "35b8dddb9cc4dc45a4dca66f4b66052a3c4e05a1",
+  "source_pr4_head": "efa806419a6682ef6c1811aaf948931cfd78a5f7",
   "files_sha256": {
-    "README.md": "62838d1444fe39be24dfbfbd7e755bad6d2b7180fa7acda814ede3f3d05f1ddf",
-    "reports/s3-receiver-blockers.md": "497c846f1f98bdd78a72f9899bb55bbac09a241d90f40efae670b1d2a9245a96",
-    "reports/s3-partition-audit.md": "ddbf5896d59ae59e84c35c102cba9451f37eed22ea605d33a9310324e08e577f",
+    "README.md": "0b82efdb84f488dbd09b0ae3a9cd469a5e9a85dce4110d64fc16ad7e2ea1c3be",
+    "reports/s3-receiver-blockers.md": "eef61c7fe2014fc4dd05488915eb3e5abe8ce2aa7eb820feacce73da3f917a5b",
+    "reports/s3-partition-audit.md": "0cae2fe964e3d87f4712b3c71d25630222c75b132fe7f8c4dcd5a034347aea20",
     "experiments/s3_partition_audit.py": "9558165e84b348155bcf021980870958bd71681d2c7059b32ad27a5de9849738",
     "tests/test_s3_partition_audit.py": "7a071476153dc2872ab13ddd883f91ae8aef99dc5406d965f6a2752988459a5d",
     "reports/s3-partition-audit/estimate.json.gz": "669ee0290cc0f6efa8bce771e634e200bba6874d2ed24f4f3f145fe65ae4866d",
@@ -16,11 +16,11 @@
     "tests/test_s3_peripheral_resources.py": "5ecca4f7a3e2f1531b10e236b2f68f50c04f3bac9c3b02e010183fc879a50c95",
     "reports/s3-partition-audit/peripheral-source-evidence.json": "668e836c3d88f6d1497f0b8a9d2cf1ae76113ec136b0b17cbe215b0cddadb096"
   },
-  "validation": "Follow-up Forney/RS, RF/FFT, partition/GDMA, T FEC, and SIMD adapter/tile checks ran locally; SDK/receiver integration remains unverified. Latest execution server disconnected; queued CI is not a pass.",
-  "legacy_numerical_results_preserved_with_CPU_summation_tolerance_Mcycles_s": 1e-9,
+  "validation": "Execution recovered; 15 SIMD/startup host tests and tiled target compilation reproduced. Object hash, disassembly and logs recovered. SDK/receiver integration remains unverified; queued CI is not a pass.",
+  "legacy_numerical_results_preserved_with_CPU_summation_tolerance_Mcycles_s": 1e-09,
   "maximum_observed_CPU_sum_difference_Mcycles_s": 1.8189894035458565e-12,
   "followup": "Actual partial-resource and target-scalar failures; pinned full-bin SIMD implementation and short stage tiles. No universal architecture exclusions or completed-estimate claim.",
   "complete_estimate": false,
-  "execution_blocker": "exec-server transport disconnected; recovery unavailable",
+  "execution_blocker": null,
   "CI_status_when_recorded": "queued"
 }

@@ -578,4 +578,4 @@ Forney実装と選択partialの9426位置失敗、target scalar FFTの期限下�
 
 これらは実装を測定した部分判定であり、全候補の性能ゲート完了ではない。各stageの未実装費用を0にせず、320所有者台帳の全体performance_passは未確定のまま。元の4 SoC全対象の完了も、このS3台帳だけでは成立しない。
 
-実行環境のexec-server接続が切断され、復旧が回復しなかったため追加合成/SDK/joint scheduler試験が実行できない。GitHub経由で最新tile sourceを保存したが、raw object/log回収と追加SDK profile変更の再実行は未確認。queued CIを合格扱いにしない。残る環境内の設計/実装と実機依存は[s3-receiver-blockers.md](s3-receiver-blockers.md)の追加表に記載する。
+接続断から実行環境が復旧した。clean checkoutでSIMD/startupの15 unittest、tiled S3 target compile/未解決symbolなしの結合を再現し、raw object hash/log/disassemblyを回収した。追加SDK/joint scheduler検証は未完了。queued CIを合格扱いにしない。残る環境内の設計/実装と実機依存は[s3-receiver-blockers.md](s3-receiver-blockers.md)に記載する。

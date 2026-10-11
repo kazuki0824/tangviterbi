@@ -48,8 +48,9 @@ tileの間とstage barrierの待機中にRFをpollする契約にした。
 hostのrandom/extremes/zero全8192点は公式ANSI全体FFTと一致した。
 これはhost ANSI arithmeticの検証で、SIMD実行や数値bit同値の証拠ではない。
 
-実行環境のexec-server接続が切れ、復旧呼出しも回復しなかったため、
-検証済みのtile sourceをGitHub接続からcommitした。raw object/log回収はできておらず、
-このcommitのSDK profile追加・artifact回収変更の再実行は未確認。
-target bundleの観測section値はtext2832 B、IRAM470 B＋literal20 B、rodata16384 B。
-CPU cycle/WCET、受信品質、全候補判定の完了は依然として未確認。
+接続断時はGitHubからsourceを保存した。その後実行環境が復旧し、clean checkoutで
+SIMD/startupの15 unittestとtarget bundle結合を再現した（2026-10-11）。
+古いhost試験の親フォルダ作成不備を修正した。object hash、disassembly、section値、
+host ANSI oracleと実行logを[s3-fft-simd-evidence](s3-fft-simd-evidence/results.json)へ回収。
+target bundleはtext2832 B、IRAM470 B＋literal20 B、rodata16384 B。
+SDK profileの実ELF検証、CPU cycle/WCET、受信品質、全候補判定は未完了。
