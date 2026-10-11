@@ -18,7 +18,8 @@ ROOT=Path(__file__).resolve().parents[1]
 PROFILE=os.environ.get('RF_PROFILE','full')
 VARIANT=PROFILE
 RS_OFFLOAD=PROFILE=='native-direct-phy-rs'
-if RS_OFFLOAD:PROFILE='native-direct-phy'
+SIMD=PROFILE=='native-direct-phy-simd'
+if RS_OFFLOAD or SIMD:PROFILE='native-direct-phy'
 if PROFILE not in ('full','native-phy','native-phy-flash','native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):raise SystemExit('unknown RF_PROFILE')
 NATIVE=PROFILE!='full'
 PSRAM=PROFILE in ('native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy')
@@ -61,7 +62,17 @@ for p in ('s3_transport.c','s3_transport.h','s3_spi_transport.c','s3_spi_transpo
 if RS_OFFLOAD:
     for name in ('s3_rs_offload','s3_rs_rpc','s3_rs_workspace'):
         for suffix in ('.c','.h'):shutil.copy2(ROOT/'experiments'/(name+suffix),extra/(name+suffix))
+if SIMD:
+    from s3_fft_simd_source import source as simd_source
+    for name in ('s3_fft_simd.c','s3_fft_simd.h','s3_fft_simd_coefficients.inc'):
+        shutil.copy2(ROOT/'experiments'/name,extra/name)
+    (extra/'s3_fft_aes3.S').write_text(simd_source())
 s=(ROOT/'experiments/s3_memory_probe/main/memory_probe.c').read_text().replace('void app_main(void)','void s3_extras_link_probe(void)')
+if SIMD:
+    s='#include "s3_fft_simd.h"\n'+s
+    anchor='probe_keep = (uintptr_t)rf_packed_queue;'
+    if s.count(anchor)!=1:raise ValueError('missing SIMD retention anchor')
+    s=s.replace(anchor,anchor+'\n    probe_keep ^= (uintptr_t)&s3_fft_simd_run;')
 # Upstream already reserves exactly this physical RF interval.
 s=s.replace('SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);','')
 (extra/'memory_probe.c').write_text(s)
@@ -73,11 +84,13 @@ target_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_TERRESTRIAL=1 PROBE_LI
 target_link_options(${COMPONENT_LIB} INTERFACE "-Wl,-u,s3_extras_link_probe")
 '''
 if PROFILE in ('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_UPPER_FFT=1)\n'
-if PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_QUARTER_FFT=1)\n'
+if PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy') and not SIMD:s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_QUARTER_FFT=1)\n'
 if PROFILE in ('native-quarter-romsafe','native-direct-phy'):s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_ROM_SAFE=1)\n'
 if RS_OFFLOAD:
     s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_RS_OFFLOAD=1)\n'
     s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_rs_offload.c s3_probe/s3_rs_rpc.c s3_probe/s3_rs_workspace.c)\n'
+if SIMD:
+    s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_fft_simd.c s3_probe/s3_fft_aes3.S)\n'
 p.write_text(s)
 # Retain RF PHY options; explicitly override module/cache/CPU configuration.
 defaults=(UP/'sdkconfig.defaults.esp32s3').read_text()
@@ -104,7 +117,8 @@ with (OUT/'build.log').open('w') as f:rc=subprocess.run(cmd,cwd=UP,stdout=f,stde
 log=(OUT/'build.log').read_text(errors='replace')
 result={'scope':('Native RF initialization/tuning plus SPI/FFT/native-bank code and reservations; no integrated scheduler.' if NATIVE else __doc__),
         'profile':VARIANT,'esp_psram_component_required':PSRAM,'RS_offload_mode_union':RS_OFFLOAD,
-        'quarter_FFT_coefficients':PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'),
+        'quarter_FFT_coefficients':PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy') and not SIMD,
+        'SIMD_FFT_linked':SIMD,'SIMD_FFT_executed':False,
         'upper_FFT_slot':PROFILE in ('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'),
         'RF_bank_loop_linked':True,
         'RF_bank_loop_invoked_by_app':PROFILE=='full',
@@ -124,7 +138,7 @@ if p.exists():
         if a:result['symbols'][sym]=a[-1]
     if '_bss_end' in result['symbols']:result['static_gap_to_RF_bytes']=0x3fcb0000-int(result['symbols']['_bss_end'],16)
     result['hot_functions']={}
-    for name in (('s3_fft_stage_quarter_tile' if PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy') else 's3_fft_stage_tile'),'s3_fft_reverse_tile','s3_iq10_push','s3_spi_queue',
+    for name in (('s3_fft_stage_quarter_tile' if PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy') and not SIMD else 's3_fft_stage_tile'),'s3_fft_reverse_tile','s3_iq10_push','s3_spi_queue',
                  's3_rf_submit','s3_capture_accept','s3_capture_reclaim','s3_capture_step'):
         found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+'+name+r'\s*$',m,re.M)
         if found:result['hot_functions'][name]=found[-1]
@@ -140,6 +154,14 @@ if p.exists():
         found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+fft_mode_slot1\s*$',m,re.M)
         result['RS_slot1_base']=found[-1] if found else None
         result['RS_slot1_base_aligned32']=bool(found) and int(found[-1],16)%32==0
+    if SIMD:
+        result['SIMD_symbols']={}
+        for name in ('s3_fft_simd_run','s3_pinned_fft_aes3','s3_pinned_fft_power_of_two','s3_fft_simd_table'):
+            found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+'+name+r'\s*$',m,re.M)
+            result['SIMD_symbols'][name]=found[-1] if found else None
+        result['SIMD_code_in_IRAM']=all(result['SIMD_symbols'][name] is not None and
+          0x40374000<=int(result['SIMD_symbols'][name],16)<0x403a0000 for name in
+          ('s3_fft_simd_run','s3_pinned_fft_aes3','s3_pinned_fft_power_of_two'))
 config=OUT/'idf/config/sdkconfig.json'
 if config.exists():
     values=json.loads(config.read_text())
@@ -156,3 +178,4 @@ print(json.dumps(result,indent=2));print('\n'.join(log.splitlines()[-45:]))
 # A measured overlap is a result, not an infrastructure failure. Never turn
 # compile errors or missing symbols into successful diagnostic jobs.
 if rc and not any('S3 RF ring overlaps' in e for e in result['errors']):raise SystemExit(rc)
+if SIMD and rc==0 and not result.get('SIMD_code_in_IRAM'):raise SystemExit('SIMD symbols missing or not in IRAM')

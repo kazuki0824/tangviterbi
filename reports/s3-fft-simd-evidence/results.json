@@ -1,0 +1,72 @@
+{
+  "scope": "Compile pinned S3 SIMD FFT; does not execute it or establish silicon WCET.",
+  "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "upstream": {
+    "repository": "https://github.com/espressif/esp-dsp",
+    "tag": "v1.7.1",
+    "commit": "fd110921fb57b4de79f092337b9e047130762eca",
+    "sha256": {
+      "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "dsps_fft2r_platform.h": "f8c8ec359abe829ca12e047ce3e5ba449957b1c612c0876555251d6858e47262",
+      "dsps_fft2r_sc16_aes3.S": "a0c0fa11ac44cb5862633347838737083e4a7a0eea2593e418f50f153fda3684",
+      "dsps_fft2r_sc16_ansi.c": "5811ef592935a07c24f7e59f955b1dc34b5a1182dfc94e74e8c1be2eb370048a"
+    }
+  },
+  "source_sha256": {
+    "experiments/s3_fft_simd.c": "7d59fd99d15481faf32baeb6e15bef7bf5e579d203d9cf300d64c0fc98c4f4a0",
+    "experiments/s3_fft_simd.h": "6085ae0fb48ac5bd6ed3d42902be452a8ce13c942f5c5f765950a80b5078c15a",
+    "experiments/s3_fft_simd_coefficients.inc": "6e4515981b9e41cea9ecc8a16d9dd868c075ccfde797034e54cfc523a983c75b",
+    "ci/s3_fft_simd_source.py": "5a524e3fcebab0606bee7cf5032e44387f60ea6fd8a6720a0c3f5f47e0b470ca",
+    "ci/s3_fft_simd_evidence.py": "337b398b7c4a72edd7803ccfdfa8651c25231ea335e247362f6df86525b01fc8"
+  },
+  "bundle_sha256": "d9d4129fc46f476ceb971b0c74c1be5a105f38d7246b26d3537ec5d75226f05f",
+  "coefficient_bytes": 16384,
+  "frame_bytes": 32768,
+  "frames": 2,
+  "internal_coefficient_growth_vs_quarter_bytes": 12286,
+  "SDK_ELF_link_verified": false,
+  "CPU_WCET_verified": false,
+  "SIMD_executed": false,
+  "SIMD_ANSI_bit_equivalence_verified": false,
+  "receiver_adopted": false,
+  "deployment_contract": "FFT core1 with local interrupt mask; RF core0 never waits on the FFT lock. Frame and copied coefficients must be internal SRAM. High-priority/NMI code cannot use PIE.",
+  "unknown": [
+    "8192-point simultaneous RF/DMA WCET",
+    "whole-system IRQ/vector context verification",
+    "all runtime internal allocations",
+    "end-to-end demodulation quality"
+  ],
+  "host_ANSI_oracle": {
+    "scope": "Test the pinned coefficient/order adapter with upstream ANSI, not SIMD execution.",
+    "cases": [
+      {
+        "input": "zero",
+        "bins": 8192,
+        "maximum_complex_error_LSB": 0.0
+      },
+      {
+        "input": "DC",
+        "bins": 8192,
+        "maximum_complex_error_LSB": 0.0
+      },
+      {
+        "input": "impulse",
+        "bins": 8192,
+        "maximum_complex_error_LSB": 0.8674799795341551
+      },
+      {
+        "input": "tone",
+        "bins": 8192,
+        "maximum_complex_error_LSB": 0.9948666458722073
+      },
+      {
+        "input": "noise",
+        "bins": 8192,
+        "maximum_complex_error_LSB": 1.653289552284824
+      }
+    ],
+    "SIMD_executed": false,
+    "SIMD_ANSI_bit_equivalence_verified": false,
+    "CPU_WCET_verified": false
+  }
+}

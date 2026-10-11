@@ -1,0 +1,33 @@
+{
+  "scope": "Test the pinned coefficient/order adapter with upstream ANSI, not SIMD execution.",
+  "cases": [
+    {
+      "input": "zero",
+      "bins": 8192,
+      "maximum_complex_error_LSB": 0.0
+    },
+    {
+      "input": "DC",
+      "bins": 8192,
+      "maximum_complex_error_LSB": 0.0
+    },
+    {
+      "input": "impulse",
+      "bins": 8192,
+      "maximum_complex_error_LSB": 0.8674799795341551
+    },
+    {
+      "input": "tone",
+      "bins": 8192,
+      "maximum_complex_error_LSB": 0.9948666458722073
+    },
+    {
+      "input": "noise",
+      "bins": 8192,
+      "maximum_complex_error_LSB": 1.653289552284824
+    }
+  ],
+  "SIMD_executed": false,
+  "SIMD_ANSI_bit_equivalence_verified": false,
+  "CPU_WCET_verified": false
+}
