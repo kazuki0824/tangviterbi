@@ -5,7 +5,8 @@
 
 ## 変更の範囲
 
-RS部分移管の分担は[従来の見積もり](s3-rs-offload.md)を維持する。
+この測定のRS部分移管は[従来の見積もり](s3-rs-offload.md)の分担を使う。
+完成できる第一案としての決定は撤回した。[訂正・後続検証](s3-receiver-blockers.md)を参照。
 FPGAはQ15距離、TC8PSK、RS syndrome/Chien/byte訂正、S3はBM/Omega/Forneyを担当する。
 FPGA側へS3応答ページの検査を追加した。RPC全体の実装完了ではない。
 

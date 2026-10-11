@@ -1,7 +1,44 @@
 # Tang Nano 9K + ESP32-S3-WROOM-1U-N16R8：成立までの不足と実行結果
 
-2026-10-10更新。対象はISDB-T全セグメントと従来ISDB-SのTS出力、実行時切替。
+2026-10-11更新。対象はISDB-T全セグメントと従来ISDB-SのTS出力、実行時切替。
 採用済み受信機は0。`receiver_adopted=false`を維持する。
+
+## 2026-10-11：第一案判断と部分測定の適用範囲を訂正
+
+部分topの合格を根拠に、この分担を「完成できる第一案」と決定した判断を撤回する。
+PR 4の部品試験・過去の部分配置の測定値は保持するが、完成受信機の成立根拠にはしない。
+現時点で成立を確認した第一案はない。PR 5はクローズし、その実装全体はPR 4へ取り込まない。
+
+| 訂正する扱い | 正しい判定 |
+|---|---|
+| 専用240 MHzコアの6752.598753 cyclesを空きRS予算に使う | RF費用未控除の全容量。予算生成器・JSONの項目名を訂正し、残り予算はnull。RF/RS/通信/RTOSの競合込みWCETが必要 |
+| 部分topの90 MHz合格から第一案の完成可能性を判断する | そのsource・制約・測定範囲だけの合格。符号語保存、全RPC、FIR/同期/インターリーブ/TSを加えた設計の合格ではない |
+| 外部PSRAMの容量があれば符号語保持の資源・速度は解決済み | 保持制御・queue・仲裁の面積と遅延を含めて再測定する必要がある |
+| Tを外す又はT/S動的書換えを許可すれば今回のS測定から資源を削れる | 別bitstream切替は既に前提。後述の測定はS用のみで、Tの資源を合算していない |
+| 現実装の失敗を9K＋S3の全分担の不可能性へ一般化する | 測定した実装の未達。別分担・別RTLの成立も不成立も未証明 |
+
+PR 5で行った追加検証は、PR 4のRTLそのものの再測定とは区別する。
+8頁RF＋status＋独立FECの部分topは、符号語保持を含まない状態でcore93.99/90 MHzだった。
+同系列へ外部PSRAMの符号語保持を追加した安定版は83.45/90 MHz。
+残数をcommit/retireカウンタにした同一netlistではseed1/2が75.52/80.34 MHzで未達、
+seed3は配置器自身の合法配置エラー（exit125）で終了し、配線後Fmaxはない。
+時間上限による不可能判定ではない。seed1/2の占有は8281/8296位置、BSRAM25/26。
+これらも独立駆動の部分共配置であり、RF→TSの接続受信機ではない。
+したがって追加前の合格値を保持追加後へ流用できず、この実装を成立済み第一案として進めない。
+
+RF・credit・同一batchのRPC・訂正/ACKを含む後続の有限モデルでは最大344符号語を保持した。
+204符号語＝1 batchの保存だけを完成時の必要容量とみなせない。
+これは指定した応答遅延・開始位相・通信方針での有限結果で、普遍的な最小容量やCPU WCETではない。
+PR 4の旧Octal/Quadモデルは平均帯域・仮定したrelease時刻のスクリーニングとして保持し、
+ready/ACK・受信側credit・同一batch依存関係まで実装済みという扱いにしない。
+
+証拠はクローズ後も固定commitから参照する：
+[保持追加後の測定・source/log hash](https://github.com/kazuki0824/tangviterbi/blob/6ee70d8ff76d9bc6748a0a089cee4156d13427e0/reports/s3-receiver-followup.json)、
+[同一batchの条件付き通信モデル](https://github.com/kazuki0824/tangviterbi/blob/6ee70d8ff76d9bc6748a0a089cee4156d13427e0/reports/s3-receiver-rpc-schedule.json)、
+[保持追加前の部分配置](https://github.com/kazuki0824/tangviterbi/blob/6ee70d8ff76d9bc6748a0a089cee4156d13427e0/reports/s3-credit-physical-followup.json)。
+これらの実装・数値をPR 4の現在の回路へ転記したとは主張しない。
+`all_receiver_implemented=false`、`all_deadlines_verified=false`、
+`receiver_adopted=false`、`safe_to_flash=false`。
 
 ## 2026-10-10追記：FPGA距離精度とRS応答検査
 
