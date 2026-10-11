@@ -1,0 +1,40 @@
+{
+  "packed_json_sha256": "db25d77ef0978bb5f68723f60bf2b59cab5dc4482f294ab95502b2e59b2573f3",
+  "LUT_cells": 4858,
+  "ALU_cells": 2512,
+  "ALU_blockers_excluded": 2512,
+  "fabric_FFs": 4321,
+  "maximum_LUT_or_ALU_FF_pairs": 2265,
+  "minimum_additional_FF_sites": 2056,
+  "minimum_required_logic_sites": 9426,
+  "available_logic_sites": 8640,
+  "minimum_site_utilization_percent": 109.09722222222223,
+  "minimum_site_deficit": 786,
+  "mapped_netlist_ruled_out": true,
+  "FF_D_driver_types": {
+    "LUT2": 413,
+    "LUT3": 969,
+    "DFF": 134,
+    "ALU": 195,
+    "DFFCE": 508,
+    "LUT1": 29,
+    "LUT4": 1255,
+    "DFFE": 430,
+    "GOWIN_VCC": 14,
+    "DFFPE": 34,
+    "DFFRE": 2,
+    "MULT18X18": 60,
+    "DFFC": 121,
+    "DFFP": 60,
+    "DP": 9,
+    "SDP": 72,
+    "IBUF": 16
+  },
+  "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+  "limitations": [
+    "narrow LUT mapping only",
+    "no retiming/resynthesis/transformation allowed in this bound",
+    "passing this bound does not prove placement or timing",
+    "CE/reset/clock/adjacency restrictions ignored"
+  ]
+}

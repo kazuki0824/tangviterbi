@@ -1,0 +1,4 @@
+read_verilog -sv rtl/s3_rs_forney.sv
+synth_gowin -top s3_rs_forney -family gw1n -noiopads -nowidelut -json /workspace/scratch/a88d17cf0779/pr4-repo/build/s3-rs-forney/area/design.json
+tee -o /workspace/scratch/a88d17cf0779/pr4-repo/build/s3-rs-forney/area/stat.json stat -json
+check -assert

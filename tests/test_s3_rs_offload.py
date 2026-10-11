@@ -37,6 +37,7 @@ class OffloadTest(unittest.TestCase):
    after_bm=profile(t);count=self.lib.s3_rs_chien(c.byref(t),c.byref(s),pos)
    self.assertGreaterEqual(count,0,name);after_chien=profile(t)
    self.assertEqual(self.lib.s3_rs_magnitudes(c.byref(t),c.byref(s),pos,count,mag),1,name)
+   after_forney=profile(t)
    result=received.copy()
    for n in range(count):result[pos[n]]^=mag[n]
    self.assertEqual(result[:188],payload,name)
@@ -49,7 +50,8 @@ class OffloadTest(unittest.TestCase):
     bad=(c.c_uint8*8)(*list(pos));bad[0]=204
     self.assertEqual(self.lib.s3_rs_magnitudes(c.byref(t),c.byref(s),bad,count,mag),0)
    rows.append(dict(case=name,errors=count,bm_omega=difference(after_bm,start),
-      chien=difference(after_chien,after_bm),forney_with_locator_validation=difference(profile(t),after_chien)))
+      chien=difference(after_chien,after_bm),forney_with_locator_validation=difference(after_forney,after_chien),
+      rejected_position_validation=difference(profile(t),after_forney)))
   result=dict(passed=len(rows),total=262,tables_bytes=c.sizeof(Tables),solution_bytes=c.sizeof(Solution),
    receiver_adopted=False,silicon_WCET_verified=False,
    scope='host C algorithm and operation counts; no target compile, RF/RTOS/SPI or FPGA split implementation',

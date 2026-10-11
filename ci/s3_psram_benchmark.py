@@ -23,6 +23,7 @@ p.add_argument('--folded-metric',action='store_true',help='Share exact metric ar
 p.add_argument('--cost-shift',type=int,choices=(22,23,24,25),default=22,
                help='Experimental FPGA-only branch quantizer; values above 22 change costs and require BER checks')
 p.add_argument('--rs-offload',action='store_true',help='Partial host-RS split: 32 ACS + FPGA syndrome/Chien, no RPC/correction buffers')
+p.add_argument('--rs-forney',action='store_true',help='Co-place FPGA Forney for the CPU BM/Omega split; synthetic ports, no retention')
 p.add_argument('--split-acs22',action='store_true',help='Use 22 ACS/3 clocks in the partial RS offload workload')
 p.add_argument('--rs-correction',action='store_true',help='Also co-place the byte correction stream, still without RPC/memory scheduling')
 p.add_argument('--rs-rpc-guard',action='store_true',help='Also co-place the S3 response validator; no RPC storage/ownership/producer')
@@ -45,6 +46,7 @@ if args.rpc_payload_flag:args.rs_rpc_guard=True
 if args.rs_rpc_guard:args.rs_correction=True
 if args.cost_shift!=22:args.folded_metric=True
 if args.rs_correction:args.rs_offload=True
+if args.rs_forney:args.rs_offload=True
 if args.split_acs22:args.rs_offload=True
 if args.syndrome_ready:args.rs_offload=True
 if args.syndrome4:args.rs_offload=True
@@ -68,6 +70,7 @@ if args.metric_q15:name+='-q15'
 if args.folded_metric:name+='-folded'
 if args.cost_shift!=22:name+=f'-shift{args.cost_shift}'
 if args.rs_offload:name+='-rs-offload'
+if args.rs_forney:name+='-forney'
 if args.rs_correction:name+='-correct'
 if args.rs_rpc_guard:name+='-rpcguard'
 if args.rpc_payload_flag:name+='-rpcflag'
@@ -101,6 +104,16 @@ if args.fec:
     if args.rs_offload:
         sources=[s for s in sources if s!=str((out/'rs.sv').relative_to(ROOT))]
         sources+=['rtl/s3_rs_syndrome.sv','rtl/s3_rs_chien.sv']
+    if args.rs_forney:
+        top_text=(out/'top.sv').read_text()
+        top_text=top_text.replace(' assign activity=', ''' // Synthetic BM/Omega descriptor; no CPU RPC/retention path is connected.
+ wire forney_ready,forney_valid,forney_failed;wire[63:0] forney_magnitudes;
+ s3_rs_forney forney(clk,rst,synd_valid,forney_ready,{syndromes[71:8],8'd1},
+  syndromes,roots,roots,lfsr,forney_valid,1'b1,forney_failed,forney_magnitudes);
+ assign activity=''').replace('checksum,offset,',
+ 'forney_ready,forney_valid,forney_failed,forney_magnitudes,checksum,offset,')
+        (out/'top.sv').write_text(top_text)
+        sources+=['rtl/s3_rs_forney.sv']
     if args.cost_shift!=22:
         from s3_tc8psk_precision import metric_source, viterbi_source
         (out/'metric.sv').write_text(metric_source(args.cost_shift))
