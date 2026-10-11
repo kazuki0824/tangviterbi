@@ -1,0 +1,1494 @@
+{
+  "critical_paths": [
+    {
+      "from": "posedge bridge.octal.spi_clk",
+      "path": [
+        {
+          "delay": 0.4580000042915344,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_4_ALU_I1_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q",
+            "loc": [
+              43,
+              17
+            ],
+            "port": "Q"
+          },
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_4_ALU_I1_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q",
+            "loc": [
+              43,
+              17
+            ],
+            "port": "Q"
+          },
+          "type": "clk-to-q"
+        },
+        {
+          "delay": 0.8050000071525574,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_4_ALU_I1_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q",
+            "loc": [
+              43,
+              17
+            ],
+            "port": "Q"
+          },
+          "net": "bridge.octal.fifo.mem.0.0_ADA_4_ALU_I1_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q[1]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F_I3_LUT4_F_3",
+            "loc": [
+              43,
+              19
+            ],
+            "port": "I1"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 1.0980000495910645,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F_I3_LUT4_F_3",
+            "loc": [
+              43,
+              19
+            ],
+            "port": "I1"
+          },
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F_I3_LUT4_F_3",
+            "loc": [
+              43,
+              19
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.890999972820282,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F_I3_LUT4_F_3",
+            "loc": [
+              43,
+              19
+            ],
+            "port": "F"
+          },
+          "net": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F_I3[0]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F",
+            "loc": [
+              43,
+              16
+            ],
+            "port": "I0"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 1.031000018119812,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F",
+            "loc": [
+              43,
+              16
+            ],
+            "port": "I0"
+          },
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F",
+            "loc": [
+              43,
+              16
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 2.4059998989105225,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F_LUT4_F",
+            "loc": [
+              43,
+              16
+            ],
+            "port": "F"
+          },
+          "net": "bridge.octal.fifo.mem.0.0_DI_34_LUT4_I3_F[0]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_6_LUT4_F",
+            "loc": [
+              40,
+              10
+            ],
+            "port": "I1"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 1.0980000495910645,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_6_LUT4_F",
+            "loc": [
+              40,
+              10
+            ],
+            "port": "I1"
+          },
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_6_LUT4_F",
+            "loc": [
+              40,
+              10
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.890999972820282,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_6_LUT4_F",
+            "loc": [
+              40,
+              10
+            ],
+            "port": "F"
+          },
+          "net": "bridge.octal.fifo.mem.0.0_ADA_6",
+          "sources": [],
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0",
+            "loc": [
+              40,
+              9
+            ],
+            "port": "ADA3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.0430000014603138,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0",
+            "loc": [
+              40,
+              9
+            ],
+            "port": "ADA3"
+          },
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0",
+            "loc": [
+              40,
+              9
+            ],
+            "port": "ADA3"
+          },
+          "type": "setup"
+        }
+      ],
+      "to": "posedge bridge.octal.spi_clk"
+    },
+    {
+      "from": "posedge bridge.lcd.wr_clk",
+      "path": [
+        {
+          "delay": 0.4580000042915344,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3_I2_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFFCE_Q_1",
+            "loc": [
+              36,
+              1
+            ],
+            "port": "Q"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3_I2_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFFCE_Q_1",
+            "loc": [
+              36,
+              1
+            ],
+            "port": "Q"
+          },
+          "type": "clk-to-q"
+        },
+        {
+          "delay": 1.2170000076293945,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3_I2_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFFCE_Q_1",
+            "loc": [
+              36,
+              1
+            ],
+            "port": "Q"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3_I2_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q[1]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              35,
+              3
+            ],
+            "port": "I0"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.9580000042915344,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              35,
+              3
+            ],
+            "port": "I0"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              35,
+              3
+            ],
+            "port": "COUT"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              35,
+              3
+            ],
+            "port": "COUT"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN",
+          "sources": [
+            "rtl/s3_lcd16_rx.sv:28.44-28.51",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              35,
+              3
+            ],
+            "port": "CIN"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.05700000002980232,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              35,
+              3
+            ],
+            "port": "CIN"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              35,
+              3
+            ],
+            "port": "COUT"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              35,
+              3
+            ],
+            "port": "COUT"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN",
+          "sources": [
+            "rtl/s3_lcd16_rx.sv:28.44-28.51",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.05700000002980232,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "COUT"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "COUT"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN",
+          "sources": [
+            "rtl/s3_lcd16_rx.sv:28.44-28.51",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.05700000002980232,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "COUT"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "COUT"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT_CIN",
+          "sources": [
+            "rtl/s3_lcd16_rx.sv:28.44-28.51",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.05700000002980232,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "COUT"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "COUT"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_CIN",
+          "sources": [
+            "rtl/s3_lcd16_rx.sv:28.44-28.51",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.05700000002980232,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "COUT"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "COUT"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_TAIL_ALULC",
+          "sources": [],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_TAIL_ALULC",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.5630000233650208,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_TAIL_ALULC",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "CIN"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_TAIL_ALULC",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "SUM"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 1.7649999856948853,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_ALU_COUT_TAIL_ALULC",
+            "loc": [
+              36,
+              3
+            ],
+            "port": "SUM"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I1[2]",
+          "sources": [
+            "rtl/s3_lcd16_rx.sv:28.44-28.51",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5",
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3",
+            "loc": [
+              41,
+              4
+            ],
+            "port": "I3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.625,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3",
+            "loc": [
+              41,
+              4
+            ],
+            "port": "I3"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3",
+            "loc": [
+              41,
+              4
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.890999972820282,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3",
+            "loc": [
+              41,
+              4
+            ],
+            "port": "F"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_I2_LUT4_I3_F[2]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F_I3_LUT4_F",
+            "loc": [
+              41,
+              7
+            ],
+            "port": "I2"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.8220000267028809,
+          "from": {
+            "cell": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F_I3_LUT4_F",
+            "loc": [
+              41,
+              7
+            ],
+            "port": "I2"
+          },
+          "to": {
+            "cell": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F_I3_LUT4_F",
+            "loc": [
+              41,
+              7
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 1.3700000047683716,
+          "from": {
+            "cell": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F_I3_LUT4_F",
+            "loc": [
+              41,
+              7
+            ],
+            "port": "F"
+          },
+          "net": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F_I3[3]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F",
+            "loc": [
+              38,
+              8
+            ],
+            "port": "I3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.625,
+          "from": {
+            "cell": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F",
+            "loc": [
+              38,
+              8
+            ],
+            "port": "I3"
+          },
+          "to": {
+            "cell": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F",
+            "loc": [
+              38,
+              8
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.9580000042915344,
+          "from": {
+            "cell": "bridge.lcd.cs_n_LUT3_I0_I2_LUT4_F",
+            "loc": [
+              38,
+              8
+            ],
+            "port": "F"
+          },
+          "net": "bridge.lcd.cs_n_LUT3_I0_I2[3]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2",
+            "loc": [
+              38,
+              12
+            ],
+            "port": "I3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.625,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2",
+            "loc": [
+              38,
+              12
+            ],
+            "port": "I3"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2",
+            "loc": [
+              38,
+              12
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 1.4479999542236328,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2",
+            "loc": [
+              38,
+              12
+            ],
+            "port": "F"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F",
+          "sources": [],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE",
+            "loc": [
+              38,
+              19
+            ],
+            "port": "CE"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.0430000014603138,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE",
+            "loc": [
+              38,
+              19
+            ],
+            "port": "CE"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE",
+            "loc": [
+              38,
+              19
+            ],
+            "port": "CE"
+          },
+          "type": "setup"
+        }
+      ],
+      "to": "posedge bridge.lcd.wr_clk"
+    },
+    {
+      "from": "posedge bridge.clk",
+      "path": [
+        {
+          "delay": 0.4580000042915344,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_2",
+            "loc": [
+              38,
+              2
+            ],
+            "port": "Q"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_2",
+            "loc": [
+              38,
+              2
+            ],
+            "port": "Q"
+          },
+          "type": "clk-to-q"
+        },
+        {
+          "delay": 1.4479999542236328,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_DFFCE_Q_2",
+            "loc": [
+              38,
+              2
+            ],
+            "port": "Q"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q[0]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_F_1",
+            "loc": [
+              37,
+              5
+            ],
+            "port": "I0"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 1.031000018119812,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_F_1",
+            "loc": [
+              37,
+              5
+            ],
+            "port": "I0"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_F_1",
+            "loc": [
+              37,
+              5
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.41200000047683716,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_F_1",
+            "loc": [
+              37,
+              5
+            ],
+            "port": "F"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q[3]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_I3",
+            "loc": [
+              37,
+              6
+            ],
+            "port": "I3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.625,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_I3",
+            "loc": [
+              37,
+              6
+            ],
+            "port": "I3"
+          },
+          "to": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_I3",
+            "loc": [
+              37,
+              6
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.41200000047683716,
+          "from": {
+            "cell": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_I3",
+            "loc": [
+              37,
+              6
+            ],
+            "port": "F"
+          },
+          "net": "bridge.lcd.dc_LUT4_I0_F_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_1_CE_LUT4_F_I3_LUT2_F_I0_LUT2_I0_F_LUT3_F_2_I1_LUT4_I2_F_DFFCE_Q_CE_LUT4_F_I1_LUT4_I1_1_F_DFFCE_D_Q_LUT4_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_LUT2_I0_F_DFFCE_D_Q_LUT4_I3_F[0]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F_I3_LUT4_F",
+            "loc": [
+              36,
+              6
+            ],
+            "port": "I3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.625,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F_I3_LUT4_F",
+            "loc": [
+              36,
+              6
+            ],
+            "port": "I3"
+          },
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F_I3_LUT4_F",
+            "loc": [
+              36,
+              6
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 2.0910000801086426,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F_I3_LUT4_F",
+            "loc": [
+              36,
+              6
+            ],
+            "port": "F"
+          },
+          "net": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F_I3[3]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F",
+            "loc": [
+              30,
+              10
+            ],
+            "port": "I3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.625,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F",
+            "loc": [
+              30,
+              10
+            ],
+            "port": "I3"
+          },
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F",
+            "loc": [
+              30,
+              10
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.890999972820282,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT4_F",
+            "loc": [
+              30,
+              10
+            ],
+            "port": "F"
+          },
+          "net": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3[3]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F",
+            "loc": [
+              29,
+              11
+            ],
+            "port": "I3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.625,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F",
+            "loc": [
+              29,
+              11
+            ],
+            "port": "I3"
+          },
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F",
+            "loc": [
+              29,
+              11
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.32600000500679016,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F",
+            "loc": [
+              29,
+              11
+            ],
+            "port": "F"
+          },
+          "net": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM[2]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_D_LUT4_I3_F_LUT4_I3",
+            "loc": [
+              29,
+              11
+            ],
+            "port": "I2"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.8220000267028809,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_D_LUT4_I3_F_LUT4_I3",
+            "loc": [
+              29,
+              11
+            ],
+            "port": "I2"
+          },
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_D_LUT4_I3_F_LUT4_I3",
+            "loc": [
+              29,
+              11
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 2.013000011444092,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_D_LUT4_I3_F_LUT4_I3",
+            "loc": [
+              29,
+              11
+            ],
+            "port": "F"
+          },
+          "net": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_D_LUT4_I3_F_LUT4_I3_F",
+          "sources": [],
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_D_LUT4_I3_F_LUT4_I3_F_DFFCE_CE",
+            "loc": [
+              29,
+              24
+            ],
+            "port": "CE"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.0430000014603138,
+          "from": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_D_LUT4_I3_F_LUT4_I3_F_DFFCE_CE",
+            "loc": [
+              29,
+              24
+            ],
+            "port": "CE"
+          },
+          "to": {
+            "cell": "bridge.mem.0.8_DIA_1_DFF_Q_D_LUT3_F_I0_DFFCE_D_CE_LUT3_F_I1_LUT4_I2_F_LUT3_F_I0_LUT4_I3_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_F_1_I3_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_F_I3_LUT2_I1_F_DFFCE_CE_Q_DFFCE_Q_D_LUT4_I3_F_LUT4_I3_F_DFFCE_CE",
+            "loc": [
+              29,
+              24
+            ],
+            "port": "CE"
+          },
+          "type": "setup"
+        }
+      ],
+      "to": "posedge bridge.clk"
+    },
+    {
+      "from": "posedge bridge.clk",
+      "path": [
+        {
+          "delay": 0.4580000042915344,
+          "from": {
+            "cell": "clocking.locked_LUT2_I1_F_DFFC_CLEAR_Q_DFFC_D",
+            "loc": [
+              41,
+              6
+            ],
+            "port": "Q"
+          },
+          "to": {
+            "cell": "clocking.locked_LUT2_I1_F_DFFC_CLEAR_Q_DFFC_D",
+            "loc": [
+              41,
+              6
+            ],
+            "port": "Q"
+          },
+          "type": "clk-to-q"
+        },
+        {
+          "delay": 1.4479999542236328,
+          "from": {
+            "cell": "clocking.locked_LUT2_I1_F_DFFC_CLEAR_Q_DFFC_D",
+            "loc": [
+              41,
+              6
+            ],
+            "port": "Q"
+          },
+          "net": "O_psram_reset_n_OBUF_O_I_LUT4_F_I1[0]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.lcd.cs_n_LUT4_I0",
+            "loc": [
+              37,
+              8
+            ],
+            "port": "I1"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 1.0980000495910645,
+          "from": {
+            "cell": "bridge.lcd.cs_n_LUT4_I0",
+            "loc": [
+              37,
+              8
+            ],
+            "port": "I1"
+          },
+          "to": {
+            "cell": "bridge.lcd.cs_n_LUT4_I0",
+            "loc": [
+              37,
+              8
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.8050000071525574,
+          "from": {
+            "cell": "bridge.lcd.cs_n_LUT4_I0",
+            "loc": [
+              37,
+              8
+            ],
+            "port": "F"
+          },
+          "net": "bridge.lcd.cs_n_LUT4_I0_F",
+          "sources": [],
+          "to": {
+            "cell": "bridge.lcd.fifo.mem.0.0",
+            "loc": [
+              37,
+              9
+            ],
+            "port": "CEA"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.17299999296665192,
+          "from": {
+            "cell": "bridge.lcd.fifo.mem.0.0",
+            "loc": [
+              37,
+              9
+            ],
+            "port": "CEA"
+          },
+          "to": {
+            "cell": "bridge.lcd.fifo.mem.0.0",
+            "loc": [
+              37,
+              9
+            ],
+            "port": "CEA"
+          },
+          "type": "setup"
+        }
+      ],
+      "to": "posedge bridge.lcd.wr_clk"
+    },
+    {
+      "from": "posedge bridge.clk",
+      "path": [
+        {
+          "delay": 0.4580000042915344,
+          "from": {
+            "cell": "clocking.locked_LUT2_I1_F_DFFC_CLEAR_Q_DFFC_D",
+            "loc": [
+              41,
+              6
+            ],
+            "port": "Q"
+          },
+          "to": {
+            "cell": "clocking.locked_LUT2_I1_F_DFFC_CLEAR_Q_DFFC_D",
+            "loc": [
+              41,
+              6
+            ],
+            "port": "Q"
+          },
+          "type": "clk-to-q"
+        },
+        {
+          "delay": 1.9270000457763672,
+          "from": {
+            "cell": "clocking.locked_LUT2_I1_F_DFFC_CLEAR_Q_DFFC_D",
+            "loc": [
+              41,
+              6
+            ],
+            "port": "Q"
+          },
+          "net": "O_psram_reset_n_OBUF_O_I_LUT4_F_I1[0]",
+          "sources": [
+            "/workspace/scratch/855136e48ca2/tools/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_6_LUT4_F",
+            "loc": [
+              40,
+              10
+            ],
+            "port": "I0"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 1.031000018119812,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_6_LUT4_F",
+            "loc": [
+              40,
+              10
+            ],
+            "port": "I0"
+          },
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_6_LUT4_F",
+            "loc": [
+              40,
+              10
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.890999972820282,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0_ADA_6_LUT4_F",
+            "loc": [
+              40,
+              10
+            ],
+            "port": "F"
+          },
+          "net": "bridge.octal.fifo.mem.0.0_ADA_6",
+          "sources": [],
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0",
+            "loc": [
+              40,
+              9
+            ],
+            "port": "ADA3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.0430000014603138,
+          "from": {
+            "cell": "bridge.octal.fifo.mem.0.0",
+            "loc": [
+              40,
+              9
+            ],
+            "port": "ADA3"
+          },
+          "to": {
+            "cell": "bridge.octal.fifo.mem.0.0",
+            "loc": [
+              40,
+              9
+            ],
+            "port": "ADA3"
+          },
+          "type": "setup"
+        }
+      ],
+      "to": "posedge bridge.octal.spi_clk"
+    }
+  ],
+  "fmax": {
+    "bridge.clk": {
+      "achieved": 80.34064483642578,
+      "constraint": 90.00090026855469
+    },
+    "bridge.lcd.wr_clk": {
+      "achieved": 79.03263854980469,
+      "constraint": 40
+    },
+    "bridge.octal.spi_clk": {
+      "achieved": 114.66575622558594,
+      "constraint": 80
+    }
+  },
+  "utilization": {
+    "ALU": {
+      "available": 6480,
+      "used": 2460
+    },
+    "ALU54D": {
+      "available": 10,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 26,
+      "used": 25
+    },
+    "BUFG": {
+      "available": 22,
+      "used": 2
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 6480,
+      "used": 3652
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "DUMMY_CELL": {
+      "available": 0,
+      "used": 8
+    },
+    "FLASH608K": {
+      "available": 1,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "IDES16": {
+      "available": 80,
+      "used": 0
+    },
+    "IOB": {
+      "available": 276,
+      "used": 32
+    },
+    "IOBUF": {
+      "available": 0,
+      "used": 26
+    },
+    "IOLOGICI": {
+      "available": 276,
+      "used": 18
+    },
+    "IOLOGICO": {
+      "available": 276,
+      "used": 24
+    },
+    "LUT4": {
+      "available": 8640,
+      "used": 5836
+    },
+    "MIPI_IBUF": {
+      "available": 22,
+      "used": 0
+    },
+    "MIPI_OBUF": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT18X18": {
+      "available": 20,
+      "used": 2
+    },
+    "MULT36X36": {
+      "available": 5,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 40,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 4320,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 2160,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 1080,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 1080,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "OSER16": {
+      "available": 80,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 20,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 40,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 270,
+      "used": 0
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 1
+    }
+  }
+}

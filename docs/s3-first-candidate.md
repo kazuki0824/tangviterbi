@@ -53,6 +53,93 @@ CPU・通信・記憶の必要条件をこの固定構成で解消できない�
 再選定する。ツールの実行時間切れだけを棄却理由にしない。
 以下はこの決定以前の旧案の監査・改善履歴として保存する。
 
+### 環境内で追加した通信・保持検証（2026-10-11）
+
+`experiments/s3_receiver_rpc_schedule.py` はRF 100 MB/s、8頁credit、同一204符号語
+batchのsyndrome上り → BM/Omega → locator下り → Chien → roots上り → Forney →
+magnitude下り → byte訂正/出力 → ACKまでを一緒に扱う有限イベントモデルである。
+Octalに連続3頁RF batch、LCDに1頁ずつを割り当て直した。DMA完了で送信元を解放しても、
+受信側creditは頁消費frontierのstatusを取得するまで戻さない。
+RPC完了でもraw符号語を解放せず、訂正/出力とACKまで保持する。
+
+| 条件・結果 | 値 |
+|---|---:|
+| 符号語到着契約 / batch周期 | 35541.871921 /s、5739.708940 µs |
+| SPI API / LCD API契約 | 20 / 8 µs |
+| FPGA頁公開 / 消費契約 | 3 / 22.822222 µs |
+| BM/Omega、Forneyの応答遅延契約 | 各1000 µs / batch |
+| 前段遅延契約 | 512 µs |
+| 試験 | 16開始位相 × 128 batch、4096 batch連続後に全要求をdrain |
+| 送信元RF保持の最大 | 10 / 16頁 |
+| 受信側予約の最大 | 8 / 8頁 |
+| raw符号語保持の最大 | 344符号語、70176 B（16位相試験の最大、204 B/符号語） |
+| RPC開始から訂正/ACKまでの最大 | 3938.353929 µs（16位相試験の最大） |
+| 実装するraw保持領域 | 512 × 256 B = 128 KiB、外部PSRAM |
+
+4方向の4096-byte頁に10-byte SPI headerとAPI費用を課金し、上りには16 dummy SCKを
+加算した。ready照会2回と最終ACK照会1回もbatch毎に課金する。これらは32-byte返信を
+仮定した**未実装RPC status endpoint**で、無償のready信号を与えた結果ではない。
+受信頁用の既存16-byte statusとは別である。
+APIをSPI/LCDとも40 µsにする、窓を2頁にする、raw保持を旧204スロットにする
+negative controlはoverflowを検出した。この送信方針の失敗であり、全送信方針の否定ではない。
+結果は `reports/s3-receiver-rpc-schedule.json`。
+
+この結果は指定契約下の有限試験であり、無限時間の証明、実DMA接続、完成FPGA鎖の連続試験、
+S3 CPUの競合込みWCETではない。特に各1000 µsは応答遅延の仮定であり、
+CPU active cyclesの実測ではない。旧RF高費用モデルの残余888 cycles/codewordが
+増えたことにもならない。`CPU_WCET_verified=false` /
+`RPC_ready_ack_endpoint_implemented=false` / `connected_receiver_verified=false`を維持する。
+
+`rtl/s3_rs_psram_store.sv` は512個の外部256-byteスロットへ204-byte符号語を
+zero-paddingして書くFIFOである。64個の**物理書込みACK**が揃って初めてcommitし、
+読み手が204 bytesを受け取ってpaddingもdrainするまでretireしない。
+`rtl/s3_rs_psram_queue.sv` は専用の単一producerキューで、書込み・読出しstagingを
+一つの128×32-bit同期BRAMに収める。物理write中も、consumerの現在wordはcacheで保持する。
+
+1025符号語・209100 bytesの一致、512スロット満杯での上書き拒否、2回のpointer wrap、
+204符号語を貯めてからの同時読み書き、consumer停止、valid/data/lastの保持、dirty resetを
+試験した。これは実queueと非停止burstモデルを接続した試験であり、RPCやframe deinterleaveを
+接続した試験ではない。物理PHYのeyeやboard BISTも未測定である。
+通常burstモデルの最大commitは2312 clocks（25.688889 µs/90 MHz）、
+read前置96 clocks・burst間8 idle clocksの保守的モデルでは2286 clocksだった。
+両試験とも2532 clocks（到着契約28.135828 µs内）の予算を通過した。
+これらは試験における最大であり、任意の競合・frame deinterleave込みWCETではない。
+
+共配置測定は `--psram-hold --psram-compact-queue` を追加した独立LFSR workloadで実施する。
+保持回路を加える前の7248位置・93.99 MHzという測定値を、この追加後の値として流用しない。
+通信モデル、保持RTL試験、共配置を再実行するCI jobも追加した。
+
+最初の共有queueはRTL試験が通っても、同期RAMの出力を2個に分けたためBRAM mappingに
+失敗した。一つの同期出力とconsumer cacheへ修正してBRAM25/26に収めた。
+その安定版は合成・合法配置・配線まで完了したが、core83.45/90 MHzでSTA不合格。
+Octal97.04/80、LCD87.21/40 MHzは合格した。必要logic位置下限8258は配置成功や期限成功を
+意味しない。この測定のsourceは `reports/s3-receiver-followup-evidence/hold-subtract-90/`
+に固定した。その後、律速の符号語残数計算を物理commit/retire時のカウンタ更新へ変更し、
+同じ試験を通過し、同一netlistを複数seedで配置配線した。
+
+| 修正版のseed | 配線後core /90 MHz | Octal /80 MHz | LCD /40 MHz | 状態 |
+|---|---:|---:|---:|---|
+| 1 | 75.52 | 98.43 | 85.04 | 配線完了、core STA未達 |
+| 2 | 80.34 | 114.67 | 79.03 | 配線完了、core STA未達 |
+| 3 | 未取得 | 未取得 | 未取得 | 合法配置探索中 |
+
+seed1/2はsource/制約がrun中に不変であることを確認した。修正版の必要位置下限は
+8247/8640、配線後logic占有はseed1が8281、seed2が8296、BSRAM25/26である。
+試験通過前の測定やsource変更中の診断runを採用根拠にしない。
+
+汎用queue版のseed2と固定arbiter版は配置器の合法配置エラーで終了した。
+汎用queue版seed1は専用一つのBRAM queueへ置換した後、旧実装の試行として中止した。
+経過時間による制限ではなく、この中止から配置不能や処理期限違反は結論しない。
+
+```sh
+python3 -m unittest discover -s tests -p test_s3_receiver_rpc_schedule.py -v
+python3 -m unittest discover -s tests -p test_s3_rs_psram_store.py -v
+python3 experiments/s3_receiver_rpc_schedule.py --output reports/s3-receiver-rpc-schedule.json
+python3 ci/s3_bram2_benchmark.py --output build/s3-bram8-rs-codeword-hold-occupancy-90 --slot-bits 3 --seed 1 --rs-split --acs32 --core-mhz 90 --correction --syndrome-address-pipeline --pipe-window --page-status --fixed-arbiter --parallel-traceback-choice --psram-hold --psram-compact-queue
+```
+
+
+
 > **旧案の監査記録（2026-10-10時点）**: 元の第一候補は撤回済み。以下の固定候補の記述は旧案の監査記録であり、完成受信機の採用宣言ではない。現在はS側のRS分担と受信窓を実装して検証している。T/S全体の資源・処理期限を通過した候補は依然0件。
 
 対象は `S3-T-00c/v2 + S3-S-000/v0`、通信は SPI2 Octal80 + LCD16 40 MHz に固定する。

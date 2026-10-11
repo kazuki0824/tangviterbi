@@ -22,6 +22,11 @@ on:
       - 'tests/test_s3_bram*_*.py'
       - 'tests/test_s3_credit_schedule.py'
       - 'ci/s3_bram2_benchmark.py'
+      - 'rtl/s3_rs_psram_*.sv'
+      - 'experiments/s3_rs_psram_hold_benchmark.sv'
+      - 'experiments/s3_receiver_rpc_schedule.py'
+      - 'tests/test_s3_receiver_rpc_schedule.py'
+      - 'tests/test_s3_rs_psram_store.py'
       - 'experiments/s3_tc8psk.py'
       - 'tests/test_s3_tc8psk.py'
       - '.github/workflows/s3-first-candidate.yml'
@@ -108,3 +113,30 @@ jobs:
             build/s3-bram8-ingress/
             build/s3-page-credit-test/
             reports/s3-credit-schedule.json
+
+  receiver-rpc-and-retention:
+    name: Conditional shared schedule and PSRAM holding prerequisite
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test dependent RPC, shared credits, physical commits and retained slots
+        run: |
+          python3 -m unittest discover -s tests -p test_s3_receiver_rpc_schedule.py -v
+          python3 -m unittest discover -s tests -p test_s3_rs_psram_store.py -v
+          python3 experiments/s3_receiver_rpc_schedule.py --output reports/s3-receiver-rpc-schedule.json
+      - name: Co-place partial FEC, RF window and PSRAM holding without a wall-time cap
+        run: |
+          python3 ci/s3_bram2_benchmark.py --output build/s3-bram8-rs-codeword-hold-compact-verified-90 --slot-bits 3 --seed 1 --rs-split --acs32 --core-mhz 90 --correction --syndrome-address-pipeline --pipe-window --page-status --fixed-arbiter --parallel-traceback-choice --psram-hold --psram-compact-queue
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shared-rpc-psram-holding-not-connected-receiver
+          path: |
+            reports/s3-receiver-rpc-schedule.json
+            build/s3-rs-psram-store*/
+            build/s3-bram8-rs-codeword-hold-compact-verified-90/

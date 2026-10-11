@@ -52,9 +52,19 @@ def main():
     ap.add_argument('--fixed-arbiter', action='store_true')
     ap.add_argument('--page-status', action='store_true',
                     help='connect Octal retired-frontier snapshot endpoint')
+    ap.add_argument('--psram-hold', action='store_true',
+                    help='co-place real codeword holding queue/controller/native PSRAM IO; synthetic input')
+    ap.add_argument('--psram-fixed-arbiter', action='store_true',
+                    help='use verified fixed five-way round-robin grant priorities in holding queue')
+    ap.add_argument('--psram-compact-queue', action='store_true',
+                    help='single-producer holding queue with shared one-BSRAM staging')
     args = ap.parse_args()
     if (args.correction or args.syndrome_ready or args.syndrome_address_pipeline) and not args.rs_split:
         ap.error('--correction and --syndrome-ready require --rs-split')
+    if (args.psram_fixed_arbiter or args.psram_compact_queue) and not args.psram_hold:
+        ap.error('PSRAM queue variants require --psram-hold')
+    if args.psram_fixed_arbiter and args.psram_compact_queue:
+        ap.error('select one PSRAM queue variant')
     out = ROOT / args.output
     out.mkdir(parents=True, exist_ok=True)
     for stale in ('result.json','routed.json','report.json','packed.json'):
@@ -111,6 +121,14 @@ def main():
   correction_data,correction_last,correction_failed);
  assign activity=''' ).replace('WINDOW_VALUE',str(1<<args.slot_bits)).replace('checksum,offset,',
                 'correction_ready,correction_error,correction_in_ready,correction_valid,correction_data,correction_last,correction_failed,checksum,offset,')
+    if args.psram_hold:
+        top=top.replace('output wire activity', '''output wire activity,
+ output wire [1:0] O_psram_ck,O_psram_ck_n,O_psram_cs_n,O_psram_reset_n,
+ inout wire [15:0] IO_psram_dq,inout wire [1:0] IO_psram_rwds''')
+        top=top.replace(' assign activity=', ''' wire hold_activity;
+ s3_rs_psram_hold_benchmark hold(clk,clk_ck,rst,lfsr[55:48],hold_activity,
+  O_psram_ck,O_psram_ck_n,O_psram_cs_n,O_psram_reset_n,IO_psram_dq,IO_psram_rwds);
+ assign activity=''').replace('checksum,offset,','hold_activity,checksum,offset,')
     (out / 'top.sv').write_text(top)
     if args.syndrome_address_pipeline:
         (out / 'syndrome.sv').write_text((ROOT/'rtl/s3_rs_syndrome_pipelined.sv').read_text())
@@ -133,6 +151,24 @@ def main():
             sources.append('rtl/s3_rs_correction.sv')
     if args.page_status:
         sources.append('rtl/s3_spi_page_status.sv')
+    if args.psram_hold:
+        sources.extend(['rtl/s3_rs_psram_store.sv','rtl/s3_psram_queue.sv',
+                        'rtl/s3_psram_burst.sv','rtl/s3_psram_phy.sv',
+                        'experiments/s3_rs_psram_hold_benchmark.sv'])
+        if args.psram_fixed_arbiter:
+            from s3_psram_queue_rotated import source as queue_source
+            (out/'queue.sv').write_text(queue_source())
+            sources=[str((out/'queue.sv').relative_to(ROOT)) if s=='rtl/s3_psram_queue.sv'
+                     else s for s in sources]
+        if args.psram_compact_queue:
+            hold=(ROOT/'experiments/s3_rs_psram_hold_benchmark.sv').read_text()
+            hold=hold.replace('s3_psram_queue queue','s3_rs_psram_queue queue')
+            hold=hold.replace('s3_psram_burst controller',
+                f's3_psram_burst #(.FREQ_HZ({args.core_mhz}000000)) controller')
+            (out/'hold.sv').write_text(hold)
+            sources=[('rtl/s3_rs_psram_queue.sv' if s=='rtl/s3_psram_queue.sv' else
+                      str((out/'hold.sv').relative_to(ROOT)) if s=='experiments/s3_rs_psram_hold_benchmark.sv'
+                      else s) for s in sources]
     script = ('read_verilog -sv ' + ' '.join(sources) + '\n'
               'synth_gowin -top s3_memory_bram2_fec_benchmark -family gw1n '
               f'-nowidelut -json {out.relative_to(ROOT)}/design.json\n'
@@ -148,6 +184,9 @@ def main():
               'rs_split': args.rs_split,
               'acs32': args.acs32,
               'core_mhz': args.core_mhz,
+              'psram_codeword_hold': args.psram_hold,
+              'psram_fixed_arbiter':args.psram_fixed_arbiter,
+              'psram_compact_queue':args.psram_compact_queue,
               'correction': args.correction,
               'syndrome_ready': args.syndrome_ready,'syndrome_address_pipeline':args.syndrome_address_pipeline,
               'pipe_window': args.pipe_window,

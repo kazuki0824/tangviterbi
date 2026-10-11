@@ -1,0 +1,447 @@
+{
+  "scope": "environment followup: conditional shared transport, real RTL codeword retention, partial co-placement",
+  "date": "2026-10-11",
+  "toolchain": "OSS CAD Suite 2026-10-04",
+  "archive_sha256": "8a4708629b0f0afd5a1835aca8b44d224fec5f6e544c5fd22a060ea5514f83c9",
+  "conditional_schedule": {
+    "finite_test": true,
+    "start_phases": 16,
+    "batches_per_phase": 128,
+    "long_run_batches": 4096,
+    "all_cases_drain": true,
+    "maximum_raw_codewords": 344,
+    "maximum_RPC_batch_completion_us": 3938.35392931392,
+    "RPC_ready_ack_endpoint_implemented": false,
+    "CPU_WCET_verified": false,
+    "evidence": "reports/s3-receiver-rpc-schedule.json"
+  },
+  "retention_RTL_tests": [
+    {
+      "log": "reports/s3-receiver-followup-evidence/store-generic-simulation.log",
+      "sha256": "e4faacccb291beaf8cfcce3be9ce5db3f7ffe29040f49780298b8aac949b9dfa",
+      "codewords": 1025,
+      "bytes": 209100,
+      "maximum_commit_cycles": 2233,
+      "commit_budget_cycles": 2532,
+      "maximum_commit_us_at_90MHz": 24.81111111111111,
+      "physical_eye_verified": false
+    },
+    {
+      "log": "reports/s3-receiver-followup-evidence/store-compact-simulation.log",
+      "sha256": "85f3d9bd3c1dd28fbebcc3ae26d47194975d00309069bdd5ed1ebcae5e0bf211",
+      "codewords": 1025,
+      "bytes": 209100,
+      "maximum_commit_cycles": 2312,
+      "commit_budget_cycles": 2532,
+      "maximum_commit_us_at_90MHz": 25.68888888888889,
+      "physical_eye_verified": false
+    },
+    {
+      "log": "reports/s3-receiver-followup-evidence/store-compact-latency-simulation.log",
+      "sha256": "2050a03376d2539af31b56553b918f2261a1f55b249a84bd4dfb90b0df4e12a7",
+      "codewords": 1025,
+      "bytes": 209100,
+      "maximum_commit_cycles": 2286,
+      "commit_budget_cycles": 2532,
+      "maximum_commit_us_at_90MHz": 25.4,
+      "physical_eye_verified": false
+    }
+  ],
+  "physical_runs": [
+    {
+      "seed": 1,
+      "pnr_exit_code": 1,
+      "route_completed": true,
+      "final_fmax_mhz": {
+        "bridge.octal.spi_clk": 98.43,
+        "bridge.lcd.wr_clk": 85.04,
+        "bridge.clk": 75.52
+      },
+      "sources_unchanged_during_run": true,
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 2460
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 25
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 3652
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "DUMMY_CELL": {
+          "available": 0,
+          "used": 8
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 32
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 26
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 18
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 24
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 5821
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 2
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 1
+        }
+      },
+      "occupied_logic_sites": 8281,
+      "evidence": "reports/s3-receiver-followup-evidence/hold-occupancy-90/result.json"
+    },
+    {
+      "seed": 2,
+      "pnr_exit_code": 1,
+      "route_completed": true,
+      "final_fmax_mhz": {
+        "bridge.octal.spi_clk": 114.67,
+        "bridge.lcd.wr_clk": 79.03,
+        "bridge.clk": 80.34
+      },
+      "sources_unchanged_during_run": true,
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 2460
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 25
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 3652
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "DUMMY_CELL": {
+          "available": 0,
+          "used": 8
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 32
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 26
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 18
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 24
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 5836
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 2
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 1
+        }
+      },
+      "occupied_logic_sites": 8296,
+      "evidence": "reports/s3-receiver-followup-evidence/hold-occupancy-90/result-seed2.json"
+    }
+  ],
+  "third_seed_pending": true,
+  "baseline_with_subtraction": {
+    "core_final_fmax_MHz": 83.45,
+    "required_MHz": 90,
+    "source_stable": true,
+    "evidence": "reports/s3-receiver-followup-evidence/hold-subtract-90/result.json"
+  },
+  "superseded_trials": [
+    {
+      "variant": "generic queue seed1",
+      "exit_code": 130,
+      "reason": "stopped after replacing generic queue with specialized one-BSRAM queue",
+      "wall_time_cutoff": false,
+      "physical_deadline_conclusion": null
+    },
+    {
+      "variant": "generic queue seed2",
+      "exit_code": 125,
+      "reason": "placer could not find legal placement",
+      "qualification": false
+    },
+    {
+      "variant": "generic fixed-arbiter queue seed1",
+      "exit_code": 125,
+      "reason": "placer could not find legal placement",
+      "qualification": false
+    },
+    {
+      "variant": "initial compact queue seed1",
+      "exit_code": 125,
+      "reason": "superseded RTL failed functional tests; placer also failed",
+      "qualification": false
+    },
+    {
+      "variant": "two RAM-output compact queue",
+      "synth_exit_code": 1,
+      "reason": "no valid BSRAM mapping",
+      "qualification": false
+    }
+  ],
+  "all_receiver_implemented": false,
+  "all_deadlines_verified": false,
+  "receiver_adopted": false,
+  "safe_to_flash": false,
+  "remaining": [
+    "S3 RF/RS/credit concurrent silicon WCET",
+    "LCD DMA and RPC endpoint/scheduler connection",
+    "frame deinterleave plus retention memory arbitration",
+    "complete RF-to-TS and T receiver RTL/firmware",
+    "complete-top routed STA and CDC",
+    "external IO eye and board BIST",
+    "NOR bitstream switching"
+  ]
+}
