@@ -4,7 +4,7 @@
 
 Disassembly of section .text:
 
-00000000 <s3_pinned_fft_power_of_two-0x2c>:
+00000000 <s3_pinned_fft_power_of_two-0x38>:
    0:	ffff7fff
    4:	ffffbfff
    8:	00008000
@@ -19,1309 +19,1539 @@ Disassembly of section .text:
 			20: R_XTENSA_32	s3_fft_simd_general
 			24: R_XTENSA_32	s3_fft_simd_pair
 			28: R_XTENSA_32	s3_fft_simd_final
+  2c:	00000b1c
+			2c: R_XTENSA_NONE	*ABS*
+			2c: R_XTENSA_32	.text
+  30:	00001a00
+  34:	000019f0
 
-0000002c <s3_pinned_fft_power_of_two>:
-  2c:	004136        	entry	a1, 32
-  2f:	029d      	mov.n	a9, a2
-  31:	020c      	movi.n	a2, 0
-  33:	0a19a6        	blti	a9, 1, 41 <s3_pinned_fft_power_of_two+0x15>
-			33: R_XTENSA_SLOT0_OP	.text+0x41
-  36:	890b      	addi.n	a8, a9, -1
-  38:	102890        	and	a2, a8, a9
-  3b:	40f220        	nsau	a2, a2
-  3e:	412520        	srli	a2, a2, 5
-  41:	f01d      	retw.n
+00000038 <s3_pinned_fft_power_of_two>:
+  38:	004136        	entry	a1, 32
+  3b:	029d      	mov.n	a9, a2
+  3d:	020c      	movi.n	a2, 0
+  3f:	0a19a6        	blti	a9, 1, 4d <s3_pinned_fft_power_of_two+0x15>
+			3f: R_XTENSA_SLOT0_OP	.text+0x4d
+  42:	890b      	addi.n	a8, a9, -1
+  44:	102890        	and	a2, a8, a9
+  47:	40f220        	nsau	a2, a2
+  4a:	412520        	srli	a2, a2, 5
+  4d:	f01d      	retw.n
 	...
 
-00000044 <s3_fft_simd_run>:
-  44:	004136        	entry	a1, 32
-  47:	40f280        	nsau	a8, a2
-  4a:	027d      	mov.n	a7, a2
-  4c:	03cd      	mov.n	a12, a3
-  4e:	418580        	srli	a8, a8, 5
-  51:	063216        	beqz	a2, b8 <s3_fft_simd_run+0x74>
-			51: R_XTENSA_SLOT0_OP	.text+0xb8
-  54:	190c      	movi.n	a9, 1
-  56:	838930        	moveqz	a8, a9, a3
-  59:	05b856        	bnez	a8, b8 <s3_fft_simd_run+0x74>
-			59: R_XTENSA_SLOT0_OP	.text+0xb8
-  5c:	208230        	or	a8, a2, a3
-  5f:	348080        	extui	a8, a8, 0, 4
-  62:	052856        	bnez	a8, b8 <s3_fft_simd_run+0x74>
-			62: R_XTENSA_SLOT0_OP	.text+0xb8
-  65:	ffe681        	l32r	a8, 0 <s3_pinned_fft_power_of_two-0x2c> (ffff7fff <s3_fft_simd_tile+0xffff75bf>)
-			65: R_XTENSA_SLOT0_OP	.text
-  68:	628820        	saltu	a8, a8, a2
-  6b:	049856        	bnez	a8, b8 <s3_fft_simd_run+0x74>
-			6b: R_XTENSA_SLOT0_OP	.text+0xb8
-  6e:	ffe581        	l32r	a8, 4 <s3_pinned_fft_power_of_two-0x28> (ffffbfff <s3_fft_simd_tile+0xffffb5bf>)
-			6e: R_XTENSA_SLOT0_OP	.text+0x4
-  71:	628830        	saltu	a8, a8, a3
-  74:	040856        	bnez	a8, b8 <s3_fft_simd_run+0x74>
-			74: R_XTENSA_SLOT0_OP	.text+0xb8
-  77:	40d382        	addmi	a8, a3, 0x4000
-  7a:	07b287        	bgeu	a2, a8, 85 <s3_fft_simd_run+0x41>
-			7a: R_XTENSA_SLOT0_OP	.text+0x85
-  7d:	ffe281        	l32r	a8, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			7d: R_XTENSA_SLOT0_OP	.text+0x8
-  80:	828a      	add.n	a8, a2, a8
-  82:	323387        	bltu	a3, a8, b8 <s3_fft_simd_run+0x74>
-			82: R_XTENSA_SLOT0_OP	.text+0xb8
-  85:	03ea30        	rsr.ccount	a3
-  88:	ffe1b1        	l32r	a11, c <s3_pinned_fft_power_of_two-0x20> (2000 <s3_fft_simd_tile+0x15c0>)
-			88: R_XTENSA_SLOT0_OP	.text+0xc
-  8b:	07ad      	mov.n	a10, a7
-  8d:	ffe081        	l32r	a8, 10 <s3_pinned_fft_power_of_two-0x1c> (0 <s3_pinned_fft_power_of_two-0x2c>)
-			8d: R_XTENSA_SLOT0_OP	.text+0x10
-			8d: R_XTENSA_ASM_EXPAND	s3_pinned_fft_aes3
-  90:	0008e0        	callx8	a8
-  93:	0a2d      	mov.n	a2, a10
-  95:	03ea60        	rsr.ccount	a6
-  98:	eadc      	bnez.n	a10, ba <s3_fft_simd_run+0x76>
-			98: R_XTENSA_SLOT0_OP	.text+0xba
-  9a:	ffdcd1        	l32r	a13, c <s3_pinned_fft_power_of_two-0x20> (2000 <s3_fft_simd_tile+0x15c0>)
-			9a: R_XTENSA_SLOT0_OP	.text+0xc
-  9d:	0acd      	mov.n	a12, a10
-  9f:	0dbd      	mov.n	a11, a13
-  a1:	07ad      	mov.n	a10, a7
-  a3:	0001a5        	call8	bc <s3_fft_reverse_tile>
-			a3: R_XTENSA_NONE	*ABS*+0x14
-			a3: R_XTENSA_SLOT0_OP	s3_fft_reverse_tile
-  a6:	049c      	beqz.n	a4, ba <s3_fft_simd_run+0x76>
-			a6: R_XTENSA_SLOT0_OP	.text+0xba
-  a8:	c03630        	sub	a3, a6, a3
-  ab:	0439      	s32i.n	a3, a4, 0
-  ad:	03ea80        	rsr.ccount	a8
-  b0:	c08860        	sub	a8, a8, a6
-  b3:	1489      	s32i.n	a8, a4, 4
-  b5:	000046        	j	ba <s3_fft_simd_run+0x76>
-			b5: R_XTENSA_SLOT0_OP	.text+0xba
-  b8:	f27c      	movi.n	a2, -1
-  ba:	f01d      	retw.n
+00000050 <s3_fft_simd_run>:
+  50:	004136        	entry	a1, 32
+  53:	40f280        	nsau	a8, a2
+  56:	027d      	mov.n	a7, a2
+  58:	03cd      	mov.n	a12, a3
+  5a:	418580        	srli	a8, a8, 5
+  5d:	063216        	beqz	a2, c4 <s3_fft_simd_run+0x74>
+			5d: R_XTENSA_SLOT0_OP	.text+0xc4
+  60:	190c      	movi.n	a9, 1
+  62:	838930        	moveqz	a8, a9, a3
+  65:	05b856        	bnez	a8, c4 <s3_fft_simd_run+0x74>
+			65: R_XTENSA_SLOT0_OP	.text+0xc4
+  68:	208230        	or	a8, a2, a3
+  6b:	348080        	extui	a8, a8, 0, 4
+  6e:	052856        	bnez	a8, c4 <s3_fft_simd_run+0x74>
+			6e: R_XTENSA_SLOT0_OP	.text+0xc4
+  71:	ffe381        	l32r	a8, 0 <s3_pinned_fft_power_of_two-0x38> (ffff7fff <s3_fft_worker_ready+0xffff7363>)
+			71: R_XTENSA_SLOT0_OP	.text
+  74:	628820        	saltu	a8, a8, a2
+  77:	049856        	bnez	a8, c4 <s3_fft_simd_run+0x74>
+			77: R_XTENSA_SLOT0_OP	.text+0xc4
+  7a:	ffe281        	l32r	a8, 4 <s3_pinned_fft_power_of_two-0x34> (ffffbfff <s3_fft_worker_ready+0xffffb363>)
+			7a: R_XTENSA_SLOT0_OP	.text+0x4
+  7d:	628830        	saltu	a8, a8, a3
+  80:	040856        	bnez	a8, c4 <s3_fft_simd_run+0x74>
+			80: R_XTENSA_SLOT0_OP	.text+0xc4
+  83:	40d382        	addmi	a8, a3, 0x4000
+  86:	07b287        	bgeu	a2, a8, 91 <s3_fft_simd_run+0x41>
+			86: R_XTENSA_SLOT0_OP	.text+0x91
+  89:	ffdf81        	l32r	a8, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			89: R_XTENSA_SLOT0_OP	.text+0x8
+  8c:	828a      	add.n	a8, a2, a8
+  8e:	323387        	bltu	a3, a8, c4 <s3_fft_simd_run+0x74>
+			8e: R_XTENSA_SLOT0_OP	.text+0xc4
+  91:	03ea30        	rsr.ccount	a3
+  94:	ffdeb1        	l32r	a11, c <s3_pinned_fft_power_of_two-0x2c> (2000 <s3_fft_worker_ready+0x1364>)
+			94: R_XTENSA_SLOT0_OP	.text+0xc
+  97:	07ad      	mov.n	a10, a7
+  99:	ffdd81        	l32r	a8, 10 <s3_pinned_fft_power_of_two-0x28> (0 <s3_pinned_fft_power_of_two-0x38>)
+			99: R_XTENSA_SLOT0_OP	.text+0x10
+			99: R_XTENSA_ASM_EXPAND	s3_pinned_fft_aes3
+  9c:	0008e0        	callx8	a8
+  9f:	0a2d      	mov.n	a2, a10
+  a1:	03ea60        	rsr.ccount	a6
+  a4:	eadc      	bnez.n	a10, c6 <s3_fft_simd_run+0x76>
+			a4: R_XTENSA_SLOT0_OP	.text+0xc6
+  a6:	ffd9d1        	l32r	a13, c <s3_pinned_fft_power_of_two-0x2c> (2000 <s3_fft_worker_ready+0x1364>)
+			a6: R_XTENSA_SLOT0_OP	.text+0xc
+  a9:	0acd      	mov.n	a12, a10
+  ab:	0dbd      	mov.n	a11, a13
+  ad:	07ad      	mov.n	a10, a7
+  af:	0001a5        	call8	c8 <s3_fft_reverse_tile>
+			af: R_XTENSA_NONE	*ABS*+0x14
+			af: R_XTENSA_SLOT0_OP	s3_fft_reverse_tile
+  b2:	049c      	beqz.n	a4, c6 <s3_fft_simd_run+0x76>
+			b2: R_XTENSA_SLOT0_OP	.text+0xc6
+  b4:	c03630        	sub	a3, a6, a3
+  b7:	0439      	s32i.n	a3, a4, 0
+  b9:	03ea80        	rsr.ccount	a8
+  bc:	c08860        	sub	a8, a8, a6
+  bf:	1489      	s32i.n	a8, a4, 4
+  c1:	000046        	j	c6 <s3_fft_simd_run+0x76>
+			c1: R_XTENSA_SLOT0_OP	.text+0xc6
+  c4:	f27c      	movi.n	a2, -1
+  c6:	f01d      	retw.n
 
-000000bc <s3_fft_reverse_tile>:
-  bc:	004136        	entry	a1, 32
-  bf:	04cd      	mov.n	a12, a4
-  c1:	05fd      	mov.n	a15, a5
-  c3:	00a0e2        	movi	a14, 0
-  c6:	0723b6        	bltui	a3, 2, d1 <s3_fft_reverse_tile+0x15>
-			c6: R_XTENSA_SLOT0_OP	.text+0xd1
-  c9:	413130        	srli	a3, a3, 1
-  cc:	ee1b      	addi.n	a14, a14, 1
-  ce:	f71366        	bnei	a3, 1, c9 <s3_fft_reverse_tile+0xd>
-			ce: R_XTENSA_SLOT0_OP	.text+0xc9
-  d1:	44bcf7        	bgeu	a12, a15, 119 <s3_fft_reverse_tile+0x5d>
-			d1: R_XTENSA_SLOT0_OP	.text+0x119
-  d4:	a0dc20        	addx4	a13, a12, a2
-  d7:	c08fc0        	sub	a8, a15, a12
-  da:	bebc      	beqz.n	a14, 119 <s3_fft_reverse_tile+0x5d>
-			da: R_XTENSA_SLOT0_OP	.text+0x119
-  dc:	0c9d      	mov.n	a9, a12
-  de:	0a0c      	movi.n	a10, 0
-  e0:	0e8d      	mov.n	a8, a14
-  e2:	088876        	loop	a8, ee <s3_fft_reverse_tile+0x32>
-			e2: R_XTENSA_SLOT0_OP	.text+0xee
-  e5:	04b090        	extui	a11, a9, 0, 1
-  e8:	90aab0        	addx2	a10, a10, a11
-  eb:	419190        	srli	a9, a9, 1
-  ee:	023ca7        	bltu	a12, a10, f4 <s3_fft_reverse_tile+0x38>
-			ee: R_XTENSA_SLOT0_OP	.text+0xf4
-  f1:	000686        	j	10f <s3_fft_reverse_tile+0x53>
-			f1: R_XTENSA_SLOT0_OP	.text+0x10f
-  f4:	a08a20        	addx4	a8, a10, a2
-  f7:	001892        	l16ui	a9, a8, 0
-  fa:	001db2        	l16ui	a11, a13, 0
-  fd:	005d92        	s16i	a9, a13, 0
- 100:	011832        	l16ui	a3, a8, 2
- 103:	011d92        	l16ui	a9, a13, 2
- 106:	015d32        	s16i	a3, a13, 2
- 109:	0058b2        	s16i	a11, a8, 0
- 10c:	015892        	s16i	a9, a8, 2
- 10f:	cc1b      	addi.n	a12, a12, 1
- 111:	dd4b      	addi.n	a13, a13, 4
- 113:	c59fc7        	bne	a15, a12, dc <s3_fft_reverse_tile+0x20>
-			113: R_XTENSA_SLOT0_OP	.text+0xdc
- 116:	ffffc6        	j	119 <s3_fft_reverse_tile+0x5d>
-			116: R_XTENSA_SLOT0_OP	.text+0x119
- 119:	f01d      	retw.n
+000000c8 <s3_fft_reverse_tile>:
+  c8:	004136        	entry	a1, 32
+  cb:	04cd      	mov.n	a12, a4
+  cd:	05fd      	mov.n	a15, a5
+  cf:	00a0e2        	movi	a14, 0
+  d2:	0723b6        	bltui	a3, 2, dd <s3_fft_reverse_tile+0x15>
+			d2: R_XTENSA_SLOT0_OP	.text+0xdd
+  d5:	413130        	srli	a3, a3, 1
+  d8:	ee1b      	addi.n	a14, a14, 1
+  da:	f71366        	bnei	a3, 1, d5 <s3_fft_reverse_tile+0xd>
+			da: R_XTENSA_SLOT0_OP	.text+0xd5
+  dd:	44bcf7        	bgeu	a12, a15, 125 <s3_fft_reverse_tile+0x5d>
+			dd: R_XTENSA_SLOT0_OP	.text+0x125
+  e0:	a0dc20        	addx4	a13, a12, a2
+  e3:	c08fc0        	sub	a8, a15, a12
+  e6:	bebc      	beqz.n	a14, 125 <s3_fft_reverse_tile+0x5d>
+			e6: R_XTENSA_SLOT0_OP	.text+0x125
+  e8:	0c9d      	mov.n	a9, a12
+  ea:	0a0c      	movi.n	a10, 0
+  ec:	0e8d      	mov.n	a8, a14
+  ee:	088876        	loop	a8, fa <s3_fft_reverse_tile+0x32>
+			ee: R_XTENSA_SLOT0_OP	.text+0xfa
+  f1:	04b090        	extui	a11, a9, 0, 1
+  f4:	90aab0        	addx2	a10, a10, a11
+  f7:	419190        	srli	a9, a9, 1
+  fa:	023ca7        	bltu	a12, a10, 100 <s3_fft_reverse_tile+0x38>
+			fa: R_XTENSA_SLOT0_OP	.text+0x100
+  fd:	000686        	j	11b <s3_fft_reverse_tile+0x53>
+			fd: R_XTENSA_SLOT0_OP	.text+0x11b
+ 100:	a08a20        	addx4	a8, a10, a2
+ 103:	001892        	l16ui	a9, a8, 0
+ 106:	001db2        	l16ui	a11, a13, 0
+ 109:	005d92        	s16i	a9, a13, 0
+ 10c:	011832        	l16ui	a3, a8, 2
+ 10f:	011d92        	l16ui	a9, a13, 2
+ 112:	015d32        	s16i	a3, a13, 2
+ 115:	0058b2        	s16i	a11, a8, 0
+ 118:	015892        	s16i	a9, a8, 2
+ 11b:	cc1b      	addi.n	a12, a12, 1
+ 11d:	dd4b      	addi.n	a13, a13, 4
+ 11f:	c59fc7        	bne	a15, a12, e8 <s3_fft_reverse_tile+0x20>
+			11f: R_XTENSA_SLOT0_OP	.text+0xe8
+ 122:	ffffc6        	j	125 <s3_fft_reverse_tile+0x5d>
+			122: R_XTENSA_SLOT0_OP	.text+0x125
+ 125:	f01d      	retw.n
 	...
 
-0000011c <s3_fft_stage_tile>:
- 11c:	00a136        	entry	a1, 80
- 11f:	028d      	mov.n	a8, a2
- 121:	3179      	s32i.n	a7, a1, 12
- 123:	1189      	s32i.n	a8, a1, 4
- 125:	2139      	s32i.n	a3, a1, 8
- 127:	a159      	s32i.n	a5, a1, 40
- 129:	062d      	mov.n	a2, a6
- 12b:	023677        	bltu	a6, a7, 131 <s3_fft_stage_tile+0x15>
-			12b: R_XTENSA_SLOT0_OP	.text+0x131
- 12e:	0108c6        	j	555 <s3_fft_stage_tile+0x439>
-			12e: R_XTENSA_SLOT0_OP	.text+0x555
- 131:	c29450        	quou	a9, a4, a5
- 134:	4199      	s32i.n	a9, a1, 16
- 136:	021566        	bnei	a5, 1, 13c <s3_fft_stage_tile+0x20>
-			136: R_XTENSA_SLOT0_OP	.text+0x13c
- 139:	00a746        	j	3da <s3_fft_stage_tile+0x2be>
-			139: R_XTENSA_SLOT0_OP	.text+0x3da
- 13c:	418150        	srli	a8, a5, 1
- 13f:	ffb271        	l32r	a7, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			13f: R_XTENSA_SLOT0_OP	.text+0x8
- 142:	b189      	s32i.n	a8, a1, 44
- 144:	b188      	l32i.n	a8, a1, 44
- 146:	a1a8      	l32i.n	a10, a1, 40
- 148:	c29280        	quou	a9, a2, a8
- 14b:	8299a0        	mull	a9, a9, a10
- 14e:	41b8      	l32i.n	a11, a1, 16
- 150:	e2a280        	remu	a10, a2, a8
- 153:	99aa      	add.n	a9, a9, a10
- 155:	11c8      	l32i.n	a12, a1, 4
- 157:	82aba0        	mull	a10, a11, a10
- 15a:	21b8      	l32i.n	a11, a1, 8
- 15c:	889a      	add.n	a8, a8, a9
- 15e:	a0aab0        	addx4	a10, a10, a11
- 161:	a0b8c0        	addx4	a11, a8, a12
- 164:	009bf2        	l16si	a15, a11, 0
- 167:	009ae2        	l16si	a14, a10, 0
- 16a:	019b82        	l16si	a8, a11, 2
- 16d:	01b9      	s32i.n	a11, a1, 0
- 16f:	81b9      	s32i.n	a11, a1, 32
- 171:	019ab2        	l16si	a11, a10, 2
- 174:	0cad      	mov.n	a10, a12
- 176:	a0c9c0        	addx4	a12, a9, a12
- 179:	009c62        	l16si	a6, a12, 0
- 17c:	a099a0        	addx4	a9, a9, a10
- 17f:	8258b0        	mull	a5, a8, a11
- 182:	82dfe0        	mull	a13, a15, a14
- 185:	9199      	s32i.n	a9, a1, 36
- 187:	119610        	slli	a9, a6, 15
- 18a:	b238b0        	mulsh	a3, a8, a11
- 18d:	5199      	s32i.n	a9, a1, 20
- 18f:	b29fe0        	mulsh	a9, a15, a14
- 192:	c0ad50        	sub	a10, a13, a5
- 195:	61a9      	s32i.n	a10, a1, 24
- 197:	62dd50        	saltu	a13, a13, a5
- 19a:	c03930        	sub	a3, a9, a3
- 19d:	82afb0        	mull	a10, a15, a11
- 1a0:	c033d0        	sub	a3, a3, a13
- 1a3:	b2bfb0        	mulsh	a11, a15, a11
- 1a6:	51d8      	l32i.n	a13, a1, 20
- 1a8:	61f8      	l32i.n	a15, a1, 24
- 1aa:	71c9      	s32i.n	a12, a1, 28
- 1ac:	82ce80        	mull	a12, a14, a8
- 1af:	b28e80        	mulsh	a8, a14, a8
- 1b2:	9198      	l32i.n	a9, a1, 36
- 1b4:	314f60        	srai	a4, a6, 31
- 1b7:	edfa      	add.n	a14, a13, a15
- 1b9:	404110        	ssai	17
- 1bc:	814460        	src	a4, a4, a6
- 1bf:	8b8a      	add.n	a8, a11, a8
- 1c1:	01b8      	l32i.n	a11, a1, 0
- 1c3:	019952        	l16si	a5, a9, 2
- 1c6:	626ef0        	saltu	a6, a14, a15
- 1c9:	d43a      	add.n	a13, a4, a3
- 1cb:	aaca      	add.n	a10, a10, a12
- 1cd:	dd6a      	add.n	a13, a13, a6
- 1cf:	692b      	addi.n	a6, a9, 2
- 1d1:	9b2b      	addi.n	a9, a11, 2
- 1d3:	31ff50        	srai	a15, a5, 31
- 1d6:	62cac0        	saltu	a12, a10, a12
- 1d9:	0199      	s32i.n	a9, a1, 0
- 1db:	404110        	ssai	17
- 1de:	81ff50        	src	a15, a15, a5
- 1e1:	88ca      	add.n	a8, a8, a12
- 1e3:	115510        	slli	a5, a5, 15
- 1e6:	012d96        	bltz	a13, 1fc <s3_fft_stage_tile+0xe0>
-			1e6: R_XTENSA_SLOT0_OP	.text+0x1fc
- 1e9:	ee7a      	add.n	a14, a14, a7
- 1eb:	010ef6        	bgeui	a14, 0x8000, 1f0 <s3_fft_stage_tile+0xd4>
-			1eb: R_XTENSA_SLOT0_OP	.text+0x1f0
- 1ee:	dd1b      	addi.n	a13, a13, 1
- 1f0:	404010        	ssai	16
- 1f3:	81ede0        	src	a14, a13, a14
- 1f6:	31d0d0        	srai	a13, a13, 16
- 1f9:	000c06        	j	22d <s3_fft_stage_tile+0x111>
-			1f9: R_XTENSA_SLOT0_OP	.text+0x22d
- 1fc:	6297e0        	saltu	a9, a7, a14
- 1ff:	60d0d0        	neg	a13, a13
- 202:	c0dd90        	sub	a13, a13, a9
- 205:	31cfd0        	srai	a12, a13, 31
- 208:	80de92        	addmi	a9, a14, 0xffff8000
- 20b:	f4c0c0        	extui	a12, a12, 0, 16
- 20e:	609090        	neg	a9, a9
- 211:	9c9a      	add.n	a9, a12, a9
- 213:	62c9c0        	saltu	a12, a9, a12
- 216:	cdca      	add.n	a12, a13, a12
- 218:	31b0c0        	srai	a11, a12, 16
- 21b:	60b0b0        	neg	a11, a11
- 21e:	404010        	ssai	16
- 221:	819c90        	src	a9, a12, a9
- 224:	ffcbd2        	addi	a13, a11, -1
- 227:	60e090        	neg	a14, a9
- 22a:	83db90        	moveqz	a13, a11, a9
- 22d:	20cee0        	or	a12, a14, a14
- 230:	080da6        	blti	a13, -1, 23c <s3_fft_stage_tile+0x120>
-			230: R_XTENSA_SLOT0_OP	.text+0x23c
- 233:	0e0d66        	bnei	a13, -1, 245 <s3_fft_stage_tile+0x129>
-			233: R_XTENSA_SLOT0_OP	.text+0x245
- 236:	ff7791        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			236: R_XTENSA_SLOT0_OP	.text+0x14
- 239:	08be97        	bgeu	a14, a9, 245 <s3_fft_stage_tile+0x129>
-			239: R_XTENSA_SLOT0_OP	.text+0x245
- 23c:	ff76c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			23c: R_XTENSA_SLOT0_OP	.text+0x14
- 23f:	000446        	j	254 <s3_fft_stage_tile+0x138>
-			23f: R_XTENSA_SLOT0_OP	.text+0x254
- 242:	00          	.byte	00
- 243:	00          	.byte	00
- 244:	00          	.byte	00
- 245:	081de6        	bgei	a13, 1, 251 <s3_fft_stage_tile+0x135>
+00000128 <s3_fft_stage_tile>:
+ 128:	00a136        	entry	a1, 80
+ 12b:	028d      	mov.n	a8, a2
+ 12d:	3179      	s32i.n	a7, a1, 12
+ 12f:	1189      	s32i.n	a8, a1, 4
+ 131:	2139      	s32i.n	a3, a1, 8
+ 133:	a159      	s32i.n	a5, a1, 40
+ 135:	062d      	mov.n	a2, a6
+ 137:	023677        	bltu	a6, a7, 13d <s3_fft_stage_tile+0x15>
+			137: R_XTENSA_SLOT0_OP	.text+0x13d
+ 13a:	0108c6        	j	561 <s3_fft_stage_tile+0x439>
+			13a: R_XTENSA_SLOT0_OP	.text+0x561
+ 13d:	c29450        	quou	a9, a4, a5
+ 140:	4199      	s32i.n	a9, a1, 16
+ 142:	021566        	bnei	a5, 1, 148 <s3_fft_stage_tile+0x20>
+			142: R_XTENSA_SLOT0_OP	.text+0x148
+ 145:	00a746        	j	3e6 <s3_fft_stage_tile+0x2be>
+			145: R_XTENSA_SLOT0_OP	.text+0x3e6
+ 148:	418150        	srli	a8, a5, 1
+ 14b:	ffaf71        	l32r	a7, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			14b: R_XTENSA_SLOT0_OP	.text+0x8
+ 14e:	b189      	s32i.n	a8, a1, 44
+ 150:	b188      	l32i.n	a8, a1, 44
+ 152:	a1a8      	l32i.n	a10, a1, 40
+ 154:	c29280        	quou	a9, a2, a8
+ 157:	8299a0        	mull	a9, a9, a10
+ 15a:	41b8      	l32i.n	a11, a1, 16
+ 15c:	e2a280        	remu	a10, a2, a8
+ 15f:	99aa      	add.n	a9, a9, a10
+ 161:	11c8      	l32i.n	a12, a1, 4
+ 163:	82aba0        	mull	a10, a11, a10
+ 166:	21b8      	l32i.n	a11, a1, 8
+ 168:	889a      	add.n	a8, a8, a9
+ 16a:	a0aab0        	addx4	a10, a10, a11
+ 16d:	a0b8c0        	addx4	a11, a8, a12
+ 170:	009bf2        	l16si	a15, a11, 0
+ 173:	009ae2        	l16si	a14, a10, 0
+ 176:	019b82        	l16si	a8, a11, 2
+ 179:	01b9      	s32i.n	a11, a1, 0
+ 17b:	81b9      	s32i.n	a11, a1, 32
+ 17d:	019ab2        	l16si	a11, a10, 2
+ 180:	0cad      	mov.n	a10, a12
+ 182:	a0c9c0        	addx4	a12, a9, a12
+ 185:	009c62        	l16si	a6, a12, 0
+ 188:	a099a0        	addx4	a9, a9, a10
+ 18b:	8258b0        	mull	a5, a8, a11
+ 18e:	82dfe0        	mull	a13, a15, a14
+ 191:	9199      	s32i.n	a9, a1, 36
+ 193:	119610        	slli	a9, a6, 15
+ 196:	b238b0        	mulsh	a3, a8, a11
+ 199:	5199      	s32i.n	a9, a1, 20
+ 19b:	b29fe0        	mulsh	a9, a15, a14
+ 19e:	c0ad50        	sub	a10, a13, a5
+ 1a1:	61a9      	s32i.n	a10, a1, 24
+ 1a3:	62dd50        	saltu	a13, a13, a5
+ 1a6:	c03930        	sub	a3, a9, a3
+ 1a9:	82afb0        	mull	a10, a15, a11
+ 1ac:	c033d0        	sub	a3, a3, a13
+ 1af:	b2bfb0        	mulsh	a11, a15, a11
+ 1b2:	51d8      	l32i.n	a13, a1, 20
+ 1b4:	61f8      	l32i.n	a15, a1, 24
+ 1b6:	71c9      	s32i.n	a12, a1, 28
+ 1b8:	82ce80        	mull	a12, a14, a8
+ 1bb:	b28e80        	mulsh	a8, a14, a8
+ 1be:	9198      	l32i.n	a9, a1, 36
+ 1c0:	314f60        	srai	a4, a6, 31
+ 1c3:	edfa      	add.n	a14, a13, a15
+ 1c5:	404110        	ssai	17
+ 1c8:	814460        	src	a4, a4, a6
+ 1cb:	8b8a      	add.n	a8, a11, a8
+ 1cd:	01b8      	l32i.n	a11, a1, 0
+ 1cf:	019952        	l16si	a5, a9, 2
+ 1d2:	626ef0        	saltu	a6, a14, a15
+ 1d5:	d43a      	add.n	a13, a4, a3
+ 1d7:	aaca      	add.n	a10, a10, a12
+ 1d9:	dd6a      	add.n	a13, a13, a6
+ 1db:	692b      	addi.n	a6, a9, 2
+ 1dd:	9b2b      	addi.n	a9, a11, 2
+ 1df:	31ff50        	srai	a15, a5, 31
+ 1e2:	62cac0        	saltu	a12, a10, a12
+ 1e5:	0199      	s32i.n	a9, a1, 0
+ 1e7:	404110        	ssai	17
+ 1ea:	81ff50        	src	a15, a15, a5
+ 1ed:	88ca      	add.n	a8, a8, a12
+ 1ef:	115510        	slli	a5, a5, 15
+ 1f2:	012d96        	bltz	a13, 208 <s3_fft_stage_tile+0xe0>
+			1f2: R_XTENSA_SLOT0_OP	.text+0x208
+ 1f5:	ee7a      	add.n	a14, a14, a7
+ 1f7:	010ef6        	bgeui	a14, 0x8000, 1fc <s3_fft_stage_tile+0xd4>
+			1f7: R_XTENSA_SLOT0_OP	.text+0x1fc
+ 1fa:	dd1b      	addi.n	a13, a13, 1
+ 1fc:	404010        	ssai	16
+ 1ff:	81ede0        	src	a14, a13, a14
+ 202:	31d0d0        	srai	a13, a13, 16
+ 205:	000c06        	j	239 <s3_fft_stage_tile+0x111>
+			205: R_XTENSA_SLOT0_OP	.text+0x239
+ 208:	6297e0        	saltu	a9, a7, a14
+ 20b:	60d0d0        	neg	a13, a13
+ 20e:	c0dd90        	sub	a13, a13, a9
+ 211:	31cfd0        	srai	a12, a13, 31
+ 214:	80de92        	addmi	a9, a14, 0xffff8000
+ 217:	f4c0c0        	extui	a12, a12, 0, 16
+ 21a:	609090        	neg	a9, a9
+ 21d:	9c9a      	add.n	a9, a12, a9
+ 21f:	62c9c0        	saltu	a12, a9, a12
+ 222:	cdca      	add.n	a12, a13, a12
+ 224:	31b0c0        	srai	a11, a12, 16
+ 227:	60b0b0        	neg	a11, a11
+ 22a:	404010        	ssai	16
+ 22d:	819c90        	src	a9, a12, a9
+ 230:	ffcbd2        	addi	a13, a11, -1
+ 233:	60e090        	neg	a14, a9
+ 236:	83db90        	moveqz	a13, a11, a9
+ 239:	20cee0        	or	a12, a14, a14
+ 23c:	080da6        	blti	a13, -1, 248 <s3_fft_stage_tile+0x120>
+			23c: R_XTENSA_SLOT0_OP	.text+0x248
+ 23f:	0e0d66        	bnei	a13, -1, 251 <s3_fft_stage_tile+0x129>
+			23f: R_XTENSA_SLOT0_OP	.text+0x251
+ 242:	ff7491        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			242: R_XTENSA_SLOT0_OP	.text+0x14
+ 245:	08be97        	bgeu	a14, a9, 251 <s3_fft_stage_tile+0x129>
 			245: R_XTENSA_SLOT0_OP	.text+0x251
- 248:	008d56        	bnez	a13, 254 <s3_fft_stage_tile+0x138>
-			248: R_XTENSA_SLOT0_OP	.text+0x254
- 24b:	ff7391        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			24b: R_XTENSA_SLOT0_OP	.text+0x18
- 24e:	02b9e7        	bgeu	a9, a14, 254 <s3_fft_stage_tile+0x138>
-			24e: R_XTENSA_SLOT0_OP	.text+0x254
- 251:	ff71c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			251: R_XTENSA_SLOT0_OP	.text+0x18
- 254:	71e8      	l32i.n	a14, a1, 28
- 256:	b5aa      	add.n	a11, a5, a10
- 258:	9f8a      	add.n	a9, a15, a8
- 25a:	62dba0        	saltu	a13, a11, a10
- 25d:	005ec2        	s16i	a12, a14, 0
- 260:	99da      	add.n	a9, a9, a13
- 262:	012996        	bltz	a9, 278 <s3_fft_stage_tile+0x15c>
-			262: R_XTENSA_SLOT0_OP	.text+0x278
- 265:	bb7a      	add.n	a11, a11, a7
- 267:	010bf6        	bgeui	a11, 0x8000, 26c <s3_fft_stage_tile+0x150>
-			267: R_XTENSA_SLOT0_OP	.text+0x26c
- 26a:	991b      	addi.n	a9, a9, 1
- 26c:	404010        	ssai	16
- 26f:	81b9b0        	src	a11, a9, a11
- 272:	319090        	srai	a9, a9, 16
- 275:	000c06        	j	2a9 <s3_fft_stage_tile+0x18d>
-			275: R_XTENSA_SLOT0_OP	.text+0x2a9
- 278:	60d090        	neg	a13, a9
- 27b:	6297b0        	saltu	a9, a7, a11
- 27e:	c0dd90        	sub	a13, a13, a9
- 281:	80dbc2        	addmi	a12, a11, 0xffff8000
- 284:	319fd0        	srai	a9, a13, 31
- 287:	f49090        	extui	a9, a9, 0, 16
- 28a:	60c0c0        	neg	a12, a12
- 28d:	c9ca      	add.n	a12, a9, a12
- 28f:	629c90        	saltu	a9, a12, a9
- 292:	9d9a      	add.n	a9, a13, a9
- 294:	31d090        	srai	a13, a9, 16
- 297:	60d0d0        	neg	a13, a13
- 29a:	404010        	ssai	16
- 29d:	81c9c0        	src	a12, a9, a12
- 2a0:	ffcd92        	addi	a9, a13, -1
- 2a3:	60b0c0        	neg	a11, a12
- 2a6:	839dc0        	moveqz	a9, a13, a12
- 2a9:	20cbb0        	or	a12, a11, a11
- 2ac:	0809a6        	blti	a9, -1, 2b8 <s3_fft_stage_tile+0x19c>
-			2ac: R_XTENSA_SLOT0_OP	.text+0x2b8
- 2af:	0e0966        	bnei	a9, -1, 2c1 <s3_fft_stage_tile+0x1a5>
-			2af: R_XTENSA_SLOT0_OP	.text+0x2c1
- 2b2:	ff58d1        	l32r	a13, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			2b2: R_XTENSA_SLOT0_OP	.text+0x14
- 2b5:	08bbd7        	bgeu	a11, a13, 2c1 <s3_fft_stage_tile+0x1a5>
-			2b5: R_XTENSA_SLOT0_OP	.text+0x2c1
- 2b8:	ff57c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			2b8: R_XTENSA_SLOT0_OP	.text+0x14
- 2bb:	000446        	j	2d0 <s3_fft_stage_tile+0x1b4>
-			2bb: R_XTENSA_SLOT0_OP	.text+0x2d0
- 2be:	00          	.byte	00
- 2bf:	00          	.byte	00
- 2c0:	00          	.byte	00
- 2c1:	0819e6        	bgei	a9, 1, 2cd <s3_fft_stage_tile+0x1b1>
+ 248:	ff73c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			248: R_XTENSA_SLOT0_OP	.text+0x14
+ 24b:	000446        	j	260 <s3_fft_stage_tile+0x138>
+			24b: R_XTENSA_SLOT0_OP	.text+0x260
+ 24e:	00          	.byte	00
+ 24f:	00          	.byte	00
+ 250:	00          	.byte	00
+ 251:	081de6        	bgei	a13, 1, 25d <s3_fft_stage_tile+0x135>
+			251: R_XTENSA_SLOT0_OP	.text+0x25d
+ 254:	008d56        	bnez	a13, 260 <s3_fft_stage_tile+0x138>
+			254: R_XTENSA_SLOT0_OP	.text+0x260
+ 257:	ff7091        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			257: R_XTENSA_SLOT0_OP	.text+0x18
+ 25a:	02b9e7        	bgeu	a9, a14, 260 <s3_fft_stage_tile+0x138>
+			25a: R_XTENSA_SLOT0_OP	.text+0x260
+ 25d:	ff6ec1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			25d: R_XTENSA_SLOT0_OP	.text+0x18
+ 260:	71e8      	l32i.n	a14, a1, 28
+ 262:	b5aa      	add.n	a11, a5, a10
+ 264:	9f8a      	add.n	a9, a15, a8
+ 266:	62dba0        	saltu	a13, a11, a10
+ 269:	005ec2        	s16i	a12, a14, 0
+ 26c:	99da      	add.n	a9, a9, a13
+ 26e:	012996        	bltz	a9, 284 <s3_fft_stage_tile+0x15c>
+			26e: R_XTENSA_SLOT0_OP	.text+0x284
+ 271:	bb7a      	add.n	a11, a11, a7
+ 273:	010bf6        	bgeui	a11, 0x8000, 278 <s3_fft_stage_tile+0x150>
+			273: R_XTENSA_SLOT0_OP	.text+0x278
+ 276:	991b      	addi.n	a9, a9, 1
+ 278:	404010        	ssai	16
+ 27b:	81b9b0        	src	a11, a9, a11
+ 27e:	319090        	srai	a9, a9, 16
+ 281:	000c06        	j	2b5 <s3_fft_stage_tile+0x18d>
+			281: R_XTENSA_SLOT0_OP	.text+0x2b5
+ 284:	60d090        	neg	a13, a9
+ 287:	6297b0        	saltu	a9, a7, a11
+ 28a:	c0dd90        	sub	a13, a13, a9
+ 28d:	80dbc2        	addmi	a12, a11, 0xffff8000
+ 290:	319fd0        	srai	a9, a13, 31
+ 293:	f49090        	extui	a9, a9, 0, 16
+ 296:	60c0c0        	neg	a12, a12
+ 299:	c9ca      	add.n	a12, a9, a12
+ 29b:	629c90        	saltu	a9, a12, a9
+ 29e:	9d9a      	add.n	a9, a13, a9
+ 2a0:	31d090        	srai	a13, a9, 16
+ 2a3:	60d0d0        	neg	a13, a13
+ 2a6:	404010        	ssai	16
+ 2a9:	81c9c0        	src	a12, a9, a12
+ 2ac:	ffcd92        	addi	a9, a13, -1
+ 2af:	60b0c0        	neg	a11, a12
+ 2b2:	839dc0        	moveqz	a9, a13, a12
+ 2b5:	20cbb0        	or	a12, a11, a11
+ 2b8:	0809a6        	blti	a9, -1, 2c4 <s3_fft_stage_tile+0x19c>
+			2b8: R_XTENSA_SLOT0_OP	.text+0x2c4
+ 2bb:	0e0966        	bnei	a9, -1, 2cd <s3_fft_stage_tile+0x1a5>
+			2bb: R_XTENSA_SLOT0_OP	.text+0x2cd
+ 2be:	ff55d1        	l32r	a13, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			2be: R_XTENSA_SLOT0_OP	.text+0x14
+ 2c1:	08bbd7        	bgeu	a11, a13, 2cd <s3_fft_stage_tile+0x1a5>
 			2c1: R_XTENSA_SLOT0_OP	.text+0x2cd
- 2c4:	008956        	bnez	a9, 2d0 <s3_fft_stage_tile+0x1b4>
-			2c4: R_XTENSA_SLOT0_OP	.text+0x2d0
- 2c7:	ff5491        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			2c7: R_XTENSA_SLOT0_OP	.text+0x18
- 2ca:	02b9b7        	bgeu	a9, a11, 2d0 <s3_fft_stage_tile+0x1b4>
-			2ca: R_XTENSA_SLOT0_OP	.text+0x2d0
- 2cd:	ff52c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			2cd: R_XTENSA_SLOT0_OP	.text+0x18
- 2d0:	51b8      	l32i.n	a11, a1, 20
- 2d2:	61d8      	l32i.n	a13, a1, 24
- 2d4:	c04430        	sub	a4, a4, a3
- 2d7:	629bd0        	saltu	a9, a11, a13
- 2da:	c04490        	sub	a4, a4, a9
- 2dd:	0056c2        	s16i	a12, a6, 0
- 2e0:	c09bd0        	sub	a9, a11, a13
- 2e3:	012496        	bltz	a4, 2f9 <s3_fft_stage_tile+0x1dd>
-			2e3: R_XTENSA_SLOT0_OP	.text+0x2f9
- 2e6:	997a      	add.n	a9, a9, a7
- 2e8:	0109f6        	bgeui	a9, 0x8000, 2ed <s3_fft_stage_tile+0x1d1>
-			2e8: R_XTENSA_SLOT0_OP	.text+0x2ed
- 2eb:	441b      	addi.n	a4, a4, 1
- 2ed:	404010        	ssai	16
- 2f0:	81b490        	src	a11, a4, a9
- 2f3:	314040        	srai	a4, a4, 16
- 2f6:	000bc6        	j	329 <s3_fft_stage_tile+0x20d>
-			2f6: R_XTENSA_SLOT0_OP	.text+0x329
- 2f9:	62b790        	saltu	a11, a7, a9
- 2fc:	604040        	neg	a4, a4
- 2ff:	c044b0        	sub	a4, a4, a11
- 302:	31bf40        	srai	a11, a4, 31
- 305:	80d992        	addmi	a9, a9, 0xffff8000
- 308:	f4b0b0        	extui	a11, a11, 0, 16
- 30b:	609090        	neg	a9, a9
- 30e:	9b9a      	add.n	a9, a11, a9
- 310:	62b9b0        	saltu	a11, a9, a11
- 313:	44ba      	add.n	a4, a4, a11
- 315:	31c040        	srai	a12, a4, 16
- 318:	60c0c0        	neg	a12, a12
- 31b:	404010        	ssai	16
- 31e:	819490        	src	a9, a4, a9
- 321:	4c0b      	addi.n	a4, a12, -1
- 323:	60b090        	neg	a11, a9
- 326:	834c90        	moveqz	a4, a12, a9
- 329:	209bb0        	or	a9, a11, a11
- 32c:	0804a6        	blti	a4, -1, 338 <s3_fft_stage_tile+0x21c>
-			32c: R_XTENSA_SLOT0_OP	.text+0x338
- 32f:	0e0466        	bnei	a4, -1, 341 <s3_fft_stage_tile+0x225>
-			32f: R_XTENSA_SLOT0_OP	.text+0x341
- 332:	ff38c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			332: R_XTENSA_SLOT0_OP	.text+0x14
- 335:	08bbc7        	bgeu	a11, a12, 341 <s3_fft_stage_tile+0x225>
-			335: R_XTENSA_SLOT0_OP	.text+0x341
- 338:	ff3791        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			338: R_XTENSA_SLOT0_OP	.text+0x14
- 33b:	000446        	j	350 <s3_fft_stage_tile+0x234>
-			33b: R_XTENSA_SLOT0_OP	.text+0x350
- 33e:	00          	.byte	00
- 33f:	00          	.byte	00
- 340:	00          	.byte	00
- 341:	0814e6        	bgei	a4, 1, 34d <s3_fft_stage_tile+0x231>
+ 2c4:	ff54c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			2c4: R_XTENSA_SLOT0_OP	.text+0x14
+ 2c7:	000446        	j	2dc <s3_fft_stage_tile+0x1b4>
+			2c7: R_XTENSA_SLOT0_OP	.text+0x2dc
+ 2ca:	00          	.byte	00
+ 2cb:	00          	.byte	00
+ 2cc:	00          	.byte	00
+ 2cd:	0819e6        	bgei	a9, 1, 2d9 <s3_fft_stage_tile+0x1b1>
+			2cd: R_XTENSA_SLOT0_OP	.text+0x2d9
+ 2d0:	008956        	bnez	a9, 2dc <s3_fft_stage_tile+0x1b4>
+			2d0: R_XTENSA_SLOT0_OP	.text+0x2dc
+ 2d3:	ff5191        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			2d3: R_XTENSA_SLOT0_OP	.text+0x18
+ 2d6:	02b9b7        	bgeu	a9, a11, 2dc <s3_fft_stage_tile+0x1b4>
+			2d6: R_XTENSA_SLOT0_OP	.text+0x2dc
+ 2d9:	ff4fc1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			2d9: R_XTENSA_SLOT0_OP	.text+0x18
+ 2dc:	51b8      	l32i.n	a11, a1, 20
+ 2de:	61d8      	l32i.n	a13, a1, 24
+ 2e0:	c04430        	sub	a4, a4, a3
+ 2e3:	629bd0        	saltu	a9, a11, a13
+ 2e6:	c04490        	sub	a4, a4, a9
+ 2e9:	0056c2        	s16i	a12, a6, 0
+ 2ec:	c09bd0        	sub	a9, a11, a13
+ 2ef:	012496        	bltz	a4, 305 <s3_fft_stage_tile+0x1dd>
+			2ef: R_XTENSA_SLOT0_OP	.text+0x305
+ 2f2:	997a      	add.n	a9, a9, a7
+ 2f4:	0109f6        	bgeui	a9, 0x8000, 2f9 <s3_fft_stage_tile+0x1d1>
+			2f4: R_XTENSA_SLOT0_OP	.text+0x2f9
+ 2f7:	441b      	addi.n	a4, a4, 1
+ 2f9:	404010        	ssai	16
+ 2fc:	81b490        	src	a11, a4, a9
+ 2ff:	314040        	srai	a4, a4, 16
+ 302:	000bc6        	j	335 <s3_fft_stage_tile+0x20d>
+			302: R_XTENSA_SLOT0_OP	.text+0x335
+ 305:	62b790        	saltu	a11, a7, a9
+ 308:	604040        	neg	a4, a4
+ 30b:	c044b0        	sub	a4, a4, a11
+ 30e:	31bf40        	srai	a11, a4, 31
+ 311:	80d992        	addmi	a9, a9, 0xffff8000
+ 314:	f4b0b0        	extui	a11, a11, 0, 16
+ 317:	609090        	neg	a9, a9
+ 31a:	9b9a      	add.n	a9, a11, a9
+ 31c:	62b9b0        	saltu	a11, a9, a11
+ 31f:	44ba      	add.n	a4, a4, a11
+ 321:	31c040        	srai	a12, a4, 16
+ 324:	60c0c0        	neg	a12, a12
+ 327:	404010        	ssai	16
+ 32a:	819490        	src	a9, a4, a9
+ 32d:	4c0b      	addi.n	a4, a12, -1
+ 32f:	60b090        	neg	a11, a9
+ 332:	834c90        	moveqz	a4, a12, a9
+ 335:	209bb0        	or	a9, a11, a11
+ 338:	0804a6        	blti	a4, -1, 344 <s3_fft_stage_tile+0x21c>
+			338: R_XTENSA_SLOT0_OP	.text+0x344
+ 33b:	0e0466        	bnei	a4, -1, 34d <s3_fft_stage_tile+0x225>
+			33b: R_XTENSA_SLOT0_OP	.text+0x34d
+ 33e:	ff35c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			33e: R_XTENSA_SLOT0_OP	.text+0x14
+ 341:	08bbc7        	bgeu	a11, a12, 34d <s3_fft_stage_tile+0x225>
 			341: R_XTENSA_SLOT0_OP	.text+0x34d
- 344:	008456        	bnez	a4, 350 <s3_fft_stage_tile+0x234>
-			344: R_XTENSA_SLOT0_OP	.text+0x350
- 347:	ff34c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			347: R_XTENSA_SLOT0_OP	.text+0x18
- 34a:	02bcb7        	bgeu	a12, a11, 350 <s3_fft_stage_tile+0x234>
-			34a: R_XTENSA_SLOT0_OP	.text+0x350
- 34d:	ff3291        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			34d: R_XTENSA_SLOT0_OP	.text+0x18
- 350:	81b8      	l32i.n	a11, a1, 32
- 352:	c0ff80        	sub	a15, a15, a8
- 355:	6285a0        	saltu	a8, a5, a10
- 358:	005b92        	s16i	a9, a11, 0
- 35b:	c0ff80        	sub	a15, a15, a8
- 35e:	c055a0        	sub	a5, a5, a10
- 361:	024f96        	bltz	a15, 389 <s3_fft_stage_tile+0x26d>
-			361: R_XTENSA_SLOT0_OP	.text+0x389
- 364:	557a      	add.n	a5, a5, a7
- 366:	0205f6        	bgeui	a5, 0x8000, 36c <s3_fft_stage_tile+0x250>
-			366: R_XTENSA_SLOT0_OP	.text+0x36c
- 369:	01cff2        	addi	a15, a15, 1
- 36c:	3180f0        	srai	a8, a15, 16
- 36f:	404010        	ssai	16
- 372:	815f50        	src	a5, a15, a5
- 375:	0818e6        	bgei	a8, 1, 381 <s3_fft_stage_tile+0x265>
-			375: R_XTENSA_SLOT0_OP	.text+0x381
- 378:	04c856        	bnez	a8, 3c8 <s3_fft_stage_tile+0x2ac>
-			378: R_XTENSA_SLOT0_OP	.text+0x3c8
- 37b:	ff2781        	l32r	a8, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			37b: R_XTENSA_SLOT0_OP	.text+0x18
- 37e:	46b857        	bgeu	a8, a5, 3c8 <s3_fft_stage_tile+0x2ac>
-			37e: R_XTENSA_SLOT0_OP	.text+0x3c8
- 381:	ff2551        	l32r	a5, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			381: R_XTENSA_SLOT0_OP	.text+0x18
- 384:	001006        	j	3c8 <s3_fft_stage_tile+0x2ac>
-			384: R_XTENSA_SLOT0_OP	.text+0x3c8
- 387:	00          	.byte	00
- 388:	00          	.byte	00
- 389:	628750        	saltu	a8, a7, a5
- 38c:	60f0f0        	neg	a15, a15
- 38f:	c0ff80        	sub	a15, a15, a8
- 392:	318ff0        	srai	a8, a15, 31
- 395:	80d552        	addmi	a5, a5, 0xffff8000
- 398:	f48080        	extui	a8, a8, 0, 16
- 39b:	605050        	neg	a5, a5
- 39e:	585a      	add.n	a5, a8, a5
- 3a0:	628580        	saltu	a8, a5, a8
- 3a3:	ff8a      	add.n	a15, a15, a8
- 3a5:	3180f0        	srai	a8, a15, 16
- 3a8:	608080        	neg	a8, a8
- 3ab:	404010        	ssai	16
- 3ae:	815f50        	src	a5, a15, a5
- 3b1:	980b      	addi.n	a9, a8, -1
- 3b3:	938950        	movnez	a8, a9, a5
- 3b6:	605050        	neg	a5, a5
- 3b9:	0808a6        	blti	a8, -1, 3c5 <s3_fft_stage_tile+0x2a9>
-			3b9: R_XTENSA_SLOT0_OP	.text+0x3c5
- 3bc:	080866        	bnei	a8, -1, 3c8 <s3_fft_stage_tile+0x2ac>
-			3bc: R_XTENSA_SLOT0_OP	.text+0x3c8
- 3bf:	ff1581        	l32r	a8, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			3bf: R_XTENSA_SLOT0_OP	.text+0x14
- 3c2:	02b587        	bgeu	a5, a8, 3c8 <s3_fft_stage_tile+0x2ac>
-			3c2: R_XTENSA_SLOT0_OP	.text+0x3c8
- 3c5:	ff1351        	l32r	a5, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			3c5: R_XTENSA_SLOT0_OP	.text+0x14
- 3c8:	0188      	l32i.n	a8, a1, 0
- 3ca:	221b      	addi.n	a2, a2, 1
- 3cc:	005852        	s16i	a5, a8, 0
- 3cf:	3188      	l32i.n	a8, a1, 12
- 3d1:	021827        	beq	a8, a2, 3d7 <s3_fft_stage_tile+0x2bb>
-			3d1: R_XTENSA_SLOT0_OP	.text+0x3d7
- 3d4:	ff5b06        	j	144 <s3_fft_stage_tile+0x28>
-			3d4: R_XTENSA_SLOT0_OP	.text+0x144
- 3d7:	005e86        	j	555 <s3_fft_stage_tile+0x439>
-			3d7: R_XTENSA_SLOT0_OP	.text+0x555
- 3da:	080c      	movi.n	a8, 0
- 3dc:	4198      	l32i.n	a9, a1, 16
- 3de:	e2a280        	remu	a10, a2, a8
- 3e1:	c28280        	quou	a8, a2, a8
- 3e4:	88aa      	add.n	a8, a8, a10
- 3e6:	8299a0        	mull	a9, a9, a10
- 3e9:	21b8      	l32i.n	a11, a1, 8
- 3eb:	11a8      	l32i.n	a10, a1, 4
- 3ed:	a099b0        	addx4	a9, a9, a11
- 3f0:	a058a0        	addx4	a5, a8, a10
- 3f3:	0095c2        	l16si	a12, a5, 0
- 3f6:	019582        	l16si	a8, a5, 2
- 3f9:	0099b2        	l16si	a11, a9, 0
- 3fc:	0199d2        	l16si	a13, a9, 2
- 3ff:	824cb0        	mull	a4, a12, a11
- 402:	82f8d0        	mull	a15, a8, a13
- 405:	b2a8d0        	mulsh	a10, a8, a13
- 408:	b27cb0        	mulsh	a7, a12, a11
- 40b:	319fc0        	srai	a9, a12, 31
- 40e:	c077a0        	sub	a7, a7, a10
- 411:	62a4f0        	saltu	a10, a4, a15
- 414:	01a9      	s32i.n	a10, a1, 0
- 416:	82ecd0        	mull	a14, a12, a13
- 419:	11ac10        	slli	a10, a12, 15
- 41c:	b2dcd0        	mulsh	a13, a12, a13
- 41f:	404110        	ssai	17
- 422:	8199c0        	src	a9, a9, a12
- 425:	01c8      	l32i.n	a12, a1, 0
- 427:	8268b0        	mull	a6, a8, a11
- 42a:	c077c0        	sub	a7, a7, a12
- 42d:	b2b8b0        	mulsh	a11, a8, a11
- 430:	c0f4f0        	sub	a15, a4, a15
- 433:	c09970        	sub	a9, a9, a7
- 436:	ee6a      	add.n	a14, a14, a6
- 438:	627af0        	saltu	a7, a10, a15
- 43b:	31cf80        	srai	a12, a8, 31
- 43e:	bdba      	add.n	a11, a13, a11
- 440:	626e60        	saltu	a6, a14, a6
- 443:	c09970        	sub	a9, a9, a7
- 446:	053d      	mov.n	a3, a5
- 448:	404110        	ssai	17
- 44b:	81cc80        	src	a12, a12, a8
- 44e:	552b      	addi.n	a5, a5, 2
- 450:	118810        	slli	a8, a8, 15
- 453:	bb6a      	add.n	a11, a11, a6
- 455:	c0aaf0        	sub	a10, a10, a15
- 458:	0359d6        	bgez	a9, 491 <s3_fft_stage_tile+0x375>
-			458: R_XTENSA_SLOT0_OP	.text+0x491
- 45b:	feebd1        	l32r	a13, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			45b: R_XTENSA_SLOT0_OP	.text+0x8
- 45e:	609090        	neg	a9, a9
- 461:	62dda0        	saltu	a13, a13, a10
- 464:	c099d0        	sub	a9, a9, a13
- 467:	31df90        	srai	a13, a9, 31
- 46a:	80daa2        	addmi	a10, a10, 0xffff8000
- 46d:	f4d0d0        	extui	a13, a13, 0, 16
- 470:	60a0a0        	neg	a10, a10
- 473:	adaa      	add.n	a10, a13, a10
- 475:	62dad0        	saltu	a13, a10, a13
- 478:	99da      	add.n	a9, a9, a13
- 47a:	31f090        	srai	a15, a9, 16
- 47d:	60f0f0        	neg	a15, a15
- 480:	404010        	ssai	16
- 483:	81a9a0        	src	a10, a9, a10
- 486:	9f0b      	addi.n	a9, a15, -1
- 488:	60d0a0        	neg	a13, a10
- 48b:	839fa0        	moveqz	a9, a15, a10
- 48e:	000506        	j	4a6 <s3_fft_stage_tile+0x38a>
-			48e: R_XTENSA_SLOT0_OP	.text+0x4a6
- 491:	feddd1        	l32r	a13, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			491: R_XTENSA_SLOT0_OP	.text+0x8
- 494:	80aad0        	add	a10, a10, a13
- 497:	020af6        	bgeui	a10, 0x8000, 49d <s3_fft_stage_tile+0x381>
-			497: R_XTENSA_SLOT0_OP	.text+0x49d
- 49a:	01c992        	addi	a9, a9, 1
- 49d:	404010        	ssai	16
- 4a0:	81d9a0        	src	a13, a9, a10
- 4a3:	319090        	srai	a9, a9, 16
- 4a6:	0dad      	mov.n	a10, a13
- 4a8:	0809a6        	blti	a9, -1, 4b4 <s3_fft_stage_tile+0x398>
-			4a8: R_XTENSA_SLOT0_OP	.text+0x4b4
- 4ab:	0e0966        	bnei	a9, -1, 4bd <s3_fft_stage_tile+0x3a1>
-			4ab: R_XTENSA_SLOT0_OP	.text+0x4bd
- 4ae:	fed9f1        	l32r	a15, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			4ae: R_XTENSA_SLOT0_OP	.text+0x14
- 4b1:	08bdf7        	bgeu	a13, a15, 4bd <s3_fft_stage_tile+0x3a1>
-			4b1: R_XTENSA_SLOT0_OP	.text+0x4bd
- 4b4:	fed8a1        	l32r	a10, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			4b4: R_XTENSA_SLOT0_OP	.text+0x14
- 4b7:	000446        	j	4cc <s3_fft_stage_tile+0x3b0>
-			4b7: R_XTENSA_SLOT0_OP	.text+0x4cc
- 4ba:	00          	.byte	00
- 4bb:	00          	.byte	00
- 4bc:	00          	.byte	00
- 4bd:	0819e6        	bgei	a9, 1, 4c9 <s3_fft_stage_tile+0x3ad>
+ 344:	ff3491        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			344: R_XTENSA_SLOT0_OP	.text+0x14
+ 347:	000446        	j	35c <s3_fft_stage_tile+0x234>
+			347: R_XTENSA_SLOT0_OP	.text+0x35c
+ 34a:	00          	.byte	00
+ 34b:	00          	.byte	00
+ 34c:	00          	.byte	00
+ 34d:	0814e6        	bgei	a4, 1, 359 <s3_fft_stage_tile+0x231>
+			34d: R_XTENSA_SLOT0_OP	.text+0x359
+ 350:	008456        	bnez	a4, 35c <s3_fft_stage_tile+0x234>
+			350: R_XTENSA_SLOT0_OP	.text+0x35c
+ 353:	ff31c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			353: R_XTENSA_SLOT0_OP	.text+0x18
+ 356:	02bcb7        	bgeu	a12, a11, 35c <s3_fft_stage_tile+0x234>
+			356: R_XTENSA_SLOT0_OP	.text+0x35c
+ 359:	ff2f91        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			359: R_XTENSA_SLOT0_OP	.text+0x18
+ 35c:	81b8      	l32i.n	a11, a1, 32
+ 35e:	c0ff80        	sub	a15, a15, a8
+ 361:	6285a0        	saltu	a8, a5, a10
+ 364:	005b92        	s16i	a9, a11, 0
+ 367:	c0ff80        	sub	a15, a15, a8
+ 36a:	c055a0        	sub	a5, a5, a10
+ 36d:	024f96        	bltz	a15, 395 <s3_fft_stage_tile+0x26d>
+			36d: R_XTENSA_SLOT0_OP	.text+0x395
+ 370:	557a      	add.n	a5, a5, a7
+ 372:	0205f6        	bgeui	a5, 0x8000, 378 <s3_fft_stage_tile+0x250>
+			372: R_XTENSA_SLOT0_OP	.text+0x378
+ 375:	01cff2        	addi	a15, a15, 1
+ 378:	3180f0        	srai	a8, a15, 16
+ 37b:	404010        	ssai	16
+ 37e:	815f50        	src	a5, a15, a5
+ 381:	0818e6        	bgei	a8, 1, 38d <s3_fft_stage_tile+0x265>
+			381: R_XTENSA_SLOT0_OP	.text+0x38d
+ 384:	04c856        	bnez	a8, 3d4 <s3_fft_stage_tile+0x2ac>
+			384: R_XTENSA_SLOT0_OP	.text+0x3d4
+ 387:	ff2481        	l32r	a8, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			387: R_XTENSA_SLOT0_OP	.text+0x18
+ 38a:	46b857        	bgeu	a8, a5, 3d4 <s3_fft_stage_tile+0x2ac>
+			38a: R_XTENSA_SLOT0_OP	.text+0x3d4
+ 38d:	ff2251        	l32r	a5, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			38d: R_XTENSA_SLOT0_OP	.text+0x18
+ 390:	001006        	j	3d4 <s3_fft_stage_tile+0x2ac>
+			390: R_XTENSA_SLOT0_OP	.text+0x3d4
+ 393:	00          	.byte	00
+ 394:	00          	.byte	00
+ 395:	628750        	saltu	a8, a7, a5
+ 398:	60f0f0        	neg	a15, a15
+ 39b:	c0ff80        	sub	a15, a15, a8
+ 39e:	318ff0        	srai	a8, a15, 31
+ 3a1:	80d552        	addmi	a5, a5, 0xffff8000
+ 3a4:	f48080        	extui	a8, a8, 0, 16
+ 3a7:	605050        	neg	a5, a5
+ 3aa:	585a      	add.n	a5, a8, a5
+ 3ac:	628580        	saltu	a8, a5, a8
+ 3af:	ff8a      	add.n	a15, a15, a8
+ 3b1:	3180f0        	srai	a8, a15, 16
+ 3b4:	608080        	neg	a8, a8
+ 3b7:	404010        	ssai	16
+ 3ba:	815f50        	src	a5, a15, a5
+ 3bd:	980b      	addi.n	a9, a8, -1
+ 3bf:	938950        	movnez	a8, a9, a5
+ 3c2:	605050        	neg	a5, a5
+ 3c5:	0808a6        	blti	a8, -1, 3d1 <s3_fft_stage_tile+0x2a9>
+			3c5: R_XTENSA_SLOT0_OP	.text+0x3d1
+ 3c8:	080866        	bnei	a8, -1, 3d4 <s3_fft_stage_tile+0x2ac>
+			3c8: R_XTENSA_SLOT0_OP	.text+0x3d4
+ 3cb:	ff1281        	l32r	a8, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			3cb: R_XTENSA_SLOT0_OP	.text+0x14
+ 3ce:	02b587        	bgeu	a5, a8, 3d4 <s3_fft_stage_tile+0x2ac>
+			3ce: R_XTENSA_SLOT0_OP	.text+0x3d4
+ 3d1:	ff1051        	l32r	a5, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			3d1: R_XTENSA_SLOT0_OP	.text+0x14
+ 3d4:	0188      	l32i.n	a8, a1, 0
+ 3d6:	221b      	addi.n	a2, a2, 1
+ 3d8:	005852        	s16i	a5, a8, 0
+ 3db:	3188      	l32i.n	a8, a1, 12
+ 3dd:	021827        	beq	a8, a2, 3e3 <s3_fft_stage_tile+0x2bb>
+			3dd: R_XTENSA_SLOT0_OP	.text+0x3e3
+ 3e0:	ff5b06        	j	150 <s3_fft_stage_tile+0x28>
+			3e0: R_XTENSA_SLOT0_OP	.text+0x150
+ 3e3:	005e86        	j	561 <s3_fft_stage_tile+0x439>
+			3e3: R_XTENSA_SLOT0_OP	.text+0x561
+ 3e6:	080c      	movi.n	a8, 0
+ 3e8:	4198      	l32i.n	a9, a1, 16
+ 3ea:	e2a280        	remu	a10, a2, a8
+ 3ed:	c28280        	quou	a8, a2, a8
+ 3f0:	88aa      	add.n	a8, a8, a10
+ 3f2:	8299a0        	mull	a9, a9, a10
+ 3f5:	21b8      	l32i.n	a11, a1, 8
+ 3f7:	11a8      	l32i.n	a10, a1, 4
+ 3f9:	a099b0        	addx4	a9, a9, a11
+ 3fc:	a058a0        	addx4	a5, a8, a10
+ 3ff:	0095c2        	l16si	a12, a5, 0
+ 402:	019582        	l16si	a8, a5, 2
+ 405:	0099b2        	l16si	a11, a9, 0
+ 408:	0199d2        	l16si	a13, a9, 2
+ 40b:	824cb0        	mull	a4, a12, a11
+ 40e:	82f8d0        	mull	a15, a8, a13
+ 411:	b2a8d0        	mulsh	a10, a8, a13
+ 414:	b27cb0        	mulsh	a7, a12, a11
+ 417:	319fc0        	srai	a9, a12, 31
+ 41a:	c077a0        	sub	a7, a7, a10
+ 41d:	62a4f0        	saltu	a10, a4, a15
+ 420:	01a9      	s32i.n	a10, a1, 0
+ 422:	82ecd0        	mull	a14, a12, a13
+ 425:	11ac10        	slli	a10, a12, 15
+ 428:	b2dcd0        	mulsh	a13, a12, a13
+ 42b:	404110        	ssai	17
+ 42e:	8199c0        	src	a9, a9, a12
+ 431:	01c8      	l32i.n	a12, a1, 0
+ 433:	8268b0        	mull	a6, a8, a11
+ 436:	c077c0        	sub	a7, a7, a12
+ 439:	b2b8b0        	mulsh	a11, a8, a11
+ 43c:	c0f4f0        	sub	a15, a4, a15
+ 43f:	c09970        	sub	a9, a9, a7
+ 442:	ee6a      	add.n	a14, a14, a6
+ 444:	627af0        	saltu	a7, a10, a15
+ 447:	31cf80        	srai	a12, a8, 31
+ 44a:	bdba      	add.n	a11, a13, a11
+ 44c:	626e60        	saltu	a6, a14, a6
+ 44f:	c09970        	sub	a9, a9, a7
+ 452:	053d      	mov.n	a3, a5
+ 454:	404110        	ssai	17
+ 457:	81cc80        	src	a12, a12, a8
+ 45a:	552b      	addi.n	a5, a5, 2
+ 45c:	118810        	slli	a8, a8, 15
+ 45f:	bb6a      	add.n	a11, a11, a6
+ 461:	c0aaf0        	sub	a10, a10, a15
+ 464:	0359d6        	bgez	a9, 49d <s3_fft_stage_tile+0x375>
+			464: R_XTENSA_SLOT0_OP	.text+0x49d
+ 467:	fee8d1        	l32r	a13, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			467: R_XTENSA_SLOT0_OP	.text+0x8
+ 46a:	609090        	neg	a9, a9
+ 46d:	62dda0        	saltu	a13, a13, a10
+ 470:	c099d0        	sub	a9, a9, a13
+ 473:	31df90        	srai	a13, a9, 31
+ 476:	80daa2        	addmi	a10, a10, 0xffff8000
+ 479:	f4d0d0        	extui	a13, a13, 0, 16
+ 47c:	60a0a0        	neg	a10, a10
+ 47f:	adaa      	add.n	a10, a13, a10
+ 481:	62dad0        	saltu	a13, a10, a13
+ 484:	99da      	add.n	a9, a9, a13
+ 486:	31f090        	srai	a15, a9, 16
+ 489:	60f0f0        	neg	a15, a15
+ 48c:	404010        	ssai	16
+ 48f:	81a9a0        	src	a10, a9, a10
+ 492:	9f0b      	addi.n	a9, a15, -1
+ 494:	60d0a0        	neg	a13, a10
+ 497:	839fa0        	moveqz	a9, a15, a10
+ 49a:	000506        	j	4b2 <s3_fft_stage_tile+0x38a>
+			49a: R_XTENSA_SLOT0_OP	.text+0x4b2
+ 49d:	fedad1        	l32r	a13, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			49d: R_XTENSA_SLOT0_OP	.text+0x8
+ 4a0:	80aad0        	add	a10, a10, a13
+ 4a3:	020af6        	bgeui	a10, 0x8000, 4a9 <s3_fft_stage_tile+0x381>
+			4a3: R_XTENSA_SLOT0_OP	.text+0x4a9
+ 4a6:	01c992        	addi	a9, a9, 1
+ 4a9:	404010        	ssai	16
+ 4ac:	81d9a0        	src	a13, a9, a10
+ 4af:	319090        	srai	a9, a9, 16
+ 4b2:	0dad      	mov.n	a10, a13
+ 4b4:	0809a6        	blti	a9, -1, 4c0 <s3_fft_stage_tile+0x398>
+			4b4: R_XTENSA_SLOT0_OP	.text+0x4c0
+ 4b7:	0e0966        	bnei	a9, -1, 4c9 <s3_fft_stage_tile+0x3a1>
+			4b7: R_XTENSA_SLOT0_OP	.text+0x4c9
+ 4ba:	fed6f1        	l32r	a15, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			4ba: R_XTENSA_SLOT0_OP	.text+0x14
+ 4bd:	08bdf7        	bgeu	a13, a15, 4c9 <s3_fft_stage_tile+0x3a1>
 			4bd: R_XTENSA_SLOT0_OP	.text+0x4c9
- 4c0:	008956        	bnez	a9, 4cc <s3_fft_stage_tile+0x3b0>
-			4c0: R_XTENSA_SLOT0_OP	.text+0x4cc
- 4c3:	fed591        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			4c3: R_XTENSA_SLOT0_OP	.text+0x18
- 4c6:	02b9d7        	bgeu	a9, a13, 4cc <s3_fft_stage_tile+0x3b0>
-			4c6: R_XTENSA_SLOT0_OP	.text+0x4cc
- 4c9:	fed3a1        	l32r	a10, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			4c9: R_XTENSA_SLOT0_OP	.text+0x18
- 4cc:	6298e0        	saltu	a9, a8, a14
- 4cf:	c0ccb0        	sub	a12, a12, a11
- 4d2:	0053a2        	s16i	a10, a3, 0
- 4d5:	c0cc90        	sub	a12, a12, a9
- 4d8:	c088e0        	sub	a8, a8, a14
- 4db:	045cd6        	bgez	a12, 524 <s3_fft_stage_tile+0x408>
-			4db: R_XTENSA_SLOT0_OP	.text+0x524
- 4de:	feca91        	l32r	a9, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			4de: R_XTENSA_SLOT0_OP	.text+0x8
- 4e1:	60c0c0        	neg	a12, a12
- 4e4:	629980        	saltu	a9, a9, a8
- 4e7:	c0cc90        	sub	a12, a12, a9
- 4ea:	319fc0        	srai	a9, a12, 31
- 4ed:	80d882        	addmi	a8, a8, 0xffff8000
- 4f0:	f49090        	extui	a9, a9, 0, 16
- 4f3:	608080        	neg	a8, a8
- 4f6:	898a      	add.n	a8, a9, a8
- 4f8:	629890        	saltu	a9, a8, a9
- 4fb:	cc9a      	add.n	a12, a12, a9
- 4fd:	3190c0        	srai	a9, a12, 16
- 500:	609090        	neg	a9, a9
- 503:	404010        	ssai	16
- 506:	818c80        	src	a8, a12, a8
- 509:	a90b      	addi.n	a10, a9, -1
- 50b:	939a80        	movnez	a9, a10, a8
- 50e:	608080        	neg	a8, a8
- 511:	0809a6        	blti	a9, -1, 51d <s3_fft_stage_tile+0x401>
-			511: R_XTENSA_SLOT0_OP	.text+0x51d
- 514:	300966        	bnei	a9, -1, 548 <s3_fft_stage_tile+0x42c>
-			514: R_XTENSA_SLOT0_OP	.text+0x548
- 517:	febf91        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			517: R_XTENSA_SLOT0_OP	.text+0x14
- 51a:	2ab897        	bgeu	a8, a9, 548 <s3_fft_stage_tile+0x42c>
-			51a: R_XTENSA_SLOT0_OP	.text+0x548
- 51d:	febd81        	l32r	a8, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			51d: R_XTENSA_SLOT0_OP	.text+0x14
- 520:	000906        	j	548 <s3_fft_stage_tile+0x42c>
-			520: R_XTENSA_SLOT0_OP	.text+0x548
- 523:	00          	.byte	00
- 524:	feb991        	l32r	a9, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			524: R_XTENSA_SLOT0_OP	.text+0x8
- 527:	808890        	add	a8, a8, a9
- 52a:	0208f6        	bgeui	a8, 0x8000, 530 <s3_fft_stage_tile+0x414>
-			52a: R_XTENSA_SLOT0_OP	.text+0x530
- 52d:	01ccc2        	addi	a12, a12, 1
- 530:	3190c0        	srai	a9, a12, 16
- 533:	404010        	ssai	16
- 536:	818c80        	src	a8, a12, a8
- 539:	0819e6        	bgei	a9, 1, 545 <s3_fft_stage_tile+0x429>
-			539: R_XTENSA_SLOT0_OP	.text+0x545
- 53c:	008956        	bnez	a9, 548 <s3_fft_stage_tile+0x42c>
-			53c: R_XTENSA_SLOT0_OP	.text+0x548
- 53f:	feb691        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			53f: R_XTENSA_SLOT0_OP	.text+0x18
- 542:	02b987        	bgeu	a9, a8, 548 <s3_fft_stage_tile+0x42c>
-			542: R_XTENSA_SLOT0_OP	.text+0x548
- 545:	feb481        	l32r	a8, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			545: R_XTENSA_SLOT0_OP	.text+0x18
- 548:	005582        	s16i	a8, a5, 0
- 54b:	3188      	l32i.n	a8, a1, 12
- 54d:	221b      	addi.n	a2, a2, 1
- 54f:	021827        	beq	a8, a2, 555 <s3_fft_stage_tile+0x439>
-			54f: R_XTENSA_SLOT0_OP	.text+0x555
- 552:	ffa106        	j	3da <s3_fft_stage_tile+0x2be>
-			552: R_XTENSA_SLOT0_OP	.text+0x3da
- 555:	f01d      	retw.n
+ 4c0:	fed5a1        	l32r	a10, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			4c0: R_XTENSA_SLOT0_OP	.text+0x14
+ 4c3:	000446        	j	4d8 <s3_fft_stage_tile+0x3b0>
+			4c3: R_XTENSA_SLOT0_OP	.text+0x4d8
+ 4c6:	00          	.byte	00
+ 4c7:	00          	.byte	00
+ 4c8:	00          	.byte	00
+ 4c9:	0819e6        	bgei	a9, 1, 4d5 <s3_fft_stage_tile+0x3ad>
+			4c9: R_XTENSA_SLOT0_OP	.text+0x4d5
+ 4cc:	008956        	bnez	a9, 4d8 <s3_fft_stage_tile+0x3b0>
+			4cc: R_XTENSA_SLOT0_OP	.text+0x4d8
+ 4cf:	fed291        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			4cf: R_XTENSA_SLOT0_OP	.text+0x18
+ 4d2:	02b9d7        	bgeu	a9, a13, 4d8 <s3_fft_stage_tile+0x3b0>
+			4d2: R_XTENSA_SLOT0_OP	.text+0x4d8
+ 4d5:	fed0a1        	l32r	a10, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			4d5: R_XTENSA_SLOT0_OP	.text+0x18
+ 4d8:	6298e0        	saltu	a9, a8, a14
+ 4db:	c0ccb0        	sub	a12, a12, a11
+ 4de:	0053a2        	s16i	a10, a3, 0
+ 4e1:	c0cc90        	sub	a12, a12, a9
+ 4e4:	c088e0        	sub	a8, a8, a14
+ 4e7:	045cd6        	bgez	a12, 530 <s3_fft_stage_tile+0x408>
+			4e7: R_XTENSA_SLOT0_OP	.text+0x530
+ 4ea:	fec791        	l32r	a9, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			4ea: R_XTENSA_SLOT0_OP	.text+0x8
+ 4ed:	60c0c0        	neg	a12, a12
+ 4f0:	629980        	saltu	a9, a9, a8
+ 4f3:	c0cc90        	sub	a12, a12, a9
+ 4f6:	319fc0        	srai	a9, a12, 31
+ 4f9:	80d882        	addmi	a8, a8, 0xffff8000
+ 4fc:	f49090        	extui	a9, a9, 0, 16
+ 4ff:	608080        	neg	a8, a8
+ 502:	898a      	add.n	a8, a9, a8
+ 504:	629890        	saltu	a9, a8, a9
+ 507:	cc9a      	add.n	a12, a12, a9
+ 509:	3190c0        	srai	a9, a12, 16
+ 50c:	609090        	neg	a9, a9
+ 50f:	404010        	ssai	16
+ 512:	818c80        	src	a8, a12, a8
+ 515:	a90b      	addi.n	a10, a9, -1
+ 517:	939a80        	movnez	a9, a10, a8
+ 51a:	608080        	neg	a8, a8
+ 51d:	0809a6        	blti	a9, -1, 529 <s3_fft_stage_tile+0x401>
+			51d: R_XTENSA_SLOT0_OP	.text+0x529
+ 520:	300966        	bnei	a9, -1, 554 <s3_fft_stage_tile+0x42c>
+			520: R_XTENSA_SLOT0_OP	.text+0x554
+ 523:	febc91        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			523: R_XTENSA_SLOT0_OP	.text+0x14
+ 526:	2ab897        	bgeu	a8, a9, 554 <s3_fft_stage_tile+0x42c>
+			526: R_XTENSA_SLOT0_OP	.text+0x554
+ 529:	feba81        	l32r	a8, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			529: R_XTENSA_SLOT0_OP	.text+0x14
+ 52c:	000906        	j	554 <s3_fft_stage_tile+0x42c>
+			52c: R_XTENSA_SLOT0_OP	.text+0x554
+ 52f:	00          	.byte	00
+ 530:	feb691        	l32r	a9, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			530: R_XTENSA_SLOT0_OP	.text+0x8
+ 533:	808890        	add	a8, a8, a9
+ 536:	0208f6        	bgeui	a8, 0x8000, 53c <s3_fft_stage_tile+0x414>
+			536: R_XTENSA_SLOT0_OP	.text+0x53c
+ 539:	01ccc2        	addi	a12, a12, 1
+ 53c:	3190c0        	srai	a9, a12, 16
+ 53f:	404010        	ssai	16
+ 542:	818c80        	src	a8, a12, a8
+ 545:	0819e6        	bgei	a9, 1, 551 <s3_fft_stage_tile+0x429>
+			545: R_XTENSA_SLOT0_OP	.text+0x551
+ 548:	008956        	bnez	a9, 554 <s3_fft_stage_tile+0x42c>
+			548: R_XTENSA_SLOT0_OP	.text+0x554
+ 54b:	feb391        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			54b: R_XTENSA_SLOT0_OP	.text+0x18
+ 54e:	02b987        	bgeu	a9, a8, 554 <s3_fft_stage_tile+0x42c>
+			54e: R_XTENSA_SLOT0_OP	.text+0x554
+ 551:	feb181        	l32r	a8, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			551: R_XTENSA_SLOT0_OP	.text+0x18
+ 554:	005582        	s16i	a8, a5, 0
+ 557:	3188      	l32i.n	a8, a1, 12
+ 559:	221b      	addi.n	a2, a2, 1
+ 55b:	021827        	beq	a8, a2, 561 <s3_fft_stage_tile+0x439>
+			55b: R_XTENSA_SLOT0_OP	.text+0x561
+ 55e:	ffa106        	j	3e6 <s3_fft_stage_tile+0x2be>
+			55e: R_XTENSA_SLOT0_OP	.text+0x3e6
+ 561:	f01d      	retw.n
 	...
 
-00000558 <s3_fft_quarter_pair>:
- 558:	004136        	entry	a1, 32
- 55b:	413230        	srli	a3, a3, 2
- 55e:	123347        	bltu	a3, a4, 574 <s3_fft_quarter_pair+0x1c>
-			55e: R_XTENSA_SLOT0_OP	.text+0x574
- 561:	c03340        	sub	a3, a3, a4
- 564:	903320        	addx2	a3, a3, a2
- 567:	001382        	l16ui	a8, a3, 0
- 56a:	feab91        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			56a: R_XTENSA_SLOT0_OP	.text+0x18
- 56d:	438890        	min	a8, a8, a9
- 570:	0003c6        	j	583 <s3_fft_quarter_pair+0x2b>
-			570: R_XTENSA_SLOT0_OP	.text+0x583
- 573:	00          	.byte	00
- 574:	c08430        	sub	a8, a4, a3
- 577:	908820        	addx2	a8, a8, a2
- 57a:	001882        	l16ui	a8, a8, 0
- 57d:	d04340        	subx2	a4, a3, a4
- 580:	608080        	neg	a8, a8
- 583:	005582        	s16i	a8, a5, 0
- 586:	902420        	addx2	a2, a4, a2
- 589:	001282        	l16ui	a8, a2, 0
+00000564 <s3_fft_quarter_pair>:
+ 564:	004136        	entry	a1, 32
+ 567:	413230        	srli	a3, a3, 2
+ 56a:	123347        	bltu	a3, a4, 580 <s3_fft_quarter_pair+0x1c>
+			56a: R_XTENSA_SLOT0_OP	.text+0x580
+ 56d:	c03340        	sub	a3, a3, a4
+ 570:	903320        	addx2	a3, a3, a2
+ 573:	001382        	l16ui	a8, a3, 0
+ 576:	fea891        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			576: R_XTENSA_SLOT0_OP	.text+0x18
+ 579:	438890        	min	a8, a8, a9
+ 57c:	0003c6        	j	58f <s3_fft_quarter_pair+0x2b>
+			57c: R_XTENSA_SLOT0_OP	.text+0x58f
+ 57f:	00          	.byte	00
+ 580:	c08430        	sub	a8, a4, a3
+ 583:	908820        	addx2	a8, a8, a2
+ 586:	001882        	l16ui	a8, a8, 0
+ 589:	d04340        	subx2	a4, a3, a4
  58c:	608080        	neg	a8, a8
- 58f:	005682        	s16i	a8, a6, 0
- 592:	f01d      	retw.n
+ 58f:	005582        	s16i	a8, a5, 0
+ 592:	902420        	addx2	a2, a4, a2
+ 595:	001282        	l16ui	a8, a2, 0
+ 598:	608080        	neg	a8, a8
+ 59b:	005682        	s16i	a8, a6, 0
+ 59e:	f01d      	retw.n
 
-00000594 <s3_fft_stage_quarter_tile>:
- 594:	00c136        	entry	a1, 96
- 597:	028d      	mov.n	a8, a2
- 599:	4179      	s32i.n	a7, a1, 16
- 59b:	3189      	s32i.n	a8, a1, 12
- 59d:	0139      	s32i.n	a3, a1, 0
- 59f:	5149      	s32i.n	a4, a1, 20
- 5a1:	b159      	s32i.n	a5, a1, 44
- 5a3:	062d      	mov.n	a2, a6
- 5a5:	023677        	bltu	a6, a7, 5ab <s3_fft_stage_quarter_tile+0x17>
-			5a5: R_XTENSA_SLOT0_OP	.text+0x5ab
- 5a8:	012446        	j	a3d <s3_fft_stage_quarter_tile+0x4a9>
-			5a8: R_XTENSA_SLOT0_OP	.text+0xa3d
- 5ab:	418240        	srli	a8, a4, 2
- 5ae:	1189      	s32i.n	a8, a1, 4
- 5b0:	888a      	add.n	a8, a8, a8
- 5b2:	6189      	s32i.n	a8, a1, 24
- 5b4:	021566        	bnei	a5, 1, 5ba <s3_fft_stage_quarter_tile+0x26>
-			5b4: R_XTENSA_SLOT0_OP	.text+0x5ba
- 5b7:	00b4c6        	j	88e <s3_fft_stage_quarter_tile+0x2fa>
-			5b7: R_XTENSA_SLOT0_OP	.text+0x88e
- 5ba:	419150        	srli	a9, a5, 1
- 5bd:	c28450        	quou	a8, a4, a5
- 5c0:	fe9271        	l32r	a7, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			5c0: R_XTENSA_SLOT0_OP	.text+0x8
- 5c3:	d199      	s32i.n	a9, a1, 52
- 5c5:	0c6182        	s32i	a8, a1, 48
- 5c8:	d1b8      	l32i.n	a11, a1, 52
- 5ca:	b1a8      	l32i.n	a10, a1, 44
- 5cc:	c292b0        	quou	a9, a2, a11
- 5cf:	8299a0        	mull	a9, a9, a10
- 5d2:	c1a8      	l32i.n	a10, a1, 48
- 5d4:	e282b0        	remu	a8, a2, a11
- 5d7:	998a      	add.n	a9, a9, a8
- 5d9:	82aa80        	mull	a10, a10, a8
- 5dc:	1188      	l32i.n	a8, a1, 4
- 5de:	bb9a      	add.n	a11, a11, a9
- 5e0:	1538a7        	bltu	a8, a10, 5f9 <s3_fft_stage_quarter_tile+0x65>
-			5e0: R_XTENSA_SLOT0_OP	.text+0x5f9
- 5e3:	01c8      	l32i.n	a12, a1, 0
- 5e5:	c088a0        	sub	a8, a8, a10
- 5e8:	9088c0        	addx2	a8, a8, a12
- 5eb:	001882        	l16ui	a8, a8, 0
- 5ee:	fe8ac1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			5ee: R_XTENSA_SLOT0_OP	.text+0x18
- 5f1:	4388c0        	min	a8, a8, a12
- 5f4:	000506        	j	60c <s3_fft_stage_quarter_tile+0x78>
-			5f4: R_XTENSA_SLOT0_OP	.text+0x60c
- 5f7:	00          	.byte	00
- 5f8:	00          	.byte	00
- 5f9:	01c8      	l32i.n	a12, a1, 0
- 5fb:	c08a80        	sub	a8, a10, a8
- 5fe:	9088c0        	addx2	a8, a8, a12
- 601:	001882        	l16ui	a8, a8, 0
- 604:	61c8      	l32i.n	a12, a1, 24
- 606:	608080        	neg	a8, a8
- 609:	c0aca0        	sub	a10, a12, a10
- 60c:	01c8      	l32i.n	a12, a1, 0
- 60e:	238880        	sext	a8, a8, 15
- 611:	90aac0        	addx2	a10, a10, a12
- 614:	31c8      	l32i.n	a12, a1, 12
- 616:	001aa2        	l16ui	a10, a10, 0
- 619:	a0dbc0        	addx4	a13, a11, a12
- 61c:	019de2        	l16si	a14, a13, 2
- 61f:	009df2        	l16si	a15, a13, 0
- 622:	60a0a0        	neg	a10, a10
- 625:	23aa80        	sext	a10, a10, 15
- 628:	0cbd      	mov.n	a11, a12
- 62a:	a0c9c0        	addx4	a12, a9, a12
- 62d:	009c62        	l16si	a6, a12, 0
- 630:	825ea0        	mull	a5, a14, a10
- 633:	21d9      	s32i.n	a13, a1, 8
- 635:	91d9      	s32i.n	a13, a1, 36
- 637:	81c9      	s32i.n	a12, a1, 32
- 639:	82df80        	mull	a13, a15, a8
- 63c:	82c8e0        	mull	a12, a8, a14
- 63f:	a099b0        	addx4	a9, a9, a11
- 642:	a1c9      	s32i.n	a12, a1, 40
- 644:	c0bd50        	sub	a11, a13, a5
- 647:	11c610        	slli	a12, a6, 15
- 64a:	b23ea0        	mulsh	a3, a14, a10
- 64d:	71b9      	s32i.n	a11, a1, 28
- 64f:	51c9      	s32i.n	a12, a1, 20
- 651:	b2cf80        	mulsh	a12, a15, a8
- 654:	82bfa0        	mull	a11, a15, a10
- 657:	b288e0        	mulsh	a8, a8, a14
- 65a:	b2afa0        	mulsh	a10, a15, a10
- 65d:	51e8      	l32i.n	a14, a1, 20
- 65f:	71f8      	l32i.n	a15, a1, 28
- 661:	62dd50        	saltu	a13, a13, a5
- 664:	314f60        	srai	a4, a6, 31
- 667:	c03c30        	sub	a3, a12, a3
- 66a:	404110        	ssai	17
- 66d:	814460        	src	a4, a4, a6
- 670:	eefa      	add.n	a14, a14, a15
- 672:	c033d0        	sub	a3, a3, a13
- 675:	626ef0        	saltu	a6, a14, a15
- 678:	d43a      	add.n	a13, a4, a3
- 67a:	019952        	l16si	a5, a9, 2
- 67d:	a1c8      	l32i.n	a12, a1, 40
- 67f:	dd6a      	add.n	a13, a13, a6
- 681:	692b      	addi.n	a6, a9, 2
- 683:	2198      	l32i.n	a9, a1, 8
- 685:	bbca      	add.n	a11, a11, a12
- 687:	992b      	addi.n	a9, a9, 2
- 689:	31ff50        	srai	a15, a5, 31
- 68c:	8a8a      	add.n	a8, a10, a8
- 68e:	62cbc0        	saltu	a12, a11, a12
- 691:	2199      	s32i.n	a9, a1, 8
- 693:	404110        	ssai	17
- 696:	81ff50        	src	a15, a15, a5
- 699:	88ca      	add.n	a8, a8, a12
- 69b:	115510        	slli	a5, a5, 15
- 69e:	012d96        	bltz	a13, 6b4 <s3_fft_stage_quarter_tile+0x120>
-			69e: R_XTENSA_SLOT0_OP	.text+0x6b4
- 6a1:	ee7a      	add.n	a14, a14, a7
- 6a3:	010ef6        	bgeui	a14, 0x8000, 6a8 <s3_fft_stage_quarter_tile+0x114>
-			6a3: R_XTENSA_SLOT0_OP	.text+0x6a8
- 6a6:	dd1b      	addi.n	a13, a13, 1
- 6a8:	404010        	ssai	16
- 6ab:	81ede0        	src	a14, a13, a14
- 6ae:	31d0d0        	srai	a13, a13, 16
- 6b1:	000c06        	j	6e5 <s3_fft_stage_quarter_tile+0x151>
-			6b1: R_XTENSA_SLOT0_OP	.text+0x6e5
- 6b4:	6297e0        	saltu	a9, a7, a14
- 6b7:	60d0d0        	neg	a13, a13
- 6ba:	c0dd90        	sub	a13, a13, a9
- 6bd:	31cfd0        	srai	a12, a13, 31
- 6c0:	80de92        	addmi	a9, a14, 0xffff8000
- 6c3:	f4c0c0        	extui	a12, a12, 0, 16
- 6c6:	609090        	neg	a9, a9
- 6c9:	9c9a      	add.n	a9, a12, a9
- 6cb:	62c9c0        	saltu	a12, a9, a12
- 6ce:	cdca      	add.n	a12, a13, a12
- 6d0:	31a0c0        	srai	a10, a12, 16
- 6d3:	60a0a0        	neg	a10, a10
- 6d6:	404010        	ssai	16
- 6d9:	819c90        	src	a9, a12, a9
- 6dc:	ffcad2        	addi	a13, a10, -1
- 6df:	60e090        	neg	a14, a9
- 6e2:	83da90        	moveqz	a13, a10, a9
- 6e5:	20cee0        	or	a12, a14, a14
- 6e8:	080da6        	blti	a13, -1, 6f4 <s3_fft_stage_quarter_tile+0x160>
-			6e8: R_XTENSA_SLOT0_OP	.text+0x6f4
- 6eb:	0e0d66        	bnei	a13, -1, 6fd <s3_fft_stage_quarter_tile+0x169>
-			6eb: R_XTENSA_SLOT0_OP	.text+0x6fd
- 6ee:	fe4991        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			6ee: R_XTENSA_SLOT0_OP	.text+0x14
- 6f1:	08be97        	bgeu	a14, a9, 6fd <s3_fft_stage_quarter_tile+0x169>
-			6f1: R_XTENSA_SLOT0_OP	.text+0x6fd
- 6f4:	fe48c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			6f4: R_XTENSA_SLOT0_OP	.text+0x14
- 6f7:	000446        	j	70c <s3_fft_stage_quarter_tile+0x178>
-			6f7: R_XTENSA_SLOT0_OP	.text+0x70c
- 6fa:	00          	.byte	00
- 6fb:	00          	.byte	00
- 6fc:	00          	.byte	00
- 6fd:	081de6        	bgei	a13, 1, 709 <s3_fft_stage_quarter_tile+0x175>
+000005a0 <s3_fft_stage_quarter_tile>:
+ 5a0:	00c136        	entry	a1, 96
+ 5a3:	028d      	mov.n	a8, a2
+ 5a5:	4179      	s32i.n	a7, a1, 16
+ 5a7:	3189      	s32i.n	a8, a1, 12
+ 5a9:	0139      	s32i.n	a3, a1, 0
+ 5ab:	5149      	s32i.n	a4, a1, 20
+ 5ad:	b159      	s32i.n	a5, a1, 44
+ 5af:	062d      	mov.n	a2, a6
+ 5b1:	023677        	bltu	a6, a7, 5b7 <s3_fft_stage_quarter_tile+0x17>
+			5b1: R_XTENSA_SLOT0_OP	.text+0x5b7
+ 5b4:	012446        	j	a49 <s3_fft_stage_quarter_tile+0x4a9>
+			5b4: R_XTENSA_SLOT0_OP	.text+0xa49
+ 5b7:	418240        	srli	a8, a4, 2
+ 5ba:	1189      	s32i.n	a8, a1, 4
+ 5bc:	888a      	add.n	a8, a8, a8
+ 5be:	6189      	s32i.n	a8, a1, 24
+ 5c0:	021566        	bnei	a5, 1, 5c6 <s3_fft_stage_quarter_tile+0x26>
+			5c0: R_XTENSA_SLOT0_OP	.text+0x5c6
+ 5c3:	00b4c6        	j	89a <s3_fft_stage_quarter_tile+0x2fa>
+			5c3: R_XTENSA_SLOT0_OP	.text+0x89a
+ 5c6:	419150        	srli	a9, a5, 1
+ 5c9:	c28450        	quou	a8, a4, a5
+ 5cc:	fe8f71        	l32r	a7, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			5cc: R_XTENSA_SLOT0_OP	.text+0x8
+ 5cf:	d199      	s32i.n	a9, a1, 52
+ 5d1:	0c6182        	s32i	a8, a1, 48
+ 5d4:	d1b8      	l32i.n	a11, a1, 52
+ 5d6:	b1a8      	l32i.n	a10, a1, 44
+ 5d8:	c292b0        	quou	a9, a2, a11
+ 5db:	8299a0        	mull	a9, a9, a10
+ 5de:	c1a8      	l32i.n	a10, a1, 48
+ 5e0:	e282b0        	remu	a8, a2, a11
+ 5e3:	998a      	add.n	a9, a9, a8
+ 5e5:	82aa80        	mull	a10, a10, a8
+ 5e8:	1188      	l32i.n	a8, a1, 4
+ 5ea:	bb9a      	add.n	a11, a11, a9
+ 5ec:	1538a7        	bltu	a8, a10, 605 <s3_fft_stage_quarter_tile+0x65>
+			5ec: R_XTENSA_SLOT0_OP	.text+0x605
+ 5ef:	01c8      	l32i.n	a12, a1, 0
+ 5f1:	c088a0        	sub	a8, a8, a10
+ 5f4:	9088c0        	addx2	a8, a8, a12
+ 5f7:	001882        	l16ui	a8, a8, 0
+ 5fa:	fe87c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			5fa: R_XTENSA_SLOT0_OP	.text+0x18
+ 5fd:	4388c0        	min	a8, a8, a12
+ 600:	000506        	j	618 <s3_fft_stage_quarter_tile+0x78>
+			600: R_XTENSA_SLOT0_OP	.text+0x618
+ 603:	00          	.byte	00
+ 604:	00          	.byte	00
+ 605:	01c8      	l32i.n	a12, a1, 0
+ 607:	c08a80        	sub	a8, a10, a8
+ 60a:	9088c0        	addx2	a8, a8, a12
+ 60d:	001882        	l16ui	a8, a8, 0
+ 610:	61c8      	l32i.n	a12, a1, 24
+ 612:	608080        	neg	a8, a8
+ 615:	c0aca0        	sub	a10, a12, a10
+ 618:	01c8      	l32i.n	a12, a1, 0
+ 61a:	238880        	sext	a8, a8, 15
+ 61d:	90aac0        	addx2	a10, a10, a12
+ 620:	31c8      	l32i.n	a12, a1, 12
+ 622:	001aa2        	l16ui	a10, a10, 0
+ 625:	a0dbc0        	addx4	a13, a11, a12
+ 628:	019de2        	l16si	a14, a13, 2
+ 62b:	009df2        	l16si	a15, a13, 0
+ 62e:	60a0a0        	neg	a10, a10
+ 631:	23aa80        	sext	a10, a10, 15
+ 634:	0cbd      	mov.n	a11, a12
+ 636:	a0c9c0        	addx4	a12, a9, a12
+ 639:	009c62        	l16si	a6, a12, 0
+ 63c:	825ea0        	mull	a5, a14, a10
+ 63f:	21d9      	s32i.n	a13, a1, 8
+ 641:	91d9      	s32i.n	a13, a1, 36
+ 643:	81c9      	s32i.n	a12, a1, 32
+ 645:	82df80        	mull	a13, a15, a8
+ 648:	82c8e0        	mull	a12, a8, a14
+ 64b:	a099b0        	addx4	a9, a9, a11
+ 64e:	a1c9      	s32i.n	a12, a1, 40
+ 650:	c0bd50        	sub	a11, a13, a5
+ 653:	11c610        	slli	a12, a6, 15
+ 656:	b23ea0        	mulsh	a3, a14, a10
+ 659:	71b9      	s32i.n	a11, a1, 28
+ 65b:	51c9      	s32i.n	a12, a1, 20
+ 65d:	b2cf80        	mulsh	a12, a15, a8
+ 660:	82bfa0        	mull	a11, a15, a10
+ 663:	b288e0        	mulsh	a8, a8, a14
+ 666:	b2afa0        	mulsh	a10, a15, a10
+ 669:	51e8      	l32i.n	a14, a1, 20
+ 66b:	71f8      	l32i.n	a15, a1, 28
+ 66d:	62dd50        	saltu	a13, a13, a5
+ 670:	314f60        	srai	a4, a6, 31
+ 673:	c03c30        	sub	a3, a12, a3
+ 676:	404110        	ssai	17
+ 679:	814460        	src	a4, a4, a6
+ 67c:	eefa      	add.n	a14, a14, a15
+ 67e:	c033d0        	sub	a3, a3, a13
+ 681:	626ef0        	saltu	a6, a14, a15
+ 684:	d43a      	add.n	a13, a4, a3
+ 686:	019952        	l16si	a5, a9, 2
+ 689:	a1c8      	l32i.n	a12, a1, 40
+ 68b:	dd6a      	add.n	a13, a13, a6
+ 68d:	692b      	addi.n	a6, a9, 2
+ 68f:	2198      	l32i.n	a9, a1, 8
+ 691:	bbca      	add.n	a11, a11, a12
+ 693:	992b      	addi.n	a9, a9, 2
+ 695:	31ff50        	srai	a15, a5, 31
+ 698:	8a8a      	add.n	a8, a10, a8
+ 69a:	62cbc0        	saltu	a12, a11, a12
+ 69d:	2199      	s32i.n	a9, a1, 8
+ 69f:	404110        	ssai	17
+ 6a2:	81ff50        	src	a15, a15, a5
+ 6a5:	88ca      	add.n	a8, a8, a12
+ 6a7:	115510        	slli	a5, a5, 15
+ 6aa:	012d96        	bltz	a13, 6c0 <s3_fft_stage_quarter_tile+0x120>
+			6aa: R_XTENSA_SLOT0_OP	.text+0x6c0
+ 6ad:	ee7a      	add.n	a14, a14, a7
+ 6af:	010ef6        	bgeui	a14, 0x8000, 6b4 <s3_fft_stage_quarter_tile+0x114>
+			6af: R_XTENSA_SLOT0_OP	.text+0x6b4
+ 6b2:	dd1b      	addi.n	a13, a13, 1
+ 6b4:	404010        	ssai	16
+ 6b7:	81ede0        	src	a14, a13, a14
+ 6ba:	31d0d0        	srai	a13, a13, 16
+ 6bd:	000c06        	j	6f1 <s3_fft_stage_quarter_tile+0x151>
+			6bd: R_XTENSA_SLOT0_OP	.text+0x6f1
+ 6c0:	6297e0        	saltu	a9, a7, a14
+ 6c3:	60d0d0        	neg	a13, a13
+ 6c6:	c0dd90        	sub	a13, a13, a9
+ 6c9:	31cfd0        	srai	a12, a13, 31
+ 6cc:	80de92        	addmi	a9, a14, 0xffff8000
+ 6cf:	f4c0c0        	extui	a12, a12, 0, 16
+ 6d2:	609090        	neg	a9, a9
+ 6d5:	9c9a      	add.n	a9, a12, a9
+ 6d7:	62c9c0        	saltu	a12, a9, a12
+ 6da:	cdca      	add.n	a12, a13, a12
+ 6dc:	31a0c0        	srai	a10, a12, 16
+ 6df:	60a0a0        	neg	a10, a10
+ 6e2:	404010        	ssai	16
+ 6e5:	819c90        	src	a9, a12, a9
+ 6e8:	ffcad2        	addi	a13, a10, -1
+ 6eb:	60e090        	neg	a14, a9
+ 6ee:	83da90        	moveqz	a13, a10, a9
+ 6f1:	20cee0        	or	a12, a14, a14
+ 6f4:	080da6        	blti	a13, -1, 700 <s3_fft_stage_quarter_tile+0x160>
+			6f4: R_XTENSA_SLOT0_OP	.text+0x700
+ 6f7:	0e0d66        	bnei	a13, -1, 709 <s3_fft_stage_quarter_tile+0x169>
+			6f7: R_XTENSA_SLOT0_OP	.text+0x709
+ 6fa:	fe4691        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			6fa: R_XTENSA_SLOT0_OP	.text+0x14
+ 6fd:	08be97        	bgeu	a14, a9, 709 <s3_fft_stage_quarter_tile+0x169>
 			6fd: R_XTENSA_SLOT0_OP	.text+0x709
- 700:	008d56        	bnez	a13, 70c <s3_fft_stage_quarter_tile+0x178>
-			700: R_XTENSA_SLOT0_OP	.text+0x70c
- 703:	fe4591        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			703: R_XTENSA_SLOT0_OP	.text+0x18
- 706:	02b9e7        	bgeu	a9, a14, 70c <s3_fft_stage_quarter_tile+0x178>
-			706: R_XTENSA_SLOT0_OP	.text+0x70c
- 709:	fe43c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			709: R_XTENSA_SLOT0_OP	.text+0x18
- 70c:	81e8      	l32i.n	a14, a1, 32
- 70e:	a5ba      	add.n	a10, a5, a11
- 710:	9f8a      	add.n	a9, a15, a8
- 712:	62dab0        	saltu	a13, a10, a11
- 715:	005ec2        	s16i	a12, a14, 0
- 718:	99da      	add.n	a9, a9, a13
- 71a:	012996        	bltz	a9, 730 <s3_fft_stage_quarter_tile+0x19c>
-			71a: R_XTENSA_SLOT0_OP	.text+0x730
- 71d:	aa7a      	add.n	a10, a10, a7
- 71f:	010af6        	bgeui	a10, 0x8000, 724 <s3_fft_stage_quarter_tile+0x190>
-			71f: R_XTENSA_SLOT0_OP	.text+0x724
- 722:	991b      	addi.n	a9, a9, 1
- 724:	404010        	ssai	16
- 727:	81a9a0        	src	a10, a9, a10
- 72a:	319090        	srai	a9, a9, 16
- 72d:	000c06        	j	761 <s3_fft_stage_quarter_tile+0x1cd>
-			72d: R_XTENSA_SLOT0_OP	.text+0x761
- 730:	60d090        	neg	a13, a9
- 733:	6297a0        	saltu	a9, a7, a10
- 736:	c0dd90        	sub	a13, a13, a9
- 739:	80dac2        	addmi	a12, a10, 0xffff8000
- 73c:	319fd0        	srai	a9, a13, 31
- 73f:	f49090        	extui	a9, a9, 0, 16
- 742:	60c0c0        	neg	a12, a12
- 745:	c9ca      	add.n	a12, a9, a12
- 747:	629c90        	saltu	a9, a12, a9
- 74a:	9d9a      	add.n	a9, a13, a9
- 74c:	31d090        	srai	a13, a9, 16
- 74f:	60d0d0        	neg	a13, a13
- 752:	404010        	ssai	16
- 755:	81c9c0        	src	a12, a9, a12
- 758:	ffcd92        	addi	a9, a13, -1
- 75b:	60a0c0        	neg	a10, a12
- 75e:	839dc0        	moveqz	a9, a13, a12
- 761:	20caa0        	or	a12, a10, a10
- 764:	0809a6        	blti	a9, -1, 770 <s3_fft_stage_quarter_tile+0x1dc>
-			764: R_XTENSA_SLOT0_OP	.text+0x770
- 767:	0b0966        	bnei	a9, -1, 776 <s3_fft_stage_quarter_tile+0x1e2>
-			767: R_XTENSA_SLOT0_OP	.text+0x776
- 76a:	fe2ad1        	l32r	a13, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			76a: R_XTENSA_SLOT0_OP	.text+0x14
- 76d:	05bad7        	bgeu	a10, a13, 776 <s3_fft_stage_quarter_tile+0x1e2>
-			76d: R_XTENSA_SLOT0_OP	.text+0x776
- 770:	fe29c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			770: R_XTENSA_SLOT0_OP	.text+0x14
- 773:	000346        	j	784 <s3_fft_stage_quarter_tile+0x1f0>
-			773: R_XTENSA_SLOT0_OP	.text+0x784
- 776:	0719e6        	bgei	a9, 1, 781 <s3_fft_stage_quarter_tile+0x1ed>
-			776: R_XTENSA_SLOT0_OP	.text+0x781
- 779:	79cc      	bnez.n	a9, 784 <s3_fft_stage_quarter_tile+0x1f0>
-			779: R_XTENSA_SLOT0_OP	.text+0x784
- 77b:	fe2791        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			77b: R_XTENSA_SLOT0_OP	.text+0x18
- 77e:	02b9a7        	bgeu	a9, a10, 784 <s3_fft_stage_quarter_tile+0x1f0>
-			77e: R_XTENSA_SLOT0_OP	.text+0x784
- 781:	fe25c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			781: R_XTENSA_SLOT0_OP	.text+0x18
- 784:	51a8      	l32i.n	a10, a1, 20
- 786:	71d8      	l32i.n	a13, a1, 28
- 788:	c04430        	sub	a4, a4, a3
- 78b:	629ad0        	saltu	a9, a10, a13
- 78e:	c04490        	sub	a4, a4, a9
- 791:	0056c2        	s16i	a12, a6, 0
- 794:	c09ad0        	sub	a9, a10, a13
- 797:	012496        	bltz	a4, 7ad <s3_fft_stage_quarter_tile+0x219>
-			797: R_XTENSA_SLOT0_OP	.text+0x7ad
- 79a:	997a      	add.n	a9, a9, a7
- 79c:	0109f6        	bgeui	a9, 0x8000, 7a1 <s3_fft_stage_quarter_tile+0x20d>
-			79c: R_XTENSA_SLOT0_OP	.text+0x7a1
- 79f:	441b      	addi.n	a4, a4, 1
- 7a1:	404010        	ssai	16
- 7a4:	819490        	src	a9, a4, a9
- 7a7:	314040        	srai	a4, a4, 16
- 7aa:	000bc6        	j	7dd <s3_fft_stage_quarter_tile+0x249>
-			7aa: R_XTENSA_SLOT0_OP	.text+0x7dd
- 7ad:	62a790        	saltu	a10, a7, a9
- 7b0:	604040        	neg	a4, a4
- 7b3:	c044a0        	sub	a4, a4, a10
- 7b6:	31af40        	srai	a10, a4, 31
- 7b9:	80d992        	addmi	a9, a9, 0xffff8000
- 7bc:	f4a0a0        	extui	a10, a10, 0, 16
- 7bf:	609090        	neg	a9, a9
- 7c2:	9a9a      	add.n	a9, a10, a9
- 7c4:	62a9a0        	saltu	a10, a9, a10
- 7c7:	a4aa      	add.n	a10, a4, a10
- 7c9:	31c0a0        	srai	a12, a10, 16
- 7cc:	60c0c0        	neg	a12, a12
- 7cf:	404010        	ssai	16
- 7d2:	81aa90        	src	a10, a10, a9
- 7d5:	4c0b      	addi.n	a4, a12, -1
- 7d7:	6090a0        	neg	a9, a10
- 7da:	834ca0        	moveqz	a4, a12, a10
- 7dd:	20a990        	or	a10, a9, a9
- 7e0:	0804a6        	blti	a4, -1, 7ec <s3_fft_stage_quarter_tile+0x258>
-			7e0: R_XTENSA_SLOT0_OP	.text+0x7ec
- 7e3:	0e0466        	bnei	a4, -1, 7f5 <s3_fft_stage_quarter_tile+0x261>
-			7e3: R_XTENSA_SLOT0_OP	.text+0x7f5
- 7e6:	fe0bc1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			7e6: R_XTENSA_SLOT0_OP	.text+0x14
- 7e9:	08b9c7        	bgeu	a9, a12, 7f5 <s3_fft_stage_quarter_tile+0x261>
-			7e9: R_XTENSA_SLOT0_OP	.text+0x7f5
- 7ec:	fe0aa1        	l32r	a10, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			7ec: R_XTENSA_SLOT0_OP	.text+0x14
- 7ef:	000446        	j	804 <s3_fft_stage_quarter_tile+0x270>
-			7ef: R_XTENSA_SLOT0_OP	.text+0x804
- 7f2:	00          	.byte	00
- 7f3:	00          	.byte	00
- 7f4:	00          	.byte	00
- 7f5:	0814e6        	bgei	a4, 1, 801 <s3_fft_stage_quarter_tile+0x26d>
+ 700:	fe45c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			700: R_XTENSA_SLOT0_OP	.text+0x14
+ 703:	000446        	j	718 <s3_fft_stage_quarter_tile+0x178>
+			703: R_XTENSA_SLOT0_OP	.text+0x718
+ 706:	00          	.byte	00
+ 707:	00          	.byte	00
+ 708:	00          	.byte	00
+ 709:	081de6        	bgei	a13, 1, 715 <s3_fft_stage_quarter_tile+0x175>
+			709: R_XTENSA_SLOT0_OP	.text+0x715
+ 70c:	008d56        	bnez	a13, 718 <s3_fft_stage_quarter_tile+0x178>
+			70c: R_XTENSA_SLOT0_OP	.text+0x718
+ 70f:	fe4291        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			70f: R_XTENSA_SLOT0_OP	.text+0x18
+ 712:	02b9e7        	bgeu	a9, a14, 718 <s3_fft_stage_quarter_tile+0x178>
+			712: R_XTENSA_SLOT0_OP	.text+0x718
+ 715:	fe40c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			715: R_XTENSA_SLOT0_OP	.text+0x18
+ 718:	81e8      	l32i.n	a14, a1, 32
+ 71a:	a5ba      	add.n	a10, a5, a11
+ 71c:	9f8a      	add.n	a9, a15, a8
+ 71e:	62dab0        	saltu	a13, a10, a11
+ 721:	005ec2        	s16i	a12, a14, 0
+ 724:	99da      	add.n	a9, a9, a13
+ 726:	012996        	bltz	a9, 73c <s3_fft_stage_quarter_tile+0x19c>
+			726: R_XTENSA_SLOT0_OP	.text+0x73c
+ 729:	aa7a      	add.n	a10, a10, a7
+ 72b:	010af6        	bgeui	a10, 0x8000, 730 <s3_fft_stage_quarter_tile+0x190>
+			72b: R_XTENSA_SLOT0_OP	.text+0x730
+ 72e:	991b      	addi.n	a9, a9, 1
+ 730:	404010        	ssai	16
+ 733:	81a9a0        	src	a10, a9, a10
+ 736:	319090        	srai	a9, a9, 16
+ 739:	000c06        	j	76d <s3_fft_stage_quarter_tile+0x1cd>
+			739: R_XTENSA_SLOT0_OP	.text+0x76d
+ 73c:	60d090        	neg	a13, a9
+ 73f:	6297a0        	saltu	a9, a7, a10
+ 742:	c0dd90        	sub	a13, a13, a9
+ 745:	80dac2        	addmi	a12, a10, 0xffff8000
+ 748:	319fd0        	srai	a9, a13, 31
+ 74b:	f49090        	extui	a9, a9, 0, 16
+ 74e:	60c0c0        	neg	a12, a12
+ 751:	c9ca      	add.n	a12, a9, a12
+ 753:	629c90        	saltu	a9, a12, a9
+ 756:	9d9a      	add.n	a9, a13, a9
+ 758:	31d090        	srai	a13, a9, 16
+ 75b:	60d0d0        	neg	a13, a13
+ 75e:	404010        	ssai	16
+ 761:	81c9c0        	src	a12, a9, a12
+ 764:	ffcd92        	addi	a9, a13, -1
+ 767:	60a0c0        	neg	a10, a12
+ 76a:	839dc0        	moveqz	a9, a13, a12
+ 76d:	20caa0        	or	a12, a10, a10
+ 770:	0809a6        	blti	a9, -1, 77c <s3_fft_stage_quarter_tile+0x1dc>
+			770: R_XTENSA_SLOT0_OP	.text+0x77c
+ 773:	0b0966        	bnei	a9, -1, 782 <s3_fft_stage_quarter_tile+0x1e2>
+			773: R_XTENSA_SLOT0_OP	.text+0x782
+ 776:	fe27d1        	l32r	a13, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			776: R_XTENSA_SLOT0_OP	.text+0x14
+ 779:	05bad7        	bgeu	a10, a13, 782 <s3_fft_stage_quarter_tile+0x1e2>
+			779: R_XTENSA_SLOT0_OP	.text+0x782
+ 77c:	fe26c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			77c: R_XTENSA_SLOT0_OP	.text+0x14
+ 77f:	000346        	j	790 <s3_fft_stage_quarter_tile+0x1f0>
+			77f: R_XTENSA_SLOT0_OP	.text+0x790
+ 782:	0719e6        	bgei	a9, 1, 78d <s3_fft_stage_quarter_tile+0x1ed>
+			782: R_XTENSA_SLOT0_OP	.text+0x78d
+ 785:	79cc      	bnez.n	a9, 790 <s3_fft_stage_quarter_tile+0x1f0>
+			785: R_XTENSA_SLOT0_OP	.text+0x790
+ 787:	fe2491        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			787: R_XTENSA_SLOT0_OP	.text+0x18
+ 78a:	02b9a7        	bgeu	a9, a10, 790 <s3_fft_stage_quarter_tile+0x1f0>
+			78a: R_XTENSA_SLOT0_OP	.text+0x790
+ 78d:	fe22c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			78d: R_XTENSA_SLOT0_OP	.text+0x18
+ 790:	51a8      	l32i.n	a10, a1, 20
+ 792:	71d8      	l32i.n	a13, a1, 28
+ 794:	c04430        	sub	a4, a4, a3
+ 797:	629ad0        	saltu	a9, a10, a13
+ 79a:	c04490        	sub	a4, a4, a9
+ 79d:	0056c2        	s16i	a12, a6, 0
+ 7a0:	c09ad0        	sub	a9, a10, a13
+ 7a3:	012496        	bltz	a4, 7b9 <s3_fft_stage_quarter_tile+0x219>
+			7a3: R_XTENSA_SLOT0_OP	.text+0x7b9
+ 7a6:	997a      	add.n	a9, a9, a7
+ 7a8:	0109f6        	bgeui	a9, 0x8000, 7ad <s3_fft_stage_quarter_tile+0x20d>
+			7a8: R_XTENSA_SLOT0_OP	.text+0x7ad
+ 7ab:	441b      	addi.n	a4, a4, 1
+ 7ad:	404010        	ssai	16
+ 7b0:	819490        	src	a9, a4, a9
+ 7b3:	314040        	srai	a4, a4, 16
+ 7b6:	000bc6        	j	7e9 <s3_fft_stage_quarter_tile+0x249>
+			7b6: R_XTENSA_SLOT0_OP	.text+0x7e9
+ 7b9:	62a790        	saltu	a10, a7, a9
+ 7bc:	604040        	neg	a4, a4
+ 7bf:	c044a0        	sub	a4, a4, a10
+ 7c2:	31af40        	srai	a10, a4, 31
+ 7c5:	80d992        	addmi	a9, a9, 0xffff8000
+ 7c8:	f4a0a0        	extui	a10, a10, 0, 16
+ 7cb:	609090        	neg	a9, a9
+ 7ce:	9a9a      	add.n	a9, a10, a9
+ 7d0:	62a9a0        	saltu	a10, a9, a10
+ 7d3:	a4aa      	add.n	a10, a4, a10
+ 7d5:	31c0a0        	srai	a12, a10, 16
+ 7d8:	60c0c0        	neg	a12, a12
+ 7db:	404010        	ssai	16
+ 7de:	81aa90        	src	a10, a10, a9
+ 7e1:	4c0b      	addi.n	a4, a12, -1
+ 7e3:	6090a0        	neg	a9, a10
+ 7e6:	834ca0        	moveqz	a4, a12, a10
+ 7e9:	20a990        	or	a10, a9, a9
+ 7ec:	0804a6        	blti	a4, -1, 7f8 <s3_fft_stage_quarter_tile+0x258>
+			7ec: R_XTENSA_SLOT0_OP	.text+0x7f8
+ 7ef:	0e0466        	bnei	a4, -1, 801 <s3_fft_stage_quarter_tile+0x261>
+			7ef: R_XTENSA_SLOT0_OP	.text+0x801
+ 7f2:	fe08c1        	l32r	a12, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			7f2: R_XTENSA_SLOT0_OP	.text+0x14
+ 7f5:	08b9c7        	bgeu	a9, a12, 801 <s3_fft_stage_quarter_tile+0x261>
 			7f5: R_XTENSA_SLOT0_OP	.text+0x801
- 7f8:	008456        	bnez	a4, 804 <s3_fft_stage_quarter_tile+0x270>
-			7f8: R_XTENSA_SLOT0_OP	.text+0x804
- 7fb:	fe07c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			7fb: R_XTENSA_SLOT0_OP	.text+0x18
- 7fe:	02bc97        	bgeu	a12, a9, 804 <s3_fft_stage_quarter_tile+0x270>
-			7fe: R_XTENSA_SLOT0_OP	.text+0x804
- 801:	fe05a1        	l32r	a10, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			801: R_XTENSA_SLOT0_OP	.text+0x18
- 804:	91c8      	l32i.n	a12, a1, 36
- 806:	6295b0        	saltu	a9, a5, a11
- 809:	c08f80        	sub	a8, a15, a8
- 80c:	005ca2        	s16i	a10, a12, 0
- 80f:	c08890        	sub	a8, a8, a9
- 812:	c055b0        	sub	a5, a5, a11
- 815:	024896        	bltz	a8, 83d <s3_fft_stage_quarter_tile+0x2a9>
-			815: R_XTENSA_SLOT0_OP	.text+0x83d
- 818:	557a      	add.n	a5, a5, a7
- 81a:	0205f6        	bgeui	a5, 0x8000, 820 <s3_fft_stage_quarter_tile+0x28c>
-			81a: R_XTENSA_SLOT0_OP	.text+0x820
- 81d:	01c882        	addi	a8, a8, 1
- 820:	319080        	srai	a9, a8, 16
- 823:	404010        	ssai	16
- 826:	815850        	src	a5, a8, a5
- 829:	0819e6        	bgei	a9, 1, 835 <s3_fft_stage_quarter_tile+0x2a1>
-			829: R_XTENSA_SLOT0_OP	.text+0x835
- 82c:	04c956        	bnez	a9, 87c <s3_fft_stage_quarter_tile+0x2e8>
-			82c: R_XTENSA_SLOT0_OP	.text+0x87c
- 82f:	fdfa81        	l32r	a8, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			82f: R_XTENSA_SLOT0_OP	.text+0x18
- 832:	46b857        	bgeu	a8, a5, 87c <s3_fft_stage_quarter_tile+0x2e8>
-			832: R_XTENSA_SLOT0_OP	.text+0x87c
- 835:	fdf851        	l32r	a5, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			835: R_XTENSA_SLOT0_OP	.text+0x18
- 838:	001006        	j	87c <s3_fft_stage_quarter_tile+0x2e8>
-			838: R_XTENSA_SLOT0_OP	.text+0x87c
- 83b:	00          	.byte	00
- 83c:	00          	.byte	00
- 83d:	629750        	saltu	a9, a7, a5
- 840:	608080        	neg	a8, a8
- 843:	c08890        	sub	a8, a8, a9
- 846:	319f80        	srai	a9, a8, 31
- 849:	80d552        	addmi	a5, a5, 0xffff8000
- 84c:	f49090        	extui	a9, a9, 0, 16
- 84f:	605050        	neg	a5, a5
- 852:	595a      	add.n	a5, a9, a5
- 854:	629590        	saltu	a9, a5, a9
- 857:	889a      	add.n	a8, a8, a9
- 859:	319080        	srai	a9, a8, 16
- 85c:	609090        	neg	a9, a9
- 85f:	404010        	ssai	16
- 862:	815850        	src	a5, a8, a5
- 865:	890b      	addi.n	a8, a9, -1
- 867:	939850        	movnez	a9, a8, a5
- 86a:	605050        	neg	a5, a5
- 86d:	0809a6        	blti	a9, -1, 879 <s3_fft_stage_quarter_tile+0x2e5>
-			86d: R_XTENSA_SLOT0_OP	.text+0x879
- 870:	080966        	bnei	a9, -1, 87c <s3_fft_stage_quarter_tile+0x2e8>
-			870: R_XTENSA_SLOT0_OP	.text+0x87c
- 873:	fde881        	l32r	a8, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			873: R_XTENSA_SLOT0_OP	.text+0x14
- 876:	02b587        	bgeu	a5, a8, 87c <s3_fft_stage_quarter_tile+0x2e8>
-			876: R_XTENSA_SLOT0_OP	.text+0x87c
- 879:	fde651        	l32r	a5, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			879: R_XTENSA_SLOT0_OP	.text+0x14
- 87c:	2188      	l32i.n	a8, a1, 8
- 87e:	221b      	addi.n	a2, a2, 1
- 880:	005852        	s16i	a5, a8, 0
- 883:	4188      	l32i.n	a8, a1, 16
- 885:	021827        	beq	a8, a2, 88b <s3_fft_stage_quarter_tile+0x2f7>
-			885: R_XTENSA_SLOT0_OP	.text+0x88b
- 888:	ff4f06        	j	5c8 <s3_fft_stage_quarter_tile+0x34>
-			888: R_XTENSA_SLOT0_OP	.text+0x5c8
- 88b:	006b86        	j	a3d <s3_fft_stage_quarter_tile+0x4a9>
-			88b: R_XTENSA_SLOT0_OP	.text+0xa3d
- 88e:	090c      	movi.n	a9, 0
- 890:	5188      	l32i.n	a8, a1, 20
- 892:	e2a290        	remu	a10, a2, a9
- 895:	c29290        	quou	a9, a2, a9
- 898:	8288a0        	mull	a8, a8, a10
- 89b:	99aa      	add.n	a9, a9, a10
- 89d:	11a8      	l32i.n	a10, a1, 4
- 89f:	153a87        	bltu	a10, a8, 8b8 <s3_fft_stage_quarter_tile+0x324>
-			89f: R_XTENSA_SLOT0_OP	.text+0x8b8
- 8a2:	01b8      	l32i.n	a11, a1, 0
- 8a4:	c0aa80        	sub	a10, a10, a8
- 8a7:	90aab0        	addx2	a10, a10, a11
- 8aa:	001ac2        	l16ui	a12, a10, 0
- 8ad:	fddaa1        	l32r	a10, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			8ad: R_XTENSA_SLOT0_OP	.text+0x18
- 8b0:	43cca0        	min	a12, a12, a10
- 8b3:	0bad      	mov.n	a10, a11
- 8b5:	000506        	j	8cd <s3_fft_stage_quarter_tile+0x339>
-			8b5: R_XTENSA_SLOT0_OP	.text+0x8cd
- 8b8:	01b8      	l32i.n	a11, a1, 0
- 8ba:	c0a8a0        	sub	a10, a8, a10
- 8bd:	90aab0        	addx2	a10, a10, a11
- 8c0:	001ac2        	l16ui	a12, a10, 0
- 8c3:	61a8      	l32i.n	a10, a1, 24
- 8c5:	60c0c0        	neg	a12, a12
- 8c8:	c08a80        	sub	a8, a10, a8
- 8cb:	0bad      	mov.n	a10, a11
- 8cd:	9088a0        	addx2	a8, a8, a10
- 8d0:	0018a2        	l16ui	a10, a8, 0
- 8d3:	3188      	l32i.n	a8, a1, 12
- 8d5:	60a0a0        	neg	a10, a10
- 8d8:	a05980        	addx4	a5, a9, a8
- 8db:	0095d2        	l16si	a13, a5, 0
- 8de:	019582        	l16si	a8, a5, 2
- 8e1:	23cc80        	sext	a12, a12, 15
- 8e4:	23aa80        	sext	a10, a10, 15
- 8e7:	824cd0        	mull	a4, a12, a13
- 8ea:	82fa80        	mull	a15, a10, a8
- 8ed:	b2ba80        	mulsh	a11, a10, a8
- 8f0:	b27cd0        	mulsh	a7, a12, a13
- 8f3:	319fd0        	srai	a9, a13, 31
- 8f6:	c077b0        	sub	a7, a7, a11
- 8f9:	62b4f0        	saltu	a11, a4, a15
- 8fc:	21b9      	s32i.n	a11, a1, 8
- 8fe:	826ad0        	mull	a6, a10, a13
- 901:	11bd10        	slli	a11, a13, 15
- 904:	b2aad0        	mulsh	a10, a10, a13
- 907:	404110        	ssai	17
- 90a:	8199d0        	src	a9, a9, a13
- 90d:	21d8      	l32i.n	a13, a1, 8
- 90f:	82ec80        	mull	a14, a12, a8
- 912:	c077d0        	sub	a7, a7, a13
- 915:	b2cc80        	mulsh	a12, a12, a8
- 918:	c0f4f0        	sub	a15, a4, a15
- 91b:	c09970        	sub	a9, a9, a7
- 91e:	ee6a      	add.n	a14, a14, a6
- 920:	627bf0        	saltu	a7, a11, a15
- 923:	31df80        	srai	a13, a8, 31
- 926:	acaa      	add.n	a10, a12, a10
- 928:	626e60        	saltu	a6, a14, a6
- 92b:	c09970        	sub	a9, a9, a7
- 92e:	053d      	mov.n	a3, a5
- 930:	404110        	ssai	17
- 933:	81dd80        	src	a13, a13, a8
- 936:	552b      	addi.n	a5, a5, 2
- 938:	118810        	slli	a8, a8, 15
- 93b:	aa6a      	add.n	a10, a10, a6
- 93d:	c0bbf0        	sub	a11, a11, a15
- 940:	015996        	bltz	a9, 959 <s3_fft_stage_quarter_tile+0x3c5>
-			940: R_XTENSA_SLOT0_OP	.text+0x959
- 943:	fdb1c1        	l32r	a12, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			943: R_XTENSA_SLOT0_OP	.text+0x8
- 946:	bbca      	add.n	a11, a11, a12
- 948:	010bf6        	bgeui	a11, 0x8000, 94d <s3_fft_stage_quarter_tile+0x3b9>
-			948: R_XTENSA_SLOT0_OP	.text+0x94d
- 94b:	991b      	addi.n	a9, a9, 1
- 94d:	404010        	ssai	16
- 950:	81c9b0        	src	a12, a9, a11
- 953:	319090        	srai	a9, a9, 16
- 956:	000cc6        	j	98d <s3_fft_stage_quarter_tile+0x3f9>
-			956: R_XTENSA_SLOT0_OP	.text+0x98d
- 959:	fdabc1        	l32r	a12, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			959: R_XTENSA_SLOT0_OP	.text+0x8
- 95c:	609090        	neg	a9, a9
- 95f:	62ccb0        	saltu	a12, a12, a11
- 962:	c099c0        	sub	a9, a9, a12
- 965:	31cf90        	srai	a12, a9, 31
- 968:	80dbb2        	addmi	a11, a11, 0xffff8000
- 96b:	f4c0c0        	extui	a12, a12, 0, 16
- 96e:	60b0b0        	neg	a11, a11
- 971:	bcba      	add.n	a11, a12, a11
- 973:	62cbc0        	saltu	a12, a11, a12
- 976:	99ca      	add.n	a9, a9, a12
- 978:	31f090        	srai	a15, a9, 16
- 97b:	60f0f0        	neg	a15, a15
- 97e:	404010        	ssai	16
- 981:	81b9b0        	src	a11, a9, a11
- 984:	ffcf92        	addi	a9, a15, -1
- 987:	60c0b0        	neg	a12, a11
- 98a:	839fb0        	moveqz	a9, a15, a11
- 98d:	20bcc0        	or	a11, a12, a12
- 990:	0809a6        	blti	a9, -1, 99c <s3_fft_stage_quarter_tile+0x408>
-			990: R_XTENSA_SLOT0_OP	.text+0x99c
- 993:	0e0966        	bnei	a9, -1, 9a5 <s3_fft_stage_quarter_tile+0x411>
-			993: R_XTENSA_SLOT0_OP	.text+0x9a5
- 996:	fd9ff1        	l32r	a15, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			996: R_XTENSA_SLOT0_OP	.text+0x14
- 999:	08bcf7        	bgeu	a12, a15, 9a5 <s3_fft_stage_quarter_tile+0x411>
-			999: R_XTENSA_SLOT0_OP	.text+0x9a5
- 99c:	fd9eb1        	l32r	a11, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			99c: R_XTENSA_SLOT0_OP	.text+0x14
- 99f:	000446        	j	9b4 <s3_fft_stage_quarter_tile+0x420>
-			99f: R_XTENSA_SLOT0_OP	.text+0x9b4
- 9a2:	00          	.byte	00
- 9a3:	00          	.byte	00
- 9a4:	00          	.byte	00
- 9a5:	0819e6        	bgei	a9, 1, 9b1 <s3_fft_stage_quarter_tile+0x41d>
+ 7f8:	fe07a1        	l32r	a10, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			7f8: R_XTENSA_SLOT0_OP	.text+0x14
+ 7fb:	000446        	j	810 <s3_fft_stage_quarter_tile+0x270>
+			7fb: R_XTENSA_SLOT0_OP	.text+0x810
+ 7fe:	00          	.byte	00
+ 7ff:	00          	.byte	00
+ 800:	00          	.byte	00
+ 801:	0814e6        	bgei	a4, 1, 80d <s3_fft_stage_quarter_tile+0x26d>
+			801: R_XTENSA_SLOT0_OP	.text+0x80d
+ 804:	008456        	bnez	a4, 810 <s3_fft_stage_quarter_tile+0x270>
+			804: R_XTENSA_SLOT0_OP	.text+0x810
+ 807:	fe04c1        	l32r	a12, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			807: R_XTENSA_SLOT0_OP	.text+0x18
+ 80a:	02bc97        	bgeu	a12, a9, 810 <s3_fft_stage_quarter_tile+0x270>
+			80a: R_XTENSA_SLOT0_OP	.text+0x810
+ 80d:	fe02a1        	l32r	a10, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			80d: R_XTENSA_SLOT0_OP	.text+0x18
+ 810:	91c8      	l32i.n	a12, a1, 36
+ 812:	6295b0        	saltu	a9, a5, a11
+ 815:	c08f80        	sub	a8, a15, a8
+ 818:	005ca2        	s16i	a10, a12, 0
+ 81b:	c08890        	sub	a8, a8, a9
+ 81e:	c055b0        	sub	a5, a5, a11
+ 821:	024896        	bltz	a8, 849 <s3_fft_stage_quarter_tile+0x2a9>
+			821: R_XTENSA_SLOT0_OP	.text+0x849
+ 824:	557a      	add.n	a5, a5, a7
+ 826:	0205f6        	bgeui	a5, 0x8000, 82c <s3_fft_stage_quarter_tile+0x28c>
+			826: R_XTENSA_SLOT0_OP	.text+0x82c
+ 829:	01c882        	addi	a8, a8, 1
+ 82c:	319080        	srai	a9, a8, 16
+ 82f:	404010        	ssai	16
+ 832:	815850        	src	a5, a8, a5
+ 835:	0819e6        	bgei	a9, 1, 841 <s3_fft_stage_quarter_tile+0x2a1>
+			835: R_XTENSA_SLOT0_OP	.text+0x841
+ 838:	04c956        	bnez	a9, 888 <s3_fft_stage_quarter_tile+0x2e8>
+			838: R_XTENSA_SLOT0_OP	.text+0x888
+ 83b:	fdf781        	l32r	a8, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			83b: R_XTENSA_SLOT0_OP	.text+0x18
+ 83e:	46b857        	bgeu	a8, a5, 888 <s3_fft_stage_quarter_tile+0x2e8>
+			83e: R_XTENSA_SLOT0_OP	.text+0x888
+ 841:	fdf551        	l32r	a5, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			841: R_XTENSA_SLOT0_OP	.text+0x18
+ 844:	001006        	j	888 <s3_fft_stage_quarter_tile+0x2e8>
+			844: R_XTENSA_SLOT0_OP	.text+0x888
+ 847:	00          	.byte	00
+ 848:	00          	.byte	00
+ 849:	629750        	saltu	a9, a7, a5
+ 84c:	608080        	neg	a8, a8
+ 84f:	c08890        	sub	a8, a8, a9
+ 852:	319f80        	srai	a9, a8, 31
+ 855:	80d552        	addmi	a5, a5, 0xffff8000
+ 858:	f49090        	extui	a9, a9, 0, 16
+ 85b:	605050        	neg	a5, a5
+ 85e:	595a      	add.n	a5, a9, a5
+ 860:	629590        	saltu	a9, a5, a9
+ 863:	889a      	add.n	a8, a8, a9
+ 865:	319080        	srai	a9, a8, 16
+ 868:	609090        	neg	a9, a9
+ 86b:	404010        	ssai	16
+ 86e:	815850        	src	a5, a8, a5
+ 871:	890b      	addi.n	a8, a9, -1
+ 873:	939850        	movnez	a9, a8, a5
+ 876:	605050        	neg	a5, a5
+ 879:	0809a6        	blti	a9, -1, 885 <s3_fft_stage_quarter_tile+0x2e5>
+			879: R_XTENSA_SLOT0_OP	.text+0x885
+ 87c:	080966        	bnei	a9, -1, 888 <s3_fft_stage_quarter_tile+0x2e8>
+			87c: R_XTENSA_SLOT0_OP	.text+0x888
+ 87f:	fde581        	l32r	a8, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			87f: R_XTENSA_SLOT0_OP	.text+0x14
+ 882:	02b587        	bgeu	a5, a8, 888 <s3_fft_stage_quarter_tile+0x2e8>
+			882: R_XTENSA_SLOT0_OP	.text+0x888
+ 885:	fde351        	l32r	a5, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			885: R_XTENSA_SLOT0_OP	.text+0x14
+ 888:	2188      	l32i.n	a8, a1, 8
+ 88a:	221b      	addi.n	a2, a2, 1
+ 88c:	005852        	s16i	a5, a8, 0
+ 88f:	4188      	l32i.n	a8, a1, 16
+ 891:	021827        	beq	a8, a2, 897 <s3_fft_stage_quarter_tile+0x2f7>
+			891: R_XTENSA_SLOT0_OP	.text+0x897
+ 894:	ff4f06        	j	5d4 <s3_fft_stage_quarter_tile+0x34>
+			894: R_XTENSA_SLOT0_OP	.text+0x5d4
+ 897:	006b86        	j	a49 <s3_fft_stage_quarter_tile+0x4a9>
+			897: R_XTENSA_SLOT0_OP	.text+0xa49
+ 89a:	090c      	movi.n	a9, 0
+ 89c:	5188      	l32i.n	a8, a1, 20
+ 89e:	e2a290        	remu	a10, a2, a9
+ 8a1:	c29290        	quou	a9, a2, a9
+ 8a4:	8288a0        	mull	a8, a8, a10
+ 8a7:	99aa      	add.n	a9, a9, a10
+ 8a9:	11a8      	l32i.n	a10, a1, 4
+ 8ab:	153a87        	bltu	a10, a8, 8c4 <s3_fft_stage_quarter_tile+0x324>
+			8ab: R_XTENSA_SLOT0_OP	.text+0x8c4
+ 8ae:	01b8      	l32i.n	a11, a1, 0
+ 8b0:	c0aa80        	sub	a10, a10, a8
+ 8b3:	90aab0        	addx2	a10, a10, a11
+ 8b6:	001ac2        	l16ui	a12, a10, 0
+ 8b9:	fdd7a1        	l32r	a10, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			8b9: R_XTENSA_SLOT0_OP	.text+0x18
+ 8bc:	43cca0        	min	a12, a12, a10
+ 8bf:	0bad      	mov.n	a10, a11
+ 8c1:	000506        	j	8d9 <s3_fft_stage_quarter_tile+0x339>
+			8c1: R_XTENSA_SLOT0_OP	.text+0x8d9
+ 8c4:	01b8      	l32i.n	a11, a1, 0
+ 8c6:	c0a8a0        	sub	a10, a8, a10
+ 8c9:	90aab0        	addx2	a10, a10, a11
+ 8cc:	001ac2        	l16ui	a12, a10, 0
+ 8cf:	61a8      	l32i.n	a10, a1, 24
+ 8d1:	60c0c0        	neg	a12, a12
+ 8d4:	c08a80        	sub	a8, a10, a8
+ 8d7:	0bad      	mov.n	a10, a11
+ 8d9:	9088a0        	addx2	a8, a8, a10
+ 8dc:	0018a2        	l16ui	a10, a8, 0
+ 8df:	3188      	l32i.n	a8, a1, 12
+ 8e1:	60a0a0        	neg	a10, a10
+ 8e4:	a05980        	addx4	a5, a9, a8
+ 8e7:	0095d2        	l16si	a13, a5, 0
+ 8ea:	019582        	l16si	a8, a5, 2
+ 8ed:	23cc80        	sext	a12, a12, 15
+ 8f0:	23aa80        	sext	a10, a10, 15
+ 8f3:	824cd0        	mull	a4, a12, a13
+ 8f6:	82fa80        	mull	a15, a10, a8
+ 8f9:	b2ba80        	mulsh	a11, a10, a8
+ 8fc:	b27cd0        	mulsh	a7, a12, a13
+ 8ff:	319fd0        	srai	a9, a13, 31
+ 902:	c077b0        	sub	a7, a7, a11
+ 905:	62b4f0        	saltu	a11, a4, a15
+ 908:	21b9      	s32i.n	a11, a1, 8
+ 90a:	826ad0        	mull	a6, a10, a13
+ 90d:	11bd10        	slli	a11, a13, 15
+ 910:	b2aad0        	mulsh	a10, a10, a13
+ 913:	404110        	ssai	17
+ 916:	8199d0        	src	a9, a9, a13
+ 919:	21d8      	l32i.n	a13, a1, 8
+ 91b:	82ec80        	mull	a14, a12, a8
+ 91e:	c077d0        	sub	a7, a7, a13
+ 921:	b2cc80        	mulsh	a12, a12, a8
+ 924:	c0f4f0        	sub	a15, a4, a15
+ 927:	c09970        	sub	a9, a9, a7
+ 92a:	ee6a      	add.n	a14, a14, a6
+ 92c:	627bf0        	saltu	a7, a11, a15
+ 92f:	31df80        	srai	a13, a8, 31
+ 932:	acaa      	add.n	a10, a12, a10
+ 934:	626e60        	saltu	a6, a14, a6
+ 937:	c09970        	sub	a9, a9, a7
+ 93a:	053d      	mov.n	a3, a5
+ 93c:	404110        	ssai	17
+ 93f:	81dd80        	src	a13, a13, a8
+ 942:	552b      	addi.n	a5, a5, 2
+ 944:	118810        	slli	a8, a8, 15
+ 947:	aa6a      	add.n	a10, a10, a6
+ 949:	c0bbf0        	sub	a11, a11, a15
+ 94c:	015996        	bltz	a9, 965 <s3_fft_stage_quarter_tile+0x3c5>
+			94c: R_XTENSA_SLOT0_OP	.text+0x965
+ 94f:	fdaec1        	l32r	a12, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			94f: R_XTENSA_SLOT0_OP	.text+0x8
+ 952:	bbca      	add.n	a11, a11, a12
+ 954:	010bf6        	bgeui	a11, 0x8000, 959 <s3_fft_stage_quarter_tile+0x3b9>
+			954: R_XTENSA_SLOT0_OP	.text+0x959
+ 957:	991b      	addi.n	a9, a9, 1
+ 959:	404010        	ssai	16
+ 95c:	81c9b0        	src	a12, a9, a11
+ 95f:	319090        	srai	a9, a9, 16
+ 962:	000cc6        	j	999 <s3_fft_stage_quarter_tile+0x3f9>
+			962: R_XTENSA_SLOT0_OP	.text+0x999
+ 965:	fda8c1        	l32r	a12, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			965: R_XTENSA_SLOT0_OP	.text+0x8
+ 968:	609090        	neg	a9, a9
+ 96b:	62ccb0        	saltu	a12, a12, a11
+ 96e:	c099c0        	sub	a9, a9, a12
+ 971:	31cf90        	srai	a12, a9, 31
+ 974:	80dbb2        	addmi	a11, a11, 0xffff8000
+ 977:	f4c0c0        	extui	a12, a12, 0, 16
+ 97a:	60b0b0        	neg	a11, a11
+ 97d:	bcba      	add.n	a11, a12, a11
+ 97f:	62cbc0        	saltu	a12, a11, a12
+ 982:	99ca      	add.n	a9, a9, a12
+ 984:	31f090        	srai	a15, a9, 16
+ 987:	60f0f0        	neg	a15, a15
+ 98a:	404010        	ssai	16
+ 98d:	81b9b0        	src	a11, a9, a11
+ 990:	ffcf92        	addi	a9, a15, -1
+ 993:	60c0b0        	neg	a12, a11
+ 996:	839fb0        	moveqz	a9, a15, a11
+ 999:	20bcc0        	or	a11, a12, a12
+ 99c:	0809a6        	blti	a9, -1, 9a8 <s3_fft_stage_quarter_tile+0x408>
+			99c: R_XTENSA_SLOT0_OP	.text+0x9a8
+ 99f:	0e0966        	bnei	a9, -1, 9b1 <s3_fft_stage_quarter_tile+0x411>
+			99f: R_XTENSA_SLOT0_OP	.text+0x9b1
+ 9a2:	fd9cf1        	l32r	a15, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			9a2: R_XTENSA_SLOT0_OP	.text+0x14
+ 9a5:	08bcf7        	bgeu	a12, a15, 9b1 <s3_fft_stage_quarter_tile+0x411>
 			9a5: R_XTENSA_SLOT0_OP	.text+0x9b1
- 9a8:	008956        	bnez	a9, 9b4 <s3_fft_stage_quarter_tile+0x420>
-			9a8: R_XTENSA_SLOT0_OP	.text+0x9b4
- 9ab:	fd9b91        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			9ab: R_XTENSA_SLOT0_OP	.text+0x18
- 9ae:	02b9c7        	bgeu	a9, a12, 9b4 <s3_fft_stage_quarter_tile+0x420>
-			9ae: R_XTENSA_SLOT0_OP	.text+0x9b4
- 9b1:	fd99b1        	l32r	a11, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			9b1: R_XTENSA_SLOT0_OP	.text+0x18
- 9b4:	6298e0        	saltu	a9, a8, a14
- 9b7:	c0dda0        	sub	a13, a13, a10
- 9ba:	0053b2        	s16i	a11, a3, 0
- 9bd:	c0dd90        	sub	a13, a13, a9
- 9c0:	c088e0        	sub	a8, a8, a14
- 9c3:	026d96        	bltz	a13, 9ed <s3_fft_stage_quarter_tile+0x459>
-			9c3: R_XTENSA_SLOT0_OP	.text+0x9ed
- 9c6:	fd9091        	l32r	a9, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			9c6: R_XTENSA_SLOT0_OP	.text+0x8
- 9c9:	889a      	add.n	a8, a8, a9
- 9cb:	0108f6        	bgeui	a8, 0x8000, 9d0 <s3_fft_stage_quarter_tile+0x43c>
-			9cb: R_XTENSA_SLOT0_OP	.text+0x9d0
- 9ce:	dd1b      	addi.n	a13, a13, 1
- 9d0:	3190d0        	srai	a9, a13, 16
- 9d3:	404010        	ssai	16
- 9d6:	818d80        	src	a8, a13, a8
- 9d9:	0819e6        	bgei	a9, 1, 9e5 <s3_fft_stage_quarter_tile+0x451>
-			9d9: R_XTENSA_SLOT0_OP	.text+0x9e5
- 9dc:	050956        	bnez	a9, a30 <s3_fft_stage_quarter_tile+0x49c>
-			9dc: R_XTENSA_SLOT0_OP	.text+0xa30
- 9df:	fd8e91        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			9df: R_XTENSA_SLOT0_OP	.text+0x18
- 9e2:	4ab987        	bgeu	a9, a8, a30 <s3_fft_stage_quarter_tile+0x49c>
-			9e2: R_XTENSA_SLOT0_OP	.text+0xa30
- 9e5:	fd8c81        	l32r	a8, 18 <s3_pinned_fft_power_of_two-0x14> (7fff <s3_fft_simd_tile+0x75bf>)
-			9e5: R_XTENSA_SLOT0_OP	.text+0x18
- 9e8:	001106        	j	a30 <s3_fft_stage_quarter_tile+0x49c>
-			9e8: R_XTENSA_SLOT0_OP	.text+0xa30
- 9eb:	00          	.byte	00
- 9ec:	00          	.byte	00
- 9ed:	fd8691        	l32r	a9, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			9ed: R_XTENSA_SLOT0_OP	.text+0x8
- 9f0:	60d0d0        	neg	a13, a13
- 9f3:	629980        	saltu	a9, a9, a8
- 9f6:	c0dd90        	sub	a13, a13, a9
- 9f9:	319fd0        	srai	a9, a13, 31
- 9fc:	80d882        	addmi	a8, a8, 0xffff8000
- 9ff:	f49090        	extui	a9, a9, 0, 16
- a02:	608080        	neg	a8, a8
- a05:	898a      	add.n	a8, a9, a8
- a07:	629890        	saltu	a9, a8, a9
- a0a:	dd9a      	add.n	a13, a13, a9
- a0c:	3190d0        	srai	a9, a13, 16
- a0f:	609090        	neg	a9, a9
- a12:	404010        	ssai	16
- a15:	818d80        	src	a8, a13, a8
- a18:	ffc9a2        	addi	a10, a9, -1
- a1b:	939a80        	movnez	a9, a10, a8
- a1e:	608080        	neg	a8, a8
- a21:	0809a6        	blti	a9, -1, a2d <s3_fft_stage_quarter_tile+0x499>
-			a21: R_XTENSA_SLOT0_OP	.text+0xa2d
- a24:	080966        	bnei	a9, -1, a30 <s3_fft_stage_quarter_tile+0x49c>
-			a24: R_XTENSA_SLOT0_OP	.text+0xa30
- a27:	fd7b91        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			a27: R_XTENSA_SLOT0_OP	.text+0x14
- a2a:	02b897        	bgeu	a8, a9, a30 <s3_fft_stage_quarter_tile+0x49c>
-			a2a: R_XTENSA_SLOT0_OP	.text+0xa30
- a2d:	fd7981        	l32r	a8, 14 <s3_pinned_fft_power_of_two-0x18> (ffff8000 <s3_fft_simd_tile+0xffff75c0>)
-			a2d: R_XTENSA_SLOT0_OP	.text+0x14
- a30:	005582        	s16i	a8, a5, 0
- a33:	4188      	l32i.n	a8, a1, 16
- a35:	221b      	addi.n	a2, a2, 1
- a37:	021827        	beq	a8, a2, a3d <s3_fft_stage_quarter_tile+0x4a9>
-			a37: R_XTENSA_SLOT0_OP	.text+0xa3d
- a3a:	ff9406        	j	88e <s3_fft_stage_quarter_tile+0x2fa>
-			a3a: R_XTENSA_SLOT0_OP	.text+0x88e
- a3d:	f01d      	retw.n
+ 9a8:	fd9bb1        	l32r	a11, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			9a8: R_XTENSA_SLOT0_OP	.text+0x14
+ 9ab:	000446        	j	9c0 <s3_fft_stage_quarter_tile+0x420>
+			9ab: R_XTENSA_SLOT0_OP	.text+0x9c0
+ 9ae:	00          	.byte	00
+ 9af:	00          	.byte	00
+ 9b0:	00          	.byte	00
+ 9b1:	0819e6        	bgei	a9, 1, 9bd <s3_fft_stage_quarter_tile+0x41d>
+			9b1: R_XTENSA_SLOT0_OP	.text+0x9bd
+ 9b4:	008956        	bnez	a9, 9c0 <s3_fft_stage_quarter_tile+0x420>
+			9b4: R_XTENSA_SLOT0_OP	.text+0x9c0
+ 9b7:	fd9891        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			9b7: R_XTENSA_SLOT0_OP	.text+0x18
+ 9ba:	02b9c7        	bgeu	a9, a12, 9c0 <s3_fft_stage_quarter_tile+0x420>
+			9ba: R_XTENSA_SLOT0_OP	.text+0x9c0
+ 9bd:	fd96b1        	l32r	a11, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			9bd: R_XTENSA_SLOT0_OP	.text+0x18
+ 9c0:	6298e0        	saltu	a9, a8, a14
+ 9c3:	c0dda0        	sub	a13, a13, a10
+ 9c6:	0053b2        	s16i	a11, a3, 0
+ 9c9:	c0dd90        	sub	a13, a13, a9
+ 9cc:	c088e0        	sub	a8, a8, a14
+ 9cf:	026d96        	bltz	a13, 9f9 <s3_fft_stage_quarter_tile+0x459>
+			9cf: R_XTENSA_SLOT0_OP	.text+0x9f9
+ 9d2:	fd8d91        	l32r	a9, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			9d2: R_XTENSA_SLOT0_OP	.text+0x8
+ 9d5:	889a      	add.n	a8, a8, a9
+ 9d7:	0108f6        	bgeui	a8, 0x8000, 9dc <s3_fft_stage_quarter_tile+0x43c>
+			9d7: R_XTENSA_SLOT0_OP	.text+0x9dc
+ 9da:	dd1b      	addi.n	a13, a13, 1
+ 9dc:	3190d0        	srai	a9, a13, 16
+ 9df:	404010        	ssai	16
+ 9e2:	818d80        	src	a8, a13, a8
+ 9e5:	0819e6        	bgei	a9, 1, 9f1 <s3_fft_stage_quarter_tile+0x451>
+			9e5: R_XTENSA_SLOT0_OP	.text+0x9f1
+ 9e8:	050956        	bnez	a9, a3c <s3_fft_stage_quarter_tile+0x49c>
+			9e8: R_XTENSA_SLOT0_OP	.text+0xa3c
+ 9eb:	fd8b91        	l32r	a9, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			9eb: R_XTENSA_SLOT0_OP	.text+0x18
+ 9ee:	4ab987        	bgeu	a9, a8, a3c <s3_fft_stage_quarter_tile+0x49c>
+			9ee: R_XTENSA_SLOT0_OP	.text+0xa3c
+ 9f1:	fd8981        	l32r	a8, 18 <s3_pinned_fft_power_of_two-0x20> (7fff <s3_fft_worker_ready+0x7363>)
+			9f1: R_XTENSA_SLOT0_OP	.text+0x18
+ 9f4:	001106        	j	a3c <s3_fft_stage_quarter_tile+0x49c>
+			9f4: R_XTENSA_SLOT0_OP	.text+0xa3c
+ 9f7:	00          	.byte	00
+ 9f8:	00          	.byte	00
+ 9f9:	fd8391        	l32r	a9, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			9f9: R_XTENSA_SLOT0_OP	.text+0x8
+ 9fc:	60d0d0        	neg	a13, a13
+ 9ff:	629980        	saltu	a9, a9, a8
+ a02:	c0dd90        	sub	a13, a13, a9
+ a05:	319fd0        	srai	a9, a13, 31
+ a08:	80d882        	addmi	a8, a8, 0xffff8000
+ a0b:	f49090        	extui	a9, a9, 0, 16
+ a0e:	608080        	neg	a8, a8
+ a11:	898a      	add.n	a8, a9, a8
+ a13:	629890        	saltu	a9, a8, a9
+ a16:	dd9a      	add.n	a13, a13, a9
+ a18:	3190d0        	srai	a9, a13, 16
+ a1b:	609090        	neg	a9, a9
+ a1e:	404010        	ssai	16
+ a21:	818d80        	src	a8, a13, a8
+ a24:	ffc9a2        	addi	a10, a9, -1
+ a27:	939a80        	movnez	a9, a10, a8
+ a2a:	608080        	neg	a8, a8
+ a2d:	0809a6        	blti	a9, -1, a39 <s3_fft_stage_quarter_tile+0x499>
+			a2d: R_XTENSA_SLOT0_OP	.text+0xa39
+ a30:	080966        	bnei	a9, -1, a3c <s3_fft_stage_quarter_tile+0x49c>
+			a30: R_XTENSA_SLOT0_OP	.text+0xa3c
+ a33:	fd7891        	l32r	a9, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			a33: R_XTENSA_SLOT0_OP	.text+0x14
+ a36:	02b897        	bgeu	a8, a9, a3c <s3_fft_stage_quarter_tile+0x49c>
+			a36: R_XTENSA_SLOT0_OP	.text+0xa3c
+ a39:	fd7681        	l32r	a8, 14 <s3_pinned_fft_power_of_two-0x24> (ffff8000 <s3_fft_worker_ready+0xffff7364>)
+			a39: R_XTENSA_SLOT0_OP	.text+0x14
+ a3c:	005582        	s16i	a8, a5, 0
+ a3f:	4188      	l32i.n	a8, a1, 16
+ a41:	221b      	addi.n	a2, a2, 1
+ a43:	021827        	beq	a8, a2, a49 <s3_fft_stage_quarter_tile+0x4a9>
+			a43: R_XTENSA_SLOT0_OP	.text+0xa49
+ a46:	ff9406        	j	89a <s3_fft_stage_quarter_tile+0x2fa>
+			a46: R_XTENSA_SLOT0_OP	.text+0x89a
+ a49:	f01d      	retw.n
 	...
 
-00000a40 <s3_fft_simd_tile>:
- a40:	004136        	entry	a1, 32
- a43:	40f280        	nsau	a8, a2
- a46:	418580        	srli	a8, a8, 5
- a49:	0bf216        	beqz	a2, b0c <s3_fft_simd_tile+0xcc>
-			a49: R_XTENSA_SLOT0_OP	.text+0xb0c
- a4c:	01a092        	movi	a9, 1
- a4f:	838930        	moveqz	a8, a9, a3
- a52:	0b6856        	bnez	a8, b0c <s3_fft_simd_tile+0xcc>
-			a52: R_XTENSA_SLOT0_OP	.text+0xb0c
- a55:	208230        	or	a8, a2, a3
- a58:	348080        	extui	a8, a8, 0, 4
- a5b:	0ad856        	bnez	a8, b0c <s3_fft_simd_tile+0xcc>
-			a5b: R_XTENSA_SLOT0_OP	.text+0xb0c
- a5e:	fd6881        	l32r	a8, 0 <s3_pinned_fft_power_of_two-0x2c> (ffff7fff <s3_fft_simd_tile+0xffff75bf>)
-			a5e: R_XTENSA_SLOT0_OP	.text
- a61:	628820        	saltu	a8, a8, a2
- a64:	0a4856        	bnez	a8, b0c <s3_fft_simd_tile+0xcc>
-			a64: R_XTENSA_SLOT0_OP	.text+0xb0c
- a67:	fd6781        	l32r	a8, 4 <s3_pinned_fft_power_of_two-0x28> (ffffbfff <s3_fft_simd_tile+0xffffb5bf>)
-			a67: R_XTENSA_SLOT0_OP	.text+0x4
- a6a:	628830        	saltu	a8, a8, a3
- a6d:	09b856        	bnez	a8, b0c <s3_fft_simd_tile+0xcc>
-			a6d: R_XTENSA_SLOT0_OP	.text+0xb0c
- a70:	40d382        	addmi	a8, a3, 0x4000
- a73:	0bb287        	bgeu	a2, a8, a82 <s3_fft_simd_tile+0x42>
-			a73: R_XTENSA_SLOT0_OP	.text+0xa82
- a76:	fd6481        	l32r	a8, 8 <s3_pinned_fft_power_of_two-0x24> (8000 <s3_fft_simd_tile+0x75c0>)
-			a76: R_XTENSA_SLOT0_OP	.text+0x8
- a79:	808280        	add	a8, a2, a8
- a7c:	02b387        	bgeu	a3, a8, a82 <s3_fft_simd_tile+0x42>
-			a7c: R_XTENSA_SLOT0_OP	.text+0xa82
- a7f:	002246        	j	b0c <s3_fft_simd_tile+0xcc>
-			a7f: R_XTENSA_SLOT0_OP	.text+0xb0c
- a82:	860b      	addi.n	a8, a6, -1
- a84:	f90c      	movi.n	a9, 15
- a86:	02b987        	bgeu	a9, a8, a8c <s3_fft_simd_tile+0x4c>
-			a86: R_XTENSA_SLOT0_OP	.text+0xa8c
- a89:	001fc6        	j	b0c <s3_fft_simd_tile+0xcc>
-			a89: R_XTENSA_SLOT0_OP	.text+0xb0c
- a8c:	c80c      	movi.n	a8, 12
- a8e:	7a3847        	bltu	a8, a4, b0c <s3_fft_simd_tile+0xcc>
-			a8e: R_XTENSA_SLOT0_OP	.text+0xb0c
- a91:	fcd682        	addmi	a8, a6, 0xfffffc00
- a94:	608080        	neg	a8, a8
- a97:	713857        	bltu	a8, a5, b0c <s3_fft_simd_tile+0xcc>
-			a97: R_XTENSA_SLOT0_OP	.text+0xb0c
- a9a:	a80c      	movi.n	a8, 10
- a9c:	403847        	bltu	a8, a4, ae0 <s3_fft_simd_tile+0xa0>
-			a9c: R_XTENSA_SLOT0_OP	.text+0xae0
- a9f:	fd5f81        	l32r	a8, 1c <s3_pinned_fft_power_of_two-0x10> (1000 <s3_fft_simd_tile+0x5c0>)
-			a9f: R_XTENSA_SLOT0_OP	.text+0x1c
- aa2:	400400        	ssr	a4
- aa5:	914080        	srl	a4, a8
- aa8:	1185e0        	slli	a8, a5, 2
- aab:	c2c840        	quou	a12, a8, a4
- aae:	82a4c0        	mull	a10, a4, a12
- ab1:	e28840        	remu	a8, a8, a4
- ab4:	c07480        	sub	a7, a4, a8
- ab7:	90aa80        	addx2	a10, a10, a8
- aba:	417270        	srli	a7, a7, 2
- abd:	637760        	minu	a7, a7, a6
- ac0:	b4aa      	add.n	a11, a4, a10
- ac2:	07dd      	mov.n	a13, a7
- ac4:	a0cc30        	addx4	a12, a12, a3
- ac7:	a0bb20        	addx4	a11, a11, a2
- aca:	a0aa20        	addx4	a10, a10, a2
- acd:	c06670        	sub	a6, a6, a7
- ad0:	fd5481        	l32r	a8, 20 <s3_pinned_fft_power_of_two-0xc> (0 <s3_pinned_fft_power_of_two-0x2c>)
-			ad0: R_XTENSA_SLOT0_OP	.text+0x20
-			ad0: R_XTENSA_ASM_EXPAND	s3_fft_simd_general
- ad3:	0008e0        	callx8	a8
- ad6:	557a      	add.n	a5, a5, a7
- ad8:	fcc656        	bnez	a6, aa8 <s3_fft_simd_tile+0x68>
-			ad8: R_XTENSA_SLOT0_OP	.text+0xaa8
- adb:	000586        	j	af5 <s3_fft_simd_tile+0xb5>
-			adb: R_XTENSA_SLOT0_OP	.text+0xaf5
- ade:	00          	.byte	00
- adf:	00          	.byte	00
- ae0:	1185b0        	slli	a8, a5, 5
- ae3:	b90c      	movi.n	a9, 11
- ae5:	a28a      	add.n	a10, a2, a8
- ae7:	119497        	bne	a4, a9, afc <s3_fft_simd_tile+0xbc>
-			ae7: R_XTENSA_SLOT0_OP	.text+0xafc
- aea:	06cd      	mov.n	a12, a6
- aec:	b0b530        	addx8	a11, a5, a3
- aef:	fd4d81        	l32r	a8, 24 <s3_pinned_fft_power_of_two-0x8> (0 <s3_pinned_fft_power_of_two-0x2c>)
-			aef: R_XTENSA_SLOT0_OP	.text+0x24
-			aef: R_XTENSA_ASM_EXPAND	s3_fft_simd_pair
- af2:	0008e0        	callx8	a8
- af5:	020c      	movi.n	a2, 0
- af7:	0004c6        	j	b0e <s3_fft_simd_tile+0xce>
-			af7: R_XTENSA_SLOT0_OP	.text+0xb0e
- afa:	00          	.byte	00
- afb:	00          	.byte	00
- afc:	11b5c0        	slli	a11, a5, 4
- aff:	06cd      	mov.n	a12, a6
- b01:	b3ba      	add.n	a11, a3, a11
- b03:	fd4981        	l32r	a8, 28 <s3_pinned_fft_power_of_two-0x4> (0 <s3_pinned_fft_power_of_two-0x2c>)
-			b03: R_XTENSA_SLOT0_OP	.text+0x28
-			b03: R_XTENSA_ASM_EXPAND	s3_fft_simd_final
- b06:	0008e0        	callx8	a8
- b09:	fffa06        	j	af5 <s3_fft_simd_tile+0xb5>
-			b09: R_XTENSA_SLOT0_OP	.text+0xaf5
- b0c:	f27c      	movi.n	a2, -1
- b0e:	f01d      	retw.n
+00000a4c <s3_fft_simd_tile>:
+ a4c:	004136        	entry	a1, 32
+ a4f:	40f280        	nsau	a8, a2
+ a52:	418580        	srli	a8, a8, 5
+ a55:	0bf216        	beqz	a2, b18 <s3_fft_simd_tile+0xcc>
+			a55: R_XTENSA_SLOT0_OP	.text+0xb18
+ a58:	01a092        	movi	a9, 1
+ a5b:	838930        	moveqz	a8, a9, a3
+ a5e:	0b6856        	bnez	a8, b18 <s3_fft_simd_tile+0xcc>
+			a5e: R_XTENSA_SLOT0_OP	.text+0xb18
+ a61:	208230        	or	a8, a2, a3
+ a64:	348080        	extui	a8, a8, 0, 4
+ a67:	0ad856        	bnez	a8, b18 <s3_fft_simd_tile+0xcc>
+			a67: R_XTENSA_SLOT0_OP	.text+0xb18
+ a6a:	fd6581        	l32r	a8, 0 <s3_pinned_fft_power_of_two-0x38> (ffff7fff <s3_fft_worker_ready+0xffff7363>)
+			a6a: R_XTENSA_SLOT0_OP	.text
+ a6d:	628820        	saltu	a8, a8, a2
+ a70:	0a4856        	bnez	a8, b18 <s3_fft_simd_tile+0xcc>
+			a70: R_XTENSA_SLOT0_OP	.text+0xb18
+ a73:	fd6481        	l32r	a8, 4 <s3_pinned_fft_power_of_two-0x34> (ffffbfff <s3_fft_worker_ready+0xffffb363>)
+			a73: R_XTENSA_SLOT0_OP	.text+0x4
+ a76:	628830        	saltu	a8, a8, a3
+ a79:	09b856        	bnez	a8, b18 <s3_fft_simd_tile+0xcc>
+			a79: R_XTENSA_SLOT0_OP	.text+0xb18
+ a7c:	40d382        	addmi	a8, a3, 0x4000
+ a7f:	0bb287        	bgeu	a2, a8, a8e <s3_fft_simd_tile+0x42>
+			a7f: R_XTENSA_SLOT0_OP	.text+0xa8e
+ a82:	fd6181        	l32r	a8, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			a82: R_XTENSA_SLOT0_OP	.text+0x8
+ a85:	808280        	add	a8, a2, a8
+ a88:	02b387        	bgeu	a3, a8, a8e <s3_fft_simd_tile+0x42>
+			a88: R_XTENSA_SLOT0_OP	.text+0xa8e
+ a8b:	002246        	j	b18 <s3_fft_simd_tile+0xcc>
+			a8b: R_XTENSA_SLOT0_OP	.text+0xb18
+ a8e:	860b      	addi.n	a8, a6, -1
+ a90:	f90c      	movi.n	a9, 15
+ a92:	02b987        	bgeu	a9, a8, a98 <s3_fft_simd_tile+0x4c>
+			a92: R_XTENSA_SLOT0_OP	.text+0xa98
+ a95:	001fc6        	j	b18 <s3_fft_simd_tile+0xcc>
+			a95: R_XTENSA_SLOT0_OP	.text+0xb18
+ a98:	c80c      	movi.n	a8, 12
+ a9a:	7a3847        	bltu	a8, a4, b18 <s3_fft_simd_tile+0xcc>
+			a9a: R_XTENSA_SLOT0_OP	.text+0xb18
+ a9d:	fcd682        	addmi	a8, a6, 0xfffffc00
+ aa0:	608080        	neg	a8, a8
+ aa3:	713857        	bltu	a8, a5, b18 <s3_fft_simd_tile+0xcc>
+			aa3: R_XTENSA_SLOT0_OP	.text+0xb18
+ aa6:	a80c      	movi.n	a8, 10
+ aa8:	403847        	bltu	a8, a4, aec <s3_fft_simd_tile+0xa0>
+			aa8: R_XTENSA_SLOT0_OP	.text+0xaec
+ aab:	fd5c81        	l32r	a8, 1c <s3_pinned_fft_power_of_two-0x1c> (1000 <s3_fft_worker_ready+0x364>)
+			aab: R_XTENSA_SLOT0_OP	.text+0x1c
+ aae:	400400        	ssr	a4
+ ab1:	914080        	srl	a4, a8
+ ab4:	1185e0        	slli	a8, a5, 2
+ ab7:	c2c840        	quou	a12, a8, a4
+ aba:	82a4c0        	mull	a10, a4, a12
+ abd:	e28840        	remu	a8, a8, a4
+ ac0:	c07480        	sub	a7, a4, a8
+ ac3:	90aa80        	addx2	a10, a10, a8
+ ac6:	417270        	srli	a7, a7, 2
+ ac9:	637760        	minu	a7, a7, a6
+ acc:	b4aa      	add.n	a11, a4, a10
+ ace:	07dd      	mov.n	a13, a7
+ ad0:	a0cc30        	addx4	a12, a12, a3
+ ad3:	a0bb20        	addx4	a11, a11, a2
+ ad6:	a0aa20        	addx4	a10, a10, a2
+ ad9:	c06670        	sub	a6, a6, a7
+ adc:	fd5181        	l32r	a8, 20 <s3_pinned_fft_power_of_two-0x18> (0 <s3_pinned_fft_power_of_two-0x38>)
+			adc: R_XTENSA_SLOT0_OP	.text+0x20
+			adc: R_XTENSA_ASM_EXPAND	s3_fft_simd_general
+ adf:	0008e0        	callx8	a8
+ ae2:	557a      	add.n	a5, a5, a7
+ ae4:	fcc656        	bnez	a6, ab4 <s3_fft_simd_tile+0x68>
+			ae4: R_XTENSA_SLOT0_OP	.text+0xab4
+ ae7:	000586        	j	b01 <s3_fft_simd_tile+0xb5>
+			ae7: R_XTENSA_SLOT0_OP	.text+0xb01
+ aea:	00          	.byte	00
+ aeb:	00          	.byte	00
+ aec:	1185b0        	slli	a8, a5, 5
+ aef:	b90c      	movi.n	a9, 11
+ af1:	a28a      	add.n	a10, a2, a8
+ af3:	119497        	bne	a4, a9, b08 <s3_fft_simd_tile+0xbc>
+			af3: R_XTENSA_SLOT0_OP	.text+0xb08
+ af6:	06cd      	mov.n	a12, a6
+ af8:	b0b530        	addx8	a11, a5, a3
+ afb:	fd4a81        	l32r	a8, 24 <s3_pinned_fft_power_of_two-0x14> (0 <s3_pinned_fft_power_of_two-0x38>)
+			afb: R_XTENSA_SLOT0_OP	.text+0x24
+			afb: R_XTENSA_ASM_EXPAND	s3_fft_simd_pair
+ afe:	0008e0        	callx8	a8
+ b01:	020c      	movi.n	a2, 0
+ b03:	0004c6        	j	b1a <s3_fft_simd_tile+0xce>
+			b03: R_XTENSA_SLOT0_OP	.text+0xb1a
+ b06:	00          	.byte	00
+ b07:	00          	.byte	00
+ b08:	11b5c0        	slli	a11, a5, 4
+ b0b:	06cd      	mov.n	a12, a6
+ b0d:	b3ba      	add.n	a11, a3, a11
+ b0f:	fd4681        	l32r	a8, 28 <s3_pinned_fft_power_of_two-0x10> (0 <s3_pinned_fft_power_of_two-0x38>)
+			b0f: R_XTENSA_SLOT0_OP	.text+0x28
+			b0f: R_XTENSA_ASM_EXPAND	s3_fft_simd_final
+ b12:	0008e0        	callx8	a8
+ b15:	fffa06        	j	b01 <s3_fft_simd_tile+0xb5>
+			b15: R_XTENSA_SLOT0_OP	.text+0xb01
+ b18:	f27c      	movi.n	a2, -1
+ b1a:	f01d      	retw.n
+
+00000b1c <actual_tile>:
+ b1c:	004136        	entry	a1, 32
+ b1f:	07ed      	mov.n	a14, a7
+ b21:	03ad      	mov.n	a10, a3
+ b23:	04bd      	mov.n	a11, a4
+ b25:	05cd      	mov.n	a12, a5
+ b27:	06dd      	mov.n	a13, a6
+ b29:	fff225        	call8	a4c <s3_fft_simd_tile>
+			b29: R_XTENSA_NONE	*ABS*
+			b29: R_XTENSA_SLOT0_OP	s3_fft_simd_tile
+ b2c:	0a2d      	mov.n	a2, a10
+ b2e:	f01d      	retw.n
+
+00000b30 <s3_fft_worker_init>:
+ b30:	004136        	entry	a1, 32
+ b33:	090c      	movi.n	a9, 0
+ b35:	180c      	movi.n	a8, 1
+ b37:	09bd      	mov.n	a11, a9
+ b39:	09cd      	mov.n	a12, a9
+ b3b:	83b820        	moveqz	a11, a8, a2
+ b3e:	83c850        	moveqz	a12, a8, a5
+ b41:	20bbc0        	or	a11, a11, a12
+ b44:	02ad      	mov.n	a10, a2
+ b46:	092d      	mov.n	a2, a9
+ b48:	060b56        	bnez	a11, bac <s3_fft_worker_init+0x7c>
+			b48: R_XTENSA_SLOT0_OP	.text+0xbac
+ b4b:	839830        	moveqz	a9, a8, a3
+ b4e:	938240        	movnez	a8, a2, a4
+ b51:	202980        	or	a2, a9, a8
+ b54:	052256        	bnez	a2, baa <s3_fft_worker_init+0x7a>
+			b54: R_XTENSA_SLOT0_OP	.text+0xbaa
+ b57:	208340        	or	a8, a3, a4
+ b5a:	348080        	extui	a8, a8, 0, 4
+ b5d:	04b856        	bnez	a8, bac <s3_fft_worker_init+0x7c>
+			b5d: R_XTENSA_SLOT0_OP	.text+0xbac
+ b60:	fd2881        	l32r	a8, 0 <s3_pinned_fft_power_of_two-0x38> (ffff7fff <s3_fft_worker_ready+0xffff7363>)
+			b60: R_XTENSA_SLOT0_OP	.text
+ b63:	fd2891        	l32r	a9, 4 <s3_pinned_fft_power_of_two-0x34> (ffffbfff <s3_fft_worker_ready+0xffffb363>)
+			b63: R_XTENSA_SLOT0_OP	.text+0x4
+ b66:	628830        	saltu	a8, a8, a3
+ b69:	629940        	saltu	a9, a9, a4
+ b6c:	208890        	or	a8, a8, a9
+ b6f:	98fc      	bnez.n	a8, bac <s3_fft_worker_init+0x7c>
+			b6f: R_XTENSA_SLOT0_OP	.text+0xbac
+ b71:	40d482        	addmi	a8, a4, 0x4000
+ b74:	08b387        	bgeu	a3, a8, b80 <s3_fft_worker_init+0x50>
+			b74: R_XTENSA_SLOT0_OP	.text+0xb80
+ b77:	fd2481        	l32r	a8, 8 <s3_pinned_fft_power_of_two-0x30> (8000 <s3_fft_worker_ready+0x7364>)
+			b77: R_XTENSA_SLOT0_OP	.text+0x8
+ b7a:	808380        	add	a8, a3, a8
+ b7d:	2b3487        	bltu	a4, a8, bac <s3_fft_worker_init+0x7c>
+			b7d: R_XTENSA_SLOT0_OP	.text+0xbac
+ b80:	080c      	movi.n	a8, 0
+ b82:	0020c0        	memw
+ b85:	0a89      	s32i.n	a8, a10, 0
+ b87:	0020c0        	memw
+ b8a:	1a89      	s32i.n	a8, a10, 4
+ b8c:	0020c0        	memw
+ b8f:	2a89      	s32i.n	a8, a10, 8
+ b91:	fd2681        	l32r	a8, 2c <s3_pinned_fft_power_of_two-0xc> (b1c <actual_tile>)
+			b91: R_XTENSA_SLOT0_OP	.text+0x2c
+ b94:	3a39      	s32i.n	a3, a10, 12
+ b96:	938770        	movnez	a8, a7, a7
+ b99:	6a89      	s32i.n	a8, a10, 24
+ b9b:	8188      	l32i.n	a8, a1, 32
+ b9d:	4a49      	s32i.n	a4, a10, 16
+ b9f:	5a59      	s32i.n	a5, a10, 20
+ ba1:	7a69      	s32i.n	a6, a10, 28
+ ba3:	8a89      	s32i.n	a8, a10, 32
+ ba5:	120c      	movi.n	a2, 1
+ ba7:	000046        	j	bac <s3_fft_worker_init+0x7c>
+			ba7: R_XTENSA_SLOT0_OP	.text+0xbac
+ baa:	0b2d      	mov.n	a2, a11
+ bac:	f01d      	retw.n
+	...
+
+00000bb0 <s3_fft_worker_step>:
+ bb0:	006136        	entry	a1, 48
+ bb3:	027d      	mov.n	a7, a2
+ bb5:	40f780        	nsau	a8, a7
+ bb8:	120c      	movi.n	a2, 1
+ bba:	418580        	srli	a8, a8, 5
+ bbd:	629230        	saltu	a9, a2, a3
+ bc0:	208890        	or	a8, a8, a9
+ bc3:	0cf856        	bnez	a8, c96 <s3_fft_worker_step+0xe6>
+			bc3: R_XTENSA_SLOT0_OP	.text+0xc96
+ bc6:	0020c0        	memw
+ bc9:	2788      	l32i.n	a8, a7, 8
+ bcb:	0020c0        	memw
+ bce:	0189      	s32i.n	a8, a1, 0
+ bd0:	0c2856        	bnez	a8, c96 <s3_fft_worker_step+0xe6>
+			bd0: R_XTENSA_SLOT0_OP	.text+0xc96
+ bd3:	5798      	l32i.n	a9, a7, 20
+ bd5:	77a8      	l32i.n	a10, a7, 28
+ bd7:	03bd      	mov.n	a11, a3
+ bd9:	0009e0        	callx8	a9
+ bdc:	0188      	l32i.n	a8, a1, 0
+ bde:	0a4d      	mov.n	a4, a10
+ be0:	9acc      	bnez.n	a10, bed <s3_fft_worker_step+0x3d>
+			be0: R_XTENSA_SLOT0_OP	.text+0xbed
+ be2:	0020c0        	memw
+ be5:	0020c0        	memw
+ be8:	2729      	s32i.n	a2, a7, 8
+ bea:	002a06        	j	c96 <s3_fft_worker_step+0xe6>
+			bea: R_XTENSA_SLOT0_OP	.text+0xc96
+ bed:	a05370        	addx4	a5, a3, a7
+ bf0:	0020c0        	memw
+ bf3:	0568      	l32i.n	a6, a5, 0
+ bf5:	fd0e91        	l32r	a9, 30 <s3_pinned_fft_power_of_two-0x8> (1a00 <s3_fft_worker_ready+0xd64>)
+			bf5: R_XTENSA_SLOT0_OP	.text+0x30
+ bf8:	5c1697        	beq	a6, a9, c58 <s3_fft_worker_step+0xa8>
+			bf8: R_XTENSA_SLOT0_OP	.text+0xc58
+ bfb:	d6cc      	bnez.n	a6, c0c <s3_fft_worker_step+0x5c>
+			bfb: R_XTENSA_SLOT0_OP	.text+0xc0c
+ bfd:	0020c0        	memw
+ c00:	2788      	l32i.n	a8, a7, 8
+ c02:	0020c0        	memw
+ c05:	08ac      	beqz.n	a8, c29 <s3_fft_worker_step+0x79>
+			c05: R_XTENSA_SLOT0_OP	.text+0xc29
+ c07:	0022c6        	j	c96 <s3_fft_worker_step+0xe6>
+			c07: R_XTENSA_SLOT0_OP	.text+0xc96
+ c0a:	00          	.byte	00
+ c0b:	00          	.byte	00
+ c0c:	848060        	extui	a8, a6, 0, 9
+ c0f:	fea856        	bnez	a8, bfd <s3_fft_worker_step+0x4d>
+			c0f: R_XTENSA_SLOT0_OP	.text+0xbfd
+ c12:	302320        	xor	a2, a3, a2
+ c15:	f42020        	extui	a2, a2, 0, 16
+ c18:	a02270        	addx4	a2, a2, a7
+ c1b:	0020c0        	memw
+ c1e:	0298      	l32i.n	a9, a2, 0
+ c20:	0020c0        	memw
+ c23:	393967        	bltu	a9, a6, c60 <s3_fft_worker_step+0xb0>
+			c23: R_XTENSA_SLOT0_OP	.text+0xc60
+ c26:	fff4c6        	j	bfd <s3_fft_worker_step+0x4d>
+			c26: R_XTENSA_SLOT0_OP	.text+0xbfd
+ c29:	11e370        	slli	a14, a3, 9
+ c2c:	848060        	extui	a8, a6, 0, 9
+ c2f:	6798      	l32i.n	a9, a7, 24
+ c31:	47c8      	l32i.n	a12, a7, 16
+ c33:	37b8      	l32i.n	a11, a7, 12
+ c35:	87a8      	l32i.n	a10, a7, 32
+ c37:	0f1c      	movi.n	a15, 16
+ c39:	ee8a      	add.n	a14, a14, a8
+ c3b:	41d960        	srli	a13, a6, 9
+ c3e:	0009e0        	callx8	a9
+ c41:	3a8c      	beqz.n	a10, c48 <s3_fft_worker_step+0x98>
+			c41: R_XTENSA_SLOT0_OP	.text+0xc48
+ c43:	000a06        	j	c6f <s3_fft_worker_step+0xbf>
+			c43: R_XTENSA_SLOT0_OP	.text+0xc6f
+ c46:	00          	.byte	00
+ c47:	00          	.byte	00
+ c48:	fcfb81        	l32r	a8, 34 <s3_pinned_fft_power_of_two-0x4> (19f0 <s3_fft_worker_ready+0xd54>)
+			c48: R_XTENSA_SLOT0_OP	.text+0x34
+ c4b:	120c      	movi.n	a2, 1
+ c4d:	c08680        	sub	a8, a6, a8
+ c50:	290c      	movi.n	a9, 2
+ c52:	832980        	moveqz	a2, a9, a8
+ c55:	0002c6        	j	c64 <s3_fft_worker_step+0xb4>
+			c55: R_XTENSA_SLOT0_OP	.text+0xc64
+ c58:	084d      	mov.n	a4, a8
+ c5a:	220c      	movi.n	a2, 2
+ c5c:	000106        	j	c64 <s3_fft_worker_step+0xb4>
+			c5c: R_XTENSA_SLOT0_OP	.text+0xc64
+ c5f:	00          	.byte	00
+ c60:	084d      	mov.n	a4, a8
+ c62:	082d      	mov.n	a2, a8
+ c64:	5788      	l32i.n	a8, a7, 20
+ c66:	77a8      	l32i.n	a10, a7, 28
+ c68:	03bd      	mov.n	a11, a3
+ c6a:	0008e0        	callx8	a8
+ c6d:	bacc      	bnez.n	a10, c7c <s3_fft_worker_step+0xcc>
+			c6d: R_XTENSA_SLOT0_OP	.text+0xc7c
+ c6f:	0020c0        	memw
+ c72:	180c      	movi.n	a8, 1
+ c74:	0020c0        	memw
+ c77:	2789      	s32i.n	a8, a7, 8
+ c79:	000646        	j	c96 <s3_fft_worker_step+0xe6>
+			c79: R_XTENSA_SLOT0_OP	.text+0xc96
+ c7c:	0020c0        	memw
+ c7f:	2788      	l32i.n	a8, a7, 8
+ c81:	0020c0        	memw
+ c84:	e8cc      	bnez.n	a8, c96 <s3_fft_worker_step+0xe6>
+			c84: R_XTENSA_SLOT0_OP	.text+0xc96
+ c86:	e48c      	beqz.n	a4, c98 <s3_fft_worker_step+0xe8>
+			c86: R_XTENSA_SLOT0_OP	.text+0xc98
+ c88:	10c662        	addi	a6, a6, 16
+ c8b:	0020c0        	memw
+ c8e:	0020c0        	memw
+ c91:	0569      	s32i.n	a6, a5, 0
+ c93:	000046        	j	c98 <s3_fft_worker_step+0xe8>
+			c93: R_XTENSA_SLOT0_OP	.text+0xc98
+ c96:	f27c      	movi.n	a2, -1
+ c98:	f01d      	retw.n
+	...
+
+00000c9c <s3_fft_worker_ready>:
+ c9c:	004136        	entry	a1, 32
+ c9f:	52cc      	bnez.n	a2, ca8 <s3_fft_worker_ready+0xc>
+			c9f: R_XTENSA_SLOT0_OP	.text+0xca8
+ ca1:	020c      	movi.n	a2, 0
+ ca3:	000ac6        	j	cd2 <s3_fft_worker_ready+0x36>
+			ca3: R_XTENSA_SLOT0_OP	.text+0xcd2
+ ca6:	00          	.byte	00
+ ca7:	00          	.byte	00
+ ca8:	0020c0        	memw
+ cab:	2288      	l32i.n	a8, a2, 8
+ cad:	0020c0        	memw
+ cb0:	fed856        	bnez	a8, ca1 <s3_fft_worker_ready+0x5>
+			cb0: R_XTENSA_SLOT0_OP	.text+0xca1
+ cb3:	0020c0        	memw
+ cb6:	0298      	l32i.n	a9, a2, 0
+ cb8:	0020c0        	memw
+ cbb:	fcdd81        	l32r	a8, 30 <s3_pinned_fft_power_of_two-0x8> (1a00 <s3_fft_worker_ready+0xd64>)
+			cbb: R_XTENSA_SLOT0_OP	.text+0x30
+ cbe:	df9987        	bne	a9, a8, ca1 <s3_fft_worker_ready+0x5>
+			cbe: R_XTENSA_SLOT0_OP	.text+0xca1
+ cc1:	0020c0        	memw
+ cc4:	1228      	l32i.n	a2, a2, 4
+ cc6:	0020c0        	memw
+ cc9:	e6d222        	addmi	a2, a2, 0xffffe600
+ ccc:	40f220        	nsau	a2, a2
+ ccf:	412520        	srli	a2, a2, 5
+ cd2:	f01d      	retw.n
 
 Disassembly of section .iram1.literal:
 
@@ -1339,19 +1569,19 @@ Disassembly of section .iram1:
 00000000 <s3_pinned_fft_aes3>:
    0:	008136        	entry	a1, 64
    3:	20a330        	or	a10, a3, a3
-   6:	000081        	l32r	a8, fffc0008 <s3_fft_simd_tile+0xfffbf5c8>
+   6:	000081        	l32r	a8, fffc0008 <s3_fft_worker_ready+0xfffbf36c>
 			6: R_XTENSA_SLOT0_OP	.iram1.literal+0x10
 			6: R_XTENSA_ASM_EXPAND	s3_pinned_fft_power_of_two
    9:	0008e0        	callx8	a8
    c:	0f9a16        	beqz	a10, 109 <s3_pinned_fft_aes3+0x109>
 			c: R_XTENSA_SLOT0_OP	.iram1+0x109
-   f:	000081        	l32r	a8, fffc0010 <s3_fft_simd_tile+0xfffbf5d0>
+   f:	000081        	l32r	a8, fffc0010 <s3_fft_worker_ready+0xfffbf374>
 			f: R_XTENSA_SLOT0_OP	.iram1.literal
   12:	000882        	l8ui	a8, a8, 0
   15:	0eb816        	beqz	a8, 104 <s3_pinned_fft_aes3+0x104>
 			15: R_XTENSA_SLOT0_OP	.iram1+0x104
   18:	019d      	mov.n	a9, a1
-  1a:	000081        	l32r	a8, fffc001c <s3_fft_simd_tile+0xfffbf5dc>
+  1a:	000081        	l32r	a8, fffc001c <s3_fft_worker_ready+0xfffbf380>
 			1a: R_XTENSA_SLOT0_OP	.iram1.literal+0x4
   1d:	631b      	addi.n	a6, a3, 1
   1f:	0a1c      	movi.n	a10, 16
@@ -1446,10 +1676,10 @@ Disassembly of section .iram1:
 			ff: R_XTENSA_SLOT0_OP	.iram1+0xc7
  102:	00          	.byte	00
  103:	00          	.byte	00
- 104:	000021        	l32r	a2, fffc0104 <s3_fft_simd_tile+0xfffbf6c4>
+ 104:	000021        	l32r	a2, fffc0104 <s3_fft_worker_ready+0xfffbf468>
 			104: R_XTENSA_SLOT0_OP	.iram1.literal+0x8
  107:	f01d      	retw.n
- 109:	000021        	l32r	a2, fffc010c <s3_fft_simd_tile+0xfffbf6cc>
+ 109:	000021        	l32r	a2, fffc010c <s3_fft_worker_ready+0xfffbf470>
 			109: R_XTENSA_SLOT0_OP	.iram1.literal+0xc
  10c:	f01d      	retw.n
  10e:	00          	.byte	00
@@ -1463,7 +1693,7 @@ Disassembly of section .iram1:
  118:	008136        	entry	a1, 64
  11b:	081c      	movi.n	a8, 16
  11d:	130380        	wsr.sar	a8
- 120:	000071        	l32r	a7, fffc0120 <s3_fft_simd_tile+0xfffbf6e0>
+ 120:	000071        	l32r	a7, fffc0120 <s3_fft_worker_ready+0xfffbf484>
 			120: R_XTENSA_SLOT0_OP	.iram1.literal+0x4
  123:	005172        	s16i	a7, a1, 0
  126:	016d      	mov.n	a6, a1
@@ -1485,7 +1715,7 @@ Disassembly of section .iram1:
  14c:	008136        	entry	a1, 64
  14f:	10a082        	movi	a8, 16
  152:	130380        	wsr.sar	a8
- 155:	000071        	l32r	a7, fffc0158 <s3_fft_simd_tile+0xfffbf718>
+ 155:	000071        	l32r	a7, fffc0158 <s3_fft_worker_ready+0xfffbf4bc>
 			155: R_XTENSA_SLOT0_OP	.iram1.literal+0x4
  158:	005172        	s16i	a7, a1, 0
  15b:	206110        	or	a6, a1, a1
@@ -1515,7 +1745,7 @@ Disassembly of section .iram1:
  198:	008136        	entry	a1, 64
  19b:	10a082        	movi	a8, 16
  19e:	130380        	wsr.sar	a8
- 1a1:	000071        	l32r	a7, fffc01a4 <s3_fft_simd_tile+0xfffbf764>
+ 1a1:	000071        	l32r	a7, fffc01a4 <s3_fft_worker_ready+0xfffbf508>
 			1a1: R_XTENSA_SLOT0_OP	.iram1.literal+0x4
  1a4:	005172        	s16i	a7, a1, 0
  1a7:	206110        	or	a6, a1, a1

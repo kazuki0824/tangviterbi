@@ -1,3 +1,9 @@
+> [PR4 estimate completion conditions](reports/pr4-estimate-completion.md):
+> current evidence does not establish a best receiver candidate. Individual
+> validation continues. A bounded two-core FFT worker now services native RF
+> between tiles and returns at stage barriers; 21 host tests and target compile
+> pass. Real RTOS/DMA integration and simultaneous WCET remain unverified.
+>
 > **2026-10-11 follow-up: estimate remains incomplete.**
 > Actual target-code and packed-netlist checks reject the current scalar FFT
 > (ideal two-core lower bound 3.550/3.883 ms versus a 1.0395 ms T period),

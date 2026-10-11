@@ -64,16 +64,18 @@ if RS_OFFLOAD:
         for suffix in ('.c','.h'):shutil.copy2(ROOT/'experiments'/(name+suffix),extra/(name+suffix))
 if SIMD:
     from s3_fft_simd_source import source as simd_source,tiled_source
-    for name in ('s3_fft_simd.c','s3_fft_simd.h','s3_fft_simd_coefficients.inc','s3_fft_simd_tiles.c','s3_fft_simd_tiles.h'):
+    for name in ('s3_fft_simd.c','s3_fft_simd.h','s3_fft_simd_coefficients.inc','s3_fft_simd_tiles.c','s3_fft_simd_tiles.h',
+                 's3_fft_worker.c','s3_fft_worker.h','s3_fft_capture_service.c','s3_fft_capture_service.h'):
         shutil.copy2(ROOT/'experiments'/name,extra/name)
     (extra/'s3_fft_aes3.S').write_text(simd_source())
     (extra/'s3_fft_tiles_aes3.S').write_text(tiled_source())
 s=(ROOT/'experiments/s3_memory_probe/main/memory_probe.c').read_text().replace('void app_main(void)','void s3_extras_link_probe(void)')
 if SIMD:
-    s='#include "s3_fft_simd.h"\n#include "s3_fft_simd_tiles.h"\n'+s
+    s='#include "s3_fft_simd.h"\n#include "s3_fft_simd_tiles.h"\n#include "s3_fft_worker.h"\n#include "s3_fft_capture_service.h"\n'+s
     anchor='probe_keep = (uintptr_t)rf_packed_queue;'
     if s.count(anchor)!=1:raise ValueError('missing SIMD retention anchor')
-    s=s.replace(anchor,anchor+'\n    probe_keep ^= (uintptr_t)&s3_fft_simd_run ^ (uintptr_t)&s3_fft_simd_tile ^ (uintptr_t)s3_fft_simd_table;')
+    s=s.replace('#include "s3_fft_worker.h"\n','#include "s3_fft_worker.h"\nstatic s3_fft_worker simd_worker_state;\n')
+    s=s.replace(anchor,anchor+'\n    probe_keep ^= (uintptr_t)&s3_fft_simd_run ^ (uintptr_t)&s3_fft_simd_tile ^ (uintptr_t)s3_fft_simd_table ^ (uintptr_t)&s3_fft_worker_init ^ (uintptr_t)&s3_fft_worker_step ^ (uintptr_t)&s3_fft_worker_ready ^ (uintptr_t)&s3_fft_service_capture ^ (uintptr_t)&simd_worker_state;')
 # Upstream already reserves exactly this physical RF interval.
 s=s.replace('SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);','')
 (extra/'memory_probe.c').write_text(s)
@@ -91,7 +93,7 @@ if RS_OFFLOAD:
     s+='\ntarget_compile_definitions(${COMPONENT_LIB} PRIVATE PROBE_RS_OFFLOAD=1)\n'
     s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_rs_offload.c s3_probe/s3_rs_rpc.c s3_probe/s3_rs_workspace.c)\n'
 if SIMD:
-    s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_fft_simd.c s3_probe/s3_fft_aes3.S s3_probe/s3_fft_simd_tiles.c s3_probe/s3_fft_tiles_aes3.S)\n'
+    s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_fft_simd.c s3_probe/s3_fft_aes3.S s3_probe/s3_fft_simd_tiles.c s3_probe/s3_fft_tiles_aes3.S s3_probe/s3_fft_worker.c s3_probe/s3_fft_capture_service.c)\n'
 p.write_text(s)
 # Retain RF PHY options; explicitly override module/cache/CPU configuration.
 defaults=(UP/'sdkconfig.defaults.esp32s3').read_text()
@@ -158,13 +160,15 @@ if p.exists():
     if SIMD:
         result['SIMD_symbols']={}
         for name in ('s3_fft_simd_run','s3_pinned_fft_aes3','s3_pinned_fft_power_of_two','s3_fft_simd_table','s3_fft_simd_tile',
-                     's3_fft_simd_general','s3_fft_simd_pair','s3_fft_simd_final'):
+                     's3_fft_simd_general','s3_fft_simd_pair','s3_fft_simd_final',
+                     's3_fft_worker_init','s3_fft_worker_step','s3_fft_worker_ready','s3_fft_service_capture'):
             found=re.findall(r'^\s*(0x[0-9a-fA-F]+)\s+'+name+r'\s*$',m,re.M)
             result['SIMD_symbols'][name]=found[-1] if found else None
         result['SIMD_code_in_IRAM']=all(result['SIMD_symbols'][name] is not None and
           0x40374000<=int(result['SIMD_symbols'][name],16)<0x403a0000 for name in
           ('s3_fft_simd_run','s3_pinned_fft_aes3','s3_pinned_fft_power_of_two','s3_fft_simd_tile',
-           's3_fft_simd_general','s3_fft_simd_pair','s3_fft_simd_final'))
+           's3_fft_simd_general','s3_fft_simd_pair','s3_fft_simd_final',
+           's3_fft_worker_step','s3_fft_worker_ready','s3_fft_service_capture'))
         result['SIMD_constant_table_preserved']=result['SIMD_symbols']['s3_fft_simd_table'] is not None
 config=OUT/'idf/config/sdkconfig.json'
 if config.exists():

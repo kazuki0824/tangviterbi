@@ -18,10 +18,20 @@
     "experiments/s3_fft_simd_coefficients.inc": "6e4515981b9e41cea9ecc8a16d9dd868c075ccfde797034e54cfc523a983c75b",
     "experiments/s3_fft_simd_tiles.c": "3d62af011e8a7088904a3156c00f617c0ed148f05cb11aa2769c87b51a7ab682",
     "experiments/s3_fft_simd_tiles.h": "bfda96c03b1fb743e3326125e0403df1f5cd19d4281ea52a5ebc3a844ced4ab8",
+    "experiments/s3_fft_worker.c": "84e9f455fcae84fdeb5788905727dc5ba518d5e8cfc824cff872fe4acd734c34",
+    "experiments/s3_fft_worker.h": "dfb849bd6e88929a0222d77eafd7687c7541a1eaa990c6bdb6ca9213899fd3b8",
+    "experiments/s3_fft_capture_service.c": "fb4408fa522010af24c7f127924fb21bd34d848c8917e00437e17ba79556dd5e",
+    "experiments/s3_fft_capture_service.h": "da91c449e27128c025dedf87771cb4c20fc0a57601e65cff1c0a3f306170c9e7",
     "ci/s3_fft_simd_source.py": "f8b1bbc3b17f20f20f80c5fe4d77778350a4466eb6eb564cea764aa7fb4f217f",
-    "ci/s3_fft_simd_evidence.py": "9b6f95ae0ab4fa372f98f2c3864a1ed97571a9167a308e09174ea9b727447831"
+    "ci/s3_fft_simd_evidence.py": "5f661c03bd589af183ca20920437ba0d6660b56ba47a3667f62e38803e38e940"
   },
-  "bundle_sha256": "7f921782d11cb907eb3dd829f1d3abf7f9b6eca6562694dd13736e781fc392d9",
+  "bundle_sha256": "a60b2adb923b1eedfd77fe39e91d57ec450ac0f17234b4095ec61af77ba1b047",
+  "RF_service_object_sha256": "36340c1b1c602545e4014ad842c87c3084701f5c8fa6ceeddc238b77cf4c28ce",
+  "RF_service_object_dependencies": [
+    "s3_capture_step",
+    "s3_native_poll",
+    "s3_native_stop"
+  ],
   "coefficient_bytes": 16384,
   "frame_bytes": 32768,
   "frames": 2,
@@ -31,7 +41,7 @@
   "SIMD_executed": false,
   "SIMD_ANSI_bit_equivalence_verified": false,
   "receiver_adopted": false,
-  "deployment_contract": "FFT core1 with local interrupt mask; RF core0 never waits on the FFT lock. Frame and copied coefficients must be internal SRAM. High-priority/NMI code cannot use PIE.",
+  "deployment_contract": "Full FFT entry uses core1; tiled worker uses two disjoint core owners with acquire/release stage barriers and returns to RF/transport service before/after each 64-butterfly tile and while waiting. Frame/table must be internal SRAM; RTOS and DMA ownership integration/WCET remain unverified. High-priority/NMI code cannot use PIE.",
   "unknown": [
     "8192-point simultaneous RF/DMA WCET",
     "whole-system IRQ/vector context verification",

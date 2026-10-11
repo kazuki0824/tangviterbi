@@ -54,3 +54,18 @@ SIMD/startupの15 unittestとtarget bundle結合を再現した（2026-10-11）�
 host ANSI oracleと実行logを[s3-fft-simd-evidence](s3-fft-simd-evidence/results.json)へ回収。
 target bundleはtext2832 B、IRAM470 B＋literal20 B、rodata16384 B。
 SDK profileの実ELF検証、CPU cycle/WCET、受信品質、全候補判定は未完了。
+
+## 実C workerとnative RF service（2026-10-11追記）
+
+段間同期をhost試験だけのbarrierから、acquire/releaseの実C workerへ移した。
+待機stepは戻り、各64-butterfly tileの前後と待機中もserviceを呼ぶ。
+core0のserviceを既存native RF poll・上限付きpacking・nonblocking pumpへ接続。
+21 unittestとS3 worker込みtarget bundle結合に合格。textは3284 B（＋452 B）。
+[不足・検証範囲と詳細](pr4-estimate-completion.md)を参照。
+
+RF fake-MMIO試験のtileは合成24-cycle stub。実SIMD速度やWCETの証拠ではない。
+実RTOS/pinning、FFT frame ingress/egress、実DMA/credit、全体SDK linkは未結合。
+
+先行HEAD `28f4ec4` のSIMD/tile版はCIで実SDKリンクとIRAM配置検査に成功した。
+[固定HEADの証拠](s3-fft-simd-evidence/prior-sdk-ci.json)にELF/map hashと結果を保存。
+今回のworkerを含むSDK版は未検証のまま区別する。

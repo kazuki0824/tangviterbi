@@ -3,6 +3,8 @@
 2026-10-11更新。対象はISDB-T全セグメントと従来ISDB-SのTS出力、実行時切替。
 採用済み受信機は0。`receiver_adopted=false`を維持する。
 
+[最良候補を決める前の不足・4 SoCの対象範囲・今回のworker実装](pr4-estimate-completion.md)を追加した。個別検証を続けるが、現行PR4から成立済み第一案へ絞ることはできない。
+
 
 ## 2026-10-11追加：実装を進めて閉じた項目と、復旧後の残課題
 
@@ -14,7 +16,7 @@
 | I2S/GDMA | 同じI2S controllerのclock共有、5組GDMAとSPI pair予約を反映。port subsetは2169。実ピン・同時帯域保証ではない |
 | T FEC＋物理PSRAM/SPI | 通常RSは最低9001位置で収容不可。圧縮RSは8605位置・10 BSRAM、180秒の配置探索中断でfit/Fmax不明。[証拠](s3-t-fec-resource.md) |
 | 固定S3 SIMD FFT | 8192点全bin、16 KiB係数、target compile/結合とhost ANSI/NumPy試験合格。実機実行なし。[証拠](s3-fft-simd.md) |
-| SIMD stage tile | 13 stage、最大64 butterfly/call、2 threadのstage同期/所有権をhost ANSIで検査し合格。RF/RTOS・FPGA bit-reversed index受入れは未結合 |
+| SIMD stage tile | 13 stage、最大64 butterfly/call、実C workerの段間同期/所有権とhost ANSI全binを検査。native RF serviceへ模擬接続済み。実RTOS/DMA・FPGA index受入れは未結合 |
 
 最新tile sourceまでPR4へ保存した後も、完了条件は未達。
 接続断から実行環境が復旧し、clean checkoutで15件のSIMD/startup unittestと

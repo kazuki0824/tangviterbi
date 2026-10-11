@@ -3,6 +3,16 @@ on:
   pull_request:
     paths:
       - 'experiments/s3_fft_tiles.*'
+      - 'experiments/s3_fft_simd*'
+      - 'experiments/s3_fft_worker.*'
+      - 'experiments/s3_fft_capture_service.*'
+      - 'experiments/s3_native_capture.*'
+      - 'ci/s3_fft_simd_source.py'
+      - 'tests/test_s3_fft_simd*'
+      - 'tests/test_s3_fft_worker.py'
+      - 'tests/s3_fft_worker_host.c'
+      - 'tests/test_s3_native_capture.py'
+      - 'tests/s3_native_capture_host.c'
       - 'experiments/s3_stream_schedule.py'
       - 'experiments/s3_transport.*'
       - 'experiments/s3_sct_schedule.py'
@@ -33,6 +43,11 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -p test_s3_stream_schedule.py -v
           python3 experiments/s3_stream_schedule.py --output s3-stream-schedule.json
+      - name: Test bounded SIMD worker and native RF handoff separately from WCET
+        run: |
+          PYTHONPATH=tests python3 -m unittest -v test_s3_fft_simd test_s3_fft_simd_tiles test_s3_fft_worker test_s3_native_capture
+          cp build/s3-fft-worker/result.json s3-fft-worker.json
+          cp build/s3-native-capture/result.txt s3-native-worker.txt
       - name: Exercise zero-copy ownership with concurrent producer and scheduler
         run: |
           python3 -m unittest discover -s tests -p test_s3_transport.py -v
@@ -45,5 +60,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: s3-host-contracts
-          path: s3-*.json
+          path: |
+            s3-*.json
+            s3-native-worker.txt
           retention-days: 30

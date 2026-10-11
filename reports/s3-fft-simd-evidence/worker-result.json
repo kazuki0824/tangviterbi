@@ -1,0 +1,29 @@
+{
+  "scope": "Actual two-core worker/barrier with ANSI tile arithmetic; no SIMD/WCET claim.",
+  "cases": [
+    {
+      "input": "random",
+      "all_complex_bins": 8192,
+      "ANSI_matches": true,
+      "tile_calls": 832,
+      "service_calls": [
+        1696,
+        954
+      ]
+    },
+    {
+      "input": "extremes",
+      "all_complex_bins": 8192,
+      "ANSI_matches": true,
+      "tile_calls": 832,
+      "service_calls": [
+        2172,
+        1090
+      ]
+    }
+  ],
+  "real_RTOS_executed": false,
+  "SIMD_executed": false,
+  "CPU_WCET_verified": false,
+  "receiver_adopted": false
+}
