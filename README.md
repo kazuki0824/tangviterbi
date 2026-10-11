@@ -1,3 +1,10 @@
+> **2026-10-11 partition re-audit: incomplete estimate, no adopted receiver.**
+> [The 320 ownership / 18 transport-profile audit](reports/s3-partition-audit.md)
+> records the new lossless transfer calculations and the remaining performance
+> gates. Its 24 CPU-average screening rows are not feasible receiver candidates.
+> Full FPGA resources and concurrent RF/FFT/RS/RPC deadlines remain unknown;
+> the proposed T-FFT/S-BM-Omega order is a validation order only.
+>
 > S3 receiver status update: the old late SRAM ring overlaps ROM-reserved data
 > and is rejected. A ROM-safe direct-PHY link profile passes necessary startup
 > capacity checks but is not verified on hardware. New native bank capture,
