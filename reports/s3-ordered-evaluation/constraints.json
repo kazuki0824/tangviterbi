@@ -136,7 +136,7 @@
         "voltage": 3.3
       },
       {
-        "signal": "control_sda",
+        "signal": "RF_credit_gray0",
         "ESP_GPIO": 38,
         "FPGA_pin": 55,
         "connector": "J5",
@@ -144,11 +144,35 @@
         "voltage": 3.3
       },
       {
-        "signal": "control_scl",
+        "signal": "RF_credit_gray1",
         "ESP_GPIO": 39,
         "FPGA_pin": 56,
         "connector": "J5",
         "connector_pin": 21,
+        "voltage": 3.3
+      },
+      {
+        "signal": "RF_credit_gray2",
+        "ESP_GPIO": 41,
+        "FPGA_pin": 57,
+        "connector": "J5",
+        "connector_pin": 22,
+        "voltage": 3.3
+      },
+      {
+        "signal": "IQ_publish_gray0",
+        "ESP_GPIO": 42,
+        "FPGA_pin": 37,
+        "connector": "J5",
+        "connector_pin": 2,
+        "voltage": 3.3
+      },
+      {
+        "signal": "IQ_publish_gray1",
+        "ESP_GPIO": 47,
+        "FPGA_pin": 38,
+        "connector": "J5",
+        "connector_pin": 1,
         "voltage": 3.3
       },
       {
@@ -205,7 +229,7 @@
     "receiver_adopted": false
   },
   "fixed_Octal_Quad_nets_shared_by_T_S": true,
-  "data_control_GPIO_count": 18,
+  "data_control_GPIO_count": 21,
   "RECONFIG_GPIO_additional": 40,
   "physical_IO_STA_verified": false,
   "LCD_alternative_pin_mapping_verified": false,
@@ -224,11 +248,14 @@
     "background_programming_scope": "board external SPI NOR only"
   },
   "memory": {
-    "sdk_evidence_HEAD": "f47f26d7ea1609439ddd733b26a93b4621522319",
+    "current_runtime_sources_match_saved_SDK": true,
+    "saved_SDK_differs_from_current_sources": [],
+    "historical_memory_bound_must_not_certify_changed_firmware": false,
+    "sdk_evidence_HEAD": "c1c5dc8caf40e7f6d9a9916a6e68121402ad4b0e",
     "SDK_profile_is_integrated_receiver": false,
     "latest_evidence_is_same_binary_T_S_union": true,
     "SDK_union_includes_RS_code": true,
-    "source_sha256": "82f53438396490beea703f802bbf74103f9a2f53e636364ec563ccd7d8622529",
+    "source_sha256": "4204e9ef994f353902c67807429aa61c202fe16f0c8cf2a5b918d7bde927810c",
     "RF_raw_three_banks_bytes": 196608,
     "RF_lossless_packed_ring_bytes": 32768,
     "SDK_profile": "native-direct-phy-runtime32",
@@ -240,7 +267,7 @@
     "T_SIMD_coefficients_bytes": 16384,
     "slots_are_mutually_exclusive_T_FFT_or_S_RS": true,
     "RS_slot_layout_verified": true,
-    "free_after_startup_and_pool_upper_bound_bytes": 27580,
+    "free_after_startup_and_pool_upper_bound_bytes": 25908,
     "worker_profiles": {
       "two_extra_2KiB_workers": {
         "additional_worker_stack_bytes": [
@@ -249,7 +276,7 @@
         ],
         "RF_owner_reuses_main_task": false,
         "additional_stack_TCB_allocation_lower_bound_bytes": 4792,
-        "internal_spare_upper_bound_before_driver_bytes": 22788,
+        "internal_spare_upper_bound_before_driver_bytes": 21116,
         "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
@@ -261,7 +288,7 @@
         ],
         "RF_owner_reuses_main_task": true,
         "additional_stack_TCB_allocation_lower_bound_bytes": 2396,
-        "internal_spare_upper_bound_before_driver_bytes": 25184,
+        "internal_spare_upper_bound_before_driver_bytes": 23512,
         "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
@@ -274,7 +301,7 @@
         ],
         "RF_owner_reuses_main_task": false,
         "additional_stack_TCB_allocation_lower_bound_bytes": 2744,
-        "internal_spare_upper_bound_before_driver_bytes": 24836,
+        "internal_spare_upper_bound_before_driver_bytes": 23164,
         "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
@@ -286,7 +313,7 @@
         ],
         "RF_owner_reuses_main_task": true,
         "additional_stack_TCB_allocation_lower_bound_bytes": 1372,
-        "internal_spare_upper_bound_before_driver_bytes": 26208,
+        "internal_spare_upper_bound_before_driver_bytes": 24536,
         "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
@@ -306,7 +333,7 @@
       "target_StaticTask_t_bytes": 340,
       "stack_TCB_and_pipeline_state_already_in_ELF_BSS": true,
       "additional_dynamic_task_allocation_bytes": 0,
-      "internal_spare_upper_bound_before_driver_bytes": 27580,
+      "internal_spare_upper_bound_before_driver_bytes": 25908,
       "declared_worker_capacity_necessary_pass": true,
       "all_runtime_memory_verified": false,
       "do_not_subtract_static_stack_TCB_a_second_time": true

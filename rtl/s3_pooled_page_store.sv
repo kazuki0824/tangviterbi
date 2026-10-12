@@ -2,7 +2,7 @@
 // Each stream has an independent ordered cursor. Identical offsets across
 // streams cannot alias. Leases survive stalls until the final word is accepted.
 module s3_pooled_page_store #(
- parameter ALLOW_FFT=1,parameter [19:0] RESET_RF_SEQUENCE=0,RESET_FFT_SEQUENCE=0
+ parameter ALLOW_FFT=1,INPUT_PORTS=2,parameter [19:0] RESET_RF_SEQUENCE=0,RESET_FFT_SEQUENCE=0
 )(
  input wire clk,resetn,input wire[15:0]epoch,
  input wire[1:0]in_valid,output wire[1:0]in_ready,
@@ -15,8 +15,13 @@ module s3_pooled_page_store #(
  wire[1:0]request,grant,start,dv,dr,commit,gfault;
  wire[1:0]stream[0:1];wire[31:0]offset[0:1],data[0:1];
  genvar p;generate for(p=0;p<2;p=p+1)begin:g
+ if(p<INPUT_PORTS)begin:enabled
   s3_page_guard guard(clk,resetn,epoch,in_valid[p],in_ready[p],token[p],grant[p],start[p],
    stream[p],offset[p],dv[p],dr[p],data[p],commit[p],gfault[p],request[p]);
+ end else begin:disabled
+  assign in_ready[p]=0;assign start[p]=0;assign stream[p]=0;assign offset[p]=0;
+  assign dv[p]=0;assign data[p]=0;assign commit[p]=0;assign gfault[p]=0;assign request[p]=0;
+ end
  end endgenerate
  reg[3:0]occupied,committed;reg[1:0]kinds[0:3],owned[0:1];
  reg[19:0]sequences[0:3],next_RF,next_FFT;reg[9:0]write_index[0:1];
@@ -28,7 +33,7 @@ module s3_pooled_page_store #(
    duplicate=0;
    for(rj=0;rj<4;rj=rj+1)if(occupied[rj]&&kinds[rj]==stream[ri]&&sequences[rj]==offset[ri][31:12])duplicate=1;
    if(ri==1&&permitted[0]&&stream[0]==stream[1]&&offset[0]==offset[1])duplicate=1;
-   delta=offset[ri][31:12]-(stream[ri]==1?next_RF:next_FFT);
+   delta=offset[ri][31:12]-(ALLOW_FFT&&stream[ri]!=1?next_FFT:next_RF);
    bad=(stream[ri]!=1&&stream[ri]!=2)||(!ALLOW_FFT&&stream[ri]==2)||delta>=4||duplicate;
    if(request[ri]&&!bad&&!fault)begin
     for(rj=3;rj>=0;rj=rj-1)if(available[rj])begin permitted[ri]=1;picked[ri]=rj;end
@@ -51,16 +56,16 @@ module s3_pooled_page_store #(
   found=0;chosen_page[0]=0;chosen_page[1]=0;
   for(pi=0;pi<4;pi=pi+1)begin
    if(committed[pi]&&kinds[pi]==1&&sequences[pi]==next_RF)begin found[0]=1;chosen_page[0]=pi;end
-   if(committed[pi]&&kinds[pi]==2&&sequences[pi]==next_FFT)begin found[1]=1;chosen_page[1]=pi;end
+   if(ALLOW_FFT&&committed[pi]&&kinds[pi]==2&&sequences[pi]==next_FFT)begin found[1]=1;chosen_page[1]=pi;end
   end
  end
  wire[1:0]want_read=active&~holding;
  wire read_choose=want_read[1]&&(!want_read[0]||read_rr);
  wire launch=!read_pending&&(|want_read)&&!fault;
  always @(posedge clk)if(launch)read_value<=memory[{read_slot[read_choose],read_index[read_choose]}];
- assign RF_valid=holding[0]&&!fault;assign FFT_valid=holding[1]&&!fault;
- assign RF_data=held_value[0];assign FFT_data=held_value[1];
- assign RF_offset=held_offset[0];assign FFT_offset=held_offset[1];
+ assign RF_valid=holding[0]&&!fault;assign FFT_valid=ALLOW_FFT&&holding[1]&&!fault;
+ assign RF_data=held_value[0];assign FFT_data=ALLOW_FFT?held_value[1]:32'd0;
+ assign RF_offset=held_offset[0];assign FFT_offset=ALLOW_FFT?held_offset[1]:32'd0;
  assign RF_last=read_index[0]==1023;assign FFT_last=read_index[1]==1023;
  wire[1:0]take={FFT_valid&&FFT_ready,RF_valid&&RF_ready};
  assign idle=occupied==0&&active==0&&holding==0&&!read_pending;
@@ -76,13 +81,13 @@ module s3_pooled_page_store #(
    for(n=0;n<2;n=n+1)begin
     if(request[n])begin
      if((stream[n]!=1&&stream[n]!=2)||(!ALLOW_FFT&&stream[n]==2)||
-      (offset[n][31:12]-(stream[n]==1?next_RF:next_FFT))>=20'd4)allocator_fault<=1;
+      (offset[n][31:12]-(ALLOW_FFT&&stream[n]!=1?next_FFT:next_RF))>=20'd4)allocator_fault<=1;
      for(cj=0;cj<4;cj=cj+1)if(occupied[cj]&&kinds[cj]==stream[n]&&sequences[cj]==offset[n][31:12])allocator_fault<=1;
      if(n==1&&grant[0]&&stream[0]==stream[1]&&offset[0]==offset[1])allocator_fault<=1;
     end
     if(grant[n])begin
      owned[n]<=picked[n];write_index[n]<=0;occupied[picked[n]]<=1;
-     kinds[picked[n]]<=stream[n];sequences[picked[n]]<=offset[n][31:12];
+     kinds[picked[n]]<=ALLOW_FFT?stream[n]:2'd1;sequences[picked[n]]<=offset[n][31:12];
     end
     if(commit[n])committed[owned[n]]<=1;
    end

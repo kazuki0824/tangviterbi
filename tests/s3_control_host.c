@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <string.h>
 struct fake_device {spi_multi_transaction_t *batch;bool busy,complete;};
-static struct fake_device device;static unsigned epoch,polling_ends;static bool cold;
+static struct fake_device device;static unsigned epoch,polling_ends;static uint32_t IQ_offset=4096,status_flags=5;static bool cold;
 static void put(uint8_t*p,uint32_t w){for(unsigned i=0;i<4;++i)p[i]=w>>(8*i);}
 static void snapshot(uint8_t*p,uint32_t nonce,unsigned ep)
-{uint32_t w[8]={0x31534353,0x01000000|ep,4096,5,nonce,0x1234abcd,0,0};for(unsigned i=0;i<6;++i)w[6]^=w[i];w[6]^=0x96c39a5f;for(unsigned i=0;i<8;++i)put(p+4*i,w[i]);}
+{uint32_t w[8]={0x31534353,0x01000000|ep,IQ_offset,status_flags,nonce,0x1234abcd,0,0};for(unsigned i=0;i<6;++i)w[6]^=w[i];w[6]^=0x96c39a5f;for(unsigned i=0;i<8;++i)put(p+4*i,w[i]);}
 esp_err_t spi_bus_initialize(spi_host_device_t h,const spi_bus_config_t*c,int d){(void)h;(void)c;(void)d;return ESP_OK;}
 esp_err_t spi_bus_free(spi_host_device_t h){(void)h;return ESP_OK;}
 esp_err_t spi_bus_add_device(spi_host_device_t h,const spi_device_interface_config_t*c,spi_device_handle_t*p){(void)h;(void)c;*p=&device;return ESP_OK;}
@@ -24,6 +24,8 @@ static void tick(void)
 {assert(device.busy);spi_transaction_t*s=&device.batch->base;if(s->cmd==0xd71c){assert(!((s->addr>>48)&65535)&&(s->addr&65535)==32&&s->rxlength==256);if(!cold)snapshot(s->rx_buffer,(uint32_t)(s->addr>>16),epoch);}else{assert(s->cmd==0xd71d||s->cmd==0xd71e);assert((s->addr&65535)==0&&!s->length&&!s->rxlength);}device.complete=true;}
 int main(void)
 {
+ s3_control unopened={0};assert(s3_control_apply_epoch(NULL,17)==-1);
+ assert(s3_control_apply_enable(&unopened,17,true)==-1);
  uint8_t p[32],q[32];s3_control_status parsed;snapshot(p,123,17);
  assert(s3_control_decode(p,123,&parsed)&&parsed.image==0&&parsed.epoch==17&&parsed.IQ_offset==4096&&parsed.flags==5);
  assert(!s3_control_decode(p,124,&parsed));
@@ -38,9 +40,20 @@ int main(void)
  epoch=17;assert(s3_control_query(&ctl)==ESP_OK);tick();assert(s3_control_poll(&ctl)==1&&ctl.status.epoch==17);
  assert(s3_control_enable(&ctl,17,true)==ESP_OK);tick();assert(s3_control_poll(&ctl)==1);
  assert(s3_control_enable(&ctl,17,false)==ESP_OK);tick();assert(s3_control_poll(&ctl)==1);
- ctl.nonce=UINT32_MAX;assert(s3_control_query(&ctl)==ESP_ERR_INVALID_STATE&&ctl.fault);
+ assert(s3_control_apply_epoch(&ctl,20)==0);assert(s3_control_apply_epoch(&ctl,20)==0);
+ tick();assert(s3_control_apply_epoch(&ctl,20)==0); // DMA done, old CSR still 17
+ tick();assert(s3_control_apply_epoch(&ctl,20)==0&&ctl.apply_kind);
+ epoch=20;IQ_offset=0;status_flags=4;
+ tick();assert(s3_control_apply_epoch(&ctl,20)==1&&!ctl.apply_kind&&ctl.status.epoch==20);
+ assert(s3_control_apply_enable(&ctl,20,true)==0);tick();assert(s3_control_apply_enable(&ctl,20,true)==0);
+ tick();assert(s3_control_apply_enable(&ctl,20,true)==0); // actual enable still false
+ status_flags=20;tick();assert(s3_control_apply_enable(&ctl,20,true)==1);
+ assert(s3_control_apply_enable(&ctl,20,false)==0);tick();assert(s3_control_apply_enable(&ctl,20,false)==0);
+ status_flags=4;tick();assert(s3_control_apply_enable(&ctl,20,false)==1);
+ ctl.nonce=UINT32_MAX;assert(s3_control_query(&ctl)==ESP_OK&&ctl.nonce==0&&!ctl.fault);
+ tick();assert(s3_control_poll(&ctl)==1&&ctl.status.nonce==0);
  assert(s3_spi_close(&port)==ESP_OK);
- puts("PASS actual control adapter: 256 bit corruption checks, nonce, cold retry, request DMA vs actual epoch ACK, enable/disable, exhaustion");
+ puts("PASS actual control adapter: 256 bit corruption checks, nonce/wrap, cold retry, polling non-spin, DMA vs delayed CSR epoch/enable ACK");
 }
 
 esp_err_t spi_device_acquire_bus(spi_device_handle_t d,unsigned t){(void)d;(void)t;return ESP_OK;}

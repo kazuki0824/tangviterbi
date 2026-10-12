@@ -27,5 +27,6 @@ class RuntimeScheduleTest(unittest.TestCase):
   b=terrestrial(8192,1/8,450,api_active_us=20,reorder_cycles=10000)
   self.assertGreater(b['core_utilization'][0],a['core_utilization'][0])
   self.assertLess(b['optimistic_same_frame_slack_us'],a['optimistic_same_frame_slack_us'])
-  self.assertEqual(report()['runtime32']['S_zero_consumer_service_time_us_upper'],122.88)
+  self.assertEqual(report()['runtime32']['S_zero_consumer_service_time_us_upper'],163.84)
+  self.assertEqual(report()['runtime32']['T_zero_consumer_service_time_us_upper'],204.8)
 if __name__=='__main__':unittest.main()

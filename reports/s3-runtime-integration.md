@@ -79,8 +79,10 @@ FECはsynthetic inputで、RF→FEC→TSの接続はまだない。
 | S split | 7,008（81.11%） | 16 | 2 | 59.25 MHz | 90 MHz不合格 |
 | S all-RS | 7,526（87.11%） | 18 | 2 | 88.43 MHz | 99 MHz不合格 |
 
-S all-RSの現RS実装は2667 clocks/CW、35,541.872 CW/sで94.7902 MHz以上が必要。
-88.43 MHzはこの期限にも不足する。これは測定したseed/実装の不合格。
+後続の [ISDB-S frame検算](s3-isdb-s-frame-budget.json) では、94.7902 MHzは
+TMCC/burstなしの瞬間率・無待ち行列モデルの値と判明した。
+28.86 MBdでのmainフレーム平均は92.5115625 MHz、burstを含む無待ち行列条件は92.9584783 MHz。
+88.43 MHzは平均条件にも不足する。これは測定したseed/実装の不合格。
 所有者分担全体・別kernel・別topの不可能性にはしない。
 
 ## 実core配置と全T mode/GI

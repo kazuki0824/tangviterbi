@@ -27,7 +27,7 @@ module s3_spi_runtime_endpoint #(
   s3_spi_rx #(.LANES(4),.FIFO_AW(7),.IGNORE_IQ_READ(1),.IGNORE_CONTROL(1)) r1(
    spi3_clk,spi3_cs_n,clk,streams_resetn,spi3_d,tv[1],tr[1],tok1,overflow[1]);
  end endgenerate
- s3_pooled_page_store #(.ALLOW_FFT(IMAGE_ID==0)) pool(clk,streams_resetn,epoch,tv,tr,tok0,tok1,|overflow,
+ s3_pooled_page_store #(.ALLOW_FFT(IMAGE_ID==0),.INPUT_PORTS(IMAGE_ID==0&&T_OCTAL_ONLY?1:2)) pool(clk,streams_resetn,epoch,tv,tr,tok0,tok1,|overflow,
   RF_valid,RF_ready,RF_data,RF_offset,RF_last,FFT_valid,FFT_ready,FFT_data,FFT_offset,FFT_last,pool_idle,pool_fault);
  s3_rf_credit #(.BITS(3)) credit(clk,streams_resetn,RF_valid&&RF_ready&&RF_last,RF_credit_gray);
  s3_spi_iq_pingpong iq(clk,streams_resetn,IQ_begin&&stream_enable,iq_begin_ready,epoch,IQ_begin_offset,

@@ -50,9 +50,12 @@ bool s3_mode_switch_step(s3_mode_switch *s,uint64_t now)
  case S3_SWITCH_LOCK:
   rc=s->io.locked(s->io.ctx);if(rc<0)return fail(s);
   if(rc==1) {
-   if(!s->io.enable(s->io.ctx))return fail(s);
-   s->state=S3_SWITCH_RUNNING;
+   s->state=S3_SWITCH_ENABLE;s->deadline=now+100000;
   }break;
+ case S3_SWITCH_ENABLE:
+  rc=s->io.enable(s->io.ctx);if(rc<0)return fail(s);
+  if(rc==1)s->state=S3_SWITCH_RUNNING;
+  break;
  default:return fail(s);
  }
  return true;

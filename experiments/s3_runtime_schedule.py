@@ -17,9 +17,9 @@ def terrestrial(points,gi,fft_us,pack_cycles=4,api_active_us=20,wire_api_us=20,
  if points not in (2048,4096,8192) or gi not in (1/4,1/8,1/16,1/32):raise ValueError('ISDB-T mode/GI')
  if min(fft_us,pack_cycles,api_active_us,wire_api_us,prepare_cycles,reorder_cycles)<0:raise ValueError('negative budget')
  period=1008*points/8192*(1+gi);pages=4*points//PAGE
- raw_calls=40e6/(3*PAGE)  # optimistic minimum; pump can issue smaller batches
+ raw_calls=40e6/(2*PAGE)  # T caps RF at two slots, leaving two for FFT return
  input_calls=pages*1e6/period;output_calls=1e6/period
- octal_RF=40*service(3,batch_us=wire_api_us)/(3*PAGE)
+ octal_RF=40*service(2,batch_us=wire_api_us)/(2*PAGE)
  octal_FFT=service(pages,batch_us=wire_api_us)/period
  quad_input=pages*service(1,lanes=4,batch_us=wire_api_us,segment_us=0)/period
  core0={'pack':16e6*pack_cycles/240e6,'FFT':fft_us/period,
@@ -48,16 +48,17 @@ def report():
         for active,wire in ((0,20),(2,20),(20,20))]
  return dict(scope=__doc__,cases=cases,
   runtime32=dict(RF_ring_bytes=32768,FPGA_RF_store_bytes=16384,
-   RF_queued_not_consumed_limit=3,credit_from='consumer retire, not DMA completion',
+   RF_queued_not_consumed_limit={'T':2,'S':4},RF_gray_bits=3,IQ_publication_gray_bits=2,
+   credit_from='consumer retire, not DMA completion',
    RF_bank_samples=12288,T_poll_lateness_limit_us=125,S_poll_lateness_limit_us=50,
    minimum_page_reservation_for_current_bank_bytes=32768,
-   S_zero_consumer_service_time_us_upper=3*PAGE/100,
-   T_zero_consumer_service_time_us_upper=3*PAGE/40,
+   S_zero_consumer_service_time_us_upper=4*PAGE/100,
+   T_zero_consumer_service_time_us_upper=2*PAGE/40,
    cap_times_are_empty_buffer_upper_bounds=True),
   missing=['target tile/reorder/API/packing/preparation/RS WCET',
    'actual IRQ/poll jitter, stage waits and DMA/memory contention',
    'burst RF bank publication and consumption with bounded FPGA stalls',
-   'ready/status protocol and whole RF-to-TS top'],
+   'physical ready/status IO timing and whole RF-to-TS top'],
   whole_performance_completed=False,receiver_adopted=False)
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args()

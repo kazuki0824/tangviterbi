@@ -39,8 +39,8 @@ def top(mode):
  end
 '''+fec.replace('checksum,offset,last,fault','checksum,offset,last,fault,ffto,fftl,en,ep')
 
-def measure(mode,output,timeout,seed):
- b=ROOT/'build'/('s3-runtime-endpoint-'+mode);b.mkdir(parents=True,exist_ok=True)
+def measure(mode,output,timeout,seed,placer='heap'):
+ b=ROOT/'build'/('s3-runtime-endpoint-'+mode+(f'-{placer}-seed{seed}' if placer!='heap' or seed!=1 else ''));b.mkdir(parents=True,exist_ok=True)
  mhz=99 if mode=='S-all-RS' else 90
  (b/'top.sv').write_text(top(mode))
  (b/'clock.sv').write_text((ROOT/'rtl/s3_psram_clock.sv').read_text().replace('.FBDIV_SEL(10)',f'.FBDIV_SEL({10 if mhz==99 else 9})'))
@@ -50,6 +50,8 @@ def measure(mode,output,timeout,seed):
  sources += [b/n for n in ('top.sv','clock.sv','vit.sv','fec.sv')]
  if mode!='T':sources+=[ROOT/'rtl/s3_tc8psk_metric_folded.sv']
  if mode=='S':sources+=[ROOT/'rtl'/(n+'.sv') for n in ('s3_rs_chien','s3_rs_forney')]
+ frozen_sources={str(p.relative_to(ROOT)):p.read_bytes() for p in sources}
+ (b/'pnr.json').unlink(missing_ok=True)
  (b/'synth.ys').write_text('read_verilog -sv '+' '.join(map(str,sources))+'\nsynth_gowin -top top -family gw1n -nowidelut -json '+str(b/'design.json')+'\ncheck -assert\n')
  with (b/'synth.log').open('w') as log:subprocess.run(['yosys','-Q','-T','-s',str(b/'synth.ys')],stdout=log,stderr=subprocess.STDOUT,check=True)
  m=json.loads((b/'design.json').read_text())['modules']['top']
@@ -69,16 +71,18 @@ def measure(mode,output,timeout,seed):
  if sites['mapped_netlist_ruled_out']:rc=126;(b/'pnr.log').write_text('Mapped netlist exceeds 8640 sites. No placement attempted.\n')
  else:
   with (b/'pnr.log').open('w') as log:
-   try:rc=subprocess.run(base+['--freq',str(mhz),'--seed',str(seed),'--report',str(b/'pnr.json')],stdout=log,stderr=subprocess.STDOUT,timeout=timeout).returncode
+   try:rc=subprocess.run(base+['--freq',str(mhz),'--seed',str(seed),'--placer',placer,'--report',str(b/'pnr.json')],stdout=log,stderr=subprocess.STDOUT,timeout=timeout).returncode
    except subprocess.TimeoutExpired:rc=124;log.write('\nWall-time limit: timing/fit unknown.\n')
  p=json.loads((b/'pnr.json').read_text()) if (b/'pnr.json').exists() else {}
- r=dict(mode=mode,seed=seed,target_core_MHz=mhz,CAD_exit_code=rc,logic_site_audit=sites,clock_constraints=clocks,fmax=p.get('fmax'),utilization=p.get('utilization'),
-  source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},scope=__doc__,receiver_adopted=False,whole_receiver_resources_verified=False,external_IO_STA_verified=False,
+ r=dict(mode=mode,seed=seed,placer=placer,pnr_wall_limit_s=timeout,target_core_MHz=mhz,CAD_exit_code=rc,logic_site_audit=sites,clock_constraints=clocks,fmax=p.get('fmax'),utilization=p.get('utilization'),
+  source_sha256={n:hashlib.sha256(data).hexdigest() for n,data in frozen_sources.items()},scope=__doc__,receiver_adopted=False,whole_receiver_resources_verified=False,external_IO_STA_verified=False,
   tool_versions={n:subprocess.check_output([n,'--version'],text=True,stderr=subprocess.STDOUT).strip() for n in ('yosys','nextpnr-himbaechel')})
  d=output/mode/f'seed{seed}';d.mkdir(parents=True,exist_ok=True)
+ (d/'inputs').mkdir(exist_ok=True)
+ for n,data in frozen_sources.items():(d/'inputs'/Path(n).name).write_bytes(data)
  for n in ('top.sv','clock.sv','vit.sv','fec.sv','synth.ys','pins.cst','clocks.py'):(d/n).write_bytes((b/n).read_bytes())
  for n in ('synth.log','pack.log','pnr.log'):(d/(n+'.gz')).write_bytes(gzip.compress((b/n).read_bytes(),mtime=0))
  (d/'result.json').write_text(json.dumps(r,indent=2)+'\n')
  print(json.dumps(dict(mode=mode,sites=sites['minimum_required_logic_sites'],CAD_exit_code=rc,fmax=r['fmax'],utilization=r['utilization'])))
 if __name__=='__main__':
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--mode',choices=('T','S','S-all-RS'),required=True);p.add_argument('--output',type=Path,default=ROOT/'reports/s3-runtime-endpoint-evidence');p.add_argument('--pnr-timeout',type=int,default=180);p.add_argument('--seed',type=int,default=1);a=p.parse_args();measure(a.mode,a.output,a.pnr_timeout,a.seed)
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--mode',choices=('T','S','S-all-RS'),required=True);p.add_argument('--output',type=Path,default=ROOT/'reports/s3-runtime-endpoint-evidence');p.add_argument('--pnr-timeout',type=int,default=180);p.add_argument('--seed',type=int,default=1);p.add_argument('--placer',choices=('heap','sa','static'),default='heap');a=p.parse_args();measure(a.mode,a.output,a.pnr_timeout,a.seed,a.placer)

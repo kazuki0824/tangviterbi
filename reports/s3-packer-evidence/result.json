@@ -64,9 +64,21 @@
   },
   "source_memory_issue_basis": "reports/s3-fft-target-bound/core-isa.h: one load/store unit, no dual LS FLIX",
   "SDK_flags_subset_reproduced": true,
-  "SDK_ELF_helper_inspected": false,
+  "SDK_ELF_helper_inspected": true,
   "native_payload_changed": false,
   "additional_software_decimation": false,
   "additional_software_requantization": false,
-  "receiver_adopted": false
+  "receiver_adopted": false,
+  "SDK_source_equivalence_verified": true,
+  "SDK_ELF_helper": {
+    "ELF_sha256": "00dd1bb60f98c39d4016c6bb8e26a62056fd1f003f325347fd0fd169c023d812",
+    "address": "0x40376ba8",
+    "instructions": 39,
+    "data_word_reads": 8,
+    "packed_word_writes": 5,
+    "calls": 0,
+    "IRAM": true,
+    "CPU_WCET_verified": false,
+    "evidence": "reports/s3-packer-evidence/SDK-ELF.disasm.gz"
+  }
 }

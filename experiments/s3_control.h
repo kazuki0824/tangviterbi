@@ -6,6 +6,7 @@ typedef struct {unsigned image,epoch;uint32_t IQ_offset,flags,build_tag,nonce;} 
 typedef struct {
  s3_spi_port *port;_Alignas(16) uint8_t payload[S3_CONTROL_BYTES];
  uint32_t nonce;unsigned pending;bool fault,valid;s3_control_status status;
+ unsigned apply_kind,apply_phase,apply_epoch;bool apply_enable;
 } s3_control;
 /* Same owner as RF/FFT on SPI3. No copy/reset until DMA returns.
  * Successful request DMA is NOT an epoch/enable ACK: query the real CSR.
@@ -18,4 +19,9 @@ esp_err_t s3_control_enable(s3_control *,unsigned epoch,bool enable);
  * Commands return request completion, not applied-CSR acknowledgement. */
 int s3_control_poll(s3_control *);
 bool s3_control_decode(const uint8_t *,uint32_t nonce,s3_control_status *);
+/* Cooperative request -> DMA completion -> fresh CSR-query ACK.
+ * Same arguments on every retry; no competing raw control request until done.
+ * -1 fault, 0 pending, 1 actual requested epoch/enable observed on FPGA. */
+int s3_control_apply_epoch(s3_control *,unsigned epoch);
+int s3_control_apply_enable(s3_control *,unsigned epoch,bool enable);
 #endif

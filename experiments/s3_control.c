@@ -32,7 +32,8 @@ static esp_err_t request(s3_control*s,unsigned kind,unsigned epoch,uint32_t arg)
 esp_err_t s3_control_query(s3_control*s)
 {
  if(!s||s->pending||!s->port||s->port->busy)return ESP_ERR_INVALID_STATE;
- if(s->nonce==UINT32_MAX){s->fault=true;return ESP_ERR_INVALID_STATE;}
+ // One outstanding query, zeroed RX buffer, and the RTL's fresh query/ACK
+ // fence permit nonce wrap. A repeated 32-bit nonce is not an old core ACK.
  return request(s,QUERY,0,++s->nonce);
 }
 esp_err_t s3_control_epoch(s3_control*s,unsigned epoch){return request(s,EPOCH,epoch,0x45504f43);}
@@ -47,3 +48,38 @@ int s3_control_poll(s3_control*s)
  if(!s3_control_decode(s->payload,s->nonce,&s->status))return 0;
  s->valid=true;if(s->status.flags&10){s->fault=true;return -1;}return 1;
 }
+static int apply(s3_control*s,unsigned kind,unsigned epoch,bool enable)
+{
+ if(!s||s->fault||!s->port||!s->port->device||!epoch||epoch>65535)return -1;
+ if(!s->apply_kind) {
+  if(s->pending||s->port->busy)return 0;
+  s->apply_kind=kind;s->apply_epoch=epoch;s->apply_enable=enable;s->apply_phase=0;
+ }else if(s->apply_kind!=kind||s->apply_epoch!=epoch||s->apply_enable!=enable) {
+  s->fault=true;return -1;
+ }
+ if(!s->apply_phase) {
+  esp_err_t rc=kind==EPOCH?s3_control_epoch(s,epoch):s3_control_enable(s,epoch,enable);
+  if(rc!=ESP_OK){s->fault=true;return -1;}
+  s->apply_phase=1;return 0;
+ }
+ if(s->apply_phase==1||s->apply_phase==3) {
+  int rc=s3_control_poll(s);if(rc<0)return -1;
+  if(s->pending)return 0;
+  if(s->apply_phase==3&&s->valid) {
+   if(s->status.epoch>epoch){s->fault=true;return -1;}
+   bool observed=s->status.epoch==epoch&&(kind==EPOCH?
+    s->status.IQ_offset==0&&s->status.flags==4:
+    ((s->status.flags&16)!=0)==enable);
+   if(observed){s->apply_kind=0;s->apply_phase=0;return 1;}
+  }
+  s->apply_phase=2;
+ }
+ if(s->apply_phase==2) {
+  if(s->port->busy)return 0;
+  if(s3_control_query(s)!=ESP_OK){s->fault=true;return -1;}
+  s->apply_phase=3;
+ }
+ return 0;
+}
+int s3_control_apply_epoch(s3_control*s,unsigned epoch){return apply(s,EPOCH,epoch,false);}
+int s3_control_apply_enable(s3_control*s,unsigned epoch,bool enable){return apply(s,ENABLE,epoch,enable);}

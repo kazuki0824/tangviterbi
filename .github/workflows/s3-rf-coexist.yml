@@ -16,6 +16,7 @@ on:
       - 'experiments/s3_rf_pump.*'
       - 'experiments/s3_control.*'
       - 'experiments/s3_iq_credit.*'
+      - 'experiments/s3_reconfig_esp.*'
       - 'experiments/s3_pipeline_esp.*'
       - 'experiments/s3_mode_switch.*'
       - 'experiments/s3_rs_*'
@@ -88,6 +89,7 @@ jobs:
             build/s3-rf-coexist/${{ matrix.profile }}/idf/config/sdkconfig.json
             build/esp-sdr/main/targets/esp32s3/receiver.c
             reports/s3-rs-link-evidence/
+            reports/s3-runtime-control-union-evidence/
             reports/s3-mode-union-evidence/
             reports/s3-runtime-union-evidence/
             build/esp-sdr/main/s3_probe/s3_fft_aes3.S

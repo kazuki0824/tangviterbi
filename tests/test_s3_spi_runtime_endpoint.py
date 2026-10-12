@@ -4,8 +4,12 @@ import random,subprocess,unittest
 ROOT=Path(__file__).resolve().parents[1]
 class EndpointTest(unittest.TestCase):
  def test_connected_T_endpoint(self):
-  out=ROOT/'build/s3-runtime-endpoint-test';out.mkdir(parents=True,exist_ok=True)
-  samples=[(i*65537+12345)&0xfffff for i in range(8192)]
+  self.run_case(False)
+ def test_connected_S_two_input_ports(self):
+  self.run_case(True)
+ def run_case(self,satellite):
+  out=ROOT/('build/s3-runtime-endpoint-S-test' if satellite else 'build/s3-runtime-endpoint-test');out.mkdir(parents=True,exist_ok=True)
+  samples=[(i*65537+12345)&0xfffff for i in range(65536 if satellite else 8192)]
   raw=b''.join((a|(b<<20)).to_bytes(5,'little') for a,b in zip(samples[::2],samples[1::2]))
   fft=random.Random(43).randbytes(8192);iq=random.Random(91).randbytes(8192)
   def words(name,data):(out/name).write_text(''.join(f'{int.from_bytes(data[i:i+4],"little"):08x}\n' for i in range(0,len(data),4)))
@@ -76,6 +80,29 @@ initial begin
 end
 initial begin #2000000;$fatal(1,"connected transport deadline/deadlock");end
 endmodule'''
+  if satellite:
+   tb=tb.replace('s3_spi_runtime_endpoint dut','s3_spi_runtime_endpoint #(.IMAGE_ID(1)) dut')
+   tb=tb.replace("32'h01000000+ep","32'h01010000+ep")
+   tb=tb.replace('rfdata[0:5119]','rfdata[0:40959]').replace('rn>=5120','rn>=40960')
+   task3=r'''
+task RFpage3(input integer page);integer n;reg[31:0]v;begin
+ header3('hd711,17,page*4096,4096);
+ for(n=0;n<1024;n=n+1)begin v=rfdata[page*1024+n];byte3(v);byte3(v>>8);byte3(v>>16);byte3(v>>24);end
+ c3=1;#250;
+end endtask
+'''
+   tb=tb.replace('initial begin\n $readmemh',task3+'initial begin\n $readmemh')
+   start=tb.index(' fork\n');end=tb.index(' join\n',start)+len(' join\n')
+   tb=tb[:start]+r'''
+ fork
+  begin for(i=0;i<40;i=i+2)begin while(i>=rn/1024+4)@(negedge clk);writepage(1,i);end end
+  begin #137;for(j=1;j<40;j=j+2)begin while(j>=rn/1024+4)@(negedge clk);RFpage3(j);#20000;end end
+ join
+'''+tb[end:]
+   tb=tb.replace('wait(rn==5120&&fn==2048)','wait(rn==40960&&fn==0)')
+   tb=tb.replace('status[2]!=8192','status[2]!=0').replace('credit!=(5^(5>>1))||pub!=3','credit!=0||pub!=0')
+   tb=tb.replace('SPI2 native RF 5 pages and FFT 2 pages, concurrent IQ 2 pages','two ports native RF 40 pages, unused FFT/IQ suppressed')
+   tb=tb.replace('#2000000;', '#8000000;')
   (out/'tb.sv').write_text(tb)
   sources=('s3_async_fifo','s3_spi_rx','s3_page_guard','s3_pooled_page_store','s3_rf_credit','s3_spi_control','s3_spi_iq_pingpong','s3_spi_runtime_endpoint')
   subprocess.run(['iverilog','-g2012','-s','tb','-o',str(out/'sim'),*[str(ROOT/'rtl'/(s+'.sv')) for s in sources],str(out/'tb.sv')],check=True)

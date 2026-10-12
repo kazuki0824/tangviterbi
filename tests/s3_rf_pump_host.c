@@ -27,7 +27,7 @@ esp_err_t spi_device_get_multi_trans_result(spi_device_handle_t d,spi_multi_tran
 {(void)t;if(!d->complete)return ESP_ERR_TIMEOUT;*p=d->batch;d->busy=false;d->complete=false;return ESP_OK;}
 esp_err_t spi_device_get_trans_result(spi_device_handle_t d,spi_transaction_t**p,int t)
 {spi_multi_transaction_t*m=NULL;int rc=spi_device_get_multi_trans_result(d,&m,t);*p=m?&m->base:NULL;return rc;}
-int main(void)
+int main(int argc,char **argv)
 {
  static _Alignas(16) uint8_t payload[S3_RING_BYTES];
  s3_tx_ring ring;s3_iq10_packer packer;s3_rf_pump pump;s3_native_capture cap={0};
@@ -35,7 +35,9 @@ int main(void)
  assert(s3_ring_init(&ring,payload,sizeof(payload),17)==S3_OK);s3_iq10_init(&packer,&ring);
  assert(s3_spi_open(&ports[0],SPI2_HOST,&pins,10,8,true,a,8)==ESP_OK);
  assert(s3_spi_open(&ports[1],SPI3_HOST,&pins,15,4,false,b,1)==ESP_OK);
- assert(s3_rf_pump_init(&pump,&ring,&cap,&ports[0],&ports[1],gpio,NULL));cap.running=true;
+ assert(s3_rf_pump_init(&pump,&ring,&cap,&ports[0],&ports[1],gpio,NULL));
+ pump.credit_limit=argc>1?(unsigned)atoi(argv[1]):4;assert(pump.credit_limit==2||pump.credit_limit==4);
+ pump.quad_RF_allowed=pump.credit_limit==4;cap.running=true;
  unsigned input=0;unsigned total_samples=TOTAL*4096*2/5;
  // 400 pages is an exact 5-byte-pair boundary; sequence survives 50 Gray wraps.
  assert(TOTAL*4096%5==0);
@@ -43,7 +45,7 @@ int main(void)
   uint32_t source[127];unsigned n=total_samples-input;if(n>127)n=127;
   for(unsigned i=0;i<n;++i)source[i]=sample(input+i);
   size_t taken;int rc=s3_iq10_push(&packer,source,n,&taken);assert(rc==S3_OK||rc==S3_BUSY);input+=taken;
-  assert(s3_rf_pump_step(&pump));assert(pump.submitted-pump.retired<=4);
+  assert(s3_rf_pump_step(&pump));assert(pump.submitted-pump.retired<=pump.credit_limit);
   for(unsigned p=0;p<2;++p) {
    struct fake_device*d=&devices[p];if(!d->busy||d->complete)continue;
    // Actual leased data must remain immutable all the way to DMA completion.

@@ -16,7 +16,8 @@ PAIRS=[
 ('spi2_d6',6,34,'J5',12),('spi2_d7',7,40,'J5',13),
 ('spi3_sclk',16,36,'J5',3),('spi3_cs_n',15,41,'J5',15),
 ('spi3_d0',17,42,'J5',16),('spi3_d1',18,51,'J5',17),('spi3_d2',8,53,'J5',18),
-('spi3_d3',21,54,'J5',19),('control_sda',38,55,'J5',20),('control_scl',39,56,'J5',21),
+('spi3_d3',21,54,'J5',19),('RF_credit_gray0',38,55,'J5',20),('RF_credit_gray1',39,56,'J5',21),
+('RF_credit_gray2',41,57,'J5',22),('IQ_publish_gray0',42,37,'J5',2),('IQ_publish_gray1',47,38,'J5',1),
 ('ts_data',None,31,'J6',21),('ts_clk',None,32,'J6',22),
 ('ts_valid',None,48,'J6',19),('ts_sync',None,49,'J6',20)]
 

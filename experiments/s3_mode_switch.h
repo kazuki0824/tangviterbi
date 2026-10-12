@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 enum s3_mode {S3_MODE_T=0,S3_MODE_S=1,S3_MODE_RECOVERY=2};
-enum s3_switch_state {S3_SWITCH_RUNNING,S3_SWITCH_DRAIN,S3_SWITCH_BOOT,S3_SWITCH_EPOCH,S3_SWITCH_LOCK,S3_SWITCH_FAULT};
+enum s3_switch_state {S3_SWITCH_RUNNING,S3_SWITCH_DRAIN,S3_SWITCH_BOOT,S3_SWITCH_EPOCH,S3_SWITCH_LOCK,S3_SWITCH_ENABLE,S3_SWITCH_FAULT};
 /* Board external SPI NOR only: T -> S -> recovery -> T. Background
  * programming is not a streaming runtime transport. A pulse callback must
  * implement the board's 1.8-V RECONFIG_N interface and validated pulse time.
@@ -18,7 +18,7 @@ typedef struct {
  int (*epoch)(void *,uint16_t);
  bool (*tune)(void *,enum s3_mode);
  int (*locked)(void *);
- bool (*enable)(void *);
+ int (*enable)(void *); /* -1 fault, 0 pending, 1 actual FPGA enable ACK */
  void *ctx;
 } s3_switch_io;
 typedef struct {

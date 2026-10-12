@@ -33,11 +33,15 @@ def worker_memory(free_after_pool, workers, reuse_main, driver_bytes=None):
 
 
 def report(sdk_path=None):
-    runtime_path = ROOT / "reports/s3-runtime-union-evidence/results.json"
+    current=ROOT/'reports/s3-runtime-control-union-evidence/results.json'
+    runtime_path = current if current.exists() else ROOT / "reports/s3-runtime-union-evidence/results.json"
     union_path = runtime_path if runtime_path.exists() else ROOT / "reports/s3-mode-union-evidence/results.json"
     use_union = sdk_path is None and union_path.exists()
     sdk_path = union_path if use_union else (sdk_path or ROOT / "reports/s3-fft-simd-evidence/worker-sdk-ci.json")
     sdk = json.loads(sdk_path.read_text())
+    saved_hashes=sdk.get('source_sha256',{})
+    runtime_files=[ROOT/'experiments'/(name+suffix) for name in ('s3_pipeline_esp','s3_spi_transport','s3_transport','s3_rf_pump','s3_control','s3_iq_credit','s3_mode_switch','s3_reconfig_esp') for suffix in ('.c','.h')]
+    mismatches=[str(p.relative_to(ROOT)) for p in runtime_files if saved_hashes.get(str(p.relative_to(ROOT)))!=hashlib.sha256(p.read_bytes()).hexdigest()]
     if "link" in sdk:
         sdk = {"startup_bound": sdk["startup_bound"], "link_result": sdk["link"],
                "head_sha": sdk.get("repository_base_commit", "unknown")}
@@ -48,6 +52,9 @@ def report(sdk_path=None):
     board = proposal()
     pins = board["nets"]
     memory = {
+        'current_runtime_sources_match_saved_SDK':not mismatches,
+        'saved_SDK_differs_from_current_sources':mismatches,
+        'historical_memory_bound_must_not_certify_changed_firmware':bool(mismatches),
         "sdk_evidence_HEAD": sdk["head_sha"], "SDK_profile_is_integrated_receiver": False,
         "latest_evidence_is_same_binary_T_S_union": use_union,
         "SDK_union_includes_RS_code": sdk["link_result"]["RS_offload_mode_union"],

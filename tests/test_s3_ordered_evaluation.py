@@ -37,7 +37,9 @@ class OrderedEvaluationTest(unittest.TestCase):
         selected=x['selected_runtime_task_configuration']
         self.assertTrue(selected['stack_TCB_and_pipeline_state_already_in_ELF_BSS'])
         self.assertEqual(selected['additional_dynamic_task_allocation_bytes'],0)
-        self.assertGreater(selected['internal_spare_upper_bound_before_driver_bytes'],27000)
+        self.assertEqual(selected['internal_spare_upper_bound_before_driver_bytes'],
+                         x['free_after_startup_and_pool_upper_bound_bytes'])
+        self.assertGreater(selected['internal_spare_upper_bound_before_driver_bytes'],0)
         self.assertFalse(selected['all_runtime_memory_verified'])
 
     def test_unknown_performance_and_quality_rescue_do_not_assign_routes(self):

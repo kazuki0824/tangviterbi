@@ -13,6 +13,7 @@ from s3_ordered_constraints import report as constraints
 from s3_rf_schedule_closure import core_demand
 from s3_link_cpu_sensitivity import t_modes
 from s3_runtime_schedule import report as runtime_schedule
+from s3_isdb_s_frame_budget import report as S_frame_budget
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -69,15 +70,25 @@ def calculate():
         profile["affinity_matches_current_core0_capture_service"] = all(profile[k] == 0 for k in ("prepare_core", "api_core", "control_core"))
         profile["cross_core_service_migration_implemented"] = False
     board = constraints()
+    connected=[]
+    for p in sorted((ROOT/'reports/s3-runtime-endpoint-evidence').glob('**/result.json')):
+        x=json.loads(p.read_text())
+        connected.append({'evidence':str(p.relative_to(ROOT)),'mode':x['mode'],
+            'minimum_logic_sites':x['logic_site_audit']['minimum_required_logic_sites'],
+            'mapped_netlist_ruled_out':x['logic_site_audit']['mapped_netlist_ruled_out'],
+            'CAD_exit_code':x['CAD_exit_code'],'fmax':x['fmax'],'utilization':x['utilization'],
+            'whole_receiver':False,'scope':x['scope']})
     return {
         "scope": __doc__, "stage_catalogue_input_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
         "finite_scope": "T 8 whole stages (256) + S 6 whole stages (64); RS subpartitions separately in source",
         "preconditions": board, "ownerships": rows, "partial_FPGA_implementations": partial,
         "CPU_per_core_necessary_scenarios": core_profiles,
+        "connected_endpoint_partial_FPGA_implementations":connected,
         "CPU_profiles_are_measured_bounds": False,
         "per_core_model_omissions": ["actual RF MMIO read/packing cost", "RPC/CRC/IRQ", "memory/cache/DMA contention", "RTOS/service and stage barrier overhead"],
         "T_shortest_GI_deadlines": t_modes(),
         "runtime32_all_modes":runtime_schedule(),
+        "S_frame_RS_deadline_recheck":S_frame_budget(),
         "RF": {"bank_samples": 12288, "T_bank_us": 768, "S_bank_us": 307.2,
                "T_poll_lateness_limit_us": 125, "S_poll_lateness_limit_us": 50},
         "direct_bridge": {"page_bytes": 4096, "slots": 4, "bytes": 16384,
@@ -86,7 +97,8 @@ def calculate():
                           "S_100MBps_zero_service_stall_time_us_upper": 163.84,
                           "T_40MBps_zero_service_stall_time_us_upper": 409.6,
                           "credit_sender_implemented": True,
-                          "credit_limit":3,
+                          "credit_limit":{'T':2,'S':4},"credit_gray_bits":3,
+                          "IQ_publication_gray_bits":2,
                           "credit_RTL":"rtl/s3_rf_credit.sv",
                           "credit_SDK_adapter":"experiments/s3_rf_pump.c",
                           "physical_credit_IO_verified":False,

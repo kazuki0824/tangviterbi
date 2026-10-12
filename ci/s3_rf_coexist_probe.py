@@ -72,7 +72,7 @@ if SIMD:
     (extra/'s3_fft_aes3.S').write_text(simd_source())
     (extra/'s3_fft_tiles_aes3.S').write_text(tiled_source())
 if RUNTIME32:
-    for name in ('s3_fft_tasks','s3_rf_pump','s3_pipeline_esp','s3_mode_switch','s3_fft_exchange','s3_control','s3_iq_credit'):
+    for name in ('s3_fft_tasks','s3_rf_pump','s3_pipeline_esp','s3_mode_switch','s3_fft_exchange','s3_control','s3_iq_credit','s3_reconfig_esp'):
         for suffix in ('.c','.h'):shutil.copy2(ROOT/'experiments'/(name+suffix),extra/(name+suffix))
 s=(ROOT/'experiments/s3_memory_probe/main/memory_probe.c').read_text().replace('void app_main(void)','void s3_extras_link_probe(void)')
 if SIMD:
@@ -83,7 +83,9 @@ if SIMD:
     s=s.replace(anchor,anchor+'\n    probe_keep ^= (uintptr_t)&s3_fft_simd_run ^ (uintptr_t)&s3_fft_simd_tile ^ (uintptr_t)s3_fft_simd_table ^ (uintptr_t)&s3_fft_worker_init ^ (uintptr_t)&s3_fft_worker_step ^ (uintptr_t)&s3_fft_worker_ready ^ (uintptr_t)&s3_fft_service_capture ^ (uintptr_t)&simd_worker_state;')
 if RUNTIME32:
     s='#include "s3_pipeline_esp.h"\n#include "s3_mode_switch.h"\nstatic s3_mode_switch mode_switch;\nstatic s3_pipeline_esp pipeline;\nstatic StackType_t pipeline_stack[2048/sizeof(StackType_t)] __attribute__((aligned(16)));\n'+s
-    s=s.replace('probe_keep = (uintptr_t)rf_packed_queue;', 'probe_keep = (uintptr_t)rf_packed_queue;\n    probe_keep ^= (uintptr_t)&s3_control_query ^ (uintptr_t)&s3_control_epoch ^ (uintptr_t)&s3_control_enable ^ (uintptr_t)&s3_control_poll;')
+    s=s.replace('probe_keep = (uintptr_t)rf_packed_queue;', 'probe_keep = (uintptr_t)rf_packed_queue;\n    probe_keep ^= (uintptr_t)&s3_control_query ^ (uintptr_t)&s3_control_epoch ^ (uintptr_t)&s3_control_enable ^ (uintptr_t)&s3_control_poll ^ (uintptr_t)&s3_control_apply_epoch ^ (uintptr_t)&s3_control_apply_enable;')
+    s='#include "s3_reconfig_esp.h"\nstatic s3_reconfig_esp reconfig;\n'+s
+    s=s.replace('probe_keep = (uintptr_t)rf_packed_queue;', 'probe_keep = (uintptr_t)rf_packed_queue;\n    probe_keep ^= (uintptr_t)&reconfig ^ (uintptr_t)&s3_reconfig_esp_open ^ (uintptr_t)&s3_reconfig_esp_pulse;')
     s=s.replace('probe_keep = (uintptr_t)rf_packed_queue;', 'probe_keep = (uintptr_t)rf_packed_queue;\n    probe_keep ^= (uintptr_t)&mode_switch ^ (uintptr_t)&s3_mode_switch_init ^ (uintptr_t)&s3_mode_switch_request ^ (uintptr_t)&s3_mode_switch_step;')
     s=s.replace('probe_keep = (uintptr_t)rf_packed_queue;', 'probe_keep = (uintptr_t)rf_packed_queue;\n    probe_keep ^= (uintptr_t)&pipeline ^ (uintptr_t)pipeline_stack ^ (uintptr_t)&s3_pipeline_esp_open ^ (uintptr_t)&s3_pipeline_esp_start_RF ^ (uintptr_t)&s3_pipeline_esp_step ^ (uintptr_t)&s3_pipeline_esp_begin_FFT ^ (uintptr_t)&s3_pipeline_esp_enable_FFT ^ (uintptr_t)&s3_pipeline_esp_close;')
 # Upstream already reserves exactly this physical RF interval.
@@ -105,7 +107,7 @@ if RS_OFFLOAD:
 if SIMD:
     s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_fft_simd.c s3_probe/s3_fft_aes3.S s3_probe/s3_fft_simd_tiles.c s3_probe/s3_fft_tiles_aes3.S s3_probe/s3_fft_worker.c s3_probe/s3_fft_capture_service.c)\n'
 if RUNTIME32:
-    s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_fft_tasks.c s3_probe/s3_rf_pump.c s3_probe/s3_pipeline_esp.c s3_probe/s3_mode_switch.c s3_probe/s3_fft_exchange.c s3_probe/s3_control.c s3_probe/s3_iq_credit.c)\n'
+    s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_fft_tasks.c s3_probe/s3_rf_pump.c s3_probe/s3_pipeline_esp.c s3_probe/s3_mode_switch.c s3_probe/s3_fft_exchange.c s3_probe/s3_control.c s3_probe/s3_iq_credit.c s3_probe/s3_reconfig_esp.c)\n'
     s=s.replace('PROBE_RING64=1 S3_RING_PAGE_COUNT=16','PROBE_RING32=1 S3_RING_PAGE_COUNT=8')
 p.write_text(s)
 # Retain RF PHY options; explicitly override module/cache/CPU configuration.
