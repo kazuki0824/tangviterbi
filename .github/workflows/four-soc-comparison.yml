@@ -1,0 +1,23 @@
+name: Four SoC comparison coverage and evidence boundaries
+on:
+  pull_request:
+    paths:
+      - 'experiments/four_soc_comparison.py'
+      - 'tests/test_four_soc_comparison.py'
+      - 'reports/four-soc-comparison/**'
+      - '.github/workflows/four-soc-comparison.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m unittest discover -s tests -p test_four_soc_comparison.py -v
+      - run: python3 experiments/four_soc_comparison.py
+      - run: git diff --exit-code -- reports/four-soc-comparison

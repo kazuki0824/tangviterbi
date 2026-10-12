@@ -1,6 +1,6 @@
 # PR4：最良候補を決める前の不足と、継続する検証
 
-2026-10-11。基準HEAD `28f4ec4c36f1392fb6221792c3320e2a912ef75c`。
+2026-10-11。最新のSDK証拠HEAD `e8cc72561e0d510a45ae94b1193faf56f338797c`。
 
 現行PR4から**成立済み／最良と確定した第一案へ絞り込むことはできない**。
 個別案の実装・測定は必要な比較資料を増やす作業として続ける。
@@ -15,31 +15,26 @@ PR5はclosedを維持し、実装全体を無条件で取り込まない。
 
 ## 現在の台帳の範囲
 
-`reports/s3-partition-audit/estimate.json.gz` の検算結果：
+元HTML version 24と評価archiveを復元し、[4 SoC比較台帳](four-soc-comparison.md)を追加。
+4 SoC×（T256＋S64）の**1280所有者分担**、**7040費用profile**を保存してCPU費用を
+独立再計算した。全65536 T/S pairを別imageの4 scenarioで列挙し、262144 pair record。
+元資料の共有bitstreamを前提にした候補数・最良案は現在の判定へ転用しない。
 
-| 対象 | 列挙済みの全stage所有者 | CPU平均モデル通過 | 全体performance未確定 | 比較の状態 |
-|---|---:|---:|---:|---|
-| S3・T | 256 | 22 | 256 | 必要条件の探索。最良候補未確定 |
-| S3・S | 64 | 2 | 64 | 必要条件の探索。最良候補未確定 |
-| C5・T/S | 本台帳に含まない | 未評価 | 未評価 | 未列挙を「成立0」と読まない |
-| S31・T/S | 本台帳に含まない | 未評価 | 未評価 | 未列挙を「成立0」と読まない |
-| C61・T/S | 本台帳に含まない | 未評価 | 未評価 | 未列挙を「成立0」と読まない |
+**仮説として最良候補を比較する条件は満たす。成立済み最良案を確定する条件は未達。**
+検討開始に全受信機の完成を要求せず、資源／期限の仮定と未知を明示して全候補を追跡する。
+旧analytic費用のscreen不通過は候補や代替実装の不可能性ではない。モデルのPareto frontierは
+通信路未割当の比較対象であり、採用順位ではない。
 
-S3の320行はstage所有者の有限集合であり、全microarchitectureの集合ではない。
-24行のCPU平均通過、2169 port subset、通信容量の余裕は全体性能の合格数ではない。
-全体成立を確認した候補はまだなく、未知の候補を含めた実現不能の証明でもない。
-
-元の4構成（C5-WROOM-1U、S31-WROOM-3U-N16R16V、S3-WROOM-1U-N8R8、
-C61-WROOM-1U-N8R2）と、現在のPR内S3-N16R8実験の対応も明示する必要がある。
-Flash/NOR容量、PSRAM予約GPIO、内部SRAMとDMA領域を型番別に検算する。
-今回、元のHTMLの現在版は読取りエラーで取得できなかったため、固定済みS3入力の
-範囲だけを検算した。残る3 SoCの最新判断や対象変更履歴を復元済みとはしない。
+S3限定の最新実装台帳では320分担中、低費用CPU平均条件をT22＋S2行が通る。
+新4 SoC台帳は元のCPU analogyを含む異なるモデルなので、その件数と混ぜない。
+両台帳とも全体performance確認済み候補はまだない。4 SoC型番、C5 PSRAM variant未指定、
+S3元対象N8R8とPR実験N16R8の対応は4 SoC比較台帳に記載。
 
 ## 不足と閉じる条件
 
 | 不足 | 既存証拠の限界 | 環境内で続ける作業／見積もりを閉じる条件 | 実機に残す確認 |
 |---|---|---|---|
-| 4 SoCの比較集合・対象型番 | S3台帳しか再検算していない | 元資料と型番対応を復元し、SoC別の分担・除外理由・未確定事項を同じ条件で列挙 | RF ABI・対象モジュールの実動作 |
+| 4 SoCの対象型番・費用の実装対応 | 全1280分担／7040 profileの復元・検算は完了。旧費用はanalogyを含む | N8R8 SDK容量検証、C5 variant確定、各候補の費用を実装証拠へ置換 | RF ABI・対象モジュールの実動作 |
 | 全体FPGA／内部・外部メモリ | 単体・部分topの資源と、条件付きSDK余白 | 各残存実装のFIR、同期、復調、全interleaver、FEC、保持、TS、通信、CDCを含むtop／map／P&R／STA。容量と競合をmode別に検算 | PSRAM PHY校正・同時IO timing |
 | 各coreの期限とbuffer寿命 | CPU平均と仮定した500 µs等。scalar実装は既に下限で不合格 | SIMD worker、RF/packing、SPI API、RS/RPC、IRQ、段間同期、全frame ingress/egressの配置を定義し、実装と対応する費用・上限・未知項目を候補ごとに記録 | RF/GDMA併走WCET・poll jitter・連続性 |
 | 性能確認後の通信割当 | 平均帯域の探索。endpoint/ready/credit未結合 | 性能条件を通過した分担について、全messageの方向・burst・半二重競合・pin/clock/GDMA・CPU費用・同一batch依存を閉じる | 信号品質・実gap・DMA完了順序 |
@@ -77,7 +72,7 @@ packingまたはpumpが失敗した場合はRF writerを停止する。
 
 worker追加でtarget bundleのtextは2832→3284 B（＋452 B）。IRAM section470 B＋literal20 B、
 係数rodata16384 Bは不変。これはSDK外objectのsection値で、SDK実リンク後のIRAM／heap占有ではない。
-SDK profileにもworker state／codeの保持とIRAM検査を追加したが、今回の実ELF再リンクは未実施。
+SDK profileにもworker state／codeの保持とIRAM検査を追加。修正後HEAD `e8cc725`で実SDKリンクとIRAM検査に成功した（下記）。
 
 先行HEAD `28f4ec4` のSIMD/tile SDK jobはCIで成功し、IRAM配置・定数表保持を確認した。
 そのmapの静的RF境界までの余白は18,264 B。allocator考慮後の起動時空き**上限**8,064 Bから
@@ -102,7 +97,7 @@ source/object hash・逆アセンブル・log：
 
 `complete_estimate=false` / `performance_stage_completed=false` / `receiver_adopted=false`。
 
-## 2026-10-12：SDK atomic前提の不具合を修正
+## 2026-10-11：SDK atomic前提の不具合を修正
 
 HEAD `6553225` の実SDK jobは`-mdisable-hardware-atomics`で、
 `ATOMIC_INT_LOCK_FREE==2`のassertに失敗した。SDK外のcompile成功を実SDK成功に数えない。
@@ -110,5 +105,10 @@ workerはRMWを使わず、naturally aligned 32-bit load/storeだけを使用す
 全atomic操作を一括したmacroではなく、storageの32-bit幅/整列を検査する形へ修正し、
 target evidenceにも同じSDK flagを追加した。実objectではload/storeがl32i/s32iとmemwへ展開され、
 未解決atomic helperなし。関連21 unittestも再実行して合格。
-実SDKでの修正後再リンクはCIへ委ね、結果回収までは未確認とする。
+修正後HEAD `e8cc725`のCI run 38153446891／job 114511463499はsuccess。
+新workerを含むSDK ELFでIRAM配置・16 KiB係数保持を確認し、
+[link結果とstartup容量検算](s3-fft-simd-evidence/worker-sdk-ci.json)を保存した。
+static RF境界まで17,712 B、allocator考慮後の起動時空き上限7,512 B。
+4 KiB DMA pool後は上限3,416 B。追加worker stack・実driver・fragmentationは未計上で、
+WCET、十分なmemory余裕、N8R8設定、実受信機完成の証拠ではない。
 [失敗jobと修正範囲](s3-fft-simd-evidence/worker-sdk-failure.json)。
