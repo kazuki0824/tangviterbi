@@ -37,6 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         mode: [T, S, S-all-RS]
+        pipeline: [false, true]
     steps:
       - uses: actions/checkout@v5
       - uses: YosysHQ/setup-oss-cad-suite@v4
@@ -46,11 +47,11 @@ jobs:
       - name: Check native transport without changing samples
         run: python3 -m unittest discover -s tests -p test_s3_spi_direct_bridge.py -v
       - name: Preserve direct BSRAM plus FEC partial-design area and timing
-        run: python3 ci/s3_direct_stream_evidence.py --mode ${{ matrix.mode }}
+        run: python3 ci/s3_direct_stream_evidence.py --runtime-credit --mode ${{ matrix.mode }} ${{ matrix.pipeline && '--window-pipeline' || '' }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: direct-${{ matrix.mode }}-partial-not-receiver
+          name: direct-${{ matrix.mode }}-pipeline-${{ matrix.pipeline }}-partial-not-receiver
           path: reports/s3-direct-stream-evidence/
   t-fec-pnr:
     runs-on: ubuntu-latest
@@ -209,6 +210,11 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install host numerical oracle dependency
+        run: python3 -m pip install numpy==2.2.6
       - uses: YosysHQ/setup-oss-cad-suite@v4
         with:
           version: '2026-10-04'

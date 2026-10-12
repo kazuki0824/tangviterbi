@@ -43,6 +43,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install host numerical oracle dependency
+        run: python3 -m pip install numpy==2.2.6
 
       - name: Set up OSS CAD Suite
         uses: YosysHQ/setup-oss-cad-suite@v4
@@ -95,6 +100,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install host numerical oracle dependency
+        run: python3 -m pip install numpy==2.2.6
 
       - name: Set up OSS CAD Suite
         uses: YosysHQ/setup-oss-cad-suite@v4

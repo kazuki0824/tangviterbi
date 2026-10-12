@@ -17,8 +17,9 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[1]
 PROFILE=os.environ.get('RF_PROFILE','full')
 VARIANT=PROFILE
-RS_OFFLOAD=PROFILE in ('native-direct-phy-rs','native-direct-phy-simd-rs')
-SIMD=PROFILE in ('native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs')
+RS_OFFLOAD=PROFILE in ('native-direct-phy-rs','native-direct-phy-simd-rs','native-direct-phy-runtime32')
+RUNTIME32=PROFILE=='native-direct-phy-runtime32'
+SIMD=PROFILE in ('native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs','native-direct-phy-runtime32')
 FLASH_MB=8 if PROFILE=='native-direct-phy-simd-n8' else 16
 if RS_OFFLOAD or SIMD:PROFILE='native-direct-phy'
 if PROFILE not in ('full','native-phy','native-phy-flash','native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):raise SystemExit('unknown RF_PROFILE')
@@ -70,6 +71,9 @@ if SIMD:
         shutil.copy2(ROOT/'experiments'/name,extra/name)
     (extra/'s3_fft_aes3.S').write_text(simd_source())
     (extra/'s3_fft_tiles_aes3.S').write_text(tiled_source())
+if RUNTIME32:
+    for name in ('s3_fft_tasks','s3_rf_pump','s3_pipeline_esp','s3_mode_switch','s3_fft_exchange'):
+        for suffix in ('.c','.h'):shutil.copy2(ROOT/'experiments'/(name+suffix),extra/(name+suffix))
 s=(ROOT/'experiments/s3_memory_probe/main/memory_probe.c').read_text().replace('void app_main(void)','void s3_extras_link_probe(void)')
 if SIMD:
     s='#include "s3_fft_simd.h"\n#include "s3_fft_simd_tiles.h"\n#include "s3_fft_worker.h"\n#include "s3_fft_capture_service.h"\n'+s
@@ -77,6 +81,10 @@ if SIMD:
     if s.count(anchor)!=1:raise ValueError('missing SIMD retention anchor')
     s=s.replace('#include "s3_fft_worker.h"\n','#include "s3_fft_worker.h"\nstatic s3_fft_worker simd_worker_state;\n')
     s=s.replace(anchor,anchor+'\n    probe_keep ^= (uintptr_t)&s3_fft_simd_run ^ (uintptr_t)&s3_fft_simd_tile ^ (uintptr_t)s3_fft_simd_table ^ (uintptr_t)&s3_fft_worker_init ^ (uintptr_t)&s3_fft_worker_step ^ (uintptr_t)&s3_fft_worker_ready ^ (uintptr_t)&s3_fft_service_capture ^ (uintptr_t)&simd_worker_state;')
+if RUNTIME32:
+    s='#include "s3_pipeline_esp.h"\n#include "s3_mode_switch.h"\nstatic s3_mode_switch mode_switch;\nstatic s3_pipeline_esp pipeline;\nstatic StackType_t pipeline_stack[2048/sizeof(StackType_t)] __attribute__((aligned(16)));\n'+s
+    s=s.replace('probe_keep = (uintptr_t)rf_packed_queue;', 'probe_keep = (uintptr_t)rf_packed_queue;\n    probe_keep ^= (uintptr_t)&mode_switch ^ (uintptr_t)&s3_mode_switch_init ^ (uintptr_t)&s3_mode_switch_request ^ (uintptr_t)&s3_mode_switch_step;')
+    s=s.replace('probe_keep = (uintptr_t)rf_packed_queue;', 'probe_keep = (uintptr_t)rf_packed_queue;\n    probe_keep ^= (uintptr_t)&pipeline ^ (uintptr_t)pipeline_stack ^ (uintptr_t)&s3_pipeline_esp_open ^ (uintptr_t)&s3_pipeline_esp_start_RF ^ (uintptr_t)&s3_pipeline_esp_step ^ (uintptr_t)&s3_pipeline_esp_begin_FFT ^ (uintptr_t)&s3_pipeline_esp_enable_FFT ^ (uintptr_t)&s3_pipeline_esp_close;')
 # Upstream already reserves exactly this physical RF interval.
 s=s.replace('SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);','')
 (extra/'memory_probe.c').write_text(s)
@@ -95,6 +103,9 @@ if RS_OFFLOAD:
     s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_rs_offload.c s3_probe/s3_rs_rpc.c s3_probe/s3_rs_workspace.c)\n'
 if SIMD:
     s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_fft_simd.c s3_probe/s3_fft_aes3.S s3_probe/s3_fft_simd_tiles.c s3_probe/s3_fft_tiles_aes3.S s3_probe/s3_fft_worker.c s3_probe/s3_fft_capture_service.c)\n'
+if RUNTIME32:
+    s+='\ntarget_sources(${COMPONENT_LIB} PRIVATE s3_probe/s3_fft_tasks.c s3_probe/s3_rf_pump.c s3_probe/s3_pipeline_esp.c s3_probe/s3_mode_switch.c s3_probe/s3_fft_exchange.c)\n'
+    s=s.replace('PROBE_RING64=1 S3_RING_PAGE_COUNT=16','PROBE_RING32=1 S3_RING_PAGE_COUNT=8')
 p.write_text(s)
 # Retain RF PHY options; explicitly override module/cache/CPU configuration.
 defaults=(UP/'sdkconfig.defaults.esp32s3').read_text()
@@ -119,15 +130,15 @@ cmd=['idf.py','-B',str(OUT/'idf'),'-DIDF_TARGET=esp32s3',
      '-DSDKCONFIG='+str(OUT/'sdkconfig'),'-DSDKCONFIG_DEFAULTS=sdkconfig.coexist.defaults','build']
 with (OUT/'build.log').open('w') as f:rc=subprocess.run(cmd,cwd=UP,stdout=f,stderr=subprocess.STDOUT).returncode
 log=(OUT/'build.log').read_text(errors='replace')
-result={'scope':('Native RF initialization/tuning plus SPI/FFT/native-bank code and reservations; no integrated scheduler.' if NATIVE else __doc__),
-        'profile':VARIANT,'module_flash_MB':FLASH_MB,'esp_psram_component_required':PSRAM,'RS_offload_mode_union':RS_OFFLOAD,
+result={'scope':('Real task/SPI/frame-exchange/switch adapters plus T SIMD/S RS reservations; diagnostic app does not execute them.' if RUNTIME32 else 'Native RF initialization/tuning plus SPI/FFT/native-bank code and reservations; no integrated scheduler.' if NATIVE else __doc__),
+        'profile':VARIANT,'module_flash_MB':FLASH_MB,'esp_psram_component_required':PSRAM,'RS_offload_mode_union':RS_OFFLOAD,'ring_pages':8 if RUNTIME32 else 16,
         'quarter_FFT_coefficients':PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy') and not SIMD,
         'SIMD_FFT_linked':SIMD,'SIMD_FFT_executed':False,
         'upper_FFT_slot':PROFILE in ('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'),
         'RF_bank_loop_linked':True,
         'RF_bank_loop_invoked_by_app':PROFILE=='full',
         'direct_PHY_without_80211_driver':PROFILE=='native-direct-phy',
-        'direct_PHY_RF_dump_compatibility_verified':False,
+        'direct_PHY_RF_dump_compatibility_verified':False,'runtime_task_driver_linked':RUNTIME32,'RF_transport_task_loop_executed':False,
         'native_PHY_only_lower_bound':NATIVE,
         'upstream_commit':actual,'upstream_requested_IDF':'25fe69f946311abdaf9ad56591f25fedbc20ac98',
         'IDF_commit':subprocess.check_output(['git','-C',os.environ['IDF_PATH'],'rev-parse','HEAD'],text=True).strip(),

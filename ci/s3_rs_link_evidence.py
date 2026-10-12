@@ -5,10 +5,11 @@ import argparse,hashlib,json,shutil,struct,subprocess
 from elftools.elf.elffile import ELFFile
 ROOT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--profile',choices=('native-direct-phy-rs','native-direct-phy-simd-rs'),default='native-direct-phy-rs')
+parser.add_argument('--profile',choices=('native-direct-phy-rs','native-direct-phy-simd-rs','native-direct-phy-runtime32'),default='native-direct-phy-rs')
 args=parser.parse_args()
 b=ROOT/'build/s3-rf-coexist'/args.profile
-out=ROOT/('reports/s3-mode-union-evidence' if args.profile.endswith('simd-rs') else 'reports/s3-rs-link-evidence');out.mkdir(exist_ok=True)
+runtime=args.profile.endswith('runtime32')
+out=ROOT/('reports/s3-runtime-union-evidence' if runtime else 'reports/s3-mode-union-evidence' if args.profile.endswith('simd-rs') else 'reports/s3-rs-link-evidence');out.mkdir(exist_ok=True)
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 result=json.loads((b/'result.json').read_text());bound=json.loads((b/'startup-bound.json').read_text())
 if not result['link_succeeded'] or not result['RS_slot1_base_aligned32'] or not result['RS_inspected_hot_functions_in_IRAM']:
@@ -32,11 +33,11 @@ with (b/'idf/esp_sdr.elf').open('rb') as f:
         for n in ('RX_offset','TX_offset','slot1_RX_offset','slot1_TX_offset')}
  assert all(int(p['address'],16)%32==0 for p in pages.values())
  symbols={s.name:dict(address=hex(s['st_value']),size=s['st_size']) for s in table.iter_symbols()
-          if s.name.startswith(('s3_rs_','fft_mode_slot1','rf_queue_tail','fft_twiddle_reservation')) and s['st_shndx']!='SHN_UNDEF'}
+          if s.name.startswith(('s3_rs_','s3_fft_','s3_rf_','s3_spi_','s3_pipeline_','s3_mode_switch','pipeline','mode_switch','fft_mode_slot1','rf_queue_tail','fft_twiddle_reservation')) and s['st_shndx']!='SHN_UNDEF'}
  sections=[dict(name=s.name,address=hex(s['sh_addr']),size=s['sh_size']) for s in elf.iter_sections()
            if s['sh_flags']&2 and s['sh_size']]
 r=dict(receiver_adopted=False,safe_to_flash=False,hardware_boot_executed=False,
- scope='SDK-linked RF/transport/FFT/RS code and reservations; capture and worker scheduler NOT integrated',
+ scope=('SDK-linked RF/transport/FFT/RS and real task/driver/frame-exchange/switch adapters; NOT executed on silicon' if runtime else 'SDK-linked RF/transport/FFT/RS code and reservations; capture and worker scheduler NOT integrated'),
  ELF_sha256=sha(b/'idf/esp_sdr.elf'),map_sha256=sha(b/'idf/esp_sdr.map'),link=result,startup_bound=bound,
  actual_target_ABI=layout,actual_DMA_pages=pages,selected_symbols=symbols,allocated_sections=sections,
  full_runtime_allocation_verified=False,CPU_WCET_verified=False,
@@ -44,6 +45,9 @@ r=dict(receiver_adopted=False,safe_to_flash=False,hardware_boot_executed=False,
 paths=[ROOT/'experiments'/('s3_rs_'+name+suffix) for name in ('offload','rpc','workspace') for suffix in ('.c','.h')]
 paths += [ROOT/p for p in ('experiments/s3_memory_probe/main/memory_probe.c','ci/s3_rf_coexist_probe.py',
  'ci/s3_startup_memory_bound.py','ci/s3_rs_link_evidence.py','tests/test_s3_startup_memory_bound.py')]
+if runtime:
+ paths += [ROOT/p for p in ('tests/s3_fft_tasks_host.c','tests/s3_freertos_host.c','tests/test_s3_fft_tasks.py','tests/s3_rf_pump_host.c','tests/test_s3_rf_pump.py','tests/s3_fft_exchange_host.c','tests/test_s3_fft_exchange.py','tests/s3_mode_switch_host.c','tests/test_s3_mode_switch.py','rtl/s3_rf_credit.sv','tests/test_s3_spi_direct_bridge.py')]
+ paths += [ROOT/'experiments'/(name+suffix) for name in ('s3_fft_tasks','s3_rf_pump','s3_pipeline_esp','s3_fft_exchange','s3_mode_switch','s3_fft_worker','s3_fft_simd_tiles','s3_spi_transport','s3_transport') for suffix in ('.c','.h')]
 r['source_sha256']={str(p.relative_to(ROOT)):sha(p) for p in paths}
 for source,target in ((b/'result.json','link-result.json'),(b/'startup-bound.json','startup-bound.json'),
  (b/'idf/config/sdkconfig.json','sdkconfig.json'),(b/'sdkconfig','sdkconfig'),(b/'build.log','build.log'),
@@ -51,6 +55,11 @@ for source,target in ((b/'result.json','link-result.json'),(b/'startup-bound.jso
  (ROOT/'build/esp-sdr/main/CMakeLists.txt','generated-CMakeLists.txt'),
  (ROOT/'build/s3-startup-bound-final-tests.log','startup-tests.log')):
  shutil.copy2(source,out/target)
+if runtime:
+ shutil.copy2(ROOT/'build/esp-sdr/main/s3_probe/memory_probe.c',out/'generated-memory-probe.c')
+ for source in ('s3-runtime32-build-driver.log','s3-fft-tasks/simulation.log','s3-fft-exchange/simulation.log','s3-rf-pump/simulation.log','s3-mode-switch/simulation.log'):
+  p=ROOT/'build'/source
+  if p.exists():shutil.copy2(p,out/(p.parent.name+'-'+p.name))
 # Extract the actual DWARF definitions used for allocator/task accounting.
 dwarf=subprocess.check_output(['readelf','--debug-dump=info',str(b/'idf/esp_sdr.elf')],text=True)
 lines=dwarf.splitlines();snippets=[]

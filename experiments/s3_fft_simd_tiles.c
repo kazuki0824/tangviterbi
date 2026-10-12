@@ -13,20 +13,23 @@ static portMUX_TYPE contexts[2]={portMUX_INITIALIZER_UNLOCKED,portMUX_INITIALIZE
 extern void s3_fft_simd_general(int16_t *,int16_t *,const int16_t *,unsigned);
 extern void s3_fft_simd_pair(int16_t *,const int16_t *,unsigned);
 extern void s3_fft_simd_final(int16_t *,const int16_t *,unsigned);
-int HOT s3_fft_simd_tile(int16_t *data,const int16_t *table,unsigned stage,
-                        unsigned start,unsigned count)
+int HOT s3_fft_simd_tile_n(int16_t *data,const int16_t *table,unsigned points,unsigned stage,
+                          unsigned start,unsigned count)
 {
+    if(points!=2048&&points!=4096&&points!=8192)return -1;
+    unsigned stages=points==2048?11:points==4096?12:13;
+    uintptr_t data_bytes=4*points,table_bytes=2*points;
     uintptr_t d=(uintptr_t)data,t=(uintptr_t)table;
-    if(!d||!t||((d|t)&15)||d>UINTPTR_MAX-32768||t>UINTPTR_MAX-16384||
-       (d<t+16384&&t<d+32768)||stage>=13||!count||count>16||start>1024-count) return -1;
+    if(!d||!t||((d|t)&15)||d>UINTPTR_MAX-data_bytes||t>UINTPTR_MAX-table_bytes||
+       (d<t+table_bytes&&t<d+data_bytes)||stage>=stages||!count||count>16||start>points/8-count) return -1;
 #ifdef ESP_PLATFORM
-    if(!esp_ptr_internal(data)||!esp_ptr_internal(data+16383)||
-       !esp_ptr_internal(table)||!esp_ptr_internal(table+8191))return -2;
+    if(!esp_ptr_internal(data)||!esp_ptr_internal(data+2*points-1)||
+       !esp_ptr_internal(table)||!esp_ptr_internal(table+points-1))return -2;
     unsigned core=xPortGetCoreID();
     portENTER_CRITICAL(&contexts[core]);
 #endif
-    if(stage<11) {
-        unsigned half=4096u>>stage;
+    if(stage<stages-2) {
+        unsigned half=(points/2)>>stage;
         while(count) {
             unsigned butterfly=4*start,group=butterfly/half,offset=butterfly%half;
             unsigned amount=(half-offset)/4;
@@ -35,10 +38,16 @@ int HOT s3_fft_simd_tile(int16_t *data,const int16_t *table,unsigned stage,
             s3_fft_simd_general(data+2*a,data+2*(a+half),table+2*group,amount);
             count-=amount;start+=amount;
         }
-    } else if(stage==11) s3_fft_simd_pair(data+16*start,table+4*start,count);
+    } else if(stage==stages-2) s3_fft_simd_pair(data+16*start,table+4*start,count);
     else s3_fft_simd_final(data+16*start,table+8*start,count);
 #ifdef ESP_PLATFORM
     portEXIT_CRITICAL(&contexts[core]);
 #endif
     return 0;
+}
+
+int HOT s3_fft_simd_tile(int16_t *data,const int16_t *table,unsigned stage,
+                        unsigned start,unsigned count)
+{
+    return s3_fft_simd_tile_n(data,table,8192,stage,start,count);
 }

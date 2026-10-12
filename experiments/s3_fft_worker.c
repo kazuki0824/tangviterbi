@@ -17,25 +17,28 @@
 _Static_assert(sizeof(atomic_uint)==4&&_Alignof(atomic_uint)>=4,
                "worker requires naturally aligned 32-bit atomic storage");
 _Static_assert(UINT_MAX==UINT32_MAX,"worker requires 32-bit unsigned");
-enum { HALF_BLOCKS=512, END_PROGRESS=13*HALF_BLOCKS, TILE_BLOCKS=16 };
+enum { TILE_BLOCKS=16 };
 static int HOT actual_tile(void *ctx,int16_t *data,const int16_t *table,
                            unsigned stage,unsigned begin,unsigned count)
 {
-    (void)ctx;
-    return s3_fft_simd_tile(data,table,stage,begin,count);
+    s3_fft_worker *w=ctx;
+    return s3_fft_simd_tile_n(data,table,w->points,stage,begin,count);
 }
-bool s3_fft_worker_init(s3_fft_worker *w,int16_t *data,const int16_t *table,
-                        s3_fft_service_fn service,void *service_context,
+bool s3_fft_worker_init_n(s3_fft_worker *w,int16_t *data,const int16_t *table,unsigned points,
+                          s3_fft_service_fn service,void *service_context,
                         s3_fft_tile_fn tile,void *tile_context)
 {
+    if(points!=2048&&points!=4096&&points!=8192)return false;
+    uintptr_t data_bytes=4*points,table_bytes=2*points;
     uintptr_t d=(uintptr_t)data,t=(uintptr_t)table;
-    if(!w||!service||!d||!t||((d|t)&15)||d>UINTPTR_MAX-32768||
-       t>UINTPTR_MAX-16384||(d<t+16384&&t<d+32768))return false;
+    if(!w||!service||!d||!t||((d|t)&15)||d>UINTPTR_MAX-data_bytes||
+       t>UINTPTR_MAX-table_bytes||(d<t+table_bytes&&t<d+data_bytes))return false;
     atomic_init(&w->progress[0],0);atomic_init(&w->progress[1],0);
     atomic_init(&w->fault,0);
+    w->points=points;w->stages=points==2048?11:points==4096?12:13;w->half_blocks=points/16;
     w->data=data;w->table=table;w->service=service;
     w->service_context=service_context;
-    w->tile=tile?tile:actual_tile;w->tile_context=tile_context;
+    w->tile=tile?tile:actual_tile;w->tile_context=tile?tile_context:w;
     return true;
 }
 static int HOT fail(s3_fft_worker *w)
@@ -57,16 +60,16 @@ int HOT s3_fft_worker_step(s3_fft_worker *w,unsigned core)
      */
     unsigned p=atomic_load_explicit(&w->progress[core],memory_order_relaxed);
     int result;bool publish=false;
-    if(p==END_PROGRESS)result=S3_FFT_WORKER_DONE;
-    else if(p&&p%HALF_BLOCKS==0&&
+    if(p==w->stages*w->half_blocks)result=S3_FFT_WORKER_DONE;
+    else if(p&&p%w->half_blocks==0&&
             atomic_load_explicit(&w->progress[1-core],memory_order_acquire)<p)
         result=S3_FFT_WORKER_WAIT;
     else {
         if(atomic_load_explicit(&w->fault,memory_order_acquire))return S3_FFT_WORKER_ERROR;
-        if(w->tile(w->tile_context,w->data,w->table,p/HALF_BLOCKS,
-                   core*HALF_BLOCKS+p%HALF_BLOCKS,TILE_BLOCKS))return fail(w);
+        if(w->tile(w->tile_context,w->data,w->table,p/w->half_blocks,
+                   core*w->half_blocks+p%w->half_blocks,TILE_BLOCKS))return fail(w);
         publish=true;
-        result=p+TILE_BLOCKS==END_PROGRESS?S3_FFT_WORKER_DONE:S3_FFT_WORKER_PROGRESS;
+        result=p+TILE_BLOCKS==w->stages*w->half_blocks?S3_FFT_WORKER_DONE:S3_FFT_WORKER_PROGRESS;
     }
     if(!w->service(w->service_context,core))return fail(w);
     if(atomic_load_explicit(&w->fault,memory_order_acquire))return S3_FFT_WORKER_ERROR;
@@ -75,7 +78,14 @@ int HOT s3_fft_worker_step(s3_fft_worker *w,unsigned core)
 }
 bool HOT s3_fft_worker_ready(const s3_fft_worker *w)
 {
-    return w&&!atomic_load_explicit(&w->fault,memory_order_acquire)&&
-        atomic_load_explicit(&w->progress[0],memory_order_acquire)==END_PROGRESS&&
-        atomic_load_explicit(&w->progress[1],memory_order_acquire)==END_PROGRESS;
+    return w&&w->stages>=11&&w->stages<=13&&!atomic_load_explicit(&w->fault,memory_order_acquire)&&
+        atomic_load_explicit(&w->progress[0],memory_order_acquire)==w->stages*w->half_blocks&&
+        atomic_load_explicit(&w->progress[1],memory_order_acquire)==w->stages*w->half_blocks;
+}
+
+bool s3_fft_worker_init(s3_fft_worker *w,int16_t *data,const int16_t *table,
+                        s3_fft_service_fn service,void *service_context,
+                        s3_fft_tile_fn tile,void *tile_context)
+{
+    return s3_fft_worker_init_n(w,data,table,8192,service,service_context,tile,tile_context);
 }

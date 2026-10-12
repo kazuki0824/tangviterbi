@@ -1,5 +1,13 @@
 # S3-N16R8＋Tang Nano 9K：指定順で進めた1〜6の検証
 
+最新の実装・未完了の区別は [runtime実装の追加](s3-runtime-integration.md) を参照。
+32 KiB ring、実task/core固定、3-credit sender、全T mode往復DMA、C switchを追加し、
+T/S同時SDKで保持した。以下の文章・数値は **f47f26d時点の前回評価** として残す。
+現在の生成JSONはruntime32、新partial CAD、全mode/GI必要条件を含む。
+「1〜4完了」「この環境では4までが限界」という結論ではない。
+
+## 前回評価（f47f26d）
+
 2026-10-12。T/Sは排他的、同じSoCファームウェアと固定配線、FPGAは基板外付けNORの別image。
 追加のソフトウェアdecimation／requantizationは行わない。
 

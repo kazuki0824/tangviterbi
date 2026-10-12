@@ -1,0 +1,1718 @@
+{
+  "scope": "All-mode necessary timing bounds for the actual runtime32 ownership.\n\nThese are design scenarios, NOT measured WCET, not joint-event certification.\nBank preparation, every SPI API and packing stay on core0 as implemented.\nBoth FFT workers contribute separate core costs; full-frame DMA is retained.\nA fail rejects this fixed route and specified costs only. Other routes and\nimplementations remain in the finite catalogue. No samples or bins are removed.\n",
+  "cases": [
+    {
+      "points": 2048,
+      "GI": 0.25,
+      "period_us": 315.0,
+      "slot_deadline_us": 630.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3357753357753358,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3357753357753358
+      },
+      "core_utilization": [
+        0.7109489468864469,
+        0.3357753357753358
+      ],
+      "core_spare_percent": [
+        28.905105311355307,
+        66.42246642246641
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9597186569940477,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 4.028134300595227,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 155.78076923076924,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.25,
+      "period_us": 315.0,
+      "slot_deadline_us": 630.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3357753357753358,
+        "prepare": 0.10850694444444443,
+        "API": 0.025558035714285714,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3357753357753358
+      },
+      "core_utilization": [
+        0.7365069826007327,
+        0.3357753357753358
+      ],
+      "core_spare_percent": [
+        26.349301739926734,
+        66.42246642246641
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9597186569940477,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 4.028134300595227,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 155.78076923076924,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.25,
+      "period_us": 315.0,
+      "slot_deadline_us": 630.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3357753357753358,
+        "prepare": 0.10850694444444443,
+        "API": 0.25558035714285715,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3357753357753358
+      },
+      "core_utilization": [
+        0.966529304029304,
+        0.3357753357753358
+      ],
+      "core_spare_percent": [
+        3.3470695970695963,
+        66.42246642246641
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9597186569940477,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 4.028134300595227,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 155.78076923076924,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.125,
+      "period_us": 283.5,
+      "slot_deadline_us": 567.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.37308370641703975,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.37308370641703975
+      },
+      "core_utilization": [
+        0.7482573175281508,
+        0.37308370641703975
+      ],
+      "core_spare_percent": [
+        25.174268247184916,
+        62.69162935829602
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.003157810433201,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -0.3157810433201125,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 92.78076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.125,
+      "period_us": 283.5,
+      "slot_deadline_us": 567.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.37308370641703975,
+        "prepare": 0.10850694444444443,
+        "API": 0.027674437830687827,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.37308370641703975
+      },
+      "core_utilization": [
+        0.7759317553588386,
+        0.37308370641703975
+      ],
+      "core_spare_percent": [
+        22.406824464116138,
+        62.69162935829602
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.003157810433201,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -0.3157810433201125,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 92.78076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.125,
+      "period_us": 283.5,
+      "slot_deadline_us": 567.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.37308370641703975,
+        "prepare": 0.10850694444444443,
+        "API": 0.27674437830687826,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.37308370641703975
+      },
+      "core_utilization": [
+        1.0250016958350292,
+        0.37308370641703975
+      ],
+      "core_spare_percent": [
+        -2.5001695835029203,
+        62.69162935829602
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.003157810433201,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -0.3157810433201125,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 92.78076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.0625,
+      "period_us": 267.75,
+      "slot_deadline_us": 535.5,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3950298067945127,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3950298067945127
+      },
+      "core_utilization": [
+        0.7702034179056239,
+        0.3950298067945127
+      ],
+      "core_spare_percent": [
+        22.979658209437616,
+        60.49701932054873
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.028710253632703,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -2.8710253632703187,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 61.28076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.0625,
+      "period_us": 267.75,
+      "slot_deadline_us": 535.5,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3950298067945127,
+        "prepare": 0.10850694444444443,
+        "API": 0.02891938025210084,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3950298067945127
+      },
+      "core_utilization": [
+        0.7991227981577247,
+        0.3950298067945127
+      ],
+      "core_spare_percent": [
+        20.087720184227532,
+        60.49701932054873
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.028710253632703,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -2.8710253632703187,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 61.28076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.0625,
+      "period_us": 267.75,
+      "slot_deadline_us": 535.5,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3950298067945127,
+        "prepare": 0.10850694444444443,
+        "API": 0.2891938025210084,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3950298067945127
+      },
+      "core_utilization": [
+        1.0593972204266322,
+        0.3950298067945127
+      ],
+      "core_spare_percent": [
+        -5.93972204266322,
+        60.49701932054873
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.028710253632703,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -2.8710253632703187,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 61.28076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.03125,
+      "period_us": 259.875,
+      "slot_deadline_us": 519.75,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.407000407000407,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.407000407000407
+      },
+      "core_utilization": [
+        0.7821740181115181,
+        0.407000407000407
+      ],
+      "core_spare_percent": [
+        21.78259818884819,
+        59.299959299959305
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.0426479499233405,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -4.264794992334064,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 45.53076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.03125,
+      "period_us": 259.875,
+      "slot_deadline_us": 519.75,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.407000407000407,
+        "prepare": 0.10850694444444443,
+        "API": 0.029598439754689752,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.407000407000407
+      },
+      "core_utilization": [
+        0.8117724578662079,
+        0.407000407000407
+      ],
+      "core_spare_percent": [
+        18.822754213379213,
+        59.299959299959305
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.0426479499233405,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -4.264794992334064,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 45.53076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 2048,
+      "GI": 0.03125,
+      "period_us": 259.875,
+      "slot_deadline_us": 519.75,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 105.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.407000407000407,
+        "prepare": 0.10850694444444443,
+        "API": 0.29598439754689754,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.407000407000407
+      },
+      "core_utilization": [
+        1.0781584156584156,
+        0.407000407000407
+      ],
+      "core_spare_percent": [
+        -7.815841565841564,
+        59.299959299959305
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.0426479499233405,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -4.264794992334064,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 474.21923076923076,
+      "optimistic_same_frame_slack_us": 45.53076923076924,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.25,
+      "period_us": 630.0,
+      "slot_deadline_us": 1260.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.36630036630036633,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.36630036630036633
+      },
+      "core_utilization": [
+        0.7414739774114775,
+        0.36630036630036633
+      ],
+      "core_spare_percent": [
+        25.852602258852254,
+        63.369963369963365
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.927972625248016,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 7.202737475198401,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 312.3307692307692,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.25,
+      "period_us": 630.0,
+      "slot_deadline_us": 1260.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.36630036630036633,
+        "prepare": 0.10850694444444443,
+        "API": 0.022383432539682536,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.36630036630036633
+      },
+      "core_utilization": [
+        0.7638574099511599,
+        0.36630036630036633
+      ],
+      "core_spare_percent": [
+        23.61425900488401,
+        63.369963369963365
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.927972625248016,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 7.202737475198401,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 312.3307692307692,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.25,
+      "period_us": 630.0,
+      "slot_deadline_us": 1260.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.36630036630036633,
+        "prepare": 0.10850694444444443,
+        "API": 0.22383432539682538,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.36630036630036633
+      },
+      "core_utilization": [
+        0.9653083028083028,
+        0.36630036630036633
+      ],
+      "core_spare_percent": [
+        3.469169719169718,
+        63.369963369963365
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.927972625248016,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 7.202737475198401,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 312.3307692307692,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.125,
+      "period_us": 567.0,
+      "slot_deadline_us": 1134.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.407000407000407,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.407000407000407
+      },
+      "core_utilization": [
+        0.7821740181115181,
+        0.407000407000407
+      ],
+      "core_spare_percent": [
+        21.78259818884819,
+        59.299959299959305
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9678844418264991,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 3.2115558173500816,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 186.3307692307692,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.125,
+      "period_us": 567.0,
+      "slot_deadline_us": 1134.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.407000407000407,
+        "prepare": 0.10850694444444443,
+        "API": 0.024147100970017637,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.407000407000407
+      },
+      "core_utilization": [
+        0.8063211190815357,
+        0.407000407000407
+      ],
+      "core_spare_percent": [
+        19.36788809184643,
+        59.299959299959305
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9678844418264991,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 3.2115558173500816,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 186.3307692307692,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.125,
+      "period_us": 567.0,
+      "slot_deadline_us": 1134.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.407000407000407,
+        "prepare": 0.10850694444444443,
+        "API": 0.24147100970017638,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.407000407000407
+      },
+      "core_utilization": [
+        1.0236450278116944,
+        0.407000407000407
+      ],
+      "core_spare_percent": [
+        -2.364502781169442,
+        59.299959299959305
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9678844418264991,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 3.2115558173500816,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 186.3307692307692,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.0625,
+      "period_us": 535.5,
+      "slot_deadline_us": 1071.0,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.43094160741219567,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.43094160741219567
+      },
+      "core_utilization": [
+        0.8061152185233068,
+        0.43094160741219567
+      ],
+      "core_spare_percent": [
+        19.388478147669318,
+        56.90583925878043
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9913619809903129,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 0.8638019009687137,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 123.33076923076919,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.0625,
+      "period_us": 535.5,
+      "slot_deadline_us": 1071.0,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.43094160741219567,
+        "prepare": 0.10850694444444443,
+        "API": 0.025184552987861812,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.43094160741219567
+      },
+      "core_utilization": [
+        0.8312997715111686,
+        0.43094160741219567
+      ],
+      "core_spare_percent": [
+        16.87002284888314,
+        56.90583925878043
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9913619809903129,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 0.8638019009687137,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 123.33076923076919,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.0625,
+      "period_us": 535.5,
+      "slot_deadline_us": 1071.0,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.43094160741219567,
+        "prepare": 0.10850694444444443,
+        "API": 0.25184552987861814,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.43094160741219567
+      },
+      "core_utilization": [
+        1.0579607484019249,
+        0.43094160741219567
+      ],
+      "core_spare_percent": [
+        -5.796074840192489,
+        56.90583925878043
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9913619809903129,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 0.8638019009687137,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 123.33076923076919,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.03125,
+      "period_us": 519.75,
+      "slot_deadline_us": 1039.5,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.44400044400044403,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.44400044400044403
+      },
+      "core_utilization": [
+        0.8191740551115552,
+        0.44400044400044403
+      ],
+      "core_spare_percent": [
+        18.082594488844485,
+        55.5999555999556
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.0041679114433022,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -0.41679114433021414,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 91.83076923076919,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.03125,
+      "period_us": 519.75,
+      "slot_deadline_us": 1039.5,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.44400044400044403,
+        "prepare": 0.10850694444444443,
+        "API": 0.025750435906685906,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.44400044400044403
+      },
+      "core_utilization": [
+        0.8449244910182411,
+        0.44400044400044403
+      ],
+      "core_spare_percent": [
+        15.507550898175893,
+        55.5999555999556
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.0041679114433022,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -0.41679114433021414,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 91.83076923076919,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 4096,
+      "GI": 0.03125,
+      "period_us": 519.75,
+      "slot_deadline_us": 1039.5,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 230.76923076923077,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.44400044400044403,
+        "prepare": 0.10850694444444443,
+        "API": 0.2575043590668591,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.44400044400044403
+      },
+      "core_utilization": [
+        1.0766784141784143,
+        0.44400044400044403
+      ],
+      "core_spare_percent": [
+        -7.667841417841426,
+        55.5999555999556
+      ],
+      "fixed_route_utilization": {
+        "Octal": 1.0041679114433022,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": -0.41679114433021414,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 947.6692307692308,
+      "optimistic_same_frame_slack_us": 91.83076923076919,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.25,
+      "period_us": 1260.0,
+      "slot_deadline_us": 2520.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3968253968253968,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3968253968253968
+      },
+      "core_utilization": [
+        0.7719990079365079,
+        0.3968253968253968
+      ],
+      "core_spare_percent": [
+        22.800099206349213,
+        60.31746031746032
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.912099609375,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 8.790039062499993,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 606.1999999999998,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.25,
+      "period_us": 1260.0,
+      "slot_deadline_us": 2520.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3968253968253968,
+        "prepare": 0.10850694444444443,
+        "API": 0.02079613095238095,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3968253968253968
+      },
+      "core_utilization": [
+        0.7927951388888889,
+        0.3968253968253968
+      ],
+      "core_spare_percent": [
+        20.720486111111114,
+        60.31746031746032
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.912099609375,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 8.790039062499993,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 606.1999999999998,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.25,
+      "period_us": 1260.0,
+      "slot_deadline_us": 2520.0,
+      "FFT_each_direction_MBps": 26.006349206349206,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.3968253968253968,
+        "prepare": 0.10850694444444443,
+        "API": 0.2079613095238095,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.3968253968253968
+      },
+      "core_utilization": [
+        0.9799603174603174,
+        0.3968253968253968
+      ],
+      "core_spare_percent": [
+        2.003968253968258,
+        60.31746031746032
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.912099609375,
+        "Quad": 0.7787301587301587
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 8.790039062499993,
+        "Quad": 22.126984126984127
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 606.1999999999998,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.125,
+      "period_us": 1134.0,
+      "slot_deadline_us": 2268.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.4409171075837742,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.4409171075837742
+      },
+      "core_utilization": [
+        0.8160907186948854,
+        0.4409171075837742
+      ],
+      "core_spare_percent": [
+        18.390928130511462,
+        55.908289241622576
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9502477575231483,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 4.975224247685178,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 354.1999999999998,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.125,
+      "period_us": 1134.0,
+      "slot_deadline_us": 2268.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.4409171075837742,
+        "prepare": 0.10850694444444443,
+        "API": 0.022383432539682536,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.4409171075837742
+      },
+      "core_utilization": [
+        0.8384741512345678,
+        0.4409171075837742
+      ],
+      "core_spare_percent": [
+        16.15258487654322,
+        55.908289241622576
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9502477575231483,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 4.975224247685178,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 354.1999999999998,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.125,
+      "period_us": 1134.0,
+      "slot_deadline_us": 2268.0,
+      "FFT_each_direction_MBps": 28.895943562610228,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.4409171075837742,
+        "prepare": 0.10850694444444443,
+        "API": 0.22383432539682538,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.4409171075837742
+      },
+      "core_utilization": [
+        1.0399250440917107,
+        0.4409171075837742
+      ],
+      "core_spare_percent": [
+        -3.9925044091710715,
+        55.908289241622576
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9502477575231483,
+        "Quad": 0.8652557319223986
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 4.975224247685178,
+        "Quad": 13.474426807760143
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 354.1999999999998,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.0625,
+      "period_us": 1071.0,
+      "slot_deadline_us": 2142.0,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.4668534080298786,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.4668534080298786
+      },
+      "core_utilization": [
+        0.8420270191409898,
+        0.4668534080298786
+      ],
+      "core_spare_percent": [
+        15.797298085901023,
+        53.31465919701214
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9726878446691177,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 2.731215533088227,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 228.19999999999982,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.0625,
+      "period_us": 1071.0,
+      "slot_deadline_us": 2142.0,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.4668534080298786,
+        "prepare": 0.10850694444444443,
+        "API": 0.023317139355742297,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.4668534080298786
+      },
+      "core_utilization": [
+        0.8653441584967321,
+        0.4668534080298786
+      ],
+      "core_spare_percent": [
+        13.465584150326793,
+        53.31465919701214
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9726878446691177,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 2.731215533088227,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 228.19999999999982,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.0625,
+      "period_us": 1071.0,
+      "slot_deadline_us": 2142.0,
+      "FFT_each_direction_MBps": 30.595704948646127,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.4668534080298786,
+        "prepare": 0.10850694444444443,
+        "API": 0.23317139355742297,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.4668534080298786
+      },
+      "core_utilization": [
+        1.0751984126984127,
+        0.4668534080298786
+      ],
+      "core_spare_percent": [
+        -7.519841269841265,
+        53.31465919701214
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9726878446691177,
+        "Quad": 0.9161531279178339
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 2.731215533088227,
+        "Quad": 8.384687208216612
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 228.19999999999982,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.03125,
+      "period_us": 1039.5,
+      "slot_deadline_us": 2079.0,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 0,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.481000481000481,
+        "prepare": 0.10850694444444443,
+        "API": 0.0,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.481000481000481
+      },
+      "core_utilization": [
+        0.8561740921115921,
+        0.481000481000481
+      ],
+      "core_spare_percent": [
+        14.382590788840787,
+        51.8999518999519
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9849278922032829,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 1.5072107796717082,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 165.19999999999982,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.03125,
+      "period_us": 1039.5,
+      "slot_deadline_us": 2079.0,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 2,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.481000481000481,
+        "prepare": 0.10850694444444443,
+        "API": 0.023826433982683984,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.481000481000481
+      },
+      "core_utilization": [
+        0.880000526094276,
+        0.481000481000481
+      ],
+      "core_spare_percent": [
+        11.999947390572396,
+        51.8999518999519
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9849278922032829,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 1.5072107796717082,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 165.19999999999982,
+      "necessary_scenario_pass": true,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "points": 8192,
+      "GI": 0.03125,
+      "period_us": 1039.5,
+      "slot_deadline_us": 2079.0,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "assumed": {
+        "FFT_us": 500.0,
+        "pack_cycles": 4,
+        "API_active_us": 20,
+        "API_wire_overhead_us": 20,
+        "bank_prepare_cycles": 20000,
+        "reorder_cycles": 0
+      },
+      "core0_components": {
+        "pack": 0.26666666666666666,
+        "FFT": 0.481000481000481,
+        "prepare": 0.10850694444444443,
+        "API": 0.23826433982683984,
+        "reorder": 0.0
+      },
+      "core1_components": {
+        "FFT": 0.481000481000481
+      },
+      "core_utilization": [
+        1.094438431938432,
+        0.481000481000481
+      ],
+      "core_spare_percent": [
+        -9.443843193843193,
+        51.8999518999519
+      ],
+      "fixed_route_utilization": {
+        "Octal": 0.9849278922032829,
+        "Quad": 0.9439153439153439
+      },
+      "fixed_route_spare_percent": {
+        "Octal": 1.5072107796717082,
+        "Quad": 5.6084656084656075
+      },
+      "optimistic_same_frame_release_us": 1913.8000000000002,
+      "optimistic_same_frame_slack_us": 165.19999999999982,
+      "necessary_scenario_pass": false,
+      "measured_WCET": false,
+      "joint_schedule_verified": false,
+      "receiver_adopted": false
+    }
+  ],
+  "runtime32": {
+    "RF_ring_bytes": 32768,
+    "FPGA_RF_store_bytes": 16384,
+    "RF_queued_not_consumed_limit": 3,
+    "credit_from": "consumer retire, not DMA completion",
+    "RF_bank_samples": 12288,
+    "T_poll_lateness_limit_us": 125,
+    "S_poll_lateness_limit_us": 50,
+    "minimum_page_reservation_for_current_bank_bytes": 32768,
+    "S_zero_consumer_service_time_us_upper": 122.88,
+    "T_zero_consumer_service_time_us_upper": 307.2,
+    "cap_times_are_empty_buffer_upper_bounds": true
+  },
+  "missing": [
+    "target tile/reorder/API/packing/preparation/RS WCET",
+    "actual IRQ/poll jitter, stage waits and DMA/memory contention",
+    "burst RF bank publication and consumption with bounded FPGA stalls",
+    "ready/status protocol and whole RF-to-TS top"
+  ],
+  "whole_performance_completed": false,
+  "receiver_adopted": false
+}

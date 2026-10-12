@@ -1,0 +1,257 @@
+{
+  "mode": "T",
+  "seed": 1,
+  "window_pipeline": true,
+  "tool_versions": {
+    "yosys": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+    "nextpnr-himbaechel": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
+  },
+  "logic_site_audit": {
+    "packed_json_sha256": "168e2f18cce298d8a5b1944c49762957849e9bd10c6c7ad894dbfc4d9cda983b",
+    "LUT_cells": 3682,
+    "ALU_cells": 2042,
+    "ALU_blockers_excluded": 2042,
+    "fabric_FFs": 3252,
+    "maximum_LUT_or_ALU_FF_pairs": 1676,
+    "minimum_additional_FF_sites": 1576,
+    "minimum_required_logic_sites": 7300,
+    "available_logic_sites": 8640,
+    "minimum_site_utilization_percent": 84.49074074074075,
+    "minimum_site_deficit": 0,
+    "mapped_netlist_ruled_out": false,
+    "FF_D_driver_types": {
+      "LUT3": 576,
+      "DFF": 136,
+      "ALU": 197,
+      "DFFCE": 236,
+      "LUT2": 424,
+      "LUT1": 22,
+      "LUT4": 1012,
+      "DFFC": 94,
+      "DFFP": 30,
+      "DFFE": 280,
+      "GOWIN_VCC": 11,
+      "DFFRE": 143,
+      "DFFSE": 1,
+      "DFFS": 1,
+      "DFFPE": 1,
+      "SDP": 72,
+      "IBUF": 16
+    },
+    "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+    "limitations": [
+      "narrow LUT mapping only",
+      "no retiming/resynthesis/transformation allowed in this bound",
+      "passing this bound does not prove placement or timing",
+      "CE/reset/clock/adjacency restrictions ignored"
+    ]
+  },
+  "CAD_exit_code": 0,
+  "target_core_MHz": 90,
+  "clock_constraints": [
+    [
+      "clocks.clk27",
+      27
+    ],
+    [
+      "bridge.clk",
+      90
+    ],
+    [
+      "bridge.p2.spi_clk",
+      80
+    ],
+    [
+      "bridge.p3.spi_clk",
+      80
+    ]
+  ],
+  "fmax": {
+    "bridge.clk": {
+      "achieved": 93.3619613647461,
+      "constraint": 90.00090026855469
+    },
+    "bridge.p2.spi_clk": {
+      "achieved": 170.3287353515625,
+      "constraint": 80
+    },
+    "bridge.p3.spi_clk": {
+      "achieved": 144.38348388671875,
+      "constraint": 80
+    }
+  },
+  "utilization": {
+    "ALU": {
+      "available": 6480,
+      "used": 2042
+    },
+    "ALU54D": {
+      "available": 10,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 26,
+      "used": 16
+    },
+    "BUFG": {
+      "available": 22,
+      "used": 2
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 6480,
+      "used": 3252
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "FLASH608K": {
+      "available": 1,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "IDES16": {
+      "available": 80,
+      "used": 0
+    },
+    "IOB": {
+      "available": 276,
+      "used": 19
+    },
+    "IOLOGICI": {
+      "available": 276,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 276,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 8640,
+      "used": 5305
+    },
+    "MIPI_IBUF": {
+      "available": 22,
+      "used": 0
+    },
+    "MIPI_OBUF": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT18X18": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT36X36": {
+      "available": 5,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 40,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 4320,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 2160,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 1080,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 1080,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "OSER16": {
+      "available": 80,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 20,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 40,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 270,
+      "used": 0
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 1
+    }
+  },
+  "source_sha256": {
+    "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+    "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+    "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+    "rtl/s3_page_reorder.sv": "be34dec8d8a381ca8c0b5ac1f782fd58f83053f6f0c43e53495a829543c62069",
+    "rtl/s3_rx_page_store.sv": "0dcd24fb605db31d5f8d87aa9edb5710bc95e90f84d7676e703d21e80869addd",
+    "rtl/s3_spi_direct_bridge.sv": "19ea1eb4daad1889bd988788fbd7e93874a8ec96d3ca9a6864b56f7cf48e3e59",
+    "build/s3-direct-T-window/top.sv": "3753f41e5e2ef2bc22246c36c47b1f40513ad7026381b014388e09b887da22a1",
+    "build/s3-direct-T-window/clock.sv": "93029b1e95d0df1d8e914d10f990e06ab710de98654763570919ab54fbce9659",
+    "build/s3-direct-T-window/vit.sv": "d65612710e451124b0c5250937dbd04fcc3f7650ea4da2776fde3a3a5c5bc194",
+    "build/s3-direct-T-window/fec.sv": "f9bc05db6885248932d12d2ecf5a0e15badec84ff739f519891183a87d38df34"
+  },
+  "scope": "Measure direct BSRAM RF transport plus existing FEC partial workloads.\n\nThis is not a connected RF-to-TS receiver. FIR/sync/interleavers, FFT return,\nOffload RPC where required, receiver TS integration and external IO STA remain absent. Preserve every failure.\n",
+  "receiver_adopted": false,
+  "whole_receiver_resources_verified": false,
+  "external_IO_STA_verified": false,
+  "absent": [
+    "FIR/sync/all interleavers",
+    "real FEC coupling",
+    "FFT return endpoint",
+    "receiver TS framing/output integration",
+    "actual host credit sender",
+    "physical IO STA"
+  ]
+}

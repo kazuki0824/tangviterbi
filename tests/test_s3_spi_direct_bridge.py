@@ -8,7 +8,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class DirectBridgeTest(unittest.TestCase):
     def test_native_samples_order_stalls_read_commands_and_poison(self):
-        out = ROOT / "build/s3-direct-bridge-test"
+        self.run_case(False)
+
+    def test_three_outstanding_pages_with_sampled_Gray_credit(self):
+        self.run_case(True)
+
+    def run_case(self, gray_credit):
+        out = ROOT / ("build/s3-direct-bridge-credit" if gray_credit else "build/s3-direct-bridge-test")
         out.mkdir(parents=True, exist_ok=True)
         samples = [(n * 65537 + 12345) & 0xfffff for n in range(65536)]
         raw = b"".join((a | (b << 20)).to_bytes(5, "little") for a, b in zip(samples[::2], samples[1::2]))
@@ -93,9 +99,20 @@ initial begin
  $display("PASS 65536 native samples, 40 pages, independent physical ports, stalls, read-ignore, epoch poison");$finish;
 end
 endmodule'''.replace("N0", str(len(frames[0]))).replace("N1", str(len(frames[1])))
+        if gray_credit:
+            tb=tb.replace('s3_spi_direct_bridge dut','s3_spi_direct_bridge #(.WINDOW_PIPELINE(1)) dut')
+            tb=tb.replace('integer retired=0,', """wire[1:0] gray;
+s3_rf_credit credit(clk,resetn,ov&&ready&&last,gray);
+integer host_retired=0,previous_binary=0,poll_cycles=0;
+integer retired=0,""")
+            tb=tb.replace('always @(negedge clk)begin', """always @(negedge clk)begin
+ if(!resetn)begin host_retired=0;previous_binary=0;poll_cycles=0;end
+ else if(poll_cycles==899)begin host_retired=host_retired+(((gray^(gray>>1))-previous_binary)&3);previous_binary=gray^(gray>>1);poll_cycles=0;end
+ else poll_cycles=poll_cycles+1;""")
+            tb=tb.replace('>=retired+4','>=host_retired+3')
         (out / "tb.sv").write_text(tb)
         sources = ["s3_async_fifo.sv", "s3_spi_rx.sv", "s3_page_guard.sv", "s3_page_reorder.sv",
-                   "s3_rx_page_store.sv", "s3_spi_direct_bridge.sv", "s3_iq10_unpack.sv"]
+                   "s3_rx_page_store.sv", "s3_spi_direct_bridge.sv", "s3_iq10_unpack.sv", "s3_rf_credit.sv"]
         c = subprocess.run(["iverilog", "-g2012", "-s", "tb", "-o", str(out / "sim"),
                             *[str(ROOT / "rtl" / s) for s in sources], str(out / "tb.sv")], capture_output=True, text=True)
         self.assertEqual(c.returncode, 0, c.stderr)

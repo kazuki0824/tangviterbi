@@ -29,7 +29,8 @@ static unsigned consume(s3_tx_ring*r,uint64_t*bytes){
 /* Synthetic 24-cycle tile for RF handoff integration, NOT a SIMD timing model.
  * Independent test_s3_fft_worker uses real ANSI tile arithmetic and all bins.
  */
-int s3_fft_simd_tile(int16_t*d,const int16_t*t,unsigned s,unsigned b,unsigned n){
+int s3_fft_simd_tile_n(int16_t*d,const int16_t*t,unsigned points,unsigned s,unsigned b,unsigned n){
+ (void)points;
  (void)d;(void)t;(void)s;(void)b;assert(n==16);tick(24);return 0;
 }
 struct pump_context {s3_tx_ring *ring;uint64_t *bytes;};

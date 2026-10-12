@@ -12,6 +12,7 @@ from pathlib import Path
 from s3_ordered_constraints import report as constraints
 from s3_rf_schedule_closure import core_demand
 from s3_link_cpu_sensitivity import t_modes
+from s3_runtime_schedule import report as runtime_schedule
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -76,6 +77,7 @@ def calculate():
         "CPU_profiles_are_measured_bounds": False,
         "per_core_model_omissions": ["actual RF MMIO read/packing cost", "RPC/CRC/IRQ", "memory/cache/DMA contention", "RTOS/service and stage barrier overhead"],
         "T_shortest_GI_deadlines": t_modes(),
+        "runtime32_all_modes":runtime_schedule(),
         "RF": {"bank_samples": 12288, "T_bank_us": 768, "S_bank_us": 307.2,
                "T_poll_lateness_limit_us": 125, "S_poll_lateness_limit_us": 50},
         "direct_bridge": {"page_bytes": 4096, "slots": 4, "bytes": 16384,
@@ -83,7 +85,11 @@ def calculate():
                           "consumer_stalls_not_included_in_rate": True,
                           "S_100MBps_zero_service_stall_time_us_upper": 163.84,
                           "T_40MBps_zero_service_stall_time_us_upper": 409.6,
-                          "credit_sender_implemented": False,
+                          "credit_sender_implemented": True,
+                          "credit_limit":3,
+                          "credit_RTL":"rtl/s3_rf_credit.sv",
+                          "credit_SDK_adapter":"experiments/s3_rf_pump.c",
+                          "physical_credit_IO_verified":False,
                           "same_frame_latency_verified": False},
         "communication": {"catalogue": str(path.relative_to(ROOT)),
                           "all_existing_candidate_routes_and_margins_retained_in_source": True,
@@ -92,10 +98,11 @@ def calculate():
                           "performance_verified_candidates": 0,
                           "reason": "whole performance gate unresolved; route hypotheses are not adopted routes"},
         "fixed_TS_configuration": {"T_S_exclusive": True, "common_Octal_Quad_pin_witness": True,
-                                   "same_S3_binary_SIMD_and_RS_SDK_union": "new CI profile native-direct-phy-simd-rs",
+                                   "same_S3_binary_SIMD_and_RS_SDK_union": "native-direct-phy-runtime32",
                                    "union_SDK_result_available": (ROOT / "reports/s3-mode-union-evidence/results.json").exists(),
-                                   "union_SDK_profile_integrates_runtime": False,
-                                   "NOR_control_contract": "experiments/s3_nor_images.py:Switch",
+                                   "union_SDK_profile_links_task_driver_adapters":True,
+                                   "union_SDK_app_executes_runtime":False,
+                                   "NOR_control_contract": "experiments/s3_mode_switch.c (C); experiments/s3_nor_images.py:Switch (model)",
                                    "actual_T_S_images": False, "physical_reconfiguration_test": False,
                                    "final_configuration_adopted": False},
         "performance_stage_completed": False, "receiver_adopted": False, "complete_estimate": False,

@@ -32,7 +32,7 @@ class StartupBoundTest(unittest.TestCase):
                        _iram_end=0x40389700, fft_slot1=0x3fc9cfe0,
                        fft_twiddle_reservation=0x3fc9bfd0, _rtc_force_fast_end=0x600fe000,
                        _rtc_reserved_start=0x60100000, _rtc_reserved_end=0x60100000)
-        if profile in ('native-direct-phy-rs','native-direct-phy-simd-rs'):
+        if profile in ('native-direct-phy-rs','native-direct-phy-simd-rs','native-direct-phy-runtime32'):
             del symbols['fft_slot1'];symbols['fft_mode_slot1']=slot
         text = ''.join(f'  0x{value:08x} {key}\n' for key,value in symbols.items())
         text += '.text.xTimerCreateTimerTask\n 0x4038271c 0x7 esp-idf/freertos/libfreertos.a('+timer+'.c.obj)\n'
@@ -52,6 +52,22 @@ class StartupBoundTest(unittest.TestCase):
         r=self.audit(gap=15392,pool=4096,timer='tasks',profile='native-direct-phy-simd-rs',slot=0x3fc9f2a0)
         self.assertEqual(r['fft_slot1'],'0x3fc9f2a0')
         self.assertFalse(r['native_event_task_retained'])
+        self.assertFalse(r['startup_sufficient_capacity_proven'])
+
+    def test_runtime32_reclaims_only_the_two_proven_heap_intervals(self):
+        r=self.audit(gap=18792,pool=4096,timer='tasks',profile='native-direct-phy-runtime32',slot=0x3fc9f2a0)
+        self.assertEqual(r['early_extra_DMA_heaps_bytes'],[5904])
+        self.assertFalse(r['native_event_task_retained'])
+        layout={'multi_heap_info':20,'control_t':36,'pointer_bytes':4}
+        live=18432+6*340
+        # APP_USABLE_DRAM_END=3fce9710, exact rev0 ROM start=3fceee34.
+        late=0x3fceee34-0x3fce9710
+        total=18792+8168+5904+late-live
+        a=m.allocator_refinement(18792,8168,6,layout,total,4096,late,(5904,))
+        self.assertEqual(late,22308)
+        self.assertEqual(a['free_before_DMA_pool_upper_bound_bytes'],32388)
+        self.assertEqual(a['free_before_DMA_pool_upper_bound_bytes']-4096,28292)
+        self.assertEqual(len(a['heaps']),4)
         self.assertFalse(r['startup_sufficient_capacity_proven'])
 
     def test_pool_must_fit_after_live_stacks_not_before_them(self):

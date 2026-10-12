@@ -224,13 +224,15 @@
     "background_programming_scope": "board external SPI NOR only"
   },
   "memory": {
-    "sdk_evidence_HEAD": "cb3ed366cd84361e5d4b7b81d4f8145b2880a018",
+    "sdk_evidence_HEAD": "f47f26d7ea1609439ddd733b26a93b4621522319",
     "SDK_profile_is_integrated_receiver": false,
     "latest_evidence_is_same_binary_T_S_union": true,
     "SDK_union_includes_RS_code": true,
-    "source_sha256": "fe6c38a4d48b345d0a23fe6805bc7f9dcf8bcdae8c6716aba19e1fcaf1efc6ff",
+    "source_sha256": "8b2a672464426e9135934fc6092c84440a39d94e5d119a35830ba772cc1e50ce",
     "RF_raw_three_banks_bytes": 196608,
-    "RF_lossless_packed_ring_bytes": 65536,
+    "RF_lossless_packed_ring_bytes": 32768,
+    "SDK_profile": "native-direct-phy-runtime32",
+    "runtime_task_driver_adapters_retained": true,
     "mode_slots_bytes": [
       32768,
       32768
@@ -238,7 +240,7 @@
     "T_SIMD_coefficients_bytes": 16384,
     "slots_are_mutually_exclusive_T_FFT_or_S_RS": true,
     "RS_slot_layout_verified": true,
-    "free_after_startup_and_pool_upper_bound_bytes": 1416,
+    "free_after_startup_and_pool_upper_bound_bytes": 27580,
     "worker_profiles": {
       "two_extra_2KiB_workers": {
         "additional_worker_stack_bytes": [
@@ -247,11 +249,11 @@
         ],
         "RF_owner_reuses_main_task": false,
         "additional_stack_TCB_allocation_lower_bound_bytes": 4792,
-        "internal_spare_upper_bound_before_driver_bytes": -3376,
-        "declared_worker_capacity_necessary_pass": false,
+        "internal_spare_upper_bound_before_driver_bytes": 22788,
+        "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
-        "configuration_rejected_by_capacity": true
+        "configuration_rejected_by_capacity": false
       },
       "main_RF_owner_one_extra_2KiB_worker": {
         "additional_worker_stack_bytes": [
@@ -259,11 +261,11 @@
         ],
         "RF_owner_reuses_main_task": true,
         "additional_stack_TCB_allocation_lower_bound_bytes": 2396,
-        "internal_spare_upper_bound_before_driver_bytes": -980,
-        "declared_worker_capacity_necessary_pass": false,
+        "internal_spare_upper_bound_before_driver_bytes": 25184,
+        "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
-        "configuration_rejected_by_capacity": true
+        "configuration_rejected_by_capacity": false
       },
       "two_extra_1KiB_workers": {
         "additional_worker_stack_bytes": [
@@ -272,11 +274,11 @@
         ],
         "RF_owner_reuses_main_task": false,
         "additional_stack_TCB_allocation_lower_bound_bytes": 2744,
-        "internal_spare_upper_bound_before_driver_bytes": -1328,
-        "declared_worker_capacity_necessary_pass": false,
+        "internal_spare_upper_bound_before_driver_bytes": 24836,
+        "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
-        "configuration_rejected_by_capacity": true
+        "configuration_rejected_by_capacity": false
       },
       "main_RF_owner_one_extra_1KiB_worker": {
         "additional_worker_stack_bytes": [
@@ -284,7 +286,7 @@
         ],
         "RF_owner_reuses_main_task": true,
         "additional_stack_TCB_allocation_lower_bound_bytes": 1372,
-        "internal_spare_upper_bound_before_driver_bytes": 44,
+        "internal_spare_upper_bound_before_driver_bytes": 26208,
         "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
@@ -297,6 +299,18 @@
       "PHY/calibration",
       "allocation fragmentation"
     ],
+    "selected_runtime_task_configuration": {
+      "core0": "existing main task; RF poll/preparation/packing/SPI owner",
+      "core1": "one static T FFT task",
+      "static_stack_bytes": 2048,
+      "target_StaticTask_t_bytes": 340,
+      "stack_TCB_and_pipeline_state_already_in_ELF_BSS": true,
+      "additional_dynamic_task_allocation_bytes": 0,
+      "internal_spare_upper_bound_before_driver_bytes": 27580,
+      "declared_worker_capacity_necessary_pass": true,
+      "all_runtime_memory_verified": false,
+      "do_not_subtract_static_stack_TCB_a_second_time": true
+    },
     "RS_target_ABI_used_bytes": [
       30688,
       25344

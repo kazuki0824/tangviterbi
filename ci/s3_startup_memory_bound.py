@@ -27,14 +27,14 @@ def tcb_size_from_dwarf(text):
     return structure_size_from_dwarf(text, 'xSTATIC_TCB')
 
 
-def allocator_refinement(dma, rtc, tasks, layout, total_free_before_pool, pool, late_dma=0):
+def allocator_refinement(dma, rtc, tasks, layout, total_free_before_pool, pool, late_dma=0, early_dma_regions=()):
     # ESP-IDF 5.5.1 pins espressif/tlsf 2867f688. Target ELF validates the
     # ABI; host sizeof is never used. Both remaining internal arenas are
     # initially empty heaps; all other internal ranges are reserved by this
     # fixed layout. Ignore further heap_caps records/locks and allocations.
     assert layout == {'multi_heap_info':20, 'control_t':36, 'pointer_bytes':4}
     heaps=[]
-    for name, region in (('DIRAM',dma),('RTC_fast',rtc),('late_DIRAM',late_dma)):
+    for name, region in (('DIRAM',dma),('RTC_fast',rtc),('late_DIRAM',late_dma),*[(f'early_DIRAM_{i}',n) for i,n in enumerate(early_dma_regions)]):
         if not region:continue
         available=region-layout['multi_heap_info']
         assert available>=36
@@ -52,7 +52,7 @@ def allocator_refinement(dma, rtc, tasks, layout, total_free_before_pool, pool, 
     # independent upper bounds AFTER subtracting their own overhead. The old
     # min(dma,total_free)-all_metadata undercounted DMA in DMA-limited layouts.
     dma_metadata=sum(h['metadata_lower_bound_bytes'] for h in heaps if h['name']!='RTC_fast')
-    free=min(dma+late_dma-dma_metadata, total_free_before_pool-total)
+    free=min(dma+late_dma+sum(early_dma_regions)-dma_metadata, total_free_before_pool-total)
     return {'target_layout':layout,'heaps':heaps,
             'live_task_allocation_headers_lower_bound_bytes':allocation_headers,
             'allocator_overhead_lower_bound_bytes':total,
@@ -75,13 +75,17 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
         if not a:raise ValueError('missing symbol '+name)
         return int(a[-1],16)
     heap_start=symbol('_heap_start');data_start=symbol('_data_start');iram_end=symbol('_iram_end')
-    if profile in ('native-direct-phy-rs','native-direct-phy-simd-rs') and symbol('fft_mode_slot1')%32:
+    if profile in ('native-direct-phy-rs','native-direct-phy-simd-rs','native-direct-phy-runtime32') and symbol('fft_mode_slot1')%32:
         raise ValueError('RS/FFT slot1 base is not 32-byte aligned in the actual linked map')
     assert data_start==iram_end-0x6f0000
     assert 0x3fc88000<data_start<heap_start<0x3fcb0000
     # No unreserved upper DMA arena: raw RF [b0000,e0000), FFT0 [e0000,e8000),
     # and RF queue [e8000,f8000) cover all remaining DIRAM/DMA regions.
     dma_upper=0x3fcb0000-heap_start
+    # Pinned IDF5.5.1: APP_USABLE_DRAM_END=0x3fce9710. In the ring32
+    # profile [e8000,e9710) is an EARLY heap, [e9710,ROM-start) is one
+    # contiguous late heap. They have separate allocator metadata.
+    early_extra=(0x3fce9710-0x3fce8000,) if profile=='native-direct-phy-runtime32' else ()
     rtc_upper=0
     if config.get('ESP_SYSTEM_ALLOW_RTC_FAST_MEM_AS_HEAP'):
         rtc_start=symbol('_rtc_noinit_end' if config.get('ESP32S3_RTCDATA_IN_FAST_MEM') else '_rtc_force_fast_end')
@@ -107,9 +111,9 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
         tasks += 1
     # Idle stack overhead and all allocator metadata are still omitted, so
     # this remains a necessary lower bound even in nondefault configurations.
-    minimum=sum(stacks.values());maximum=dma_upper+rtc_upper
+    minimum=sum(stacks.values());maximum=dma_upper+sum(early_extra)+rtc_upper
     tcb_min = tasks*(tcb_bytes or 0)
-    free_before_pool_upper = min(dma_upper+late_dma_bytes, maximum+late_dma_bytes-minimum-tcb_min)
+    free_before_pool_upper = min(dma_upper+sum(early_extra)+late_dma_bytes, maximum+late_dma_bytes-minimum-tcb_min)
     pool = config['SPIRAM_MALLOC_RESERVE_INTERNAL']
     event_stack = config['ESP_SYSTEM_EVENT_TASK_STACK_SIZE']+extra
     if config.get('LWIP_TCPIP_CORE_LOCKING'): event_stack += 2048
@@ -118,7 +122,7 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
         'internal_DMA_heap_upper_bound_bytes':dma_upper,
         'RTC_fast_heap_generous_upper_bound_bytes':rtc_upper,
         'total_internal_heap_generous_upper_bound_bytes':maximum,
-        'late_DMA_heap_after_startup_tasks_bytes':late_dma_bytes,
+        'late_DMA_heap_after_startup_tasks_bytes':late_dma_bytes,'early_extra_DMA_heaps_bytes':list(early_extra),
         'startup_with_TCB_capacity_pass':minimum+tcb_min<=maximum,
         'startup_with_TCB_shortage_lower_bound_bytes':max(0,minimum+tcb_min-maximum),
         'startup_stack_lower_bound_bytes':stacks,'total_stack_lower_bound_bytes':minimum,
@@ -136,15 +140,15 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
         'startup_pool_shortage_lower_bound_bytes':max(0,pool-free_before_pool_upper),
         'pool_allocation_order':'main task carves pool after all startup tasks are live, before app_main; do not add pool bytes again to later runtime demand',
         'native_event_stack_bytes':event_stack,
-        'native_event_task_retained':profile not in ('native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs'),
-        'headroom_after_startup_tasks_and_native_event_upper_bound_bytes':maximum+late_dma_bytes-minimum-tcb_min-(event_stack+(tcb_bytes or 0) if profile not in ('native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs') else 0),
+        'native_event_task_retained':profile not in ('native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs','native-direct-phy-runtime32'),
+        'headroom_after_startup_tasks_and_native_event_upper_bound_bytes':maximum+late_dma_bytes-minimum-tcb_min-(event_stack+(tcb_bytes or 0) if profile not in ('native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs','native-direct-phy-runtime32') else 0),
         'not_counted':['heap headers/alignment/fragmentation','idle extra stack overhead',
                        'FreeRTOS timer queue if linked','event queue','Wi-Fi task and queues',
                        'Wi-Fi static RX buffers','PHY/calibration allocations',
                        'SPI/GDMA/SCT runtime objects','receiver worker stacks'],
         'configured_internal_DMA_pool_target_bytes':config['SPIRAM_MALLOC_RESERVE_INTERNAL'],
         'internal_DMA_pool_has_distinct_byte_capacity':config['SPIRAM_MALLOC_RESERVE_INTERNAL']<=dma_upper,
-        'heap_start':hex(heap_start),'fft_slot1':hex(symbol('fft_mode_slot1' if profile in ('native-direct-phy-rs','native-direct-phy-simd-rs') else 'fft_slot1')),
+        'heap_start':hex(heap_start),'fft_slot1':hex(symbol('fft_mode_slot1' if profile in ('native-direct-phy-rs','native-direct-phy-simd-rs','native-direct-phy-runtime32') else 'fft_slot1')),
         'twiddle':hex(symbol('fft_twiddle_reservation')),
         'default_dynamic_FreeRTOS_allocation':'MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT; allowing explicit external static stacks does not relocate xTaskCreatePinnedToCore stacks',
         'sources':[f'https://github.com/espressif/esp-idf/blob/v5.5.1/components/{p}' for p in
@@ -158,8 +162,8 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
     if allocator_layout is not None:
         if tcb_bytes is None:raise ValueError('target TCB evidence required')
         result['allocator_refinement']=allocator_refinement(dma_upper,rtc_upper,tasks,
-            allocator_layout,maximum+late_dma_bytes-minimum-tcb_min,pool,late_dma_bytes)
-        early=allocator_refinement(dma_upper,rtc_upper,tasks,allocator_layout,maximum-minimum-tcb_min,0)
+            allocator_layout,maximum+late_dma_bytes-minimum-tcb_min,pool,late_dma_bytes,early_extra)
+        early=allocator_refinement(dma_upper,rtc_upper,tasks,allocator_layout,maximum-minimum-tcb_min,0,early_dma_regions=early_extra)
         result['startup_allocator_necessary_capacity_pass']=early['pool_necessary_capacity_pass']
         result['startup_allocator_shortage_lower_bound_bytes']=early['pool_shortage_lower_bound_bytes']
     return result
@@ -167,7 +171,7 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--map',type=Path,required=True)
     p.add_argument('--sdkconfig',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--profile',default='native-upper-fft',choices=('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs'))
+    p.add_argument('--profile',default='native-upper-fft',choices=('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs','native-direct-phy-runtime32'))
     p.add_argument('--elf',type=Path)
     p.add_argument('--rom-elf',type=Path)
     p.add_argument('--readelf',default='readelf')
@@ -183,11 +187,18 @@ if __name__=='__main__':
         from s3_rom_layout_audit import ELF32,audit as rom_audit
         if not a.elf:raise ValueError('app ELF required with ROM ELF')
         rom_result=rom_audit(ELF32(a.elf),ELF32(a.rom_elf))
-        if a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs'):
+        if a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs','native-direct-phy-runtime32'):
             rom_start=int(rom_result['ROM_reserved_start'],16)
             if not 0x3fcee000<=rom_start<=0x3fcf0000:raise ValueError('unsupported ROM layout')
-            late=rom_start-0x3fcee000
-    elif a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs'):raise ValueError('ROM ELF evidence required')
+            if a.profile=='native-direct-phy-runtime32':
+                regions=rom_result['static_reservations']
+                if not any(r['start']=='0x3fce0000' and r['end']=='0x3fce8000' for r in regions):
+                    raise ValueError('ring32 ELF does not reserve its exact 32 KiB interval')
+                if any(max(int(r['start'],16),0x3fce8000)<min(int(r['end'],16),rom_start) for r in regions):
+                    raise ValueError('another reservation overlaps the reclaimed heap')
+                late=rom_start-0x3fce9710
+            else:late=rom_start-0x3fcee000
+    elif a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs','native-direct-phy-runtime32'):raise ValueError('ROM ELF evidence required')
     r=audit(a.map.read_text(),json.loads(a.sdkconfig.read_text()),a.profile,tcb,layout,late)
     if rom_result:r['ROM_layout_audit']=rom_result
     if a.elf:r['ELF_sha256']=hashlib.sha256(a.elf.read_bytes()).hexdigest()

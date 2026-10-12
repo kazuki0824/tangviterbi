@@ -4,7 +4,7 @@
 // overflow poisons the epoch, never discards an old page to accept a new one.
 // This is a transport component, not FIR/sync/FFT/FEC/TS or a receiver.
 module s3_spi_direct_bridge #(
- parameter SLOT_BITS=2
+ parameter SLOT_BITS=2, WINDOW_PIPELINE=0
 )(
  input wire clk,resetn,input wire [15:0] epoch,
  input wire spi2_sclk,spi2_cs_n,input wire [7:0] spi2_d,
@@ -25,7 +25,7 @@ module s3_spi_direct_bridge #(
  reg ack_valid,ack_tag;
  reg local_fault;
  assign fault=store_fault||local_fault;
- s3_rx_page_store #(.SLOT_BITS(SLOT_BITS)) store(
+ s3_rx_page_store #(.SLOT_BITS(SLOT_BITS),.WINDOW_PIPELINE(WINDOW_PIPELINE)) store(
   clk,resetn,epoch,valid,ready,token0,token1,|overflow,
   write_valid,1'b1,write_address,write_data,write_tag,ack_valid,ack_tag,
   page_valid,page_offset,page_slot,retire,store_fault);

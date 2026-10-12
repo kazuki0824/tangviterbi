@@ -22,7 +22,7 @@ from s3_rs_isdb import source as rs_source
 from s3_rs_syndrome_registered import source as syndrome_source
 
 
-def top(mode):
+def top(mode, window_pipeline=False, runtime_credit=False):
     common = '''module top(input wire clk27,resetn,
  input wire spi2_sclk,spi2_cs_n,input wire[7:0] spi2_d,
  input wire spi3_sclk,spi3_cs_n,input wire[3:0] spi3_d,output wire activity);
@@ -68,13 +68,17 @@ def top(mode):
  assign activity=^{checksum,offset,last,fault,mr,mv,vv,bits_out,syready,syvalid,cr,rv,
  position,done,failed,roots,fr,fv,ff,magnitudes};
 '''
-    return common + fec + "endmodule\n"
+    if runtime_credit:
+        common=common.replace('output wire activity);','output wire activity,output wire[1:0] RF_credit_gray);')
+        common+=' s3_rf_credit credit(clk,rst,v&&last,RF_credit_gray);\n'
+    result=common+fec+"endmodule\n"
+    return result.replace("s3_spi_direct_bridge bridge", "s3_spi_direct_bridge #(.WINDOW_PIPELINE(1)) bridge") if window_pipeline else result
 
 
-def measure(mode, output, timeout, seed=1):
-    b = ROOT / "build" / ("s3-direct-" + mode + (f"-seed{seed}" if seed != 1 else ""))
+def measure(mode, output, timeout, seed=1, window_pipeline=False,runtime_credit=False):
+    b = ROOT / "build" / ("s3-direct-" + mode + ("-window" if window_pipeline else "") + ("-credit" if runtime_credit else "") + (f"-seed{seed}" if seed != 1 else ""))
     b.mkdir(parents=True, exist_ok=True)
-    (b / "top.sv").write_text(top(mode))
+    (b / "top.sv").write_text(top(mode,window_pipeline,runtime_credit))
     target_mhz = 99 if mode == "S-all-RS" else 90
     clock = (ROOT / "rtl/s3_psram_clock.sv").read_text().replace(".FBDIV_SEL(10)", f".FBDIV_SEL({10 if target_mhz == 99 else 9})")
     (b / "clock.sv").write_text(clock)
@@ -82,6 +86,7 @@ def measure(mode, output, timeout, seed=1):
     (b / "fec.sv").write_text(rs_source(True, True) if mode in ("T", "S-all-RS") else syndrome_source())
     sources = [ROOT / "rtl" / n for n in ("s3_async_fifo.sv", "s3_spi_rx.sv", "s3_page_guard.sv",
               "s3_page_reorder.sv", "s3_rx_page_store.sv", "s3_spi_direct_bridge.sv")]
+    if runtime_credit: sources += [ROOT / "rtl/s3_rf_credit.sv"]
     sources += [b / n for n in ("top.sv", "clock.sv", "vit.sv", "fec.sv")]
     if mode != "T":
         sources += [ROOT / "rtl/s3_tc8psk_metric_folded.sv"]
@@ -106,6 +111,9 @@ def measure(mode, output, timeout, seed=1):
                 clocks.append((alias(cell["connections"]["O"]), 80))
     (b / "clocks.py").write_text("".join(f"ctx.addClock({n!r},{freq})\n" for n, freq in clocks))
     (b / "pins.cst").write_text((ROOT / "experiments/s3_spi_rx_benchmark.cst").read_text().replace('"clk"', '"clk27"'))
+    if runtime_credit:
+        with (b/'pins.cst').open('a') as f:
+            f.write('IO_LOC "RF_credit_gray[0]" 55;\nIO_PORT "RF_credit_gray[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;\nIO_LOC "RF_credit_gray[1]" 56;\nIO_PORT "RF_credit_gray[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;\n')
     base = ["nextpnr-himbaechel", "--json", str(b / "design.json"), "--device", "GW1NR-LV9QN88PC6/I5",
             "--vopt", "family=GW1N-9C", "--vopt", "cst=" + str(b / "pins.cst"), "--pre-pack", str(b / "clocks.py")]
     with (b / "pack.log").open("w") as log:
@@ -123,14 +131,16 @@ def measure(mode, output, timeout, seed=1):
                 rc = 124
                 log.write("\nP&R wall-time limit reached; timing/fit remain unknown.\n")
     pnr = json.loads((b / "pnr.json").read_text()) if (b / "pnr.json").exists() else {}
-    result = {"mode": mode, "seed": seed, "tool_versions": {name: subprocess.check_output([name, "--version"], text=True, stderr=subprocess.STDOUT).strip() for name in ("yosys", "nextpnr-himbaechel")}, "logic_site_audit": sites, "CAD_exit_code": rc,
+    result = {"mode": mode, "seed": seed, "window_pipeline": window_pipeline, "runtime_credit":runtime_credit, "tool_versions": {name: subprocess.check_output([name, "--version"], text=True, stderr=subprocess.STDOUT).strip() for name in ("yosys", "nextpnr-himbaechel")}, "logic_site_audit": sites, "CAD_exit_code": rc,
               "target_core_MHz": target_mhz, "clock_constraints": clocks, "fmax": pnr.get("fmax"), "utilization": pnr.get("utilization"),
               "source_sha256": {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},
               "scope": __doc__, "receiver_adopted": False, "whole_receiver_resources_verified": False,
               "external_IO_STA_verified": False,
               "absent": ["FIR/sync/all interleavers", "real FEC coupling", "FFT return endpoint",
-                         "RS offload RPC/retention/correction integration" if mode == "S" else "receiver TS framing/output integration", "actual host credit sender", "physical IO STA"]}
+                         "RS offload RPC/retention/correction integration" if mode == "S" else "receiver TS framing/output integration", "cold identity/epoch/ready protocol" if runtime_credit else "actual host credit sender", "physical IO STA"]}
     dest = output / mode
+    if window_pipeline: dest = dest / "window-pipeline"
+    if runtime_credit: dest = dest / "runtime-credit"
     if seed != 1: dest = dest / f"seed{seed}"
     dest.mkdir(parents=True, exist_ok=True)
     for name in ("top.sv", "clock.sv", "vit.sv", "fec.sv", "synth.ys", "pins.cst", "clocks.py"):
@@ -147,5 +157,7 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, default=ROOT / "reports/s3-direct-stream-evidence")
     parser.add_argument("--pnr-timeout", type=int, default=180)
     parser.add_argument("--seed", type=int, default=1)
+    parser.add_argument("--window-pipeline",action="store_true")
+    parser.add_argument("--runtime-credit",action="store_true")
     args = parser.parse_args()
-    measure(args.mode, args.output, args.pnr_timeout, args.seed)
+    measure(args.mode, args.output, args.pnr_timeout, args.seed, args.window_pipeline,args.runtime_credit)

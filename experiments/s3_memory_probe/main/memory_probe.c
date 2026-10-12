@@ -39,7 +39,12 @@ SOC_RESERVE_MEMORY_REGION(0x3fcb0000, 0x3fce0000, s3_rf_dump);
 #if PROBE_LATE_RF
 // IDF enables the non-OS startup-stack heap before calling app_main. This
 // entire interval is excluded from that heap; no pre-app_main accesses.
-#if PROBE_RING64
+#if PROBE_RING32
+#if !PROBE_ROM_SAFE
+#error "ring32 requires the audited ROM-safe profile"
+#endif
+SOC_RESERVE_MEMORY_REGION(0x3fce0000, 0x3fce8000, s3_late_rf_queue);
+#elif PROBE_RING64
 #if !CONFIG_ESP32S3_DATA_CACHE_32KB
 #error "64 KiB RF queue requires the audited 32 KiB data cache layout"
 #endif
@@ -134,9 +139,12 @@ void app_main(void)
         (uintptr_t)&s3_rs_rpc_crc ^ (uintptr_t)&s3_rs_solve ^ (uintptr_t)&s3_rs_magnitudes;
 #endif
 #if PROBE_ROM_SAFE
+#if PROBE_RING32
+    probe_keep ^= s3_ring_init(&transport_ring,rf_packed_queue,32768,1);
+#else
     probe_keep ^= (uintptr_t)rf_queue_tail;
-    // The existing split-ring implementation retains all sixteen DMA pages.
     probe_keep ^= s3_ring_init_split(&transport_ring,rf_packed_queue,14,rf_queue_tail,2,1);
+#endif
 #endif
 #if PROBE_TRANSPORT
     probe_keep ^= (uintptr_t)transport_ports ^ (uintptr_t)octal_segments ^

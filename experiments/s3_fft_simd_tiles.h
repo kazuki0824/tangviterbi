@@ -12,6 +12,11 @@
  * Output stays in bit-reversed order: sample index i is FFT bin reverse13(i).
  * FPGA must apply this index mapping; all 8192 Q15 complex bins are preserved.
  */
+/* points is 2048, 4096 or 8192. The prefix of the pinned 8192-point
+ * bit-reversed coefficient table is the exact table for the shorter FFT.
+ * Output index uses reverse(log2(points)); all points are retained. */
+int s3_fft_simd_tile_n(int16_t *data,const int16_t *table,unsigned points,unsigned stage,
+                       unsigned block_begin,unsigned block_count);
 int s3_fft_simd_tile(int16_t *data,const int16_t *table,unsigned stage,
                      unsigned block_begin,unsigned block_count);
 #endif

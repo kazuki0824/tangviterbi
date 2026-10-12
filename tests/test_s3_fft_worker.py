@@ -29,6 +29,9 @@ class WorkerTest(unittest.TestCase):
         cls.lib=ctypes.CDLL(str(d/'worker.so'));cls.ptr=ctypes.POINTER(ctypes.c_int16)
         cls.lib.worker_create.argtypes=[cls.ptr,cls.ptr,ctypes.c_int,ctypes.c_uint,ctypes.c_int]
         cls.lib.worker_create.restype=ctypes.c_void_p
+        cls.lib.worker_create_n.argtypes=[cls.ptr,cls.ptr,ctypes.c_uint,ctypes.c_int,ctypes.c_uint,ctypes.c_int]
+        cls.lib.worker_create_n.restype=ctypes.c_void_p
+        cls.lib.s3_pinned_fft_aes3.argtypes=[cls.ptr,ctypes.c_int,cls.ptr]
         for n in ('worker_step','worker_progress','worker_polls'):
             getattr(cls.lib,n).argtypes=[ctypes.c_void_p,ctypes.c_uint]
         for n in ('worker_destroy','worker_ready','worker_calls'):
@@ -65,6 +68,33 @@ class WorkerTest(unittest.TestCase):
         p=ROOT/'build/s3-fft-worker/result.json';p.parent.mkdir(parents=True,exist_ok=True)
         p.write_text(json.dumps(dict(scope=__doc__,cases=rows,real_RTOS_executed=False,
             SIMD_executed=False,CPU_WCET_verified=False,receiver_adopted=False),indent=2)+'\n')
+    def test_every_T_mode_preserves_all_bins_against_full_ANSI(self):
+        rng=np.random.default_rng(9814)
+        for points in (2048,4096,8192):
+            bits=points.bit_length()-1
+            for name,data in [('random',rng.integers(-8000,8000,2*points,dtype=np.int16)),
+                              ('extremes',rng.choice(np.array([-32768,-1,0,32767],dtype=np.int16),2*points)),
+                              ('zeros',np.zeros(2*points,dtype=np.int16))]:
+                with self.subTest(points=points,input=name):
+                    gold=data.copy()
+                    self.assertEqual(self.lib.s3_pinned_fft_aes3(gold.ctypes.data_as(self.ptr),points,self.table),0)
+                    f=self.lib.worker_create_n(data.ctypes.data_as(self.ptr),self.table,points,-1,0,0)
+                    self.assertTrue(f)
+                    try:
+                        for _ in range(10000):
+                            a=self.lib.worker_step(f,0);b=self.lib.worker_step(f,1)
+                            self.assertIn(a,(0,1,2));self.assertIn(b,(0,1,2))
+                            if a==b==2:break
+                        else:self.fail('mode worker deadlock')
+                        self.assertTrue(self.lib.worker_ready(f))
+                        self.assertEqual(self.lib.worker_calls(f),bits*points//128)
+                        # Both are bit-reversed outputs of independent full and tiled ANSI.
+                        np.testing.assert_array_equal(data,gold)
+                    finally:self.lib.worker_destroy(f)
+        bad=np.zeros(16384,dtype=np.int16)
+        for points in (0,1024,3072,16384):
+            self.assertFalse(self.lib.worker_create_n(bad.ctypes.data_as(self.ptr),self.table,points,-1,0,0))
+
     def test_lagging_peer_returns_and_services_RF_without_next_stage(self):
         data=np.zeros(16384,dtype=np.int16);f=self.create(data)
         for _ in range(32):self.assertEqual(self.lib.worker_step(f,0),1)

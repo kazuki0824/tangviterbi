@@ -124,6 +124,18 @@ int s3_ring_cancel_write(s3_tx_ring *r, s3_lease lease)
     return S3_OK;
 }
 
+unsigned S3_HOT s3_ring_ready_pages(const s3_tx_ring *r)
+{
+    if(!r)return 0;
+    unsigned n=0;
+    for(;n<S3_RING_PAGES;++n) {
+        const s3_ring_page *p=&r->pages[(r->submit_sequence+n)&(S3_RING_PAGES-1)];
+        if(atomic_load_explicit(&p->state,memory_order_acquire)!=READY||
+           p->sequence!=r->submit_sequence+n)break;
+    }
+    return n;
+}
+
 int S3_HOT s3_ring_take(s3_tx_ring *r, s3_lease *lease, const uint8_t **payload)
 {
     if (!r || !lease || !payload) return S3_RANGE;

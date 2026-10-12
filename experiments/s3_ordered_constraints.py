@@ -33,11 +33,12 @@ def worker_memory(free_after_pool, workers, reuse_main, driver_bytes=None):
 
 
 def report(sdk_path=None):
-    union_path = ROOT / "reports/s3-mode-union-evidence/results.json"
+    runtime_path = ROOT / "reports/s3-runtime-union-evidence/results.json"
+    union_path = runtime_path if runtime_path.exists() else ROOT / "reports/s3-mode-union-evidence/results.json"
     use_union = sdk_path is None and union_path.exists()
     sdk_path = union_path if use_union else (sdk_path or ROOT / "reports/s3-fft-simd-evidence/worker-sdk-ci.json")
     sdk = json.loads(sdk_path.read_text())
-    if use_union:
+    if "link" in sdk:
         sdk = {"startup_bound": sdk["startup_bound"], "link_result": sdk["link"],
                "head_sha": sdk.get("repository_base_commit", "unknown")}
         if not sdk["link_result"]["link_succeeded"]:
@@ -52,7 +53,9 @@ def report(sdk_path=None):
         "SDK_union_includes_RS_code": sdk["link_result"]["RS_offload_mode_union"],
         "source_sha256": hashlib.sha256(sdk_path.read_bytes()).hexdigest(),
         "RF_raw_three_banks_bytes": 3 * 65536,
-        "RF_lossless_packed_ring_bytes": 65536,
+        "RF_lossless_packed_ring_bytes": sdk["link_result"].get("ring_pages",16)*4096,
+        "SDK_profile": sdk["link_result"].get("profile"),
+        "runtime_task_driver_adapters_retained": sdk["link_result"].get("runtime_task_driver_linked",False),
         "mode_slots_bytes": [32768, 32768], "T_SIMD_coefficients_bytes": 16384,
         "slots_are_mutually_exclusive_T_FFT_or_S_RS": True,
         "RS_slot_layout_verified": False,
@@ -66,6 +69,17 @@ def report(sdk_path=None):
         "not_counted": ["actual worker call-chain stack bound", "SPI/SCT driver objects and configuration",
                         "PHY/calibration", "allocation fragmentation"],
     }
+    if sdk["link_result"].get("runtime_task_driver_linked",False):
+        memory['selected_runtime_task_configuration']={
+            'core0':'existing main task; RF poll/preparation/packing/SPI owner',
+            'core1':'one static T FFT task',
+            'static_stack_bytes':2048,'target_StaticTask_t_bytes':340,
+            'stack_TCB_and_pipeline_state_already_in_ELF_BSS':True,
+            'additional_dynamic_task_allocation_bytes':0,
+            'internal_spare_upper_bound_before_driver_bytes':free,
+            'declared_worker_capacity_necessary_pass':free>=0,
+            'all_runtime_memory_verified':False,
+            'do_not_subtract_static_stack_TCB_a_second_time':True}
     # Read the actual S3 ABI, not the host's struct sizes or the narrative budget.
     abi = json.loads((ROOT / "reports/s3-rs-offload-evidence/target-compile.json").read_text())
     layout = abi["workspace_variants"]["O3"]["target_ABI_layout"]

@@ -18,15 +18,15 @@ static int tile(void *ctx,int16_t *d,const int16_t *t,unsigned s,unsigned b,unsi
 {
     fixture *f=ctx;
     atomic_fetch_add_explicit(&f->calls,1,memory_order_relaxed);
-    return f->tile_failure?-1:s3_fft_simd_tile(d,t,s,b,n);
+    return f->tile_failure?-1:s3_fft_simd_tile_n(d,t,f->worker.points,s,b,n);
 }
-fixture *worker_create(int16_t *d,const int16_t *t,int core,unsigned poll,int tile_fail)
+fixture *worker_create_n(int16_t *d,const int16_t *t,unsigned points,int core,unsigned poll,int tile_fail)
 {
     fixture *f=calloc(1,sizeof(*f));
     if(!f)return NULL;
     f->fail_core=core;f->fail_poll=poll;f->tile_failure=tile_fail;
     atomic_init(&f->calls,0);
-    if(!s3_fft_worker_init(&f->worker,d,t,service,f,tile,f)){free(f);return NULL;}
+    if(!s3_fft_worker_init_n(&f->worker,d,t,points,service,f,tile,f)){free(f);return NULL;}
     return f;
 }
 void worker_destroy(fixture *f){free(f);}
@@ -35,3 +35,6 @@ bool worker_ready(fixture *f){return s3_fft_worker_ready(&f->worker);}
 unsigned worker_progress(fixture *f,unsigned c){return atomic_load(&f->worker.progress[c]);}
 unsigned worker_calls(fixture *f){return atomic_load(&f->calls);}
 unsigned worker_polls(fixture *f,unsigned c){return f->polls[c];}
+
+fixture *worker_create(int16_t *d,const int16_t *t,int core,unsigned poll,int tile_fail)
+{return worker_create_n(d,t,8192,core,poll,tile_fail);}

@@ -3,7 +3,7 @@
 // must return exactly one ack for each accepted word, with its original tag.
 // Consumer reads from the same page-slot memory and retires after its last read.
 module s3_rx_page_store #(
- parameter SLOT_BITS=4, STREAM_ID=1, ACK_TIMEOUT_CYCLES=32768,
+ parameter SLOT_BITS=4, STREAM_ID=1, WINDOW_PIPELINE=0, ACK_TIMEOUT_CYCLES=32768,
  parameter [19:0] RESET_SEQUENCE=0
 )(
  input wire clk,resetn,input wire [15:0] epoch,
@@ -91,7 +91,7 @@ module s3_rx_page_store #(
    if(token_full[1]&&guarded_ready[1])token_full[1]<=0;
   end
  end
- s3_page_reorder #(.SLOT_BITS(SLOT_BITS),.RESET_SEQUENCE(RESET_SEQUENCE)) order(
+ s3_page_reorder #(.SLOT_BITS(SLOT_BITS),.WINDOW_PIPELINE(WINDOW_PIPELINE),.RESET_SEQUENCE(RESET_SEQUENCE)) order(
   // Guard has already rejected non-page-aligned offsets. Make that invariant
   // explicit at the boundary, removing a second 12-bit alignment comparator.
   clk,resetn,epoch,filtered_request,grant,{offset[0][31:12],12'd0},{offset[1][31:12],12'd0},epoch,epoch,

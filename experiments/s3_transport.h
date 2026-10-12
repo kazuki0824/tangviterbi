@@ -50,6 +50,7 @@ int s3_ring_init_split(s3_tx_ring *ring, void *head, unsigned head_pages,
 int s3_ring_begin(s3_tx_ring *ring, s3_lease *lease, uint8_t **payload);
 int s3_ring_publish(s3_tx_ring *ring, s3_lease lease);
 int s3_ring_cancel_write(s3_tx_ring *ring, s3_lease lease);
+unsigned s3_ring_ready_pages(const s3_tx_ring *ring);
 int s3_ring_take(s3_tx_ring *ring, s3_lease *lease, const uint8_t **payload);
 int s3_ring_undo_take(s3_tx_ring *ring, s3_lease lease);
 int s3_ring_complete(s3_tx_ring *ring, s3_lease lease);

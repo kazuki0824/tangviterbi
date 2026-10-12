@@ -1,5 +1,7 @@
 2026-10-12追加：[指定順1〜6の進捗・同時メモリ／直接BSRAM部分実装](s3-ordered-evaluation.md)。全体性能・採用は未確定。
 
+最新の実装・検証・環境内で可能だが未実装の残作業は [S3 runtime実装の追加](s3-runtime-integration.md) に一覧化。1〜4を完了扱いにせず、runtime32の新証拠と旧64 KiB構成を区別する。
+
 # PR4：最良候補を決める前の不足と、継続する検証
 
 2026-10-12：[S3-N16R8のAPI CPU費用・T全mode期限](s3-link-cpu-sensitivity.md)を追加。

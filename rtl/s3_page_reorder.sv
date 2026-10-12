@@ -7,6 +7,7 @@
 // epoch is constant until both ports, memory and consumer are stopped/reset.
 module s3_page_reorder #(
  parameter SLOT_BITS=4,
+ parameter WINDOW_PIPELINE=0,
  parameter [19:0] RESET_SEQUENCE=0
 )(
  input wire clk,resetn,input wire [15:0] epoch,
@@ -31,6 +32,8 @@ module s3_page_reorder #(
  // cached result on a new request or ordered retirement. Current
  // occupied[] and active[] are checked at the actual reservation edge.
  reg [19:0] checked_base;
+ reg [19:0] arithmetic0,arithmetic1,arithmetic_base;
+ reg [1:0] arithmetic_request;
  reg [1:0] checked_request;
  reg window0,window1,old0,old1;
  reg [1:0] offered;
@@ -38,8 +41,8 @@ module s3_page_reorder #(
  // A ready/valid request holds its address until grant. Checking its previous
  // valid cycle is sufficient to qualify the cached arithmetic; comparing the
  // entire address again would reintroduce a wide mux/compare control path.
- wire fresh0=checked_request[0] && request[0] && checked_base==next_sequence;
- wire fresh1=checked_request[1] && request[1] && checked_base==next_sequence;
+ wire fresh0=checked_request[0] && request[0] && (!WINDOW_PIPELINE || arithmetic_request[0]) && checked_base==next_sequence;
+ wire fresh1=checked_request[1] && request[1] && (!WINDOW_PIPELINE || arithmetic_request[1]) && checked_base==next_sequence;
  wire bad0=epoch==0 || epoch0!=epoch || offset0[11:0]!=0 || old0 || (window0 && occupied[slot0]);
  wire bad1=epoch==0 || epoch1!=epoch || offset1[11:0]!=0 || old1 || (window1 && occupied[slot1]);
  assign slot0=sequence0[SLOT_BITS-1:0];
@@ -61,6 +64,7 @@ module s3_page_reorder #(
    owned0<=0;owned1<=0;active<=0;fault<=0;
    reserve_turn<=0;offered<=0;checked_request<=0;checked_base<=0;
    window0<=0;window1<=0;old0<=0;old1<=0;
+   arithmetic0<=0;arithmetic1<=0;arithmetic_base<=0;arithmetic_request<=0;
   end else if(!fault) begin
    offered<=0;
    if(offered==0)begin
@@ -68,9 +72,20 @@ module s3_page_reorder #(
     else if(eligible1)begin offered<=2;reserve_turn<=0;end
     else if(eligible0)begin offered<=1;reserve_turn<=1;end
    end
-   checked_request<=request;checked_base<=next_sequence;
-   window0<=!(|delta0[19:SLOT_BITS]);window1<=!(|delta1[19:SLOT_BITS]);
-   old0<=delta0[19];old1<=delta1[19];
+   if(WINDOW_PIPELINE)begin
+    // Separate subtraction from range/sign reductions. Three consecutive
+    // request cycles and a matching base qualify the delayed arithmetic;
+    // a one-cycle request gap cannot validate a new address with old data.
+    arithmetic0<=delta0;arithmetic1<=delta1;
+    arithmetic_base<=next_sequence;arithmetic_request<=request;
+    checked_request<=arithmetic_request & request;checked_base<=arithmetic_base;
+    window0<=!(|arithmetic0[19:SLOT_BITS]);window1<=!(|arithmetic1[19:SLOT_BITS]);
+    old0<=arithmetic0[19];old1<=arithmetic1[19];
+   end else begin
+    checked_request<=request;checked_base<=next_sequence;
+    window0<=!(|delta0[19:SLOT_BITS]);window1<=!(|delta1[19:SLOT_BITS]);
+    old0<=delta0[19];old1<=delta1[19];
+   end
    if(abort || (retire&&!page_valid) || (|(finish&~active)) ||
       (fresh0&&request[0]&&!active[0]&&bad0) || (fresh1&&request[1]&&!active[1]&&bad1)) fault<=1;
    // Updates on the edge detecting a fatal error are tentative: fault masks
