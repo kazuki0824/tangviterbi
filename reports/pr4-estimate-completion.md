@@ -1,5 +1,11 @@
 # PR4：最良候補を決める前の不足と、継続する検証
 
+2026-10-12：[S3-N16R8のAPI CPU費用・T全mode期限](s3-link-cpu-sensitivity.md)を追加。
+API20 µs全量CPU-active感度ではT-A Mode3低CPU99.313%、S solver低残予算約1216–1317
+cycles/CW。以前の固定Octal/Quad割当はMode1/2でOctal時間超過。平均CPU・Mode3の
+部分合格だけでは性能ゲートを閉じられないことを全分担・全messageの再計算に反映した。
+既存模型・失敗・未知は保持し、完成見積もり／最良確定／採用へ昇格していない。
+
 2026-10-11。最新のSDK証拠HEAD `e8cc72561e0d510a45ae94b1193faf56f338797c`。
 
 現行PR4から**成立済み／最良と確定した第一案へ絞り込むことはできない**。

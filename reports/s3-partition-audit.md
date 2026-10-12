@@ -2,6 +2,12 @@
 > `complete_estimate=false`、`performance_stage_completed=false`、`receiver_adopted=false`。
 > CPU平均一次条件24件・通信条件合格件数を、性能余裕のある分担数や成立数に読み替えない。
 > PR5の測定済み実装の失敗は、9K＋S3のすべての実装の不可能性とは区別する。
+>
+> **2026-10-12追加検算：** [API CPU感度・T全mode期限](s3-link-cpu-sensitivity.md)。
+> 旧200 cycles/pageと20 µs/APIのCPU-active費用は異なる。後者の感度条件では
+> T-A Mode3固定経路の低CPU模型は99.313%、S solver低残予算は約1216–1317 cycles/CW。
+> raw/FFT結果をOctalへ固定する以前の割当はT Mode1/2の平均時間容量を超える。
+> 下記の旧平均値やMode3部分eventの合格を、この条件・全modeへ転用しない。
 
 # Tang Nano 9K＋ESP32-S3-WROOM-1U-N16R8
 ISDB-T / S 処理分担の検算

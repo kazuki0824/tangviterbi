@@ -1,3 +1,11 @@
+> **2026-10-12 S3-N16R8 recheck:** [API CPU sensitivity and all T mode periods](reports/s3-link-cpu-sensitivity.md)
+> distinguish the old 200 cycles/page charge from 20 us/API CPU-active time.
+> Under the latter scenario, the T-A Mode3 low model uses 99.313% aggregate CPU;
+> S solver headroom is about 1216–1317 cycles/codeword. The old fixed Octal/Quad
+> route exceeds Octal time capacity in T Modes 1/2. These scoped failures do not
+> prove all partitions impossible. Whole resources/WCET and receiver adoption
+> remain unverified.
+>
 > [PR4 estimate completion conditions](reports/pr4-estimate-completion.md):
 > current evidence does not establish a best receiver candidate. Individual
 > validation continues. A bounded two-core FFT worker now services native RF

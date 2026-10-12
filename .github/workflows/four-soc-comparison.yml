@@ -5,6 +5,11 @@ on:
       - 'experiments/four_soc_comparison.py'
       - 'tests/test_four_soc_comparison.py'
       - 'reports/four-soc-comparison/**'
+      - 'experiments/s3_link_cpu_sensitivity.py'
+      - 'tests/test_s3_link_cpu_sensitivity.py'
+      - 'reports/s3-link-cpu-sensitivity/**'
+      - 'reports/s3-link-cpu-sensitivity.md'
+      - 'reports/s3-partition-audit/**'
       - '.github/workflows/four-soc-comparison.yml'
   workflow_dispatch:
 permissions:
@@ -21,3 +26,6 @@ jobs:
       - run: python3 -m unittest discover -s tests -p test_four_soc_comparison.py -v
       - run: python3 experiments/four_soc_comparison.py
       - run: git diff --exit-code -- reports/four-soc-comparison
+      - run: python3 -m unittest discover -s tests -p test_s3_link_cpu_sensitivity.py -v
+      - run: python3 experiments/s3_link_cpu_sensitivity.py --output reports/s3-link-cpu-sensitivity
+      - run: git diff --exit-code -- reports/s3-link-cpu-sensitivity
