@@ -15,7 +15,7 @@ typedef struct {
     spi_device_handle_t device;
     spi_host_device_t host;
     unsigned lanes, count, capacity;
-    bool sct, busy, poisoned;
+    bool sct, busy, poisoned, polling;
     spi_multi_transaction_t *segments;
 } s3_spi_port;
 
@@ -25,6 +25,9 @@ typedef struct {
 esp_err_t s3_spi_open(s3_spi_port *port, spi_host_device_t host,
                        const spi_bus_config_t *pins, int cs, unsigned lanes,
                        bool sct, spi_multi_transaction_t *storage, unsigned capacity);
+/* Only SPI3 dedicated bus, idle and owned by this task. Acquire once before
+ * RF starts; poll_end is called only after the pinned LL done flag is true. */
+esp_err_t s3_spi_use_polling(s3_spi_port *port);
 esp_err_t s3_spi_prepare_pages(s3_spi_port *port, unsigned stream, unsigned epoch,
                                 uint32_t offset, void *const payloads[], unsigned pages);
 esp_err_t s3_spi_prepare(s3_spi_port *port, unsigned stream, unsigned epoch,
@@ -41,7 +44,7 @@ esp_err_t s3_spi_close(s3_spi_port *port);
 typedef struct {
     s3_tx_ring *ring;
     s3_spi_port *port;
-    s3_lease leases[3];
+    s3_lease leases[4];
     unsigned count;
 } s3_rf_transfer;
 esp_err_t s3_rf_submit(s3_rf_transfer *transfer, s3_spi_port *port,

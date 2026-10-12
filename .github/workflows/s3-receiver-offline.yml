@@ -17,6 +17,7 @@ on:
       - 'ci/s3_rs_forney_evidence.py'
       - 'ci/s3_t_fec_evidence.py'
       - 'ci/s3_direct_stream_evidence.py'
+      - 'ci/s3_runtime_endpoint_evidence.py'
       - 'ci/s3_fft_target_bound.py'
       - 'ci/s3_fft_simd_source.py'
       - 'ci/s3_fft_simd_evidence.py'
@@ -30,6 +31,28 @@ on:
 permissions:
   contents: read
 jobs:
+  runtime-endpoint-pnr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [T, S, S-all-RS]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test shared leases and actual RF FFT IQ status wires
+        run: python3 -m unittest tests.test_s3_control tests.test_s3_iq_credit tests.test_s3_pooled_page_store tests.test_s3_spi_control tests.test_s3_spi_runtime_endpoint -v
+      - name: Preserve connected endpoint with isolated FEC load and failures
+        run: python3 ci/s3_runtime_endpoint_evidence.py --mode ${{ matrix.mode }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: runtime-endpoint-${{ matrix.mode }}-partial-not-receiver
+          path: reports/s3-runtime-endpoint-evidence/
   direct-stream-pnr:
     runs-on: ubuntu-latest
     timeout-minutes: 15

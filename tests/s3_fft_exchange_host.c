@@ -88,3 +88,9 @@ int main(void)
  }
  puts("PASS actual SPI/task exchange: 36 full frames, all T modes, every bin, delayed DMA, two slot reuse, overlap reject, join/drain");
 }
+
+esp_err_t spi_device_acquire_bus(spi_device_handle_t d,unsigned t){(void)d;(void)t;return ESP_OK;}
+void spi_device_release_bus(spi_device_handle_t d){(void)d;}
+esp_err_t spi_device_polling_start(spi_device_handle_t d,spi_transaction_t *s,unsigned t){return spi_device_queue_trans(d,s,t);}
+esp_err_t spi_device_polling_end(spi_device_handle_t d,unsigned t){spi_transaction_t *s=NULL;return spi_device_get_trans_result(d,&s,t);}
+bool s3_test_spi_done(spi_host_device_t h){return devices[h-2].complete;}

@@ -47,7 +47,7 @@ paths += [ROOT/p for p in ('experiments/s3_memory_probe/main/memory_probe.c','ci
  'ci/s3_startup_memory_bound.py','ci/s3_rs_link_evidence.py','tests/test_s3_startup_memory_bound.py')]
 if runtime:
  paths += [ROOT/p for p in ('tests/s3_fft_tasks_host.c','tests/s3_freertos_host.c','tests/test_s3_fft_tasks.py','tests/s3_rf_pump_host.c','tests/test_s3_rf_pump.py','tests/s3_fft_exchange_host.c','tests/test_s3_fft_exchange.py','tests/s3_mode_switch_host.c','tests/test_s3_mode_switch.py','rtl/s3_rf_credit.sv','tests/test_s3_spi_direct_bridge.py')]
- paths += [ROOT/'experiments'/(name+suffix) for name in ('s3_fft_tasks','s3_rf_pump','s3_pipeline_esp','s3_fft_exchange','s3_mode_switch','s3_fft_worker','s3_fft_simd_tiles','s3_spi_transport','s3_transport') for suffix in ('.c','.h')]
+ paths += [ROOT/'experiments'/(name+suffix) for name in ('s3_fft_tasks','s3_rf_pump','s3_pipeline_esp','s3_fft_exchange','s3_mode_switch','s3_fft_worker','s3_fft_simd_tiles','s3_spi_transport','s3_transport','s3_control','s3_iq_credit') for suffix in ('.c','.h')]
 r['source_sha256']={str(p.relative_to(ROOT)):sha(p) for p in paths}
 for source,target in ((b/'result.json','link-result.json'),(b/'startup-bound.json','startup-bound.json'),
  (b/'idf/config/sdkconfig.json','sdkconfig.json'),(b/'sdkconfig','sdkconfig'),(b/'build.log','build.log'),

@@ -2,6 +2,7 @@
 #include "esp_idf_version.h"
 #include "esp_memory_utils.h"
 #include "esp_attr.h"
+#include "hal/spi_ll.h"
 #include <string.h>
 
 #if ESP_IDF_VERSION != ESP_IDF_VERSION_VAL(5, 5, 1)
@@ -45,6 +46,14 @@ esp_err_t s3_spi_open(s3_spi_port *p, spi_host_device_t host,
         spi_bus_remove_device(p->device); spi_bus_free(host); p->device = NULL;
     }
     return err;
+}
+
+esp_err_t s3_spi_use_polling(s3_spi_port *p)
+{
+ if(!p||!p->device||p->host!=SPI3_HOST||p->sct||p->busy||p->poisoned||p->polling)return ESP_ERR_INVALID_STATE;
+ esp_err_t rc=spi_device_acquire_bus(p->device,portMAX_DELAY);
+ if(rc==ESP_OK)p->polling=true;
+ return rc;
 }
 
 esp_err_t IRAM_ATTR s3_spi_prepare_pages(s3_spi_port *p, unsigned stream, unsigned epoch,
@@ -100,7 +109,7 @@ esp_err_t IRAM_ATTR s3_spi_queue(s3_spi_port *p)
     if (!p || !p->device || p->busy || p->poisoned || !p->count)
         return ESP_ERR_INVALID_STATE;
     p->busy = true;
-    esp_err_t err = p->sct ? spi_device_queue_multi_trans(p->device, p->segments, p->count, 0) :
+    esp_err_t err = p->polling ? spi_device_polling_start(p->device,&p->segments[0].base,portMAX_DELAY) : p->sct ? spi_device_queue_multi_trans(p->device, p->segments, p->count, 0) :
                             spi_device_queue_trans(p->device, &p->segments[0].base, 0);
     /* SCT error paths in this pinned SDK may already own DMA descriptors.
      * Do not recycle payload or silently retry after any unexpected failure. */
@@ -113,7 +122,14 @@ esp_err_t IRAM_ATTR s3_spi_reap(s3_spi_port *p)
     if (!p || !p->device || !p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
     esp_err_t err;
     void *completed = NULL;
-    if (p->sct) {
+    if(p->polling) {
+        // IDF polling_end(0) can spin until the NEXT RTOS tick (strict >).
+        // Use the exact HAL completion predicate first; one owner, one device,
+        // bus acquired before RF, no ISR transaction can change this state.
+        if(!spi_ll_usr_is_done(SPI_LL_GET_HW(p->host)))return ESP_ERR_TIMEOUT;
+        err=spi_device_polling_end(p->device,0);
+        if(err==ESP_OK)completed=&p->segments[0];
+    } else if (p->sct) {
         spi_multi_transaction_t *done = NULL;
         err = spi_device_get_multi_trans_result(p->device, &done, 0); completed = done;
     } else {
@@ -131,6 +147,7 @@ esp_err_t IRAM_ATTR s3_spi_reap(s3_spi_port *p)
 esp_err_t s3_spi_close(s3_spi_port *p)
 {
     if (!p || !p->device || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
+    if(p->polling){spi_device_release_bus(p->device);p->polling=false;}
     esp_err_t err = p->sct ? spi_bus_multi_trans_mode_enable(p->device, false) : ESP_OK;
     if (err == ESP_OK) err = spi_bus_remove_device(p->device);
     if (err != ESP_OK) return err;
@@ -140,10 +157,10 @@ esp_err_t s3_spi_close(s3_spi_port *p)
 
 esp_err_t IRAM_ATTR s3_rf_submit(s3_rf_transfer *x, s3_spi_port *p, s3_tx_ring *r, unsigned pages)
 {
-    if (!x || !p || !r || pages == 0 || pages > 3 || pages > p->capacity)
+    if (!x || !p || !r || pages == 0 || pages > 4 || pages > p->capacity)
         return ESP_ERR_INVALID_ARG;
     if (x->count || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
-    void *buffers[3];
+    void *buffers[4];
     unsigned taken = 0;
     for (; taken < pages; ++taken) {
         const uint8_t *buffer;

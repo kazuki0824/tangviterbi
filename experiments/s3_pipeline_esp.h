@@ -4,6 +4,8 @@
 #include "s3_fft_capture_service.h"
 #include "s3_rf_pump.h"
 #include "s3_fft_exchange.h"
+#include "s3_control.h"
+#include "s3_iq_credit.h"
 #ifdef ESP_PLATFORM
 typedef struct {
  s3_spi_port ports[2];
@@ -15,6 +17,8 @@ typedef struct {
  s3_fft_capture_service service;
  s3_fft_tasks tasks;
  s3_fft_exchange exchange;
+ s3_control control;
+ s3_iq_credit IQ_credit;
  bool opened,FFT_enabled;
 } s3_pipeline_esp;
 /* RF is stopped on entry. board_epoch_verified means image identity, stream
@@ -30,7 +34,8 @@ bool s3_pipeline_esp_start_RF(s3_pipeline_esp *,unsigned rate_msps,
 bool s3_pipeline_esp_step(s3_pipeline_esp *);
 bool s3_pipeline_esp_begin_FFT(s3_pipeline_esp *,int16_t *,const int16_t *,unsigned points);
 /* Use instead of manual begin_FFT for the complete DMA/frame lifetime.
- * Call after start_RF(T). Status must certify the FPGA IQ page epoch/offset.
+ * Call after start_RF(T). NULL ready selects GPIO42/47 publication credit.
+ * A custom ready must certify the FPGA IQ page epoch/offset itself.
  * Stop the pipeline before changing points or the two frame arenas. */
 bool s3_pipeline_esp_enable_FFT(s3_pipeline_esp *,int16_t *,int16_t *,const int16_t *,unsigned,
                                 int (*ready)(void *,unsigned,uint32_t),void *);

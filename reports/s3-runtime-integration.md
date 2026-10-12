@@ -1,5 +1,10 @@
 # S3-N16R8：未実施だったruntime実装の追加
 
+> この資料の数値・SDK hash・133件の試験結果は `e6d9797` 時点の保存証拠。
+> 後続の共有RF/FFT/IQ/status endpoint、3-bit RF credit、GPIO IQ publication、
+> 39命令packerは [追加実装と現在の残作業](s3-runtime-endpoint.md) を参照。
+> 旧SDK memory値を変更後のfirmwareへ流用しない。
+
 2026-10-12。Tang Nano 9K完成基板、ESP32-S3-WROOM-1U-N16R8、従来ISDB-T/S、T/S排他切替。
 RF payloadはnative I10/Q10を無損失に梱包する。通信のための追加software間引き・再量子化はしない。
 

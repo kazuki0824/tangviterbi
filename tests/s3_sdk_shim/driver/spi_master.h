@@ -20,4 +20,9 @@ esp_err_t spi_device_queue_trans(spi_device_handle_t,spi_transaction_t*,int);
 esp_err_t spi_device_get_multi_trans_result(spi_device_handle_t,spi_multi_transaction_t**,int);
 esp_err_t spi_device_get_trans_result(spi_device_handle_t,spi_transaction_t**,int);
 #define SOC_SPI_SCT_SUPPORTED 1
+#include "freertos/FreeRTOS.h"
+esp_err_t spi_device_acquire_bus(spi_device_handle_t,unsigned);
+void spi_device_release_bus(spi_device_handle_t);
+esp_err_t spi_device_polling_start(spi_device_handle_t,spi_transaction_t*,unsigned);
+esp_err_t spi_device_polling_end(spi_device_handle_t,unsigned);
 #endif

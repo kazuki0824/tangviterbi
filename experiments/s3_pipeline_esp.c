@@ -4,9 +4,12 @@
 #include "esp_attr.h"
 #include "soc/soc.h"
 #include "soc/gpio_reg.h"
+#include "esp_rom_sys.h"
 #include <string.h>
 static unsigned IRAM_ATTR gray(void *unused)
-{(void)unused;return (REG_READ(GPIO_IN1_REG)>>6)&3;}
+{(void)unused;uint32_t v=REG_READ(GPIO_IN1_REG);return ((v>>6)&3)|((v>>7)&4);}
+static unsigned IRAM_ATTR iq_gray(void *unused)
+{(void)unused;uint32_t v=REG_READ(GPIO_IN1_REG);return ((v>>10)&1)|((v>>14)&2);}
 bool s3_pipeline_esp_open(s3_pipeline_esp *s,void *buffer,StackType_t *stack,
                           unsigned bytes,unsigned epoch,bool verified)
 {
@@ -14,9 +17,17 @@ bool s3_pipeline_esp_open(s3_pipeline_esp *s,void *buffer,StackType_t *stack,
  memset(s,0,sizeof(*s));
  if(s3_ring_init(&s->ring,buffer,S3_RING_BYTES,epoch)!=S3_OK)return false;
  s3_capture_init(&s->bridge,&s->ring);
- gpio_config_t control={.pin_bit_mask=(UINT64_C(1)<<38)|(UINT64_C(1)<<39),
+ gpio_config_t control={.pin_bit_mask=(UINT64_C(1)<<38)|(UINT64_C(1)<<39)|(UINT64_C(1)<<41)|
+  (UINT64_C(1)<<42)|(UINT64_C(1)<<47),
   .mode=GPIO_MODE_INPUT,.pull_up_en=GPIO_PULLUP_DISABLE,.pull_down_en=GPIO_PULLDOWN_DISABLE,.intr_type=GPIO_INTR_DISABLE};
  if(gpio_config(&control)!=ESP_OK)return false;
+ // Establish a real CS reset edge while the verified FPGA epoch is quiescent.
+ // SCK may never have toggled since cold configuration. Release to the SDK
+ // only after both parsers have observed the inactive fence.
+ gpio_config_t fence={.pin_bit_mask=(UINT64_C(1)<<10)|(UINT64_C(1)<<15),.mode=GPIO_MODE_OUTPUT};
+ if(gpio_config(&fence)!=ESP_OK)return false;
+ gpio_set_level(10,0);gpio_set_level(15,0);esp_rom_delay_us(1);
+ gpio_set_level(10,1);gpio_set_level(15,1);esp_rom_delay_us(1);
  spi_bus_config_t a={.sclk_io_num=12,.mosi_io_num=11,.miso_io_num=13,
   .quadwp_io_num=14,.quadhd_io_num=9,.data4_io_num=4,.data5_io_num=5,.data6_io_num=6,.data7_io_num=7};
  spi_bus_config_t b={.sclk_io_num=16,.mosi_io_num=17,.miso_io_num=18,
@@ -24,6 +35,10 @@ bool s3_pipeline_esp_open(s3_pipeline_esp *s,void *buffer,StackType_t *stack,
  if(s3_spi_open(&s->ports[0],SPI2_HOST,&a,10,8,true,s->octal,8)!=ESP_OK)return false;
  if(s3_spi_open(&s->ports[1],SPI3_HOST,&b,15,4,false,s->quad,1)!=ESP_OK) {
   s3_spi_close(&s->ports[0]);return false;
+ }
+ if(s3_spi_use_polling(&s->ports[1])!=ESP_OK||!s3_control_init(&s->control,&s->ports[1])||
+    !s3_iq_credit_init(&s->IQ_credit,epoch,iq_gray,NULL)) {
+  s3_spi_close(&s->ports[1]);s3_spi_close(&s->ports[0]);return false;
  }
  if(!s3_rf_pump_init(&s->pump,&s->ring,&s->capture,&s->ports[0],&s->ports[1],gray,NULL)||
     !s3_fft_tasks_open(&s->tasks,stack,bytes)) {
@@ -35,6 +50,7 @@ bool s3_pipeline_esp_start_RF(s3_pipeline_esp *s,unsigned rate,unsigned words,ui
 {
  if(!s||!s->opened||s->capture.running||!words||words>256||!bound||xPortGetCoreID()!=0)return false;
  s->pump.quad_RF_allowed=rate==40;
+ s->pump.credit_limit=rate==40?4:2;
  s->service=(s3_fft_capture_service){.capture=&s->capture,.max_words=words,.slice_bound=bound,
   .pump=s3_rf_pump_step,.pump_context=&s->pump};
  return s3_native_start(&s->capture,&s->bridge,s3_native_mmio(),rate);
@@ -61,7 +77,8 @@ bool s3_pipeline_esp_enable_FFT(s3_pipeline_esp *s,int16_t *a,int16_t *b,const i
 {
  if(!s||!s->opened||s->FFT_enabled||!s->capture.running||s->capture.cpp!=15)return false;
  if(!s3_fft_exchange_open(&s->exchange,&s->ports[1],&s->ports[0],&s->tasks,a,b,table,
-    points,s->ring.epoch,s3_fft_service_capture,&s->service,ready,ctx))return false;
+    points,s->ring.epoch,s3_fft_service_capture,&s->service,ready?ready:s3_iq_credit_take,
+    ready?ctx:&s->IQ_credit))return false;
  s->FFT_enabled=true;return true;
 }
 bool s3_pipeline_esp_close(s3_pipeline_esp *s,TickType_t timeout)

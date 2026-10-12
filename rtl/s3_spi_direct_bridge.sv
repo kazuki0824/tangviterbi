@@ -14,9 +14,9 @@ module s3_spi_direct_bridge #(
 );
  wire [35:0] token0,token1;
  wire [1:0] valid,ready,overflow;
- s3_spi_rx #(.LANES(8),.FIFO_AW(7),.IGNORE_IQ_READ(1)) p2(
+ s3_spi_rx #(.LANES(8),.FIFO_AW(7),.IGNORE_IQ_READ(1),.IGNORE_CONTROL(1)) p2(
   spi2_sclk,spi2_cs_n,clk,resetn,spi2_d,valid[0],ready[0],token0,overflow[0]);
- s3_spi_rx #(.LANES(4),.FIFO_AW(7),.IGNORE_IQ_READ(1)) p3(
+ s3_spi_rx #(.LANES(4),.FIFO_AW(7),.IGNORE_IQ_READ(1),.IGNORE_CONTROL(1)) p3(
   spi3_sclk,spi3_cs_n,clk,resetn,spi3_d,valid[1],ready[1],token1,overflow[1]);
  wire write_valid,write_tag,page_valid,retire,store_fault;
  wire [SLOT_BITS+9:0] write_address;
