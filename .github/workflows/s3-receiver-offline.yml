@@ -20,6 +20,7 @@ on:
       - 'ci/s3_fft_target_bound.py'
       - 'ci/s3_fft_simd_source.py'
       - 'ci/s3_fft_simd_evidence.py'
+      - 'ci/s3_packer_evidence.py'
       - 'ci/s3_precision_ber.py'
       - 'ci/s3_precision_evidence.py'
       - 'ci/s3_fec_extension_benchmark.py'
@@ -137,6 +138,8 @@ jobs:
           tar -xJf build/rs-toolchain/compiler.tar.xz -C build/rs-toolchain
       - name: Compile scalar solver for S3, without a WCET claim
         run: python3 ci/s3_rs_offload_compile.py --cc build/rs-toolchain/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc
+      - name: Inspect aligned native packer for the target ISA without a WCET claim
+        run: python3 ci/s3_packer_evidence.py --cc build/rs-toolchain/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc
       - name: Bound the current scalar FFT object, without claiming SIMD timing
         run: python3 ci/s3_fft_target_bound.py --cc build/rs-toolchain/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc --core-isa reports/s3-fft-target-bound/core-isa.h
       - name: Compile the pinned SIMD replacement and coefficient/order adapter
@@ -150,6 +153,7 @@ jobs:
             build/s3-fft-simd/
             reports/s3-fft-simd-evidence/
             reports/s3-rs-offload-evidence/
+            reports/s3-packer-evidence/
   precision-ber:
     runs-on: ubuntu-latest
     timeout-minutes: 20

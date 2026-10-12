@@ -10,31 +10,51 @@
 | 順序 | 実施した作業 | 結果／次を成立させるための不足 |
 |---|---|---|
 | 1：旧6の前提＋旧5の物理条件 | N16R8、固定Octal/Quad配線、GDMA、NOR容量／strap／RECONFIG条件を再確認 | 配線witnessあり。stock完成基板そのままのMSPI切替は不可。外部IO STA、RF dumpのPHY互換性、実boot未確認 |
-| 2：旧3の同時メモリ＋旧1/2の粗い予算 | SDK起動時空き上限、2 worker stack/TCB、native RF＋2 mode slot＋RSのtarget ABIを検算 | 追加2×2 KiB workerは容量不合格。main再利用＋1 workerもdriver前上限1,020 Bしかない |
-| 3：旧1 CPU／旧2 FPGA、旧3更新 | 既存CPU費用を維持し、直接BSRAM受信回路を実装・vector照合。T/S partial topを合成・配置配線。T SIMD＋S RS同一SDK link条件追加 | T partialは90 MHzで通過。S split／all-RSの測定実装は期限不合格。SIMDとsolverのtarget WCET、全受信top、同時SDK unionの結果は別の未完了項目 |
+| 2：旧3の同時メモリ＋旧1/2の粗い予算 | SDK起動時空き上限、2 worker stack/TCB、native RF＋2 mode slot＋RSのtarget ABIを検算 | T/S同時SDKではpool後上限1,416 B。main再利用＋1×2 KiB workerも980 B不足 |
+| 3：旧1 CPU／旧2 FPGA、旧3更新 | 既存CPU費用を維持し、直接BSRAM受信回路を実装・vector照合。T/S partial topを合成・配置配線。T SIMD＋S RS同一SDK link条件追加 | T partialは90 MHzで通過。S split／all-RSの測定実装は期限不合格。同時SDK unionはlocal link／ROM／起動容量検算済み。SIMDとsolverのtarget WCET、全受信topは未完了 |
 | 4：旧4の各core／共有メモリ／buffer | 144個のcore配置・費用感度、RF poll期限、4 pageの保持上限を所有者台帳へ結合 | core移動を含む仮説と現在のcore0 serviceを区別。RPC/IRQ/実driver/同一frameのjoint期限未確認 |
 | 5：旧5の正式通信割当 | 全320分担の境界情報・資源根拠・既存通信catalog参照を追跡し、performance-first gateを実装 | 全体performance未確定のため割当対象0。探索catalogの帯域余裕を採用数に読み替えない |
 | 6：旧6の最終T/S固定構成 | 共通配線／slot union／NOR3 image／停止・drain・epoch・lockの契約を照合 | 実受信T/S image、SoC scheduler、driverとNOR切替の結合が未完了。最終構成の採用未確定 |
 
 ## 同時メモリ
 
-元SDK証拠はHEAD `e8cc725` の `native-direct-phy-simd`。
-RF/FFT workerのコードと予約はリンク済みだが、RS code unionと実worker起動は含まない。
-起動時heap空き**上限**7,512 Bから4,096 B internal DMA poolを差し引くと3,416 B。
+旧SDK証拠はHEAD `e8cc725` の `native-direct-phy-simd`。
+RF/FFT worker codeと予約はリンク済みだったが、RS code unionと実worker起動は含まない。
+そのpool後空き上限3,416 Bを、両搭載の容量へ転用しない。
+
+今回、同じIDF v5.5.1（commit `fcae328`）とGCC14.2.0で
+`native-direct-phy-simd-rs`を**ローカル実ビルド**し、両codeのIRAM配置、N16R8実config、
+slot1の32 B整列、actual ELF ABI、rev0 ROM予約との非重複を確認した。
+CI成功という意味でも、hardware boot／RF dump／worker起動済みという意味でもない。
+[同時SDK証拠](s3-mode-union-evidence/results.json)にELF/map hash、source copy hash、
+生成probe、config、startup bound、build log、実compiler command、Python依存一覧を保存した。
+Python package constraintsチェックを省いたローカル環境なので、その条件も証拠に明記する。
+SDK sourceとGCCのpinは変更していない。
+
+静的RF境界まで15,392 B。起動stack／target TCB／allocator metadataを引いた
+DMA pool前空き上限は5,512 B、4,096 B pool後は**上限1,416 B**。
 追加taskにはtarget StaticTask_t 340 B＋stack＋最低8 Bの2 allocation headerを計上する。
 main taskのstackは既存SDK起動時検算に含まれる。
 
 | 宣言したtask構成 | 追加容量下限 | driver前の空き上限 | 判定 |
 |---|---:|---:|---|
-| 新規2 task、各stack 2,048 B | 4,792 B | −1,376 B | この構成は容量不合格 |
-| mainをRF側として再利用、新規1 task stack 2,048 B | 2,396 B | 1,020 B | 容量必要条件のみ。実driver・call-chain未計上 |
-| 新規2 task、各stack 1,024 B | 2,744 B | 672 B | 小stackの安全性未確認。採用しない |
+| 新規2 task、各stack 2,048 B | 4,792 B | −3,376 B | この構成は容量不合格 |
+| mainをRF側として再利用、新規1 task stack 2,048 B | 2,396 B | −980 B | この構成も容量不合格 |
+| 新規2 task、各stack 1,024 B | 2,744 B | −1,328 B | この構成も容量不合格 |
+| main再利用、新規1 task stack 1,024 B | 1,372 B | 44 B | 容量必要条件のみ。小stackの安全性、driver、fragmentation未確認。採用しない |
 
 RS slot使用量はhost sizeofではなくS3 ABIの30,688／25,344 B。
 各32,768 Bのslotに収まるが、T DMAがdrainする前のRS上書きは禁止。
 これはT/S排他的な**data area**共用の条件であり、T/Sのcodeを別々にリンクしてよい条件ではない。
-新しいCI profile `native-direct-phy-simd-rs` はSIMD workerとRS codeを同時に保持し、
-実map／ELF／startup upper boundを採る。結果取得前は従来の3,416 Bを両搭載の空き容量と断定しない。
+今回のcode unionはその穴を検算したもので、runtime scheduler／driverの同時占有は残る。
+
+CPU実装も更新した。無損失8 sample→20 Bのaligned helperは、8回の32-bit readと5回の
+32-bit writeで、一時配列の`memcpy`を呼ばない。may_aliasでbufferのalias契約を維持する。
+O2/O3 target objectと同時SDKの実ELFで43命令、IRAM、helper内callなしを確認した。
+[packer証拠](s3-packer-evidence/result.json)。16 scalar memory命令／8 sampleという
+2 cycles/sampleの**helper memory issue下限**は、packing全体の速度でもWCETでもない。
+caller／page境界／pending byte／RF読取り／IRQ／APIを含まないので、4/6/8 cycles/sampleの
+CPU感度を実測値へ昇格しない。stack reportもown functionのみで、worker全call-chainの保証ではない。
 
 ## FPGA：native IQをそのまま運ぶ別実装
 
@@ -119,7 +139,9 @@ Background Programmingはこの基板外付けNORだけに限定する。
 既存`Switch`契約のstop→drain→reconfig→image identity→fresh epoch→tune/lock→RF/TS enableを
 独立試験しているが、実S3制御とFPGA identity／NOR bootに結ぶ作業は残る。
 
-ローカル検証：既存を含むS3 120 unittest（363.792 s）、追加ordered gate 3 unittestが合格。
+ローカル検証：最初のS3 120 unittest（363.792 s）とordered 3件が合格。
+最終packer変更後はRF／packing／FFT workerの関連8件を再実行し合格。
+同時SDK容量反映後のordered 4件＋startup 10件も合格。
 
 再現：
 
@@ -132,9 +154,22 @@ python ci/s3_direct_stream_evidence.py --mode S-all-RS
 python ci/s3_direct_stream_evidence.py --mode S-all-RS --seed 2
 python ci/s3_direct_stream_evidence.py --mode S-all-RS --seed 3
 python experiments/s3_ordered_evaluation.py
+python ci/s3_packer_evidence.py --cc xtensa-esp32s3-elf-gcc
+# IDF環境、固定upstream checkoutとrev0 ROM ELFで同時SDKを再現：
+RF_PROFILE=native-direct-phy-simd-rs python ci/s3_rf_coexist_probe.py
+python ci/s3_startup_memory_bound.py --profile native-direct-phy-simd-rs \
+  --rom-elf "$ESP_ROM_ELF_DIR/esp32s3_rev0_rom.elf" \
+  --elf build/s3-rf-coexist/native-direct-phy-simd-rs/idf/esp_sdr.elf \
+  --map build/s3-rf-coexist/native-direct-phy-simd-rs/idf/esp_sdr.map \
+  --sdkconfig build/s3-rf-coexist/native-direct-phy-simd-rs/idf/config/sdkconfig.json \
+  --output build/s3-rf-coexist/native-direct-phy-simd-rs/startup-bound.json
+python ci/s3_rs_link_evidence.py --profile native-direct-phy-simd-rs
+python ci/s3_packer_evidence.py --cc xtensa-esp32s3-elf-gcc \
+  --sdk-elf build/s3-rf-coexist/native-direct-phy-simd-rs/idf/esp_sdr.elf \
+  --sdk-source build/esp-sdr/main/s3_probe/s3_transport.c
 ```
 
-**残る実装上の入口：** SIMDとRS同時SDK linkの結果を容量へ反映し、main再利用も含む
+**残る実装上の入口：** SIMDとRS同時SDK容量に収まるよう、main再利用も含む
 実task構成／stack／driver live allocationを閉じる。次にRF/packing/API/FFT/solverのtarget費用と
 実core配置を対応させ、FIR等の全鎖と保持／TSを接続する。そこまでの性能条件が通ってから
 全mode・全messageの通信割当と最終T/S切替を確定する。

@@ -94,6 +94,7 @@ def calculate():
         "fixed_TS_configuration": {"T_S_exclusive": True, "common_Octal_Quad_pin_witness": True,
                                    "same_S3_binary_SIMD_and_RS_SDK_union": "new CI profile native-direct-phy-simd-rs",
                                    "union_SDK_result_available": (ROOT / "reports/s3-mode-union-evidence/results.json").exists(),
+                                   "union_SDK_profile_integrates_runtime": False,
                                    "NOR_control_contract": "experiments/s3_nor_images.py:Switch",
                                    "actual_T_S_images": False, "physical_reconfiguration_test": False,
                                    "final_configuration_adopted": False},

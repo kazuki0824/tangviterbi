@@ -177,15 +177,24 @@ void s3_iq10_init(s3_iq10_packer *p, s3_tx_ring *r)
     memset(p, 0, sizeof(*p)); p->ring = r;
 }
 
-static S3_HOT void pack_eight(uint8_t *dst, const uint32_t *src)
+static S3_HOT __attribute__((noinline)) void pack_eight(uint8_t *dst, const uint32_t *src)
 {
     const uint32_t a=src[0]&0xfffffu, b=src[1]&0xfffffu, c=src[2]&0xfffffu, d=src[3]&0xfffffu;
     const uint32_t e=src[4]&0xfffffu, f=src[5]&0xfffffu, g=src[6]&0xfffffu, h=src[7]&0xfffffu;
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+    // s3_ring_init_split enforces four-byte page alignment; this helper is
+    // entered only at a four-byte offset. may_alias preserves the character
+    // buffer's C aliasing contract while avoiding a 20-byte temporary memcpy.
+    typedef uint32_t alias_word __attribute__((may_alias));
+    alias_word *out = (alias_word *)(void *)dst;
+    out[0]=a|(b<<20);
+    out[1]=(b>>12)|(c<<8)|(d<<28);
+    out[2]=(d>>4)|(e<<16);
+    out[3]=(e>>16)|(f<<4)|(g<<24);
+    out[4]=(g>>8)|(h<<12);
+#else
     const uint32_t w[5]={a|(b<<20), (b>>12)|(c<<8)|(d<<28), (d>>4)|(e<<16),
                           (e>>16)|(f<<4)|(g<<24), (g>>8)|(h<<12)};
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-    memcpy(dst,w,sizeof(w));
-#else
     for (unsigned i=0;i<20;++i) dst[i]=(uint8_t)(w[i/4]>>(8*(i%4)));
 #endif
 }

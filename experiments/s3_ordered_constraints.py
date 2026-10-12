@@ -32,15 +32,23 @@ def worker_memory(free_after_pool, workers, reuse_main, driver_bytes=None):
     }
 
 
-def report():
-    sdk_path = ROOT / "reports/s3-fft-simd-evidence/worker-sdk-ci.json"
+def report(sdk_path=None):
+    union_path = ROOT / "reports/s3-mode-union-evidence/results.json"
+    use_union = sdk_path is None and union_path.exists()
+    sdk_path = union_path if use_union else (sdk_path or ROOT / "reports/s3-fft-simd-evidence/worker-sdk-ci.json")
     sdk = json.loads(sdk_path.read_text())
+    if use_union:
+        sdk = {"startup_bound": sdk["startup_bound"], "link_result": sdk["link"],
+               "head_sha": sdk.get("repository_base_commit", "unknown")}
+        if not sdk["link_result"]["link_succeeded"]:
+            raise ValueError("union SDK profile did not link")
     startup = sdk["startup_bound"]["allocator_refinement"]
     free = startup["free_before_DMA_pool_upper_bound_bytes"] - startup["DMA_pool_target_bytes"]
     board = proposal()
     pins = board["nets"]
     memory = {
         "sdk_evidence_HEAD": sdk["head_sha"], "SDK_profile_is_integrated_receiver": False,
+        "latest_evidence_is_same_binary_T_S_union": use_union,
         "SDK_union_includes_RS_code": sdk["link_result"]["RS_offload_mode_union"],
         "source_sha256": hashlib.sha256(sdk_path.read_bytes()).hexdigest(),
         "RF_raw_three_banks_bytes": 3 * 65536,
@@ -53,9 +61,10 @@ def report():
             "two_extra_2KiB_workers": worker_memory(free, [2048, 2048], False),
             "main_RF_owner_one_extra_2KiB_worker": worker_memory(free, [2048], True),
             "two_extra_1KiB_workers": worker_memory(free, [1024, 1024], False),
+            "main_RF_owner_one_extra_1KiB_worker": worker_memory(free, [1024], True),
         },
         "not_counted": ["actual worker call-chain stack bound", "SPI/SCT driver objects and configuration",
-                        "PHY/calibration", "RS code in simultaneous T/S SDK link", "allocation fragmentation"],
+                        "PHY/calibration", "allocation fragmentation"],
     }
     # Read the actual S3 ABI, not the host's struct sizes or the narrative budget.
     abi = json.loads((ROOT / "reports/s3-rs-offload-evidence/target-compile.json").read_text())

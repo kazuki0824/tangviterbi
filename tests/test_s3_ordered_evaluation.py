@@ -9,7 +9,7 @@ from s3_ordered_evaluation import adoption_gate, calculate
 
 class OrderedEvaluationTest(unittest.TestCase):
     def test_additional_tasks_exceed_existing_free_upper_bound(self):
-        x = report()["memory"]
+        x = report(Path(__file__).resolve().parents[1] / "reports/s3-fft-simd-evidence/worker-sdk-ci.json")["memory"]
         self.assertEqual(x["free_after_startup_and_pool_upper_bound_bytes"], 3416)
         self.assertEqual(x["RS_target_ABI_used_bytes"], [30688, 25344])
         two = x["worker_profiles"]["two_extra_2KiB_workers"]
@@ -18,6 +18,17 @@ class OrderedEvaluationTest(unittest.TestCase):
         one = x["worker_profiles"]["main_RF_owner_one_extra_2KiB_worker"]
         self.assertEqual(one["internal_spare_upper_bound_before_driver_bytes"], 1020)
         self.assertFalse(one["all_runtime_memory_verified"])
+
+    def test_union_code_retention_reduces_worker_budget(self):
+        x = report()["memory"]
+        self.assertTrue(x["SDK_union_includes_RS_code"])
+        self.assertEqual(x["free_after_startup_and_pool_upper_bound_bytes"], 1416)
+        one = x["worker_profiles"]["main_RF_owner_one_extra_2KiB_worker"]
+        self.assertEqual(one["internal_spare_upper_bound_before_driver_bytes"], -980)
+        self.assertTrue(one["configuration_rejected_by_capacity"])
+        small = x["worker_profiles"]["main_RF_owner_one_extra_1KiB_worker"]
+        self.assertEqual(small["internal_spare_upper_bound_before_driver_bytes"], 44)
+        self.assertFalse(small["all_runtime_memory_verified"])
 
     def test_unknown_performance_and_quality_rescue_do_not_assign_routes(self):
         for status in (False, None):

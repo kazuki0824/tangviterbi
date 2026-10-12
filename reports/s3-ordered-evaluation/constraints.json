@@ -224,10 +224,11 @@
     "background_programming_scope": "board external SPI NOR only"
   },
   "memory": {
-    "sdk_evidence_HEAD": "e8cc72561e0d510a45ae94b1193faf56f338797c",
+    "sdk_evidence_HEAD": "cb3ed366cd84361e5d4b7b81d4f8145b2880a018",
     "SDK_profile_is_integrated_receiver": false,
-    "SDK_union_includes_RS_code": false,
-    "source_sha256": "9fee07634a002ffeb1fc98dc55213f678ae4051dd0d233f2ffef2e23da8ecb7f",
+    "latest_evidence_is_same_binary_T_S_union": true,
+    "SDK_union_includes_RS_code": true,
+    "source_sha256": "fe6c38a4d48b345d0a23fe6805bc7f9dcf8bcdae8c6716aba19e1fcaf1efc6ff",
     "RF_raw_three_banks_bytes": 196608,
     "RF_lossless_packed_ring_bytes": 65536,
     "mode_slots_bytes": [
@@ -237,7 +238,7 @@
     "T_SIMD_coefficients_bytes": 16384,
     "slots_are_mutually_exclusive_T_FFT_or_S_RS": true,
     "RS_slot_layout_verified": true,
-    "free_after_startup_and_pool_upper_bound_bytes": 3416,
+    "free_after_startup_and_pool_upper_bound_bytes": 1416,
     "worker_profiles": {
       "two_extra_2KiB_workers": {
         "additional_worker_stack_bytes": [
@@ -246,7 +247,7 @@
         ],
         "RF_owner_reuses_main_task": false,
         "additional_stack_TCB_allocation_lower_bound_bytes": 4792,
-        "internal_spare_upper_bound_before_driver_bytes": -1376,
+        "internal_spare_upper_bound_before_driver_bytes": -3376,
         "declared_worker_capacity_necessary_pass": false,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
@@ -258,11 +259,11 @@
         ],
         "RF_owner_reuses_main_task": true,
         "additional_stack_TCB_allocation_lower_bound_bytes": 2396,
-        "internal_spare_upper_bound_before_driver_bytes": 1020,
-        "declared_worker_capacity_necessary_pass": true,
+        "internal_spare_upper_bound_before_driver_bytes": -980,
+        "declared_worker_capacity_necessary_pass": false,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
-        "configuration_rejected_by_capacity": false
+        "configuration_rejected_by_capacity": true
       },
       "two_extra_1KiB_workers": {
         "additional_worker_stack_bytes": [
@@ -271,7 +272,19 @@
         ],
         "RF_owner_reuses_main_task": false,
         "additional_stack_TCB_allocation_lower_bound_bytes": 2744,
-        "internal_spare_upper_bound_before_driver_bytes": 672,
+        "internal_spare_upper_bound_before_driver_bytes": -1328,
+        "declared_worker_capacity_necessary_pass": false,
+        "driver_runtime_bytes": null,
+        "all_runtime_memory_verified": false,
+        "configuration_rejected_by_capacity": true
+      },
+      "main_RF_owner_one_extra_1KiB_worker": {
+        "additional_worker_stack_bytes": [
+          1024
+        ],
+        "RF_owner_reuses_main_task": true,
+        "additional_stack_TCB_allocation_lower_bound_bytes": 1372,
+        "internal_spare_upper_bound_before_driver_bytes": 44,
         "declared_worker_capacity_necessary_pass": true,
         "driver_runtime_bytes": null,
         "all_runtime_memory_verified": false,
@@ -282,7 +295,6 @@
       "actual worker call-chain stack bound",
       "SPI/SCT driver objects and configuration",
       "PHY/calibration",
-      "RS code in simultaneous T/S SDK link",
       "allocation fragmentation"
     ],
     "RS_target_ABI_used_bytes": [
