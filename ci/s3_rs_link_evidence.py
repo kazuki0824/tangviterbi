@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Inspect actual SDK-linked RS mode storage and freeze source-hashed evidence."""
 from pathlib import Path
-import hashlib,json,shutil,struct,subprocess
+import argparse,hashlib,json,shutil,struct,subprocess
 from elftools.elf.elffile import ELFFile
 ROOT=Path(__file__).resolve().parents[1]
-b=ROOT/'build/s3-rf-coexist/native-direct-phy-rs';out=ROOT/'reports/s3-rs-link-evidence';out.mkdir(exist_ok=True)
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--profile',choices=('native-direct-phy-rs','native-direct-phy-simd-rs'),default='native-direct-phy-rs')
+args=parser.parse_args()
+b=ROOT/'build/s3-rf-coexist'/args.profile
+out=ROOT/('reports/s3-mode-union-evidence' if args.profile.endswith('simd-rs') else 'reports/s3-rs-link-evidence');out.mkdir(exist_ok=True)
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 result=json.loads((b/'result.json').read_text());bound=json.loads((b/'startup-bound.json').read_text())
 if not result['link_succeeded'] or not result['RS_slot1_base_aligned32'] or not result['RS_inspected_hot_functions_in_IRAM']:

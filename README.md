@@ -1,3 +1,5 @@
+2026-10-12追加：[指定順1〜6の進捗・同時メモリ／直接BSRAM部分実装](reports/s3-ordered-evaluation.md)。全体性能・採用は未確定。
+
 > **2026-10-12 S3-N16R8 recheck:** [API CPU sensitivity and all T mode periods](reports/s3-link-cpu-sensitivity.md)
 > distinguish the old 200 cycles/page charge from 20 us/API CPU-active time.
 > Under the latter scenario, the T-A Mode3 low model uses 99.313% aggregate CPU;

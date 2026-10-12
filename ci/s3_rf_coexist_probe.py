@@ -17,8 +17,8 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[1]
 PROFILE=os.environ.get('RF_PROFILE','full')
 VARIANT=PROFILE
-RS_OFFLOAD=PROFILE=='native-direct-phy-rs'
-SIMD=PROFILE in ('native-direct-phy-simd','native-direct-phy-simd-n8')
+RS_OFFLOAD=PROFILE in ('native-direct-phy-rs','native-direct-phy-simd-rs')
+SIMD=PROFILE in ('native-direct-phy-simd','native-direct-phy-simd-n8','native-direct-phy-simd-rs')
 FLASH_MB=8 if PROFILE=='native-direct-phy-simd-n8' else 16
 if RS_OFFLOAD or SIMD:PROFILE='native-direct-phy'
 if PROFILE not in ('full','native-phy','native-phy-flash','native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):raise SystemExit('unknown RF_PROFILE')

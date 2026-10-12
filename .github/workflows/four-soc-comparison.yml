@@ -5,6 +5,10 @@ on:
       - 'experiments/four_soc_comparison.py'
       - 'tests/test_four_soc_comparison.py'
       - 'reports/four-soc-comparison/**'
+      - 'experiments/s3_ordered_constraints.py'
+      - 'experiments/s3_ordered_evaluation.py'
+      - 'tests/test_s3_ordered_evaluation.py'
+      - 'reports/s3-ordered-evaluation/**'
       - 'experiments/s3_link_cpu_sensitivity.py'
       - 'tests/test_s3_link_cpu_sensitivity.py'
       - 'reports/s3-link-cpu-sensitivity/**'
@@ -29,3 +33,7 @@ jobs:
       - run: python3 -m unittest discover -s tests -p test_s3_link_cpu_sensitivity.py -v
       - run: python3 experiments/s3_link_cpu_sensitivity.py --output reports/s3-link-cpu-sensitivity
       - run: git diff --exit-code -- reports/s3-link-cpu-sensitivity
+      - run: python3 -m unittest discover -s tests -p test_s3_ordered_evaluation.py -v
+      - run: python3 experiments/s3_ordered_constraints.py --output reports/s3-ordered-evaluation/constraints.json
+      - run: python3 experiments/s3_ordered_evaluation.py
+      - run: git diff --exit-code -- reports/s3-ordered-evaluation

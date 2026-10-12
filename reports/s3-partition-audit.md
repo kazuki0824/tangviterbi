@@ -1,3 +1,5 @@
+2026-10-12追加：[指定順1〜6の進捗・同時メモリ／直接BSRAM部分実装](s3-ordered-evaluation.md)。全体性能・採用は未確定。
+
 > **完全見積もりではない。** 全段のFPGA資源と、RF/FFT/RS/RPC/RTOS同時実行の期限が未確定。
 > `complete_estimate=false`、`performance_stage_completed=false`、`receiver_adopted=false`。
 > CPU平均一次条件24件・通信条件合格件数を、性能余裕のある分担数や成立数に読み替えない。

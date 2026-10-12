@@ -1,0 +1,256 @@
+{
+  "mode": "T",
+  "logic_site_audit": {
+    "packed_json_sha256": "09aa91e21665c724ce4346b2187636f5c3e673da175dfcfd4b677bc07dd7a8b5",
+    "LUT_cells": 3670,
+    "ALU_cells": 2042,
+    "ALU_blockers_excluded": 2042,
+    "fabric_FFs": 3194,
+    "maximum_LUT_or_ALU_FF_pairs": 1640,
+    "minimum_additional_FF_sites": 1554,
+    "minimum_required_logic_sites": 7266,
+    "available_logic_sites": 8640,
+    "minimum_site_utilization_percent": 84.09722222222223,
+    "minimum_site_deficit": 0,
+    "mapped_netlist_ruled_out": false,
+    "FF_D_driver_types": {
+      "LUT3": 592,
+      "DFF": 136,
+      "ALU": 163,
+      "DFFCE": 214,
+      "LUT2": 417,
+      "LUT1": 22,
+      "LUT4": 1001,
+      "DFFP": 30,
+      "DFFC": 94,
+      "DFFE": 280,
+      "DFFRE": 143,
+      "DFFSE": 1,
+      "DFFS": 1,
+      "DFFPE": 1,
+      "GOWIN_VCC": 11,
+      "SDP": 72,
+      "IBUF": 16
+    },
+    "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+    "limitations": [
+      "narrow LUT mapping only",
+      "no retiming/resynthesis/transformation allowed in this bound",
+      "passing this bound does not prove placement or timing",
+      "CE/reset/clock/adjacency restrictions ignored"
+    ]
+  },
+  "CAD_exit_code": 0,
+  "clock_constraints": [
+    [
+      "clocks.clk27",
+      27
+    ],
+    [
+      "bridge.clk",
+      90
+    ],
+    [
+      "bridge.p2.spi_clk",
+      80
+    ],
+    [
+      "bridge.p3.spi_clk",
+      80
+    ]
+  ],
+  "fmax": {
+    "bridge.clk": {
+      "achieved": 101.48162841796875,
+      "constraint": 90.00090026855469
+    },
+    "bridge.p2.spi_clk": {
+      "achieved": 147.6450653076172,
+      "constraint": 80
+    },
+    "bridge.p3.spi_clk": {
+      "achieved": 231.16041564941406,
+      "constraint": 80
+    }
+  },
+  "utilization": {
+    "ALU": {
+      "available": 6480,
+      "used": 2042
+    },
+    "ALU54D": {
+      "available": 10,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 26,
+      "used": 16
+    },
+    "BUFG": {
+      "available": 22,
+      "used": 2
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 6480,
+      "used": 3194
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "FLASH608K": {
+      "available": 1,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "IDES16": {
+      "available": 80,
+      "used": 0
+    },
+    "IOB": {
+      "available": 276,
+      "used": 19
+    },
+    "IOLOGICI": {
+      "available": 276,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 276,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 8640,
+      "used": 5269
+    },
+    "MIPI_IBUF": {
+      "available": 22,
+      "used": 0
+    },
+    "MIPI_OBUF": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT18X18": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT36X36": {
+      "available": 5,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 40,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 4320,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 2160,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 1080,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 1080,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "OSER16": {
+      "available": 80,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 20,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 40,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 270,
+      "used": 0
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 1
+    }
+  },
+  "source_sha256": {
+    "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+    "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+    "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+    "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+    "rtl/s3_rx_page_store.sv": "682e9ab1095474e23f5ae838442622d942e697879d5692f587bbe09054b0793e",
+    "rtl/s3_spi_direct_bridge.sv": "664626936915a023b7468ff6e8285b1a68084157103dd4088d07ea5969e4d549",
+    "build/s3-direct-T/top.sv": "647f1854ad5cecc346740f0bb14e3f66772c3a59f622dfd1b397571b38462ed7",
+    "build/s3-direct-T/clock.sv": "93029b1e95d0df1d8e914d10f990e06ab710de98654763570919ab54fbce9659",
+    "build/s3-direct-T/vit.sv": "d65612710e451124b0c5250937dbd04fcc3f7650ea4da2776fde3a3a5c5bc194",
+    "build/s3-direct-T/fec.sv": "f9bc05db6885248932d12d2ecf5a0e15badec84ff739f519891183a87d38df34"
+  },
+  "scope": "Measure direct BSRAM RF transport plus existing FEC partial workloads.\n\nThis is not a connected RF-to-TS receiver. FIR/sync/interleavers, FFT return,\nOffload RPC where required, receiver TS integration and external IO STA remain absent. Preserve every failure.\n",
+  "receiver_adopted": false,
+  "whole_receiver_resources_verified": false,
+  "external_IO_STA_verified": false,
+  "absent": [
+    "FIR/sync/all interleavers",
+    "real FEC coupling",
+    "FFT return endpoint",
+    "receiver TS framing/output integration",
+    "actual host credit sender",
+    "physical IO STA"
+  ],
+  "tool_versions": {
+    "yosys": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+    "nextpnr-himbaechel": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
+  },
+  "seed": 1,
+  "target_core_MHz": 90
+}
