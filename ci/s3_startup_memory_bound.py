@@ -136,8 +136,8 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
         'startup_pool_shortage_lower_bound_bytes':max(0,pool-free_before_pool_upper),
         'pool_allocation_order':'main task carves pool after all startup tasks are live, before app_main; do not add pool bytes again to later runtime demand',
         'native_event_stack_bytes':event_stack,
-        'native_event_task_retained':profile not in ('native-direct-phy','native-direct-phy-rs','native-direct-phy-simd'),
-        'headroom_after_startup_tasks_and_native_event_upper_bound_bytes':maximum+late_dma_bytes-minimum-tcb_min-(event_stack+(tcb_bytes or 0) if profile not in ('native-direct-phy','native-direct-phy-rs','native-direct-phy-simd') else 0),
+        'native_event_task_retained':profile not in ('native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8'),
+        'headroom_after_startup_tasks_and_native_event_upper_bound_bytes':maximum+late_dma_bytes-minimum-tcb_min-(event_stack+(tcb_bytes or 0) if profile not in ('native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8') else 0),
         'not_counted':['heap headers/alignment/fragmentation','idle extra stack overhead',
                        'FreeRTOS timer queue if linked','event queue','Wi-Fi task and queues',
                        'Wi-Fi static RX buffers','PHY/calibration allocations',
@@ -167,7 +167,7 @@ def audit(map_text,config,profile="native-upper-fft",tcb_bytes=None,allocator_la
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--map',type=Path,required=True)
     p.add_argument('--sdkconfig',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--profile',default='native-upper-fft',choices=('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd'))
+    p.add_argument('--profile',default='native-upper-fft',choices=('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8'))
     p.add_argument('--elf',type=Path)
     p.add_argument('--rom-elf',type=Path)
     p.add_argument('--readelf',default='readelf')
@@ -183,11 +183,11 @@ if __name__=='__main__':
         from s3_rom_layout_audit import ELF32,audit as rom_audit
         if not a.elf:raise ValueError('app ELF required with ROM ELF')
         rom_result=rom_audit(ELF32(a.elf),ELF32(a.rom_elf))
-        if a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd'):
+        if a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8'):
             rom_start=int(rom_result['ROM_reserved_start'],16)
             if not 0x3fcee000<=rom_start<=0x3fcf0000:raise ValueError('unsupported ROM layout')
             late=rom_start-0x3fcee000
-    elif a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd'):raise ValueError('ROM ELF evidence required')
+    elif a.profile in ('native-quarter-romsafe','native-direct-phy','native-direct-phy-rs','native-direct-phy-simd','native-direct-phy-simd-n8'):raise ValueError('ROM ELF evidence required')
     r=audit(a.map.read_text(),json.loads(a.sdkconfig.read_text()),a.profile,tcb,layout,late)
     if rom_result:r['ROM_layout_audit']=rom_result
     if a.elf:r['ELF_sha256']=hashlib.sha256(a.elf.read_bytes()).hexdigest()

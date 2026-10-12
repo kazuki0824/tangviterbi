@@ -7,6 +7,17 @@ spec = importlib.util.spec_from_file_location('startup_bound', ROOT/'ci/s3_start
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 
 class StartupBoundTest(unittest.TestCase):
+    def test_n8_simd_has_no_fictitious_event_task_or_extra_internal_ram(self):
+        n8 = self.audit(gap=17712, pool=4096, timer='tasks', profile='native-direct-phy-simd-n8')
+        n16 = self.audit(gap=17712, pool=4096, timer='tasks', profile='native-direct-phy-simd')
+        self.assertFalse(n8['native_event_task_retained'])
+        for key in ('startup_task_count', 'total_stack_lower_bound_bytes',
+                    'internal_free_before_DMA_pool_upper_bound_bytes',
+                    'headroom_after_startup_tasks_and_native_event_upper_bound_bytes'):
+            self.assertEqual(n8[key], n16[key])
+        self.assertFalse(n8['startup_sufficient_capacity_proven'])
+        self.assertFalse(n8['receiver_adopted'])
+
     def audit(self, gap=21000, pool=8192, tcb=340, timer="timers",profile='native-quarter-fft',slot=0x3fc9cfe0):
         config = dict(FREERTOS_NUMBER_OF_CORES=2, ESP_IPC_ENABLE=True,
                       ESP32S3_DATA_CACHE_32KB=True, SPIRAM_MODE_OCT=True,

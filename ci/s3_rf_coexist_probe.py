@@ -18,7 +18,8 @@ ROOT=Path(__file__).resolve().parents[1]
 PROFILE=os.environ.get('RF_PROFILE','full')
 VARIANT=PROFILE
 RS_OFFLOAD=PROFILE=='native-direct-phy-rs'
-SIMD=PROFILE=='native-direct-phy-simd'
+SIMD=PROFILE in ('native-direct-phy-simd','native-direct-phy-simd-n8')
+FLASH_MB=8 if PROFILE=='native-direct-phy-simd-n8' else 16
 if RS_OFFLOAD or SIMD:PROFILE='native-direct-phy'
 if PROFILE not in ('full','native-phy','native-phy-flash','native-phy-psram','native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'):raise SystemExit('unknown RF_PROFILE')
 NATIVE=PROFILE!='full'
@@ -97,7 +98,7 @@ if SIMD:
 p.write_text(s)
 # Retain RF PHY options; explicitly override module/cache/CPU configuration.
 defaults=(UP/'sdkconfig.defaults.esp32s3').read_text()
-defaults=defaults.replace('CONFIG_ESPTOOLPY_FLASHSIZE_2MB=y','CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y')
+defaults=defaults.replace('CONFIG_ESPTOOLPY_FLASHSIZE_2MB=y','CONFIG_ESPTOOLPY_FLASHSIZE_'+str(FLASH_MB)+'MB=y')
 defaults=defaults.replace('CONFIG_FREERTOS_UNICORE=y','# CONFIG_FREERTOS_UNICORE is not set')
 defaults+='\n'+(ROOT/'experiments/s3_memory_probe/sdkconfig.transport.defaults').read_text()
 defaults+='\nCONFIG_SPIRAM=y\nCONFIG_SPIRAM_MODE_OCT=y\nCONFIG_SPIRAM_SPEED_80M=y\nCONFIG_ESP32S3_DATA_CACHE_32KB=y\n'
@@ -119,7 +120,7 @@ cmd=['idf.py','-B',str(OUT/'idf'),'-DIDF_TARGET=esp32s3',
 with (OUT/'build.log').open('w') as f:rc=subprocess.run(cmd,cwd=UP,stdout=f,stderr=subprocess.STDOUT).returncode
 log=(OUT/'build.log').read_text(errors='replace')
 result={'scope':('Native RF initialization/tuning plus SPI/FFT/native-bank code and reservations; no integrated scheduler.' if NATIVE else __doc__),
-        'profile':VARIANT,'esp_psram_component_required':PSRAM,'RS_offload_mode_union':RS_OFFLOAD,
+        'profile':VARIANT,'module_flash_MB':FLASH_MB,'esp_psram_component_required':PSRAM,'RS_offload_mode_union':RS_OFFLOAD,
         'quarter_FFT_coefficients':PROFILE in ('native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy') and not SIMD,
         'SIMD_FFT_linked':SIMD,'SIMD_FFT_executed':False,
         'upper_FFT_slot':PROFILE in ('native-upper-fft','native-quarter-fft','native-quarter-pool4','native-quarter-romsafe','native-direct-phy'),
@@ -176,10 +177,14 @@ if config.exists():
     result['effective_config']={key:values.get(key) for key in
         ('ESP_WIFI_IRAM_OPT','ESP_WIFI_RX_IRAM_OPT','ESP_WIFI_EXTRA_IRAM_OPT',
          'SPI_MASTER_IN_IRAM','SPI_MASTER_ISR_IN_IRAM','ESP32S3_DATA_CACHE_32KB',
-         'SPIRAM','SPIRAM_MODE_OCT','SPIRAM_SPEED_80M','FREERTOS_UNICORE')}
+         'SPIRAM','SPIRAM_MODE_OCT','SPIRAM_SPEED_80M','FREERTOS_UNICORE',
+         'ESPTOOLPY_FLASHSIZE_8MB','ESPTOOLPY_FLASHSIZE_16MB')}
+    result['requested_flash_configuration_effective']=values.get('ESPTOOLPY_FLASHSIZE_'+str(FLASH_MB)+'MB') is True
     result['requested_PSRAM_configuration_effective']=all(values.get(k) is True for k in
         ('SPIRAM','SPIRAM_MODE_OCT','SPIRAM_SPEED_80M'))
 (OUT/'result.json').write_text(json.dumps(result,indent=2)+'\n')
+if not result.get('requested_flash_configuration_effective'):
+    raise SystemExit('requested module flash size was not effective')
 if PSRAM and not result.get('requested_PSRAM_configuration_effective'):
     raise SystemExit('PSRAM configuration was not effective; no module-fit claim allowed')
 print(json.dumps(result,indent=2));print('\n'.join(log.splitlines()[-45:]))

@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        profile: [native-quarter-pool4, native-quarter-romsafe, native-direct-phy, native-direct-phy-rs, native-direct-phy-simd]
+        profile: [native-quarter-pool4, native-quarter-romsafe, native-direct-phy, native-direct-phy-rs, native-direct-phy-simd, native-direct-phy-simd-n8]
     runs-on: ubuntu-latest
     container: espressif/idf:v5.5.1
     timeout-minutes: 25
