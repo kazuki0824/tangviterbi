@@ -66,7 +66,7 @@ lines=dwarf.splitlines();snippets=[]
 for i,line in enumerate(lines):
  if any(line.rstrip().endswith(': '+n) for n in ('xSTATIC_TCB','multi_heap_info','control_t')):
   snippets.extend(lines[max(0,i-1):i+6]);snippets.append('')
-(out/'target-dwarf-layout.txt').write_text('\n'.join(snippets)+'\n')
+(out/'target-dwarf-layout.txt').write_text('\n'.join(snippets).rstrip()+'\n')
 (out/'results.json').write_text(json.dumps(r,indent=2)+'\n')
 print(json.dumps(dict(static_gap=result['static_gap_to_RF_bytes'],slot1_base=hex(base),DMA_pages=pages,
  free_before_DMA_pool_upper_bound=bound['allocator_refinement']['free_before_DMA_pool_upper_bound_bytes']),indent=2))
