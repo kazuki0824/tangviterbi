@@ -1,0 +1,389 @@
+{
+  "base": "4f92e8ee52256375e1ce10890e77986509444332",
+  "ownership_count": 320,
+  "pair_count": 16384,
+  "optimistic_CPU_pairs": 44,
+  "peripheral_profiles": 18,
+  "individual_pin_DMA_sets": 2706,
+  "simultaneous_capacity_pairs": 3736,
+  "raw_route_pairs": 18,
+  "RS_partial_capacity_pairs": 26238,
+  "RS_partial_route_counts": {
+    "CPU_BM_Chien_Forney": 3476,
+    "CPU_BM_Omega": 3360,
+    "CPU_BM_Omega_Forney": 45808,
+    "CPU_all_RS": 863
+  },
+  "step1_complete": false,
+  "formal_step2_assignments": 0,
+  "step3_adopted_receivers": 0,
+  "rates": {
+    "T_RS_CW_s": 15448.603683897802,
+    "S_RS_peak_CW_s": 35541.87192118227,
+    "S_RS_deadline_us": 28.135828135828135,
+    "S_TMCC_CW_s": 90.33203125,
+    "T_TS_Mbps": 23.234699940582296
+  },
+  "FFT": [
+    {
+      "n": 2048,
+      "period_us": 259.875,
+      "cycles": 30720,
+      "compute_us": 189.62962962962962,
+      "compute_utilization": 0.7296955445103593,
+      "SDRAM_MBps": 189.13708513708514
+    },
+    {
+      "n": 4096,
+      "period_us": 519.75,
+      "cycles": 65536,
+      "compute_us": 404.5432098765432,
+      "compute_utilization": 0.7783419141443833,
+      "SDRAM_MBps": 189.13708513708514
+    },
+    {
+      "n": 8192,
+      "period_us": 1039.5,
+      "cycles": 139264,
+      "compute_us": 859.6543209876543,
+      "compute_utilization": 0.8269882837784072,
+      "SDRAM_MBps": 189.13708513708514
+    }
+  ],
+  "candidates": [
+    {
+      "id": "A_tiled_independent_RS",
+      "blocks": {
+        "T_FIR_sync": {
+          "logic_sites_estimate": 1008,
+          "FF": 1792,
+          "BSRAM": 3,
+          "DSP18": 9
+        },
+        "T_equalize_interleave_TS": {
+          "logic_sites_estimate": 704,
+          "FF": 576,
+          "BSRAM": 0,
+          "DSP18": 5
+        },
+        "T_K7": {
+          "logic_sites_estimate": 2952,
+          "FF": 1502,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "S_FIR_sync_frame_TS": {
+          "logic_sites_estimate": 1128,
+          "FF": 1472,
+          "BSRAM": 9,
+          "DSP18": 14
+        },
+        "S_TC8PSK": {
+          "logic_sites_estimate": 3208,
+          "FF": 1758,
+          "BSRAM": 4,
+          "DSP18": 2
+        },
+        "S_BPSK_QPSK_K7_extra": {
+          "logic_sites_estimate": 2952,
+          "FF": 1502,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "RS_T": {
+          "logic_sites_estimate": 2085,
+          "FF": 960,
+          "BSRAM": 1,
+          "DSP18": 0
+        },
+        "RS_S": {
+          "logic_sites_estimate": 2085,
+          "FF": 960,
+          "BSRAM": 1,
+          "DSP18": 0
+        },
+        "FFT_tiled": {
+          "logic_sites_estimate": 1400,
+          "FF": 1024,
+          "BSRAM": 8,
+          "DSP18": 8
+        },
+        "IO_SDRAM_TMCC_control_reserve": {
+          "logic_sites_estimate": 3000,
+          "FF": 2000,
+          "BSRAM": 13,
+          "DSP18": 0
+        }
+      },
+      "resources": {
+        "logic_sites_estimate": 20522,
+        "FF": 13546,
+        "BSRAM": 43,
+        "DSP18": 38
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 98.96797839506173,
+        "FF": 87.10133744855968,
+        "BSRAM": 93.47826086956522,
+        "DSP18": 79.16666666666667
+      },
+      "clock_target_MHz": 162,
+      "RS_service_us": 16.462962962962962,
+      "RS_engine_utilization": 0.5866116539576349,
+      "SDRAM_required_MBps": 271.26587450863315,
+      "SDRAM_capacity_assumed_MBps": 297.0,
+      "SDRAM_utilization": 0.9133531128236806,
+      "resource_budget_pass": true,
+      "performance_verified": false,
+      "formally_assigned_routes": 0,
+      "adopted": false
+    },
+    {
+      "id": "B_tiled_shared_RS",
+      "blocks": {
+        "T_FIR_sync": {
+          "logic_sites_estimate": 1008,
+          "FF": 1792,
+          "BSRAM": 3,
+          "DSP18": 9
+        },
+        "T_equalize_interleave_TS": {
+          "logic_sites_estimate": 704,
+          "FF": 576,
+          "BSRAM": 0,
+          "DSP18": 5
+        },
+        "T_K7": {
+          "logic_sites_estimate": 2952,
+          "FF": 1502,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "S_FIR_sync_frame_TS": {
+          "logic_sites_estimate": 1128,
+          "FF": 1472,
+          "BSRAM": 9,
+          "DSP18": 14
+        },
+        "S_TC8PSK": {
+          "logic_sites_estimate": 3208,
+          "FF": 1758,
+          "BSRAM": 4,
+          "DSP18": 2
+        },
+        "S_BPSK_QPSK_K7_extra": {
+          "logic_sites_estimate": 2952,
+          "FF": 1502,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "RS_S": {
+          "logic_sites_estimate": 2385,
+          "FF": 1216,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "FFT_tiled": {
+          "logic_sites_estimate": 1400,
+          "FF": 1024,
+          "BSRAM": 8,
+          "DSP18": 8
+        },
+        "IO_SDRAM_TMCC_control_reserve": {
+          "logic_sites_estimate": 3000,
+          "FF": 2000,
+          "BSRAM": 13,
+          "DSP18": 0
+        }
+      },
+      "resources": {
+        "logic_sites_estimate": 18737,
+        "FF": 12842,
+        "BSRAM": 43,
+        "DSP18": 38
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 90.35976080246914,
+        "FF": 82.57458847736625,
+        "BSRAM": 93.47826086956522,
+        "DSP18": 79.16666666666667
+      },
+      "clock_target_MHz": 162,
+      "RS_service_us": 16.462962962962962,
+      "RS_engine_utilization": 0.8409414442351376,
+      "SDRAM_required_MBps": 271.26587450863315,
+      "SDRAM_capacity_assumed_MBps": 297.0,
+      "SDRAM_utilization": 0.9133531128236806,
+      "resource_budget_pass": true,
+      "performance_verified": false,
+      "formally_assigned_routes": 0,
+      "adopted": false
+    },
+    {
+      "id": "C_resident_shared_RS",
+      "blocks": {
+        "T_FIR_sync": {
+          "logic_sites_estimate": 1008,
+          "FF": 1792,
+          "BSRAM": 3,
+          "DSP18": 9
+        },
+        "T_equalize_interleave_TS": {
+          "logic_sites_estimate": 704,
+          "FF": 576,
+          "BSRAM": 0,
+          "DSP18": 5
+        },
+        "T_K7": {
+          "logic_sites_estimate": 2952,
+          "FF": 1502,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "S_FIR_sync_frame_TS": {
+          "logic_sites_estimate": 1128,
+          "FF": 1472,
+          "BSRAM": 9,
+          "DSP18": 14
+        },
+        "S_TC8PSK": {
+          "logic_sites_estimate": 3208,
+          "FF": 1758,
+          "BSRAM": 4,
+          "DSP18": 2
+        },
+        "S_BPSK_QPSK_K7_extra": {
+          "logic_sites_estimate": 2952,
+          "FF": 1502,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "RS_S": {
+          "logic_sites_estimate": 2385,
+          "FF": 1216,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "FFT_tiled": {
+          "logic_sites_estimate": 1000,
+          "FF": 1024,
+          "BSRAM": 20,
+          "DSP18": 4
+        },
+        "IO_SDRAM_TMCC_control_reserve": {
+          "logic_sites_estimate": 3000,
+          "FF": 2000,
+          "BSRAM": 13,
+          "DSP18": 0
+        }
+      },
+      "resources": {
+        "logic_sites_estimate": 18337,
+        "FF": 12842,
+        "BSRAM": 55,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 88.43074845679013,
+        "FF": 82.57458847736625,
+        "BSRAM": 119.56521739130434,
+        "DSP18": 70.83333333333333
+      },
+      "clock_target_MHz": 162,
+      "RS_service_us": 16.462962962962962,
+      "RS_engine_utilization": 0.8409414442351376,
+      "SDRAM_required_MBps": 145.17448441724304,
+      "SDRAM_capacity_assumed_MBps": 297.0,
+      "SDRAM_utilization": 0.48880297783583515,
+      "resource_budget_pass": false,
+      "performance_verified": false,
+      "formally_assigned_routes": 0,
+      "adopted": false
+    },
+    {
+      "id": "D_SoC_FFT_shared_RS",
+      "blocks": {
+        "T_FIR_sync": {
+          "logic_sites_estimate": 1008,
+          "FF": 1792,
+          "BSRAM": 3,
+          "DSP18": 9
+        },
+        "T_equalize_interleave_TS": {
+          "logic_sites_estimate": 704,
+          "FF": 576,
+          "BSRAM": 0,
+          "DSP18": 5
+        },
+        "T_K7": {
+          "logic_sites_estimate": 2952,
+          "FF": 1502,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "S_FIR_sync_frame_TS": {
+          "logic_sites_estimate": 1128,
+          "FF": 1472,
+          "BSRAM": 9,
+          "DSP18": 14
+        },
+        "S_TC8PSK": {
+          "logic_sites_estimate": 3208,
+          "FF": 1758,
+          "BSRAM": 4,
+          "DSP18": 2
+        },
+        "S_BPSK_QPSK_K7_extra": {
+          "logic_sites_estimate": 2952,
+          "FF": 1502,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "RS_S": {
+          "logic_sites_estimate": 2385,
+          "FF": 1216,
+          "BSRAM": 2,
+          "DSP18": 0
+        },
+        "FFT_tiled": {
+          "logic_sites_estimate": 500,
+          "FF": 512,
+          "BSRAM": 4,
+          "DSP18": 0
+        },
+        "IO_SDRAM_TMCC_control_reserve": {
+          "logic_sites_estimate": 3000,
+          "FF": 2000,
+          "BSRAM": 13,
+          "DSP18": 0
+        }
+      },
+      "resources": {
+        "logic_sites_estimate": 17837,
+        "FF": 12330,
+        "BSRAM": 39,
+        "DSP18": 30
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 86.01948302469135,
+        "FF": 79.2824074074074,
+        "BSRAM": 84.78260869565217,
+        "DSP18": 62.5
+      },
+      "clock_target_MHz": 162,
+      "RS_service_us": 16.462962962962962,
+      "RS_engine_utilization": 0.8409414442351376,
+      "SDRAM_required_MBps": 82.128789371548,
+      "SDRAM_capacity_assumed_MBps": 297.0,
+      "SDRAM_utilization": 0.27652791034191243,
+      "resource_budget_pass": true,
+      "performance_verified": false,
+      "formally_assigned_routes": 0,
+      "adopted": false
+    }
+  ],
+  "input_sha256": {
+    "reports/s3-partition-audit/estimate.json.gz": "669ee0290cc0f6efa8bce771e634e200bba6874d2ed24f4f3f145fe65ae4866d",
+    "reports/four-soc-comparison/inputs.json.gz": "b73e3e85b4ed411da3bd838f2a4c1c64dfc7b9bf621811f5eeb4af94ff28dc33"
+  }
+}

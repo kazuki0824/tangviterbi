@@ -1,3 +1,5 @@
+新条件：**20K×1＋S3×2のT/S同時受信**は[専用見積もり](reports/20k-dual-s3.md)。全16,384分担と同時通信を検算。全体性能ゲート・受信機採用は未達。以下の9K/T-S排他資料とは別条件。
+
 2026-10-12追加：[指定順1〜6の進捗・同時メモリ／直接BSRAM部分実装](reports/s3-ordered-evaluation.md)。全体性能・採用は未確定。
 
 > **2026-10-12 S3-N16R8 recheck:** [API CPU sensitivity and all T mode periods](reports/s3-link-cpu-sensitivity.md)
