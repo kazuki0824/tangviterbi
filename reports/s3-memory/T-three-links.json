@@ -1,0 +1,31 @@
+{
+  "profile": "T-three-links",
+  "IDF_version": "ESP-IDF v5.5.1",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "build_exit_code": 2,
+  "link_succeeded": false,
+  "RF_reserved_range": [
+    "0x3fcb0000",
+    "0x3fce0000"
+  ],
+  "scope": "Optimistic link-only static-buffer probe. No RF/PHY, dual-core FFT, application hot IRAM, DMA descriptors or full runtime stacks. Success is not a receiver memory fit.",
+  "symbols": {
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x40382800",
+    "_data_start": "0x3fc92800",
+    "_data_end": "0x3fcbbeb8",
+    "_bss_start": "0x3fcbbeb8",
+    "_bss_end": "0x3fcbc800",
+    "rf_packed_queue": "0x3fcb27b0",
+    "link_staging": "0x3fcac7c8",
+    "fft_transfer_slots": "0x3fc9bfc8",
+    "fft_twiddle_reservation": "0x3fc93fc8"
+  },
+  "guard_errors": [
+    "/opt/esp/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/14.2.0/../../../../xtensa-esp-elf/bin/ld: S3 RF ring overlaps data",
+    "/opt/esp/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/14.2.0/../../../../xtensa-esp-elf/bin/ld: S3 RF ring overlaps BSS"
+  ],
+  "static_gap_to_RF_bytes": -51200,
+  "source_commit": "42779f94e89bfb0571e0a57070426dcbd3d8276f",
+  "workflow_run": 37884467973
+}

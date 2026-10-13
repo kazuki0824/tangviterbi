@@ -1,0 +1,167 @@
+"""Generate a receiver-oriented block traceback experiment from the ACS baseline.
+
+The production benchmark is preserved. 124 reverse trellis steps yield 64
+chronological decoded bits every 64 accepted input steps. A 256-row survivor
+ring avoids collision with the producer. No claim of error-free decoding beyond
+the convolutional code's correction capability or whole-receiver timing.
+"""
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def generate(mode="normalized14"):
+    if mode not in ("normalized14", "modulo13", "modulo13-pipe"):
+        raise ValueError("unknown path-metric arithmetic")
+    src = (ROOT / "rtl/viterbi_k7_32acs.sv").read_text()
+    src = src.replace("module viterbi_k7_32acs", "module s3_viterbi_traceback")
+    src = src.replace("parameter integer METRIC_W = 16", "parameter integer METRIC_W = 14")
+    # Continuous reception starts in an unknown convolutional state. Equal
+    # initial metrics avoid a hardware INF path and let the first block act
+    # as acquisition warmup. The caller must discard that first 64-bit block.
+    src = src.replace("(metric_slot == 0) ? {METRIC_W{1'b0}} : INF", "{METRIC_W{1'b0}}")
+    start = src.index("    reg [5:0] wr_ptr;")
+    end = src.index("    integer i;", start)
+    src = src[:start] + '''    reg [7:0] wr_ptr;
+    reg [7:0] accepted;
+    reg norm_q;
+    reg [31:0] decision_partial;
+    wire normalize = phase ? norm_q : metrics[0][METRIC_W-1];
+    (* ram_style = "block" *) reg [31:0] survivor_lo [0:255];
+    (* ram_style = "block" *) reg [31:0] survivor_hi [0:255];
+    reg [63:0] survivor_q;
+    reg [7:0] read_ptr;
+    reg [6:0] walk;
+    reg [5:0] state;
+    reg tracing, priming;
+    reg [63:0] decoded [0:1];
+    reg decoded_write, decoded_read;
+    reg [1:0] decoded_ready;
+    reg output_tick;
+    reg [5:0] output_pos;
+    wire start_trace = initialized && phase && (accepted >= 127) &&
+                      (wr_ptr[5:0] == 63);
+    wire decision = survivor_q[state];
+
+''' + src[end:]
+    # Subtract 2^(W-2), not a complete min-tree; reachable metric spread is
+    # bounded by six branch costs once all 64 states are reachable.
+    key = "                lane_decision[i] = 1'b0;\n            end"
+    src = src.replace(key, key + '''
+            if (normalize)
+                lane_metric[i] = lane_metric[i] - (1 << (METRIC_W-2));''')
+    start = src.index("    always @(posedge clk) begin\n        // At the output edge")
+    src = src[:start] + '''    always @(posedge clk) begin
+        survivor_q <= {survivor_hi[read_ptr], survivor_lo[read_ptr]};
+        if (resetn && initialized && phase) begin
+            survivor_lo[wr_ptr] <= decision_partial;
+            survivor_hi[wr_ptr] <= lane_decision;
+        end
+    end
+
+    // Traceback always moves toward older rows. The first 60 steps converge
+    // from state zero; the next 64 are saved in reverse index order. Writer
+    // never reaches these rows before the complete block has been decoded.
+    always @(posedge clk or negedge resetn) begin
+        if (!resetn) begin
+            phase <= 0; initialized <= 0; init_phase <= 0;
+            soft0_q <= 0; soft1_q <= 0; decision_partial <= 0;
+            wr_ptr <= 0; accepted <= 0; norm_q <= 0;
+            read_ptr <= 0; walk <= 0; state <= 0;
+            tracing <= 0; priming <= 0; decoded_write <= 0;
+            decoded_read <= 0; decoded_ready <= 0; output_pos <= 0; output_tick <= 0;
+            out_valid <= 0; out_bit <= 0;
+        end else begin
+            out_valid <= 0;
+            output_tick <= ~output_tick;
+            if (!initialized) begin
+                init_phase <= ~init_phase;
+                if (init_phase) initialized <= 1;
+            end else if (step_enable) begin
+                if (!phase) begin
+                    soft0_q <= soft0; soft1_q <= soft1;
+                    decision_partial <= lane_decision;
+                    norm_q <= metrics[0][METRIC_W-1];
+                    phase <= 1;
+                end else begin
+                    phase <= 0;
+                    wr_ptr <= wr_ptr + 1;
+                    if (accepted < 128) accepted <= accepted + 1;
+                end
+            end
+
+            if (start_trace) begin
+                read_ptr <= wr_ptr - 4; state <= 0; walk <= 0;
+                priming <= 1; tracing <= 0;
+            end else if (priming) begin
+                read_ptr <= read_ptr - 1;
+                priming <= 0; tracing <= 1;
+            end else if (tracing) begin
+                read_ptr <= read_ptr - 1;
+                state <= {decision, state[5:1]};
+                walk <= walk + 1;
+                if (walk >= 60) decoded[decoded_write][123-walk] <= state[0];
+                if (walk == 123) begin
+                    tracing <= 0;
+                    decoded_write <= ~decoded_write;
+                    decoded_ready[decoded_write] <= 1;
+                end
+            end
+
+            if (decoded_ready[decoded_read] && output_tick) begin
+                out_valid <= 1;
+                out_bit <= decoded[decoded_read][output_pos];
+                output_pos <= output_pos + 1;
+                if (output_pos == 63) begin
+                    decoded_read <= ~decoded_read;
+                    decoded_ready[decoded_read] <= 0;
+                end
+            end
+        end
+    end
+endmodule
+'''
+    if mode.startswith("modulo13"):
+        # Any two 64-state path metrics differ by at most 6*510=3060:
+        # from the state of the minimum path six steps earlier, every state
+        # is reachable in six branches. Candidate spread <= 7*510=3570.
+        # This is below half the modulus 8192, so signed modular comparison
+        # preserves the full-precision ordering without normalization or INF.
+        src = src.replace("parameter integer METRIC_W = 14", "parameter integer METRIC_W = 13")
+        src = src.replace("    reg [METRIC_W:0] cand1;", "    reg [METRIC_W:0] cand1;\n    reg signed [METRIC_W-1:0] metric_difference;")
+        src = src.replace("            if (cand1 < cand0) begin",
+                          "            metric_difference = cand1[METRIC_W-1:0] - cand0[METRIC_W-1:0];\n            if (metric_difference < 0) begin")
+        src = src.replace("            if (normalize)\n                lane_metric[i] = lane_metric[i] - (1 << (METRIC_W-2));", "")
+    if mode == "modulo13-pipe":
+        # Routed critical path: BSRAM clock-to-Q plus 64:1 selection. Register
+        # the complete row before selecting. 124+2=126 clocks fits the 128
+        # clock block cadence; input throughput is still one bit/2 clocks.
+        src = src.replace('    reg [63:0] survivor_q;',
+                          '    reg [63:0] survivor_q, survivor_pipe;\n    reg prime_extra;')
+        src = src.replace('wire decision = survivor_q[state];',
+                          'wire decision = survivor_pipe[state];')
+        src = src.replace('        survivor_q <= {survivor_hi[read_ptr], survivor_lo[read_ptr]};',
+                          '        survivor_q <= {survivor_hi[read_ptr], survivor_lo[read_ptr]};\n        survivor_pipe <= survivor_q;')
+        src = src.replace('            tracing <= 0; priming <= 0;',
+                          '            prime_extra <= 0;\n            tracing <= 0; priming <= 0;')
+        src = src.replace('                priming <= 1; tracing <= 0;',
+                          '                priming <= 1; prime_extra <= 1; tracing <= 0;')
+        src = src.replace('                priming <= 0; tracing <= 1;',
+                          '                if (prime_extra) prime_extra <= 0;\n                else begin priming <= 0; tracing <= 1; end')
+    # These are fixed-width architectures, not generic parameter variants.
+    src = src.replace("    integer i;", '''    initial begin
+        if (METRIC_W != EXPECTED_WIDTH || TRACEBACK != 64)
+            $fatal(1, "unsupported traceback/metric parameter override");
+    end
+    integer i;'''.replace('EXPECTED_WIDTH', '13' if mode.startswith('modulo13') else '14'))
+    return src
+
+
+if __name__ == "__main__":
+    import argparse
+    p = argparse.ArgumentParser()
+    p.add_argument("output", type=Path)
+    p.add_argument("--mode", choices=("normalized14","modulo13","modulo13-pipe"), default="normalized14")
+    args = p.parse_args()
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(generate(args.mode))

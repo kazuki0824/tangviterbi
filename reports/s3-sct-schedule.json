@@ -1,0 +1,229 @@
+{
+  "scope": "Conditional simulation of the implemented 4-KiB / 80-bit-header transport.\n\nAPI batch overhead and actual SCT segment gap are PARAMETERS, not WCET claims.\n20 us samples the official SPI interrupt-overhead guidance; no source promises\nthis bound for the private SCT API. CPU/RF bank acquisition and Quad IQ arrival\nare not jointly simulated. No sample is discarded to make an overload pass.\n",
+  "payload_bytes": 4096,
+  "header_bits": 80,
+  "T_phase_samples": [
+    {
+      "standard": "T",
+      "FFT_assumed_us": 500,
+      "API_batch_assumed_us": 20,
+      "SCT_segment_assumed_us": 0.25,
+      "phase_us": 0,
+      "admission_guard": true,
+      "symbols": 512,
+      "maximum_slot_release_us": 1004.1249999995925,
+      "deadline_misses": 0,
+      "peak_RF_live_bytes": 30920,
+      "peak_RF_page_reservation": 32768,
+      "ring_bytes": 32768,
+      "RF_batches": {
+        "1": 589,
+        "2": 0,
+        "3": 1534
+      },
+      "conditional_pass": true,
+      "silicon_WCET_verified": false
+    },
+    {
+      "standard": "T",
+      "FFT_assumed_us": 500,
+      "API_batch_assumed_us": 20,
+      "SCT_segment_assumed_us": 0.25,
+      "phase_us": 1,
+      "admission_guard": true,
+      "symbols": 512,
+      "maximum_slot_release_us": 1004.1249999995925,
+      "deadline_misses": 0,
+      "peak_RF_live_bytes": 30920,
+      "peak_RF_page_reservation": 32768,
+      "ring_bytes": 32768,
+      "RF_batches": {
+        "1": 589,
+        "2": 0,
+        "3": 1534
+      },
+      "conditional_pass": true,
+      "silicon_WCET_verified": false
+    },
+    {
+      "standard": "T",
+      "FFT_assumed_us": 500,
+      "API_batch_assumed_us": 20,
+      "SCT_segment_assumed_us": 0.25,
+      "phase_us": 51.2,
+      "admission_guard": true,
+      "symbols": 512,
+      "maximum_slot_release_us": 1004.0250000001979,
+      "deadline_misses": 0,
+      "peak_RF_live_bytes": 31282,
+      "peak_RF_page_reservation": 32768,
+      "ring_bytes": 32768,
+      "RF_batches": {
+        "1": 586,
+        "2": 2,
+        "3": 1534
+      },
+      "conditional_pass": true,
+      "silicon_WCET_verified": false
+    },
+    {
+      "standard": "T",
+      "FFT_assumed_us": 500,
+      "API_batch_assumed_us": 20,
+      "SCT_segment_assumed_us": 0.25,
+      "phase_us": 173.975,
+      "admission_guard": true,
+      "symbols": 512,
+      "maximum_slot_release_us": 1003.9499999996042,
+      "deadline_misses": 0,
+      "peak_RF_live_bytes": 31094,
+      "peak_RF_page_reservation": 32768,
+      "ring_bytes": 32768,
+      "RF_batches": {
+        "1": 589,
+        "2": 1,
+        "3": 1534
+      },
+      "conditional_pass": true,
+      "silicon_WCET_verified": false
+    },
+    {
+      "standard": "T",
+      "FFT_assumed_us": 500,
+      "API_batch_assumed_us": 20,
+      "SCT_segment_assumed_us": 0.25,
+      "phase_us": 519.75,
+      "admission_guard": true,
+      "symbols": 512,
+      "maximum_slot_release_us": 1038.4499999999994,
+      "deadline_misses": 0,
+      "peak_RF_live_bytes": 31456,
+      "peak_RF_page_reservation": 32768,
+      "ring_bytes": 32768,
+      "RF_batches": {
+        "1": 582,
+        "2": 3,
+        "3": 1536
+      },
+      "conditional_pass": true,
+      "silicon_WCET_verified": false
+    }
+  ],
+  "T_phase_sweep": {
+    "phases": 256,
+    "symbols_per_phase": 256,
+    "failed_phase_count": 0,
+    "maximum_slot_release_us": 1039.000390625,
+    "maximum_live_RF_bytes": 32689,
+    "maximum_page_reservation": 32768
+  },
+  "T_without_admission": {
+    "standard": "T",
+    "FFT_assumed_us": 500,
+    "API_batch_assumed_us": 20,
+    "SCT_segment_assumed_us": 0.25,
+    "phase_us": 519.75,
+    "admission_guard": false,
+    "symbols": 512,
+    "maximum_slot_release_us": 1049.6,
+    "deadline_misses": 1,
+    "peak_RF_live_bytes": 31283,
+    "peak_RF_page_reservation": 32768,
+    "ring_bytes": 32768,
+    "RF_batches": {
+      "1": 582,
+      "2": 3,
+      "3": 1536
+    },
+    "conditional_pass": false,
+    "silicon_WCET_verified": false
+  },
+  "T_slow_API": {
+    "standard": "T",
+    "FFT_assumed_us": 500,
+    "API_batch_assumed_us": 30,
+    "SCT_segment_assumed_us": 0.25,
+    "phase_us": 0,
+    "admission_guard": true,
+    "symbols": 512,
+    "maximum_slot_release_us": 1039.4749999896158,
+    "deadline_misses": 0,
+    "peak_RF_live_bytes": 1209352,
+    "peak_RF_page_reservation": 1212416,
+    "ring_bytes": 32768,
+    "RF_batches": {
+      "1": 122,
+      "2": 90,
+      "3": 1534
+    },
+    "conditional_pass": false,
+    "silicon_WCET_verified": false
+  },
+  "T_slow_SCT": {
+    "standard": "T",
+    "FFT_assumed_us": 500,
+    "API_batch_assumed_us": 20,
+    "SCT_segment_assumed_us": 2,
+    "phase_us": 0,
+    "admission_guard": true,
+    "symbols": 512,
+    "maximum_slot_release_us": 1039.5000000011933,
+    "deadline_misses": 0,
+    "peak_RF_live_bytes": 806295,
+    "peak_RF_page_reservation": 806912,
+    "ring_bytes": 32768,
+    "RF_batches": {
+      "1": 183,
+      "2": 108,
+      "3": 1534
+    },
+    "conditional_pass": false,
+    "silicon_WCET_verified": false
+  },
+  "S": {
+    "standard": "S",
+    "API_batch_assumed_us": 20,
+    "SCT_segment_assumed_us": 0.25,
+    "Quad_API_assumed_us": 20,
+    "duration_us": 100000,
+    "port_capacity_MBps": [
+      70.32765774788953,
+      33.3958418263351
+    ],
+    "aggregate_spare_MBps": 3.7234995742246326,
+    "peak_RF_page_reservation": 32768,
+    "ring_bytes": 32768,
+    "maximum_out_of_order_completed_bytes": 4096,
+    "transferred_bytes": [
+      6647808,
+      3330048
+    ],
+    "conditional_pass": true,
+    "silicon_WCET_verified": false
+  },
+  "S_slow_API": {
+    "standard": "S",
+    "API_batch_assumed_us": 40,
+    "SCT_segment_assumed_us": 0.25,
+    "Quad_API_assumed_us": 40,
+    "duration_us": 100000,
+    "port_capacity_MBps": [
+      63.104377968930535,
+      28.713634770417105
+    ],
+    "aggregate_spare_MBps": -8.181987260652363,
+    "peak_RF_page_reservation": 847872,
+    "ring_bytes": 32768,
+    "maximum_out_of_order_completed_bytes": 4096,
+    "transferred_bytes": [
+      6291456,
+      2867200
+    ],
+    "conditional_pass": false,
+    "silicon_WCET_verified": false
+  },
+  "ordinary_IRQ_capacity_MBps": {
+    "Octal": 57.42726954083421,
+    "Quad": 33.3958418263351
+  }
+}

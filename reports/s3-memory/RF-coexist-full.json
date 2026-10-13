@@ -1,0 +1,28 @@
+{
+  "scope": "Link the pinned upstream RF application with all new static reservations.\n\nThis deliberately retains upstream SPEC/IQS features as a conservative overlay;\nit is NOT an integrated receiver and must not be flashed. The upstream app owns\ncore1 manually and masks interrupts. Replacing that scheduler is a separate gate.\nThe diagnostic uses the same IDF 5.5.1 as our actual SPI adapter. Upstream's own\n25fe69f SDK pin differs: report compatibility rather than silently conflating it.\n",
+  "upstream_commit": "e74f2a470972ec163c247f1fe88d32e08579242a",
+  "upstream_requested_IDF": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "exit_code": 2,
+  "link_succeeded": false,
+  "symbols": {
+    "_bss_start": "0x3fcb0d60",
+    "_bss_end": "0x3fcc54e8",
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x4038c400",
+    "_data_end": "0x3fcb0d54"
+  },
+  "receiver_adopted": false,
+  "functional_RF_SPI_integration": false,
+  "safe_to_flash": false,
+  "errors": [
+    "/opt/esp/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/14.2.0/../../../../xtensa-esp-elf/bin/ld: S3 RF ring overlaps data",
+    "/opt/esp/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/14.2.0/../../../../xtensa-esp-elf/bin/ld: S3 RF ring overlaps BSS",
+    "collect2: error: ld returned 1 exit status"
+  ],
+  "static_gap_to_RF_bytes": -87272,
+  "source_commit": "e8f66292bd0ea3348e3d435bdd61ea9bbe66cc93",
+  "workflow_run": "https://github.com/kazuki0824/tangviterbi/actions/runs/37944992689",
+  "audit_note": "The upstream MINIMAL_BUILD omitted esp_psram. SPIRAM settings were unknown/ineffective. These are historical no-PSRAM-link lower bounds, not a qualified N16R8 firmware.",
+  "requested_PSRAM_configuration_effective": false
+}

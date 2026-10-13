@@ -1,0 +1,123 @@
+{
+  "module": "ESP32-S3-WROOM-1U-N16R8",
+  "API_active_us_scenario": 20,
+  "ownerships": 320,
+  "T_modes": [
+    {
+      "mode": 1,
+      "FFT_points": 2048,
+      "GI_1_32_period_us": 259.875,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "fixed_octal_time_utilization": 1.0426479499233405,
+      "fixed_octal_average_time_condition_pass": false,
+      "API_invocations_per_s_floor": 14799.219877344878,
+      "API_CPU_Mcycles_s_if_20us_active": 71.03625541125542,
+      "scope": "raw only on Octal; one complete FFT reply API/symbol; Quad input one API/page",
+      "all_mode_routes_rejected": false,
+      "CPU_WCET_verified": false
+    },
+    {
+      "mode": 2,
+      "FFT_points": 4096,
+      "GI_1_32_period_us": 519.75,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "fixed_octal_time_utilization": 1.0041679114433022,
+      "fixed_octal_average_time_condition_pass": false,
+      "API_invocations_per_s_floor": 12875.217953342953,
+      "API_CPU_Mcycles_s_if_20us_active": 61.80104617604618,
+      "scope": "raw only on Octal; one complete FFT reply API/symbol; Quad input one API/page",
+      "all_mode_routes_rejected": false,
+      "CPU_WCET_verified": false
+    },
+    {
+      "mode": 3,
+      "FFT_points": 8192,
+      "GI_1_32_period_us": 1039.5,
+      "FFT_each_direction_MBps": 31.522847522847524,
+      "fixed_octal_time_utilization": 0.9849278922032829,
+      "fixed_octal_average_time_condition_pass": true,
+      "API_invocations_per_s_floor": 11913.216991341991,
+      "API_CPU_Mcycles_s_if_20us_active": 57.18344155844156,
+      "scope": "raw only on Octal; one complete FFT reply API/symbol; Quad input one API/page",
+      "all_mode_routes_rejected": false,
+      "CPU_WCET_verified": false
+    }
+  ],
+  "T_A_Mode3_fixed_route_CPU_low_high_percent": [
+    99.31271043771042,
+    128.86217332050666
+  ],
+  "RS_groups": {
+    "CPU_BM_Chien_Forney": {
+      "gap0": {
+        "message_assignments": 1041,
+        "octal_quad_assignments": 4,
+        "octal_quad_solver_low_cycles_range": [
+          1302.0028236513383,
+          1340.5575272612127
+        ]
+      },
+      "gap8": {
+        "message_assignments": 1003,
+        "octal_quad_assignments": 4,
+        "octal_quad_solver_low_cycles_range": [
+          1302.0028236513383,
+          1340.5575272612127
+        ]
+      }
+    },
+    "CPU_BM_Omega": {
+      "gap0": {
+        "message_assignments": 1033,
+        "octal_quad_assignments": 4,
+        "octal_quad_solver_low_cycles_range": [
+          1288.112087789101,
+          1317.028115496507
+        ]
+      },
+      "gap8": {
+        "message_assignments": 971,
+        "octal_quad_assignments": 4,
+        "octal_quad_solver_low_cycles_range": [
+          1288.112087789101,
+          1317.028115496507
+        ]
+      }
+    },
+    "CPU_BM_Omega_Forney": {
+      "gap0": {
+        "message_assignments": 14953,
+        "octal_quad_assignments": 16,
+        "octal_quad_solver_low_cycles_range": [
+          1216.3892965120522,
+          1293.4987037318012
+        ]
+      },
+      "gap8": {
+        "message_assignments": 14473,
+        "octal_quad_assignments": 16,
+        "octal_quad_solver_low_cycles_range": [
+          1216.3892965120522,
+          1293.4987037318012
+        ]
+      }
+    },
+    "CPU_all_RS": {
+      "gap0": {
+        "message_assignments": 240,
+        "octal_quad_assignments": 0,
+        "octal_quad_solver_low_cycles_range": null
+      },
+      "gap8": {
+        "message_assignments": 230,
+        "octal_quad_assignments": 0,
+        "octal_quad_solver_low_cycles_range": null
+      }
+    }
+  },
+  "performance_stage_completed": false,
+  "receiver_adopted": false,
+  "complete_estimate": false,
+  "input_sha256": "669ee0290cc0f6efa8bce771e634e200bba6874d2ed24f4f3f145fe65ae4866d",
+  "results_sha256": "6930c1ba9de73b93b6cf6c5b8adb7ef484b70bb5ca95aa6af0b4a77ea58cbfcb"
+}

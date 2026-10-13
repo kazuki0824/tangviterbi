@@ -1,0 +1,249 @@
+Info: Using uarch 'gowin' for device 'GW1NR-LV9QN88PC6/I5'
+Info: constraining clock net 'clocking.clk27' to 27.00 MHz
+Info: constraining clock net 'clk' to 99.00 MHz
+Info: constraining clock net 'clk_ck' to 99.00 MHz
+
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:0, MUX2_LU7:0, MUX2_LUT6:0, MUX2_LUT5:0
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 264 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack GW JTAG...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0x7924c126
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:      16/    276     5%
+Info: 	                LUT4:    1292/   8640    14%
+Info: 	              OSER16:       0/     80     0%
+Info: 	              IDES16:       0/     80     0%
+Info: 	            IOLOGICI:      18/    276     6%
+Info: 	            IOLOGICO:      24/    276     8%
+Info: 	           MUX2_LUT5:       0/   4320     0%
+Info: 	           MUX2_LUT6:       0/   2160     0%
+Info: 	           MUX2_LUT7:       0/   1080     0%
+Info: 	           MUX2_LUT8:       0/   1080     0%
+Info: 	                 ALU:     328/   6480     5%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:     685/   6480    10%
+Info: 	           RAM16SDP4:       0/    270     0%
+Info: 	               BSRAM:       2/     26     7%
+Info: 	              ALU54D:       0/     10     0%
+Info: 	     MULTADDALU18X18:       0/     10     0%
+Info: 	        MULTALU18X18:       0/     10     0%
+Info: 	        MULTALU36X18:       0/     10     0%
+Info: 	           MULT36X36:       0/      5     0%
+Info: 	           MULT18X18:       0/     20     0%
+Info: 	             MULT9X9:       0/     40     0%
+Info: 	              PADD18:       0/     20     0%
+Info: 	               PADD9:       0/     40     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       1/      2    50%
+Info: 	           FLASH608K:       0/      1     0%
+Info: 	                BUFG:       0/     22     0%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+Info: 	           MIPI_IBUF:       0/     22     0%
+Info: 	           MIPI_OBUF:       0/     20     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 1425 cells, random placement wirelen = 55026.
+Info:     at initial placer iter 0, wirelen = 1272
+Info:     at initial placer iter 1, wirelen = 1184
+Info:     at initial placer iter 2, wirelen = 1172
+Info:     at initial placer iter 3, wirelen = 1161
+Info: Running main analytical placer, max placement attempts per cell = 712221.
+Info:     at iteration #1, type ALL: wirelen solved = 1166, spread = 9472, legal = 15613; time = 0.07s
+Info:     at iteration #2, type ALL: wirelen solved = 1662, spread = 8797, legal = 12959; time = 0.05s
+Info:     at iteration #3, type ALL: wirelen solved = 2414, spread = 8101, legal = 11028; time = 0.05s
+Info:     at iteration #4, type ALL: wirelen solved = 3109, spread = 7923, legal = 11072; time = 0.07s
+Info:     at iteration #5, type ALL: wirelen solved = 3323, spread = 7397, legal = 10961; time = 0.05s
+Info:     at iteration #6, type ALL: wirelen solved = 3482, spread = 6883, legal = 10332; time = 0.05s
+Info:     at iteration #7, type ALL: wirelen solved = 3617, spread = 6515, legal = 9954; time = 0.09s
+Info:     at iteration #8, type ALL: wirelen solved = 3704, spread = 5831, legal = 10310; time = 0.07s
+Info:     at iteration #9, type ALL: wirelen solved = 3763, spread = 6435, legal = 11133; time = 0.08s
+Info:     at iteration #10, type ALL: wirelen solved = 3816, spread = 6089, legal = 10499; time = 0.08s
+Info:     at iteration #11, type ALL: wirelen solved = 3953, spread = 6124, legal = 10258; time = 0.07s
+Info:     at iteration #12, type ALL: wirelen solved = 4099, spread = 5901, legal = 10772; time = 0.08s
+Info: HeAP Placer Time: 0.94s
+Info:   of which solving equations: 0.22s
+Info:   of which spreading cells: 0.03s
+Info:   of which strict legalisation: 0.59s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 22, wirelen = 9954
+Info:   at iteration #5: temp = 0.000000, timing cost = 9, wirelen = 7880
+Info:   at iteration #10: temp = 0.000000, timing cost = 6, wirelen = 7231
+Info:   at iteration #15: temp = 0.000000, timing cost = 6, wirelen = 6851
+Info:   at iteration #20: temp = 0.000000, timing cost = 5, wirelen = 6668
+Info:   at iteration #25: temp = 0.000000, timing cost = 5, wirelen = 6479
+Info:   at iteration #27: temp = 0.000000, timing cost = 5, wirelen = 6458 
+Info: SA placement time 1.35s
+
+Info: Max frequency for clock 'clk': 129.60 MHz (PASS at 99.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 3 endpoint(s)
+Info:          + represents [1,3) endpoint(s)
+Info: [  2385,   2736) |+
+Info: [  2736,   3087) | 
+Info: [  3087,   3438) |+
+Info: [  3438,   3789) |+
+Info: [  3789,   4140) |****+
+Info: [  4140,   4491) |****+
+Info: [  4491,   4842) |******+
+Info: [  4842,   5193) |****+
+Info: [  5193,   5544) |*******+
+Info: [  5544,   5895) |*************+
+Info: [  5895,   6246) |*********+
+Info: [  6246,   6597) |*************+
+Info: [  6597,   6948) |************+
+Info: [  6948,   7299) |**********************+
+Info: [  7299,   7650) |*********+
+Info: [  7650,   8001) |***********+
+Info: [  8001,   8352) |***********+
+Info: [  8352,   8703) |****************+
+Info: [  8703,   9054) |**************************+
+Info: [  9054,   9405) |************************************************************ 
+Info: Checksum: 0x76655aa4
+Info: Routing globals...
+Info:     'clk_ck' net was routed using global resources only.
+Info:     'clocking.clk27' net was routed using global resources only.
+Info:     'clk' net was routed using global resources only.
+Info:     'led_OBUF_O_3_I_LUT1_F_I0_LUT3_I2_F[0]' is routed using segments.
+Info:     'queue.writes.0.0_ADA_DFF_Q_D_LUT2_I1_F_DFFCE_Q_CE_LUT2_F_I1_LUT3_I2_F' is routed using segments.
+Info:     'queue.writes.0.0_ADA_DFF_Q_D_LUT2_I1_F_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F' is routed using segments.
+Info:     'led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_DFFCE_Q_CE_DFFCE_CE_Q[3]' is routed using segments.
+Info:     'phy.dq[0].out_D0_LUT4_F_I3[2]' is routed using segments.
+Info:     'led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_I2_LUT2_I1_F[1]' is routed using segments.
+Info:     'led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_F_LUT4_I3_F_LUT4_I3_I0_LUT3_I1_I2_LUT2_I1_F_LUT4_F_I3_LUT3_I1_I2_LUT2_I1_F' is routed using segments.
+Info:     'queue.writes.0.0_ADA_DFF_Q_D_LUT2_I1_F_DFFCE_Q_CE_LUT2_F_I1_LUT3_I2_1_F' is routed using segments.
+Info:     'led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_DFFCE_Q_CE_DFFCE_CE_Q[2]' is routed using segments.
+Info:     'led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_DFFC_D_Q[1]' is routed using segments.
+Info:     'phy.dq[9].out_TX' is routed using segments.
+Info:     'controller.fifo1[3]_DFFE_Q_2_D_DFFCE_Q_D_LUT3_F_I1_LUT4_F_I2[0]' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I1[0]' is routed using segments.
+Info:     'led_OBUF_O_2_I_LUT1_F_I0_LUT4_I1_F_LUT3_F_1_I2[1]' is routed using segments.
+Info:     'queue.writes.0.0_ADA_DFF_Q_D_LUT2_I1_F_DFFCE_Q_CE' is routed using segments.
+Info:     'led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_DFFC_Q_D_LUT4_F_I0_LUT3_I0_1_F_LUT4_I3_I1[2]' is routed using segments.
+Info:     'led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_I2_LUT2_I1_F[3]' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 5625 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |       18        873 |   18   873 |      4645|       0.27       0.27|
+Info:       2000 |       24       1821 |    6   948 |      3653|       0.24       0.51|
+Info:       3000 |       31       2783 |    7   962 |      2661|       0.31       0.83|
+Info:       4000 |       49       3740 |   18   957 |      1684|       0.36       1.19|
+Info:       5000 |       87       4666 |   38   926 |       765|       0.41       1.59|
+Info:       5861 |      150       5438 |   63   772 |         0|       0.44       2.04|
+Info: Routing complete.
+Info: Router1 time 2.04s
+Info: Checksum: 0x101aef3f
+
+Info: Critical path report for clock 'clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_DFFCE_Q_CE_DFFCE_CE_Q_DFFCE_Q_2.Q
+Info:    routing  1.93  2.38 Net led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_DFFCE_Q_CE_DFFCE_CE_Q[3] (11,7) -> (10,8)
+Info:                          Sink led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.04  3.43 Source led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT.COUT
+Info:    routing  0.00  3.43 Net led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_ALU_SUM_CIN_ALU_COUT_CIN (10,8) -> (10,8)
+Info:                          Sink led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_ALU_SUM_CIN_ALU_COUT.CIN
+Info:                          Defined in:
+Info:                               rtl/s3_psram_queue.sv:103.48-103.70
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  3.49 Source led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_ALU_SUM_CIN_ALU_COUT.COUT
+Info:    routing  0.00  3.49 Net led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_ALU_SUM_CIN (10,8) -> (10,8)
+Info:                          Sink led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               rtl/s3_psram_queue.sv:103.48-103.70
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.56  4.05 Source led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_ALU_SUM.SUM
+Info:    routing  1.22  5.27 Net led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F[3] (10,8) -> (9,10)
+Info:                          Sink led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_DFFC_D_Q_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  5.89 Source led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_DFFC_D_Q_LUT4_F.F
+Info:    routing  0.89  6.78 Net led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_F_LUT4_I3_F_LUT4_I3_F_DFFC_D_Q[2] (9,10) -> (9,13)
+Info:                          Sink led_OBUF_O_2_I_LUT1_F_I0_LUT4_I1.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  7.41 Source led_OBUF_O_2_I_LUT1_F_I0_LUT4_I1.F
+Info:    routing  0.33  7.73 Net O_psram_reset_n_OBUF_O_I_LUT4_F_I1_LUT2_F_I0[0] (9,13) -> (9,13)
+Info:                          Sink led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_I1_LUT2_I0_F_LUT3_F_1_I2_LUT2_I1_F_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.10  8.83 Source led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_I1_LUT2_I0_F_LUT3_F_1_I2_LUT2_I1_F_LUT4_F.F
+Info:    routing  0.00  8.83 Net led_OBUF_O_5_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F_I3_LUT4_F_I2_LUT4_I3_I1_LUT2_I0_F_LUT3_F_1_I2_LUT2_I1_F[2] (9,13) -> (9,13)
+Info:                          Sink led_OBUF_O_2_I_LUT1_F_I0_DFFC_Q_D_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  9.65 Source led_OBUF_O_2_I_LUT1_F_I0_DFFC_Q_D_LUT4_F.F
+Info:    routing  0.00  9.65 Net led_OBUF_O_2_I_LUT1_F_I0_DFFC_Q_D (9,13) -> (9,13)
+Info:                          Sink led_OBUF_O_2_I_LUT1_F_I0_DFFC_Q.D
+Info:      setup  0.40  10.05 Source led_OBUF_O_2_I_LUT1_F_I0_DFFC_Q.D
+Info: 5.69 ns logic, 4.36 ns routing
+
+Info: Max frequency for clock 'clk': 99.48 MHz (PASS at 99.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [    49,    483) |**** 
+Info: [   483,    917) |******* 
+Info: [   917,   1351) |******** 
+Info: [  1351,   1785) |****************** 
+Info: [  1785,   2219) |*********** 
+Info: [  2219,   2653) |********* 
+Info: [  2653,   3087) |********** 
+Info: [  3087,   3521) |****** 
+Info: [  3521,   3955) |*** 
+Info: [  3955,   4389) |********* 
+Info: [  4389,   4823) |********************************************* 
+Info: [  4823,   5257) |******************************************************** 
+Info: [  5257,   5691) |****************************** 
+Info: [  5691,   6125) |***************************************** 
+Info: [  6125,   6559) |************************ 
+Info: [  6559,   6993) |********************** 
+Info: [  6993,   7427) |************************ 
+Info: [  7427,   7861) |********************************** 
+Info: [  7861,   8295) |********************************** 
+Info: [  8295,   8729) |************** 
+
+Info: Program finished normally.

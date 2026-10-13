@@ -1,0 +1,92 @@
+{
+  "mode": "S-all-RS",
+  "seed": 1,
+  "target_core_MHz": 99,
+  "CAD_exit_code": 126,
+  "logic_site_audit": {
+    "packed_json_sha256": "2eafced5b54f0e78c323aed73c52bc61a52139ce2e196b168844c7b212488456",
+    "LUT_cells": 4564,
+    "ALU_cells": 2420,
+    "ALU_blockers_excluded": 2420,
+    "fabric_FFs": 3757,
+    "maximum_LUT_or_ALU_FF_pairs": 1884,
+    "minimum_additional_FF_sites": 1873,
+    "minimum_required_logic_sites": 8857,
+    "available_logic_sites": 8640,
+    "minimum_site_utilization_percent": 102.51157407407408,
+    "minimum_site_deficit": 217,
+    "mapped_netlist_ruled_out": true,
+    "FF_D_driver_types": {
+      "LUT3": 790,
+      "DFF": 142,
+      "ALU": 231,
+      "DFFCE": 413,
+      "LUT2": 397,
+      "LUT1": 38,
+      "LUT4": 1011,
+      "DFFE": 298,
+      "GOWIN_VCC": 10,
+      "DFFP": 31,
+      "DFFRE": 145,
+      "DFFSE": 1,
+      "DFFS": 1,
+      "DFFPE": 1,
+      "DFFC": 108,
+      "MULT18X18": 60,
+      "IBUF": 8,
+      "SDP": 72
+    },
+    "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+    "limitations": [
+      "narrow LUT mapping only",
+      "no retiming/resynthesis/transformation allowed in this bound",
+      "passing this bound does not prove placement or timing",
+      "CE/reset/clock/adjacency restrictions ignored"
+    ]
+  },
+  "clock_constraints": [
+    [
+      "clocks.clk27",
+      27
+    ],
+    [
+      "bridge.clk",
+      99
+    ],
+    [
+      "bridge.r0.spi_clk",
+      80
+    ],
+    [
+      "bridge.iq.spi_clk",
+      80
+    ]
+  ],
+  "fmax": null,
+  "utilization": null,
+  "source_sha256": {
+    "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+    "rtl/s3_spi_rx.sv": "24a036d28a52fe63b411b8e934f63acda7922420e418294c6fd639def307c539",
+    "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+    "rtl/s3_pooled_page_store.sv": "12bb1f699480b8c3870a61fc5bb53fa4b2836f307dd770573ae3e75575331d7c",
+    "rtl/s3_spi_control.sv": "0fb55c9a8cd460180d619c83105904f5d32386f62415d863206555a7f3f4a299",
+    "rtl/s3_spi_iq_pingpong.sv": "f1d8a7880e8df839c800a1bf2d944c9771e3dc1bc8670420ba9727502a0fa40d",
+    "rtl/s3_rf_credit.sv": "07d2fe1d3be22f1e150e412f1c010b86df4fb05ad1d54e2118aa6d2d0758aa3c",
+    "rtl/s3_spi_runtime_endpoint.sv": "b8b12f5c2d79bb432511cfa8a7980ce389f9178426247f90fb5e89d0f6631703",
+    "build/s3-runtime-endpoint-S-all-RS/top.sv": "8ff59b9ce0d205c12b9bda4a9afb445d7f78331a2dbda484ce5c97c54330186f",
+    "build/s3-runtime-endpoint-S-all-RS/clock.sv": "195e62dc708aa8f905b37fb848e543277ad09f7fc9c20c1064516c0b95631d31",
+    "build/s3-runtime-endpoint-S-all-RS/vit.sv": "35aed1ce917ad44427b44d5244f2fee7935cdba0a03756a4ce0bed5039e9cf4c",
+    "build/s3-runtime-endpoint-S-all-RS/fec.sv": "f9bc05db6885248932d12d2ecf5a0e15badec84ff739f519891183a87d38df34",
+    "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1"
+  },
+  "scope": "Connected RF/FFT/IQ/control endpoint plus isolated FEC load, NOT a receiver.\n\nSynthetic IQ and independent FEC stimuli deliberately preserve their cells.\nNo FIR/sync/equalizer/interleavers, real FEC coupling, TS or external IO STA.\nPreserve capacity failures, timing failures and unknown timeouts separately.\n",
+  "receiver_adopted": false,
+  "whole_receiver_resources_verified": false,
+  "external_IO_STA_verified": false,
+  "tool_versions": {
+    "yosys": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+    "nextpnr-himbaechel": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
+  },
+  "all_source_bytes_frozen": true,
+  "missing_source_snapshots": []
+}

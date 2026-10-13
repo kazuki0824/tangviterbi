@@ -1,0 +1,4 @@
+read_verilog -sv rtl/s3_psram_burst.sv rtl/s3_psram_queue.sv rtl/s3_psram_phy.sv rtl/s3_psram_clock.sv experiments/s3_psram_benchmark.sv
+synth_gowin -top s3_psram_benchmark -family gw1n -nowidelut -json /workspace/scratch/5bc736d51023/tangviterbi/build/s3-psram-pnr/design.json
+tee -o /workspace/scratch/5bc736d51023/tangviterbi/build/s3-psram-pnr/stat.json stat -json
+check -assert

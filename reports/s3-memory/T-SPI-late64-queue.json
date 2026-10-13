@@ -1,0 +1,82 @@
+{
+  "profile": "T-SPI-late64-queue",
+  "IDF_version": "ESP-IDF v5.5.1",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "build_exit_code": 0,
+  "link_succeeded": true,
+  "RF_reserved_range": [
+    "0x3fcb0000",
+    "0x3fce0000"
+  ],
+  "zero_copy_reservation": true,
+  "real_SPI_transport_linked": true,
+  "late_RF_queue_reserved_range": [
+    "0x3fce4000",
+    "0x3fcf4000"
+  ],
+  "late_twiddle_reserved_range": [
+    "0x3fce0000",
+    "0x3fce4000"
+  ],
+  "scope": "Link-only probe. Optional real SPI/SCT adapter and scalar FFT hot IRAM; no RF/PHY acquisition, SIMD or complete runtime heap/stacks. No silicon execution. Success is not a receiver memory fit.",
+  "late_RF_queue_64KiB": true,
+  "symbols": {
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x40386500",
+    "_data_start": "0x3fc96500",
+    "_data_end": "0x3fca94c8",
+    "_bss_start": "0x3fca94c8",
+    "_bss_end": "0x3fcaa248",
+    "fft_transfer_slots": "0x3fc97d68",
+    "transport_object_sizes": "0x3c02a6bc"
+  },
+  "guard_errors": [],
+  "static_gap_to_RF_bytes": 23992,
+  "transport_sizes_bytes": {
+    "port": 28,
+    "segment": 56,
+    "ring_control": 156,
+    "DMA_descriptor": 12,
+    "SPI2_DMA_pool": 576,
+    "SPI3_DMA_pool": 48,
+    "peak_SCT_configuration": 480,
+    "ATOMIC_INT_LOCK_FREE": 1,
+    "capture_bridge": 192
+  },
+  "hot_functions": {
+    "s3_fft_stage_tile": "0x40377148",
+    "s3_fft_reverse_tile": "0x40379c4c",
+    "spi_device_queue_trans": "0x403793f0",
+    "s3_iq10_push": "0x40376a50",
+    "s3_ring_begin": "0x40379a30",
+    "s3_ring_complete": "0x40379bd4",
+    "s3_t_rf_batch": "0x40376c2c",
+    "s3_spi_prepare_pages": "0x40376d94",
+    "s3_spi_queue": "0x40376f70",
+    "s3_rf_submit": "0x4037702c",
+    "s3_capture_accept": "0x40377414",
+    "s3_capture_reclaim": "0x40379cac",
+    "s3_capture_step": "0x403774e8"
+  },
+  "hot_symbols_in_IRAM": true,
+  "linked_atomic_helpers": [
+    "__atomic_compare_exchange_1",
+    "__atomic_compare_exchange_4",
+    "__atomic_fetch_and_4",
+    "__atomic_fetch_and_8",
+    "__atomic_fetch_or_4",
+    "__atomic_fetch_or_8",
+    "__atomic_s32c1i_compare_exchange_1",
+    "__atomic_s32c1i_compare_exchange_4",
+    "__atomic_s32c1i_fetch_and_4",
+    "__atomic_s32c1i_fetch_or_4"
+  ],
+  "source_commit": "3efb5b051aa382b3d8d9820e85743b657e35eb8d",
+  "workflow_run": "https://github.com/kazuki0824/tangviterbi/actions/runs/37944497464",
+  "effective_config": {
+    "SPIRAM": true,
+    "SPIRAM_MODE_OCT": true,
+    "SPIRAM_SPEED_80M": true,
+    "ESP32S3_DATA_CACHE_32KB": true
+  }
+}

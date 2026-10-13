@@ -10,6 +10,9 @@ import unittest
 parser = argparse.ArgumentParser()
 parser.add_argument("--rtl", type=Path, required=True)
 parser.add_argument("--syndrome-cycles", type=int, choices=(0, 4, 8, 16), required=True)
+parser.add_argument("--inverse-saving", type=int, default=0)
+parser.add_argument("--chien-saving", type=int, default=0)
+parser.add_argument("--max-cycles", type=int)
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 source = args.rtl.resolve()
@@ -39,11 +42,15 @@ class CandidateTests(unittest.TestCase):
         deadline = int(performance["target_clock_mhz"] * 1e6 *
                        performance["rs_codeword_bytes"] * 8 /
                        performance["trellis_steps_per_second"])
+        if args.max_cycles is not None:
+            deadline = args.max_cycles
         saving = (16 - args.syndrome_cycles) * performance["rs_codeword_bytes"]
         self.run_bench("rs_budget_tb", [
             "tests/fixtures/rs_reference.sv", "tests/rs_budget_tb.sv",
         ], [f"-Prs_budget_tb.MAX_CYCLES={deadline}",
-            f"-Prs_budget_tb.EXPECTED_SAVING={saving}"])
+            f"-Prs_budget_tb.EXPECTED_SAVING={saving}",
+            f"-Prs_budget_tb.INVERSE_SAVING={args.inverse_saving}",
+            f"-Prs_budget_tb.CHIEN_SAVING={args.chien_saving}"])
 
 
 if __name__ == "__main__":

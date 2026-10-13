@@ -1,0 +1,11 @@
+{
+  "head_sha": "6553225433a4b36132ee4d1da2873de1f81baeaa",
+  "run_id": 38150633381,
+  "job_id": 114503177035,
+  "conclusion": "failure",
+  "failure": "worker requires lock-free unsigned atomics static assertion",
+  "SDK_compiler_option": "-mdisable-hardware-atomics",
+  "cause": "ATOMIC_INT_LOCK_FREE includes RMW guarantees; worker only needs aligned 32-bit acquire/release loads and stores. SDK flag disables hardware RMW atomics.",
+  "fix": "Require 4-byte aligned atomic_uint and reproduce SDK flag in target evidence; bundle has no undefined atomic helpers.",
+  "fixed_SDK_link_rerun_verified": false
+}

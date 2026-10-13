@@ -1,0 +1,251 @@
+{
+  "source_commit": "1b8f772b4b41f1c9e6d5503b0e4cd4b4f1de21e6",
+  "run": 37953530987,
+  "scope": "Partial FEC/protocol controller, seed 1, 99 MHz constraint",
+  "critical_paths": [
+    {
+      "from": "posedge g_mem.u_mem.clk",
+      "path": [
+        {
+          "delay": 0.4580000042915344,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I2_F_DFFC_D",
+            "loc": [
+              34,
+              12
+            ],
+            "port": "Q"
+          },
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I2_F_DFFC_D",
+            "loc": [
+              34,
+              12
+            ],
+            "port": "Q"
+          },
+          "type": "clk-to-q"
+        },
+        {
+          "delay": 2.8959999084472656,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I2_F_DFFC_D",
+            "loc": [
+              34,
+              12
+            ],
+            "port": "Q"
+          },
+          "net": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I2_F_DFFC_D_Q[0]",
+          "sources": [
+            "/home/runner/work/_temp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F_I3_LUT4_F_1",
+            "loc": [
+              35,
+              11
+            ],
+            "port": "I0"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 1.031000018119812,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F_I3_LUT4_F_1",
+            "loc": [
+              35,
+              11
+            ],
+            "port": "I0"
+          },
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F_I3_LUT4_F_1",
+            "loc": [
+              35,
+              11
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.41200000047683716,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F_I3_LUT4_F_1",
+            "loc": [
+              35,
+              11
+            ],
+            "port": "F"
+          },
+          "net": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F_I3[2]",
+          "sources": [
+            "/home/runner/work/_temp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F",
+            "loc": [
+              35,
+              12
+            ],
+            "port": "I2"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.8220000267028809,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F",
+            "loc": [
+              35,
+              12
+            ],
+            "port": "I2"
+          },
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F",
+            "loc": [
+              35,
+              12
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.8050000071525574,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3_LUT4_F",
+            "loc": [
+              35,
+              12
+            ],
+            "port": "F"
+          },
+          "net": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F_I3[3]",
+          "sources": [
+            "/home/runner/work/_temp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F",
+            "loc": [
+              35,
+              14
+            ],
+            "port": "I3"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.625,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F",
+            "loc": [
+              35,
+              14
+            ],
+            "port": "I3"
+          },
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F",
+            "loc": [
+              35,
+              14
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 1.3700000047683716,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F_LUT4_F",
+            "loc": [
+              35,
+              14
+            ],
+            "port": "F"
+          },
+          "net": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_F_LUT4_I1_F[2]",
+          "sources": [
+            "/home/runner/work/_temp/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+          ],
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I1",
+            "loc": [
+              38,
+              15
+            ],
+            "port": "I2"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.8220000267028809,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I1",
+            "loc": [
+              38,
+              15
+            ],
+            "port": "I2"
+          },
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I1",
+            "loc": [
+              38,
+              15
+            ],
+            "port": "F"
+          },
+          "type": "logic"
+        },
+        {
+          "delay": 0.32600000500679016,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I1",
+            "loc": [
+              38,
+              15
+            ],
+            "port": "F"
+          },
+          "net": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I1_F",
+          "sources": [],
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I1_F_DFFCE_CE",
+            "loc": [
+              38,
+              15
+            ],
+            "port": "CE"
+          },
+          "type": "routing"
+        },
+        {
+          "delay": 0.0430000014603138,
+          "from": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I1_F_DFFCE_CE",
+            "loc": [
+              38,
+              15
+            ],
+            "port": "CE"
+          },
+          "to": {
+            "cell": "g_rs.u_rs.bm_degree_overflow_LUT3_I1_1_F_LUT4_I3_F_LUT2_F_1_I1_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I1_LUT3_I2_F_LUT4_I2_F_LUT4_I3_I1_LUT4_I1_F_DFFCE_CE",
+            "loc": [
+              38,
+              15
+            ],
+            "port": "CE"
+          },
+          "type": "setup"
+        }
+      ],
+      "to": "posedge g_mem.u_mem.clk"
+    }
+  ]
+}

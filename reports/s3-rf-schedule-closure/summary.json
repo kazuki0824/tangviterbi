@@ -1,0 +1,29 @@
+{
+  "scope": "RF polling blackout and per-core demand gates, under explicit design budgets.\n\nThis is not an RTOS implementation or measured WCET. It closes two holes in\nthe optimistic bank model: blocking both cores across a capture threshold and\ncharging SPI API CPU time as well as wire occupation. Failure excludes the\nspecified policy/budgets, never all possible kernels or schedules.\n",
+  "summary": {
+    "blackout_passes": {
+      "1": 0,
+      "4": 256,
+      "5": 256,
+      "14": 256
+    },
+    "blackout_phases_per_profile": 256,
+    "demand_profiles": 144,
+    "selected_budget_passes": 38
+  },
+  "remaining": [
+    "joint preemptive schedule and RF actual poll jitter",
+    "RTOS/IRQ/CRC/RPC CPU costs",
+    "target packing/FFT/RS WCET and tile durations",
+    "bank preparation and SPI active time bounds",
+    "DMA and memory contention"
+  ],
+  "complete_estimate": false,
+  "receiver_adopted": false,
+  "source_sha256": {
+    "experiments/s3_rf_schedule_closure.py": "6938d719285908667210ac9ce2de0567597752969a979de0fd79bba78cedfbe2",
+    "experiments/s3_bank_schedule.py": "8468b54dc3c504404d151e788ef3cd23a51305a7fb86775dcae6111388b823f0",
+    "experiments/s3_native_capture.c": "a5570f9ee31b0291c102d176fbebac3c3f26fd646b64b17819b54ff8f8a8bbb7",
+    "tests/test_s3_rf_schedule_closure.py": "3ff7599d43ec422eff37a4a33e007b6faa16cb919b53d9e4892a6185801eb994"
+  }
+}

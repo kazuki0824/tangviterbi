@@ -1,0 +1,32 @@
+{
+  "source_pr4_head": "e8cc72561e0d510a45ae94b1193faf56f338797c",
+  "files_sha256": {
+    "README.md": "5f7de5bc5fbd6fe72945988a460d4af47369d0e7031452efb135e1d8fb6eccd3",
+    "reports/s3-receiver-blockers.md": "55b0ddae98e9537cba1f3bac180e9cb25e1af0c894e25a38ada4462e2dc983de",
+    "reports/s3-partition-audit.md": "0cae2fe964e3d87f4712b3c71d25630222c75b132fe7f8c4dcd5a034347aea20",
+    "experiments/s3_partition_audit.py": "9558165e84b348155bcf021980870958bd71681d2c7059b32ad27a5de9849738",
+    "tests/test_s3_partition_audit.py": "7a071476153dc2872ab13ddd883f91ae8aef99dc5406d965f6a2752988459a5d",
+    "reports/s3-partition-audit/estimate.json.gz": "669ee0290cc0f6efa8bce771e634e200bba6874d2ed24f4f3f145fe65ae4866d",
+    "reports/s3-partition-audit/exact-rs.json": "abcf14c2f346f32ff89b204b5f94f81e5491950b47eb780b6510bae7ab7be0d6",
+    "reports/s3-partition-audit/inputs.json.gz": "666b12734d08c644ea51b25f4b2b227c39e1b32de1f77de601136bff19910f3b",
+    "reports/s3-partition-audit/message-assignments.csv.gz": "13979e061ef5350bff4cf6fca1c73806c88a61784db08fa5137437c96e4539ec",
+    "reports/s3-partition-audit/summary.json": "8dba89ecbdcd1c72a90211afea160f68b67a23bb5b81da6e650837bef96eeb9b",
+    "reports/s3-partition-audit/unittest.txt": "d0f08fa5292c035ffd9c5f5f9e3770aba0d2408a4cb0db536e91d9e72b008ba8",
+    "experiments/s3_peripheral_resources.py": "55097ed0634570d68919e83b5f68d85cabae7eb1290d6fade795a8a7ac29778e",
+    "tests/test_s3_peripheral_resources.py": "5ecca4f7a3e2f1531b10e236b2f68f50c04f3bac9c3b02e010183fc879a50c95",
+    "reports/s3-partition-audit/peripheral-source-evidence.json": "668e836c3d88f6d1497f0b8a9d2cf1ae76113ec136b0b17cbe215b0cddadb096",
+    "reports/pr4-estimate-completion.md": "37717e80d23b3aacd034b4f741d87b570a6e63a9135702bd4c60eccf0eae2e2b",
+    "experiments/s3_fft_worker.c": "408eed5463443ecf2ddd87d0d7eba2383fdc3cc7821b616e8cfba905516d6f8d",
+    "experiments/s3_fft_worker.h": "dfb849bd6e88929a0222d77eafd7687c7541a1eaa990c6bdb6ca9213899fd3b8",
+    "experiments/s3_fft_capture_service.c": "fb4408fa522010af24c7f127924fb21bd34d848c8917e00437e17ba79556dd5e",
+    "experiments/s3_fft_capture_service.h": "da91c449e27128c025dedf87771cb4c20fc0a57601e65cff1c0a3f306170c9e7"
+  },
+  "validation": "21 related host unittests pass; actual bounded C worker/ANSI numerical check and native RF service fake-MMIO integration are distinct. Worker SIMD bundle links without unresolved symbols; no RTOS/DMA WCET or complete-estimate claim.",
+  "legacy_numerical_results_preserved_with_CPU_summation_tolerance_Mcycles_s": 1e-09,
+  "maximum_observed_CPU_sum_difference_Mcycles_s": 1.8189894035458565e-12,
+  "followup": "Actual partial-resource and target-scalar failures; pinned full-bin SIMD implementation and short stage tiles. No universal architecture exclusions or completed-estimate claim.",
+  "complete_estimate": false,
+  "execution_blocker": null,
+  "CI_status_when_recorded": "New bounded worker SDK link succeeded at e8cc725, run 38153446891 job 114511463499; SIMD execution and whole receiver remain unverified.",
+  "four_soc_comparison": "All 1280 ownerships, 7040 profiles and 65536 separate-image ownership pairs restored; analytic hypotheses only."
+}

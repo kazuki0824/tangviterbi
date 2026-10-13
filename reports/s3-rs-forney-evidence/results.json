@@ -1,0 +1,299 @@
+{
+  "scope": "Standalone FPGA Forney and host GF operation counts; not whole-design P&R or silicon WCET",
+  "source_sha256": {
+    "rtl/s3_rs_forney.sv": "731f8f5c768944d20cfbd828533c8e80e1c8c1ef3504080d2159d395f650f9e1",
+    "tests/test_s3_rs_forney.py": "04df69aa0f88350139c6afa5156b0cfbde0f2812f2333b9cae4969ce026ef678",
+    "tests/test_s3_rs_offload.py": "11c02518c34060b82ddeeef2c191d80fb195c273e005e3ae2038dd7097a5313c",
+    "experiments/s3_rs_offload.c": "053984c0edfb27dac2be61bea16e2fbc9bf54c57f48f0ad4a4306d8ff4f5c1fe"
+  },
+  "arithmetic": {
+    "independent_codewords": 262,
+    "invalid_commands": 8,
+    "maximum_observed_cycles": 587,
+    "conservative_bound_cycles": 587,
+    "bound_derivation": "203 root steps + 8*(1 seek + 9 locator + 16 omega + 1 square + 4 derivative + 1 denominator + 15 inverse + 1 magnitude)",
+    "output_stalls_excluded_from_bound": true,
+    "receiver_adopted": false
+  },
+  "synthesis": {
+    "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+    "cells": {
+      "ALU": 41,
+      "DFFC": 10,
+      "DFFCE": 640,
+      "DFFP": 1,
+      "GND": 1,
+      "LUT1": 1,
+      "LUT2": 110,
+      "LUT3": 335,
+      "LUT4": 219,
+      "VCC": 1
+    },
+    "LUT": 665,
+    "ALU": 41,
+    "logic_equivalents": 706,
+    "FF": 651
+  },
+  "at_90_MHz": {
+    "service_us": 6.522222222222222,
+    "capacity_codewords_s": 153321.97614991482,
+    "conservative_arrival_codewords_s": 35541.87192118227,
+    "utilization_percent": 23.1811986863711
+  },
+  "CPU_operation_count_correction": "Successful Forney and rejected-position validation now counted separately",
+  "maximum_observed_host_operations": {
+    "bm_omega": {
+      "mul_calls": 421,
+      "mul_nonzero": 237,
+      "div_calls": 16,
+      "chien_steps": 0
+    },
+    "chien": {
+      "mul_calls": 8,
+      "mul_nonzero": 8,
+      "div_calls": 0,
+      "chien_steps": 1632
+    },
+    "forney_with_locator_validation": {
+      "mul_calls": 240,
+      "mul_nonzero": 160,
+      "div_calls": 8,
+      "chien_steps": 0
+    },
+    "rejected_position_validation": {
+      "mul_calls": 0,
+      "mul_nonzero": 0,
+      "div_calls": 0,
+      "chien_steps": 0
+    }
+  },
+  "FPGA_internal_timing_verified": false,
+  "whole_FPGA_resources_verified": false,
+  "CPU_WCET_verified": false,
+  "receiver_adopted": false,
+  "safe_to_flash": false,
+  "co_placement": {
+    "scope": "Physical-pin PSRAM BIST synthesis, P&R and evidence (not receiver fit).",
+    "variant": "s3-memory-fec-compact-b1-q15-folded-rs-offload-forney-correct-rpcguard-rpcflag-rpcranges-rpc27-syready-rr-90MHz",
+    "exit_code": 126,
+    "sources": {
+      "rtl/s3_psram_burst.sv": "aae2589df74c0a1dd8e101bf5768d68c839b38c7a3f869c22ce54f571cba0136",
+      "build/s3-memory-fec-compact-b1-q15-folded-rs-offload-forney-correct-rpcguard-rpcflag-rpcranges-rpc27-syready-rr-90MHz-pnr/queue.sv": "af5b9316d9d301f582430a75da09d00a2b2faeff0346df47778038b44b7880bd",
+      "rtl/s3_psram_phy.sv": "e17c4eca3500a19407cfea6a43a7725fe46cac80e6484fead00095f1c83209d7",
+      "build/s3-memory-fec-compact-b1-q15-folded-rs-offload-forney-correct-rpcguard-rpcflag-rpcranges-rpc27-syready-rr-90MHz-pnr/clock.sv": "f97ef664b7a0fc7cd714a578d02932c73c293c8f7bb012ef2bd96d8d726c430f",
+      "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+      "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+      "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+      "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+      "rtl/s3_rx_page_store.sv": "682e9ab1095474e23f5ae838442622d942e697879d5692f587bbe09054b0793e",
+      "rtl/s3_psram_page_reader.sv": "b63c42df60dae56e72e1a10186c617e4dddc0542d0954604743e2609a12d91c6",
+      "rtl/s3_spi_memory_bridge.sv": "72433465f88dc9f01b4be1c2f06c6e1ab45046ad859f1141c07abf497b6033a9",
+      "build/s3-memory-fec-compact-b1-q15-folded-rs-offload-forney-correct-rpcguard-rpcflag-rpcranges-rpc27-syready-rr-90MHz-pnr/top.sv": "300390ed2f550aba9e6a931dbcfa01a32b8f52d56283fd8e43c4a85f6b934b02",
+      "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
+      "build/s3-memory-fec-compact-b1-q15-folded-rs-offload-forney-correct-rpcguard-rpcflag-rpcranges-rpc27-syready-rr-90MHz-pnr/viterbi.sv": "35aed1ce917ad44427b44d5244f2fee7935cdba0a03756a4ce0bed5039e9cf4c",
+      "build/s3-memory-fec-compact-b1-q15-folded-rs-offload-forney-correct-rpcguard-rpcflag-rpcranges-rpc27-syready-rr-90MHz-pnr/syndrome.sv": "a87e53977ab87c3948e836aa0eeca9624283ed29263b4eaf856be5149f964104",
+      "rtl/s3_rs_chien.sv": "6188108eb8f7cc751ed2a341a51d5725e2c9bfe15788f7e52cd96a6c25b3b965",
+      "rtl/s3_rs_forney.sv": "731f8f5c768944d20cfbd828533c8e80e1c8c1ef3504080d2159d395f650f9e1",
+      "rtl/s3_rs_correction.sv": "ef644b572509e4846d30885ab3699ef048d352fd05509cfc3cf9c5e5599e8803",
+      "build/s3-memory-fec-compact-b1-q15-folded-rs-offload-forney-correct-rpcguard-rpcflag-rpcranges-rpc27-syready-rr-90MHz-pnr/guard.sv": "bf251d1238ba77f1cfa92e8fa48942b1bd60d3cffcfaeeab11e44f4da9f90605",
+      "rtl/s3_rs_rpc_guard_cdc.sv": "4d1f4668600372f79243bc20f8252a2244a50e1e0edcd23d3728af475fa9c3d7"
+    },
+    "clock_constraints": [
+      [
+        "clocking.clk27",
+        27
+      ],
+      [
+        "bridge.clk",
+        90
+      ],
+      [
+        "bridge.clk_ck",
+        90
+      ],
+      [
+        "guard.check_clk",
+        27
+      ],
+      [
+        "bridge.p2.spi_clk",
+        80
+      ],
+      [
+        "bridge.p3.spi_clk",
+        80
+      ]
+    ],
+    "synthesis_flags": "-nowidelut",
+    "logic_site_audit": {
+      "packed_json_sha256": "db25d77ef0978bb5f68723f60bf2b59cab5dc4482f294ab95502b2e59b2573f3",
+      "LUT_cells": 4858,
+      "ALU_cells": 2512,
+      "ALU_blockers_excluded": 2512,
+      "fabric_FFs": 4321,
+      "maximum_LUT_or_ALU_FF_pairs": 2265,
+      "minimum_additional_FF_sites": 2056,
+      "minimum_required_logic_sites": 9426,
+      "available_logic_sites": 8640,
+      "minimum_site_utilization_percent": 109.09722222222223,
+      "minimum_site_deficit": 786,
+      "mapped_netlist_ruled_out": true,
+      "FF_D_driver_types": {
+        "LUT2": 413,
+        "LUT3": 969,
+        "DFF": 134,
+        "ALU": 195,
+        "DFFCE": 508,
+        "LUT1": 29,
+        "LUT4": 1255,
+        "DFFE": 430,
+        "GOWIN_VCC": 14,
+        "DFFPE": 34,
+        "DFFRE": 2,
+        "MULT18X18": 60,
+        "DFFC": 121,
+        "DFFP": 60,
+        "DP": 9,
+        "SDP": 72,
+        "IBUF": 16
+      },
+      "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+      "limitations": [
+        "narrow LUT mapping only",
+        "no retiming/resynthesis/transformation allowed in this bound",
+        "passing this bound does not prove placement or timing",
+        "CE/reset/clock/adjacency restrictions ignored"
+      ]
+    },
+    "synthesis": {
+      "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+      "invocation": "stat -json ",
+      "modules": {
+        "\\s3_memory_fec_benchmark": {
+          "num_wires": 9596,
+          "num_wire_bits": 19028,
+          "num_pub_wires": 9596,
+          "num_pub_wire_bits": 19028,
+          "num_ports": 15,
+          "num_port_bits": 45,
+          "num_memories": 0,
+          "num_memory_bits": 0,
+          "num_processes": 0,
+          "num_cells": 11444,
+          "num_submodules": 0,
+          "num_cells_by_type": {
+            "$scopeinfo": 23,
+            "ALU": 2136,
+            "BUFG": 3,
+            "DFF": 370,
+            "DFFC": 449,
+            "DFFCE": 1841,
+            "DFFE": 1556,
+            "DFFNC": 1,
+            "DFFP": 71,
+            "DFFPE": 29,
+            "DFFRE": 4,
+            "DPB": 2,
+            "DPX9B": 1,
+            "GND": 1,
+            "IBUF": 18,
+            "IDDR": 18,
+            "IOBUF": 18,
+            "LUT1": 36,
+            "LUT2": 782,
+            "LUT3": 2056,
+            "LUT4": 1984,
+            "MULT18X18": 2,
+            "OBUF": 9,
+            "ODDR": 24,
+            "SDPX9B": 6,
+            "SPX9": 2,
+            "VCC": 1,
+            "rPLL": 1
+          }
+        }
+      },
+      "design": {
+        "num_wires": 9596,
+        "num_wire_bits": 19028,
+        "num_pub_wires": 9596,
+        "num_pub_wire_bits": 19028,
+        "num_ports": 15,
+        "num_port_bits": 45,
+        "num_memories": 0,
+        "num_memory_bits": 0,
+        "num_processes": 0,
+        "num_cells": 11444,
+        "num_submodules": 0,
+        "num_cells_by_type": {
+          "$scopeinfo": 23,
+          "ALU": 2136,
+          "BUFG": 3,
+          "DFF": 370,
+          "DFFC": 449,
+          "DFFCE": 1841,
+          "DFFE": 1556,
+          "DFFNC": 1,
+          "DFFP": 71,
+          "DFFPE": 29,
+          "DFFRE": 4,
+          "DPB": 2,
+          "DPX9B": 1,
+          "GND": 1,
+          "IBUF": 18,
+          "IDDR": 18,
+          "IOBUF": 18,
+          "LUT1": 36,
+          "LUT2": 782,
+          "LUT3": 2056,
+          "LUT4": 1984,
+          "MULT18X18": 2,
+          "OBUF": 9,
+          "ODDR": 24,
+          "SDPX9B": 6,
+          "SPX9": 2,
+          "VCC": 1,
+          "rPLL": 1
+        }
+      }
+    },
+    "pnr_trials": [
+      {
+        "seed": 3,
+        "exit_code": 126,
+        "notes": [
+          "ERROR: Mapped netlist needs at least 9426 logic sites, exceeding 8640; placement skipped (not an RTL-wide impossibility claim)"
+        ],
+        "placement_skipped": true
+      }
+    ],
+    "utilization": null,
+    "fmax": null,
+    "physical_timing_proven": false,
+    "receiver_adopted": false,
+    "safe_to_flash": false,
+    "absent": [
+      "validated DQ/RWDS sampling eye",
+      "phase-related external IO STA",
+      "full receiver integration",
+      "real hardware BIST",
+      "host RS WCET",
+      "RPC protocol/queues",
+      "coded-block memory and correction writes",
+      "TS output scheduler"
+    ]
+  },
+  "co_placement_command": [
+    "ci/s3_psram_benchmark.py",
+    "--rs-forney",
+    "--rpc-clock27",
+    "--syndrome-ready",
+    "--rr-table",
+    "--core-mhz",
+    "90",
+    "--seeds",
+    "3",
+    "--pnr-timeout",
+    "180"
+  ]
+}

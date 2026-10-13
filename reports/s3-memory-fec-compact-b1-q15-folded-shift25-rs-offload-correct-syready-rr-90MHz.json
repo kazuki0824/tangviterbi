@@ -1,0 +1,964 @@
+{
+  "scope": "Physical-pin PSRAM BIST synthesis, P&R and evidence (not receiver fit).",
+  "variant": "s3-memory-fec-compact-b1-q15-folded-shift25-rs-offload-correct-syready-rr-90MHz",
+  "exit_code": 1,
+  "sources": {
+    "rtl/s3_psram_burst.sv": "aae2589df74c0a1dd8e101bf5768d68c839b38c7a3f869c22ce54f571cba0136",
+    "build/s3-memory-fec-compact-b1-q15-folded-shift25-rs-offload-correct-syready-rr-90MHz-pnr/queue.sv": "af5b9316d9d301f582430a75da09d00a2b2faeff0346df47778038b44b7880bd",
+    "rtl/s3_psram_phy.sv": "e17c4eca3500a19407cfea6a43a7725fe46cac80e6484fead00095f1c83209d7",
+    "build/s3-memory-fec-compact-b1-q15-folded-shift25-rs-offload-correct-syready-rr-90MHz-pnr/clock.sv": "f97ef664b7a0fc7cd714a578d02932c73c293c8f7bb012ef2bd96d8d726c430f",
+    "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+    "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+    "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+    "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+    "rtl/s3_rx_page_store.sv": "682e9ab1095474e23f5ae838442622d942e697879d5692f587bbe09054b0793e",
+    "rtl/s3_psram_page_reader.sv": "b63c42df60dae56e72e1a10186c617e4dddc0542d0954604743e2609a12d91c6",
+    "rtl/s3_spi_memory_bridge.sv": "72433465f88dc9f01b4be1c2f06c6e1ab45046ad859f1141c07abf497b6033a9",
+    "build/s3-memory-fec-compact-b1-q15-folded-shift25-rs-offload-correct-syready-rr-90MHz-pnr/top.sv": "6853acff5fd9c9986f76f3820a6d2cb5c137a2afcf95bab59ad18f08e5cebbf0",
+    "build/s3-memory-fec-compact-b1-q15-folded-shift25-rs-offload-correct-syready-rr-90MHz-pnr/metric.sv": "61f7340cbe4bfd7ddb5a0bc6fc415b24ca018423a07bfff9de7219c44b9b0189",
+    "build/s3-memory-fec-compact-b1-q15-folded-shift25-rs-offload-correct-syready-rr-90MHz-pnr/viterbi.sv": "db03ebf47d6b4259b44e2a859d6a53f5790705fdc29deca9448f4226809f9d93",
+    "build/s3-memory-fec-compact-b1-q15-folded-shift25-rs-offload-correct-syready-rr-90MHz-pnr/syndrome.sv": "a87e53977ab87c3948e836aa0eeca9624283ed29263b4eaf856be5149f964104",
+    "rtl/s3_rs_chien.sv": "6188108eb8f7cc751ed2a341a51d5725e2c9bfe15788f7e52cd96a6c25b3b965",
+    "rtl/s3_rs_correction.sv": "ef644b572509e4846d30885ab3699ef048d352fd05509cfc3cf9c5e5599e8803"
+  },
+  "clock_constraints": [
+    [
+      "clocking.clk27",
+      27
+    ],
+    [
+      "bridge.clk",
+      90
+    ],
+    [
+      "bridge.clk_ck",
+      90
+    ],
+    [
+      "bridge.p2.spi_clk",
+      80
+    ],
+    [
+      "bridge.p3.spi_clk",
+      80
+    ]
+  ],
+  "synthesis_flags": "-nowidelut",
+  "logic_site_audit": {
+    "packed_json_sha256": "8a738ea895ce11eda438bec4b7905c608f72f703ca298e601109096e35ddeea3",
+    "LUT_cells": 3647,
+    "ALU_cells": 1952,
+    "ALU_blockers_excluded": 1952,
+    "fabric_FFs": 3186,
+    "maximum_LUT_or_ALU_FF_pairs": 1575,
+    "minimum_additional_FF_sites": 1611,
+    "minimum_required_logic_sites": 7210,
+    "available_logic_sites": 8640,
+    "minimum_site_utilization_percent": 83.44907407407408,
+    "minimum_site_deficit": 0,
+    "mapped_netlist_ruled_out": false,
+    "FF_D_driver_types": {
+      "LUT3": 671,
+      "DFF": 134,
+      "ALU": 205,
+      "DFFCE": 487,
+      "LUT2": 299,
+      "LUT1": 24,
+      "LUT4": 862,
+      "DFFE": 254,
+      "GOWIN_VCC": 13,
+      "DFFRE": 2,
+      "MULT18X18": 60,
+      "DFFPE": 34,
+      "DFFC": 53,
+      "SDP": 72,
+      "IBUF": 16
+    },
+    "reference": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+    "limitations": [
+      "narrow LUT mapping only",
+      "no retiming/resynthesis/transformation allowed in this bound",
+      "passing this bound does not prove placement or timing",
+      "CE/reset/clock/adjacency restrictions ignored"
+    ]
+  },
+  "synthesis": {
+    "creator": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+    "invocation": "stat -json ",
+    "modules": {
+      "\\s3_memory_fec_benchmark": {
+        "num_wires": 7346,
+        "num_wire_bits": 14417,
+        "num_pub_wires": 7346,
+        "num_pub_wire_bits": 14417,
+        "num_ports": 15,
+        "num_port_bits": 45,
+        "num_memories": 0,
+        "num_memory_bits": 0,
+        "num_processes": 0,
+        "num_cells": 8666,
+        "num_submodules": 0,
+        "num_cells_by_type": {
+          "$scopeinfo": 19,
+          "ALU": 1710,
+          "BUFG": 2,
+          "DFF": 370,
+          "DFFC": 295,
+          "DFFCE": 1176,
+          "DFFE": 1307,
+          "DFFNC": 1,
+          "DFFP": 4,
+          "DFFPE": 29,
+          "DFFRE": 4,
+          "DPB": 2,
+          "GND": 1,
+          "IBUF": 18,
+          "IDDR": 18,
+          "IOBUF": 18,
+          "LUT1": 30,
+          "LUT2": 581,
+          "LUT3": 1545,
+          "LUT4": 1491,
+          "MULT18X18": 2,
+          "OBUF": 9,
+          "ODDR": 24,
+          "SDPX9B": 6,
+          "SPX9": 2,
+          "VCC": 1,
+          "rPLL": 1
+        }
+      }
+    },
+    "design": {
+      "num_wires": 7346,
+      "num_wire_bits": 14417,
+      "num_pub_wires": 7346,
+      "num_pub_wire_bits": 14417,
+      "num_ports": 15,
+      "num_port_bits": 45,
+      "num_memories": 0,
+      "num_memory_bits": 0,
+      "num_processes": 0,
+      "num_cells": 8666,
+      "num_submodules": 0,
+      "num_cells_by_type": {
+        "$scopeinfo": 19,
+        "ALU": 1710,
+        "BUFG": 2,
+        "DFF": 370,
+        "DFFC": 295,
+        "DFFCE": 1176,
+        "DFFE": 1307,
+        "DFFNC": 1,
+        "DFFP": 4,
+        "DFFPE": 29,
+        "DFFRE": 4,
+        "DPB": 2,
+        "GND": 1,
+        "IBUF": 18,
+        "IDDR": 18,
+        "IOBUF": 18,
+        "LUT1": 30,
+        "LUT2": 581,
+        "LUT3": 1545,
+        "LUT4": 1491,
+        "MULT18X18": 2,
+        "OBUF": 9,
+        "ODDR": 24,
+        "SDPX9B": 6,
+        "SPX9": 2,
+        "VCC": 1,
+        "rPLL": 1
+      }
+    }
+  },
+  "pnr_trials": [
+    {
+      "seed": 1,
+      "exit_code": 1,
+      "fmax": {
+        "bridge.clk": {
+          "achieved": 78.78978729248047,
+          "constraint": 90.00090026855469
+        },
+        "bridge.p2.spi_clk": {
+          "achieved": 133.77926635742188,
+          "constraint": 80
+        },
+        "bridge.p3.spi_clk": {
+          "achieved": 145.9853973388672,
+          "constraint": 80
+        }
+      },
+      "notes": [
+        "ERROR: Max frequency for clock        'bridge.clk': 78.79 MHz (FAIL at 90.00 MHz)"
+      ],
+      "preplacement_utilization": {
+        "VCC": {
+          "used": 1,
+          "available": 1
+        },
+        "IOB": {
+          "used": 27,
+          "available": 276
+        },
+        "LUT4": {
+          "used": 5599,
+          "available": 8640
+        },
+        "OSER16": {
+          "used": 0,
+          "available": 80
+        },
+        "IDES16": {
+          "used": 0,
+          "available": 80
+        },
+        "IOLOGICI": {
+          "used": 18,
+          "available": 276
+        },
+        "IOLOGICO": {
+          "used": 24,
+          "available": 276
+        },
+        "MUX2_LUT5": {
+          "used": 0,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 0,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 0,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 0,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 1952,
+          "available": 6480
+        },
+        "GND": {
+          "used": 1,
+          "available": 1
+        },
+        "DFF": {
+          "used": 3186,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 10,
+          "available": 26
+        },
+        "ALU54D": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTADDALU18X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTALU18X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTALU36X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULT36X36": {
+          "used": 0,
+          "available": 5
+        },
+        "MULT18X18": {
+          "used": 2,
+          "available": 20
+        },
+        "MULT9X9": {
+          "used": 0,
+          "available": 40
+        },
+        "PADD18": {
+          "used": 0,
+          "available": 20
+        },
+        "PADD9": {
+          "used": 0,
+          "available": 40
+        },
+        "GSR": {
+          "used": 1,
+          "available": 1
+        },
+        "OSC": {
+          "used": 0,
+          "available": 1
+        },
+        "rPLL": {
+          "used": 1,
+          "available": 2
+        },
+        "FLASH608K": {
+          "used": 0,
+          "available": 1
+        },
+        "BUFG": {
+          "used": 2,
+          "available": 22
+        },
+        "DQCE": {
+          "used": 0,
+          "available": 24
+        },
+        "DCS": {
+          "used": 0,
+          "available": 8
+        },
+        "DHCEN": {
+          "used": 0,
+          "available": 24
+        },
+        "CLKDIV": {
+          "used": 0,
+          "available": 8
+        },
+        "CLKDIV2": {
+          "used": 0,
+          "available": 16
+        },
+        "MIPI_IBUF": {
+          "used": 0,
+          "available": 22
+        },
+        "MIPI_OBUF": {
+          "used": 0,
+          "available": 20
+        }
+      },
+      "timeout_seconds": 180,
+      "placer": "heap",
+      "heap_cell_timeout": 8
+    },
+    {
+      "seed": 2,
+      "exit_code": 1,
+      "fmax": {
+        "bridge.clk": {
+          "achieved": 87.01705932617188,
+          "constraint": 90.00090026855469
+        },
+        "bridge.p2.spi_clk": {
+          "achieved": 148.6546630859375,
+          "constraint": 80
+        },
+        "bridge.p3.spi_clk": {
+          "achieved": 161.34237670898438,
+          "constraint": 80
+        }
+      },
+      "notes": [
+        "ERROR: Max frequency for clock        'bridge.clk': 87.02 MHz (FAIL at 90.00 MHz)"
+      ],
+      "preplacement_utilization": {
+        "VCC": {
+          "used": 1,
+          "available": 1
+        },
+        "IOB": {
+          "used": 27,
+          "available": 276
+        },
+        "LUT4": {
+          "used": 5599,
+          "available": 8640
+        },
+        "OSER16": {
+          "used": 0,
+          "available": 80
+        },
+        "IDES16": {
+          "used": 0,
+          "available": 80
+        },
+        "IOLOGICI": {
+          "used": 18,
+          "available": 276
+        },
+        "IOLOGICO": {
+          "used": 24,
+          "available": 276
+        },
+        "MUX2_LUT5": {
+          "used": 0,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 0,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 0,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 0,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 1952,
+          "available": 6480
+        },
+        "GND": {
+          "used": 1,
+          "available": 1
+        },
+        "DFF": {
+          "used": 3186,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 10,
+          "available": 26
+        },
+        "ALU54D": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTADDALU18X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTALU18X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTALU36X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULT36X36": {
+          "used": 0,
+          "available": 5
+        },
+        "MULT18X18": {
+          "used": 2,
+          "available": 20
+        },
+        "MULT9X9": {
+          "used": 0,
+          "available": 40
+        },
+        "PADD18": {
+          "used": 0,
+          "available": 20
+        },
+        "PADD9": {
+          "used": 0,
+          "available": 40
+        },
+        "GSR": {
+          "used": 1,
+          "available": 1
+        },
+        "OSC": {
+          "used": 0,
+          "available": 1
+        },
+        "rPLL": {
+          "used": 1,
+          "available": 2
+        },
+        "FLASH608K": {
+          "used": 0,
+          "available": 1
+        },
+        "BUFG": {
+          "used": 2,
+          "available": 22
+        },
+        "DQCE": {
+          "used": 0,
+          "available": 24
+        },
+        "DCS": {
+          "used": 0,
+          "available": 8
+        },
+        "DHCEN": {
+          "used": 0,
+          "available": 24
+        },
+        "CLKDIV": {
+          "used": 0,
+          "available": 8
+        },
+        "CLKDIV2": {
+          "used": 0,
+          "available": 16
+        },
+        "MIPI_IBUF": {
+          "used": 0,
+          "available": 22
+        },
+        "MIPI_OBUF": {
+          "used": 0,
+          "available": 20
+        }
+      },
+      "timeout_seconds": 180,
+      "placer": "heap",
+      "heap_cell_timeout": 8
+    },
+    {
+      "seed": 3,
+      "exit_code": 1,
+      "fmax": {
+        "bridge.clk": {
+          "achieved": 85.66044616699219,
+          "constraint": 90.00090026855469
+        },
+        "bridge.p2.spi_clk": {
+          "achieved": 149.58863830566406,
+          "constraint": 80
+        },
+        "bridge.p3.spi_clk": {
+          "achieved": 138.23609924316406,
+          "constraint": 80
+        }
+      },
+      "notes": [
+        "ERROR: Max frequency for clock        'bridge.clk': 85.66 MHz (FAIL at 90.00 MHz)"
+      ],
+      "preplacement_utilization": {
+        "VCC": {
+          "used": 1,
+          "available": 1
+        },
+        "IOB": {
+          "used": 27,
+          "available": 276
+        },
+        "LUT4": {
+          "used": 5599,
+          "available": 8640
+        },
+        "OSER16": {
+          "used": 0,
+          "available": 80
+        },
+        "IDES16": {
+          "used": 0,
+          "available": 80
+        },
+        "IOLOGICI": {
+          "used": 18,
+          "available": 276
+        },
+        "IOLOGICO": {
+          "used": 24,
+          "available": 276
+        },
+        "MUX2_LUT5": {
+          "used": 0,
+          "available": 4320
+        },
+        "MUX2_LUT6": {
+          "used": 0,
+          "available": 2160
+        },
+        "MUX2_LUT7": {
+          "used": 0,
+          "available": 1080
+        },
+        "MUX2_LUT8": {
+          "used": 0,
+          "available": 1080
+        },
+        "ALU": {
+          "used": 1952,
+          "available": 6480
+        },
+        "GND": {
+          "used": 1,
+          "available": 1
+        },
+        "DFF": {
+          "used": 3186,
+          "available": 6480
+        },
+        "RAM16SDP4": {
+          "used": 0,
+          "available": 270
+        },
+        "BSRAM": {
+          "used": 10,
+          "available": 26
+        },
+        "ALU54D": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTADDALU18X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTALU18X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULTALU36X18": {
+          "used": 0,
+          "available": 10
+        },
+        "MULT36X36": {
+          "used": 0,
+          "available": 5
+        },
+        "MULT18X18": {
+          "used": 2,
+          "available": 20
+        },
+        "MULT9X9": {
+          "used": 0,
+          "available": 40
+        },
+        "PADD18": {
+          "used": 0,
+          "available": 20
+        },
+        "PADD9": {
+          "used": 0,
+          "available": 40
+        },
+        "GSR": {
+          "used": 1,
+          "available": 1
+        },
+        "OSC": {
+          "used": 0,
+          "available": 1
+        },
+        "rPLL": {
+          "used": 1,
+          "available": 2
+        },
+        "FLASH608K": {
+          "used": 0,
+          "available": 1
+        },
+        "BUFG": {
+          "used": 2,
+          "available": 22
+        },
+        "DQCE": {
+          "used": 0,
+          "available": 24
+        },
+        "DCS": {
+          "used": 0,
+          "available": 8
+        },
+        "DHCEN": {
+          "used": 0,
+          "available": 24
+        },
+        "CLKDIV": {
+          "used": 0,
+          "available": 8
+        },
+        "CLKDIV2": {
+          "used": 0,
+          "available": 16
+        },
+        "MIPI_IBUF": {
+          "used": 0,
+          "available": 22
+        },
+        "MIPI_OBUF": {
+          "used": 0,
+          "available": 20
+        }
+      },
+      "timeout_seconds": 180,
+      "placer": "heap",
+      "heap_cell_timeout": 8
+    }
+  ],
+  "utilization": {
+    "ALU": {
+      "available": 6480,
+      "used": 1952
+    },
+    "ALU54D": {
+      "available": 10,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 26,
+      "used": 10
+    },
+    "BUFG": {
+      "available": 22,
+      "used": 2
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 6480,
+      "used": 3186
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "DUMMY_CELL": {
+      "available": 0,
+      "used": 8
+    },
+    "FLASH608K": {
+      "available": 1,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "IDES16": {
+      "available": 80,
+      "used": 0
+    },
+    "IOB": {
+      "available": 276,
+      "used": 27
+    },
+    "IOBUF": {
+      "available": 0,
+      "used": 18
+    },
+    "IOLOGICI": {
+      "available": 276,
+      "used": 18
+    },
+    "IOLOGICO": {
+      "available": 276,
+      "used": 24
+    },
+    "LUT4": {
+      "available": 8640,
+      "used": 5303
+    },
+    "MIPI_IBUF": {
+      "available": 22,
+      "used": 0
+    },
+    "MIPI_OBUF": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT18X18": {
+      "available": 20,
+      "used": 2
+    },
+    "MULT36X36": {
+      "available": 5,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 40,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 4320,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 2160,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 1080,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 1080,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "OSER16": {
+      "available": 80,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 20,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 40,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 270,
+      "used": 0
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 1
+    }
+  },
+  "fmax": {
+    "bridge.clk": {
+      "achieved": 85.66044616699219,
+      "constraint": 90.00090026855469
+    },
+    "bridge.p2.spi_clk": {
+      "achieved": 149.58863830566406,
+      "constraint": 80
+    },
+    "bridge.p3.spi_clk": {
+      "achieved": 138.23609924316406,
+      "constraint": 80
+    }
+  },
+  "physical_timing_proven": false,
+  "receiver_adopted": false,
+  "safe_to_flash": false,
+  "absent": [
+    "validated DQ/RWDS sampling eye",
+    "phase-related external IO STA",
+    "full receiver integration",
+    "real hardware BIST",
+    "host RS WCET",
+    "RPC protocol/queues",
+    "coded-block memory and correction writes",
+    "TS output scheduler",
+    "receiver BER/CN acceptance for changed FPGA branch quantizer"
+  ],
+  "experimental_FPGA_quantizer": {
+    "cost_shift": 25,
+    "branch_cost_bits": 6,
+    "maximum_cost": 45,
+    "rounded_branch_difference_bounds": {
+      "0": 0,
+      "1": 32,
+      "2": 32,
+      "3": 46
+    },
+    "merging_candidate_difference_bound": 248,
+    "metric_width": 9,
+    "half_modulus": 256,
+    "geometric_vertices": [
+      [
+        "-32768",
+        "-32768"
+      ],
+      [
+        "-32768",
+        "0"
+      ],
+      [
+        "-32768",
+        "32767"
+      ],
+      [
+        "-32767",
+        "32767"
+      ],
+      [
+        "0",
+        "-32768"
+      ],
+      [
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "32767"
+      ],
+      [
+        "32767",
+        "-32768"
+      ],
+      [
+        "32767",
+        "-32767"
+      ],
+      [
+        "32767",
+        "0"
+      ],
+      [
+        "32767",
+        "32767"
+      ]
+    ],
+    "absolute_projection_difference_bounds": {
+      "1": 1073741824,
+      "2": 1073741824,
+      "3": 1518469120
+    },
+    "encoder_impulse_label_xor": [
+      3,
+      1,
+      0,
+      3,
+      3,
+      2,
+      3
+    ],
+    "native_RF_precision_changed": false,
+    "Q15_symbol_precision_changed": false,
+    "FPGA_branch_cost_quantization_changed": true,
+    "BER_equivalence_to_shift22_verified": false,
+    "receiver_adopted": false
+  }
+}

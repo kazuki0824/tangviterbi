@@ -1,0 +1,265 @@
+Info: Using uarch 'gowin' for device 'GW1NR-LV9QN88PC6/I5'
+Info: constraining clock net 'clocking.clk27' to 27.00 MHz
+Info: constraining clock net 'clk' to 99.00 MHz
+Info: constraining clock net 'clk_ck' to 99.00 MHz
+
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:0, MUX2_LU7:0, MUX2_LUT6:0, MUX2_LUT5:0
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 264 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack GW JTAG...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0x2f6b199b
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:      16/    276     5%
+Info: 	                LUT4:    1229/   8640    14%
+Info: 	              OSER16:       0/     80     0%
+Info: 	              IDES16:       0/     80     0%
+Info: 	            IOLOGICI:      18/    276     6%
+Info: 	            IOLOGICO:      24/    276     8%
+Info: 	           MUX2_LUT5:       0/   4320     0%
+Info: 	           MUX2_LUT6:       0/   2160     0%
+Info: 	           MUX2_LUT7:       0/   1080     0%
+Info: 	           MUX2_LUT8:       0/   1080     0%
+Info: 	                 ALU:     294/   6480     4%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:     685/   6480    10%
+Info: 	           RAM16SDP4:       0/    270     0%
+Info: 	               BSRAM:       2/     26     7%
+Info: 	              ALU54D:       0/     10     0%
+Info: 	     MULTADDALU18X18:       0/     10     0%
+Info: 	        MULTALU18X18:       0/     10     0%
+Info: 	        MULTALU36X18:       0/     10     0%
+Info: 	           MULT36X36:       0/      5     0%
+Info: 	           MULT18X18:       0/     20     0%
+Info: 	             MULT9X9:       0/     40     0%
+Info: 	              PADD18:       0/     20     0%
+Info: 	               PADD9:       0/     40     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       1/      2    50%
+Info: 	           FLASH608K:       0/      1     0%
+Info: 	                BUFG:       0/     22     0%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+Info: 	           MIPI_IBUF:       0/     22     0%
+Info: 	           MIPI_OBUF:       0/     20     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 1390 cells, random placement wirelen = 53692.
+Info:     at initial placer iter 0, wirelen = 1304
+Info:     at initial placer iter 1, wirelen = 1215
+Info:     at initial placer iter 2, wirelen = 1147
+Info:     at initial placer iter 3, wirelen = 1152
+Info: Running main analytical placer, max placement attempts per cell = 655512.
+Info:     at iteration #1, type ALL: wirelen solved = 1140, spread = 9607, legal = 14729; time = 0.06s
+Info:     at iteration #2, type ALL: wirelen solved = 1610, spread = 8566, legal = 13871; time = 0.06s
+Info:     at iteration #3, type ALL: wirelen solved = 2239, spread = 8024, legal = 11475; time = 0.04s
+Info:     at iteration #4, type ALL: wirelen solved = 2853, spread = 7758, legal = 10954; time = 0.04s
+Info:     at iteration #5, type ALL: wirelen solved = 3209, spread = 6685, legal = 10943; time = 0.06s
+Info:     at iteration #6, type ALL: wirelen solved = 3447, spread = 7292, legal = 9818; time = 0.05s
+Info:     at iteration #7, type ALL: wirelen solved = 3587, spread = 6626, legal = 9704; time = 0.06s
+Info:     at iteration #8, type ALL: wirelen solved = 3730, spread = 6598, legal = 11082; time = 0.07s
+Info:     at iteration #9, type ALL: wirelen solved = 3780, spread = 6728, legal = 10774; time = 0.07s
+Info:     at iteration #10, type ALL: wirelen solved = 3917, spread = 6362, legal = 9481; time = 0.06s
+Info:     at iteration #11, type ALL: wirelen solved = 3975, spread = 6202, legal = 10333; time = 0.07s
+Info:     at iteration #12, type ALL: wirelen solved = 4012, spread = 6080, legal = 9817; time = 0.07s
+Info:     at iteration #13, type ALL: wirelen solved = 4082, spread = 6309, legal = 10188; time = 0.07s
+Info:     at iteration #14, type ALL: wirelen solved = 4261, spread = 6307, legal = 9367; time = 0.07s
+Info:     at iteration #15, type ALL: wirelen solved = 4314, spread = 6790, legal = 10264; time = 0.07s
+Info:     at iteration #16, type ALL: wirelen solved = 4461, spread = 6239, legal = 10237; time = 0.08s
+Info:     at iteration #17, type ALL: wirelen solved = 4466, spread = 6298, legal = 9016; time = 0.06s
+Info:     at iteration #18, type ALL: wirelen solved = 4555, spread = 6374, legal = 9933; time = 0.06s
+Info:     at iteration #19, type ALL: wirelen solved = 4755, spread = 6518, legal = 9920; time = 0.08s
+Info:     at iteration #20, type ALL: wirelen solved = 4771, spread = 6041, legal = 9512; time = 0.08s
+Info:     at iteration #21, type ALL: wirelen solved = 4840, spread = 6246, legal = 10058; time = 0.07s
+Info:     at iteration #22, type ALL: wirelen solved = 4970, spread = 6601, legal = 9157; time = 0.06s
+Info: HeAP Placer Time: 1.56s
+Info:   of which solving equations: 0.37s
+Info:   of which spreading cells: 0.05s
+Info:   of which strict legalisation: 1.01s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 32, wirelen = 9016
+Info:   at iteration #5: temp = 0.000000, timing cost = 11, wirelen = 7651
+Info:   at iteration #10: temp = 0.000000, timing cost = 8, wirelen = 7211
+Info:   at iteration #15: temp = 0.000000, timing cost = 7, wirelen = 6937
+Info:   at iteration #20: temp = 0.000000, timing cost = 7, wirelen = 6755
+Info:   at iteration #25: temp = 0.000000, timing cost = 7, wirelen = 6688
+Info:   at iteration #26: temp = 0.000000, timing cost = 7, wirelen = 6680 
+Info: SA placement time 1.32s
+
+Info: Max frequency for clock 'clk': 133.76 MHz (PASS at 99.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 2 endpoint(s)
+Info:          + represents [1,2) endpoint(s)
+Info: [  2625,   2964) |+
+Info: [  2964,   3303) | 
+Info: [  3303,   3642) |*+
+Info: [  3642,   3981) |**+
+Info: [  3981,   4320) |**+
+Info: [  4320,   4659) |*******+
+Info: [  4659,   4998) |**+
+Info: [  4998,   5337) |**********+
+Info: [  5337,   5676) |***************+
+Info: [  5676,   6015) |************+
+Info: [  6015,   6354) |**********************+
+Info: [  6354,   6693) |*******************+
+Info: [  6693,   7032) |*******************+
+Info: [  7032,   7371) |*******************+
+Info: [  7371,   7710) |*******+
+Info: [  7710,   8049) |*************+
+Info: [  8049,   8388) |**************+
+Info: [  8388,   8727) |**********************************+
+Info: [  8727,   9066) |****************************************+
+Info: [  9066,   9405) |************************************************************ 
+Info: Checksum: 0x639f26f3
+Info: Routing globals...
+Info:     'clk_ck' net was routed using global resources only.
+Info:     'clocking.clk27' net was routed using global resources only.
+Info:     'clk' net was routed using global resources only.
+Info:     'led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_DFFCE_Q_CE_DFFCE_CE_Q[1]' is routed using segments.
+Info:     'led_OBUF_O_2_I_LUT1_F_I0_LUT2_I1_F_LUT2_I0_I1_LUT3_I2_F_LUT3_I2_F_DFFC_D_Q' is routed using segments.
+Info:     'led_OBUF_O_2_I_LUT1_F_I0_LUT2_I1_F_LUT2_I0_I1_LUT4_I3_I1_LUT4_I1_F_LUT4_F_1_I2_LUT3_F_1_I1_LUT4_I2_F' is routed using segments.
+Info:     'led_OBUF_O_2_I_LUT1_F_I0_LUT2_I1_F_LUT2_I0_I1_LUT4_I3_I1_LUT4_I1_F_LUT4_F_1_I2_LUT3_F_I2_LUT2_I1_F[2]' is routed using segments.
+Info:     'queue.writes.0.0_ADA_LUT4_I0_F_DFF_Q_D_LUT4_I3_F_LUT4_I2_F_DFFCE_CE_Q_LUT2_I0_F_LUT2_I0_F' is routed using segments.
+Info:     'queue.writes.0.0_ADA_LUT4_I0_F_DFF_Q_D_LUT4_I3_F_LUT4_I2_F_DFFCE_CE_Q_LUT2_I0_F_LUT2_I0_I1_LUT2_I1_2_F' is routed using segments.
+Info:     'queue.writes.0.0_ADA_LUT4_I0_F_DFF_Q_D_LUT4_I3_F_LUT4_I2_F_DFFCE_CE_Q_LUT2_I0_F_LUT2_I0_I1_LUT2_I1_F' is routed using segments.
+Info:     'led_OBUF_O_2_I_LUT1_F_I0_LUT2_I1_F_LUT2_I0_F_DFFC_D_Q_LUT3_I0_F_LUT4_I3_F_DFFCE_D_Q_DFFCE_Q_1_D_LUT4_F_I1[2]' is routed using segments.
+Info:     'led_OBUF_O_3_I_LUT1_F_I0_LUT3_I2_F_LUT4_F_I3[0]' is routed using segments.
+Info:     'queue.writes.0.0_ADA_LUT4_I0_F_DFF_Q_D_LUT4_I3_F_LUT4_I2_F_DFFCE_CE_Q_LUT2_I0_F_LUT2_I0_I1_LUT2_I1_1_F' is routed using segments.
+Info:     'led_OBUF_O_3_I_LUT1_F_I0_LUT3_I2_F_LUT2_I1_F[2]' is routed using segments.
+Info:     'phy.dq[0].out_D0_LUT4_F_I3[2]' is routed using segments.
+Info:     'led_OBUF_O_2_I_LUT1_F_I0_LUT2_I1_F_LUT2_I0_I1_LUT4_I3_I1_LUT4_I1_F_LUT4_F_1_I2_LUT3_F_I2_LUT2_I1_F[3]' is routed using segments.
+Info:     'led_OBUF_O_2_I_LUT1_F_I0_LUT2_I1_F_LUT2_I0_I1_LUT4_I3_I1_LUT4_I1_F_LUT4_F_1_I2_LUT3_F_1_I1_LUT3_F_I0[1]' is routed using segments.
+Info:     'phy.dq[9].out_TX' is routed using segments.
+Info:     'led_OBUF_O_I_LUT1_F_I0_LUT3_I0_F_DFFCE_Q_CE_DFFCE_CE_Q[2]' is routed using segments.
+Info:     'controller.fifo0[1]_DFFE_Q_1_D_DFFCE_Q_D_LUT3_F_I1_LUT4_F_I2[0]' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 5440 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |       12        891 |   12   891 |      4456|       0.27       0.27|
+Info:       2000 |       15       1849 |    3   958 |      3459|       0.25       0.52|
+Info:       3000 |       21       2814 |    6   965 |      2465|       0.31       0.82|
+Info:       4000 |       37       3759 |   16   945 |      1484|       0.38       1.20|
+Info:       5000 |       68       4697 |   31   938 |       517|       0.43       1.63|
+Info:       5601 |      131       5219 |   63   522 |         0|       0.37       2.00|
+Info: Routing complete.
+Info: Router1 time 2.00s
+Info: Checksum: 0x33be36bf
+
+Info: Critical path report for clock 'clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source queue.reads.0.0_DO_10_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_Q.Q
+Info:    routing  1.37  1.83 Net queue.reads.0.0_DO_10_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM[1] (6,11) -> (5,8)
+Info:                          Sink queue.reads.0.0_DO_3_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT.I0
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.96  2.79 Source queue.reads.0.0_DO_3_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT.COUT
+Info:    routing  0.00  2.79 Net queue.reads.0.0_DO_3_ALU_SUM_CIN_ALU_COUT_CIN (5,8) -> (5,8)
+Info:                          Sink queue.reads.0.0_DO_3_ALU_SUM_CIN_ALU_COUT.CIN
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.84 Source queue.reads.0.0_DO_3_ALU_SUM_CIN_ALU_COUT.COUT
+Info:    routing  0.00  2.84 Net queue.reads.0.0_DO_3_ALU_SUM_CIN (5,8) -> (5,8)
+Info:                          Sink queue.reads.0.0_DO_3_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.06  2.90 Source queue.reads.0.0_DO_3_ALU_SUM.COUT
+Info:    routing  0.00  2.90 Net queue.reads.0.0_DO_3_ALU_SUM_COUT (5,8) -> (5,8)
+Info:                          Sink queue.reads.0.0_DO_4_ALU_SUM.CIN
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/arith_map.v:57.7-63.5
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_sim.v:1033.25-1033.29
+Info:      logic  0.56  3.46 Source queue.reads.0.0_DO_4_ALU_SUM.SUM
+Info:    routing  1.22  4.68 Net queue.reads.0.0_DO_4[3] (5,8) -> (6,10)
+Info:                          Sink queue.reads.0.0_DO_4_LUT4_I3.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  5.30 Source queue.reads.0.0_DO_4_LUT4_I3.F
+Info:    routing  0.41  5.72 Net queue.reads.0.0_DO_4_LUT4_I3_F[1] (6,10) -> (6,10)
+Info:                          Sink queue.reads.0.0_DO_7_LUT4_I3_F_LUT3_I2_F_LUT4_F_1.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.10  6.82 Source queue.reads.0.0_DO_7_LUT4_I3_F_LUT3_I2_F_LUT4_F_1.F
+Info:    routing  0.48  7.29 Net queue.reads.0.0_DO_7_LUT4_I3_F_LUT3_I2_F[0] (6,10) -> (6,12)
+Info:                          Sink queue.reads.0.0_DO_10_ALU_SUM_COUT_ALU_CIN_SUM_LUT3_I2_F_LUT4_I3_F_LUT3_I2_F_LUT4_F.I0
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.03  8.32 Source queue.reads.0.0_DO_10_ALU_SUM_COUT_ALU_CIN_SUM_LUT3_I2_F_LUT4_I3_F_LUT3_I2_F_LUT4_F.F
+Info:    routing  0.41  8.74 Net queue.reads.0.0_DO_10_ALU_SUM_COUT_ALU_CIN_SUM_LUT3_I2_F_LUT4_I3_F_LUT3_I2_F[2] (6,12) -> (6,13)
+Info:                          Sink led_OBUF_O_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  9.56 Source led_OBUF_O_I_LUT1_F_I0_DFFCE_Q_CE_LUT4_F.F
+Info:    routing  1.85  11.41 Net led_OBUF_O_I_LUT1_F_I0_DFFCE_Q_CE (6,13) -> (6,13)
+Info:                          Sink led_OBUF_O_I_LUT1_F_I0_DFFCE_Q.CE
+Info:      setup  0.04  11.45 Source led_OBUF_O_I_LUT1_F_I0_DFFCE_Q.CE
+Info: 5.71 ns logic, 5.74 ns routing
+
+ERROR: Max frequency for clock 'clk': 87.33 MHz (FAIL at 99.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ -1350,   -847) |** 
+Info: [  -847,   -344) | 
+Info: [  -344,    159) | 
+Info: [   159,    662) |*** 
+Info: [   662,   1165) |******** 
+Info: [  1165,   1668) |************* 
+Info: [  1668,   2171) |************************************* 
+Info: [  2171,   2674) |******************* 
+Info: [  2674,   3177) |********** 
+Info: [  3177,   3680) |***************************** 
+Info: [  3680,   4183) |************ 
+Info: [  4183,   4686) |*************** 
+Info: [  4686,   5189) |********************************* 
+Info: [  5189,   5692) |**************************************************** 
+Info: [  5692,   6195) |************************************* 
+Info: [  6195,   6698) |*********************** 
+Info: [  6698,   7201) |**** 
+Info: [  7201,   7704) |***************** 
+Info: [  7704,   8207) |********************************************** 
+Info: [  8207,   8710) |******************************* 
+
+0 warnings, 1 error
+
+Info: Program finished normally.

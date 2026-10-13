@@ -1,0 +1,37 @@
+{
+  "scope": "Necessary startup-memory bound for the native-upper-fft IDF5.5.1 probe.\n\nNot a simulated boot. Overestimates available memory (all RTC fast RAM and no\nheap metadata) and underestimates required memory (stacks only, no TCBs,\nTASK_EXTRA_STACK_SIZE, event/Wi-Fi tasks, drivers, or allocation fragmentation).\nA failed bound is enough to reject this exact configuration even if it links.\n",
+  "profile": "native-upper-fft",
+  "map_sha256": "6bb8df74ad528b34925950744864725bd8618c94114404debb88b0a7dba3bc56",
+  "internal_DMA_heap_upper_bound_bytes": 8664,
+  "RTC_fast_heap_generous_upper_bound_bytes": 8192,
+  "total_internal_heap_generous_upper_bound_bytes": 16856,
+  "startup_stack_lower_bound_bytes": {
+    "main": 8192,
+    "esp_timer": 3584,
+    "IPC_two_cores": 2560,
+    "idle_two_cores": 3072
+  },
+  "total_stack_lower_bound_bytes": 17408,
+  "shortage_lower_bound_bytes": 552,
+  "startup_necessary_capacity_pass": false,
+  "configured_internal_DMA_pool_target_bytes": 32768,
+  "internal_DMA_pool_has_distinct_byte_capacity": false,
+  "heap_start": "0x3fcade28",
+  "fft_slot1": "0x3fc9ffd0",
+  "twiddle": "0x3fc9bfd0",
+  "default_dynamic_FreeRTOS_allocation": "MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT; allowing explicit external static stacks does not relocate xTaskCreatePinnedToCore stacks",
+  "sources": [
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/port/esp32s3/memory_layout.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/heap_idf.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/port_common.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/app_startup.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_system/esp_ipc.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_timer/src/esp_timer.c",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_system/include/esp_task.h",
+    "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_psram/system_layer/esp_psram.c"
+  ],
+  "hardware_boot_executed": false,
+  "receiver_adopted": false,
+  "input_profile_source_commit": "f2012cdf114b0db66a8a2453ad24257cce37636a",
+  "input_workflow_run": "https://github.com/kazuki0824/tangviterbi/actions/runs/37949916628"
+}

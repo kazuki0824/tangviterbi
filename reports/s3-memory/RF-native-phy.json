@@ -1,0 +1,27 @@
+{
+  "scope": "Link the pinned upstream RF application with all new static reservations.\n\nThis deliberately retains upstream SPEC/IQS features as a conservative overlay;\nit is NOT an integrated receiver and must not be flashed. The upstream app owns\ncore1 manually and masks interrupts. Replacing that scheduler is a separate gate.\nThe diagnostic uses the same IDF 5.5.1 as our actual SPI adapter. Upstream's own\n25fe69f SDK pin differs: report compatibility rather than silently conflating it.\n",
+  "profile": "native-phy",
+  "RF_bank_loop_linked": false,
+  "native_PHY_only_lower_bound": true,
+  "upstream_commit": "e74f2a470972ec163c247f1fe88d32e08579242a",
+  "upstream_requested_IDF": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "exit_code": 0,
+  "link_succeeded": true,
+  "symbols": {
+    "_bss_start": "0x3fcac888",
+    "_bss_end": "0x3fcaff48",
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x40388000",
+    "_data_end": "0x3fcac884"
+  },
+  "receiver_adopted": false,
+  "functional_RF_SPI_integration": false,
+  "safe_to_flash": false,
+  "errors": [],
+  "static_gap_to_RF_bytes": 184,
+  "source_commit": "c75d96aaff0ca1454bf8cd6820c1cc7e4443b8c5",
+  "workflow_run": "https://github.com/kazuki0824/tangviterbi/actions/runs/37947639138",
+  "audit_note": "The upstream MINIMAL_BUILD omitted esp_psram. SPIRAM settings were unknown/ineffective. These are historical no-PSRAM-link lower bounds, not a qualified N16R8 firmware.",
+  "requested_PSRAM_configuration_effective": false
+}

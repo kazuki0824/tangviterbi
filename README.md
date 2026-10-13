@@ -1,4 +1,60 @@
+2026-10-12追加：[指定順1〜6の進捗・同時メモリ／直接BSRAM部分実装](reports/s3-ordered-evaluation.md)。全体性能・採用は未確定。
+
+> **2026-10-12 S3-N16R8 recheck:** [API CPU sensitivity and all T mode periods](reports/s3-link-cpu-sensitivity.md)
+> distinguish the old 200 cycles/page charge from 20 us/API CPU-active time.
+> Under the latter scenario, the T-A Mode3 low model uses 99.313% aggregate CPU;
+> S solver headroom is about 1216–1317 cycles/codeword. The old fixed Octal/Quad
+> route exceeds Octal time capacity in T Modes 1/2. These scoped failures do not
+> prove all partitions impossible. Whole resources/WCET and receiver adoption
+> remain unverified.
+>
+> [PR4 estimate completion conditions](reports/pr4-estimate-completion.md):
+> current evidence does not establish a best receiver candidate. Individual
+> validation continues. A bounded two-core FFT worker now services native RF
+> between tiles and returns at stage barriers; 21 host tests and target compile
+> pass. Real RTOS/DMA integration and simultaneous WCET remain unverified.
+>
+> **2026-10-11 follow-up: estimate remains incomplete.**
+> Actual target-code and packed-netlist checks reject the current scalar FFT
+> (ideal two-core lower bound 3.550/3.883 ms versus a 1.0395 ms T period),
+> the selected S Forney partial netlist (9426/8640 logic sites), and the
+> baseline T FEC + physical memory netlist (9001/8640). Compact T is 8605 sites,
+> but placement timed out; fit/Fmax remain unknown.
+> [Pinned SIMD FFT and short stage tiles](reports/s3-fft-simd.md) replace the
+> missing target implementation with compilable code and host ANSI order/
+> ownership tests. Silicon timing and RF/RTOS integration are still unverified.
+> [T co-placement evidence](reports/s3-t-fec-resource.md) and
+> [RF/core deadline gates](reports/s3-rf-schedule-closure.md) preserve failures.
+> The execution environment recovered. All 15 SIMD/startup host tests and
+> the tiled S3 target compilation were reproduced; object/disassembly evidence
+> is retained. Full SDK/joint-scheduler validation remains pending.
+>
+> **2026-10-11 partition re-audit: incomplete estimate, no adopted receiver.**
+> [The 320 ownership / 18 transport-profile audit](reports/s3-partition-audit.md)
+> records the new lossless transfer calculations and the remaining performance
+> gates. Its 24 CPU-average screening rows are not feasible receiver candidates.
+> Full FPGA resources and concurrent RF/FFT/RS/RPC deadlines remain unknown;
+> the proposed T-FFT/S-BM-Omega order is a validation order only.
+>
+> S3 receiver status update: the old late SRAM ring overlaps ROM-reserved data
+> and is rejected. A ROM-safe direct-PHY link profile passes necessary startup
+> capacity checks but is not verified on hardware. New native bank capture,
+> SPI RX/CDC, depuncturing/erasures and TC8PSK metric/survivor components are
+> implemented; the full receiver remains unadopted. See the
+> [current evidence and separate offline/hardware gaps](reports/s3-receiver-blockers.md).
+
 # tangviterbi
+
+> **S3-N16R8 receiver audit (2026-10-09): not a qualified receiver.**
+> The legacy Viterbi benchmark below fails an independent no-noise decoding
+> test. Its old Fmax numbers do not qualify a working receiver decoder.
+> A reverse-traceback experiment now passes independent bit/metric/reset
+> tests. Its pipelined survivor read now reaches 104.06 MHz in the partial
+> FEC/protocol benchmark (99 MHz target). Exact quarter FFT coefficients
+> increase the RF/PSRAM link gap to 20,680 B; runtime memory remains unproven.
+> See the [current blockers and actual evidence](reports/s3-receiver-blockers.md)
+> before using any earlier resource, transport, or SRAM estimate.
+
 
 Resource/timing benchmark for an ISDB-T-oriented FEC partition on Sipeed Tang Nano 9K.
 
@@ -27,7 +83,7 @@ The job driver/report/test share [performance.json](ci/performance.json).
 Optimization target FPGA: **GW1NR-LV9QN88PC6/I5**. The legacy ISDB-S rate is a
 sizing profile, not a qualified satellite receiver implementation.
 
-## Current 9K result
+## Historical 9K benchmark result
 
 At 65 MHz constraint and adopted common seed 1, both complete 32-ACS +
 constant-RS designs finish routing and clear the ISDB-T / legacy ISDB-S sizing
@@ -44,7 +100,7 @@ on the output edge, splitting selection across the existing two phases.
 It retains 16-bit metrics and two clocks/step. Both Viterbi versions saturate
 the warm-up counter, so output no longer stops again every 256 steps.
 
-The full suite passes **21 unittest methods**. The 32-ACS test independently
+The original baseline report recorded **21 passing unittest methods**. The 32-ACS test independently
 models metrics, survivor rows, pointer/state and selected output bits; it
 checks 936 outputs per 1000-step reset epoch, all 64 selector indices,
 uninterrupted two-clock input, randomized stalls and a reset between phases.
@@ -62,6 +118,21 @@ do not demonstrate better routed timing.
 End-to-end sustained throughput, complete convolutional decoder output and
 ARIB-compatible RS correction qualification, and a physical PSRAM interface
 remain outside the measured scope.
+
+The separate [S3-N16R8 receiver proposal](reports/s3-internal-sram-proposal.md)
+records six zero-DSP area experiments, corrected internal-SRAM accounting,
+and conditional T/S transport budgets. It does not replace the adopted RTL
+or qualify a full receiver. The [offline follow-up](reports/s3-offline-closure.md)
+implements a bounded RS experiment with independent ISDB outer-code vectors,
+checks a real ESP-IDF memory map, and tests concurrent Q15 FFT tiles and stream
+ownership. It also records failed intermediate layouts and timing results.
+The [SPI transport follow-up](reports/s3-transport-followup.md) adds a pinned
+ESP-IDF SPI/SCT adapter, lossless IQ10 packing, page leases, and an FFT-aware
+RF admission guard. Actual hot-IRAM SDK links leave 24768 bytes before the RF
+banks after relocating the RF queue to reserved post-startup SRAM. The former
+2-us transport-gap assumption is superseded by explicit API/SCT timing contracts;
+these remain conditional and do not qualify the complete receiver.
+Production RTL and the original benchmark gates are unchanged.
 
 ## RTL
 
@@ -228,3 +299,5 @@ A failed fit/timing result intentionally makes the job fail.
 ## Scope
 
 A timing PASS at 110 MHz establishes clock margin. Sustained throughput also requires the per-step/per-block service budgets and bounded buffering. It does not prove a complete ISDB-T receiver. RF acquisition, depuncturing/interleaving integration, S31↔FPGA transport, clock-domain crossings, and bit-exact end-to-end verification remain separate tasks.
+
+4 SoCの全1280分担・7040費用profileとT/S別image比較は[比較台帳](reports/four-soc-comparison.md)。仮説比較は開始可能、最良確定と受信機採用は未達。

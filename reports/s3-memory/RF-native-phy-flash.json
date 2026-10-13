@@ -1,0 +1,46 @@
+{
+  "scope": "Link the pinned upstream RF application with all new static reservations.\n\nThis deliberately retains upstream SPEC/IQS features as a conservative overlay;\nit is NOT an integrated receiver and must not be flashed. The upstream app owns\ncore1 manually and masks interrupts. Replacing that scheduler is a separate gate.\nThe diagnostic uses the same IDF 5.5.1 as our actual SPI adapter. Upstream's own\n25fe69f SDK pin differs: report compatibility rather than silently conflating it.\n",
+  "profile": "native-phy-flash",
+  "RF_bank_loop_linked": false,
+  "native_PHY_only_lower_bound": true,
+  "upstream_commit": "e74f2a470972ec163c247f1fe88d32e08579242a",
+  "upstream_requested_IDF": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+  "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "exit_code": 0,
+  "link_succeeded": true,
+  "symbols": {
+    "_bss_start": "0x3fcac888",
+    "_bss_end": "0x3fcaff48",
+    "_iram_start": "0x40374000",
+    "_iram_end": "0x40388000",
+    "_data_end": "0x3fcac884"
+  },
+  "receiver_adopted": false,
+  "functional_RF_SPI_integration": false,
+  "safe_to_flash": false,
+  "errors": [],
+  "static_gap_to_RF_bytes": 184,
+  "hot_functions": {
+    "s3_fft_stage_tile": "0x403773b4",
+    "s3_fft_reverse_tile": "0x4037b8bc",
+    "s3_iq10_push": "0x40376ae8",
+    "s3_spi_queue": "0x40377008",
+    "s3_rf_submit": "0x403770c4",
+    "s3_capture_accept": "0x403771e0",
+    "s3_capture_reclaim": "0x4037b88c",
+    "s3_capture_step": "0x403772b4"
+  },
+  "inspected_hot_functions_in_IRAM": true,
+  "effective_config": {
+    "ESP_WIFI_IRAM_OPT": false,
+    "ESP_WIFI_RX_IRAM_OPT": false,
+    "ESP_WIFI_EXTRA_IRAM_OPT": false,
+    "SPI_MASTER_IN_IRAM": true,
+    "SPI_MASTER_ISR_IN_IRAM": true,
+    "ESP32S3_DATA_CACHE_32KB": true
+  },
+  "source_commit": "f65379f413d8aa421f863dfdb40c187604544b1c",
+  "workflow_run": "https://github.com/kazuki0824/tangviterbi/actions/runs/37948696584",
+  "audit_note": "The upstream MINIMAL_BUILD omitted esp_psram. SPIRAM settings were unknown/ineffective. These are historical no-PSRAM-link lower bounds, not a qualified N16R8 firmware.",
+  "requested_PSRAM_configuration_effective": false
+}

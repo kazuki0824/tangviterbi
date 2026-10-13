@@ -1,0 +1,57 @@
+{
+  "scope": "Audit reservations against the actual ESP32-S3 ROM layout, not heap totals.\n\nThe SDK appends the ROM reservation at runtime, hence ld cannot detect this\ncollision. The supplied ROM ELF is revision-specific; runtime hardware still\nmust match its layout. No ELF is executed by this tool.\n",
+  "ELF_sha256": "22bf3691944e2dc4d5107d67d5c45fa3345244cf927161b0cf75347764afa472",
+  "ROM_ELF_sha256": "c0ce0f338d1de1bdc6efbef1591779a2a42c1ab7d759d3c6ae8ae63a7dd34cfd",
+  "ROM_shared_buffer_start": "0x3fce9704",
+  "ROM_reserved_start": "0x3fceee34",
+  "ROM_reserved_end": "0x3fcf0000",
+  "static_reservations": [
+    {
+      "start": "0x600fffe8",
+      "end": "0x60100000"
+    },
+    {
+      "start": "0x600fe000",
+      "end": "0x600fe000"
+    },
+    {
+      "start": "0x3c000000",
+      "end": "0x3e000000"
+    },
+    {
+      "start": "0x40374000",
+      "end": "0x40389800"
+    },
+    {
+      "start": "0x3fc84000",
+      "end": "0x3fc99800"
+    },
+    {
+      "start": "0x3fc99800",
+      "end": "0x3fcaaf38"
+    },
+    {
+      "start": "0x3fcb0000",
+      "end": "0x3fce0000"
+    },
+    {
+      "start": "0x3fce0000",
+      "end": "0x3fce8000"
+    },
+    {
+      "start": "0x3fce8000",
+      "end": "0x3fcf8000"
+    }
+  ],
+  "conflicts": [
+    {
+      "start": "0x3fce8000",
+      "end": "0x3fcf8000",
+      "overlap_bytes": 4556
+    }
+  ],
+  "ROM_reservation_nonoverlap_pass": false,
+  "SDK_behavior_on_overlap": "s_prepare_reserved_regions logs conflict then aborts before app_main",
+  "hardware_revision_layout_verified": false,
+  "receiver_adopted": false
+}

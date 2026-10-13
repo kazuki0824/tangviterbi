@@ -1,0 +1,4519 @@
+{
+  "scope": "Two fixed ownerships; all subsets of the explicitly listed ports. GPIO count is a necessary condition, not an electrical pin/timing proof. No receiver is certified.",
+  "FEC_kind": "isdb-predecode4",
+  "FEC_tool": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "clock_plan": {
+    "DSP_memory_MHz": 99,
+    "TS_MHz": 66,
+    "PLL_reserved": 2,
+    "PLL_and_full_STA_verified": false
+  },
+  "modes": {
+    "T": [
+      {
+        "ports": [
+          "SPI2_Quad80",
+          "LCD16_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Quad80",
+            "MBps": 4.228688628421864
+          },
+          {
+            "flow": 0,
+            "port": "LCD16_40",
+            "MBps": 35.771311371578136
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Quad80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "LCD16_40",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SPI2",
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.75153615126939,
+            "spare_MBps": 3.2198924201591765,
+            "arrival_us": 114.45662034454175,
+            "additional_gap_limit_us": 9.456620344541747
+          },
+          {
+            "name": "LCD16_40",
+            "kind": "down",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 19,
+            "exclusive_group": "LCD",
+            "service_us": 51.35,
+            "effective_MBps": 79.68841285296982,
+            "used_MBps": 67.29415889442566,
+            "spare_MBps": 12.394253958544155,
+            "arrival_us": 60.807655036148496,
+            "additional_gap_limit_us": 9.457655036148495
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8344,
+          "FF": 6306,
+          "BSRAM": 16,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476224,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9173781270487017,
+        "module_signals_including_controls": 28,
+        "FPGA_header_signals_including_TS": 31,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 71.52284752284753,
+            "spare_MBps": 4.749286680321163,
+            "arrival_us": 57.21248722225211,
+            "additional_gap_limit_us": 3.562487222252109
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 31.522847522847524,
+            "spare_MBps": 7.448581048581044,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 24.81060791015625
+          }
+        ],
+        "allocation_policy": "fixed primary directions",
+        "resources": {
+          "logic_sites_estimate": 8344,
+          "FF": 6306,
+          "BSRAM": 16,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476224,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9377323483872848,
+        "module_signals_including_controls": 19,
+        "FPGA_header_signals_including_TS": 22,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 34.9859385621424
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 5.014061437857599
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "LCD8_40",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 66.50878608498992,
+            "spare_MBps": 9.763348118178769,
+            "arrival_us": 61.52570571309082,
+            "additional_gap_limit_us": 7.875705713090824
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 36.53690896070512,
+            "spare_MBps": 3.30729746577979,
+            "arrival_us": 111.99633785115437,
+            "additional_gap_limit_us": 9.296337851154362
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8344,
+          "FF": 6306,
+          "BSRAM": 16,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476224,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9169942693705807,
+        "module_signals_including_controls": 24,
+        "FPGA_header_signals_including_TS": 27,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "CAM8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 71.52284752284753,
+            "spare_MBps": 4.749286680321163,
+            "arrival_us": 57.21248722225211,
+            "additional_gap_limit_us": 3.562487222252109
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522847522847524,
+            "spare_MBps": 8.321358903637385,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 27.110607910156247
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8344,
+          "FF": 6306,
+          "BSRAM": 16,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476224,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9377323483872849,
+        "module_signals_including_controls": 24,
+        "FPGA_header_signals_including_TS": 27,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 6.191653838393066
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 33.808346161606934
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 69.2373488840881,
+            "spare_MBps": 7.034785319080584,
+            "arrival_us": 59.10104973618378,
+            "additional_gap_limit_us": 5.4510497361837835
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.808346161606934,
+            "spare_MBps": 3.006768548244615,
+            "arrival_us": 121.03520179425139,
+            "additional_gap_limit_us": 9.885201794251387
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8344,
+          "FF": 6306,
+          "BSRAM": 16,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476224,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.918327877776787,
+        "module_signals_including_controls": 23,
+        "FPGA_header_signals_including_TS": 26,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI3_Quad80",
+          "LCD16_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 4.228688628421864
+          },
+          {
+            "flow": 0,
+            "port": "LCD16_40",
+            "MBps": 35.771311371578136
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "LCD16_40",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.75153615126939,
+            "spare_MBps": 3.2198924201591765,
+            "arrival_us": 114.45662034454175,
+            "additional_gap_limit_us": 9.456620344541747
+          },
+          {
+            "name": "LCD16_40",
+            "kind": "down",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 19,
+            "exclusive_group": "LCD",
+            "service_us": 51.35,
+            "effective_MBps": 79.68841285296982,
+            "used_MBps": 67.29415889442566,
+            "spare_MBps": 12.394253958544155,
+            "arrival_us": 60.807655036148496,
+            "additional_gap_limit_us": 9.457655036148495
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8344,
+          "FF": 6306,
+          "BSRAM": 16,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476224,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9173781270487017,
+        "module_signals_including_controls": 28,
+        "FPGA_header_signals_including_TS": 31,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Quad80",
+          "SPI3_Quad80",
+          "LCD8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Quad80",
+            "MBps": 2.825717492383902
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 2.8257174923841903
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 34.34856501523158
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Quad80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SPI2",
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 34.34856501523143,
+            "spare_MBps": 4.622863556197139,
+            "arrival_us": 119.13161432465826,
+            "additional_gap_limit_us": 14.131614324658258
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 34.34856501523172,
+            "spare_MBps": 4.622863556196847,
+            "arrival_us": 119.13161432465725,
+            "additional_gap_limit_us": 14.13161432465725
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 34.34856501523158,
+            "spare_MBps": 5.495641411253331,
+            "arrival_us": 119.13161432465773,
+            "additional_gap_limit_us": 16.43161432465773
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9012756862475316,
+        "module_signals_including_controls": 26,
+        "FPGA_header_signals_including_TS": 29,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Quad80",
+          "SPI3_Quad80",
+          "CAM8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Quad80",
+            "MBps": 4.238576238576236
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 35.761423761423764
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Quad80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SPI2",
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.76142376142376,
+            "spare_MBps": 3.2100048100048113,
+            "arrival_us": 114.42497444450424,
+            "additional_gap_limit_us": 9.424974444504244
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.761423761423764,
+            "spare_MBps": 3.210004810004804,
+            "arrival_us": 114.42497444450422,
+            "additional_gap_limit_us": 9.424974444504215
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522847522847524,
+            "spare_MBps": 8.321358903637385,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 27.110607910156247
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9176318413855074,
+        "module_signals_including_controls": 26,
+        "FPGA_header_signals_including_TS": 29,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Quad80",
+          "SPI3_Quad80",
+          "SDIO8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Quad80",
+            "MBps": 3.4045088134636106
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 3.4045088134635693
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 33.190982373072956
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847528
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Quad80",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SPI2",
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 34.927356336311135,
+            "spare_MBps": 4.044072235117433,
+            "arrival_us": 117.15744989682715,
+            "additional_gap_limit_us": 12.157449896827146
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 34.9273563363111,
+            "spare_MBps": 4.0440722351174685,
+            "arrival_us": 117.15744989682727,
+            "additional_gap_limit_us": 12.157449896827274
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.190982373072956,
+            "spare_MBps": 3.624132336778594,
+            "arrival_us": 123.28649854364483,
+            "additional_gap_limit_us": 12.13649854364482
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9015585754562705,
+        "module_signals_including_controls": 25,
+        "FPGA_header_signals_including_TS": 28,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Quad80",
+          "LCD8_40",
+          "SDIO8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 6.809017626927049
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 33.190982373072956
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Quad80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Quad80",
+            "MBps": 3.404508813463399
+          },
+          {
+            "flow": 2,
+            "port": "LCD8_40",
+            "MBps": 28.118338709384126
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SPI2",
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 34.92735633631092,
+            "spare_MBps": 4.044072235117646,
+            "arrival_us": 117.15744989682786,
+            "additional_gap_limit_us": 12.157449896827856
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 34.92735633631118,
+            "spare_MBps": 4.916850090173732,
+            "arrival_us": 117.157449896827,
+            "additional_gap_limit_us": 14.457449896827
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.190982373072956,
+            "spare_MBps": 3.624132336778594,
+            "arrival_us": 123.28649854364483,
+            "additional_gap_limit_us": 12.13649854364482
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9015585754562705,
+        "module_signals_including_controls": 30,
+        "FPGA_header_signals_including_TS": 33,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Quad80",
+          "CAM8_40",
+          "SDIO8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Quad80",
+            "MBps": 5.256076845251023
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 34.74392315474898
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Quad80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SPI2",
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 36.778924368098544,
+            "spare_MBps": 2.1925042033300244,
+            "arrival_us": 111.25937123787492,
+            "additional_gap_limit_us": 6.259371237874916
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522847522847524,
+            "spare_MBps": 8.321358903637385,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 27.110607910156247
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 34.74392315474898,
+            "spare_MBps": 2.0711915551025726,
+            "arrival_us": 117.77599155323611,
+            "additional_gap_limit_us": 6.625991553236105
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9437407279204177,
+        "module_signals_including_controls": 30,
+        "FPGA_header_signals_including_TS": 33,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "LCD8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 2.825717492383902
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 2.8257174923841903
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 34.34856501523158
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 34.34856501523143,
+            "spare_MBps": 41.92356918793726,
+            "arrival_us": 119.13161432465826,
+            "additional_gap_limit_us": 65.48161432465827
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 34.34856501523172,
+            "spare_MBps": 4.622863556196847,
+            "arrival_us": 119.13161432465725,
+            "additional_gap_limit_us": 14.13161432465725
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 34.34856501523158,
+            "spare_MBps": 5.495641411253331,
+            "arrival_us": 119.13161432465773,
+            "additional_gap_limit_us": 16.43161432465773
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9012756862475316,
+        "module_signals_including_controls": 30,
+        "FPGA_header_signals_including_TS": 33,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "CAM8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 4.837675951961401
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 35.1623240480386
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 36.36052347480893,
+            "spare_MBps": 39.91161072835976,
+            "arrival_us": 112.53963389264717,
+            "additional_gap_limit_us": 58.889633892647176
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.1623240480386,
+            "spare_MBps": 3.809104523389969,
+            "arrival_us": 116.37456029383976,
+            "additional_gap_limit_us": 11.374560293839764
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522847522847524,
+            "spare_MBps": 8.321358903637385,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 27.110607910156247
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9022590481534835,
+        "module_signals_including_controls": 30,
+        "FPGA_header_signals_including_TS": 33,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "SDIO4_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 18.70212985733852
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 3.903561361483989
+          },
+          {
+            "flow": 0,
+            "port": "SDIO4_40",
+            "MBps": 17.394308781177504
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847528
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 50.22497738018605,
+            "spare_MBps": 26.047156822982643,
+            "arrival_us": 81.47340652888597,
+            "additional_gap_limit_us": 27.823406528885975
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.426408884331515,
+            "spare_MBps": 3.545019687097053,
+            "arrival_us": 115.50705049898016,
+            "additional_gap_limit_us": 10.507050498980163
+          },
+          {
+            "name": "SDIO4_40",
+            "kind": "half",
+            "capacity_Bps": 20000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SDHOST",
+            "service_us": 213.85,
+            "effective_MBps": 19.134907645545944,
+            "used_MBps": 17.394308781177504,
+            "spare_MBps": 1.7405988643684402,
+            "arrival_us": 235.24935951625628,
+            "additional_gap_limit_us": 21.399359516256283
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9090354185862192,
+        "module_signals_including_controls": 25,
+        "FPGA_header_signals_including_TS": 28,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "SDIO8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 3.4045088134636106
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 3.4045088134635693
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 33.190982373072956
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847528
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 34.927356336311135,
+            "spare_MBps": 41.344777866857555,
+            "arrival_us": 117.15744989682715,
+            "additional_gap_limit_us": 63.50744989682715
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 34.9273563363111,
+            "spare_MBps": 4.0440722351174685,
+            "arrival_us": 117.15744989682727,
+            "additional_gap_limit_us": 12.157449896827274
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.190982373072956,
+            "spare_MBps": 3.624132336778594,
+            "arrival_us": 123.28649854364483,
+            "additional_gap_limit_us": 12.13649854364482
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9015585754562705,
+        "module_signals_including_controls": 29,
+        "FPGA_header_signals_including_TS": 32,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "I2S0_RX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 4.333662672529719
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 35.66633732747028
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 26.964710449594868
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 4.558137073252655
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 62.821220644972115,
+            "spare_MBps": 13.450913558196575,
+            "arrival_us": 65.13722525586587,
+            "additional_gap_limit_us": 11.487225255865873
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.66633732747028,
+            "spare_MBps": 3.3050912439582874,
+            "arrival_us": 114.73003135784099,
+            "additional_gap_limit_us": 9.730031357840986
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.558137073252655,
+            "spare_MBps": 0.42238873005795874,
+            "arrival_us": 897.7351787009725,
+            "additional_gap_limit_us": 76.13517870097246
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9151919402210119,
+        "module_signals_including_controls": 22,
+        "FPGA_header_signals_including_TS": 25,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.44186292674735
+          },
+          {
+            "flow": 0,
+            "port": "I2S0_TX40",
+            "MBps": 4.558137073252655
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 27.379357718224764
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 4.14348980462276
+          },
+          {
+            "flow": 2,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 62.821220644972115,
+            "spare_MBps": 13.450913558196575,
+            "arrival_us": 65.13722525586587,
+            "additional_gap_limit_us": 11.487225255865873
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.66633732747029,
+            "spare_MBps": 3.3050912439582802,
+            "arrival_us": 114.73003135784097,
+            "additional_gap_limit_us": 9.730031357840971
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.558137073252655,
+            "spare_MBps": 0.42238873005795874,
+            "arrival_us": 897.7351787009725,
+            "additional_gap_limit_us": 76.13517870097246
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9151919402210118,
+        "module_signals_including_controls": 22,
+        "FPGA_header_signals_including_TS": 25,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "I2S1_RX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 4.333662672529719
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 35.66633732747028
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 26.964710449594868
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 4.558137073252655
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 62.821220644972115,
+            "spare_MBps": 13.450913558196575,
+            "arrival_us": 65.13722525586587,
+            "additional_gap_limit_us": 11.487225255865873
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.66633732747028,
+            "spare_MBps": 3.3050912439582874,
+            "arrival_us": 114.73003135784099,
+            "additional_gap_limit_us": 9.730031357840986
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.558137073252655,
+            "spare_MBps": 0.42238873005795874,
+            "arrival_us": 897.7351787009725,
+            "additional_gap_limit_us": 76.13517870097246
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9151919402210119,
+        "module_signals_including_controls": 22,
+        "FPGA_header_signals_including_TS": 25,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.44186292674735
+          },
+          {
+            "flow": 0,
+            "port": "I2S1_TX40",
+            "MBps": 4.558137073252655
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 27.379357718224764
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 4.14348980462276
+          },
+          {
+            "flow": 2,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 62.821220644972115,
+            "spare_MBps": 13.450913558196575,
+            "arrival_us": 65.13722525586587,
+            "additional_gap_limit_us": 11.487225255865873
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.66633732747029,
+            "spare_MBps": 3.3050912439582802,
+            "arrival_us": 114.73003135784097,
+            "additional_gap_limit_us": 9.730031357840971
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.558137073252655,
+            "spare_MBps": 0.42238873005795874,
+            "arrival_us": 897.7351787009725,
+            "additional_gap_limit_us": 76.13517870097246
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9151919402210118,
+        "module_signals_including_controls": 22,
+        "FPGA_header_signals_including_TS": 25,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40",
+          "SDIO4_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 17.93097364492524
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 4.681929696529134
+          },
+          {
+            "flow": 0,
+            "port": "SDIO4_40",
+            "MBps": 17.387096658545627
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "LCD8_40",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 49.45382116777276,
+            "spare_MBps": 26.81831303539593,
+            "arrival_us": 82.74385888438903,
+            "additional_gap_limit_us": 29.09385888438903
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 36.20477721937666,
+            "spare_MBps": 3.6394292071082504,
+            "arrival_us": 113.02375858316226,
+            "additional_gap_limit_us": 10.32375858316226
+          },
+          {
+            "name": "SDIO4_40",
+            "kind": "half",
+            "capacity_Bps": 20000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SDHOST",
+            "service_us": 213.85,
+            "effective_MBps": 19.134907645545944,
+            "used_MBps": 17.387096658545627,
+            "spare_MBps": 1.7478109870003173,
+            "arrival_us": 235.34694034088852,
+            "additional_gap_limit_us": 21.49694034088853
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9086585093914913,
+        "module_signals_including_controls": 30,
+        "FPGA_header_signals_including_TS": 33,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40",
+          "I2S0_RX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.072972647327504
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 4.927027352672496
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 26.966613163407516
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 4.556234359440007
+          },
+          {
+            "flow": 2,
+            "port": "LCD8_40",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 62.03958581073502,
+            "spare_MBps": 14.23254839243367,
+            "arrival_us": 65.95788715423598,
+            "additional_gap_limit_us": 12.307887154235978
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 36.449874875520024,
+            "spare_MBps": 3.3943315509648855,
+            "arrival_us": 112.26375986130515,
+            "additional_gap_limit_us": 9.563759861305144
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.556234359440007,
+            "spare_MBps": 0.42429144387060624,
+            "arrival_us": 898.1100788904404,
+            "additional_gap_limit_us": 76.51007889044035
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9148099095102411,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 30.5167382878875
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 9.483261712112503
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "LCD8_40",
+            "MBps": 26.966613163407523
+          },
+          {
+            "flow": 2,
+            "port": "I2S0_TX40",
+            "MBps": 4.556234359440002
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 62.03958581073502,
+            "spare_MBps": 14.23254839243367,
+            "arrival_us": 65.95788715423598,
+            "additional_gap_limit_us": 12.307887154235978
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 36.449874875520024,
+            "spare_MBps": 3.3943315509648855,
+            "arrival_us": 112.26375986130515,
+            "additional_gap_limit_us": 9.563759861305144
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.556234359440002,
+            "spare_MBps": 0.4242914438706116,
+            "arrival_us": 898.1100788904414,
+            "additional_gap_limit_us": 76.51007889044138
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9148099095102409,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40",
+          "I2S1_RX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.072972647327504
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 4.927027352672496
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 26.966613163407516
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 4.556234359440007
+          },
+          {
+            "flow": 2,
+            "port": "LCD8_40",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 62.03958581073502,
+            "spare_MBps": 14.23254839243367,
+            "arrival_us": 65.95788715423598,
+            "additional_gap_limit_us": 12.307887154235978
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 36.449874875520024,
+            "spare_MBps": 3.3943315509648855,
+            "arrival_us": 112.26375986130515,
+            "additional_gap_limit_us": 9.563759861305144
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.556234359440007,
+            "spare_MBps": 0.42429144387060624,
+            "arrival_us": 898.1100788904404,
+            "additional_gap_limit_us": 76.51007889044035
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9148099095102411,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 30.5167382878875
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 9.483261712112503
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "LCD8_40",
+            "MBps": 26.966613163407523
+          },
+          {
+            "flow": 2,
+            "port": "I2S1_TX40",
+            "MBps": 4.556234359440002
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 62.03958581073502,
+            "spare_MBps": 14.23254839243367,
+            "arrival_us": 65.95788715423598,
+            "additional_gap_limit_us": 12.307887154235978
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 36.449874875520024,
+            "spare_MBps": 3.3943315509648855,
+            "arrival_us": 112.26375986130515,
+            "additional_gap_limit_us": 9.563759861305144
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.556234359440002,
+            "spare_MBps": 0.4242914438706116,
+            "arrival_us": 898.1100788904414,
+            "additional_gap_limit_us": 76.51007889044138
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9148099095102409,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "CAM8_40",
+          "SDIO4_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 22.569522014639197
+          },
+          {
+            "flow": 0,
+            "port": "SDIO4_40",
+            "MBps": 17.430477985360803
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.52284752284752
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 54.09236953748672,
+            "spare_MBps": 22.179764665681972,
+            "arrival_us": 75.64837767301339,
+            "additional_gap_limit_us": 21.998377673013387
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.52284752284752,
+            "spare_MBps": 8.321358903637389,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 27.110607910156247
+          },
+          {
+            "name": "SDIO4_40",
+            "kind": "half",
+            "capacity_Bps": 20000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SDHOST",
+            "service_us": 213.85,
+            "effective_MBps": 19.134907645545944,
+            "used_MBps": 17.430477985360803,
+            "spare_MBps": 1.7044296601851414,
+            "arrival_us": 234.76120410677868,
+            "additional_gap_limit_us": 20.911204106778683
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9109256395819673,
+        "module_signals_including_controls": 30,
+        "FPGA_header_signals_including_TS": 33,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "CAM8_40",
+          "I2S0_RX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522846522847523
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 1e-06
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 71.52284752284753,
+            "spare_MBps": 4.749286680321163,
+            "arrival_us": 57.21248722225211,
+            "additional_gap_limit_us": 3.562487222252109
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522846522847523,
+            "spare_MBps": 8.321359903637386,
+            "arrival_us": 129.8106120281412,
+            "additional_gap_limit_us": 27.110612028141205
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 1e-06,
+            "spare_MBps": 4.9805248033106135,
+            "arrival_us": 4092000000.0,
+            "additional_gap_limit_us": 4091999178.4
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9377323483872848,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "CAM8_40",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.43180102824171
+          },
+          {
+            "flow": 0,
+            "port": "I2S0_TX40",
+            "MBps": 4.568198971758292
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 66.95464855108924,
+            "spare_MBps": 9.317485652079455,
+            "arrival_us": 61.11599550668436,
+            "additional_gap_limit_us": 7.465995506684358
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522847522847524,
+            "spare_MBps": 8.321358903637385,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 27.110607910156247
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.568198971758292,
+            "spare_MBps": 0.4123268315523214,
+            "arrival_us": 895.7578304486584,
+            "additional_gap_limit_us": 74.15783044865839
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.917212188464471,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "CAM8_40",
+          "I2S1_RX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522846522847523
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 1e-06
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 71.52284752284753,
+            "spare_MBps": 4.749286680321163,
+            "arrival_us": 57.21248722225211,
+            "additional_gap_limit_us": 3.562487222252109
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522846522847523,
+            "spare_MBps": 8.321359903637386,
+            "arrival_us": 129.8106120281412,
+            "additional_gap_limit_us": 27.110612028141205
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 1e-06,
+            "spare_MBps": 4.9805248033106135,
+            "arrival_us": 4092000000.0,
+            "additional_gap_limit_us": 4091999178.4
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9377323483872848,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "CAM8_40",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.43180102824171
+          },
+          {
+            "flow": 0,
+            "port": "I2S1_TX40",
+            "MBps": 4.568198971758292
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 66.95464855108924,
+            "spare_MBps": 9.317485652079455,
+            "arrival_us": 61.11599550668436,
+            "additional_gap_limit_us": 7.465995506684358
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522847522847524,
+            "spare_MBps": 8.321358903637385,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 27.110607910156247
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.568198971758292,
+            "spare_MBps": 0.4123268315523214,
+            "arrival_us": 895.7578304486584,
+            "additional_gap_limit_us": 74.15783044865839
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.917212188464471,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO8_40",
+          "I2S0_RX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 6.2723050942716085
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 33.72769490572839
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 26.96000272151876
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 4.562844801328764
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 64.75515533863789,
+            "spare_MBps": 11.516978864530799,
+            "arrival_us": 63.19187991443824,
+            "additional_gap_limit_us": 9.54187991443824
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.72769490572839,
+            "spare_MBps": 3.087419804123158,
+            "arrival_us": 121.32462688118675,
+            "additional_gap_limit_us": 10.17462688118674
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.562844801328764,
+            "spare_MBps": 0.4176810019818493,
+            "arrival_us": 896.8089378819881,
+            "additional_gap_limit_us": 75.20893788198805
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9161371673440157,
+        "module_signals_including_controls": 26,
+        "FPGA_header_signals_including_TS": 29,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO8_40",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.43715519867124
+          },
+          {
+            "flow": 0,
+            "port": "I2S0_TX40",
+            "MBps": 4.5628448013287635
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 29.318000139966657
+          },
+          {
+            "flow": 1,
+            "port": "SDIO8_40",
+            "MBps": 2.204847382880869
+          },
+          {
+            "flow": 2,
+            "port": "SDIO8_40",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 64.7551553386379,
+            "spare_MBps": 11.516978864530785,
+            "arrival_us": 63.191879914438225,
+            "additional_gap_limit_us": 9.541879914438226
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.7276949057284,
+            "spare_MBps": 3.087419804123151,
+            "arrival_us": 121.32462688118672,
+            "additional_gap_limit_us": 10.174626881186711
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.5628448013287635,
+            "spare_MBps": 0.4176810019818502,
+            "arrival_us": 896.8089378819882,
+            "additional_gap_limit_us": 75.20893788198816
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9161371673440156,
+        "module_signals_including_controls": 26,
+        "FPGA_header_signals_including_TS": 29,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO8_40",
+          "I2S1_RX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 6.2723050942716085
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 33.72769490572839
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 26.96000272151876
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 4.562844801328764
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 64.75515533863789,
+            "spare_MBps": 11.516978864530799,
+            "arrival_us": 63.19187991443824,
+            "additional_gap_limit_us": 9.54187991443824
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.72769490572839,
+            "spare_MBps": 3.087419804123158,
+            "arrival_us": 121.32462688118675,
+            "additional_gap_limit_us": 10.17462688118674
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.562844801328764,
+            "spare_MBps": 0.4176810019818493,
+            "arrival_us": 896.8089378819881,
+            "additional_gap_limit_us": 75.20893788198805
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9161371673440157,
+        "module_signals_including_controls": 26,
+        "FPGA_header_signals_including_TS": 29,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO8_40",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.43715519867124
+          },
+          {
+            "flow": 0,
+            "port": "I2S1_TX40",
+            "MBps": 4.5628448013287635
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 29.318000139966657
+          },
+          {
+            "flow": 1,
+            "port": "SDIO8_40",
+            "MBps": 2.204847382880869
+          },
+          {
+            "flow": 2,
+            "port": "SDIO8_40",
+            "MBps": 31.522847522847528
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 64.7551553386379,
+            "spare_MBps": 11.516978864530785,
+            "arrival_us": 63.191879914438225,
+            "additional_gap_limit_us": 9.541879914438226
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.7276949057284,
+            "spare_MBps": 3.087419804123151,
+            "arrival_us": 121.32462688118672,
+            "additional_gap_limit_us": 10.174626881186711
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.5628448013287635,
+            "spare_MBps": 0.4176810019818502,
+            "arrival_us": 896.8089378819882,
+            "additional_gap_limit_us": 75.20893788198816
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9161371673440156,
+        "module_signals_including_controls": 26,
+        "FPGA_header_signals_including_TS": 29,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI3_Quad80",
+          "LCD8_40",
+          "SDIO8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 6.809017626927049
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 33.190982373072956
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI3_Quad80",
+            "MBps": 3.404508813463399
+          },
+          {
+            "flow": 2,
+            "port": "LCD8_40",
+            "MBps": 28.118338709384126
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 34.92735633631092,
+            "spare_MBps": 4.044072235117646,
+            "arrival_us": 117.15744989682786,
+            "additional_gap_limit_us": 12.157449896827856
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 34.92735633631118,
+            "spare_MBps": 4.916850090173732,
+            "arrival_us": 117.157449896827,
+            "additional_gap_limit_us": 14.457449896827
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.190982373072956,
+            "spare_MBps": 3.624132336778594,
+            "arrival_us": 123.28649854364483,
+            "additional_gap_limit_us": 12.13649854364482
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9015585754562705,
+        "module_signals_including_controls": 30,
+        "FPGA_header_signals_including_TS": 33,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI3_Quad80",
+          "CAM8_40",
+          "SDIO8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 5.256076845251023
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 34.74392315474898
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.522847522847524
+          },
+          {
+            "flow": 2,
+            "port": "SPI3_Quad80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 36.778924368098544,
+            "spare_MBps": 2.1925042033300244,
+            "arrival_us": 111.25937123787492,
+            "additional_gap_limit_us": 6.259371237874916
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.522847522847524,
+            "spare_MBps": 8.321358903637385,
+            "arrival_us": 129.81060791015625,
+            "additional_gap_limit_us": 27.110607910156247
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 34.74392315474898,
+            "spare_MBps": 2.0711915551025726,
+            "arrival_us": 117.77599155323611,
+            "additional_gap_limit_us": 6.625991553236105
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 20,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 476768,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9437407279204177,
+        "module_signals_including_controls": 30,
+        "FPGA_header_signals_including_TS": 33,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "I2S0_RX40",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 26.975547037180945
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 4.54730048566658
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 18.36955046461274
+          },
+          {
+            "flow": 2,
+            "port": "SPI3_Quad80",
+            "MBps": 8.6059965725682
+          },
+          {
+            "flow": 2,
+            "port": "I2S0_TX40",
+            "MBps": 4.547300485666578
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 58.36955046461274,
+            "spare_MBps": 17.902583738555947,
+            "arrival_us": 70.10504565185619,
+            "additional_gap_limit_us": 16.45504565185619
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.58154360974915,
+            "spare_MBps": 3.389884961679421,
+            "arrival_us": 115.00344237114025,
+            "additional_gap_limit_us": 10.003442371140252
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.54730048566658,
+            "spare_MBps": 0.43322531764403394,
+            "arrival_us": 899.8745547821791,
+            "additional_gap_limit_us": 78.27455478217905
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.547300485666578,
+            "spare_MBps": 0.4332253176440357,
+            "arrival_us": 899.8745547821794,
+            "additional_gap_limit_us": 78.2745547821794
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9130161483440032,
+        "module_signals_including_controls": 23,
+        "FPGA_header_signals_including_TS": 26,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80",
+          "I2S1_RX40",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "SPI3_Quad80",
+            "MBps": 26.975547037180945
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 4.54730048566658
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 18.36955046461274
+          },
+          {
+            "flow": 2,
+            "port": "SPI3_Quad80",
+            "MBps": 8.6059965725682
+          },
+          {
+            "flow": 2,
+            "port": "I2S1_TX40",
+            "MBps": 4.547300485666578
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 58.36955046461274,
+            "spare_MBps": 17.902583738555947,
+            "arrival_us": 70.10504565185619,
+            "additional_gap_limit_us": 16.45504565185619
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 35.58154360974915,
+            "spare_MBps": 3.389884961679421,
+            "arrival_us": 115.00344237114025,
+            "additional_gap_limit_us": 10.003442371140252
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.54730048566658,
+            "spare_MBps": 0.43322531764403394,
+            "arrival_us": 899.8745547821791,
+            "additional_gap_limit_us": 78.27455478217905
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.547300485666578,
+            "spare_MBps": 0.4332253176440357,
+            "arrival_us": 899.8745547821794,
+            "additional_gap_limit_us": 78.2745547821794
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9130161483440032,
+        "module_signals_including_controls": 23,
+        "FPGA_header_signals_including_TS": 26,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40",
+          "I2S0_RX40",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 3.6367455495643863
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 36.36325445043562
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 26.977440716543068
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 4.545406806304455
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 26.977440716543075
+          },
+          {
+            "flow": 2,
+            "port": "I2S0_TX40",
+            "MBps": 4.545406806304452
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 57.59162698265053,
+            "spare_MBps": 18.68050722051816,
+            "arrival_us": 71.05199513173528,
+            "additional_gap_limit_us": 17.401995131735283
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 36.36325445043562,
+            "spare_MBps": 3.4809519760492904,
+            "arrival_us": 112.53118187145593,
+            "additional_gap_limit_us": 9.831181871455925
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.545406806304455,
+            "spare_MBps": 0.43511899700615864,
+            "arrival_us": 900.249454971647,
+            "additional_gap_limit_us": 78.64945497164695
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.545406806304452,
+            "spare_MBps": 0.4351189970061613,
+            "arrival_us": 900.2494549716474,
+            "additional_gap_limit_us": 78.6494549716474
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9126359315884012,
+        "module_signals_including_controls": 28,
+        "FPGA_header_signals_including_TS": 31,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40",
+          "I2S1_RX40",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 3.6367455495643863
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 36.36325445043562
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 26.977440716543068
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 4.545406806304455
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 26.977440716543075
+          },
+          {
+            "flow": 2,
+            "port": "I2S1_TX40",
+            "MBps": 4.545406806304452
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 57.59162698265053,
+            "spare_MBps": 18.68050722051816,
+            "arrival_us": 71.05199513173528,
+            "additional_gap_limit_us": 17.401995131735283
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 36.36325445043562,
+            "spare_MBps": 3.4809519760492904,
+            "arrival_us": 112.53118187145593,
+            "additional_gap_limit_us": 9.831181871455925
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.545406806304455,
+            "spare_MBps": 0.43511899700615864,
+            "arrival_us": 900.249454971647,
+            "additional_gap_limit_us": 78.64945497164695
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.545406806304452,
+            "spare_MBps": 0.4351189970061613,
+            "arrival_us": 900.2494549716474,
+            "additional_gap_limit_us": 78.6494549716474
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9126359315884012,
+        "module_signals_including_controls": 28,
+        "FPGA_header_signals_including_TS": 31,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "CAM8_40",
+          "I2S0_RX40",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.43180102824171
+          },
+          {
+            "flow": 0,
+            "port": "I2S0_TX40",
+            "MBps": 4.568198971758292
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.52284652284752
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 1e-06
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 66.95464855108924,
+            "spare_MBps": 9.317485652079455,
+            "arrival_us": 61.11599550668436,
+            "additional_gap_limit_us": 7.465995506684358
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.52284652284752,
+            "spare_MBps": 8.32135990363739,
+            "arrival_us": 129.81061202814124,
+            "additional_gap_limit_us": 27.110612028141233
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 1e-06,
+            "spare_MBps": 4.9805248033106135,
+            "arrival_us": 4092000000.0,
+            "additional_gap_limit_us": 4091999178.4
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.568198971758292,
+            "spare_MBps": 0.4123268315523214,
+            "arrival_us": 895.7578304486584,
+            "additional_gap_limit_us": 74.15783044865839
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9172121884644708,
+        "module_signals_including_controls": 28,
+        "FPGA_header_signals_including_TS": 31,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "CAM8_40",
+          "I2S1_RX40",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 35.43180102824171
+          },
+          {
+            "flow": 0,
+            "port": "I2S1_TX40",
+            "MBps": 4.568198971758292
+          },
+          {
+            "flow": 1,
+            "port": "CAM8_40",
+            "MBps": 31.52284652284752
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 1e-06
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 31.522847522847524
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 66.95464855108924,
+            "spare_MBps": 9.317485652079455,
+            "arrival_us": 61.11599550668436,
+            "additional_gap_limit_us": 7.465995506684358
+          },
+          {
+            "name": "CAM8_40",
+            "kind": "up",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "CAM",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 31.52284652284752,
+            "spare_MBps": 8.32135990363739,
+            "arrival_us": 129.81061202814124,
+            "additional_gap_limit_us": 27.110612028141233
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 1e-06,
+            "spare_MBps": 4.9805248033106135,
+            "arrival_us": 4092000000.0,
+            "additional_gap_limit_us": 4091999178.4
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.568198971758292,
+            "spare_MBps": 0.4123268315523214,
+            "arrival_us": 895.7578304486584,
+            "additional_gap_limit_us": 74.15783044865839
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9172121884644708,
+        "module_signals_including_controls": 28,
+        "FPGA_header_signals_including_TS": 31,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO4_40",
+          "I2S0_RX40",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 7.93893782518386
+          },
+          {
+            "flow": 1,
+            "port": "SDIO4_40",
+            "MBps": 18.713158730600675
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 4.870750967062992
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 26.652096555784535
+          },
+          {
+            "flow": 2,
+            "port": "I2S0_TX40",
+            "MBps": 4.870750967062992
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 74.5910343809684,
+            "spare_MBps": 1.681099822200295,
+            "arrival_us": 54.859140028819034,
+            "additional_gap_limit_us": 1.2091400288190357
+          },
+          {
+            "name": "SDIO4_40",
+            "kind": "half",
+            "capacity_Bps": 20000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SDHOST",
+            "service_us": 213.85,
+            "effective_MBps": 19.134907645545944,
+            "used_MBps": 18.713158730600675,
+            "spare_MBps": 0.4217489149452689,
+            "arrival_us": 218.66965694618733,
+            "additional_gap_limit_us": 4.819656946187337
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.870750967062992,
+            "spare_MBps": 0.10977483624762208,
+            "arrival_us": 840.116858297814,
+            "additional_gap_limit_us": 18.516858297813997
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.870750967062992,
+            "spare_MBps": 0.10977483624762208,
+            "arrival_us": 840.116858297814,
+            "additional_gap_limit_us": 18.516858297813997
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.977959187326235,
+        "module_signals_including_controls": 23,
+        "FPGA_header_signals_including_TS": 26,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO4_40",
+          "I2S1_RX40",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "SPI2_Octal80",
+            "MBps": 7.93893782518386
+          },
+          {
+            "flow": 1,
+            "port": "SDIO4_40",
+            "MBps": 18.713158730600675
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 4.870750967062992
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 26.652096555784535
+          },
+          {
+            "flow": 2,
+            "port": "I2S1_TX40",
+            "MBps": 4.870750967062992
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 74.5910343809684,
+            "spare_MBps": 1.681099822200295,
+            "arrival_us": 54.859140028819034,
+            "additional_gap_limit_us": 1.2091400288190357
+          },
+          {
+            "name": "SDIO4_40",
+            "kind": "half",
+            "capacity_Bps": 20000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SDHOST",
+            "service_us": 213.85,
+            "effective_MBps": 19.134907645545944,
+            "used_MBps": 18.713158730600675,
+            "spare_MBps": 0.4217489149452689,
+            "arrival_us": 218.66965694618733,
+            "additional_gap_limit_us": 4.819656946187337
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.870750967062992,
+            "spare_MBps": 0.10977483624762208,
+            "arrival_us": 840.116858297814,
+            "additional_gap_limit_us": 18.516858297813997
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.870750967062992,
+            "spare_MBps": 0.10977483624762208,
+            "arrival_us": 840.116858297814,
+            "additional_gap_limit_us": 18.516858297813997
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.977959187326235,
+        "module_signals_including_controls": 23,
+        "FPGA_header_signals_including_TS": 26,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO8_40",
+          "I2S0_RX40",
+          "I2S0_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "SDIO8_40",
+            "MBps": 26.970861678456103
+          },
+          {
+            "flow": 1,
+            "port": "I2S0_RX40",
+            "MBps": 4.551985844391424
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 20.294295828779116
+          },
+          {
+            "flow": 2,
+            "port": "SDIO8_40",
+            "MBps": 6.676565849676987
+          },
+          {
+            "flow": 2,
+            "port": "I2S0_TX40",
+            "MBps": 4.551985844391424
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 60.29429582877911,
+            "spare_MBps": 15.977838374389577,
+            "arrival_us": 67.8671165116559,
+            "additional_gap_limit_us": 14.217116511655895
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.64742752813309,
+            "spare_MBps": 3.167687181718456,
+            "arrival_us": 121.6140519681221,
+            "additional_gap_limit_us": 10.464051968122092
+          },
+          {
+            "name": "I2S0_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.551985844391424,
+            "spare_MBps": 0.42853995891919006,
+            "arrival_us": 898.9483139631948,
+            "additional_gap_limit_us": 77.34831396319476
+          },
+          {
+            "name": "I2S0_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.551985844391424,
+            "spare_MBps": 0.42853995891919006,
+            "arrival_us": 898.9483139631948,
+            "additional_gap_limit_us": 77.34831396319476
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9139568841036154,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO8_40",
+          "I2S1_RX40",
+          "I2S1_TX40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 40.0
+          },
+          {
+            "flow": 1,
+            "port": "SDIO8_40",
+            "MBps": 26.970861678456103
+          },
+          {
+            "flow": 1,
+            "port": "I2S1_RX40",
+            "MBps": 4.551985844391424
+          },
+          {
+            "flow": 2,
+            "port": "SPI2_Octal80",
+            "MBps": 20.294295828779116
+          },
+          {
+            "flow": 2,
+            "port": "SDIO8_40",
+            "MBps": 6.676565849676987
+          },
+          {
+            "flow": 2,
+            "port": "I2S1_TX40",
+            "MBps": 4.551985844391424
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 60.29429582877911,
+            "spare_MBps": 15.977838374389577,
+            "arrival_us": 67.8671165116559,
+            "additional_gap_limit_us": 14.217116511655895
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 33.64742752813309,
+            "spare_MBps": 3.167687181718456,
+            "arrival_us": 121.6140519681221,
+            "additional_gap_limit_us": 10.464051968122092
+          },
+          {
+            "name": "I2S1_RX40",
+            "kind": "up",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.551985844391424,
+            "spare_MBps": 0.42853995891919006,
+            "arrival_us": 898.9483139631948,
+            "additional_gap_limit_us": 77.34831396319476
+          },
+          {
+            "name": "I2S1_TX40",
+            "kind": "down",
+            "capacity_Bps": 5000000,
+            "pin_lower_bound": 3,
+            "exclusive_group": null,
+            "service_us": 821.6,
+            "effective_MBps": 4.980525803310614,
+            "used_MBps": 4.551985844391424,
+            "spare_MBps": 0.42853995891919006,
+            "arrival_us": 898.9483139631948,
+            "additional_gap_limit_us": 77.34831396319476
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8472,
+          "FF": 6434,
+          "BSRAM": 24,
+          "DSP18": 14
+        },
+        "SRAM_bytes": 477312,
+        "CPU_Mcycles_s": 424.55401502574034,
+        "CPU_average_utilization": 0.8844875313036257,
+        "joint_budget_utilization": 0.9139568841036154,
+        "module_signals_including_controls": 27,
+        "FPGA_header_signals_including_TS": 30,
+        "receiver_adopted": false,
+        "inclusion_minimal": false
+      }
+    ],
+    "S": [
+      {
+        "ports": [
+          "SPI2_Quad80",
+          "LCD16_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Quad80",
+            "MBps": 32.8429804924848
+          },
+          {
+            "flow": 0,
+            "port": "LCD16_40",
+            "MBps": 67.1570195075152
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": "SPI2",
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 32.8429804924848,
+            "spare_MBps": 6.128448078943769,
+            "arrival_us": 124.59283349561835,
+            "additional_gap_limit_us": 19.59283349561835
+          },
+          {
+            "name": "LCD16_40",
+            "kind": "down",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 19,
+            "exclusive_group": "LCD",
+            "service_us": 51.35,
+            "effective_MBps": 79.68841285296982,
+            "used_MBps": 67.1570195075152,
+            "spare_MBps": 12.531393345454617,
+            "arrival_us": 60.93182857142856,
+            "additional_gap_limit_us": 9.58182857142856
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8144,
+          "FF": 5730,
+          "BSRAM": 25,
+          "DSP18": 15
+        },
+        "SRAM_bytes": 394304,
+        "CPU_Mcycles_s": 373.3250855327468,
+        "CPU_average_utilization": 0.7777605948598892,
+        "joint_budget_utilization": 0.8427451006136132,
+        "module_signals_including_controls": 28,
+        "FPGA_header_signals_including_TS": 31,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SPI3_Quad80"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 66.18342262842737
+          },
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 33.81657737157264
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 66.18342262842737,
+            "spare_MBps": 10.088711574741325,
+            "arrival_us": 61.82817142857142,
+            "additional_gap_limit_us": 8.178171428571424
+          },
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 33.81657737157264,
+            "spare_MBps": 5.154851199855926,
+            "arrival_us": 121.00574091332713,
+            "additional_gap_limit_us": 16.00574091332713
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8144,
+          "FF": 5730,
+          "BSRAM": 25,
+          "DSP18": 15
+        },
+        "SRAM_bytes": 394304,
+        "CPU_Mcycles_s": 373.3250855327468,
+        "CPU_average_utilization": 0.7777605948598892,
+        "joint_budget_utilization": 0.8677274252236382,
+        "module_signals_including_controls": 19,
+        "FPGA_header_signals_including_TS": 22,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "LCD8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 65.68596098496963
+          },
+          {
+            "flow": 0,
+            "port": "LCD8_40",
+            "MBps": 34.31403901503038
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 65.68596098496963,
+            "spare_MBps": 10.586173218199065,
+            "arrival_us": 62.29641674780915,
+            "additional_gap_limit_us": 8.646416747809148
+          },
+          {
+            "name": "LCD8_40",
+            "kind": "down",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 11,
+            "exclusive_group": "LCD",
+            "service_us": 102.7,
+            "effective_MBps": 39.84420642648491,
+            "used_MBps": 34.31403901503038,
+            "spare_MBps": 5.530167411454528,
+            "arrival_us": 119.25148182665424,
+            "additional_gap_limit_us": 16.55148182665424
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8144,
+          "FF": 5730,
+          "BSRAM": 25,
+          "DSP18": 15
+        },
+        "SRAM_bytes": 394304,
+        "CPU_Mcycles_s": 373.3250855327468,
+        "CPU_average_utilization": 0.7777605948598892,
+        "joint_budget_utilization": 0.861205231388959,
+        "module_signals_including_controls": 24,
+        "FPGA_header_signals_including_TS": 27,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI2_Octal80",
+          "SDIO8_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI2_Octal80",
+            "MBps": 67.44538834951456
+          },
+          {
+            "flow": 0,
+            "port": "SDIO8_40",
+            "MBps": 32.554611650485434
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI2_Octal80",
+            "kind": "half",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SPI2",
+            "service_us": 53.65,
+            "effective_MBps": 76.27213420316869,
+            "used_MBps": 67.44538834951456,
+            "spare_MBps": 8.826745853654131,
+            "arrival_us": 60.671309041835364,
+            "additional_gap_limit_us": 7.021309041835366
+          },
+          {
+            "name": "SDIO8_40",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 10,
+            "exclusive_group": "SDHOST",
+            "service_us": 111.15,
+            "effective_MBps": 36.81511470985155,
+            "used_MBps": 32.554611650485434,
+            "spare_MBps": 4.2605030593661155,
+            "arrival_us": 125.696477166822,
+            "additional_gap_limit_us": 14.546477166822001
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8144,
+          "FF": 5730,
+          "BSRAM": 25,
+          "DSP18": 15
+        },
+        "SRAM_bytes": 394304,
+        "CPU_Mcycles_s": 373.3250855327468,
+        "CPU_average_utilization": 0.7777605948598892,
+        "joint_budget_utilization": 0.8842729924123793,
+        "module_signals_including_controls": 23,
+        "FPGA_header_signals_including_TS": 26,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      },
+      {
+        "ports": [
+          "SPI3_Quad80",
+          "LCD16_40"
+        ],
+        "allocation": [
+          {
+            "flow": 0,
+            "port": "SPI3_Quad80",
+            "MBps": 32.8429804924848
+          },
+          {
+            "flow": 0,
+            "port": "LCD16_40",
+            "MBps": 67.1570195075152
+          }
+        ],
+        "links": [
+          {
+            "name": "SPI3_Quad80",
+            "kind": "half",
+            "capacity_Bps": 40000000,
+            "pin_lower_bound": 6,
+            "exclusive_group": null,
+            "service_us": 105.0,
+            "effective_MBps": 38.97142857142857,
+            "used_MBps": 32.8429804924848,
+            "spare_MBps": 6.128448078943769,
+            "arrival_us": 124.59283349561835,
+            "additional_gap_limit_us": 19.59283349561835
+          },
+          {
+            "name": "LCD16_40",
+            "kind": "down",
+            "capacity_Bps": 80000000,
+            "pin_lower_bound": 19,
+            "exclusive_group": "LCD",
+            "service_us": 51.35,
+            "effective_MBps": 79.68841285296982,
+            "used_MBps": 67.1570195075152,
+            "spare_MBps": 12.531393345454617,
+            "arrival_us": 60.93182857142856,
+            "additional_gap_limit_us": 9.58182857142856
+          }
+        ],
+        "allocation_policy": "one feasible minimum-peak allocation",
+        "resources": {
+          "logic_sites_estimate": 8144,
+          "FF": 5730,
+          "BSRAM": 25,
+          "DSP18": 15
+        },
+        "SRAM_bytes": 394304,
+        "CPU_Mcycles_s": 373.3250855327468,
+        "CPU_average_utilization": 0.7777605948598892,
+        "joint_budget_utilization": 0.8427451006136132,
+        "module_signals_including_controls": 28,
+        "FPGA_header_signals_including_TS": 31,
+        "receiver_adopted": false,
+        "inclusion_minimal": true
+      }
+    ]
+  },
+  "additional_gates": [
+    "S RS clock/cycle closure",
+    "two-core FFT plus return transfer before buffer reuse",
+    "RF bank deadlines and continuous acquisition",
+    "actual linker map and DMA/SRAM arbitration",
+    "physical pin mapping/IO constraints",
+    "full receiver synthesis and decoder correctness"
+  ],
+  "receiver_adopted": false,
+  "FEC_rtl_sha256": "08594ea679ff1a779e0a72b241d0de1fa87c520e292414b2bb07cf1144e3d610",
+  "FEC_routed_timing": {
+    "core": {
+      "Fmax_MHz": 105.41,
+      "routing_complete": true,
+      "meets_constraint_MHz": true,
+      "meets_receiver_RS_S_floor": true
+    },
+    "mem": {
+      "Fmax_MHz": 107.91,
+      "routing_complete": true,
+      "meets_constraint_MHz": true,
+      "meets_receiver_RS_S_floor": true
+    },
+    "rs-clock": {
+      "Fmax_MHz": 97.92,
+      "routing_complete": true,
+      "meets_constraint_MHz": false,
+      "meets_receiver_RS_S_floor": true
+    }
+  },
+  "ownership_and_flows": {
+    "T": {
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "FFT": "SoC",
+        "equalize_demap": "FPGA",
+        "time_deinterleave": "FPGA",
+        "Viterbi": "FPGA",
+        "RS": "FPGA",
+        "TS": "FPGA",
+        "RF": "SoC"
+      },
+      "flows": [
+        {
+          "source": "RF",
+          "target": "FIR",
+          "direction": "SoC\u2192FPGA",
+          "format": "lossless20",
+          "MBps": 40.0
+        },
+        {
+          "source": "sync",
+          "target": "FFT",
+          "direction": "FPGA\u2192SoC",
+          "format": "8192 time-domain complex Q15 samples after hardware GI removal",
+          "MBps": 31.522847522847524
+        },
+        {
+          "source": "FFT",
+          "target": "equalize_demap",
+          "direction": "SoC\u2192FPGA",
+          "format": "all 8192 FFT bins, complex Q15, including pilots/other bins",
+          "MBps": 31.522847522847524
+        }
+      ],
+      "period_us": 1039.5,
+      "stage_required_MHz": {
+        "FIR": 65.01587301587301,
+        "sync": 65.01587301587301,
+        "equalize_demap": 7.683694083694084,
+        "time_deinterleave": 9.604617604617605,
+        "trellis": 50.42424242424242,
+        "RS": 41.185977384787236,
+        "TS_node": 2.904337492572787
+      },
+      "TS_MBps": 2.904337492572787
+    },
+    "S": {
+      "owners": {
+        "FIR": "FPGA",
+        "sync": "FPGA",
+        "TC8PSK": "FPGA",
+        "frame_deinterleave": "FPGA",
+        "RS": "FPGA",
+        "TS": "FPGA",
+        "RF": "SoC"
+      },
+      "flows": [
+        {
+          "source": "RF",
+          "target": "FIR",
+          "direction": "SoC\u2192FPGA",
+          "format": "lossless20",
+          "MBps": 100.0
+        }
+      ],
+      "period_us": 141.92654192654192,
+      "stage_required_MHz": {
+        "FIR": 76.96,
+        "sync": 57.72,
+        "frame_deinterleave": 14.083125,
+        "trellis": 57.72,
+        "RS": 92.476875,
+        "TS_node": 6.52125
+      },
+      "TS_MBps": 6.52125
+    }
+  },
+  "implemented_RS": {
+    "cycles_per_block": 2666,
+    "minimum_clock_MHz": {
+      "T": 41.185977384787236,
+      "S": 92.476875
+    },
+    "independent_vectors": {
+      "profile": "RS(204,188), GF 0x11d, alpha 2, roots 0..15, high-order byte first",
+      "sources": [
+        "https://www.arib.or.jp/english/html/overview/doc/6-STD-B31v2_2-E1.pdf#page=32",
+        "https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-0-199910-S!!PDF-E.pdf#page=3"
+      ],
+      "rtl_sha256": "08594ea679ff1a779e0a72b241d0de1fa87c520e292414b2bb07cf1144e3d610",
+      "passed": 262,
+      "total": 262,
+      "reset_abort_trials": 17,
+      "non_reset_block_boundaries": 245,
+      "maximum_observed_cycles": 2666,
+      "all_pass": true
+    },
+    "S_remaining_CDC_reserve": {
+      "logic": 128,
+      "FF": 64,
+      "BSRAM": 1
+    }
+  },
+  "memory_layout": "zero-copy payload, 544 B/port header+descriptor reserve, 2x32768 B FFT slots, 16384 B late twiddle arena; full RF firmware fit remains unproven"
+}

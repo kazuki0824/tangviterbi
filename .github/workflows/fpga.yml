@@ -43,6 +43,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install host numerical oracle dependency
+        run: python3 -m pip install numpy==2.2.6
 
       - name: Set up OSS CAD Suite
         uses: YosysHQ/setup-oss-cad-suite@v4
@@ -81,9 +86,14 @@ jobs:
             build/summary.md
           if-no-files-found: warn
 
-      - name: Enforce CAD result
-        if: steps.pnr.outcome != 'success'
-        run: exit 1
+      - name: Validate CAD outcome and retain actual 110 MHz timing misses
+        if: always()
+        run: |
+          python3 ci/validate_pnr_evidence.py \
+            --board "${{ matrix.board }}" \
+            --variant "${{ matrix.variant }}" \
+            --target-mhz 110 \
+            --outcome "${{ steps.pnr.outcome }}"
 
   feasibility-9k:
     name: 9k / ${{ matrix.variant }} / 65 MHz
@@ -95,6 +105,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install host numerical oracle dependency
+        run: python3 -m pip install numpy==2.2.6
 
       - name: Set up OSS CAD Suite
         uses: YosysHQ/setup-oss-cad-suite@v4
@@ -133,6 +148,11 @@ jobs:
             build/summary.md
           if-no-files-found: warn
 
-      - name: Enforce CAD result
-        if: steps.pnr.outcome != 'success'
-        run: exit 1
+      - name: Validate 65 MHz feasibility CAD result
+        if: always()
+        run: |
+          python3 ci/validate_pnr_evidence.py \
+            --board 9k \
+            --variant "${{ matrix.variant }}" \
+            --target-mhz 65 \
+            --outcome "${{ steps.pnr.outcome }}"

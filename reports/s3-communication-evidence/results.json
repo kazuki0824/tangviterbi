@@ -1,0 +1,2303 @@
+{
+  "tests": {
+    "s3-page-reorder": {
+      "pages": 4096,
+      "address_span_bytes": 16777216,
+      "output": "PASS ordered pages=4096 including offset wrap and seven faults\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-page-reorder/tb.sv:69: $finish called at 333130 (1s)",
+      "scope": "page ownership/ack/order metadata, not payload memory",
+      "physical_memory_included": false,
+      "receiver_adopted": false
+    },
+    "s3-rx-page-store": {
+      "pages": 64,
+      "checked_payload_bytes": 262144,
+      "output": "PASS 64 payload pages and delayed/reversed port acknowledgments\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-rx-page-store/tb.sv:60: $finish called at 1019790 (1s)",
+      "scope": "tagged behavioral memory backend, not physical PSRAM",
+      "receiver_adopted": false
+    },
+    "s3-spi-iq-tx": {
+      "cases": [
+        {
+          "lanes": 4,
+          "pages": 8,
+          "checked_payload_bytes": 32768,
+          "SPI_MHz": 80,
+          "core_MHz": 99,
+          "output": "PASS 8 pages, no-SCK completion, six fault cases, lanes=4\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-spi-iq-tx/4/tb.sv:72: $finish called at 1403693104 (1ps)"
+        },
+        {
+          "lanes": 8,
+          "pages": 8,
+          "checked_payload_bytes": 32768,
+          "SPI_MHz": 80,
+          "core_MHz": 99,
+          "output": "PASS 8 pages, no-SCK completion, six fault cases, lanes=8\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-spi-iq-tx/8/tb.sv:72: $finish called at 941031606 (1ps)"
+        }
+      ],
+      "scope": "page RAM and SPI wires; status transport, S3 firmware and IO STA not included",
+      "receiver_adopted": false
+    },
+    "s3-spi-rx": {
+      "cases": [
+        {
+          "lanes": 4,
+          "SPI_MHz": 80,
+          "core_MHz": 99,
+          "payload_bytes": 24576,
+          "tokens": 6162,
+          "output": "PASS lanes=4 tokens=6162\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-spi-rx/4/tb.sv:37: $finish called at 618540000 (1ps)"
+        },
+        {
+          "lanes": 8,
+          "SPI_MHz": 80,
+          "core_MHz": 99,
+          "payload_bytes": 24576,
+          "tokens": 6162,
+          "output": "PASS lanes=8 tokens=6162\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-spi-rx/8/tb.sv:37: $finish called at 310590000 (1ps)"
+        }
+      ],
+      "scope": "RX wire framing and CDC only; no PSRAM, reorder, status or read endpoint",
+      "receiver_adopted": false
+    },
+    "s3-spi-rx-faults": {
+      "cases": [
+        {
+          "lanes": 4,
+          "fault_cases": 2,
+          "output": "PASS overlong write and FIFO exhaustion\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-spi-rx-faults/4/tb.sv:24: $finish called at 127527000 (1ps)"
+        },
+        {
+          "lanes": 8,
+          "fault_cases": 2,
+          "output": "PASS overlong write and FIFO exhaustion\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-spi-rx-faults/8/tb.sv:24: $finish called at 69664500 (1ps)"
+        }
+      ],
+      "receiver_adopted": false
+    },
+    "s3-spi-page-pipeline": {
+      "pages": 24,
+      "payload_bytes": 98304,
+      "SPI_MHz": 80,
+      "core_MHz": 99,
+      "output": "PASS wire-to-memory ordered bytes=98304\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-spi-page-pipeline/tb.sv:39: $finish called at 853563439 (1ps)",
+      "scope": "complete two-wire RX/CDC/guard/store chain with behavioral acknowledged memory",
+      "physical_memory_included": false,
+      "receiver_adopted": false
+    },
+    "s3-page-guard": "PASS good page and nine poisoned epochs\n/workspace/scratch/5bc736d51023/tangviterbi/build/s3-page-guard/tb.sv:44: $finish called at 208550 (1s)"
+  },
+  "prior_endpoint_trials": [
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "c45e85a3f2e59857b0826f8a0d92900a3441ff93d7abb69df0d45228e1fb159c",
+        "rtl/s3_page_reorder.sv": "dc0d4e8d68e423b99ad09f337dc71bcf50c41c9596bb31ee3d35aee206a2ee5c",
+        "rtl/s3_rx_page_store.sv": "bcceecf2f73e5686c4b330d18a711c932dd80878df281922643479092d2de4eb",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "ab04653590ccf6a55cc2a54070ba7e721780e7eedf398bcca2f8d857ca75839b"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 81.44648742675781,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 241.1963348388672,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 94.93069458007812,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 860
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1477
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": null,
+      "pnr_trials": null
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+        "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+        "rtl/s3_rx_page_store.sv": "f929cf3a9fd184076c0ed272a61fbf086c9397144aada1cea36f8383340a2c4a",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 0,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 100.25062561035156,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 123.60939025878906,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 84.28860473632812,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 879
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1511
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": [
+        {
+          "seed": 1,
+          "exit_code": 1,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 97.16284942626953,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 126.42225646972656,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 77.99095916748047,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        },
+        {
+          "seed": 2,
+          "exit_code": 1,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 93.77344512939453,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 112.63797760009766,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 93.87908172607422,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        },
+        {
+          "seed": 3,
+          "exit_code": 0,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 100.25062561035156,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 123.60939025878906,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 84.28860473632812,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "c45e85a3f2e59857b0826f8a0d92900a3441ff93d7abb69df0d45228e1fb159c",
+        "rtl/s3_page_reorder.sv": "0c5472397a7b2600741c67d6be3a8b029f61544abe7f53cf5cfeb707853418e0",
+        "rtl/s3_rx_page_store.sv": "198c730755c6945022b07619aad42370369e8fd94155a9d8b73c125a89470fb4",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 75.56294250488281,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 234.52157592773438,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 86.44536590576172,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 937
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1605
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": null
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+        "rtl/s3_page_reorder.sv": "2df8a54f54bed4fb4db9462e79ddf295caf3992a3bb99a9a54b64e5ed801305b",
+        "rtl/s3_rx_page_store.sv": "198c730755c6945022b07619aad42370369e8fd94155a9d8b73c125a89470fb4",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 83.8433837890625,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 124.75050354003906,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 86.13264465332031,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 939
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1659
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": null
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+        "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+        "rtl/s3_rx_page_store.sv": "cb4e655ff987d7674eba055595ae76462c4532ecaa42096e0b7172afa43100f7",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 93.32711029052734,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 134.19215393066406,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 84.84642791748047,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 877
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1520
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": [
+        {
+          "seed": 1,
+          "exit_code": 1,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 92.74717712402344,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 125.53351593017578,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 86.23663330078125,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        },
+        {
+          "seed": 2,
+          "exit_code": 1,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 92.25092315673828,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 133.9046630859375,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 86.64009857177734,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        },
+        {
+          "seed": 3,
+          "exit_code": 1,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 93.32711029052734,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 134.19215393066406,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 84.84642791748047,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+        "rtl/s3_page_reorder.sv": "2df8a54f54bed4fb4db9462e79ddf295caf3992a3bb99a9a54b64e5ed801305b",
+        "rtl/s3_rx_page_store.sv": "27f5686bc3ca5ed694db2d8fbf3688e1704568cbfc5ebaf8b28f58cee170f045",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 86.59507751464844,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 120.48192596435547,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 81.34049224853516,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 940
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1644
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": null
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "c45e85a3f2e59857b0826f8a0d92900a3441ff93d7abb69df0d45228e1fb159c",
+        "rtl/s3_page_reorder.sv": "14ec7d034b6253bc527ff03db77f620c2704bc39b62337a5c19422e37a30410c",
+        "rtl/s3_rx_page_store.sv": "bcceecf2f73e5686c4b330d18a711c932dd80878df281922643479092d2de4eb",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "ab04653590ccf6a55cc2a54070ba7e721780e7eedf398bcca2f8d857ca75839b"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 61.06497573852539,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 161.26431274414062,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 84.10428619384766,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 502
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 795
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1364
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": null,
+      "pnr_trials": null
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "c45e85a3f2e59857b0826f8a0d92900a3441ff93d7abb69df0d45228e1fb159c",
+        "rtl/s3_page_reorder.sv": "dc0d4e8d68e423b99ad09f337dc71bcf50c41c9596bb31ee3d35aee206a2ee5c",
+        "rtl/s3_rx_page_store.sv": "198c730755c6945022b07619aad42370369e8fd94155a9d8b73c125a89470fb4",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 92.43852996826172,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 259.0673522949219,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 91.47457122802734,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 934
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1595
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": null
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "c45e85a3f2e59857b0826f8a0d92900a3441ff93d7abb69df0d45228e1fb159c",
+        "rtl/s3_page_reorder.sv": "e4391f3362b94eeeaee015f1c360e5ed44427a9ecefefb97f976b62baf324a8a",
+        "rtl/s3_rx_page_store.sv": "198c730755c6945022b07619aad42370369e8fd94155a9d8b73c125a89470fb4",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 71.90106201171875,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 264.9708557128906,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 90.53050994873047,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 936
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1608
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": null
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "c45e85a3f2e59857b0826f8a0d92900a3441ff93d7abb69df0d45228e1fb159c",
+        "rtl/s3_page_reorder.sv": "2df8a54f54bed4fb4db9462e79ddf295caf3992a3bb99a9a54b64e5ed801305b",
+        "rtl/s3_rx_page_store.sv": "198c730755c6945022b07619aad42370369e8fd94155a9d8b73c125a89470fb4",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 74.79991149902344,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 264.9708557128906,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 78.65345764160156,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 937
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1574
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": null
+    },
+    {
+      "sources": {
+        "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+        "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+        "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+        "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+        "rtl/s3_rx_page_store.sv": "27f5686bc3ca5ed694db2d8fbf3688e1704568cbfc5ebaf8b28f58cee170f045",
+        "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+        "experiments/s3_comm_endpoint_benchmark.sv": "eb7b963e0d9093cc7b15ddd7662fd10c8b5c63a720e75c2ac5e525529bb803be"
+      },
+      "exit_code": 1,
+      "fmax": {
+        "p2.clk": {
+          "achieved": 98.52217102050781,
+          "constraint": 99.0000991821289
+        },
+        "p2.spi_clk": {
+          "achieved": 122.1597900390625,
+          "constraint": 80
+        },
+        "p3.spi_clk": {
+          "achieved": 83.16699981689453,
+          "constraint": 80
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 6480,
+          "used": 466
+        },
+        "ALU54D": {
+          "available": 10,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 26,
+          "used": 4
+        },
+        "BUFG": {
+          "available": 22,
+          "used": 2
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 6480,
+          "used": 901
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "FLASH608K": {
+          "available": 1,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "IDES16": {
+          "available": 80,
+          "used": 0
+        },
+        "IOB": {
+          "available": 276,
+          "used": 15
+        },
+        "IOBUF": {
+          "available": 0,
+          "used": 4
+        },
+        "IOLOGICI": {
+          "available": 276,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 276,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 8640,
+          "used": 1509
+        },
+        "MIPI_IBUF": {
+          "available": 22,
+          "used": 0
+        },
+        "MIPI_OBUF": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT18X18": {
+          "available": 20,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 5,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 40,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 10,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 4320,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 2160,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 1080,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 1080,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "OSER16": {
+          "available": 80,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 20,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 40,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 270,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "warnings": [],
+      "pnr_trials": [
+        {
+          "seed": 1,
+          "exit_code": 1,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 96.05225372314453,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 126.51821899414062,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 86.59507751464844,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        },
+        {
+          "seed": 2,
+          "exit_code": 1,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 98.71668243408203,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 121.00677490234375,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 84.64533233642578,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        },
+        {
+          "seed": 3,
+          "exit_code": 1,
+          "fmax": {
+            "p2.clk": {
+              "achieved": 98.52217102050781,
+              "constraint": 99.0000991821289
+            },
+            "p2.spi_clk": {
+              "achieved": 122.1597900390625,
+              "constraint": 80
+            },
+            "p3.spi_clk": {
+              "achieved": 83.16699981689453,
+              "constraint": 80
+            }
+          },
+          "warnings": []
+        }
+      ]
+    }
+  ],
+  "receiver_adopted": false,
+  "source_sha256": {
+    "ci/s3_comm_benchmark.py": "c06da1ad39fa4ed8a0629432d149b53646d30d400eaf2c6c640f18024e965d95",
+    "ci/s3_comm_endpoint_benchmark.py": "4250df2b6d9bc3932335d500ffa39e13fd4eb18208eb573e964b598a649951ad",
+    "ci/s3_comm_evidence.py": "072e876670e9a3074e48c8433d378f4abe33be46cefc46a87a530c289f53d1a0",
+    "rtl/s3_async_fifo.sv": "9fb90cd230f0be5e33e01486230559e100861e3a5488e1fc73ade5181fd53789",
+    "rtl/s3_depuncture.sv": "83a0a087b3595d4196b319ccec32944c4d943fb2a6a41a160c814730f4fc267a",
+    "rtl/s3_iq10_unpack.sv": "8c35e2f4cdc2a72ba309286942a61f9c87b6d298027b84d515a889a550f44e8f",
+    "rtl/s3_page_guard.sv": "266fb17549c29dae4756f5c516bb2b361629943f84308688e4ad2bcec577e62b",
+    "rtl/s3_page_reorder.sv": "d8a7130a041355cce96776b48f74b8f2485af0d60b8cdb9d4318658e88b20878",
+    "rtl/s3_psram_burst.sv": "aae2589df74c0a1dd8e101bf5768d68c839b38c7a3f869c22ce54f571cba0136",
+    "rtl/s3_psram_clock.sv": "195e62dc708aa8f905b37fb848e543277ad09f7fc9c20c1064516c0b95631d31",
+    "rtl/s3_psram_page_reader.sv": "b63c42df60dae56e72e1a10186c617e4dddc0542d0954604743e2609a12d91c6",
+    "rtl/s3_psram_phy.sv": "e17c4eca3500a19407cfea6a43a7725fe46cac80e6484fead00095f1c83209d7",
+    "rtl/s3_psram_queue.sv": "65af08d7971eb9c1102801913e2a4d0e84210b1f7a6b80428451c46345f627df",
+    "rtl/s3_rx_page_store.sv": "682e9ab1095474e23f5ae838442622d942e697879d5692f587bbe09054b0793e",
+    "rtl/s3_spi_iq_pingpong.sv": "f1d8a7880e8df839c800a1bf2d944c9771e3dc1bc8670420ba9727502a0fa40d",
+    "rtl/s3_spi_iq_tx.sv": "8b11a9fe0888d33a7e7d1879d921130e9f3b8e1e1d0b2c23f5cb7a8e735ca96d",
+    "rtl/s3_spi_memory_bridge.sv": "72433465f88dc9f01b4be1c2f06c6e1ab45046ad859f1141c07abf497b6033a9",
+    "rtl/s3_spi_rx.sv": "0a8958683a9e32d03373d8dd97634e283d5056183d6ab38f302d26ec741ee251",
+    "rtl/s3_tc8psk_metric.sv": "c0fae23cefd664fd3ba2be641b6c1e387ab259e102a1d2b5a718e3e709953146",
+    "tests/test_s3_page_guard.py": "4dfdaab2949618782c57acab7b8e287941a2fb9576d253442f50ca94d717807a",
+    "tests/test_s3_page_reorder.py": "7aac895f0ed5129ee0fa6e18596520ce8187009a773126c5bf615bf2470e717a",
+    "tests/test_s3_rx_page_store.py": "6bf402a54abc80f7e7f806906ed69df2850d3d94a6bad6bfc3ad8f190d0ee661",
+    "tests/test_s3_spi_iq_pingpong.py": "61e243723d026aae21083e9170c46b413678021fc3115682d1e908aa6a6e7725",
+    "tests/test_s3_spi_iq_tx.py": "fb4608e92ad4a9bdaa775477f61f9f1c8216b910d7f85d23a173ef56c52f133b",
+    "tests/test_s3_spi_page_pipeline.py": "c320de98def46c44644f7e46efe8ab0985b6903f6e4c06e22abe499cc8b98053",
+    "tests/test_s3_spi_rx.py": "4d8b3f80bbd3a17e39021684ff4a3be10663478f59e552938671f4423f43128e",
+    "tests/test_s3_spi_rx_faults.py": "4a1d577d34fbdc7c2390d5bc13018e41b392961401a781734684c6099737e610"
+  },
+  "tools": {
+    "yosys": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+    "nextpnr-himbaechel": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
+  },
+  "pin_constraints_sha256": "e8ad3693191d316fbe82619833f4225d09b54c95850db62d98e06cc4b0715998",
+  "full_test_log_sha256": "9ffdbc97495b0434ff303a9675ea659d601a639770227e5b12af9bac241bf1b5"
+}

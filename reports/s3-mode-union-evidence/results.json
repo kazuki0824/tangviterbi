@@ -1,0 +1,488 @@
+{
+  "receiver_adopted": false,
+  "safe_to_flash": false,
+  "hardware_boot_executed": false,
+  "scope": "SDK-linked RF/transport/FFT/RS code and reservations; capture and worker scheduler NOT integrated",
+  "ELF_sha256": "cb11f38bc608c3d81ba424e9b7704dcf9fd5f72f8651744a241db5bcb3e694d4",
+  "map_sha256": "41606c914b2f4a7f103fc2c2d2b2afd73ffe8f957079bdc66865917a1a0b3d29",
+  "link": {
+    "scope": "Native RF initialization/tuning plus SPI/FFT/native-bank code and reservations; no integrated scheduler.",
+    "profile": "native-direct-phy-simd-rs",
+    "module_flash_MB": 16,
+    "esp_psram_component_required": true,
+    "RS_offload_mode_union": true,
+    "quarter_FFT_coefficients": false,
+    "SIMD_FFT_linked": true,
+    "SIMD_FFT_executed": false,
+    "upper_FFT_slot": true,
+    "RF_bank_loop_linked": true,
+    "RF_bank_loop_invoked_by_app": false,
+    "direct_PHY_without_80211_driver": true,
+    "direct_PHY_RF_dump_compatibility_verified": false,
+    "native_PHY_only_lower_bound": true,
+    "upstream_commit": "e74f2a470972ec163c247f1fe88d32e08579242a",
+    "upstream_requested_IDF": "25fe69f946311abdaf9ad56591f25fedbc20ac98",
+    "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+    "exit_code": 0,
+    "link_succeeded": true,
+    "symbols": {
+      "_bss_start": "0x3fcab508",
+      "_bss_end": "0x3fcac3e0",
+      "_iram_start": "0x40374000",
+      "_iram_end": "0x40389800",
+      "_data_end": "0x3fcab508"
+    },
+    "receiver_adopted": false,
+    "functional_RF_SPI_integration": false,
+    "safe_to_flash": false,
+    "errors": [],
+    "static_gap_to_RF_bytes": 15392,
+    "hot_functions": {
+      "s3_fft_stage_tile": "0x4037746c",
+      "s3_fft_reverse_tile": "0x4037c764",
+      "s3_iq10_push": "0x40376c18",
+      "s3_spi_queue": "0x403770c0",
+      "s3_rf_submit": "0x4037717c",
+      "s3_capture_accept": "0x40377298",
+      "s3_capture_reclaim": "0x4037c734",
+      "s3_capture_step": "0x4037736c"
+    },
+    "inspected_hot_functions_in_IRAM": true,
+    "RS_hot_functions": {
+      "s3_rs_solve": "0x40377bec",
+      "s3_rs_magnitudes": "0x40377dcc",
+      "s3_rs_rpc_syndromes": "0x40378130",
+      "s3_rs_rpc_roots": "0x403782dc",
+      "s3_rs_rpc_crc": "0x403780d8",
+      "s3_rs_rpc_ack": "0x4037c7e4"
+    },
+    "RS_inspected_hot_functions_in_IRAM": true,
+    "RS_slot1_base": "0x3fc9f2a0",
+    "RS_slot1_base_aligned32": true,
+    "SIMD_symbols": {
+      "s3_fft_simd_run": "0x403784c4",
+      "s3_pinned_fft_aes3": "0x4037863c",
+      "s3_pinned_fft_power_of_two": "0x4037c808",
+      "s3_fft_simd_table": "0x3c03a040",
+      "s3_fft_simd_tile": "0x40378750",
+      "s3_fft_simd_general": "0x40378920",
+      "s3_fft_simd_pair": "0x40378954",
+      "s3_fft_simd_final": "0x403789a0",
+      "s3_fft_worker_init": "0x42008adc",
+      "s3_fft_worker_step": "0x403789f4",
+      "s3_fft_worker_ready": "0x40378ae0",
+      "s3_fft_service_capture": "0x40378b18"
+    },
+    "SIMD_code_in_IRAM": true,
+    "SIMD_constant_table_preserved": true,
+    "effective_config": {
+      "ESP_WIFI_IRAM_OPT": false,
+      "ESP_WIFI_RX_IRAM_OPT": false,
+      "ESP_WIFI_EXTRA_IRAM_OPT": false,
+      "SPI_MASTER_IN_IRAM": true,
+      "SPI_MASTER_ISR_IN_IRAM": true,
+      "ESP32S3_DATA_CACHE_32KB": true,
+      "SPIRAM": true,
+      "SPIRAM_MODE_OCT": true,
+      "SPIRAM_SPEED_80M": true,
+      "FREERTOS_UNICORE": false,
+      "ESPTOOLPY_FLASHSIZE_8MB": false,
+      "ESPTOOLPY_FLASHSIZE_16MB": true
+    },
+    "requested_flash_configuration_effective": true,
+    "requested_PSRAM_configuration_effective": true
+  },
+  "startup_bound": {
+    "scope": "Necessary startup-memory bound for native RF profiles with IDF5.5.1.\n\nNot a simulated boot. Overestimates available memory (mapped RTC fast RAM, with no\nheap metadata in the first bound; optional allocator refinement follows) and\nunderestimates required memory. Target TCB sizes are\noptional, extracted from the ELF. Wi-Fi/driver allocations and fragmentation\nare not included. This is a capacity bound, not a startup execution simulation.\nA failed bound is enough to reject this exact configuration even if it links.\n",
+    "profile": "native-direct-phy-simd-rs",
+    "map_sha256": "41606c914b2f4a7f103fc2c2d2b2afd73ffe8f957079bdc66865917a1a0b3d29",
+    "internal_DMA_heap_upper_bound_bytes": 15392,
+    "RTC_fast_heap_generous_upper_bound_bytes": 8168,
+    "total_internal_heap_generous_upper_bound_bytes": 23560,
+    "late_DMA_heap_after_startup_tasks_bytes": 3636,
+    "startup_with_TCB_capacity_pass": true,
+    "startup_with_TCB_shortage_lower_bound_bytes": 0,
+    "startup_stack_lower_bound_bytes": {
+      "main": 8704,
+      "esp_timer": 4096,
+      "IPC_two_cores": 2560,
+      "idle_two_cores": 3072
+    },
+    "total_stack_lower_bound_bytes": 18432,
+    "shortage_lower_bound_bytes": 0,
+    "startup_necessary_capacity_pass": true,
+    "stack_only_headroom_upper_bound_bytes": 5128,
+    "startup_sufficient_capacity_proven": false,
+    "target_StaticTask_t_bytes": 340,
+    "startup_task_count": 6,
+    "FreeRTOS_timer_constructor_object": "tasks",
+    "FreeRTOS_timer_task_created": false,
+    "startup_TCB_lower_bound_bytes": 2040,
+    "task_extra_stack_bytes_per_main_and_esp_timer": 512,
+    "internal_free_before_DMA_pool_upper_bound_bytes": 6724,
+    "startup_pool_necessary_capacity_pass": true,
+    "startup_pool_shortage_lower_bound_bytes": 0,
+    "pool_allocation_order": "main task carves pool after all startup tasks are live, before app_main; do not add pool bytes again to later runtime demand",
+    "native_event_stack_bytes": 2816,
+    "native_event_task_retained": false,
+    "headroom_after_startup_tasks_and_native_event_upper_bound_bytes": 6724,
+    "not_counted": [
+      "heap headers/alignment/fragmentation",
+      "idle extra stack overhead",
+      "FreeRTOS timer queue if linked",
+      "event queue",
+      "Wi-Fi task and queues",
+      "Wi-Fi static RX buffers",
+      "PHY/calibration allocations",
+      "SPI/GDMA/SCT runtime objects",
+      "receiver worker stacks"
+    ],
+    "configured_internal_DMA_pool_target_bytes": 4096,
+    "internal_DMA_pool_has_distinct_byte_capacity": true,
+    "heap_start": "0x3fcac3e0",
+    "fft_slot1": "0x3fc9f2a0",
+    "twiddle": "0x3fc9b290",
+    "default_dynamic_FreeRTOS_allocation": "MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT; allowing explicit external static stacks does not relocate xTaskCreatePinnedToCore stacks",
+    "sources": [
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/port/esp32s3/memory_layout.c",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/heap_idf.c",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/port_common.c",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/app_startup.c",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_system/esp_ipc.c",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_timer/src/esp_timer.c",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_system/include/esp_task.h",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_psram/system_layer/esp_psram.c",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/config/include/freertos/FreeRTOSConfig.h",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/freertos/esp_additions/freertos_tasks_c_additions.h",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_event/default_event_loop.c",
+      "https://github.com/espressif/esp-idf/blob/v5.5.1/components/esp_wifi/esp32s3/esp_adapter.c"
+    ],
+    "hardware_boot_executed": false,
+    "receiver_adopted": false,
+    "allocator_refinement": {
+      "target_layout": {
+        "multi_heap_info": 20,
+        "control_t": 36,
+        "pointer_bytes": 4
+      },
+      "heaps": [
+        {
+          "name": "DIRAM",
+          "region_bytes": 15392,
+          "tlsf_control_bytes": 396,
+          "metadata_lower_bound_bytes": 424
+        },
+        {
+          "name": "RTC_fast",
+          "region_bytes": 8168,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        },
+        {
+          "name": "late_DIRAM",
+          "region_bytes": 3636,
+          "tlsf_control_bytes": 324,
+          "metadata_lower_bound_bytes": 352
+        }
+      ],
+      "live_task_allocation_headers_lower_bound_bytes": 48,
+      "allocator_overhead_lower_bound_bytes": 1212,
+      "free_before_DMA_pool_upper_bound_bytes": 5512,
+      "DMA_pool_target_bytes": 4096,
+      "pool_necessary_capacity_pass": true,
+      "pool_shortage_lower_bound_bytes": 0,
+      "scope": "Necessary capacity only; ignores allocation ordering, other constructors, heap_caps records, Wi-Fi, event, drivers, fragmentation and additional pool metadata",
+      "sources": [
+        "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/multi_heap.c",
+        "https://github.com/espressif/tlsf/blob/2867f6883a12920b1969ff9624c0ab0e4185c2ce/tlsf.c"
+      ]
+    },
+    "startup_allocator_necessary_capacity_pass": true,
+    "startup_allocator_shortage_lower_bound_bytes": 0,
+    "ROM_layout_audit": {
+      "scope": "Audit reservations against the actual ESP32-S3 ROM layout, not heap totals.\n\nThe SDK appends the ROM reservation at runtime, hence ld cannot detect this\ncollision. The supplied ROM ELF is revision-specific; runtime hardware still\nmust match its layout. No ELF is executed by this tool.\n",
+      "ELF_sha256": "cb11f38bc608c3d81ba424e9b7704dcf9fd5f72f8651744a241db5bcb3e694d4",
+      "ROM_ELF_sha256": "c0ce0f338d1de1bdc6efbef1591779a2a42c1ab7d759d3c6ae8ae63a7dd34cfd",
+      "ROM_shared_buffer_start": "0x3fce9704",
+      "ROM_reserved_start": "0x3fceee34",
+      "ROM_reserved_end": "0x3fcf0000",
+      "static_reservations": [
+        {
+          "start": "0x600fffe8",
+          "end": "0x60100000"
+        },
+        {
+          "start": "0x600fe000",
+          "end": "0x600fe000"
+        },
+        {
+          "start": "0x3c000000",
+          "end": "0x3e000000"
+        },
+        {
+          "start": "0x40374000",
+          "end": "0x40389800"
+        },
+        {
+          "start": "0x3fc84000",
+          "end": "0x3fc99800"
+        },
+        {
+          "start": "0x3fc99800",
+          "end": "0x3fcac3e0"
+        },
+        {
+          "start": "0x3fcb0000",
+          "end": "0x3fce0000"
+        },
+        {
+          "start": "0x3fcf0000",
+          "end": "0x3fcf8000"
+        },
+        {
+          "start": "0x3fce0000",
+          "end": "0x3fcee000"
+        }
+      ],
+      "conflicts": [],
+      "ROM_reservation_nonoverlap_pass": true,
+      "SDK_behavior_on_overlap": "s_prepare_reserved_regions logs conflict then aborts before app_main",
+      "hardware_revision_layout_verified": false,
+      "receiver_adopted": false
+    },
+    "ELF_sha256": "cb11f38bc608c3d81ba424e9b7704dcf9fd5f72f8651744a241db5bcb3e694d4"
+  },
+  "actual_target_ABI": {
+    "slot0_union": 32768,
+    "slot1_union": 32768,
+    "slot0_RS_used": 30688,
+    "slot1_RS_used": 25344,
+    "slot0_context_offset": 0,
+    "CRC_offset": 21444,
+    "RX_offset": 22496,
+    "TX_offset": 26592,
+    "slot1_context_offset": 0,
+    "GF_offset": 14296,
+    "slot1_RX_offset": 17152,
+    "slot1_TX_offset": 21248,
+    "context_size": 7148,
+    "GF_size": 2832
+  },
+  "actual_DMA_pages": {
+    "RX_offset": {
+      "address": "0x3fcf57e0",
+      "bytes": 4096
+    },
+    "TX_offset": {
+      "address": "0x3fcf67e0",
+      "bytes": 4096
+    },
+    "slot1_RX_offset": {
+      "address": "0x3fca35a0",
+      "bytes": 4096
+    },
+    "slot1_TX_offset": {
+      "address": "0x3fca45a0",
+      "bytes": 4096
+    }
+  },
+  "selected_symbols": {
+    "s3_rs_offload.c": {
+      "address": "0x0",
+      "size": 0
+    },
+    "s3_rs_rpc.c": {
+      "address": "0x0",
+      "size": 0
+    },
+    "s3_rs_workspace.c": {
+      "address": "0x0",
+      "size": 0
+    },
+    "s3_rs_workspace_layout": {
+      "address": "0x3c039ffc",
+      "size": 56
+    },
+    "s3_rs_rpc_crc_init": {
+      "address": "0x403780ac",
+      "size": 43
+    },
+    "fft_mode_slot1": {
+      "address": "0x3fc9f2a0",
+      "size": 32768
+    },
+    "s3_rs_workspace_init": {
+      "address": "0x42008a6c",
+      "size": 74
+    },
+    "s3_rs_rpc_syndromes": {
+      "address": "0x40378130",
+      "size": 427
+    },
+    "s3_rs_solve": {
+      "address": "0x40377bec",
+      "size": 478
+    },
+    "s3_rs_rpc_reset": {
+      "address": "0x4037811c",
+      "size": 18
+    },
+    "fft_twiddle_reservation": {
+      "address": "0x3fc9b290",
+      "size": 16384
+    },
+    "s3_rs_workspace_context": {
+      "address": "0x42008ab8",
+      "size": 35
+    },
+    "s3_rs_rpc_crc": {
+      "address": "0x403780d8",
+      "size": 68
+    },
+    "s3_rs_tables_init": {
+      "address": "0x40377b68",
+      "size": 130
+    },
+    "s3_rs_rpc_roots": {
+      "address": "0x403782dc",
+      "size": 488
+    },
+    "s3_rs_rpc_ack": {
+      "address": "0x4037c7e4",
+      "size": 34
+    },
+    "rf_queue_tail": {
+      "address": "0x3fca72a0",
+      "size": 8192
+    },
+    "s3_rs_magnitudes": {
+      "address": "0x40377dcc",
+      "size": 438
+    }
+  },
+  "allocated_sections": [
+    {
+      "name": ".rtc.force_slow",
+      "address": "0x50000000",
+      "size": 32
+    },
+    {
+      "name": ".rtc_reserved",
+      "address": "0x600fffe8",
+      "size": 24
+    },
+    {
+      "name": ".iram0.vectors",
+      "address": "0x40374000",
+      "size": 1028
+    },
+    {
+      "name": ".iram0.text",
+      "address": "0x40374404",
+      "size": 86947
+    },
+    {
+      "name": ".dram0.dummy",
+      "address": "0x3fc88000",
+      "size": 71680
+    },
+    {
+      "name": ".dram0.data",
+      "address": "0x3fc99800",
+      "size": 72968
+    },
+    {
+      "name": ".dram0.bss",
+      "address": "0x3fcab508",
+      "size": 3800
+    },
+    {
+      "name": ".flash.text",
+      "address": "0x42000020",
+      "size": 165300
+    },
+    {
+      "name": ".flash_rodata_dummy",
+      "address": "0x3c000020",
+      "size": 196608
+    },
+    {
+      "name": ".flash.appdesc",
+      "address": "0x3c030020",
+      "size": 256
+    },
+    {
+      "name": ".flash.rodata",
+      "address": "0x3c030120",
+      "size": 66896
+    },
+    {
+      "name": ".ext_ram.dummy",
+      "address": "0x3c000020",
+      "size": 327648
+    },
+    {
+      "name": ".iram0.text_end",
+      "address": "0x403897a7",
+      "size": 89
+    }
+  ],
+  "full_runtime_allocation_verified": false,
+  "CPU_WCET_verified": false,
+  "source_sha256": {
+    "experiments/s3_rs_offload.c": "053984c0edfb27dac2be61bea16e2fbc9bf54c57f48f0ad4a4306d8ff4f5c1fe",
+    "experiments/s3_rs_offload.h": "3ac412e2c19f23da4f69438b37d973d2502e24d07c95f39d83513c88645ce7b5",
+    "experiments/s3_rs_rpc.c": "b223ad6a285bb3234824da3d8a769e23f707fd28f2c1aace80b0279e5895667c",
+    "experiments/s3_rs_rpc.h": "e4e7d0ef249ae994f489f25f55fdff2402a9340d022d5de5af3904f715e91a9e",
+    "experiments/s3_rs_workspace.c": "7a4c546b1823fbb6c0e7e21d6498b74af8dc874d5692af7bb8e37fae4ab02ed5",
+    "experiments/s3_rs_workspace.h": "b0cca4fb81537923c792a6aff75a67ba1bc5e4c3ab46e2ff40d745c43a7fb880",
+    "experiments/s3_memory_probe/main/memory_probe.c": "b4abd4920ec1a5959d99412c99c7405d898d59edee0b872f4aa654148e265334",
+    "ci/s3_rf_coexist_probe.py": "a51308c3a1ccba3ed67ec8bc72fed19554eb6a2cefefcdaa4c1d992b833403df",
+    "ci/s3_startup_memory_bound.py": "886f06d7ef4b01c69cd5cbd2fef4640a1f98f4ec9b0d6c584126b3fc3863496c",
+    "ci/s3_rs_link_evidence.py": "0ec4ad4b12182554b74f1a8de40090f09e9e51b035131cfd23f32570d4844ea7",
+    "tests/test_s3_startup_memory_bound.py": "c75af0f63d9b1842db208a00aea0b19f1f940352aadb19a5476a22e8cdadfd47",
+    "experiments/s3_transport.c": "862d6fc17d356cb60b5673c47a72ea90b60fbe26e2e58a372a813e3bfb0fd7e7"
+  },
+  "evaluation": "local pinned-IDF link; not a GitHub Actions completion or hardware boot",
+  "repository_base_commit": "cb3ed366cd84361e5d4b7b81d4f8145b2880a018",
+  "working_tree_changes_included": [
+    "experiments/s3_transport.c"
+  ],
+  "generated_probe_source_sha256": {
+    "build/esp-sdr/main/s3_probe/memory_probe.c": "47fb01edd980de5f81d92ce8aec209a39bc1e76ddfd98d46fc267577ee6e76ed",
+    "build/esp-sdr/main/s3_probe/s3_capture_bridge.c": "1439d512f9881c1f4d02e7bfc57a733c71452fc1451103fcdc82278212e431a7",
+    "build/esp-sdr/main/s3_probe/s3_capture_bridge.h": "1ac9f7df2305be87b5de110e9921c44165cbb352060b738c51496e611ca8c3ff",
+    "build/esp-sdr/main/s3_probe/s3_fft_aes3.S": "b2efab24790f5f6f06f002743af3a24575ca22225ee5d4e8791e3f803abd8a2d",
+    "build/esp-sdr/main/s3_probe/s3_fft_capture_service.c": "fb4408fa522010af24c7f127924fb21bd34d848c8917e00437e17ba79556dd5e",
+    "build/esp-sdr/main/s3_probe/s3_fft_capture_service.h": "da91c449e27128c025dedf87771cb4c20fc0a57601e65cff1c0a3f306170c9e7",
+    "build/esp-sdr/main/s3_probe/s3_fft_simd.c": "7d59fd99d15481faf32baeb6e15bef7bf5e579d203d9cf300d64c0fc98c4f4a0",
+    "build/esp-sdr/main/s3_probe/s3_fft_simd.h": "6085ae0fb48ac5bd6ed3d42902be452a8ce13c942f5c5f765950a80b5078c15a",
+    "build/esp-sdr/main/s3_probe/s3_fft_simd_coefficients.inc": "6e4515981b9e41cea9ecc8a16d9dd868c075ccfde797034e54cfc523a983c75b",
+    "build/esp-sdr/main/s3_probe/s3_fft_simd_tiles.c": "3d62af011e8a7088904a3156c00f617c0ed148f05cb11aa2769c87b51a7ab682",
+    "build/esp-sdr/main/s3_probe/s3_fft_simd_tiles.h": "bfda96c03b1fb743e3326125e0403df1f5cd19d4281ea52a5ebc3a844ced4ab8",
+    "build/esp-sdr/main/s3_probe/s3_fft_tiles.c": "a9fe7b2bab1e7c3b7c21e4cd4dcaedfa30003914926f191cc72c59a7efe6b38c",
+    "build/esp-sdr/main/s3_probe/s3_fft_tiles.h": "130674fb1da169c8eb565359d853b4e3cb7ee059ec4409352b1df45ca8e06e14",
+    "build/esp-sdr/main/s3_probe/s3_fft_tiles_aes3.S": "62e9af155068fdde45c032fa4e8c406be86d139ba0d1ba44e433f8fc71c0be9e",
+    "build/esp-sdr/main/s3_probe/s3_fft_worker.c": "408eed5463443ecf2ddd87d0d7eba2383fdc3cc7821b616e8cfba905516d6f8d",
+    "build/esp-sdr/main/s3_probe/s3_fft_worker.h": "dfb849bd6e88929a0222d77eafd7687c7541a1eaa990c6bdb6ca9213899fd3b8",
+    "build/esp-sdr/main/s3_probe/s3_native_capture.c": "a5570f9ee31b0291c102d176fbebac3c3f26fd646b64b17819b54ff8f8a8bbb7",
+    "build/esp-sdr/main/s3_probe/s3_native_capture.h": "bfb62b2b57cc5f1196964351c819a85aff4255b78e6063d6f6d421a78f0f6e88",
+    "build/esp-sdr/main/s3_probe/s3_rs_offload.c": "053984c0edfb27dac2be61bea16e2fbc9bf54c57f48f0ad4a4306d8ff4f5c1fe",
+    "build/esp-sdr/main/s3_probe/s3_rs_offload.h": "3ac412e2c19f23da4f69438b37d973d2502e24d07c95f39d83513c88645ce7b5",
+    "build/esp-sdr/main/s3_probe/s3_rs_rpc.c": "b223ad6a285bb3234824da3d8a769e23f707fd28f2c1aace80b0279e5895667c",
+    "build/esp-sdr/main/s3_probe/s3_rs_rpc.h": "e4e7d0ef249ae994f489f25f55fdff2402a9340d022d5de5af3904f715e91a9e",
+    "build/esp-sdr/main/s3_probe/s3_rs_workspace.c": "7a4c546b1823fbb6c0e7e21d6498b74af8dc874d5692af7bb8e37fae4ab02ed5",
+    "build/esp-sdr/main/s3_probe/s3_rs_workspace.h": "b0cca4fb81537923c792a6aff75a67ba1bc5e4c3ab46e2ff40d745c43a7fb880",
+    "build/esp-sdr/main/s3_probe/s3_spi_transport.c": "f7df989c1e2c33a4742a2db17701c81f46439e697accb0bea59d07271c5e2934",
+    "build/esp-sdr/main/s3_probe/s3_spi_transport.h": "9e228546e3f18b009cd8e993697bc2d8c38063480201882872a63c5f4b19869a",
+    "build/esp-sdr/main/s3_probe/s3_transport.c": "862d6fc17d356cb60b5673c47a72ea90b60fbe26e2e58a372a813e3bfb0fd7e7",
+    "build/esp-sdr/main/s3_probe/s3_transport.h": "6779a26784a7fcaaa1bb527ab0f2eb2ac01b83e0338e52b7b16fc2b66848b731"
+  },
+  "local_build_environment": {
+    "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+    "Python": "Python 3.12.14",
+    "python_constraints_checked": false,
+    "IDF_source_modified": false,
+    "submodules": " 24c60e243580c7868f4334a1ba3123481fe1aa48 components/bootloader/subproject/components/micro-ecc/micro-ecc (24c60e2)\n 185c7205db1f5082d070d00ea5dfdbb24c291d05 components/bt/controller/lib_esp32 (185c720)\n ff958fab2f693e4b5974375cce525945fd238c4f components/bt/controller/lib_esp32c2/esp32c2-bt-lib (ff958fa)\n 0c68809d62e432427de97b5294f6619307f62f40 components/bt/controller/lib_esp32c3_family (0c68809)\n 74cfecd57f600e5e00d175311893d241a6163cdd components/bt/controller/lib_esp32c5/esp32c5-bt-lib (74cfecd)\n 3655fcdaadb66bb4cd4d497c2dbd4e6e2a4cc696 components/bt/controller/lib_esp32c6/esp32c6-bt-lib (3655fcd)\n a2ba40fae2462488f65efca042e5cecd9e018c7e components/bt/controller/lib_esp32h2/esp32h2-bt-lib (a2ba40f)\n d9fe7de9a9eb2a4e4c51172b9c303f9d800706fa components/bt/esp_ble_mesh/lib/lib (d9fe7de)\n b45dcedcafb7888174c3567002c36b342ec0b723 components/bt/host/nimble/nimble (nimble_1_6_0_tag-340-gb45dcedca)\n eeecc49ce8af123cf8ad40efdb9673e37b56230f components/cmock/CMock (v2.5.2-2-geeecc49)\n 2d68674e3d522fb025e4666217f9cc1ca2af9399 components/esp_coex/lib (2d68674)\n 45ce2703403784b4c3983a52e453988d61eb0e9d components/esp_phy/lib (45ce270)\n c1f74dcf9151ae21b7a3850b90952796a2806358 components/esp_wifi/lib (c1f74dc)\n 2867f6883a12920b1969ff9624c0ab0e4185c2ce components/heap/tlsf (2867f68)\n 8f2beb57ddad1f94bed899790b00f46df893ccac components/json/cJSON (8f2beb5)\n ebabd6d79c120c5d4415755aab1d908d8b5fa372 components/lwip/lwip (ebabd6d)\n b5d87eaa6748b7a6fa70593178c08b4480e9b71e components/mbedtls/mbedtls (b5d87ea)\n 6af4446a48ea7fa54948edc4e62277ed70abb6e1 components/mqtt/esp-mqtt (ESP-MQTT_FOR_IDF_4.x-306-g6af4446)\n ec0296c44f628b8e1d1cb78898fe62baa2f90d13 components/openthread/lib (ec0296c)\n b945928d722177cd9caeab2e1025499628c101ef components/openthread/openthread (thread-reference-20250612-5-gb945928d7)\n abc67a11c6db271bedbb9f58be85d6f4e2ea8389 components/protobuf-c/protobuf-c (v1.4.1)\n 0dbb3f71c5f6fae3747a9d935372773762baf852 components/spiffs/spiffs (0.2-255-g0dbb3f7)\n bf560290f6020737eafaa8b5cbd2177c3956c03f components/unity/unity (v2.6.0_RC1)\n"
+  }
+}

@@ -1,0 +1,113 @@
+/workspace/scratch/22730c77d015/pr4-tools/esp-idf/tools/idf.py:370: DeprecationWarning: 'MultiCommand' is deprecated and will be removed in Click 9.0. Use 'Group' instead.
+  class CLI(click.MultiCommand):
+Executing action: all (aliases: build)
+Running ninja in directory /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf
+Executing "ninja all"...
+[0/1] Re-running CMake...
+-- Minimal build - ON
+-- Building ESP-IDF components for target esp32s3
+"idf_component.yml" file was found for components:
+	/workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/components/esp-dsp
+However, the component manager is not enabled.
+-- Project sdkconfig file /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/sdkconfig
+NOTE: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/bootloader/Kconfig.projbuild:378: Deprecation notice: hex literal '0' without '0x' prefix detected. In the next major version, hex literals will be required to have a '0x' prefix.
+NOTE: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/bootloader/Kconfig.projbuild:418: Deprecation notice: hex literal '0' without '0x' prefix detected. In the next major version, hex literals will be required to have a '0x' prefix.
+NOTE: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_mm/Kconfig:20: Deprecation notice: hex literal '0' without '0x' prefix detected. In the next major version, hex literals will be required to have a '0x' prefix.
+NOTE: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_system/./port/soc/esp32s3/Kconfig.memory:21: Deprecation notice: hex literal '0' without '0x' prefix detected. In the next major version, hex literals will be required to have a '0x' prefix.
+Loading defaults file /workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/sdkconfig.coexist.defaults...
+NOTE: Kconfig parser version: 1
+NOTE: Kconfig defaults policy: use sdkconfig
+NOTE: Status: Finished successfully
+-- Compiler supported targets: xtensa-esp-elf
+-- USING O3
+-- App "esp_sdr" version: e74f2a4-dirty
+-- Adding linker script /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/esp-idf/esp_system/ld/memory.ld
+-- Adding linker script /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/esp-idf/esp_system/ld/sections.ld.in
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.wdt.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_master.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_50.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_smp.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_dtm.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_test.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_scan.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libc.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.newlib.ld
+-- Adding linker script /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+Traceback (most recent call last):
+  File "/workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/gen_gdbinit.py", line 72, in <module>
+    gdbinit_lines = generate_gdbinit_rom_add_symbols(target)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom/gen_gdbinit.py", line 32, in generate_gdbinit_rom_add_symbols
+    raise EnvironmentError(
+OSError: ESP_ROM_ELF_DIR environment variable is not defined. Please try to run IDF "install" and "export" scripts.
+CMake Warning at /workspace/scratch/22730c77d015/pr4-tools/esp-idf/tools/cmake/gdbinit.cmake:52 (message):
+  Error while generating esp_rom gdbinit
+Call Stack (most recent call first):
+  /workspace/scratch/22730c77d015/pr4-tools/esp-idf/tools/cmake/project.cmake:356 (__generate_gdbinit)
+  /workspace/scratch/22730c77d015/pr4-tools/esp-idf/tools/cmake/project.cmake:974 (__project_info)
+  CMakeLists.txt:21 (project)
+
+
+-- Components: app_update bootloader bootloader_support cxx efuse esp-dsp esp_app_format esp_bootloader_format esp_coex esp_common esp_driver_gpio esp_driver_spi esp_driver_uart esp_driver_usb_serial_jtag esp_event esp_hw_support esp_mm esp_netif esp_netif_stack esp_partition esp_phy esp_pm esp_psram esp_ringbuf esp_rom esp_security esp_system esp_timer esp_vfs_console esp_wifi esptool_py freertos hal heap log lwip main mbedtls newlib nvs_flash partition_table pthread soc spi_flash vfs wpa_supplicant xtensa
+-- Component paths: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/app_update /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/bootloader /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/bootloader_support /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/cxx /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/efuse /workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/components/esp-dsp /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_app_format /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_bootloader_format /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_coex /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_common /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_driver_gpio /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_driver_spi /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_driver_uart /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_driver_usb_serial_jtag /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_event /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_hw_support /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_mm /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_netif /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_netif_stack /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_partition /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_phy /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_pm /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_psram /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_ringbuf /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_rom /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_security /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_system /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_timer /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_vfs_console /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_wifi /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esptool_py /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/freertos /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/hal /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/heap /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/log /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/lwip /workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/main /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/mbedtls /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/newlib /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/nvs_flash /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/partition_table /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/pthread /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/soc /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/spi_flash /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/vfs /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/wpa_supplicant /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/xtensa
+-- Configuring done (1.6s)
+-- Generating done (0.2s)
+-- Build files have been written to: /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf
+[1/16] cd /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/esp-idf/main && /workspace/scratch/22730c77d015/pr4-tools/idf-venv/bin/python /workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/tools/generate_version.py --root /workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr --profile esp32s3 --output /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/esp-idf/main/generated/build_version.h
+[2/16] Performing build step for 'bootloader'
+[1/1] cd /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/bootloader/esp-idf/esptool_py && /workspace/scratch/22730c77d015/pr4-tools/idf-venv/bin/python /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/bootloader/bootloader.bin
+Bootloader binary size 0x51a0 bytes. 0x2e60 bytes (36%) free.
+[3/16] No install step for 'bootloader'
+[4/16] Completed 'bootloader'
+[5/16] Building ASM object esp-idf/main/CMakeFiles/__idf_main.dir/s3_probe/s3_fft_tiles_aes3.S.obj
+[6/16] Building ASM object esp-idf/main/CMakeFiles/__idf_main.dir/s3_probe/s3_fft_aes3.S.obj
+[7/16] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/common/burst_version.c.obj
+[8/16] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/s3_probe/memory_probe.c.obj
+[9/16] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/targets/esp32s3/receiver.c.obj
+In file included from /workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/main/targets/esp32s3/receiver.c:101:
+/workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/main/common/burst_limits.h:4:13: warning: 'limits_command' defined but not used [-Wunused-function]
+    4 | static bool limits_command(const char *line) {
+      |             ^~~~~~~~~~~~~~
+In file included from /workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/main/targets/esp32s3/receiver.c:100:
+/workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/main/common/burst_gain.h:71:13: warning: 'gain_command' defined but not used [-Wunused-function]
+   71 | static bool gain_command(const char *line) {
+      |             ^~~~~~~~~~~~
+/workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/main/targets/esp32s3/receiver.c:91:13: warning: 'rx_filter_restore' defined but not used [-Wunused-function]
+   91 | static void rx_filter_restore(void) {
+      |             ^~~~~~~~~~~~~~~~~
+/workspace/scratch/22730c77d015/tangviterbi/build/esp-sdr/main/targets/esp32s3/receiver.c:85:13: warning: 'rx_filter_apply' defined but not used [-Wunused-function]
+   85 | static void rx_filter_apply(void) {
+      |             ^~~~~~~~~~~~~~~
+[10/16] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/s3_probe/s3_control.c.obj
+[11/16] Linking C static library esp-idf/main/libmain.a
+[12/16] Generating esp-idf/esp_system/ld/sections.ld
+NOTE: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/bootloader/Kconfig.projbuild:378: Deprecation notice: hex literal '0' without '0x' prefix detected. In the next major version, hex literals will be required to have a '0x' prefix.
+NOTE: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/bootloader/Kconfig.projbuild:418: Deprecation notice: hex literal '0' without '0x' prefix detected. In the next major version, hex literals will be required to have a '0x' prefix.
+NOTE: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_mm/Kconfig:20: Deprecation notice: hex literal '0' without '0x' prefix detected. In the next major version, hex literals will be required to have a '0x' prefix.
+NOTE: /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/esp_system/./port/soc/esp32s3/Kconfig.memory:21: Deprecation notice: hex literal '0' without '0x' prefix detected. In the next major version, hex literals will be required to have a '0x' prefix.
+[13/16] Linking CXX executable esp_sdr.elf
+[14/16] Generating binary image from built executable
+WARNING: Deprecated: Option '--flash_mode' is deprecated. Use '--flash-mode' instead.
+WARNING: Deprecated: Option '--flash_freq' is deprecated. Use '--flash-freq' instead.
+WARNING: Deprecated: Option '--flash_size' is deprecated. Use '--flash-size' instead.
+esptool v5.5.0
+Creating ESP32-S3 image...
+Merged 2 ELF sections.
+Successfully created ESP32-S3 image.
+Generated /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/esp_sdr.bin
+[15/16] cd /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/esp-idf/esptool_py && /workspace/scratch/22730c77d015/pr4-tools/idf-venv/bin/python /workspace/scratch/22730c77d015/pr4-tools/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/partition_table/partition-table.bin /workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf/esp_sdr.bin
+esp_sdr.bin binary size 0x60cf0 bytes. Smallest app partition is 0x100000 bytes. 0x9f310 bytes (62%) free.
+
+Project build complete. To flash, run:
+ idf.py flash
+or
+ idf.py -p PORT flash
+or
+ python -m esptool --chip esp32s3 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 ../s3-rf-coexist/native-direct-phy-runtime32/idf/bootloader/bootloader.bin 0x8000 ../s3-rf-coexist/native-direct-phy-runtime32/idf/partition_table/partition-table.bin 0x10000 ../s3-rf-coexist/native-direct-phy-runtime32/idf/esp_sdr.bin
+or from the "/workspace/scratch/22730c77d015/tangviterbi/build/s3-rf-coexist/native-direct-phy-runtime32/idf" directory
+ python -m esptool --chip esp32s3 -b 460800 --before default_reset --after hard_reset write_flash "@flash_args"

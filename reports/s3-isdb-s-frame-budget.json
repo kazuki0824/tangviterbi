@@ -1,0 +1,101 @@
+{
+  "scope": "Recheck conventional ISDB-S frame overhead, RS work and burst queues.\n\nITU-R BO.1408-1 Annex1 Appendix1 Table3: 48 slots, 8 frames/superframe,\n203 transmitted bytes/slot, 38976 main symbols, 39936 total symbols/frame.\nThe existing 28.86 MBd parameter is an input, not derived from rounded Table4.\nThis is an ideal decoded-codeword arrival model, not a receiver/deinterleaver.\n",
+  "source": "https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-1-200204-I!!PDF-E.pdf",
+  "symbol_rate_Hz_assumed": 28860000,
+  "frame_symbols": 39936,
+  "main_symbols": 38976,
+  "frame_period_us": 1383.7837837837837,
+  "superframe_period_us": 11070.27027027027,
+  "main_fraction": 0.9759615384615384,
+  "main_RS_codewords_s": 34687.5,
+  "TS_payload_Mbps": 52.17,
+  "instantaneous_no_overhead_RS_codewords_s": 35541.87192118227,
+  "main_with_burst_gap_RS_codewords_s": 34855.07246376811,
+  "TMCC_RS64_codewords_s": 90.33203125,
+  "current_RS204_clocks_per_codeword": 2667,
+  "minimum_clock_MHz": {
+    "main_mean": 92.5115625,
+    "no_overhead_zero_queue": 94.7901724137931,
+    "with_burst_zero_queue": 92.95847826086957,
+    "mean_if_TMCC_64_is_zero_expanded_into_existing_204_decoder": 92.75247802734376
+  },
+  "frame_interleaver_payload_bytes": 77952,
+  "scenarios": [
+    {
+      "core_MHz": 88.4251,
+      "RS204_service_us": 30.161119410665073,
+      "main_only_max_wait_us": 65489.92859542905,
+      "main_only_max_waiting_codewords": 2172,
+      "frames_simulated": 1024,
+      "steady_main_RS_capacity_pass": false,
+      "decoded_arrivals_are_ideal": true,
+      "deinterleaver_and_TMCC_scheduling_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "core_MHz": 90,
+      "RS204_service_us": 29.633333333333333,
+      "main_only_max_wait_us": 39548.71510666469,
+      "main_only_max_waiting_codewords": 1335,
+      "frames_simulated": 1024,
+      "steady_main_RS_capacity_pass": false,
+      "decoded_arrivals_are_ideal": true,
+      "deinterleaver_and_TMCC_scheduling_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "core_MHz": 92.6,
+      "RS204_service_us": 28.801295896328295,
+      "main_only_max_wait_us": 5.220158687792718,
+      "main_only_max_waiting_codewords": 1,
+      "frames_simulated": 1024,
+      "steady_main_RS_capacity_pass": true,
+      "decoded_arrivals_are_ideal": true,
+      "deinterleaver_and_TMCC_scheduling_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "core_MHz": 93.15,
+      "RS204_service_us": 28.63123993558776,
+      "main_only_max_wait_us": 0.0,
+      "main_only_max_waiting_codewords": 0,
+      "frames_simulated": 1024,
+      "steady_main_RS_capacity_pass": true,
+      "decoded_arrivals_are_ideal": true,
+      "deinterleaver_and_TMCC_scheduling_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "core_MHz": 94.7902,
+      "RS204_service_us": 28.135819947631717,
+      "main_only_max_wait_us": 0.0,
+      "main_only_max_waiting_codewords": 0,
+      "frames_simulated": 1024,
+      "steady_main_RS_capacity_pass": true,
+      "decoded_arrivals_are_ideal": true,
+      "deinterleaver_and_TMCC_scheduling_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "core_MHz": 99,
+      "RS204_service_us": 26.939393939393938,
+      "main_only_max_wait_us": 0.0,
+      "main_only_max_waiting_codewords": 0,
+      "frames_simulated": 1024,
+      "steady_main_RS_capacity_pass": true,
+      "decoded_arrivals_are_ideal": true,
+      "deinterleaver_and_TMCC_scheduling_verified": false,
+      "receiver_adopted": false
+    }
+  ],
+  "implemented_modulation_scope": "current S metric/trellis partial top: TC8PSK only",
+  "additional_required_for_general_S": [
+    "BPSK/QPSK K7 64-state path and puncture context",
+    "TMCC RS64/48, frame/slot/TS identification",
+    "main inter-frame deinterleaving and 47h sync restoration",
+    "energy dispersal removal and complete receiver coupling"
+  ],
+  "historical_94_7902_MHz_is_not_a_universal_buffered_receiver_minimum": true,
+  "full_receiver_performance_verified": false,
+  "receiver_adopted": false
+}

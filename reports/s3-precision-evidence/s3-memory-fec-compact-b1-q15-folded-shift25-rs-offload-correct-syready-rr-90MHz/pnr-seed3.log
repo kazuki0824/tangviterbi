@@ -1,0 +1,396 @@
+Info: Using uarch 'gowin' for device 'GW1NR-LV9QN88PC6/I5'
+Info: constraining clock net 'clocking.clk27' to 27.00 MHz
+Info: constraining clock net 'bridge.clk' to 90.00 MHz
+Info: constraining clock net 'bridge.clk_ck' to 90.00 MHz
+Info: constraining clock net 'bridge.p2.spi_clk' to 80.00 MHz
+Info: constraining clock net 'bridge.p3.spi_clk' to 80.00 MHz
+
+Info: Reading constraints...
+Info: Create constant nets...
+Info: Modify LUTs...
+Info: Pack IOBs...
+Info: Pack I3C IOs...
+Info: Pack MIPI IOs...
+Info: Pack diff IOBs...
+Info: Pack FFs into IO cells...
+Info: Pack IODELAY...
+Info: Pack Input Edge Monitors...
+Info: Pack IO logic...
+Info: Pack DESER16 logic...
+Info: Pack GSR...
+Info: Pack HCLK cells...
+Info: Pack DLLDLYs...
+Info: Pack wide LUTs...
+Info: Packed MUX2_LUT8:0, MUX2_LU7:0, MUX2_LUT6:0, MUX2_LUT5:0
+Info: Pack ALUs...
+Info: Pack SSRAMs...
+Info: Constrained 1420 LUTFF pairs.
+Info: Pack PLL...
+Info: Pack ADC...
+Info: Pack GW JTAG...
+Info: Pack BSRAMs...
+Info: Pack DSP...
+Info: Pack INV...
+Info: Pack buffered nets...
+Info: Pack EMCU and UserFlash cells...
+Info: Pack UserFlash cells...
+Info: Pack DQCE cells...
+Info: Pack DCS cells...
+Info: Checksum: 0x48547b2d
+
+Info: Device utilisation:
+Info: 	                 VCC:       1/      1   100%
+Info: 	                 IOB:      27/    276     9%
+Info: 	                LUT4:    5599/   8640    64%
+Info: 	              OSER16:       0/     80     0%
+Info: 	              IDES16:       0/     80     0%
+Info: 	            IOLOGICI:      18/    276     6%
+Info: 	            IOLOGICO:      24/    276     8%
+Info: 	           MUX2_LUT5:       0/   4320     0%
+Info: 	           MUX2_LUT6:       0/   2160     0%
+Info: 	           MUX2_LUT7:       0/   1080     0%
+Info: 	           MUX2_LUT8:       0/   1080     0%
+Info: 	                 ALU:    1952/   6480    30%
+Info: 	                 GND:       1/      1   100%
+Info: 	                 DFF:    3186/   6480    49%
+Info: 	           RAM16SDP4:       0/    270     0%
+Info: 	               BSRAM:      10/     26    38%
+Info: 	              ALU54D:       0/     10     0%
+Info: 	     MULTADDALU18X18:       0/     10     0%
+Info: 	        MULTALU18X18:       0/     10     0%
+Info: 	        MULTALU36X18:       0/     10     0%
+Info: 	           MULT36X36:       0/      5     0%
+Info: 	           MULT18X18:       2/     20    10%
+Info: 	             MULT9X9:       0/     40     0%
+Info: 	              PADD18:       0/     20     0%
+Info: 	               PADD9:       0/     40     0%
+Info: 	                 GSR:       1/      1   100%
+Info: 	                 OSC:       0/      1     0%
+Info: 	                rPLL:       1/      2    50%
+Info: 	           FLASH608K:       0/      1     0%
+Info: 	                BUFG:       2/     22     9%
+Info: 	                DQCE:       0/     24     0%
+Info: 	                 DCS:       0/      8     0%
+Info: 	               DHCEN:       0/     24     0%
+Info: 	              CLKDIV:       0/      8     0%
+Info: 	             CLKDIV2:       0/     16     0%
+Info: 	           MIPI_IBUF:       0/     22     0%
+Info: 	           MIPI_OBUF:       0/     20     0%
+
+Info: Running custom HCLK placer...
+Info: Placed 0 cells based on constraints.
+Info: Creating initial analytic placement for 5610 cells, random placement wirelen = 229818.
+Info:     at initial placer iter 0, wirelen = 3179
+Info:     at initial placer iter 1, wirelen = 2948
+Info:     at initial placer iter 2, wirelen = 2927
+Info:     at initial placer iter 3, wirelen = 2930
+Info: Running main analytical placer, max placement attempts per cell = 14715312.
+Info:     at iteration #1, type ALL: wirelen solved = 2956, spread = 66058, legal = 168991; time = 3.64s
+Info:     at iteration #2, type ALL: wirelen solved = 6319, spread = 47496, legal = 127593; time = 4.10s
+Info:     at iteration #3, type ALL: wirelen solved = 8074, spread = 49861, legal = 119865; time = 2.67s
+Info:     at iteration #4, type ALL: wirelen solved = 9328, spread = 50482, legal = 111667; time = 2.19s
+Info:     at iteration #5, type ALL: wirelen solved = 10849, spread = 50424, legal = 111059; time = 2.04s
+Info:     at iteration #6, type ALL: wirelen solved = 12428, spread = 45689, legal = 99087; time = 2.37s
+Info:     at iteration #7, type ALL: wirelen solved = 13851, spread = 45869, legal = 92263; time = 1.55s
+Info:     at iteration #8, type ALL: wirelen solved = 15434, spread = 41339, legal = 83958; time = 1.84s
+Info:     at iteration #9, type ALL: wirelen solved = 15990, spread = 41330, legal = 81862; time = 1.53s
+Info:     at iteration #10, type ALL: wirelen solved = 17433, spread = 40686, legal = 66257; time = 1.12s
+Info:     at iteration #11, type ALL: wirelen solved = 17474, spread = 38629, legal = 63577; time = 0.80s
+Info:     at iteration #12, type ALL: wirelen solved = 18862, spread = 35278, legal = 55973; time = 0.72s
+Info:     at iteration #13, type ALL: wirelen solved = 18699, spread = 34944, legal = 52593; time = 0.93s
+Info:     at iteration #14, type ALL: wirelen solved = 19492, spread = 35462, legal = 53830; time = 1.17s
+Info:     at iteration #15, type ALL: wirelen solved = 20021, spread = 32939, legal = 52034; time = 0.76s
+Info:     at iteration #16, type ALL: wirelen solved = 20564, spread = 34190, legal = 52839; time = 1.02s
+Info:     at iteration #17, type ALL: wirelen solved = 21174, spread = 36221, legal = 55050; time = 1.13s
+Info:     at iteration #18, type ALL: wirelen solved = 21974, spread = 34307, legal = 52418; time = 0.89s
+Info:     at iteration #19, type ALL: wirelen solved = 22483, spread = 34111, legal = 53800; time = 0.75s
+Info:     at iteration #20, type ALL: wirelen solved = 23516, spread = 34401, legal = 55512; time = 1.02s
+Info: HeAP Placer Time: 33.21s
+Info:   of which solving equations: 2.21s
+Info:   of which spreading cells: 0.29s
+Info:   of which strict legalisation: 30.01s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 96, wirelen = 52034
+Info:   at iteration #5: temp = 0.000000, timing cost = 57, wirelen = 44005
+Info:   at iteration #10: temp = 0.000000, timing cost = 54, wirelen = 41133
+Info:   at iteration #15: temp = 0.000000, timing cost = 51, wirelen = 39784
+Info:   at iteration #20: temp = 0.000000, timing cost = 55, wirelen = 38726
+Info:   at iteration #25: temp = 0.000000, timing cost = 52, wirelen = 38425
+Info:   at iteration #30: temp = 0.000000, timing cost = 52, wirelen = 38266
+Info:   at iteration #30: temp = 0.000000, timing cost = 52, wirelen = 38274 
+Info: SA placement time 14.19s
+
+Info: Max frequency for clock 'bridge.p3.spi_clk': 220.85 MHz (PASS at 80.00 MHz)
+Info: Max frequency for clock 'bridge.p2.spi_clk': 200.72 MHz (PASS at 80.00 MHz)
+Info: Max frequency for clock        'bridge.clk': 125.39 MHz (PASS at 90.00 MHz)
+
+Info: Max delay posedge bridge.clk        -> posedge bridge.p2.spi_clk: 1.83 ns
+Info: Max delay posedge bridge.clk        -> posedge bridge.p3.spi_clk: 0.86 ns
+Info: Max delay posedge bridge.p2.spi_clk -> posedge bridge.clk       : 0.96 ns
+Info: Max delay posedge bridge.p3.spi_clk -> posedge bridge.clk       : 0.96 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 9 endpoint(s)
+Info:          + represents [1,9) endpoint(s)
+Info: [  3136,   3562) |+
+Info: [  3562,   3988) |***+
+Info: [  3988,   4414) |********+
+Info: [  4414,   4840) |******+
+Info: [  4840,   5266) |*****+
+Info: [  5266,   5692) |*********+
+Info: [  5692,   6118) |*********+
+Info: [  6118,   6544) |****+
+Info: [  6544,   6970) |*********+
+Info: [  6970,   7396) |****************+
+Info: [  7396,   7822) |**************+
+Info: [  7822,   8248) |*****************+
+Info: [  8248,   8674) |*****************************************+
+Info: [  8674,   9100) |**********************+
+Info: [  9100,   9526) |*******************************+
+Info: [  9526,   9952) |*******************+
+Info: [  9952,  10378) |************************************************************ 
+Info: [ 10378,  10804) |**********+
+Info: [ 10804,  11230) |+
+Info: [ 11230,  11656) |***+
+Info: Checksum: 0xdd62e588
+Info: Routing globals...
+Info:     'bridge.p3.spi_clk' net was routed.
+Info:     'bridge.p2.spi_clk' net was routed.
+Info:     'clocking.clk27' net was routed using global resources only.
+Info:     'bridge.clk_ck' net was routed using global resources only.
+Info:     'bridge.clk' net was routed using global resources only.
+Info:     'chien.term[1]_DFFE_Q_D_LUT3_F_I1_LUT4_I2_F_LUT2_I1_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_SUM_CIN_ALU_COUT_I1_ALU_I0_SUM_ALU_SUM_2_I1_LUT4_I2_F_LUT2_I1_F_DFFCE_D_CE[0]' is routed using segments.
+Info:     'clocking.locked_LUT2_I1_F_DFFC_CLEAR_Q_DFFC_D_Q_LUT4_I0_I1_LUT2_I0_F[2]' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DO_10_LUT4_I2_F_LUT2_I0_F_DFFCE_Q_D_LUT4_F_I3_LUT2_F_I1_LUT4_F_1_I0[2]' is routed using segments.
+Info:     'vit.metrics[1]_DFFE_Q_3_D_LUT4_F_I2_ALU_SUM_1_I0_LUT3_F_I1_DFFCE_Q_1_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_Q_LUT3_I1_F' is routed using segments.
+Info:     'vit.branch_choice.0.0_DIA_3_DFF_Q_D_DFFCE_Q_D_DFFCE_Q_CE[1]' is routed using segments.
+Info:     'syndrome.rom_odd.0.0_AD_8_DFFCE_D_Q_DFFCE_Q_D_LUT2_I1_F_DFFCE_CE_1_Q[1]' is routed using segments.
+Info:     'bridge.queue.writes.0.0_ADA_2[2]' is routed using segments.
+Info:     'bridge.p3.cs_n_LUT2_I0_F_LUT4_F_I1_LUT4_I3_F[0]' is routed using segments.
+Info:     'vit.metrics[52]_DFFE_Q_2_D_LUT4_F_I2_ALU_SUM_1_I0' is routed using segments.
+Info:     'vit.metrics[4]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_I0' is routed using segments.
+Info:     'vit.metrics[1]_DFFE_Q_3_D_LUT4_F_I2_ALU_SUM_1_I0_LUT3_F_I1_DFFCE_Q_1_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_1_Q_LUT3_I0_F' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DI_DFF_Q_D_DFFCE_Q_D_LUT3_F_I1_LUT4_I1_F_LUT4_I2_F_LUT3_I2_F_LUT3_F_1_I2_LUT4_I3_F_LUT3_I2_F_LUT4_I3_1_F' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I2_DFFC_Q_D_LUT4_F_I0_LUT3_I1_I2_LUT2_I1_F[0]' is routed using segments.
+Info:     'chien.term[1]_DFFE_Q_D_LUT3_F_I1_LUT4_I2_F_LUT2_I1_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_SUM_CIN_ALU_COUT_SUM_LUT3_I2_F_LUT3_F_I2_LUT4_I1_I3_LUT3_F_I1[1]' is routed using segments.
+Info:     'bridge.p2.fifo.mem.0.0_DI_8_LUT3_F_I1_LUT3_I1_F_DFFC_D_Q_LUT3_F_I2_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT3_I2_F_LUT3_I2_F_DFFCE_D_Q_LUT3_I1_F_LUT3_I2_F' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DI_15_DFF_Q_D_DFFCE_Q_D_LUT3_F_I1_DFFCE_D_1_Q_LUT4_F_I3_DFFCE_Q_1_D_LUT4_F_I2_LUT3_F_1_I2_LUT3_F_I2_LUT3_I2_F_LUT3_I2_F_LUT4_F_I0_ALU_SUM_CIN_ALU_COUT_SUM[3]' is routed using segments.
+Info:     'bridge.p2.fifo.mem.0.0_DI_8_LUT3_F_I1_LUT3_I1_F_DFFC_D_Q_LUT3_F_I2_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I2_LUT2_I0_F' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DI_15_DFF_Q_D_DFFCE_Q_D_LUT3_F_I1_DFFCE_D_1_Q_LUT4_F_I3_DFFCE_Q_1_D_LUT4_F_I2_LUT3_F_1_I2_LUT3_F_I2_LUT3_I2_F_LUT3_I2_F[3]' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I2_DFFC_Q_D_LUT4_F_I0_LUT3_I1_I2_LUT2_I1_F_LUT2_F_I1_LUT2_F_I0[1]' is routed using segments.
+Info:     'vit.metrics[4]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_1_I0' is routed using segments.
+Info:     'vit.metrics[1]_DFFE_Q_3_D_LUT4_F_I2_ALU_SUM_I0_LUT3_F_I0_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_Q_LUT3_I0_F' is routed using segments.
+Info:     'vit.metrics[1]_DFFE_Q_3_D_LUT4_F_I2_ALU_SUM_I0_LUT3_F_I0_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_Q_LUT3_I0_F' is routed using segments.
+Info:     'vit.decoded_mem.0.0_WREA_LUT3_I0_F_DFF_Q_D_DFFCE_Q_D_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFF_D_Q_DFF_Q_D_DFFCE_Q_D_LUT1_F_I0_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM[1]' is routed using segments.
+Info:     'metric.peak_DFFE_Q_10_D_LUT3_F_I1[2]' is routed using segments.
+Info:     'chien.locator_DFFE_Q_56_CE_LUT3_F_I2_LUT3_I2_2_F' is routed using segments.
+Info:     'chien.locator_DFFE_Q_CE_LUT3_F_I2_LUT3_I2_F' is routed using segments.
+Info:     'chien.locator_DFFE_Q_56_CE' is routed using segments.
+Info:     'bridge.p3.fifo.mem.0.0_DI_15_LUT3_F_I1_DFFCE_D_CE' is routed using segments.
+Info:     'bridge.p3.cs_n_LUT2_I0_F_LUT4_F_I1_LUT3_I1_F[2]' is routed using segments.
+Info:     'bridge.p3.fifo.mem.0.0_DI_10_LUT3_F_I1[2]' is routed using segments.
+Info:     'bridge.p3.cs_n_LUT2_I0_F_LUT4_F_I1_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFFCE_Q_D_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_ALU_I0_COUT_ALU_CIN_COUT' is routed using segments.
+Info:     'bridge.p2.fifo.mem.0.0_DI_8_LUT3_F_I1_LUT3_I1_F_DFFC_D_Q_LUT3_F_I2_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT3_I2_F_LUT4_I3_F[0]' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DI_15_DFF_Q_D_DFFCE_Q_D_LUT3_F_I1_DFFCE_D_1_Q_LUT4_F_I3_DFFCE_Q_1_D_LUT4_F_I2_LUT3_F_1_I2_LUT3_F_I2_LUT3_I2_F[0]' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DI_15_DFF_Q_D_DFFCE_Q_D_LUT3_F_I1_DFFCE_D_1_Q_LUT4_F_I3_DFFCE_Q_1_D_LUT4_F_I2_LUT3_F_1_I2[0]' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I2_DFFC_Q_D_LUT4_F_I0_LUT2_I1_F_LUT4_I3_1_F' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I2_LUT3_I0_F_LUT4_F_I3_LUT2_F_I1_LUT2_I1_F_LUT4_I2_F_LUT4_F_I3_LUT3_F_I1_LUT2_I1_F[1]' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I2_DFFC_Q_D_LUT4_F_I0_LUT3_I1_F[3]' is routed using segments.
+Info:     'bridge.controller.head[1][1]' is routed using segments.
+Info:     'vit.metrics[52]_DFFE_Q_2_D_LUT4_F_I2_ALU_SUM_I0' is routed using segments.
+Info:     'bridge.p2.fifo.mem.0.0_DI_8_LUT3_F_I1_LUT3_I1_F_DFFC_D_Q_LUT3_F_I2_LUT2_I1_F_LUT4_I2_F_DFFCE_CE_Q_DFFC_D_Q_DFFC_D_Q_DFFCE_Q_CE_LUT4_F_I1_LUT2_F_I1[0]' is routed using segments.
+Info:     'vit.branch_choice.0.0_DIA_3_DFF_Q_D_DFFCE_Q_D_DFFCE_Q_CE_LUT3_F_I2_LUT3_F_I0_LUT3_I0_F[1]' is routed using segments.
+Info:     'chien.locator_DFFE_Q_1_D_LUT3_F_I1[2]' is routed using segments.
+Info:     'bridge.controller.head[0][1]' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DO_14_LUT3_I2_F_LUT3_F_I1_DFFCE_D_Q_DFFCE_Q_D_LUT2_F_I1_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_LUT4_I1_F' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DI_DFF_Q_D_DFFCE_Q_D_LUT3_F_I1_LUT4_I1_F_LUT4_I2_F_LUT2_I1_F_LUT4_F_I1_LUT3_I0_I2_LUT2_I1_F_LUT2_I0_F_DFFCE_CE_Q_LUT3_F_I2_LUT4_I1_F_DFFCE_D_Q_DFFCE_Q_D_LUT3_I2_F' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DI_DFF_Q_D_DFFCE_Q_D_LUT3_F_I1_LUT4_I1_F_LUT4_I2_F_LUT2_I1_F_LUT2_I0_F' is routed using segments.
+Info:     'bridge.p2.fifo.mem.0.0_DI_32_LUT2_F_I0_LUT4_I3_I1_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFFCE_Q_D_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q_ALU_I0_COUT_ALU_CIN_COUT' is routed using segments.
+Info:     'bridge.queue.writes.0.0_DO_16_LUT4_I2_F_LUT4_F_I1_DFFCE_Q_1_D_LUT4_F_I3_LUT2_F_1_I1_LUT4_F_I1[3]' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I2_LUT3_I0_F_LUT4_F_I3_LUT2_F_I1_LUT2_I1_F_LUT4_I2_F_LUT4_F_I3_LUT3_F_1_I2_LUT3_I2_F_LUT2_F_1_I1_LUT2_I1_F_LUT4_I3_F_LUT3_I2_F' is routed using segments.
+Info:     'bridge.queue.writes.0.0_ADA[1]' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I2_LUT3_I0_F_LUT4_F_I3_LUT2_F_I1_LUT2_I1_F_LUT3_F_I1_LUT4_I2_F_LUT4_I3_F_DFFC_D_Q[1]' is routed using segments.
+Info:     'bridge.controller.fifo1[3]_DFFE_Q_D_DFFCE_Q_D_LUT4_F_I3_LUT4_I3_I1_LUT4_F_I3_LUT4_I2_F_LUT2_I0_F' is routed using segments.
+Info:     'O_psram_reset_n_OBUF_O_I_LUT4_F_I2_LUT3_I0_F_LUT4_F_I1_LUT2_I1_F_LUT3_I2_1_I1_LUT4_I2_2_F' is routed using segments.
+Info:     'vit.metrics[4]_DFFE_Q_D_LUT4_F_I2_ALU_SUM_CIN_ALU_COUT_I0' is routed using segments.
+Info:     'vit.metrics[1]_DFFE_Q_3_D_LUT4_F_I2_ALU_SUM_1_I0_LUT3_F_I1_DFFCE_Q_1_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_1_Q_LUT3_I0_F' is routed using segments.
+Info:     'vit.metrics[1]_DFFE_Q_3_D_LUT4_F_I2_ALU_SUM_I0' is routed using segments.
+Info:     'vit.metrics[52]_DFFE_Q_2_D_LUT4_F_I2_ALU_SUM_1_COUT_ALU_CIN_I0' is routed using segments.
+Info:     'chien.locator_DFFE_Q_56_CE_LUT3_F_I2_LUT3_I2_F' is routed using segments.
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 26296 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:       1000 |        7        992 |    7   992 |     25305|       0.68       0.68|
+Info:       2000 |       36       1935 |   29   943 |     24335|       0.38       1.06|
+Info:       3000 |       40       2728 |    4   793 |     23341|       0.21       1.26|
+Info:       4000 |       50       3609 |   10   881 |     22353|       0.17       1.43|
+Info:       5000 |       51       4558 |    1   949 |     21354|       0.32       1.75|
+Info:       6000 |       51       5498 |    0   940 |     20354|       0.43       2.18|
+Info:       7000 |       53       6444 |    2   946 |     19356|       0.40       2.59|
+Info:       8000 |       56       7380 |    3   936 |     18360|       0.40       2.99|
+Info:       9000 |       60       8297 |    4   917 |     17364|       0.41       3.40|
+Info:      10000 |       65       9233 |    5   936 |     16369|       0.46       3.86|
+Info:      11000 |       70      10162 |    5   929 |     15381|       0.38       4.24|
+Info:      12000 |       80      11089 |   10   927 |     14395|       0.43       4.67|
+Info:      13000 |       95      12020 |   15   931 |     13415|       0.43       5.10|
+Info:      14000 |      113      12934 |   18   914 |     12439|       0.48       5.58|
+Info:      15000 |      125      13876 |   12   942 |     11460|       0.58       6.16|
+Info:      16000 |      141      14797 |   16   921 |     10480|       0.53       6.70|
+Info:      17000 |      165      15711 |   24   914 |      9511|       0.52       7.22|
+Info:      18000 |      190      16620 |   25   909 |      8542|       0.55       7.77|
+Info:      19000 |      233      17513 |   43   893 |      7600|       0.64       8.41|
+Info:      20000 |      290      18407 |   57   894 |      6672|       0.73       9.14|
+Info:      21000 |      350      19281 |   60   874 |      5759|       0.84       9.98|
+Info:      22000 |      416      20150 |   66   869 |      4862|       0.77      10.74|
+Info:      23000 |      530      20987 |  114   837 |      4020|       0.83      11.57|
+Info:      24000 |      630      21838 |  100   851 |      3152|       0.91      12.48|
+Info:      25000 |      776      22643 |  146   805 |      2343|       1.06      13.55|
+Info:      26000 |      947      23418 |  171   775 |      1563|       1.34      14.89|
+Info:      27000 |     1156      24169 |  209   751 |       833|       1.48      16.37|
+Info:      28000 |     1383      24905 |  227   736 |       163|       1.47      17.85|
+Info:      28198 |     1409      25062 |   26   157 |         0|       0.25      18.10|
+Info: Routing complete.
+Info: Router1 time 18.10s
+Info: Checksum: 0xb9877cd7
+
+Info: Critical path report for clock 'bridge.p3.spi_clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source bridge.p3.cs_n_LUT2_I0_F_LUT4_F_I1_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D.Q
+Info:    routing  0.89  1.35 Net bridge.p3.cs_n_LUT2_I0_F_LUT4_F_I1_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_Q[1] (32,12) -> (32,12)
+Info:                          Sink bridge.p3.cs_n_LUT2_I0_F_LUT4_F_I3_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.10  2.45 Source bridge.p3.cs_n_LUT2_I0_F_LUT4_F_I3_LUT4_F.F
+Info:    routing  0.81  3.25 Net bridge.p3.cs_n_LUT2_I0_F_LUT4_F_I3[0] (32,12) -> (34,12)
+Info:                          Sink bridge.p3.cs_n_LUT2_I0_F_LUT4_F.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  3.88 Source bridge.p3.cs_n_LUT2_I0_F_LUT4_F.F
+Info:    routing  1.60  5.48 Net bridge.p3.cs_n_LUT2_I0_F[2] (34,12) -> (37,16)
+Info:                          Sink bridge.p3.cs_n_LUT2_I0_F_LUT4_I3.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  6.30 Source bridge.p3.cs_n_LUT2_I0_F_LUT4_I3.F
+Info:    routing  0.89  7.19 Net bridge.p3.cs_n_LUT2_I0_F_LUT4_I3_F[1] (37,16) -> (38,15)
+Info:                          Sink bridge.p3.fifo.mem.0.0_ADA_5_DFFCE_Q.CE
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      setup  0.04  7.23 Source bridge.p3.fifo.mem.0.0_ADA_5_DFFCE_Q.CE
+Info: 3.05 ns logic, 4.19 ns routing
+
+Info: Critical path report for clock 'bridge.p2.spi_clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source bridge.p2.fifo.mem.0.0_ADA_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I0_F_DFFCE_D.Q
+Info:    routing  0.81  1.26 Net bridge.p2.fifo.mem.0.0_ADA_ALU_I1_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT2_I0_F_DFFCE_D_Q[3] (34,25) -> (36,25)
+Info:                          Sink bridge.p2.fifo.mem.0.0_DI_32_LUT2_F_I0_LUT4_I3_F_LUT2_I1_F_LUT4_F_I3_LUT4_F_1.I3
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.62  1.89 Source bridge.p2.fifo.mem.0.0_DI_32_LUT2_F_I0_LUT4_I3_F_LUT2_I1_F_LUT4_F_I3_LUT4_F_1.F
+Info:    routing  0.81  2.69 Net bridge.p2.fifo.mem.0.0_DI_32_LUT2_F_I0_LUT4_I3_F_LUT2_I1_F_LUT4_F_I3[2] (36,25) -> (34,25)
+Info:                          Sink bridge.p2.fifo.mem.0.0_DI_32_LUT2_F_I0_LUT4_I3_F_LUT2_I1_F_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  3.52 Source bridge.p2.fifo.mem.0.0_DI_32_LUT2_F_I0_LUT4_I3_F_LUT2_I1_F_LUT4_F.F
+Info:    routing  1.37  4.89 Net bridge.p2.fifo.mem.0.0_DI_32_LUT2_F_I0_LUT4_I3_F_LUT2_I1_F[2] (34,25) -> (31,26)
+Info:                          Sink bridge.p2.cs_n_LUT4_I0.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  5.71 Source bridge.p2.cs_n_LUT4_I0.F
+Info:    routing  0.81  6.51 Net bridge.p2.cs_n_LUT4_I0_F (31,26) -> (31,27)
+Info:                          Sink bridge.p2.fifo.mem.0.0.CEA
+Info:      setup  0.17  6.68 Source bridge.p2.fifo.mem.0.0.CEA
+Info: 2.90 ns logic, 3.79 ns routing
+
+Info: Critical path report for clock 'bridge.clk' (posedge -> posedge):
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source vit.survivor_pipe_DFF_Q_35.Q
+Info:    routing  0.89  1.35 Net vit.survivor_pipe[35] (22,8) -> (21,8)
+Info:                          Sink vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3_LUT4_F_I3_LUT4_F_I3_LUT4_F_1.I1
+Info:                          Defined in:
+Info:                               build/s3-memory-fec-compact-b1-q15-folded-shift25-rs-offload-correct-syready-rr-90MHz-pnr/viterbi.sv:42.28-42.41
+Info:      logic  1.10  2.45 Source vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3_LUT4_F_I3_LUT4_F_I3_LUT4_F_1.F
+Info:    routing  0.41  2.86 Net vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3_LUT4_F_I3_LUT4_F_I3[2] (21,8) -> (21,8)
+Info:                          Sink vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3_LUT4_F_I3_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  3.68 Source vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3_LUT4_F_I3_LUT4_F.F
+Info:    routing  0.81  4.49 Net vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3_LUT4_F_I3[1] (21,8) -> (21,10)
+Info:                          Sink vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3_LUT4_F.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.10  5.58 Source vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3_LUT4_F.F
+Info:    routing  0.41  6.00 Net vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_I3[2] (21,10) -> (21,11)
+Info:                          Sink vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  6.82 Source vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1.F
+Info:    routing  0.89  7.71 Net vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F_I0_LUT4_I1_F[2] (21,11) -> (20,12)
+Info:                          Sink vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  8.53 Source vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1_LUT4_F.F
+Info:    routing  0.41  8.94 Net vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I1[0] (20,12) -> (20,13)
+Info:                          Sink vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I3_LUT4_F_1.I0
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.03  9.97 Source vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I3_LUT4_F_1.F
+Info:    routing  0.48  10.45 Net vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F_I3[2] (20,13) -> (20,15)
+Info:                          Sink vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F.I2
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  0.82  11.27 Source vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D_LUT4_F.F
+Info:    routing  0.00  11.27 Net vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q_D (20,15) -> (20,15)
+Info:                          Sink vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q.D
+Info:      setup  0.40  11.67 Source vit.decoded_mem.0.0_DIA_1_DFF_Q_D_DFFCE_Q.D
+Info: 7.37 ns logic, 4.30 ns routing
+
+Info: Critical path report for cross-domain path 'posedge bridge.clk' -> 'posedge bridge.p2.spi_clk':
+Info:       type curr  total name
+Info:   clk-to-q  0.46  0.46 Source clocking.locked_LUT2_I1_F_DFFC_CLEAR_Q_DFFC_D.Q
+Info:    routing  0.33  0.78 Net chien.term[1]_DFFE_Q_D_LUT3_F_I1_LUT4_I2_F_LUT2_I1_F_DFFCE_Q_1_D_LUT2_F_I1_ALU_SUM_CIN_ALU_COUT_I1_ALU_I0_SUM_ALU_SUM_2_I1_LUT4_I2_F_LUT2_I1_F_DFFCE_D_CE[0] (31,26) -> (31,26)
+Info:                          Sink bridge.p2.cs_n_LUT4_I0.I1
+Info:                          Defined in:
+Info:                               /workspace/scratch/5bc736d51023/tooling/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21
+Info:      logic  1.10  1.88 Source bridge.p2.cs_n_LUT4_I0.F
+Info:    routing  0.81  2.69 Net bridge.p2.cs_n_LUT4_I0_F (31,26) -> (31,27)
+Info:                          Sink bridge.p2.fifo.mem.0.0.CEA
+Info:      setup  0.17  2.86 Source bridge.p2.fifo.mem.0.0.CEA
+Info: 1.73 ns logic, 1.13 ns routing
+
+Info: Max frequency for clock 'bridge.p3.spi_clk': 138.24 MHz (PASS at 80.00 MHz)
+Info: Max frequency for clock 'bridge.p2.spi_clk': 149.59 MHz (PASS at 80.00 MHz)
+ERROR: Max frequency for clock        'bridge.clk': 85.66 MHz (FAIL at 90.00 MHz)
+
+Info: Max delay posedge bridge.clk -> posedge bridge.p2.spi_clk: 2.86 ns
+
+Info: Slack histogram:
+Info:  legend: * represents 3 endpoint(s)
+Info:          + represents [1,3) endpoint(s)
+Info: [  -563,     21) |+
+Info: [    21,    605) |+
+Info: [   605,   1189) |**+
+Info: [  1189,   1773) |*****+
+Info: [  1773,   2357) |**+
+Info: [  2357,   2941) |**+
+Info: [  2941,   3525) |******+
+Info: [  3525,   4109) |**********+
+Info: [  4109,   4693) |*********************************+
+Info: [  4693,   5277) |************************************************************ 
+Info: [  5277,   5861) |**********************************************+
+Info: [  5861,   6445) |*****************************************************+
+Info: [  6445,   7029) |**********************************************************+
+Info: [  7029,   7613) |**********************************************+
+Info: [  7613,   8197) |****************************************************+
+Info: [  8197,   8781) |**********************************************+
+Info: [  8781,   9365) |**************************************+
+Info: [  9365,   9949) |********************+
+Info: [  9949,  10533) |**+
+Info: [ 10533,  11117) |*+
+
+0 warnings, 1 error
+
+Info: Program finished normally.

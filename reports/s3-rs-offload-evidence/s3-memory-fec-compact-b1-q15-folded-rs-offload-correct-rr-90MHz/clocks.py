@@ -1,0 +1,5 @@
+ctx.addClock('clocking.clk27',27)
+ctx.addClock('bridge.clk',90)
+ctx.addClock('bridge.clk_ck',90)
+ctx.addClock('bridge.p2.spi_clk',80)
+ctx.addClock('bridge.p3.spi_clk',80)

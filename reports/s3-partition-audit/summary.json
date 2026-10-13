@@ -1,0 +1,278 @@
+{
+  "scope": "256 T + 64 S whole-stage assignments, 4 RS subpartitions, 18 explicit peripheral profiles. No universal exhaustive microarchitecture claim.",
+  "capacities": {
+    "BSRAM": 26,
+    "DSP18": 20,
+    "FF": 6480,
+    "logic_sites_estimate": 8640
+  },
+  "profiles": [
+    {
+      "capacity_Bps": 40000000,
+      "exclusive_group": "SPI2",
+      "kind": "half",
+      "name": "SPI2_Quad80",
+      "pin_lower_bound": 6,
+      "effective_gap0_MBps": 33.3958418263351,
+      "effective_gap8_MBps": 33.3958418263351
+    },
+    {
+      "capacity_Bps": 80000000,
+      "exclusive_group": "SPI2",
+      "kind": "half",
+      "name": "SPI2_Octal80",
+      "pin_lower_bound": 10,
+      "effective_gap0_MBps": 70.32765774788953,
+      "effective_gap8_MBps": 70.32765774788953
+    },
+    {
+      "capacity_Bps": 40000000,
+      "exclusive_group": "SPI3",
+      "kind": "half",
+      "name": "SPI3_Quad80",
+      "pin_lower_bound": 6,
+      "effective_gap0_MBps": 33.3958418263351,
+      "effective_gap8_MBps": 33.3958418263351
+    },
+    {
+      "capacity_Bps": 80000000,
+      "exclusive_group": "LCD",
+      "kind": "down",
+      "name": "LCD16_40",
+      "pin_lower_bound": 19,
+      "effective_gap0_MBps": 79.6887159533074,
+      "effective_gap8_MBps": 68.95622895622895
+    },
+    {
+      "capacity_Bps": 40000000,
+      "exclusive_group": "LCD",
+      "kind": "down",
+      "name": "LCD8_40",
+      "pin_lower_bound": 11,
+      "effective_gap0_MBps": 39.8443579766537,
+      "effective_gap8_MBps": 36.96750902527076
+    },
+    {
+      "capacity_Bps": 80000000,
+      "exclusive_group": "CAM",
+      "kind": "up",
+      "name": "CAM16_40",
+      "pin_lower_bound": 19,
+      "effective_gap0_MBps": 79.6887159533074,
+      "effective_gap8_MBps": 68.95622895622895
+    },
+    {
+      "capacity_Bps": 40000000,
+      "exclusive_group": "CAM",
+      "kind": "up",
+      "name": "CAM8_40",
+      "pin_lower_bound": 11,
+      "effective_gap0_MBps": 39.8443579766537,
+      "effective_gap8_MBps": 36.96750902527076
+    },
+    {
+      "capacity_Bps": 20000000,
+      "exclusive_group": "SDHOST",
+      "kind": "half",
+      "name": "SDIO4_40",
+      "pin_lower_bound": 6,
+      "effective_gap0_MBps": 17.651368239603535,
+      "effective_gap8_MBps": 17.651368239603535
+    },
+    {
+      "capacity_Bps": 40000000,
+      "exclusive_group": "SDHOST",
+      "kind": "half",
+      "name": "eMMC8_SDR40",
+      "pin_lower_bound": 10,
+      "effective_gap0_MBps": 31.690522243713733,
+      "effective_gap8_MBps": 31.690522243713733
+    },
+    {
+      "capacity_Bps": 5000000,
+      "exclusive_group": null,
+      "kind": "up",
+      "name": "I2S0_RX40",
+      "pin_lower_bound": 3,
+      "effective_gap0_MBps": 4.980544747081712,
+      "effective_gap8_MBps": 4.980544747081712
+    },
+    {
+      "capacity_Bps": 5000000,
+      "exclusive_group": null,
+      "kind": "down",
+      "name": "I2S0_TX40",
+      "pin_lower_bound": 3,
+      "effective_gap0_MBps": 4.980544747081712,
+      "effective_gap8_MBps": 4.980544747081712
+    },
+    {
+      "capacity_Bps": 5000000,
+      "exclusive_group": null,
+      "kind": "up",
+      "name": "I2S1_RX40",
+      "pin_lower_bound": 3,
+      "effective_gap0_MBps": 4.980544747081712,
+      "effective_gap8_MBps": 4.980544747081712
+    },
+    {
+      "capacity_Bps": 5000000,
+      "exclusive_group": null,
+      "kind": "down",
+      "name": "I2S1_TX40",
+      "pin_lower_bound": 3,
+      "effective_gap0_MBps": 4.980544747081712,
+      "effective_gap8_MBps": 4.980544747081712
+    },
+    {
+      "name": "SPI2_Single80",
+      "kind": "half",
+      "capacity_Bps": 10000000.0,
+      "pin_lower_bound": 4,
+      "exclusive_group": "SPI2",
+      "effective_gap0_MBps": 9.512308406874128,
+      "effective_gap8_MBps": 9.512308406874128
+    },
+    {
+      "name": "SPI2_Dual80",
+      "kind": "half",
+      "capacity_Bps": 20000000.0,
+      "pin_lower_bound": 4,
+      "exclusive_group": "SPI2",
+      "effective_gap0_MBps": 18.180204172214825,
+      "effective_gap8_MBps": 18.180204172214825
+    },
+    {
+      "name": "SPI3_Single80",
+      "kind": "half",
+      "capacity_Bps": 10000000.0,
+      "pin_lower_bound": 4,
+      "exclusive_group": "SPI3",
+      "effective_gap0_MBps": 9.512308406874128,
+      "effective_gap8_MBps": 9.512308406874128
+    },
+    {
+      "name": "SPI3_Dual80",
+      "kind": "half",
+      "capacity_Bps": 20000000.0,
+      "pin_lower_bound": 4,
+      "exclusive_group": "SPI3",
+      "effective_gap0_MBps": 18.180204172214825,
+      "effective_gap8_MBps": 18.180204172214825
+    },
+    {
+      "name": "eMMC4_DDR40",
+      "kind": "half",
+      "capacity_Bps": 40000000.0,
+      "pin_lower_bound": 6,
+      "exclusive_group": "SDHOST",
+      "effective_gap0_MBps": 31.690522243713733,
+      "effective_gap8_MBps": 31.690522243713733
+    }
+  ],
+  "rates": {
+    "T_raw_MBps": 40,
+    "S_raw_MBps": 100,
+    "T_FFT_each_direction_MBps": 31.522847522847524,
+    "RS_codewords_s": 35541.87192118227,
+    "RS_deadline_us": 28.135828135828135,
+    "RS_batch_us": 5739.708939708939,
+    "S_RF_CPU_model_low_high_Mcycles": [
+      373.3203125,
+      453.3203125
+    ],
+    "S_remaining_aggregate_cycles_per_CW": [
+      3001.521353083853,
+      750.6551022176021
+    ]
+  },
+  "definitions": {
+    "down": "S3 to FPGA",
+    "up": "FPGA to S3",
+    "SPI": "80MHz master,20us API; octal3page .25us segment; others onepage",
+    "parallel": "4096B+16B framing; 0 or 8us gap scenarios, not measured",
+    "SD": "40MHz host,20us gap; 96+18*9 clocks overhead; FPGA card endpoint unimplemented",
+    "pins": "Same-controller full-duplex I2S may share BCLK/WS with matching clock/slots; +3 S3 control <=30, +6 FPGA control/TS <=35; counts only, no pin/electrical proof",
+    "GDMA": "5 TX/RX pairs; SPI reserves whole pair; LCD TX, CAM RX and each I2S direction need a channel; SDMMC separate DMA; no memory contention proof",
+    "resource": "All inherited partial resource numbers are labelled incomplete; no new P&R performed"
+  },
+  "receiver_adopted": false,
+  "provenance": {
+    "prior_file": "isdb-9k-four-soc-reestimate.html",
+    "prior_ledger_sha256": "589ff9a16bd2ea1aac3c764a78e1a522286f3564cc2e7d87656b42fcdcba19bf",
+    "prior_sha256": "ce9a0b99692dfff79e5627b4337ebeab284b12d879a3eb5f00cbf38281fd4f67",
+    "prior_version": 24,
+    "source_pr4_head": "2b9823f60a546cd3c6a1b9d4dcb7441387926fed",
+    "status": "Inherited analytical stage profiles; not CPU WCET or full FPGA resources"
+  },
+  "performance_stage_completed": false,
+  "complete_estimate": false,
+  "all_receiver_implemented": false,
+  "safe_to_flash": false,
+  "CPU_WCET_verified": false,
+  "whole_FPGA_resources_verified": false,
+  "proposed_validation_order": [
+    "T target SIMD FFT, separate from the failed scalar O3 object",
+    "S resource redesign, separate from the failed Forney mapped netlist"
+  ],
+  "selected_implementation_observations": {
+    "T_scalar_FFT_O3": {
+      "ideal_two_core_us_lower_bound": 3882.6666666666665,
+      "period_us": 1039.5,
+      "selected_object_pass": false,
+      "evidence": "reports/s3-fft-target-bound/results.json"
+    },
+    "S_BM_Omega_Forney_FPGA_partial": {
+      "minimum_required_logic_sites": 9426,
+      "available_logic_sites": 8640,
+      "selected_mapped_netlist_pass": false,
+      "evidence": "reports/s3-rs-forney-evidence/results.json"
+    }
+  },
+  "validation_order_is_feasibility_recommendation": false,
+  "whole_stage_assignments": 320,
+  "CPU_average_only_screen_pass_count": 24,
+  "pin_count_legal_subsets": 2169,
+  "RS_route_counts": {
+    "CPU_all_RS": {
+      "gap0": {
+        "sets": 31,
+        "message_assignments": 240
+      },
+      "gap8": {
+        "sets": 28,
+        "message_assignments": 230
+      }
+    },
+    "CPU_BM_Chien_Forney": {
+      "gap0": {
+        "sets": 180,
+        "message_assignments": 1041
+      },
+      "gap8": {
+        "sets": 169,
+        "message_assignments": 1003
+      }
+    },
+    "CPU_BM_Omega": {
+      "gap0": {
+        "sets": 178,
+        "message_assignments": 1033
+      },
+      "gap8": {
+        "sets": 163,
+        "message_assignments": 971
+      }
+    },
+    "CPU_BM_Omega_Forney": {
+      "gap0": {
+        "sets": 198,
+        "message_assignments": 14953
+      },
+      "gap8": {
+        "sets": 185,
+        "message_assignments": 14473
+      }
+    }
+  }
+}

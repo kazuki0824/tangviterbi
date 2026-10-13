@@ -1,0 +1,202 @@
+{
+  "scope": "Proposed connector-only data wiring; not an electrical timing certificate.\n\nSipeed Tang_nano_9K_3674_schematics.pdf sheet GW1NR 9K (downloaded 2026-10-09).\nAll data/TS pins below are on the board's 3.3 V banks. RECONFIG_N separately\nrequires a connection at pin9/R18 and a 1.8-V open-drain interface. MODE1/R17\nmust be changed from pull-down to the 1.8-V MSPI strap; this is NOT stock boot.\nNo microSD/card/LCD/HDMI load may be attached to these shared nets.\n",
+  "board_revision_reference": "Tang_nano_9K_3674_schematics.pdf / 2024-03-11 NO.01",
+  "module": "ESP32-S3-WROOM-1U-N16R8",
+  "nets": [
+    {
+      "signal": "spi2_sclk",
+      "ESP_GPIO": 12,
+      "FPGA_pin": 35,
+      "connector": "J5",
+      "connector_pin": 14,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_cs_n",
+      "ESP_GPIO": 10,
+      "FPGA_pin": 25,
+      "connector": "J5",
+      "connector_pin": 5,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_d0",
+      "ESP_GPIO": 11,
+      "FPGA_pin": 26,
+      "connector": "J5",
+      "connector_pin": 6,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_d1",
+      "ESP_GPIO": 13,
+      "FPGA_pin": 27,
+      "connector": "J5",
+      "connector_pin": 7,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_d2",
+      "ESP_GPIO": 14,
+      "FPGA_pin": 28,
+      "connector": "J5",
+      "connector_pin": 8,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_d3",
+      "ESP_GPIO": 9,
+      "FPGA_pin": 29,
+      "connector": "J5",
+      "connector_pin": 9,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_d4",
+      "ESP_GPIO": 4,
+      "FPGA_pin": 30,
+      "connector": "J5",
+      "connector_pin": 10,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_d5",
+      "ESP_GPIO": 5,
+      "FPGA_pin": 33,
+      "connector": "J5",
+      "connector_pin": 11,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_d6",
+      "ESP_GPIO": 6,
+      "FPGA_pin": 34,
+      "connector": "J5",
+      "connector_pin": 12,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi2_d7",
+      "ESP_GPIO": 7,
+      "FPGA_pin": 40,
+      "connector": "J5",
+      "connector_pin": 13,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi3_sclk",
+      "ESP_GPIO": 16,
+      "FPGA_pin": 36,
+      "connector": "J5",
+      "connector_pin": 3,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi3_cs_n",
+      "ESP_GPIO": 15,
+      "FPGA_pin": 41,
+      "connector": "J5",
+      "connector_pin": 15,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi3_d0",
+      "ESP_GPIO": 17,
+      "FPGA_pin": 42,
+      "connector": "J5",
+      "connector_pin": 16,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi3_d1",
+      "ESP_GPIO": 18,
+      "FPGA_pin": 51,
+      "connector": "J5",
+      "connector_pin": 17,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi3_d2",
+      "ESP_GPIO": 8,
+      "FPGA_pin": 53,
+      "connector": "J5",
+      "connector_pin": 18,
+      "voltage": 3.3
+    },
+    {
+      "signal": "spi3_d3",
+      "ESP_GPIO": 21,
+      "FPGA_pin": 54,
+      "connector": "J5",
+      "connector_pin": 19,
+      "voltage": 3.3
+    },
+    {
+      "signal": "control_sda",
+      "ESP_GPIO": 38,
+      "FPGA_pin": 55,
+      "connector": "J5",
+      "connector_pin": 20,
+      "voltage": 3.3
+    },
+    {
+      "signal": "control_scl",
+      "ESP_GPIO": 39,
+      "FPGA_pin": 56,
+      "connector": "J5",
+      "connector_pin": 21,
+      "voltage": 3.3
+    },
+    {
+      "signal": "ts_data",
+      "ESP_GPIO": null,
+      "FPGA_pin": 31,
+      "connector": "J6",
+      "connector_pin": 21,
+      "voltage": 3.3
+    },
+    {
+      "signal": "ts_clk",
+      "ESP_GPIO": null,
+      "FPGA_pin": 32,
+      "connector": "J6",
+      "connector_pin": 22,
+      "voltage": 3.3
+    },
+    {
+      "signal": "ts_valid",
+      "ESP_GPIO": null,
+      "FPGA_pin": 48,
+      "connector": "J6",
+      "connector_pin": 19,
+      "voltage": 3.3
+    },
+    {
+      "signal": "ts_sync",
+      "ESP_GPIO": null,
+      "FPGA_pin": 49,
+      "connector": "J6",
+      "connector_pin": 20,
+      "voltage": 3.3
+    }
+  ],
+  "reconfig": {
+    "ESP_GPIO": 40,
+    "FPGA_pin": 9,
+    "board_net": "IOL13B_RECONFIG_N / R18",
+    "voltage": 1.8,
+    "header_exposed": false,
+    "interface": "open-drain level shift"
+  },
+  "boot_strap": {
+    "MODE1_pin": 87,
+    "resistor": "R17",
+    "stock": "4.7k to GND",
+    "required": "MODE1=1 at 1.8 V; keep MODE0=0"
+  },
+  "ts_format": "serial data plus clock, valid, sync; sink chosen externally",
+  "pin_count_checked": true,
+  "routed_receiver_CST_verified": false,
+  "IO_STA_verified": false,
+  "receiver_adopted": false
+}
