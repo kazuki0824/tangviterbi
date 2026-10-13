@@ -15,6 +15,7 @@ from pathlib import Path
 
 from s3_peripheral_resources import constraints, pin_count
 from s3_sct_schedule import service
+from dual_s3_deadlines import RS_CYCLES, fft_schedule
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = '4f92e8ee52256375e1ce10890e77986509444332'
@@ -160,8 +161,8 @@ def candidate_budgets():
         'S_FIR_sync_frame_TS': [1128, 1472, 9, 14],
         'S_TC8PSK': [3208, 1758, 4, 2],
         'S_BPSK_QPSK_K7_extra': [2952, 1502, 2, 0],
-        'RS_T': [2085, 960, 1, 0],
-        'RS_S': [2085, 960, 1, 0],
+        'RS_T': [2400, 1280, 3, 0],  # corrected decoder + one staging BSRAM allocation
+        'RS_S': [2400, 1280, 3, 0],
         'FFT_tiled': [1400, 1024, 8, 8],
         'IO_SDRAM_TMCC_control_reserve': [3000, 2000, 13, 0],
     }
@@ -171,7 +172,7 @@ def candidate_budgets():
         clock = 162
         if name != 'A_tiled_independent_RS':
             del b['RS_T']
-            b['RS_S'] = [2385, 1216, 2, 0]  # extra context/arbiter, no free sharing
+            b['RS_S'] = [2700, 1408, 3, 0]  # measured register-table wrapper: >=2450 sites, 1055 FF, 2 BSRAM; +staging
             clock = 162
         if name == 'C_resident_shared_RS':
             b['FFT_tiled'] = [1000, 1024, 20, 4]  # 16 data +3 exact-quarter ROM +1 reserve
@@ -190,10 +191,15 @@ def candidate_budgets():
         mem += 10
         rows.append(dict(id=name, blocks=dict(zip(b, [dict(zip(CAP,v)) for v in b.values()])),
                          resources=res, occupancy_percent={k:100*v/CAP[k] for k,v in res.items()},
-                         clock_target_MHz=clock, RS_service_us=2667/clock,
-                         RS_engine_utilization=2667*rs_rate/(clock*1e6),
-                         SDRAM_required_MBps=mem, SDRAM_capacity_assumed_MBps=135*4*.55,
-                         SDRAM_utilization=mem/(135*4*.55),
+                         clock_target_MHz=clock, RS_service_us=RS_CYCLES/clock,
+                         RS_engine_utilization=RS_CYCLES*rs_rate/(clock*1e6),
+                         SDRAM_required_MBps=mem, SDRAM_capacity_assumed_MBps=135*4*.65,
+                         SDRAM_utilization=mem/(135*4*.65),
+                         revised_after_shared_RS_synthesis=True,
+                         SDRAM_efficiency_is_unverified_design_requirement=True,
+                         tiled_FFT_55percent_schedule_rejected=name.startswith(('A_', 'B_')),
+                         FFT_at_65percent=[{k:v for k,v in fft_schedule(n,.65).items() if k not in ('first','second')}
+                                           for n in (2048,4096,8192)] if name.startswith(('A_','B_')) else None,
                          resource_budget_pass=all(res[k]<=CAP[k] for k in CAP),
                          performance_verified=False, formally_assigned_routes=0, adopted=False))
     return rows

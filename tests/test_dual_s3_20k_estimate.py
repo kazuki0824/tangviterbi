@@ -38,6 +38,8 @@ class EstimateTest(unittest.TestCase):
         rows={r['id']:r for r in candidate_budgets()}
         self.assertGreater(rows['C_resident_shared_RS']['resources']['BSRAM'],46)
         self.assertLess(rows['B_tiled_shared_RS']['resources']['BSRAM'],46)
+        self.assertFalse(rows['A_tiled_independent_RS']['resource_budget_pass'])
+        self.assertTrue(rows['B_tiled_shared_RS']['tiled_FFT_55percent_schedule_rejected'])
         self.assertTrue(all(not r['performance_verified'] and not r['adopted'] for r in rows.values()))
 
     def test_rpc_message_overhead_is_not_rf_three_page_overhead(self):

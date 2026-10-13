@@ -302,4 +302,6 @@ A failed fit/timing result intentionally makes the job fail.
 
 A timing PASS at 110 MHz establishes clock margin. Sustained throughput also requires the per-step/per-block service budgets and bounded buffering. It does not prove a complete ISDB-T receiver. RF acquisition, depuncturing/interleaving integration, S31↔FPGA transport, clock-domain crossings, and bit-exact end-to-end verification remain separate tasks.
 
+20K＋S3×2の継続検算：共有RS RTL・部分合成と、55% SDRAM仮定の期限超過を[追加報告](reports/20k-dual-s3-progress.md)に記録。受信機全体の採用は未達。
+
 4 SoCの全1280分担・7040費用profileとT/S別image比較は[比較台帳](reports/four-soc-comparison.md)。仮説比較は開始可能、最良確定と受信機採用は未達。

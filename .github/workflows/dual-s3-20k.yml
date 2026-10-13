@@ -1,0 +1,46 @@
+name: Dual S3 20K partial RS and deadline evidence
+on:
+  pull_request:
+    paths:
+      - 'rtl/dual_shared_rs.sv'
+      - 'rtl/rs204_188_compact.sv'
+      - 'experiments/s3_rs_*.py'
+      - 'experiments/check_isdb_rs.py'
+      - 'experiments/dual_s3_*.py'
+      - 'tests/test_dual_*.py'
+      - 'ci/dual_shared_rs_evidence.py'
+      - '.github/workflows/dual-s3-20k.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  partial-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m pip install numpy==2.3.5 yowasp-yosys==0.70.0.0.post1259 yowasp-runtime==1.96 wasmtime==47.0.1
+      - name: Test conservation, buffers, and mixed-stream corrected RS
+        env:
+          DUAL_RS_REPORT: build/dual-shared-rs-rtl.json
+        run: |
+          mkdir -p build
+          python -m unittest discover -s tests -p 'test_dual_*.py' -v
+          python experiments/dual_s3_deadlines.py --output build/dual-deadlines.json
+      - name: Synthesize both corrected RS table implementations (not full receiver STA)
+        run: python ci/dual_shared_rs_evidence.py --yosys yowasp-yosys --output build/dual-shared-rs-synthesis.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dual-s3-partial-evidence
+          path: |
+            build/dual-*.json
+            build/dual-shared-rs-evidence/*.log
+            build/dual-shared-rs-evidence/*.ys
+            build/dual-shared-rs-evidence/*.sv

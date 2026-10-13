@@ -2,8 +2,10 @@
 
 2026-10-14（JST）。基準はmain `4f92e8e`（PR #4取り込み後）。
 
+**継続検算で共有RS予算とSDRAM期限を改訂した。詳細は[共有RS実装・FFT期限の追加検算](20k-dual-s3-progress.md)。初回の43 BSRAM・SDRAM効率55%を成立条件として使わない。**
+
 **優先して検証する設計案はB：S3は各RF取得・native IQの無損失転送、20Kは両復調を同時実行、TのFFTはタイル化してSDRAMを使用、RSはT/S/TMCCで共有する構成。**
-設計予算は18,737 logic位置（90.36%）、43 BSRAM（93.48%）、38 DSP18（79.17%）。
+設計予算は19,052 logic位置（91.88%）、44 BSRAM（95.65%）、38 DSP18（79.17%）。
 ただしこれは新しい構成の**実装前予算**であって、合成結果でも保証上限でもない。
 現時点で、指定された手順の①「性能余裕を確認済み」を満たして②正式通信割当→③採用まで進められる受信機は**0件**。
 Bは実現可能と確定した案ではなく、具体的な容量・期限条件を持つ設計仮説である。
@@ -29,7 +31,7 @@ Bは実現可能と確定した案ではなく、具体的な容量・期限条�
 |---|---|
 | 9Kの8,640 logic /26 BSRAM/20 DSP | 20Kの20,736 /46 /48へ変更。FFは15,552、PLLは2、SDRAMは8 MiB。9KのPSRAM controllerを20K SDRAM controllerと呼ばない |
 | T/S排他の資源最大値 | 全16,384 pairを**加算**。共有RS案だけ別にarbiter/contextを加算して共有する |
-| 旧Viterbiの高Fmax、旧RS3502 clocks | 旧復号不合格を保持。全受信機のFmax証拠へ転用しない。新しいRS予算は既存修正実装の2667 clocks/CW |
+| 旧Viterbiの高Fmax、旧RS3502 clocks | 旧復号不合格を保持。全受信機のFmax証拠へ転用しない。decoder単体2667 clocks/CWと、今回実装した共有wrapperの2672 clocks/CWを区別 |
 | SのTS平均52.17 Mbit/s | 出口帯域とframe平均のみに使用。RS入口の保守期限は28.135828 µs/CW |
 | TC8PSKのみのS partial回路 | BPSK/QPSK用K7を別途2,952 logic、1,502 FF、2 BSRAMで予約。TC8PSK距離演算は3 cycles/symbol＝86.58 MHz必要 |
 | FFT8192の旧stage費用 | 面積参考値と期限を分離。タイル案は全sample・全binを保持する別アルゴリズム。旧FFT費用の測定済み認定はしない |
@@ -92,10 +94,10 @@ stage見積もりのlogicはLUT4単独とALU/独立FFの配置位置問題を含
 
 | 案 | FPGA内の違い | logic /20,736 | FF /15,552 | BSRAM /46 | DSP18 /48 | 判断 |
 |---|---|---:|---:|---:|---:|---|
-| A | タイルFFT、T/S独立RS | 20,522（98.97%） | 13,546（87.10%） | 43（93.48%） | 38（79.17%） | logic予算残214で余裕が乏しい。優先しない |
-| **B** | **タイルFFT、T/S/TMCC共有RS** | **18,737（90.36%）** | **12,842（82.57%）** | **43（93.48%）** | **38（79.17%）** | **優先して検証する仮説。性能ゲートは未通過** |
-| C | 内蔵RAM常駐FFT、共有RS | 18,337（88.43%） | 12,842（82.57%） | **55（119.57%）** | 34（70.83%） | このbuffer構成は容量不合格 |
-| D | TのFFTをS3-T、共有RS | 17,837（86.02%） | 12,330（79.28%） | 39（84.78%） | 30（62.50%） | FPGAは軽いがS3-Tの期限と通信往復が厳しい |
+| A | タイルFFT、T/S独立RS | 21,152（102.01%） | 14,186（91.22%） | 47（102.17%） | 38（79.17%） | 改訂予算ではlogic/RAM超過 |
+| **B** | **タイルFFT、T/S/TMCC共有RS** | **19,052（91.88%）** | **13,034（83.81%）** | **44（95.65%）** | **38（79.17%）** | **レジスタ版共有RSを優先。全体性能ゲートは未通過** |
+| C | 内蔵RAM常駐FFT、共有RS | 18,652（89.95%） | 13,034（83.81%） | **56（121.74%）** | 34（70.83%） | RAM容量不合格 |
+| D | TのFFTをS3-T、共有RS | 18,152（87.54%） | 12,522（80.52%） | 40（86.96%） | 30（62.50%） | SoC期限と通信往復が未確認 |
 
 案Bの内訳は[summary.json](20k-dual-s3/summary.json)の`candidates[].blocks`に保存。
 FIR/sync・等化等は基準HEADのarchitecture estimateであり測定値ではない。
@@ -104,7 +106,7 @@ FIR/sync・等化等は基準HEADのarchitecture estimateであり測定値で�
 | 新規allocation | 内容・根拠と限界 |
 |---|---|
 | Sの追加K7：2,952 logic /1,502 FF/2 BSRAM | T K7見積もりをSの別context用に丸ごと予約。S TC8PSKと同一回路に無料で統合したことにしない。S各符号化率のdepuncture/切替接続は別途必要 |
-| 共有RS：2,385 logic /1,216 FF/2 BSRAM | 旧compact2,085にarbiter/context300 logic、256 FF、追加1 BSRAMを予約。T/S/TMCC合算サービス率で検査 |
+| 共有RS：2,700 logic /1,408 FF/3 BSRAM | 新wrapper＋修正decoderのレジスタ版を合成：必要logic下限2,450、FF1,055、BSRAM2。配置余白とstaging用1 BSRAMを追加予約。合法配置・162 MHzは未確認 |
 | タイルFFT：1,400 logic /1,024 FF/8 BSRAM/8 DSP | 2個の4 KiB tile buffer、4098 Bのexact-quarter係数と余白。複素乗算は4実乗算。2-cycle butterflyと追加twiddleを別計上。HDL面積は未測定 |
 | I/O/SDRAM/TMCC/control：3,000 logic /2,000 FF/13 BSRAM | T受信4 KiB=2 block、S reorder16 KiB=8 block、TS/TMCC/arbiter等3 block。BL616側を受信処理に使ってCPUを増やさない。3,000 logicに収まる証拠はまだない |
 
@@ -121,14 +123,14 @@ BSRAMは18 Kbit全部をbyte payloadに使えるとはせず、32/8-bit幅の2 K
 | T K7、32 ACS | 最大25.212121 Mstep/s×2 clocks | 50.424242/162＝31.13% |
 | S TC8PSK metric | 28.86 MSymbol/s×3 | 86.58/162＝53.44% |
 | S BPSK/QPSK K7 | QPSK最大7/8を保守計上：28.86×2×7/8 Mstep/s×2 | 101.01/162＝62.35% |
-| T RS | 15,448.603684 CW/s、64.73077 µs/CW | 各CW2667/162＝16.462963 µs |
+| T RS | 15,448.603684 CW/s、64.73077 µs/CW | 共有wrapperの各slot2672/162＝16.493827 µs |
 | S RS | ピーク35,541.871921 CW/s、28.135828 µs/CW | 同上。共有時はTによるblockと待ち行列がある |
-| S TMCC RS | 90.332031 CW/s、11.07027 ms/CW | 同じ2667 clocksへ保守的にzero-extensionする計画。RS64/48の多項式・位置規約の結合検証が必要 |
-| 共有RS合計 | (T＋Sピーク＋TMCC)×2667 | 約136.233 MHz、162 MHzの約84.09%。空き約15.91% |
+| S TMCC RS | 90.332031 CW/s、11.07027 ms/CW | 140バイトzero-extensionと48バイト抽出を実装、独立encoderで規約・訂正を試験。共有slot2672 clocks |
+| 共有RS合計 | (T＋Sピーク＋TMCC)×2672 | 約136.488 MHz、162 MHzの約84.252%。空き約15.748% |
 
 共有RSは非preemptive。平均84%だけで「Sの毎CWが28.14 µs以内に完了する」とはしない。
-RS入出力CWを有限queueで保持し、順序とTS source IDを保持する。同期したT/Sの到着、
-interleaverからのburst、TMCC優先度、最悪8誤り訂正を含む最大queue/latencyの証明が必要。
+共有wrapperは順序とTS source IDを保持する。追加の有限位相検算ではMode3で18待ち語、S最大完了遅延122.259 µs。
+T/S/TMCCの出力FIFOを4096/1024/128 Bとしてcredit待ちは0。全位相証明・DMA結合は未達。
 既存RS単体の2667 clocksは出力backpressureなし条件なので、出力FIFOが詰まる設計は再計算する。
 
 ### タイルFFTとSDRAM
@@ -151,7 +153,7 @@ clock目標を達成Fmaxと呼ばない。
 データは`n=n1+N1*n2`、出力は`k=k2+N2*k1`として配置する。
 8列×128点の4 KiB tileを2面用い、32-byte連続転送で行列を転置する計画。
 記録→第1pass read/write→第2pass read/write→復調へのreadを上限6回の4 byte/complexアクセスとして数える。
-実際に計算と転送を重ねるbuffer所有権・burst scheduleは未実装。
+buffer所有権付き2-buffer scheduleのホスト模型を追加した。SDRAM controller/FFT RTLでの実装は未達。
 
 | SDRAM項目 | 必要量 |
 |---|---:|
@@ -160,11 +162,13 @@ clock目標を達成Fmaxと呼ばない。
 | S frame/CW、204 B×ピークCW/s×write/read | 14.501084 MB/s |
 | その他アクセスの追加予算 | 10 MB/s |
 | **合計** | **271.265875 MB/s** |
-| 設計目標：135 MHz×32 bit×効率55% | **297 MB/s** |
-| 設計上の余裕 | **25.734125 MB/s、8.66%** |
+| 改訂設計目標：135 MHz×32 bit×効率65% | **351 MB/s** |
+| 設計上の平均帯域余裕 | **79.734125 MB/s、22.72%** |
 
-135 MHzおよび55%効率は**必要な設計仮定**。34-bit等への丸めを32 bit転送のまま扱わない。
-最低実効効率は50.235%（135 MHz時）。100 MHz・55%なら220 MB/sでこの案は不合格。
+初回55%仮定は2-buffer模型でMode1=265.938 µs、Mode3=1063.752 µsとなり期限超過。
+65%ならMode1/2/3=237.626/449.968/950.504 µsで条件付き期限内。
+135 MHzおよび改訂65%効率は**未検証の設計要求**。34-bit等への丸めを32 bit転送のまま扱わない。
+平均帯域のみの最低効率50.235%と、今回のscheduleで必要な約56.674%を区別する。100 MHz・55%なら220 MB/sでこの案は不合格。
 32-byte burstのrow切替、read/write turnaround、refresh、最長grant間隔を数えるcontrollerが必要。
 FFTとLLRを同じ時刻に扱う最大負荷を、独立benchmarkの帯域の和で合格としない。
 raw T/Sを一旦全部SDRAMにwrite/readすると更に280 MB/s増えるので、案BはrawをFIRへ直接streamする。
@@ -331,13 +335,13 @@ S3のGPIO35–37などR8予約pin、GPIO0/3/45/46 strapを通信に勝手に流�
 | tile FFT | fixed-point RTL、転置burst scheduler、全modeの独立FFT vector | 全bin一致／精度契約、2-cycle butterfly、162 MHzで全mode周期内、tile8 BSRAM以下 |
 | 全体FPGA | FIR・同期・TMCC・depuncture・全interleave・両FEC・共有RS・TS・I/Oを接続、20K合成/P&R | legal placement、logic≤20,736、BSRAM≤46、DSP≤48、PLL≤2、全domain STA。budget超過時は案を修正 |
 | SDRAM | stock SDRAM用controllerとrefresh/arbiterのcycle simulation | 135 MHzで271.266 MB/s需要を処理、最長待ちがFIFO期限内。raw退避を追加した場合は再計算 |
-| shared RS | T/S/TMCC同時burst／最悪訂正／出力backpressureのqueue simulation | 有限buffer内・CW順序不変・定常TS無欠落、TMCCのRS64/48規約一致 |
+| shared RS | 仲裁・TMCC短縮・credit予約RTL、2種類の部分合成、有限位相queue検算まで追加 | 外部queue/DMA/FIFO結合、全位相境界、162 MHz STAは未達 |
 | S3 dedicated firmware | T用/S用を個別リンク、bank所有権・per-core scheduler・実driver呼出を結合 | N8R8/N16R8のROM/内部SRAM容量内、RF bank再使用より早く回収、API/packing含むWCETに余裕 |
 | 実GPIO map | 回路図、BL616 firmware、clock routingと負荷確認 | 配線・CST・衝突回避を具体化。pin本数だけの合格を撤回できる状態にする |
 | 実機限定部分 | 上記を準備後に2系統RF、40/80 MSa/s品質、同時転送を測定 | 所要C/N・BER、欠落counter、温度/電源差・位相、S3/SDRAM実効帯域を確認 |
 
 上のソフトウェア／RTL未実装を「実機がないので確認できない」項目へ移してはいない。
-このPRで行ったのは見積もりと計算器・検算試験であり、受信機全体の新規実装ではない。
+このPRには見積もり・検算器に加えて共有RS部分RTLがあるが、受信機全体の新規実装は未完成。
 この環境で進められる実装作業も残るため、依頼全体を完了としない。
 
 ## 10. 再現と根拠

@@ -1,0 +1,37 @@
+{
+  "decoder_sha256": "f9bc05db6885248932d12d2ecf5a0e15badec84ff739f519891183a87d38df34",
+  "wrapper_sha256": "38c31e4c342f501dd46e2de9b9dc9dc1efd54faa714817def74831a60e913dee",
+  "cases_per_stream": 262,
+  "scenarios": [
+    {
+      "compact_BRAM_tables": true,
+      "decoder_sha256": "f9bc05db6885248932d12d2ecf5a0e15badec84ff739f519891183a87d38df34",
+      "credit_stalls": false,
+      "log": "PASS blocks=786 min_grant_gap=2672 max_grant_gap=2672\n/tmp/tmp1ry2227d/tb.sv:59: $finish called at 20999075000 (1ps)",
+      "passed": true
+    },
+    {
+      "compact_BRAM_tables": true,
+      "decoder_sha256": "f9bc05db6885248932d12d2ecf5a0e15badec84ff739f519891183a87d38df34",
+      "credit_stalls": true,
+      "log": "PASS blocks=786 min_grant_gap=2672 max_grant_gap=6312\n/tmp/tmp1ry2227d/tb.sv:59: $finish called at 26763875000 (1ps)",
+      "passed": true
+    },
+    {
+      "compact_BRAM_tables": false,
+      "decoder_sha256": "08594ea679ff1a779e0a72b241d0de1fa87c520e292414b2bb07cf1144e3d610",
+      "credit_stalls": false,
+      "log": "PASS blocks=786 min_grant_gap=2672 max_grant_gap=2672\n/tmp/tmp1ry2227d/tb.sv:59: $finish called at 20999065000 (1ps)",
+      "passed": true
+    },
+    {
+      "compact_BRAM_tables": false,
+      "decoder_sha256": "08594ea679ff1a779e0a72b241d0de1fa87c520e292414b2bb07cf1144e3d610",
+      "credit_stalls": true,
+      "log": "PASS blocks=786 min_grant_gap=2672 max_grant_gap=6312\n/tmp/tmp1ry2227d/tb.sv:59: $finish called at 26763865000 (1ps)",
+      "passed": true
+    }
+  ],
+  "slot_cycles": 2672,
+  "scope": "Functional simulation, continuous source bytes, full-word output reservations; no STA or SDRAM DMA"
+}

@@ -1,0 +1,5657 @@
+{
+  "shared_RS": {
+    "service_cycles": 2672,
+    "service_us": 16.493827160493826,
+    "modeled_paced_arrivals": [
+      {
+        "mode": 1,
+        "phase_points": 16,
+        "superframes_per_phase": 16,
+        "output_timing_patterns": 3,
+        "max_total_waiting_codewords": 6,
+        "max_queue_per_source": [
+          5,
+          2,
+          1
+        ],
+        "max_latency_us": [
+          164.88662139701773,
+          64.03696003696001,
+          49.48148148148148
+        ],
+        "max_output_bytes": [
+          648,
+          418,
+          48
+        ],
+        "max_credit_wait_us": 0.0
+      },
+      {
+        "mode": 2,
+        "phase_points": 16,
+        "superframes_per_phase": 16,
+        "output_timing_patterns": 3,
+        "max_total_waiting_codewords": 10,
+        "max_queue_per_source": [
+          9,
+          3,
+          1
+        ],
+        "max_latency_us": [
+          296.83734696230385,
+          83.44426477781963,
+          49.48148148148148
+        ],
+        "max_output_bytes": [
+          1170,
+          460,
+          48
+        ],
+        "max_credit_wait_us": 0.0
+      },
+      {
+        "mode": 3,
+        "phase_points": 16,
+        "superframes_per_phase": 16,
+        "output_timing_patterns": 3,
+        "max_total_waiting_codewords": 18,
+        "max_queue_per_source": [
+          17,
+          4,
+          1
+        ],
+        "max_latency_us": [
+          560.7385815301677,
+          122.25887425927795,
+          49.48148148148148
+        ],
+        "max_output_bytes": [
+          2229,
+          544,
+          48
+        ],
+        "max_credit_wait_us": 0.0
+      }
+    ],
+    "unpaced_S_superframe": {
+      "codewords": [
+        2746,
+        6144,
+        16
+      ],
+      "max_waiting_codewords": [
+        17,
+        384,
+        1
+      ],
+      "max_total_waiting_codewords": 401,
+      "max_input_queue_bytes": 81804,
+      "max_output_bytes": [
+        2306,
+        858,
+        48
+      ],
+      "max_latency_us": [
+        560.308641977259,
+        8593.283950617359,
+        49.48148148148148
+      ],
+      "output_credit_wait_us": 84.27410743579094,
+      "finish_us": 176978.9012345681,
+      "FIFO_bytes": [
+        4096,
+        1024,
+        128
+      ],
+      "service_cycles": 2672,
+      "core_MHz": 162,
+      "output_timing": "end"
+    },
+    "small_output_FIFO": {
+      "codewords": [
+        2746,
+        6144,
+        16
+      ],
+      "max_waiting_codewords": [
+        299,
+        1248,
+        1
+      ],
+      "max_total_waiting_codewords": 1546,
+      "max_input_queue_bytes": 315384,
+      "max_output_bytes": [
+        188,
+        188,
+        48
+      ],
+      "max_latency_us": [
+        21576.93193195932,
+        44373.658171034156,
+        49.48148148148148
+      ],
+      "output_credit_wait_us": 74309.709709719,
+      "finish_us": 221203.73440111039,
+      "FIFO_bytes": [
+        188,
+        188,
+        48
+      ],
+      "service_cycles": 2672,
+      "core_MHz": 162,
+      "output_timing": "end"
+    },
+    "scope": "Finite phase sweep, not an all-phase proof. External input staging, uninterrupted slot source, and output drain contracts required."
+  },
+  "FFT": [
+    {
+      "n": 2048,
+      "buffers": 1,
+      "efficiency_assumed": 0.55,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 4,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 151.82551558275696,
+      "period_us": 259.875,
+      "duration_us": 405.4563296031188,
+      "slack_us": -145.58132960311877,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 234.33310307316435,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 13.489168748343076
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 13.489168748343076,
+            "end_us": 45.09410701994801
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 45.09410701994801,
+            "end_us": 58.58327576829109
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 58.58327576829109,
+            "end_us": 72.07244451663416
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 72.07244451663416,
+            "end_us": 103.6773827882391
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 103.6773827882391,
+            "end_us": 117.16655153658218
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 117.16655153658218,
+            "end_us": 130.65572028492525
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 130.65572028492525,
+            "end_us": 162.2606585565302
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 162.2606585565302,
+            "end_us": 175.74982730487326
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 175.74982730487326,
+            "end_us": 189.23899605321634
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 189.23899605321634,
+            "end_us": 220.84393432482128
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 220.84393432482128,
+            "end_us": 234.33310307316435
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 171.12322652995445,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 13.489168748343076
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 13.489168748343076,
+            "end_us": 29.291637884145544
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 29.291637884145544,
+            "end_us": 42.78080663248862
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 42.78080663248862,
+            "end_us": 56.269975380831696
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 56.269975380831696,
+            "end_us": 72.07244451663416
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 72.07244451663416,
+            "end_us": 85.56161326497724
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 85.56161326497724,
+            "end_us": 99.05078201332032
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 99.05078201332032,
+            "end_us": 114.85325114912278
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 114.85325114912278,
+            "end_us": 128.34241989746585
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 128.34241989746585,
+            "end_us": 141.83158864580892
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 141.83158864580892,
+            "end_us": 157.63405778161138
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 157.63405778161138,
+            "end_us": 171.12322652995445
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 4096,
+      "buffers": 1,
+      "efficiency_assumed": 0.55,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 151.82551558275696,
+      "period_us": 519.75,
+      "duration_us": 836.196609823522,
+      "slack_us": -316.44660982352195,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 468.66620614632893,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 13.489168748343076
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 13.489168748343076,
+            "end_us": 45.09410701994801
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 45.09410701994801,
+            "end_us": 58.58327576829109
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 58.58327576829109,
+            "end_us": 72.07244451663416
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 72.07244451663416,
+            "end_us": 103.6773827882391
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 103.6773827882391,
+            "end_us": 117.16655153658218
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 117.16655153658218,
+            "end_us": 130.65572028492525
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 130.65572028492525,
+            "end_us": 162.2606585565302
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 162.2606585565302,
+            "end_us": 175.74982730487326
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 175.74982730487326,
+            "end_us": 189.23899605321634
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 189.23899605321634,
+            "end_us": 220.84393432482128
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 220.84393432482128,
+            "end_us": 234.33310307316435
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 234.33310307316435,
+            "end_us": 247.82227182150743
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 247.82227182150743,
+            "end_us": 279.42721009311236
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 279.42721009311236,
+            "end_us": 292.9163788414554
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 292.9163788414554,
+            "end_us": 306.4055475897985
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 306.4055475897985,
+            "end_us": 338.0104858614035
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 338.0104858614035,
+            "end_us": 351.4996546097466
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 351.4996546097466,
+            "end_us": 364.9888233580897
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 364.9888233580897,
+            "end_us": 396.59376162969465
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 396.59376162969465,
+            "end_us": 410.08293037803776
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 410.08293037803776,
+            "end_us": 423.57209912638086
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 423.57209912638086,
+            "end_us": 455.1770373979858
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 455.1770373979858,
+            "end_us": 468.66620614632893
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 367.530403677193,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 13.489168748343076
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 13.489168748343076,
+            "end_us": 32.45213171130604
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 32.45213171130604,
+            "end_us": 45.94130045964911
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 45.94130045964911,
+            "end_us": 59.43046920799219
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 59.43046920799219,
+            "end_us": 78.39343217095515
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 78.39343217095515,
+            "end_us": 91.88260091929823
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 91.88260091929823,
+            "end_us": 105.3717696676413
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 105.3717696676413,
+            "end_us": 124.33473263060426
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 124.33473263060426,
+            "end_us": 137.82390137894734
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 137.82390137894734,
+            "end_us": 151.31307012729042
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 151.31307012729042,
+            "end_us": 170.27603309025338
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 170.27603309025338,
+            "end_us": 183.76520183859645
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 183.76520183859645,
+            "end_us": 197.25437058693953
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 197.25437058693953,
+            "end_us": 216.2173335499025
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 216.2173335499025,
+            "end_us": 229.70650229824557
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 229.70650229824557,
+            "end_us": 243.19567104658864
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 243.19567104658864,
+            "end_us": 262.15863400955163
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 262.15863400955163,
+            "end_us": 275.64780275789474
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 275.64780275789474,
+            "end_us": 289.13697150623784
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 289.13697150623784,
+            "end_us": 308.0999344692008
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 308.0999344692008,
+            "end_us": 321.5891032175439
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 321.5891032175439,
+            "end_us": 335.078271965887
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 335.078271965887,
+            "end_us": 354.0412349288499
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 354.0412349288499,
+            "end_us": 367.530403677193
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 8192,
+      "buffers": 1,
+      "efficiency_assumed": 0.55,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 1024,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 151.82551558275696,
+      "period_us": 1039.5,
+      "duration_us": 1722.9611208816111,
+      "slack_us": -683.4611208816111,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 987.9003135272251,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 26.97833749668615
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 26.97833749668615,
+            "end_us": 96.50920169421701
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 96.50920169421701,
+            "end_us": 123.48753919090316
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 123.48753919090316,
+            "end_us": 150.46587668758931
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 150.46587668758931,
+            "end_us": 219.99674088512018
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 219.99674088512018,
+            "end_us": 246.97507838180633
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 246.97507838180633,
+            "end_us": 273.9534158784925
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 273.9534158784925,
+            "end_us": 343.4842800760233
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 343.4842800760233,
+            "end_us": 370.46261757270946
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 370.46261757270946,
+            "end_us": 397.4409550693956
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 397.4409550693956,
+            "end_us": 466.97181926692645
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 466.97181926692645,
+            "end_us": 493.9501567636126
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 493.9501567636126,
+            "end_us": 520.9284942602987
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 520.9284942602987,
+            "end_us": 590.4593584578296
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 590.4593584578296,
+            "end_us": 617.4376959545157
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 617.4376959545157,
+            "end_us": 644.4160334512019
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 644.4160334512019,
+            "end_us": 713.9468976487327
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 713.9468976487327,
+            "end_us": 740.9252351454188
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 740.9252351454188,
+            "end_us": 767.903572642105
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 767.903572642105,
+            "end_us": 837.4344368396359
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 837.4344368396359,
+            "end_us": 864.412774336322
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 864.412774336322,
+            "end_us": 891.3911118330082
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 891.3911118330082,
+            "end_us": 960.921976030539
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 960.921976030539,
+            "end_us": 987.9003135272251
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 735.060807354386,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 26.97833749668615
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 26.97833749668615,
+            "end_us": 64.90426342261208
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 64.90426342261208,
+            "end_us": 91.88260091929823
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 91.88260091929823,
+            "end_us": 118.86093841598438
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 118.86093841598438,
+            "end_us": 156.7868643419103
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 156.7868643419103,
+            "end_us": 183.76520183859645
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 183.76520183859645,
+            "end_us": 210.7435393352826
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 210.7435393352826,
+            "end_us": 248.66946526120853
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 248.66946526120853,
+            "end_us": 275.6478027578947
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 275.6478027578947,
+            "end_us": 302.62614025458083
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 302.62614025458083,
+            "end_us": 340.55206618050676
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 340.55206618050676,
+            "end_us": 367.5304036771929
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 367.5304036771929,
+            "end_us": 394.50874117387906
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 394.50874117387906,
+            "end_us": 432.434667099805
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 432.434667099805,
+            "end_us": 459.41300459649113
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 459.41300459649113,
+            "end_us": 486.3913420931773
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 486.3913420931773,
+            "end_us": 524.3172680191033
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 524.3172680191033,
+            "end_us": 551.2956055157895
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 551.2956055157895,
+            "end_us": 578.2739430124757
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 578.2739430124757,
+            "end_us": 616.1998689384016
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 616.1998689384016,
+            "end_us": 643.1782064350878
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 643.1782064350878,
+            "end_us": 670.156543931774
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 670.156543931774,
+            "end_us": 708.0824698576998
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 708.0824698576998,
+            "end_us": 735.060807354386
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 2048,
+      "buffers": 2,
+      "efficiency_assumed": 0.55,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 4,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 151.82551558275696,
+      "period_us": 259.875,
+      "duration_us": 265.9380413447693,
+      "slack_us": -6.063041344769317,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 153.3980905831059,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 13.489168748343076
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 13.489168748343076,
+            "end_us": 45.09410701994801
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 13.489168748343076,
+            "end_us": 26.97833749668615
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 45.09410701994801,
+            "end_us": 76.69904529155295
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 45.09410701994801,
+            "end_us": 58.58327576829109
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 58.58327576829109,
+            "end_us": 72.07244451663416
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 76.69904529155295,
+            "end_us": 108.30398356315789
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 76.69904529155295,
+            "end_us": 90.18821403989602
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 90.18821403989602,
+            "end_us": 103.6773827882391
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 108.30398356315789,
+            "end_us": 139.90892183476282
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 108.30398356315789,
+            "end_us": 121.79315231150096
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 139.90892183476282,
+            "end_us": 153.3980905831059
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 112.53995076166339,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 13.489168748343076
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 13.489168748343076,
+            "end_us": 29.291637884145544
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 13.489168748343076,
+            "end_us": 26.97833749668615
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 29.291637884145544,
+            "end_us": 45.09410701994801
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 29.291637884145544,
+            "end_us": 42.78080663248862
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 42.78080663248862,
+            "end_us": 56.269975380831696
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 56.269975380831696,
+            "end_us": 72.07244451663416
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 56.269975380831696,
+            "end_us": 69.75914412917477
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 69.75914412917477,
+            "end_us": 83.24831287751785
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 83.24831287751785,
+            "end_us": 99.05078201332032
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 83.24831287751785,
+            "end_us": 96.73748162586092
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 99.05078201332032,
+            "end_us": 112.53995076166339
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 4096,
+      "buffers": 2,
+      "efficiency_assumed": 0.55,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 151.82551558275696,
+      "period_us": 519.75,
+      "duration_us": 506.5921320722547,
+      "slack_us": 13.157867927745315,
+      "pass_deadline": true,
+      "first": {
+        "duration_us": 279.8178436695257,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 13.489168748343076
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 13.489168748343076,
+            "end_us": 45.09410701994801
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 13.489168748343076,
+            "end_us": 26.97833749668615
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 45.09410701994801,
+            "end_us": 76.69904529155295
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 45.09410701994801,
+            "end_us": 58.58327576829109
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 58.58327576829109,
+            "end_us": 72.07244451663416
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 76.69904529155295,
+            "end_us": 108.30398356315789
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 76.69904529155295,
+            "end_us": 90.18821403989602
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 90.18821403989602,
+            "end_us": 103.6773827882391
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 108.30398356315789,
+            "end_us": 139.90892183476282
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 108.30398356315789,
+            "end_us": 121.79315231150096
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 121.79315231150096,
+            "end_us": 135.28232105984404
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 139.90892183476282,
+            "end_us": 171.51386010636776
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 139.90892183476282,
+            "end_us": 153.3980905831059
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 153.3980905831059,
+            "end_us": 166.88725933144897
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 171.51386010636776,
+            "end_us": 203.1187983779727
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 171.51386010636776,
+            "end_us": 185.00302885471083
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 185.00302885471083,
+            "end_us": 198.4921976030539
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 203.1187983779727,
+            "end_us": 234.72373664957763
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 203.1187983779727,
+            "end_us": 216.60796712631577
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 216.60796712631577,
+            "end_us": 230.09713587465885
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 234.72373664957763,
+            "end_us": 266.3286749211826
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 234.72373664957763,
+            "end_us": 248.2129053979207
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 266.3286749211826,
+            "end_us": 279.8178436695257
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 226.77428840272898,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 13.489168748343076
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 13.489168748343076,
+            "end_us": 32.45213171130604
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 13.489168748343076,
+            "end_us": 26.97833749668615
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 32.45213171130604,
+            "end_us": 51.415094674269
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 32.45213171130604,
+            "end_us": 45.94130045964911
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 45.94130045964911,
+            "end_us": 59.43046920799219
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 59.43046920799219,
+            "end_us": 78.39343217095515
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 59.43046920799219,
+            "end_us": 72.91963795633527
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 72.91963795633527,
+            "end_us": 86.40880670467834
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 86.40880670467834,
+            "end_us": 105.3717696676413
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 86.40880670467834,
+            "end_us": 99.89797545302142
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 99.89797545302142,
+            "end_us": 113.38714420136449
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 113.38714420136449,
+            "end_us": 132.35010716432745
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 113.38714420136449,
+            "end_us": 126.87631294970757
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 126.87631294970757,
+            "end_us": 140.36548169805064
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 140.36548169805064,
+            "end_us": 159.3284446610136
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 140.36548169805064,
+            "end_us": 153.85465044639372
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 153.85465044639372,
+            "end_us": 167.3438191947368
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 167.3438191947368,
+            "end_us": 186.30678215769976
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 167.3438191947368,
+            "end_us": 180.83298794307987
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 180.83298794307987,
+            "end_us": 194.32215669142295
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 194.32215669142295,
+            "end_us": 213.2851196543859
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 194.32215669142295,
+            "end_us": 207.81132543976602
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 213.2851196543859,
+            "end_us": 226.77428840272898
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 8192,
+      "buffers": 2,
+      "efficiency_assumed": 0.55,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 1024,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 151.82551558275696,
+      "period_us": 1039.5,
+      "duration_us": 1063.752165379077,
+      "slack_us": -24.25216537907704,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 610.2035885736191,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 26.97833749668615
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 26.97833749668615,
+            "end_us": 96.50920169421701
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 26.97833749668615,
+            "end_us": 53.9566749933723
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 96.50920169421701,
+            "end_us": 166.04006589174787
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 96.50920169421701,
+            "end_us": 123.48753919090316
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 123.48753919090316,
+            "end_us": 150.46587668758931
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 166.04006589174787,
+            "end_us": 235.57093008927873
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 166.04006589174787,
+            "end_us": 193.01840338843402
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 193.01840338843402,
+            "end_us": 219.99674088512018
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 235.57093008927873,
+            "end_us": 305.1017942868096
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 235.57093008927873,
+            "end_us": 262.5492675859649
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 262.5492675859649,
+            "end_us": 289.52760508265106
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 305.1017942868096,
+            "end_us": 374.6326584843405
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 305.1017942868096,
+            "end_us": 332.08013178349574
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 332.08013178349574,
+            "end_us": 359.0584692801819
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 374.6326584843405,
+            "end_us": 444.1635226818713
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 374.6326584843405,
+            "end_us": 401.61099598102663
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 401.61099598102663,
+            "end_us": 428.5893334777128
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 444.1635226818713,
+            "end_us": 513.6943868794021
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 444.1635226818713,
+            "end_us": 471.14186017855747
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 471.14186017855747,
+            "end_us": 498.1201976752436
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 513.6943868794021,
+            "end_us": 583.225251076933
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 513.6943868794021,
+            "end_us": 540.6727243760884
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 583.225251076933,
+            "end_us": 610.2035885736191
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 453.54857680545797,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 26.97833749668615
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 26.97833749668615,
+            "end_us": 64.90426342261208
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 26.97833749668615,
+            "end_us": 53.9566749933723
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 64.90426342261208,
+            "end_us": 102.830189348538
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 64.90426342261208,
+            "end_us": 91.88260091929823
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 91.88260091929823,
+            "end_us": 118.86093841598438
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 118.86093841598438,
+            "end_us": 156.7868643419103
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 118.86093841598438,
+            "end_us": 145.83927591267053
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 145.83927591267053,
+            "end_us": 172.81761340935668
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 172.81761340935668,
+            "end_us": 210.7435393352826
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 172.81761340935668,
+            "end_us": 199.79595090604283
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 199.79595090604283,
+            "end_us": 226.77428840272898
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 226.77428840272898,
+            "end_us": 264.7002143286549
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 226.77428840272898,
+            "end_us": 253.75262589941514
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 253.75262589941514,
+            "end_us": 280.7309633961013
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 280.7309633961013,
+            "end_us": 318.6568893220272
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 280.7309633961013,
+            "end_us": 307.70930089278744
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 307.70930089278744,
+            "end_us": 334.6876383894736
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 334.6876383894736,
+            "end_us": 372.6135643153995
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 334.6876383894736,
+            "end_us": 361.66597588615974
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 361.66597588615974,
+            "end_us": 388.6443133828459
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 388.6443133828459,
+            "end_us": 426.5702393087718
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 388.6443133828459,
+            "end_us": 415.62265087953205
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 426.5702393087718,
+            "end_us": 453.54857680545797
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 2048,
+      "buffers": 1,
+      "efficiency_assumed": 0.65,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 4,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 205.82551558275696,
+      "period_us": 259.875,
+      "duration_us": 348.83243744101037,
+      "slack_us": -88.95743744101037,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 206.02115699211012,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 9.950175488211293
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 9.950175488211293,
+            "end_us": 41.55511375981623
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 41.55511375981623,
+            "end_us": 51.50528924802752
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 51.50528924802752,
+            "end_us": 61.45546473623882
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 61.45546473623882,
+            "end_us": 93.06040300784375
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 93.06040300784375,
+            "end_us": 103.01057849605505
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 103.01057849605505,
+            "end_us": 112.96075398426635
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 112.96075398426635,
+            "end_us": 144.56569225587128
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 144.56569225587128,
+            "end_us": 154.51586774408258
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 154.51586774408258,
+            "end_us": 164.46604323229388
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 164.46604323229388,
+            "end_us": 196.07098150389882
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 196.07098150389882,
+            "end_us": 206.02115699211012
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 142.81128044890022,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 9.950175488211293
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 9.950175488211293,
+            "end_us": 25.75264462401376
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 25.75264462401376,
+            "end_us": 35.702820112225055
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 35.702820112225055,
+            "end_us": 45.65299560043635
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 45.65299560043635,
+            "end_us": 61.45546473623882
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 61.45546473623882,
+            "end_us": 71.40564022445011
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 71.40564022445011,
+            "end_us": 81.35581571266141
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 81.35581571266141,
+            "end_us": 97.15828484846388
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 97.15828484846388,
+            "end_us": 107.10846033667517
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 107.10846033667517,
+            "end_us": 117.05863582488647
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 117.05863582488647,
+            "end_us": 132.86110496068892
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 132.86110496068892,
+            "end_us": 142.81128044890022
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 4096,
+      "buffers": 1,
+      "efficiency_assumed": 0.65,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 205.82551558275696,
+      "period_us": 519.75,
+      "duration_us": 722.9488254993048,
+      "slack_us": -203.1988254993048,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 412.04231398422036,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 9.950175488211293
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 9.950175488211293,
+            "end_us": 41.55511375981623
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 41.55511375981623,
+            "end_us": 51.50528924802752
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 51.50528924802752,
+            "end_us": 61.45546473623882
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 61.45546473623882,
+            "end_us": 93.06040300784375
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 93.06040300784375,
+            "end_us": 103.01057849605505
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 103.01057849605505,
+            "end_us": 112.96075398426635
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 112.96075398426635,
+            "end_us": 144.56569225587128
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 144.56569225587128,
+            "end_us": 154.51586774408258
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 154.51586774408258,
+            "end_us": 164.46604323229388
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 164.46604323229388,
+            "end_us": 196.07098150389882
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 196.07098150389882,
+            "end_us": 206.02115699211012
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 206.02115699211012,
+            "end_us": 215.97133248032142
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 215.97133248032142,
+            "end_us": 247.57627075192636
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 247.57627075192636,
+            "end_us": 257.52644624013766
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 257.52644624013766,
+            "end_us": 267.47662172834896
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 267.47662172834896,
+            "end_us": 299.0815599999539
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 299.0815599999539,
+            "end_us": 309.0317354881652
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 309.0317354881652,
+            "end_us": 318.9819109763765
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 318.9819109763765,
+            "end_us": 350.5868492479815
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 350.5868492479815,
+            "end_us": 360.5370247361928
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 360.5370247361928,
+            "end_us": 370.4872002244041
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 370.4872002244041,
+            "end_us": 402.09213849600906
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 402.09213849600906,
+            "end_us": 412.04231398422036
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 310.90651151508445,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 9.950175488211293
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 9.950175488211293,
+            "end_us": 28.913138451174255
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 28.913138451174255,
+            "end_us": 38.86331393938555
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 38.86331393938555,
+            "end_us": 48.81348942759684
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 48.81348942759684,
+            "end_us": 67.7764523905598
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 67.7764523905598,
+            "end_us": 77.7266278787711
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 77.7266278787711,
+            "end_us": 87.6768033669824
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 87.6768033669824,
+            "end_us": 106.63976632994536
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 106.63976632994536,
+            "end_us": 116.58994181815666
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 116.58994181815666,
+            "end_us": 126.54011730636796
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 126.54011730636796,
+            "end_us": 145.50308026933092
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 145.50308026933092,
+            "end_us": 155.45325575754222
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 155.45325575754222,
+            "end_us": 165.40343124575352
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 165.40343124575352,
+            "end_us": 184.36639420871649
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 184.36639420871649,
+            "end_us": 194.3165696969278
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 194.3165696969278,
+            "end_us": 204.2667451851391
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 204.2667451851391,
+            "end_us": 223.22970814810205
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 223.22970814810205,
+            "end_us": 233.17988363631335
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 233.17988363631335,
+            "end_us": 243.13005912452465
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 243.13005912452465,
+            "end_us": 262.0930220874876
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 262.0930220874876,
+            "end_us": 272.0431975756989
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 272.0431975756989,
+            "end_us": 281.9933730639102
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 281.9933730639102,
+            "end_us": 300.95633602687315
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 300.95633602687315,
+            "end_us": 310.90651151508445
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 8192,
+      "buffers": 1,
+      "efficiency_assumed": 0.65,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 1024,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 205.82551558275696,
+      "period_us": 1039.5,
+      "duration_us": 1496.4655522331773,
+      "slack_us": -456.9655522331773,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 874.6525292030083,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 19.900350976422587
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 19.900350976422587,
+            "end_us": 89.43121517395345
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 89.43121517395345,
+            "end_us": 109.33156615037603
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 109.33156615037603,
+            "end_us": 129.23191712679863
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 129.23191712679863,
+            "end_us": 198.7627813243295
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 198.7627813243295,
+            "end_us": 218.66313230075207
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 218.66313230075207,
+            "end_us": 238.56348327717467
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 238.56348327717467,
+            "end_us": 308.0943474747055
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 308.0943474747055,
+            "end_us": 327.9946984511281
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 327.9946984511281,
+            "end_us": 347.8950494275507
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 347.8950494275507,
+            "end_us": 417.42591362508153
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 417.42591362508153,
+            "end_us": 437.32626460150414
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 437.32626460150414,
+            "end_us": 457.22661557792674
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 457.22661557792674,
+            "end_us": 526.7574797754576
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 526.7574797754576,
+            "end_us": 546.6578307518802
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 546.6578307518802,
+            "end_us": 566.5581817283028
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 566.5581817283028,
+            "end_us": 636.0890459258336
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 636.0890459258336,
+            "end_us": 655.9893969022562
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 655.9893969022562,
+            "end_us": 675.8897478786788
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 675.8897478786788,
+            "end_us": 745.4206120762096
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 745.4206120762096,
+            "end_us": 765.3209630526322
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 765.3209630526322,
+            "end_us": 785.2213140290548
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 785.2213140290548,
+            "end_us": 854.7521782265857
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 854.7521782265857,
+            "end_us": 874.6525292030083
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 621.8130230301689,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 19.900350976422587
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 19.900350976422587,
+            "end_us": 57.82627690234851
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 57.82627690234851,
+            "end_us": 77.7266278787711
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 77.7266278787711,
+            "end_us": 97.62697885519368
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 97.62697885519368,
+            "end_us": 135.5529047811196
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 135.5529047811196,
+            "end_us": 155.4532557575422
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 155.4532557575422,
+            "end_us": 175.3536067339648
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 175.3536067339648,
+            "end_us": 213.27953265989072
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 213.27953265989072,
+            "end_us": 233.17988363631332
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 233.17988363631332,
+            "end_us": 253.08023461273592
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 253.08023461273592,
+            "end_us": 291.00616053866185
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 291.00616053866185,
+            "end_us": 310.90651151508445
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 310.90651151508445,
+            "end_us": 330.80686249150705
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 330.80686249150705,
+            "end_us": 368.73278841743297
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 368.73278841743297,
+            "end_us": 388.6331393938556
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 388.6331393938556,
+            "end_us": 408.5334903702782
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 408.5334903702782,
+            "end_us": 446.4594162962041
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 446.4594162962041,
+            "end_us": 466.3597672726267
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 466.3597672726267,
+            "end_us": 486.2601182490493
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 486.2601182490493,
+            "end_us": 524.1860441749752
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 524.1860441749752,
+            "end_us": 544.0863951513978
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 544.0863951513978,
+            "end_us": 563.9867461278204
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 563.9867461278204,
+            "end_us": 601.9126720537463
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 601.9126720537463,
+            "end_us": 621.8130230301689
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 2048,
+      "buffers": 2,
+      "efficiency_assumed": 0.65,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 4,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 205.82551558275696,
+      "period_us": 259.875,
+      "duration_us": 237.62609526371503,
+      "slack_us": 22.24890473628497,
+      "pass_deadline": true,
+      "first": {
+        "duration_us": 146.32010406284235,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 9.950175488211293
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 9.950175488211293,
+            "end_us": 41.55511375981623
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 9.950175488211293,
+            "end_us": 19.900350976422587
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 41.55511375981623,
+            "end_us": 73.16005203142117
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 41.55511375981623,
+            "end_us": 51.50528924802752
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 51.50528924802752,
+            "end_us": 61.45546473623882
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 73.16005203142117,
+            "end_us": 104.76499030302611
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 73.16005203142117,
+            "end_us": 83.11022751963247
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 83.11022751963247,
+            "end_us": 93.06040300784377
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 104.76499030302611,
+            "end_us": 136.36992857463105
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 104.76499030302611,
+            "end_us": 114.71516579123741
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 136.36992857463105,
+            "end_us": 146.32010406284235
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 91.30599120087268,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 9.950175488211293
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 9.950175488211293,
+            "end_us": 25.75264462401376
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 9.950175488211293,
+            "end_us": 19.900350976422587
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 25.75264462401376,
+            "end_us": 41.55511375981623
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 25.75264462401376,
+            "end_us": 35.702820112225055
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 35.702820112225055,
+            "end_us": 45.65299560043635
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 45.65299560043635,
+            "end_us": 61.45546473623882
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 45.65299560043635,
+            "end_us": 55.60317108864764
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 55.60317108864764,
+            "end_us": 65.55334657685893
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 65.55334657685893,
+            "end_us": 81.3558157126614
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 65.55334657685893,
+            "end_us": 75.50352206507023
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 81.3558157126614,
+            "end_us": 91.30599120087268
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 4096,
+      "buffers": 2,
+      "efficiency_assumed": 0.65,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 205.82551558275696,
+      "period_us": 519.75,
+      "duration_us": 449.96823991014617,
+      "slack_us": 69.78176008985383,
+      "pass_deadline": true,
+      "first": {
+        "duration_us": 272.7398571492621,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 9.950175488211293
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 9.950175488211293,
+            "end_us": 41.55511375981623
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 9.950175488211293,
+            "end_us": 19.900350976422587
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 41.55511375981623,
+            "end_us": 73.16005203142117
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 41.55511375981623,
+            "end_us": 51.50528924802752
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 51.50528924802752,
+            "end_us": 61.45546473623882
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 73.16005203142117,
+            "end_us": 104.76499030302611
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 73.16005203142117,
+            "end_us": 83.11022751963247
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 83.11022751963247,
+            "end_us": 93.06040300784377
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 104.76499030302611,
+            "end_us": 136.36992857463105
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 104.76499030302611,
+            "end_us": 114.71516579123741
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 114.71516579123741,
+            "end_us": 124.66534127944871
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 136.36992857463105,
+            "end_us": 167.97486684623598
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 136.36992857463105,
+            "end_us": 146.32010406284235
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 146.32010406284235,
+            "end_us": 156.27027955105365
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 167.97486684623598,
+            "end_us": 199.57980511784092
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 167.97486684623598,
+            "end_us": 177.92504233444728
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 177.92504233444728,
+            "end_us": 187.87521782265858
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 199.57980511784092,
+            "end_us": 231.18474338944586
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 199.57980511784092,
+            "end_us": 209.52998060605222
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 209.52998060605222,
+            "end_us": 219.48015609426352
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 231.18474338944586,
+            "end_us": 262.7896816610508
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 231.18474338944586,
+            "end_us": 241.13491887765716
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 262.7896816610508,
+            "end_us": 272.7398571492621
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 177.2283827608841,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 9.950175488211293
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 9.950175488211293,
+            "end_us": 28.913138451174255
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 9.950175488211293,
+            "end_us": 19.900350976422587
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 28.913138451174255,
+            "end_us": 47.87610141413722
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 28.913138451174255,
+            "end_us": 38.86331393938555
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 38.86331393938555,
+            "end_us": 48.81348942759684
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 48.81348942759684,
+            "end_us": 67.7764523905598
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 48.81348942759684,
+            "end_us": 58.763664915808135
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 58.763664915808135,
+            "end_us": 68.71384040401944
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 68.71384040401944,
+            "end_us": 87.6768033669824
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 68.71384040401944,
+            "end_us": 78.66401589223074
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 78.66401589223074,
+            "end_us": 88.61419138044204
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 88.61419138044204,
+            "end_us": 107.577154343405
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 88.61419138044204,
+            "end_us": 98.56436686865334
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 98.56436686865334,
+            "end_us": 108.51454235686464
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 108.51454235686464,
+            "end_us": 127.4775053198276
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 108.51454235686464,
+            "end_us": 118.46471784507594
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 118.46471784507594,
+            "end_us": 128.41489333328724
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 128.41489333328724,
+            "end_us": 147.3778562962502
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 128.41489333328724,
+            "end_us": 138.36506882149854
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 138.36506882149854,
+            "end_us": 148.31524430970984
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 148.31524430970984,
+            "end_us": 167.2782072726728
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 148.31524430970984,
+            "end_us": 158.26541979792114
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 167.2782072726728,
+            "end_us": 177.2283827608841
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 8192,
+      "buffers": 2,
+      "efficiency_assumed": 0.65,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 1024,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 205.82551558275696,
+      "period_us": 1039.5,
+      "duration_us": 950.5043810548602,
+      "slack_us": 88.99561894513977,
+      "pass_deadline": true,
+      "first": {
+        "duration_us": 596.047615533092,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 19.900350976422587
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 19.900350976422587,
+            "end_us": 89.43121517395345
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 19.900350976422587,
+            "end_us": 39.80070195284517
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 89.43121517395345,
+            "end_us": 158.96207937148432
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 89.43121517395345,
+            "end_us": 109.33156615037603
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 109.33156615037603,
+            "end_us": 129.23191712679863
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 158.96207937148432,
+            "end_us": 228.49294356901518
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 158.96207937148432,
+            "end_us": 178.86243034790692
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 178.86243034790692,
+            "end_us": 198.76278132432952
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 228.49294356901518,
+            "end_us": 298.02380776654604
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 228.49294356901518,
+            "end_us": 248.39329454543775
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 248.39329454543775,
+            "end_us": 268.29364552186036
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 298.02380776654604,
+            "end_us": 367.5546719640769
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 298.02380776654604,
+            "end_us": 317.92415874296864
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 317.92415874296864,
+            "end_us": 337.82450971939124
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 367.5546719640769,
+            "end_us": 437.0855361616077
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 367.5546719640769,
+            "end_us": 387.4550229404995
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 387.4550229404995,
+            "end_us": 407.3553739169221
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 437.0855361616077,
+            "end_us": 506.61640035913854
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 437.0855361616077,
+            "end_us": 456.9858871380303
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 456.9858871380303,
+            "end_us": 476.8862381144529
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 506.61640035913854,
+            "end_us": 576.1472645566694
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 506.61640035913854,
+            "end_us": 526.5167513355611
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 576.1472645566694,
+            "end_us": 596.047615533092
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 354.4567655217682,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 19.900350976422587
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 19.900350976422587,
+            "end_us": 57.82627690234851
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 19.900350976422587,
+            "end_us": 39.80070195284517
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 57.82627690234851,
+            "end_us": 95.75220282827443
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 57.82627690234851,
+            "end_us": 77.7266278787711
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 77.7266278787711,
+            "end_us": 97.62697885519368
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 97.62697885519368,
+            "end_us": 135.5529047811196
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 97.62697885519368,
+            "end_us": 117.52732983161627
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 117.52732983161627,
+            "end_us": 137.42768080803887
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 137.42768080803887,
+            "end_us": 175.3536067339648
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 137.42768080803887,
+            "end_us": 157.32803178446147
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 157.32803178446147,
+            "end_us": 177.22838276088407
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 177.22838276088407,
+            "end_us": 215.15430868681
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 177.22838276088407,
+            "end_us": 197.12873373730667
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 197.12873373730667,
+            "end_us": 217.02908471372928
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 217.02908471372928,
+            "end_us": 254.9550106396552
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 217.02908471372928,
+            "end_us": 236.92943569015188
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 236.92943569015188,
+            "end_us": 256.8297866665745
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 256.8297866665745,
+            "end_us": 294.7557125925004
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 256.8297866665745,
+            "end_us": 276.7301376429971
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 276.7301376429971,
+            "end_us": 296.6304886194197
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 296.6304886194197,
+            "end_us": 334.5564145453456
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 296.6304886194197,
+            "end_us": 316.5308395958423
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 334.5564145453456,
+            "end_us": 354.4567655217682
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 2048,
+      "buffers": 1,
+      "efficiency_assumed": 0.75,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 4,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 259.82551558275696,
+      "period_us": 259.875,
+      "duration_us": 315.74503414063525,
+      "slack_us": -55.870034140635255,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 189.47745534192256,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 7.882212781937854
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 7.882212781937854,
+            "end_us": 39.48715105354279
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 39.48715105354279,
+            "end_us": 47.36936383548064
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 47.36936383548064,
+            "end_us": 55.25157661741849
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 55.25157661741849,
+            "end_us": 86.85651488902343
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 86.85651488902343,
+            "end_us": 94.73872767096128
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 94.73872767096128,
+            "end_us": 102.62094045289913
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 102.62094045289913,
+            "end_us": 134.22587872450407
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 134.22587872450407,
+            "end_us": 142.10809150644192
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 142.10809150644192,
+            "end_us": 149.99030428837978
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 149.99030428837978,
+            "end_us": 181.5952425599847
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 181.5952425599847,
+            "end_us": 189.47745534192256
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 126.26757879871269,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 7.882212781937854
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 7.882212781937854,
+            "end_us": 23.68468191774032
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 23.68468191774032,
+            "end_us": 31.566894699678173
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 31.566894699678173,
+            "end_us": 39.449107481616025
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 39.449107481616025,
+            "end_us": 55.25157661741849
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 55.25157661741849,
+            "end_us": 63.133789399356345
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 63.133789399356345,
+            "end_us": 71.0160021812942
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 71.0160021812942,
+            "end_us": 86.81847131709667
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 86.81847131709667,
+            "end_us": 94.70068409903452
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 94.70068409903452,
+            "end_us": 102.58289688097237
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 102.58289688097237,
+            "end_us": 118.38536601677484
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 118.38536601677484,
+            "end_us": 126.26757879871269
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 4096,
+      "buffers": 1,
+      "efficiency_assumed": 0.75,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 259.82551558275696,
+      "period_us": 519.75,
+      "duration_us": 656.7740188985547,
+      "slack_us": -137.0240188985547,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 378.9549106838453,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 7.882212781937854
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 7.882212781937854,
+            "end_us": 39.48715105354279
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 39.48715105354279,
+            "end_us": 47.36936383548064
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 47.36936383548064,
+            "end_us": 55.25157661741849
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 55.25157661741849,
+            "end_us": 86.85651488902343
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 86.85651488902343,
+            "end_us": 94.73872767096128
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 94.73872767096128,
+            "end_us": 102.62094045289913
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 102.62094045289913,
+            "end_us": 134.22587872450407
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 134.22587872450407,
+            "end_us": 142.10809150644192
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 142.10809150644192,
+            "end_us": 149.99030428837978
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 149.99030428837978,
+            "end_us": 181.5952425599847
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 181.5952425599847,
+            "end_us": 189.47745534192256
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 189.47745534192256,
+            "end_us": 197.35966812386042
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 197.35966812386042,
+            "end_us": 228.96460639546535
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 228.96460639546535,
+            "end_us": 236.8468191774032
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 236.8468191774032,
+            "end_us": 244.72903195934106
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 244.72903195934106,
+            "end_us": 276.33397023094597
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 276.33397023094597,
+            "end_us": 284.21618301288385
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 284.21618301288385,
+            "end_us": 292.0983957948217
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 292.0983957948217,
+            "end_us": 323.7033340664267
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 323.7033340664267,
+            "end_us": 331.5855468483646
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 331.5855468483646,
+            "end_us": 339.46775963030245
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 339.46775963030245,
+            "end_us": 371.0726979019074
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 371.0726979019074,
+            "end_us": 378.9549106838453
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 277.8191082147094,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 7.882212781937854
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 7.882212781937854,
+            "end_us": 26.845175744900814
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 26.845175744900814,
+            "end_us": 34.727388526838666
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 34.727388526838666,
+            "end_us": 42.60960130877652
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 42.60960130877652,
+            "end_us": 61.57256427173948
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 61.57256427173948,
+            "end_us": 69.45477705367733
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 69.45477705367733,
+            "end_us": 77.33698983561519
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 77.33698983561519,
+            "end_us": 96.29995279857815
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 96.29995279857815,
+            "end_us": 104.182165580516
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 104.182165580516,
+            "end_us": 112.06437836245385
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 112.06437836245385,
+            "end_us": 131.0273413254168
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 131.0273413254168,
+            "end_us": 138.90955410735467
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 138.90955410735467,
+            "end_us": 146.79176688929252
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 146.79176688929252,
+            "end_us": 165.75472985225548
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 165.75472985225548,
+            "end_us": 173.63694263419333
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 173.63694263419333,
+            "end_us": 181.51915541613118
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 181.51915541613118,
+            "end_us": 200.48211837909415
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 200.48211837909415,
+            "end_us": 208.364331161032
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 208.364331161032,
+            "end_us": 216.24654394296985
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 216.24654394296985,
+            "end_us": 235.2095069059328
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 235.2095069059328,
+            "end_us": 243.09171968787066
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 243.09171968787066,
+            "end_us": 250.97393246980852
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 250.97393246980852,
+            "end_us": 269.9368954327715
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 269.9368954327715,
+            "end_us": 277.8191082147094
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 8192,
+      "buffers": 1,
+      "efficiency_assumed": 0.75,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 1024,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 259.82551558275696,
+      "period_us": 1039.5,
+      "duration_us": 1364.115939031677,
+      "slack_us": -324.61593903167704,
+      "pass_deadline": false,
+      "first": {
+        "duration_us": 808.4777226022583,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 15.764425563875708
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 15.764425563875708,
+            "end_us": 85.29528976140656
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 85.29528976140656,
+            "end_us": 101.05971532528227
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 101.05971532528227,
+            "end_us": 116.82414088915797
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 116.82414088915797,
+            "end_us": 186.35500508668883
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 186.35500508668883,
+            "end_us": 202.11943065056454
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 202.11943065056454,
+            "end_us": 217.88385621444024
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 217.88385621444024,
+            "end_us": 287.4147204119711
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 287.4147204119711,
+            "end_us": 303.1791459758468
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 303.1791459758468,
+            "end_us": 318.9435715397225
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 318.9435715397225,
+            "end_us": 388.4744357372533
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 388.4744357372533,
+            "end_us": 404.238861301129
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 404.238861301129,
+            "end_us": 420.0032868650047
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 420.0032868650047,
+            "end_us": 489.53415106253556
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 489.53415106253556,
+            "end_us": 505.29857662641126
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 505.29857662641126,
+            "end_us": 521.063002190287
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 521.063002190287,
+            "end_us": 590.5938663878178
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 590.5938663878178,
+            "end_us": 606.3582919516936
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 606.3582919516936,
+            "end_us": 622.1227175155693
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 622.1227175155693,
+            "end_us": 691.6535817131002
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 691.6535817131002,
+            "end_us": 707.4180072769759
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 707.4180072769759,
+            "end_us": 723.1824328408517
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 723.1824328408517,
+            "end_us": 792.7132970383825
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 792.7132970383825,
+            "end_us": 808.4777226022583
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 555.6382164294188,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 15.764425563875708
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 15.764425563875708,
+            "end_us": 53.69035148980163
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 53.69035148980163,
+            "end_us": 69.45477705367733
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 69.45477705367733,
+            "end_us": 85.21920261755304
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 85.21920261755304,
+            "end_us": 123.14512854347896
+          },
+          {
+            "tile": 1,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 123.14512854347896,
+            "end_us": 138.90955410735467
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 138.90955410735467,
+            "end_us": 154.67397967123037
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 154.67397967123037,
+            "end_us": 192.5999055971563
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 192.5999055971563,
+            "end_us": 208.364331161032
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 208.364331161032,
+            "end_us": 224.1287567249077
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 224.1287567249077,
+            "end_us": 262.0546826508336
+          },
+          {
+            "tile": 3,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 262.0546826508336,
+            "end_us": 277.81910821470933
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 277.81910821470933,
+            "end_us": 293.58353377858504
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 293.58353377858504,
+            "end_us": 331.50945970451096
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 331.50945970451096,
+            "end_us": 347.27388526838666
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 347.27388526838666,
+            "end_us": 363.03831083226237
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 363.03831083226237,
+            "end_us": 400.9642367581883
+          },
+          {
+            "tile": 5,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 400.9642367581883,
+            "end_us": 416.728662322064
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 416.728662322064,
+            "end_us": 432.4930878859397
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 432.4930878859397,
+            "end_us": 470.4190138118656
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 470.4190138118656,
+            "end_us": 486.18343937574133
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 486.18343937574133,
+            "end_us": 501.94786493961703
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 501.94786493961703,
+            "end_us": 539.873790865543
+          },
+          {
+            "tile": 7,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 539.873790865543,
+            "end_us": 555.6382164294188
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 2048,
+      "buffers": 2,
+      "efficiency_assumed": 0.75,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 4,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 259.82551558275696,
+      "period_us": 259.875,
+      "duration_us": 221.15848075738103,
+      "slack_us": 38.71651924261897,
+      "pass_deadline": true,
+      "first": {
+        "duration_us": 142.18417865029545,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 7.882212781937854
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 7.882212781937854,
+            "end_us": 39.48715105354279
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 7.882212781937854,
+            "end_us": 15.764425563875708
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 39.48715105354279,
+            "end_us": 71.09208932514773
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 39.48715105354279,
+            "end_us": 47.36936383548064
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 47.36936383548064,
+            "end_us": 55.25157661741849
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 71.09208932514773,
+            "end_us": 102.69702759675266
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 71.09208932514773,
+            "end_us": 78.97430210708558
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 78.97430210708558,
+            "end_us": 86.85651488902343
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 102.69702759675266,
+            "end_us": 134.3019658683576
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 102.69702759675266,
+            "end_us": 110.57924037869051
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 134.3019658683576,
+            "end_us": 142.18417865029545
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 78.97430210708558,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 7.882212781937854
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 7.882212781937854,
+            "end_us": 23.68468191774032
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 7.882212781937854,
+            "end_us": 15.764425563875708
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 23.68468191774032,
+            "end_us": 39.48715105354279
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 23.68468191774032,
+            "end_us": 31.566894699678173
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 31.566894699678173,
+            "end_us": 39.449107481616025
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 39.48715105354279,
+            "end_us": 55.28962018934526
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 39.48715105354279,
+            "end_us": 47.36936383548064
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 47.36936383548064,
+            "end_us": 55.25157661741849
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 55.28962018934526,
+            "end_us": 71.09208932514773
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 55.28962018934526,
+            "end_us": 63.17183297128311
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 71.09208932514773,
+            "end_us": 78.97430210708558
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 4096,
+      "buffers": 2,
+      "efficiency_assumed": 0.75,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 512,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 259.82551558275696,
+      "period_us": 519.75,
+      "duration_us": 436.0720610042946,
+      "slack_us": 83.6779389957054,
+      "pass_deadline": true,
+      "first": {
+        "duration_us": 268.6039317367152,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 7.882212781937854
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 7.882212781937854,
+            "end_us": 39.48715105354279
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 7.882212781937854,
+            "end_us": 15.764425563875708
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 39.48715105354279,
+            "end_us": 71.09208932514773
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 39.48715105354279,
+            "end_us": 47.36936383548064
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 47.36936383548064,
+            "end_us": 55.25157661741849
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 71.09208932514773,
+            "end_us": 102.69702759675266
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 71.09208932514773,
+            "end_us": 78.97430210708558
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 78.97430210708558,
+            "end_us": 86.85651488902343
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 102.69702759675266,
+            "end_us": 134.3019658683576
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 102.69702759675266,
+            "end_us": 110.57924037869051
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 110.57924037869051,
+            "end_us": 118.46145316062837
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 134.3019658683576,
+            "end_us": 165.90690413996253
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 134.3019658683576,
+            "end_us": 142.18417865029545
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 142.18417865029545,
+            "end_us": 150.0663914322333
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 165.90690413996253,
+            "end_us": 197.51184241156747
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 165.90690413996253,
+            "end_us": 173.7891169219004
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 173.7891169219004,
+            "end_us": 181.67132970383824
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 197.51184241156747,
+            "end_us": 229.1167806831724
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 197.51184241156747,
+            "end_us": 205.39405519350532
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 205.39405519350532,
+            "end_us": 213.27626797544318
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 229.1167806831724,
+            "end_us": 260.7217189547773
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 229.1167806831724,
+            "end_us": 236.99899346511026
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 260.7217189547773,
+            "end_us": 268.6039317367152
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 167.4681292675794,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 7.882212781937854
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 7.882212781937854,
+            "end_us": 26.845175744900814
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 7.882212781937854,
+            "end_us": 15.764425563875708
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 26.845175744900814,
+            "end_us": 45.808138707863776
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 26.845175744900814,
+            "end_us": 34.727388526838666
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 34.727388526838666,
+            "end_us": 42.60960130877652
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 45.808138707863776,
+            "end_us": 64.77110167082674
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 45.808138707863776,
+            "end_us": 53.69035148980163
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 53.69035148980163,
+            "end_us": 61.57256427173948
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 64.77110167082674,
+            "end_us": 83.7340646337897
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 64.77110167082674,
+            "end_us": 72.65331445276459
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 72.65331445276459,
+            "end_us": 80.53552723470244
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 83.7340646337897,
+            "end_us": 102.69702759675266
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 83.7340646337897,
+            "end_us": 91.61627741572755
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 91.61627741572755,
+            "end_us": 99.4984901976654
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 102.69702759675266,
+            "end_us": 121.65999055971562
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 102.69702759675266,
+            "end_us": 110.57924037869051
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 110.57924037869051,
+            "end_us": 118.46145316062837
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 121.65999055971562,
+            "end_us": 140.62295352267859
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 121.65999055971562,
+            "end_us": 129.54220334165348
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 129.54220334165348,
+            "end_us": 137.42441612359133
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 140.62295352267859,
+            "end_us": 159.58591648564155
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 140.62295352267859,
+            "end_us": 148.50516630461644
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 159.58591648564155,
+            "end_us": 167.4681292675794
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    },
+    {
+      "n": 8192,
+      "buffers": 2,
+      "efficiency_assumed": 0.75,
+      "bus_MHz": 135,
+      "core_MHz": 162,
+      "tile_complex_points": 1024,
+      "tiles_per_pass": 8,
+      "reserved_background_MBps": 145.17448441724304,
+      "residual_MBps": 259.82551558275696,
+      "period_us": 1039.5,
+      "duration_us": 922.7120232431571,
+      "slack_us": 116.78797675684291,
+      "pass_deadline": true,
+      "first": {
+        "duration_us": 587.7757647079983,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 15.764425563875708
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 15.764425563875708,
+            "end_us": 85.29528976140656
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 15.764425563875708,
+            "end_us": 31.528851127751416
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 85.29528976140656,
+            "end_us": 154.82615395893743
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 85.29528976140656,
+            "end_us": 101.05971532528227
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 101.05971532528227,
+            "end_us": 116.82414088915797
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 154.82615395893743,
+            "end_us": 224.35701815646829
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 154.82615395893743,
+            "end_us": 170.59057952281313
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 170.59057952281313,
+            "end_us": 186.35500508668883
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 224.35701815646829,
+            "end_us": 293.88788235399915
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 224.35701815646829,
+            "end_us": 240.121443720344
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 240.121443720344,
+            "end_us": 255.8858692842197
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 293.88788235399915,
+            "end_us": 363.41874655153003
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 293.88788235399915,
+            "end_us": 309.65230791787485
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 309.65230791787485,
+            "end_us": 325.41673348175055
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 363.41874655153003,
+            "end_us": 432.94961074906087
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 363.41874655153003,
+            "end_us": 379.18317211540574
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 379.18317211540574,
+            "end_us": 394.94759767928144
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 432.94961074906087,
+            "end_us": 502.4804749465917
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 432.94961074906087,
+            "end_us": 448.71403631293657
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 448.71403631293657,
+            "end_us": 464.4784618768123
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 502.4804749465917,
+            "end_us": 572.0113391441225
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 502.4804749465917,
+            "end_us": 518.2449005104675
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 572.0113391441225,
+            "end_us": 587.7757647079983
+          }
+        ]
+      },
+      "second": {
+        "duration_us": 334.9362585351588,
+        "trace": [
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 0.0,
+            "end_us": 15.764425563875708
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 15.764425563875708,
+            "end_us": 53.69035148980163
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 15.764425563875708,
+            "end_us": 31.528851127751416
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 53.69035148980163,
+            "end_us": 91.61627741572755
+          },
+          {
+            "tile": 0,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 53.69035148980163,
+            "end_us": 69.45477705367733
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 69.45477705367733,
+            "end_us": 85.21920261755304
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 91.61627741572755,
+            "end_us": 129.54220334165348
+          },
+          {
+            "tile": 1,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 91.61627741572755,
+            "end_us": 107.38070297960326
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 107.38070297960326,
+            "end_us": 123.14512854347896
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 129.54220334165348,
+            "end_us": 167.4681292675794
+          },
+          {
+            "tile": 2,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 129.54220334165348,
+            "end_us": 145.30662890552918
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 145.30662890552918,
+            "end_us": 161.07105446940488
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 167.4681292675794,
+            "end_us": 205.39405519350532
+          },
+          {
+            "tile": 3,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 167.4681292675794,
+            "end_us": 183.2325548314551
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 183.2325548314551,
+            "end_us": 198.9969803953308
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 205.39405519350532,
+            "end_us": 243.31998111943125
+          },
+          {
+            "tile": 4,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 205.39405519350532,
+            "end_us": 221.15848075738103
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "read",
+            "start_us": 221.15848075738103,
+            "end_us": 236.92290632125673
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "compute",
+            "start_us": 243.31998111943125,
+            "end_us": 281.24590704535717
+          },
+          {
+            "tile": 5,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 243.31998111943125,
+            "end_us": 259.08440668330695
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "read",
+            "start_us": 259.08440668330695,
+            "end_us": 274.84883224718266
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "compute",
+            "start_us": 281.24590704535717,
+            "end_us": 319.1718329712831
+          },
+          {
+            "tile": 6,
+            "buffer": 0,
+            "op": "write",
+            "start_us": 281.24590704535717,
+            "end_us": 297.0103326092329
+          },
+          {
+            "tile": 7,
+            "buffer": 1,
+            "op": "write",
+            "start_us": 319.1718329712831,
+            "end_us": 334.9362585351588
+          }
+        ]
+      },
+      "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+    }
+  ],
+  "receiver_adopted": false
+}

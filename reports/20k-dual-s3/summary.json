@@ -91,15 +91,15 @@
           "DSP18": 0
         },
         "RS_T": {
-          "logic_sites_estimate": 2085,
-          "FF": 960,
-          "BSRAM": 1,
+          "logic_sites_estimate": 2400,
+          "FF": 1280,
+          "BSRAM": 3,
           "DSP18": 0
         },
         "RS_S": {
-          "logic_sites_estimate": 2085,
-          "FF": 960,
-          "BSRAM": 1,
+          "logic_sites_estimate": 2400,
+          "FF": 1280,
+          "BSRAM": 3,
           "DSP18": 0
         },
         "FFT_tiled": {
@@ -116,24 +116,77 @@
         }
       },
       "resources": {
-        "logic_sites_estimate": 20522,
-        "FF": 13546,
-        "BSRAM": 43,
+        "logic_sites_estimate": 21152,
+        "FF": 14186,
+        "BSRAM": 47,
         "DSP18": 38
       },
       "occupancy_percent": {
-        "logic_sites_estimate": 98.96797839506173,
-        "FF": 87.10133744855968,
-        "BSRAM": 93.47826086956522,
+        "logic_sites_estimate": 102.00617283950618,
+        "FF": 91.21656378600824,
+        "BSRAM": 102.17391304347827,
         "DSP18": 79.16666666666667
       },
       "clock_target_MHz": 162,
-      "RS_service_us": 16.462962962962962,
-      "RS_engine_utilization": 0.5866116539576349,
+      "RS_service_us": 16.493827160493826,
+      "RS_engine_utilization": 0.5877114133388829,
       "SDRAM_required_MBps": 271.26587450863315,
-      "SDRAM_capacity_assumed_MBps": 297.0,
-      "SDRAM_utilization": 0.9133531128236806,
-      "resource_budget_pass": true,
+      "SDRAM_capacity_assumed_MBps": 351.0,
+      "SDRAM_utilization": 0.7728372493123451,
+      "revised_after_shared_RS_synthesis": true,
+      "SDRAM_efficiency_is_unverified_design_requirement": true,
+      "tiled_FFT_55percent_schedule_rejected": true,
+      "FFT_at_65percent": [
+        {
+          "n": 2048,
+          "buffers": 2,
+          "efficiency_assumed": 0.65,
+          "bus_MHz": 135,
+          "core_MHz": 162,
+          "tile_complex_points": 512,
+          "tiles_per_pass": 4,
+          "reserved_background_MBps": 145.17448441724304,
+          "residual_MBps": 205.82551558275696,
+          "period_us": 259.875,
+          "duration_us": 237.62609526371503,
+          "slack_us": 22.24890473628497,
+          "pass_deadline": true,
+          "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+        },
+        {
+          "n": 4096,
+          "buffers": 2,
+          "efficiency_assumed": 0.65,
+          "bus_MHz": 135,
+          "core_MHz": 162,
+          "tile_complex_points": 512,
+          "tiles_per_pass": 8,
+          "reserved_background_MBps": 145.17448441724304,
+          "residual_MBps": 205.82551558275696,
+          "period_us": 519.75,
+          "duration_us": 449.96823991014617,
+          "slack_us": 69.78176008985383,
+          "pass_deadline": true,
+          "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+        },
+        {
+          "n": 8192,
+          "buffers": 2,
+          "efficiency_assumed": 0.65,
+          "bus_MHz": 135,
+          "core_MHz": 162,
+          "tile_complex_points": 1024,
+          "tiles_per_pass": 8,
+          "reserved_background_MBps": 145.17448441724304,
+          "residual_MBps": 205.82551558275696,
+          "period_us": 1039.5,
+          "duration_us": 950.5043810548602,
+          "slack_us": 88.99561894513977,
+          "pass_deadline": true,
+          "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+        }
+      ],
+      "resource_budget_pass": false,
       "performance_verified": false,
       "formally_assigned_routes": 0,
       "adopted": false
@@ -178,9 +231,9 @@
           "DSP18": 0
         },
         "RS_S": {
-          "logic_sites_estimate": 2385,
-          "FF": 1216,
-          "BSRAM": 2,
+          "logic_sites_estimate": 2700,
+          "FF": 1408,
+          "BSRAM": 3,
           "DSP18": 0
         },
         "FFT_tiled": {
@@ -197,23 +250,76 @@
         }
       },
       "resources": {
-        "logic_sites_estimate": 18737,
-        "FF": 12842,
-        "BSRAM": 43,
+        "logic_sites_estimate": 19052,
+        "FF": 13034,
+        "BSRAM": 44,
         "DSP18": 38
       },
       "occupancy_percent": {
-        "logic_sites_estimate": 90.35976080246914,
-        "FF": 82.57458847736625,
-        "BSRAM": 93.47826086956522,
+        "logic_sites_estimate": 91.87885802469135,
+        "FF": 83.80915637860082,
+        "BSRAM": 95.65217391304348,
         "DSP18": 79.16666666666667
       },
       "clock_target_MHz": 162,
-      "RS_service_us": 16.462962962962962,
-      "RS_engine_utilization": 0.8409414442351376,
+      "RS_service_us": 16.493827160493826,
+      "RS_engine_utilization": 0.8425180123720615,
       "SDRAM_required_MBps": 271.26587450863315,
-      "SDRAM_capacity_assumed_MBps": 297.0,
-      "SDRAM_utilization": 0.9133531128236806,
+      "SDRAM_capacity_assumed_MBps": 351.0,
+      "SDRAM_utilization": 0.7728372493123451,
+      "revised_after_shared_RS_synthesis": true,
+      "SDRAM_efficiency_is_unverified_design_requirement": true,
+      "tiled_FFT_55percent_schedule_rejected": true,
+      "FFT_at_65percent": [
+        {
+          "n": 2048,
+          "buffers": 2,
+          "efficiency_assumed": 0.65,
+          "bus_MHz": 135,
+          "core_MHz": 162,
+          "tile_complex_points": 512,
+          "tiles_per_pass": 4,
+          "reserved_background_MBps": 145.17448441724304,
+          "residual_MBps": 205.82551558275696,
+          "period_us": 259.875,
+          "duration_us": 237.62609526371503,
+          "slack_us": 22.24890473628497,
+          "pass_deadline": true,
+          "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+        },
+        {
+          "n": 4096,
+          "buffers": 2,
+          "efficiency_assumed": 0.65,
+          "bus_MHz": 135,
+          "core_MHz": 162,
+          "tile_complex_points": 512,
+          "tiles_per_pass": 8,
+          "reserved_background_MBps": 145.17448441724304,
+          "residual_MBps": 205.82551558275696,
+          "period_us": 519.75,
+          "duration_us": 449.96823991014617,
+          "slack_us": 69.78176008985383,
+          "pass_deadline": true,
+          "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+        },
+        {
+          "n": 8192,
+          "buffers": 2,
+          "efficiency_assumed": 0.65,
+          "bus_MHz": 135,
+          "core_MHz": 162,
+          "tile_complex_points": 1024,
+          "tiles_per_pass": 8,
+          "reserved_background_MBps": 145.17448441724304,
+          "residual_MBps": 205.82551558275696,
+          "period_us": 1039.5,
+          "duration_us": 950.5043810548602,
+          "slack_us": 88.99561894513977,
+          "pass_deadline": true,
+          "qualification": "Conditional fluid bus service only; not a SDRAM controller timing proof"
+        }
+      ],
       "resource_budget_pass": true,
       "performance_verified": false,
       "formally_assigned_routes": 0,
@@ -259,9 +365,9 @@
           "DSP18": 0
         },
         "RS_S": {
-          "logic_sites_estimate": 2385,
-          "FF": 1216,
-          "BSRAM": 2,
+          "logic_sites_estimate": 2700,
+          "FF": 1408,
+          "BSRAM": 3,
           "DSP18": 0
         },
         "FFT_tiled": {
@@ -278,23 +384,27 @@
         }
       },
       "resources": {
-        "logic_sites_estimate": 18337,
-        "FF": 12842,
-        "BSRAM": 55,
+        "logic_sites_estimate": 18652,
+        "FF": 13034,
+        "BSRAM": 56,
         "DSP18": 34
       },
       "occupancy_percent": {
-        "logic_sites_estimate": 88.43074845679013,
-        "FF": 82.57458847736625,
-        "BSRAM": 119.56521739130434,
+        "logic_sites_estimate": 89.94984567901234,
+        "FF": 83.80915637860082,
+        "BSRAM": 121.73913043478261,
         "DSP18": 70.83333333333333
       },
       "clock_target_MHz": 162,
-      "RS_service_us": 16.462962962962962,
-      "RS_engine_utilization": 0.8409414442351376,
+      "RS_service_us": 16.493827160493826,
+      "RS_engine_utilization": 0.8425180123720615,
       "SDRAM_required_MBps": 145.17448441724304,
-      "SDRAM_capacity_assumed_MBps": 297.0,
-      "SDRAM_utilization": 0.48880297783583515,
+      "SDRAM_capacity_assumed_MBps": 351.0,
+      "SDRAM_utilization": 0.4136025197072451,
+      "revised_after_shared_RS_synthesis": true,
+      "SDRAM_efficiency_is_unverified_design_requirement": true,
+      "tiled_FFT_55percent_schedule_rejected": false,
+      "FFT_at_65percent": null,
       "resource_budget_pass": false,
       "performance_verified": false,
       "formally_assigned_routes": 0,
@@ -340,9 +450,9 @@
           "DSP18": 0
         },
         "RS_S": {
-          "logic_sites_estimate": 2385,
-          "FF": 1216,
-          "BSRAM": 2,
+          "logic_sites_estimate": 2700,
+          "FF": 1408,
+          "BSRAM": 3,
           "DSP18": 0
         },
         "FFT_tiled": {
@@ -359,23 +469,27 @@
         }
       },
       "resources": {
-        "logic_sites_estimate": 17837,
-        "FF": 12330,
-        "BSRAM": 39,
+        "logic_sites_estimate": 18152,
+        "FF": 12522,
+        "BSRAM": 40,
         "DSP18": 30
       },
       "occupancy_percent": {
-        "logic_sites_estimate": 86.01948302469135,
-        "FF": 79.2824074074074,
-        "BSRAM": 84.78260869565217,
+        "logic_sites_estimate": 87.53858024691358,
+        "FF": 80.51697530864197,
+        "BSRAM": 86.95652173913044,
         "DSP18": 62.5
       },
       "clock_target_MHz": 162,
-      "RS_service_us": 16.462962962962962,
-      "RS_engine_utilization": 0.8409414442351376,
+      "RS_service_us": 16.493827160493826,
+      "RS_engine_utilization": 0.8425180123720615,
       "SDRAM_required_MBps": 82.128789371548,
-      "SDRAM_capacity_assumed_MBps": 297.0,
-      "SDRAM_utilization": 0.27652791034191243,
+      "SDRAM_capacity_assumed_MBps": 351.0,
+      "SDRAM_utilization": 0.23398515490469515,
+      "revised_after_shared_RS_synthesis": true,
+      "SDRAM_efficiency_is_unverified_design_requirement": true,
+      "tiled_FFT_55percent_schedule_rejected": false,
+      "FFT_at_65percent": null,
       "resource_budget_pass": true,
       "performance_verified": false,
       "formally_assigned_routes": 0,
