@@ -32,6 +32,7 @@ jobs:
           DUAL_RS_REPORT: build/dual-shared-rs-rtl.json
           DUAL_FFT_REPORT: build/dual-fft-rtl.json
           DUAL_SDRAM_REPORT: build/dual-sdram-rtl.json
+          DUAL_FFT_MEMORY_REPORT: build/dual-fft-memory-rtl.json
         run: |
           mkdir -p build
           python -m unittest discover -s tests -p 'test_dual_*.py' -v

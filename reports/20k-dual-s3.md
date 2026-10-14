@@ -2,10 +2,10 @@
 
 2026-10-14（JST）。基準はmain `4f92e8e`（PR #4取り込み後）。
 
-**継続実装の最新結果は[FFT・SDRAM実装と部分配置配線](20k-dual-s3-fft-sdram.md)。固定小数点FFTとSDRAM controllerの機能試験を追加したが、共有RSの162 MHz部分試験は未達。FFTアクセス順でのSDRAM実効値も65%に届かない。初回の43 BSRAM・旧logic予算・55%効率による成立判定は使わない。**
+**最新：[FFT―SDRAMのDMA・所有権・仲裁・競合期限](20k-dual-s3-fft-memory.md)。全frameを進める結合RTLを追加した。部品配置配線の履歴は[前段報告](20k-dual-s3-fft-sdram.md)。共有RSの162 MHz未達、全体資源・STA未確認は継続している。**
 
 **優先して検証する設計案はB：S3は各RF取得・native IQの無損失転送、20Kは両復調を同時実行、TのFFTはタイル化してSDRAMを使用、RSはT/S/TMCCで共有する構成。**
-設計予算は20,452 logic位置（98.63%）、44 BSRAM（95.65%）、38 DSP18（79.17%）。
+前段の設計予算は20,452 logic位置（98.63%）、44 BSRAM（95.65%）、38 DSP18（79.17%）。新規DMA・CDC・arbiterを結合した全体占有率は未測定で、この数字を結合RTLの合格値としない。
 ただしこれは新しい構成の**実装前予算**であって、合成結果でも保証上限でもない。
 現時点で、指定された手順の①「性能余裕を確認済み」を満たして②正式通信割当→③採用まで進められる受信機は**0件**。
 Bは実現可能と確定した案ではなく、具体的な容量・期限条件を持つ設計仮説である。
@@ -107,7 +107,7 @@ FIR/sync・等化等は基準HEADのarchitecture estimateであり測定値で�
 |---|---|
 | Sの追加K7：2,952 logic /1,502 FF/2 BSRAM | T K7見積もりをSの別context用に丸ごと予約。S TC8PSKと同一回路に無料で統合したことにしない。S各符号化率のdepuncture/切替接続は別途必要 |
 | 共有RS：3,000 logic /1,408 FF/3 BSRAM | 刺激回路込み部分配置は2,786 logic、1,311 FF、2 BSRAM。staging用1 BSRAMを予約。162 MHz指定は157.431 MHzの表示で不合格、RAM等のSTA網羅性にも欠落 |
-| タイルFFT：2,500 logic /1,024 FF/8 BSRAM/8 DSP | 固定小数点tile・cross・係数ROM・burst address mapperを実装し部分配置。更新値は後続報告参照。6 BSRAM、8 DSPの部品構成。DMA FSMは未結合であり、このallocation内に全体が収まる証拠ではない |
+| タイルFFT：2,500 logic /1,024 FF/8 BSRAM/8 DSP | 固定小数点tile・cross・係数ROM・burst address mapperを実装し部分配置。更新値は後続報告参照。前段の部分topは6 BSRAM、8 DSP。今回DMA・仲裁・CDCを接続し、並行cross処理用ROMを追加して8 BSRAM相当の構成になった。新規制御を含む合成は未実施で、このallocation内に収まる証拠ではない |
 | I/O/SDRAM/TMCC/control：3,000 logic /2,000 FF/13 BSRAM | T受信4 KiB=2 block、S reorder16 KiB=8 block、TS/TMCC/arbiter等3 block。BL616側を受信処理に使ってCPUを増やさない。SDRAM controllerの刺激込み部分配置は1,515 logic。残りのCDC・arbiter・TMCC等を含め3,000 logicに収まる証拠はまだない |
 
 BSRAMは18 Kbit全部をbyte payloadに使えるとはせず、32/8-bit幅の2 KiB/blockでbufferを数える。
@@ -137,7 +137,7 @@ T/S/TMCCの出力FIFOを4096/1024/128 Bとしてcredit待ちは0。全位相証�
 
 8192＝64×128、4096＝64×64、2048＝32×64に分解するCooley–Tukey案。
 第1群FFT→交差twiddle→転置→第2群FFTとし、全binを自然周波数順で復元する。
-固定小数点RTLの全mode・全binを独立整数モデルとbit exact比較し、NumPy FFT/Nとも比較した。tile kernelとcrossはRTL、pass間の制御はホスト試験器。**受信BER・全frame DMA・STAの保証ではない。**
+固定小数点RTLの全mode・全binを独立整数モデルとbit exact比較し、NumPy FFT/Nとも比較した。追加の結合試験ではpass間もDMA RTLで制御し、SDRAM pin modelで全frameを検証する。**受信BER・全phase到着・STAの保証ではない。**
 追加の量子化や信号の間引きによって転送量を下げる設計ではない。
 
 | Mode | 周期（GI1/32） | 2 cycles/butterfly＋4 cycles/交差twiddle | 162 MHz処理時間 | 計算占有率 |
@@ -153,7 +153,7 @@ clock目標を達成Fmaxと呼ばない。
 データは`n=n1+N1*n2`、出力は`k=k2+N2*k1`として配置する。
 8列×128点の4 KiB tileを2面用い、32-byte連続転送で行列を転置する計画。
 記録→第1pass read/write→第2pass read/write→復調へのreadを上限6回の4 byte/complexアクセスとして数える。
-buffer所有権付き2-buffer scheduleのホスト模型に加え、FFT kernel・burst map・SDRAM controllerを実装した。これらをつなぐDMA/arbiter FSMは未実装。Mode3の6アクセス順のcontroller試験は333.632 MB/sで、65%＝351 MB/sの設計要求に届かない。
+buffer所有権付き2-buffer scheduleのホスト模型に加え、FFT kernel・burst map・SDRAM controllerを実装した。DMA/arbiter/CDCも接続し、全modeの競合条件をcycle simulationで検証した。結果は最新報告参照。前段のMode3単体traceは333.632 MB/sであり、65%一定モデルを保証しない。今回のRTLはcrossと別bankのFFTも並行するため、前段の直列compute模型とはscheduleが異なる。
 
 | SDRAM項目 | 必要量 |
 |---|---:|
@@ -332,9 +332,9 @@ S3のGPIO35–37などR8予約pin、GPIO0/3/45/46 strapを通信に勝手に流�
 
 | 残作業 | この環境で進める部分 | 完了条件 |
 |---|---|---|
-| tile FFT | kernel・cross・係数ROM・burst map・全mode整数vectorは追加済み。次はDMA/所有権FSMの接続 | 全bin一致／精度契約、2-cycle butterfly、162 MHzで全mode周期内、tile8 BSRAM以下 |
+| tile FFT | DMA・所有権・仲裁・CDCを接続し有限の全mode競合試験を追加済み。実client到着・物理CDC/STAの確認は残る | 全bin一致／精度契約、2-cycle butterfly、162 MHzで全mode周期内、tile8 BSRAM以下 |
 | 全体FPGA | FIR・同期・TMCC・depuncture・全interleave・両FEC・共有RS・TS・I/Oを接続、20K合成/P&R | legal placement、logic≤20,736、BSRAM≤46、DSP≤48、PLL≤2、全domain STA。budget超過時は案を修正 |
-| SDRAM | BL8 controllerと独立command modelは追加済み。次は実arbiterとFFT/LLR等の同時cycle simulation | 135 MHzで271.266 MB/s需要を処理、最長待ちがFIFO期限内。raw退避を追加した場合は再計算 |
+| SDRAM | FFTとの結合・2-client仲裁・合成背景トラフィックの同時cycle simulationまで追加済み。実LLR等のclient実装と全phase保証は残る | 135 MHzで271.266 MB/s需要を処理、最長待ちがFIFO期限内。raw退避を追加した場合は再計算 |
 | shared RS | 仲裁・TMCC短縮・credit予約RTL、2種類の部分合成、有限位相queue検算まで追加 | 外部queue/DMA/FIFO結合、全位相境界、162 MHz STAは未達 |
 | S3 dedicated firmware | T用/S用を個別リンク、bank所有権・per-core scheduler・実driver呼出を結合 | N8R8/N16R8のROM/内部SRAM容量内、RF bank再使用より早く回収、API/packing含むWCETに余裕 |
 | 実GPIO map | 回路図、BL616 firmware、clock routingと負荷確認 | 配線・CST・衝突回避を具体化。pin本数だけの合格を撤回できる状態にする |
