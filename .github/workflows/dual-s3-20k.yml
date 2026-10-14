@@ -46,6 +46,10 @@ jobs:
           DUAL_FFT_MEMORY_BACKGROUND: '188.592344'
           DUAL_FFT_MEMORY_REPORT: build/dual-memory-long-stress.json
         run: python -m unittest discover -s tests -p test_dual_fft_memory.py -v
+      - name: Verify bounded clients with dense ring addresses
+        run: |
+          DUAL_TRACE_FRAMES=32 DUAL_TRACE_MODES=11 DUAL_TRACE_REPORT=build/dual-clients-32.json python -m unittest discover -s tests -p test_dual_memory_trace.py -v
+          DUAL_TRACE_FRAMES=16 DUAL_TRACE_MODES=11 DUAL_TRACE_LAYERS='[[3,4],[3,8],[7,16]]' DUAL_TRACE_REPORT=build/dual-clients-worst.json python -m unittest discover -s tests -p test_dual_memory_trace.py -v
       - name: Synthesize both corrected RS table implementations (not full receiver STA)
         run: python ci/dual_shared_rs_evidence.py --yosys yowasp-yosys --output build/dual-shared-rs-synthesis.json
       - uses: actions/upload-artifact@v4
@@ -73,8 +77,12 @@ jobs:
           tar -xzf /tmp/oss-cad-suite.tgz -C /tmp
       - name: Record component placement and timing failures (not receiver acceptance)
         run: python ci/dual_fft_memory_evidence.py --yosys /tmp/oss-cad-suite/bin/yosys --nextpnr /tmp/oss-cad-suite/bin/nextpnr-himbaechel --output build/dual-components-evidence
+      - name: Synthesize connected memory clients and bounded FIFO
+        run: python ci/dual_memory_clients_evidence.py --yosys /tmp/oss-cad-suite/bin/yosys --output build/dual-memory-clients-synth
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: dual-components-placement
-          path: build/dual-components-evidence
+          path: |
+            build/dual-components-evidence
+            build/dual-memory-clients-synth

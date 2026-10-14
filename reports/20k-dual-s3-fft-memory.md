@@ -1,5 +1,7 @@
 # FFT―SDRAM結合：DMA・所有権・仲裁・期限
 
+最新の実装・再検証は[密配置と有限memory client接続](20k-dual-s3-memory-clients.md)を参照。以下は前段の証拠であり、Sの整列double-buffer容量訂正も最新報告へ記載した。
+
 2026-10-14。今回の対象は残作業の先頭「FFTとSDRAMのDMA・バッファ所有権管理・仲裁の接続、競合込みの期限検証」だけ。共有RS改修、受信top全体の配置配線、S3 firmwareには着手していない。
 
 **再監査：第1項目は未完了。** [実clientの配置・容量・帯域の検算](20k-dual-s3-memory-contract.md)でMode1の容量反例を記録した。下記24 frameは旧合成負荷の結果として維持し、実client成立の証拠にはしない。

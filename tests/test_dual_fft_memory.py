@@ -44,7 +44,7 @@ wire orv;reg orr=1;wire[255:0] ord;
 wire[2:0] cmd;wire[1:0] bank;wire[10:0] a;wire cke,oe;wire[3:0] dqm;wire[31:0] dout;reg[31:0] din=0;
 dual_fft_memory #(.INIT_CYCLES(32)) dut(clk,mclk,resetn,start,mode,ib,mb,ob,
  busy,done,ffault,overflow,ov,ore,ow,oa,od,orv,orr,ord,
- initialized,mfault,cmd,bank,a,cke,dqm,oe,dout,din);
+ initialized,mfault,cmd,bank,a,cke,dqm,oe,dout,din,32'd0,);
 reg[31:0] input_words[0:FRAMES*N-1],expected[0:FRAMES*N-1];
 integer run=0,corecycles=0,firstcycle,produced=0,peak=0,waitcycles=0,maxwait=0,collisions=0,overlap=0;
 integer fft_reads=0,fft_writes=0;

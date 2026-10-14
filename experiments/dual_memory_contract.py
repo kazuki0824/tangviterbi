@@ -12,10 +12,12 @@ from collections import defaultdict
 from fractions import Fraction
 import hashlib
 import itertools
+import math
+from functools import lru_cache
 import json
 from pathlib import Path
 
-OTHER_BYTES = 155904 + 131072 + 65536 + 262144
+OTHER_BYTES = 2*384*224 + 131072 + 65536 + 262144
 CAPACITY = 8 * 1024**2
 S_CW_RATE = Fraction(28860000, 203*4)
 
@@ -35,6 +37,14 @@ def groups(mode, layers):
     return dict(sorted(result.items()))
 
 
+@lru_cache(None)
+def dense_traffic(delay, size):
+    cycle=32//math.gcd(size,32)
+    costs=[2*32*((k*size%32+size+31)//32) for k in range(cycle)]
+    turns,tail=divmod(delay,cycle)
+    return Fraction(turns*sum(costs)+sum(costs[:tail]),delay)
+
+
 def audit(mode, layers, layout):
     g = groups(mode, layers)
     period = Fraction(2079, 8)*(1 << (mode-1))  # microseconds
@@ -51,8 +61,7 @@ def audit(mode, layers, layout):
         elif layout == 'compact_group_masked':
             # Exact ring-offset average, including partial first/last BL8.
             # Requires byte masks end-to-end (current integrated port lacks them).
-            traffic += Fraction(sum(2*32*((k*size%32+size+31)//32)
-                                    for k in range(delay)), delay)
+            traffic += dense_traffic(delay,size)
         elif layout == 'carrier_padded':
             traffic += 2*32*(size//6)
         else:
@@ -93,17 +102,20 @@ def report():
     # All positive ordered segment partitions into <=3 layers, all legal I.
     extrema=[]
     for mode in (1,2,3):
-        r=1 << (mode-1); cases=[]
+        r=1 << (mode-1); cases=[]; dense_cases=[]
         for count in (1,2,3):
             for cuts in itertools.combinations(range(1,13),count-1):
                 edges=(0,)+cuts+(13,)
                 segments=[b-a for a,b in zip(edges,edges[1:])]
                 for lengths in itertools.product((0,4//r,8//r,16//r),repeat=count):
                     cases.append(audit(mode,list(zip(segments,lengths)),'aligned_group'))
+                    dense_cases.append(audit(mode,list(zip(segments,lengths)),'compact_group_masked'))
         extrema.append(dict(mode=mode,case_count=len(cases),
                             capacity_fail_count=sum(not x['capacity_pass'] for x in cases),
                             max_capacity=max(cases,key=lambda x:x['total_reserved_bytes']),
-                            max_traffic=max(cases,key=lambda x:x['total_bus_MBps'])))
+                            max_traffic=max(cases,key=lambda x:x['total_bus_MBps']),
+                            dense_max_capacity=max(dense_cases,key=lambda x:x['total_reserved_bytes']),
+                            dense_max_traffic=max(dense_cases,key=lambda x:x['total_bus_MBps'])))
     return dict(source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                 specification='ARIB STD-B31 v2.2-E1 3.11.1, Tables 3-12 and 3-30',
                 scope='Address/storage/BL8 demand audit. Necessary conditions only; no WCET or FIFO bound.',

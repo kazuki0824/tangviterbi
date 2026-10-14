@@ -2,7 +2,7 @@
 
 2026-10-14（JST）。基準はmain `4f92e8e`（PR #4取り込み後）。
 
-**最新：[FFT―SDRAMのDMA・所有権・仲裁・競合期限](20k-dual-s3-fft-memory.md)。全frameを進める結合RTLを追加した。部品配置配線の履歴は[前段報告](20k-dual-s3-fft-sdram.md)。共有RSの162 MHz未達、全体資源・STA未確認は継続している。**
+**最新：[密配置・有限FIFO・bank分離・S優先入口](20k-dual-s3-memory-clients.md)。64 frameと旧24 frameの有限契約試験を通過し、接続部分は5,425 logic／13 BSRAM／8 DSP。ただし実T/S client生成・producer保持・全位相の保証は未完了で、第1項目は継続中。全体占有率・STAの合格値ではない。**
 
 **優先して検証する設計案はB：S3は各RF取得・native IQの無損失転送、20Kは両復調を同時実行、TのFFTはタイル化してSDRAMを使用、RSはT/S/TMCCで共有する構成。**
 前段の設計予算は20,452 logic位置（98.63%）、44 BSRAM（95.65%）、38 DSP18（79.17%）。新規DMA・CDC・arbiterを結合した全体占有率は未測定で、この数字を結合RTLの合格値としない。
