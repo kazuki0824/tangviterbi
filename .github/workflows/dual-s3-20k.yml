@@ -37,6 +37,15 @@ jobs:
           mkdir -p build
           python -m unittest discover -s tests -p 'test_dual_*.py' -v
           python experiments/dual_s3_deadlines.py --output build/dual-deadlines.json
+          python experiments/dual_memory_contract.py --output build/dual-memory-contract.json
+      - name: Record longer memory stress (functional success is not queue admission)
+        env:
+          DUAL_FFT_MEMORY_FRAMES: '32'
+          DUAL_FFT_MEMORY_MODES: '11'
+          DUAL_FFT_MEMORY_PROFILES: '2'
+          DUAL_FFT_MEMORY_BACKGROUND: '188.592344'
+          DUAL_FFT_MEMORY_REPORT: build/dual-memory-long-stress.json
+        run: python -m unittest discover -s tests -p test_dual_fft_memory.py -v
       - name: Synthesize both corrected RS table implementations (not full receiver STA)
         run: python ci/dual_shared_rs_evidence.py --yosys yowasp-yosys --output build/dual-shared-rs-synthesis.json
       - uses: actions/upload-artifact@v4

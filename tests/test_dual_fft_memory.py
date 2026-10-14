@@ -30,7 +30,8 @@ MODEL=MODEL.replace('if(fault)', 'if(mfault)').replace('@(negedge clk)','@(neged
 MODEL+=' end\nend\n'
 BENCH=r'''`timescale 1ns/1fs
 module tb;
-parameter LOGN=11,PROFILE=0,PHASE=0;
+parameter LOGN=11,PROFILE=0,PHASE=0,FRAMES=2;
+parameter real BG_INTERVAL=220.424409485;
 localparam N=1<<LOGN,PERIOD=259875*(1<<(LOGN-11));
 reg clk=0,mclk=0;
 always #3.086419753 clk=~clk;
@@ -44,7 +45,7 @@ wire[2:0] cmd;wire[1:0] bank;wire[10:0] a;wire cke,oe;wire[3:0] dqm;wire[31:0] d
 dual_fft_memory #(.INIT_CYCLES(32)) dut(clk,mclk,resetn,start,mode,ib,mb,ob,
  busy,done,ffault,overflow,ov,ore,ow,oa,od,orv,orr,ord,
  initialized,mfault,cmd,bank,a,cke,dqm,oe,dout,din);
-reg[31:0] input_words[0:2*N-1],expected[0:2*N-1];
+reg[31:0] input_words[0:FRAMES*N-1],expected[0:FRAMES*N-1];
 integer run=0,corecycles=0,firstcycle,produced=0,peak=0,waitcycles=0,maxwait=0,collisions=0,overlap=0;
 integer fft_reads=0,fft_writes=0;
 real next_arrival=0,started_at=0,elapsed=0,epoch=0;
@@ -54,7 +55,7 @@ always @(negedge mclk)begin
  if(active && PROFILE!=0)begin
   while($realtime>=next_arrival)begin
    produced=produced+(PROFILE==3?32:1);
-   next_arrival=next_arrival+(PROFILE==3?7053.581103529:220.424409485);
+   next_arrival=next_arrival+BG_INTERVAL*(PROFILE==3?32:1);
   end
  end
  ov=sent<produced;ow=(sent%2)==0;
@@ -85,7 +86,7 @@ always @(posedge clk)if(resetn)begin
  if(dut.fft.tile_busy && dut.fft.state!=0 && dut.fft.dma_bank==dut.fft.compute_bank)$fatal(1,"bank ownership collision");
  if(dut.fft.owner[0]==0 && dut.fft.owner[1]==0 && busy && dut.fft.tile_busy)$fatal(1,"compute bank freed");
  if(ffault && active && !start)$fatal(1,"FFT fault");
- if(corecycles>1000000)$fatal(1,"timeout");
+ if(corecycles>FRAMES*250000)$fatal(1,"timeout");
 end
 initial begin
  for(i=0;i<65536;i=i+1)mem[i]=32'hdeadc0de;
@@ -96,14 +97,14 @@ initial begin
  wait(initialized);repeat(10)@(negedge clk);
  mb=0;start=1;@(negedge clk);start=0;
  if(!ffault||busy)$fatal(1,"bad frame contract accepted");mb=8192;
- for(run=0;run<2;run=run+1)begin
+ for(run=0;run<FRAMES;run=run+1)begin
   @(negedge clk);
   if(run>0)while($realtime<epoch+run*PERIOD)@(negedge clk);
   if(run==0)begin epoch=$realtime;next_arrival=$realtime+PHASE;active=1;end
   for(i=0;i<N;i=i+1)mem[i]=input_words[run*N+i];
   start=1;firstcycle=corecycles;started_at=epoch+run*PERIOD;
   @(negedge clk);start=0;
-  wait(done);@(negedge clk);elapsed=$realtime-started_at;if(run==1)active=0;
+  wait(done);@(negedge clk);elapsed=$realtime-started_at;if(run==FRAMES-1)active=0;
   if(overflow)$fatal(1,"unexpected arithmetic clipping");
   for(i=0;i<N;i=i+1)if(mem[16384+i]!==expected[run*N+i])$fatal(1,"FFT mismatch bin %0d got %h expected %h",i,mem[16384+i],expected[run*N+i]);
   if(mem[16384+N]!==32'hdeadc0de || (N<8192 && mem[8192+N]!==32'hdeadc0de))$fatal(1,"out of frame write");
@@ -111,7 +112,7 @@ initial begin
   if(max_ref_gap>1053 || overlap==0)$fatal(1,"no refresh/overlap coverage");
   if(PROFILE!=0 && collisions==0)$fatal(1,"contention not exercised");
   $display("RESULT run=%0d cycles=%0d ns=%0.3f peak_queue=%0d max_grant_wait=%0d max_refresh_gap=%0d overlap=%0d reads=%0d writes=%0d other_completed=%0d",run,corecycles-firstcycle,elapsed,peak,maxwait,max_ref_gap,overlap,fft_reads,fft_writes,received);
-  if(run==1)begin wait(received==produced);repeat(10)@(negedge clk);end
+  if(run==FRAMES-1)begin wait(received==produced);repeat(10)@(negedge clk);end
  end
  $finish;
 end
@@ -123,24 +124,31 @@ def packed(x):return (x[0]&65535)|((x[1]&65535)<<16)
 class MemoryIntegration(unittest.TestCase):
     def test_frames_banks_contention_cdc_and_deadlines(self):
         results=[]
+        frames=int(os.environ.get('DUAL_FFT_MEMORY_FRAMES','2'))
+        background=float(os.environ.get('DUAL_FFT_MEMORY_BACKGROUND','145.17448441724304'))
+        modes=[int(x) for x in os.environ.get('DUAL_FFT_MEMORY_MODES','11,12,13').split(',')]
+        profiles=[int(x) for x in os.environ.get('DUAL_FFT_MEMORY_PROFILES','0,1,2,3').split(',')]
+        self.assertGreaterEqual(frames,2)
+        self.assertGreater(background,0)
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)
-            for logn in (11,12,13):
+            for logn in modes:
                 rng=random.Random(0x162135+logn)
-                samples=[(rng.randrange(-12000,12001),rng.randrange(-12000,12001)) for _ in range(2<<logn)]
-                expected=frame(samples[:1<<logn])+frame(samples[1<<logn:])
+                samples=[(rng.randrange(-12000,12001),rng.randrange(-12000,12001)) for _ in range(frames<<logn)]
+                expected=[v for k in range(frames) for v in frame(samples[k*(1<<logn):(k+1)*(1<<logn)])]
                 for name,values in (('input',samples),('expected',expected)):
                     (p/f'{name}.hex').write_text('\n'.join(f'{packed(x):08x}' for x in values)+'\n')
                 bench=BENCH.replace('"INPUT"',json.dumps(str(p/'input.hex'))).replace('"EXPECTED"',json.dumps(str(p/'expected.hex')))
                 (p/'tb.sv').write_text(bench)
                 for profile,phase in ((0,0),(1,0),(2,2),(3,5)):
+                    if profile not in profiles:continue
                     files=list((ROOT/'rtl').glob('dual_fft_*.sv'))+list((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_sdram_burst.sv']
-                    subprocess.run(['iverilog','-g2012','-s','tb',f'-Ptb.LOGN={logn}',f'-Ptb.PROFILE={profile}',f'-Ptb.PHASE={phase}',
+                    subprocess.run(['iverilog','-g2012','-s','tb',f'-Ptb.LOGN={logn}',f'-Ptb.PROFILE={profile}',f'-Ptb.PHASE={phase}',f'-Ptb.FRAMES={frames}',f'-Ptb.BG_INTERVAL={32000/background}',
                         '-o',str(p/'sim'),str(p/'tb.sv'),*map(str,files)],check=True,timeout=30)
-                    r=subprocess.run(['vvp',str(p/'sim')],cwd=ROOT,capture_output=True,text=True,timeout=120)
+                    r=subprocess.run(['vvp',str(p/'sim')],cwd=ROOT,capture_output=True,text=True,timeout=max(120,frames*15))
                     self.assertEqual(r.returncode,0,f'N={1<<logn}, profile={profile}:\n'+r.stdout+r.stderr)
                     rows=[dict(kv.split('=') for kv in line.split()[1:]) for line in r.stdout.splitlines() if line.startswith('RESULT')]
-                    self.assertEqual(len(rows),2)
+                    self.assertEqual(len(rows),frames)
                     print(f'N={1<<logn} profile={profile} ns={[row["ns"] for row in rows]}',flush=True)
                     for row in rows:
                         row={k:float(v) if k=='ns' else int(v) for k,v in row.items()}
@@ -151,6 +159,6 @@ class MemoryIntegration(unittest.TestCase):
                 source_files=files+[Path(__file__),ROOT/'tests/test_dual_sdram.py',ROOT/'experiments/dual_fft_reference.py',ROOT/'rtl/dual_fft_quarter_q16.hex']
                 Path(os.environ['DUAL_FFT_MEMORY_REPORT']).write_text(json.dumps(dict(results=results,
                     source_sha256={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest() for f in source_files},
-                    core_MHz=162,memory_MHz=135,background_offered_MBps=145.17448441724304,
+                    core_MHz=162,memory_MHz=135,background_offered_MBps=background,frames_per_condition=frames,
                     scope='Finite digital test, full frame RTL and real controller commands with two clocks. No analog CDC/PHY/STA or all-phase arrival proof. Deadline failures retained.'),indent=2)+'\n')
 if __name__=='__main__':unittest.main()
