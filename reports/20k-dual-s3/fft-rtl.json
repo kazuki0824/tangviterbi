@@ -1,0 +1,59 @@
+{
+  "scope": "RTL core/cross simulations with host-orchestrated frame passes; no RTL SDRAM controller or full receiver",
+  "source_sha256": {
+    "rtl/dual_fft_tile.sv": "bd80683414215ed22b4ee50e50528df7bc05d91b96c354dc1d276c37dccb6b9b",
+    "rtl/dual_fft_cross.sv": "11c079bc9898b302c080067bfb85c58d033576566bc3b0138426bd71b51c027b",
+    "rtl/dual_fft_twiddle.sv": "723cc1b618f18502997c1f40c0b26c9a749619c1fc93e8e69bd04ac23d333577",
+    "rtl/dual_fft_quarter_q16.hex": "47a095f8da170d9cd717709a98e5380711013690bc6bb52e2768ebca3fc40a5d"
+  },
+  "measurements": [
+    {
+      "n": 2048,
+      "case": "random",
+      "max_complex_error_LSB": 1.9866474456834664,
+      "SNR_dB": 49.571200587136005,
+      "bins_checked": 2048,
+      "bit_exact_integer_oracle": true
+    },
+    {
+      "n": 2048,
+      "case": "tone",
+      "max_complex_error_LSB": 1.0169704252301455,
+      "SNR_dB": 70.24917138917844,
+      "bins_checked": 2048,
+      "bit_exact_integer_oracle": true
+    },
+    {
+      "n": 4096,
+      "case": "random",
+      "max_complex_error_LSB": 2.142132096209596,
+      "SNR_dB": 47.14413963322028,
+      "bins_checked": 4096,
+      "bit_exact_integer_oracle": true
+    },
+    {
+      "n": 4096,
+      "case": "tone",
+      "max_complex_error_LSB": 1.4147361905762699,
+      "SNR_dB": 65.73464493351734,
+      "bins_checked": 4096,
+      "bit_exact_integer_oracle": true
+    },
+    {
+      "n": 8192,
+      "case": "random",
+      "max_complex_error_LSB": 2.2938023983203744,
+      "SNR_dB": 44.11696165614069,
+      "bins_checked": 8192,
+      "bit_exact_integer_oracle": true
+    },
+    {
+      "n": 8192,
+      "case": "tone",
+      "max_complex_error_LSB": 1.428269175223765,
+      "SNR_dB": 60.49580278956416,
+      "bins_checked": 8192,
+      "bit_exact_integer_oracle": true
+    }
+  ]
+}

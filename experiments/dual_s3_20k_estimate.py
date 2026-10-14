@@ -163,7 +163,7 @@ def candidate_budgets():
         'S_BPSK_QPSK_K7_extra': [2952, 1502, 2, 0],
         'RS_T': [2400, 1280, 3, 0],  # corrected decoder + one staging BSRAM allocation
         'RS_S': [2400, 1280, 3, 0],
-        'FFT_tiled': [1400, 1024, 8, 8],
+        'FFT_tiled': [2500, 1024, 8, 8],  # revised after fixed-point tile/map P&R; allocation, not full integration
         'IO_SDRAM_TMCC_control_reserve': [3000, 2000, 13, 0],
     }
     rows = []
@@ -172,7 +172,7 @@ def candidate_budgets():
         clock = 162
         if name != 'A_tiled_independent_RS':
             del b['RS_T']
-            b['RS_S'] = [2700, 1408, 3, 0]  # measured register-table wrapper: >=2450 sites, 1055 FF, 2 BSRAM; +staging
+            b['RS_S'] = [3000, 1408, 3, 0]  # partial routed probe incl stimulus: 2786 sites/1311 FF/2 BSRAM; +staging
             clock = 162
         if name == 'C_resident_shared_RS':
             b['FFT_tiled'] = [1000, 1024, 20, 4]  # 16 data +3 exact-quarter ROM +1 reserve
@@ -196,6 +196,11 @@ def candidate_budgets():
                          SDRAM_required_MBps=mem, SDRAM_capacity_assumed_MBps=135*4*.65,
                          SDRAM_utilization=mem/(135*4*.65),
                          revised_after_shared_RS_synthesis=True,
+                         revised_after_FFT_SDRAM_component_implementation=True,
+                         resource_values_are_allocations_not_whole_synthesis=True,
+                         RS_162MHz_partial_probe_pass=False,
+                         full_domain_STA_qualified=False,
+                         SDRAM_65percent_guaranteed=False,
                          SDRAM_efficiency_is_unverified_design_requirement=True,
                          tiled_FFT_55percent_schedule_rejected=name.startswith(('A_', 'B_')),
                          FFT_at_65percent=[{k:v for k,v in fft_schedule(n,.65).items() if k not in ('first','second')}

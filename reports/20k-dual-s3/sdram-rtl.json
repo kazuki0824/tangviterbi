@@ -1,0 +1,69 @@
+{
+  "results": [
+    {
+      "requests": 640,
+      "refreshes": 22,
+      "max_refresh_gap": 1042,
+      "read_cycles": 4661,
+      "write_cycles": 4675,
+      "trace": "same_row",
+      "open_page": false,
+      "first_phase_bursts": 256,
+      "second_phase_bursts": 256,
+      "first_phase_MBps": 237.27097189444325,
+      "second_phase_MBps": 236.56042780748663
+    },
+    {
+      "requests": 640,
+      "refreshes": 18,
+      "max_refresh_gap": 1042,
+      "read_cycles": 3123,
+      "write_cycles": 3123,
+      "trace": "same_row",
+      "open_page": true,
+      "first_phase_bursts": 256,
+      "second_phase_bursts": 256,
+      "first_phase_MBps": 354.12103746397696,
+      "second_phase_MBps": 354.12103746397696
+    },
+    {
+      "requests": 6784,
+      "refreshes": 129,
+      "max_refresh_gap": 1042,
+      "read_cycles": 112087,
+      "write_cycles": 9339,
+      "trace": "fft_mode3_and_conflicts",
+      "open_page": false,
+      "first_phase_bursts": 6144,
+      "second_phase_bursts": 512,
+      "first_phase_MBps": 236.798915128427,
+      "second_phase_MBps": 236.8390619980726
+    },
+    {
+      "requests": 6784,
+      "refreshes": 98,
+      "max_refresh_gap": 1042,
+      "read_cycles": 79555,
+      "write_cycles": 9228,
+      "trace": "fft_mode3_and_conflicts",
+      "open_page": true,
+      "first_phase_bursts": 6144,
+      "second_phase_bursts": 512,
+      "first_phase_MBps": 333.6318270378983,
+      "second_phase_MBps": 239.68790637191157
+    }
+  ],
+  "source_sha256": {
+    "rtl/dual_sdram_burst.sv": "2a4497439488330982534b3277e9c66d8cc0c104349e8a470f109a8b51f8c6c9",
+    "tests/test_dual_sdram.py": "82b26f6e85dd0d354dab9083810a0f3bda81754cbcb669cc81ee718dbc94ed5d"
+  },
+  "clock_MHz_assumed": 135,
+  "CL": 3,
+  "TRCD": 3,
+  "TRP": 3,
+  "TWR": 3,
+  "TRFC": 10,
+  "TMRD": 3,
+  "refresh_cycles": 1053,
+  "qualification": "Independent digital command model, INIT shortened to 32 cycles. Timing inputs are unqualified for silicon; PHY/CDC and concurrent client arbitration absent."
+}

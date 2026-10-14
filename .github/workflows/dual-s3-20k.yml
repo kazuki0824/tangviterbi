@@ -1,14 +1,15 @@
-name: Dual S3 20K partial RS and deadline evidence
+name: Dual S3 20K component and deadline evidence
 on:
   pull_request:
     paths:
-      - 'rtl/dual_shared_rs.sv'
+      - 'rtl/dual_*.sv'
+      - 'rtl/dual_fft_quarter_q16.hex'
       - 'rtl/rs204_188_compact.sv'
       - 'experiments/s3_rs_*.py'
       - 'experiments/check_isdb_rs.py'
-      - 'experiments/dual_s3_*.py'
+      - 'experiments/dual_*.py'
       - 'tests/test_dual_*.py'
-      - 'ci/dual_shared_rs_evidence.py'
+      - 'ci/dual_*_evidence.py'
       - '.github/workflows/dual-s3-20k.yml'
   workflow_dispatch:
 permissions:
@@ -26,9 +27,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y iverilog
           python -m pip install numpy==2.3.5 yowasp-yosys==0.70.0.0.post1259 yowasp-runtime==1.96 wasmtime==47.0.1
-      - name: Test conservation, buffers, and mixed-stream corrected RS
+      - name: Test conservation, fixed-point FFT, SDRAM commands, and corrected RS
         env:
           DUAL_RS_REPORT: build/dual-shared-rs-rtl.json
+          DUAL_FFT_REPORT: build/dual-fft-rtl.json
+          DUAL_SDRAM_REPORT: build/dual-sdram-rtl.json
         run: |
           mkdir -p build
           python -m unittest discover -s tests -p 'test_dual_*.py' -v
@@ -44,3 +47,24 @@ jobs:
             build/dual-shared-rs-evidence/*.log
             build/dual-shared-rs-evidence/*.ys
             build/dual-shared-rs-evidence/*.sv
+
+  component-placement:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download pinned OSS CAD Suite
+        run: |
+          curl -fL --retry 3 -o /tmp/oss-cad-suite.tgz https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2026-10-04/oss-cad-suite-linux-x64-20261004.tgz
+          echo '8a4708629b0f0afd5a1835aca8b44d224fec5f6e544c5fd22a060ea5514f83c9  /tmp/oss-cad-suite.tgz' | sha256sum -c -
+          tar -xzf /tmp/oss-cad-suite.tgz -C /tmp
+      - name: Record component placement and timing failures (not receiver acceptance)
+        run: python ci/dual_fft_memory_evidence.py --yosys /tmp/oss-cad-suite/bin/yosys --nextpnr /tmp/oss-cad-suite/bin/nextpnr-himbaechel --output build/dual-components-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dual-components-placement
+          path: build/dual-components-evidence
