@@ -2,6 +2,29 @@
 
 **第1項目全体は未完了。共有RSには進んでいない。** この変更は前回の容量／queue反例に対し、信号のbit幅・sample rateを維持したままメモリ接続を改修するもの。有限条件でのデジタル試験と、受信機全体の成立を区別する。
 
+## 追補：有限長vector交換の実RTL（第1項目の一部）
+
+`rtl/dual_vector_exchange.sv`を追加した。1 vectorの開始byte addressと長さを受理し、入力byte列からBL8のaddress/data/DQMを自律生成する。入力を32 B registerへ保持し、旧burstをreadし、その有効byteが出力先へ全て渡ってからmasked writeする。最後のwrite ACKまで次のvectorを受理しない。途中のバースト要求をPythonから与える方式ではない。
+
+旧データはSDRAM controllerのresponse registerに保持し、出力の最終byteまでresponse readyを下げる。追加の旧データbufferは持たない。入力側はready/valid契約が必要であり、停止できないRF入力を32 Bだけで吸収できるという主張ではない。addressは物理byte addressであり、bank 0回避mapping、group選択、ring slot更新はこのmoduleの外側である。長さ0と8 MiBを越える範囲はfaultで拒否する。
+
+`tests/test_dual_vector_exchange.py`の2試験が通過：
+
+- 全32開始offset × 長さ1/32/33/773 B、計128 vectorsについて、旧byte列・更新後byte列・領域外の全byteを照合。
+- 要求受付、応答、入力byte、出力byteを停止させ、valid/payload保持とread-before-writeを照合。
+- 同じscoreboardを実`dual_sdram_burst`＋独立したSDRAM端子メモリモデルにも接続し、DQM、refresh期限、tRFC/tRCD/tRP/tRAS/tWRを検査。
+
+部分合成は **1,003 logic、603 FF、0 BSRAM、0 DSP**。256-bit刺激回路と観測回路込みの単体値であり、既存topとの加算を最新全体占有率として扱わない。[source hashesと合成log](20k-dual-s3/vector-exchange-synthesis/summary.json)。P&R/Fmaxは未確認。
+
+**今回も第1項目の完了条件は変更していない。** 下表の実T/S client、producer保持・全体資源、最悪条件保証の3行を引き続き未完了とする。特に、このmoduleはTのcarrier grouping/reorderでもS frame permutationでもなく、既存FFT同時競合試験のPython要求列を全て置き換えたものではない。前回の64-frame期限結果を、この新moduleの同時動作保証へ転用しない。共有RSの第2項目には着手していない。
+
+再現：
+
+```sh
+python -m unittest discover -s tests -p test_dual_vector_exchange.py -v
+python ci/dual_memory_clients_evidence.py --yosys /path/to/pinned/yosys --components vector --output build/vector-synthesis
+```
+
 ## RTLで実装した範囲
 
 - `dual_burst_cdc.sv`と`dual_burst_arbiter.sv`へ32-bit byte maskを追加。末尾・先頭の部分BL8を書き込んでも、同じburst内の隣接vectorを破壊しない。
