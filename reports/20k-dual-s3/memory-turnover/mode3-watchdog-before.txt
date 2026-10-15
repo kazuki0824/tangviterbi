@@ -1,0 +1,28 @@
+test_masked_layout_with_fft (test_dual_memory_trace.DenseTrace.test_masked_layout_with_fft) ... FAIL
+
+======================================================================
+FAIL: test_masked_layout_with_fft (test_dual_memory_trace.DenseTrace.test_masked_layout_with_fft)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/972893768f02/tangviterbi/tests/test_dual_memory_trace.py", line 139, in test_masked_layout_with_fft
+    self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+AssertionError: 1 != 0 : RESULT run=0 cycles=135727 ns=837821.055 peak_queue=25 max_grant_wait=1 max_refresh_gap=1043 overlap=95540 reads=2048 writes=2048 other_completed=3600
+RESULT run=1 cycles=136654 ns=843543.361 peak_queue=28 max_grant_wait=1 max_refresh_gap=1043 overlap=191024 reads=4096 writes=4096 other_completed=8089
+RESULT run=2 cycles=137219 ns=847031.098 peak_queue=33 max_grant_wait=1 max_refresh_gap=1043 overlap=286744 reads=6144 writes=6144 other_completed=12617
+RESULT run=3 cycles=136960 ns=845432.416 peak_queue=33 max_grant_wait=1 max_refresh_gap=1043 overlap=382497 reads=8192 writes=8192 other_completed=17122
+RESULT run=4 cycles=136970 ns=845494.227 peak_queue=33 max_grant_wait=1 max_refresh_gap=1043 overlap=478276 reads=10240 writes=10240 other_completed=21588
+RESULT run=5 cycles=135775 ns=838117.767 peak_queue=33 max_grant_wait=1 max_refresh_gap=1043 overlap=573830 reads=12288 writes=12288 other_completed=26018
+RESULT run=6 cycles=136261 ns=841117.850 peak_queue=33 max_grant_wait=1 max_refresh_gap=1043 overlap=669330 reads=14336 writes=14336 other_completed=30542
+RESULT run=7 cycles=135720 ns=837778.427 peak_queue=33 max_grant_wait=1 max_refresh_gap=1043 overlap=764707 reads=16384 writes=16384 other_completed=35037
+RESULT run=8 cycles=136519 ns=842710.609 peak_queue=33 max_grant_wait=1 max_refresh_gap=1043 overlap=860315 reads=18432 writes=18432 other_completed=39523
+RESULT run=9 cycles=136783 ns=844340.322 peak_queue=33 max_grant_wait=1 max_refresh_gap=1043 overlap=955798 reads=20480 writes=20480 other_completed=43994
+RESULT run=10 cycles=136502 ns=842605.837 peak_queue=49 max_grant_wait=1 max_refresh_gap=1043 overlap=1051105 reads=22528 writes=22528 other_completed=48477
+RESULT run=11 cycles=135653 ns=837365.179 peak_queue=49 max_grant_wait=1 max_refresh_gap=1043 overlap=1146553 reads=24576 writes=24576 other_completed=52985
+FATAL: /tmp/tmp8h7c6tpm/tb.sv:111: timeout
+       Time: 18518553950620  Scope: tb
+
+
+----------------------------------------------------------------------
+Ran 1 test in 122.094s
+
+FAILED (failures=1)

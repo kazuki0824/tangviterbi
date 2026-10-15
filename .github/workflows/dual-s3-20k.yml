@@ -35,6 +35,7 @@ jobs:
           DUAL_FFT_MEMORY_REPORT: build/dual-fft-memory-rtl.json
           DUAL_S_FRAME_REPORT: build/dual-s-frame-rtl.json
           DUAL_S_HOLD_REPORT: build/dual-s-hold-rtl.json
+          DUAL_SDRAM_PIPELINE_REPORT: build/dual-sdram-pipeline.json
         run: |
           mkdir -p build
           python -m unittest discover -s tests -p 'test_dual_*.py' -v
@@ -55,6 +56,15 @@ jobs:
       - name: Verify actual S frame DMA with FFT and dense T traffic
         run: |
           DUAL_TRACE_REAL_S=3 DUAL_TRACE_FRAMES=128 DUAL_TRACE_MODES=11 DUAL_TRACE_LAYERS='[[3,4],[3,8],[7,16]]' DUAL_TRACE_REPORT=build/dual-s-frame-fft.json python -m unittest discover -s tests -p test_dual_memory_trace.py -v
+          python - <<'PYTHON'
+          import json
+          rows = json.load(open('build/dual-s-frame-fft.json'))['results']
+          assert len(rows) == 1
+          for row in rows:
+              assert row['FFT_deadline_pass'], row['queue']
+              assert row['client_deadline_pass'], row['queue']
+              assert row['staging_64KiB_pass'], row['queue']
+          PYTHON
           python experiments/dual_reorder_admission.py --output build/dual-reorder-admission.json
       - name: Synthesize both corrected RS table implementations (not full receiver STA)
         run: python ci/dual_shared_rs_evidence.py --yosys yowasp-yosys --output build/dual-shared-rs-synthesis.json

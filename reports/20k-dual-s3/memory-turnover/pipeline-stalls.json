@@ -1,0 +1,79 @@
+{
+  "results": [
+    {
+      "turnover": 0,
+      "completion_stalls": 0,
+      "requests": 640,
+      "refreshes": 22,
+      "max_refresh_gap": 1042,
+      "read_cycles": 4700,
+      "write_cycles": 4714,
+      "trace": "same_row",
+      "open_page": false,
+      "first_phase_bursts": 256,
+      "second_phase_bursts": 256,
+      "first_phase_MBps": 235.30212765957447,
+      "second_phase_MBps": 234.60330929147221
+    },
+    {
+      "turnover": 593,
+      "completion_stalls": 40,
+      "requests": 640,
+      "refreshes": 18,
+      "max_refresh_gap": 1036,
+      "read_cycles": 2964,
+      "write_cycles": 2965,
+      "trace": "same_row",
+      "open_page": true,
+      "first_phase_bursts": 256,
+      "second_phase_bursts": 256,
+      "first_phase_MBps": 373.1174089068826,
+      "second_phase_MBps": 372.99156829679595
+    },
+    {
+      "turnover": 0,
+      "completion_stalls": 0,
+      "requests": 6784,
+      "refreshes": 132,
+      "max_refresh_gap": 1042,
+      "read_cycles": 113060,
+      "write_cycles": 9434,
+      "trace": "fft_mode3_and_conflicts",
+      "open_page": false,
+      "first_phase_bursts": 6144,
+      "second_phase_bursts": 512,
+      "first_phase_MBps": 234.7610118521139,
+      "second_phase_MBps": 234.45410218359126
+    },
+    {
+      "turnover": 6279,
+      "completion_stalls": 425,
+      "requests": 6784,
+      "refreshes": 94,
+      "max_refresh_gap": 1043,
+      "read_cycles": 75315,
+      "write_cycles": 8969,
+      "trace": "fft_mode3_and_conflicts",
+      "open_page": true,
+      "first_phase_bursts": 6144,
+      "second_phase_bursts": 512,
+      "first_phase_MBps": 352.4142601075483,
+      "second_phase_MBps": 246.6094324896867
+    }
+  ],
+  "source_sha256": {
+    "rtl/dual_sdram_burst.sv": "f29fba4928e6771a7466a3839603b39563216f54edc78f36c2ff16f6257ae684",
+    "tests/test_dual_sdram.py": "82b26f6e85dd0d354dab9083810a0f3bda81754cbcb669cc81ee718dbc94ed5d",
+    "tests/test_dual_sdram_pipeline.py": "24dbfdd01f3542d867ccd7af14120cbadca7d8332b5b9c0d569a9688022b5378"
+  },
+  "clock_MHz_assumed": 135,
+  "CL": 3,
+  "TRCD": 3,
+  "TRP": 3,
+  "TWR": 3,
+  "TRFC": 10,
+  "TMRD": 3,
+  "refresh_cycles": 1053,
+  "qualification": "Independent digital command model, INIT shortened to 32 cycles. Timing inputs are unqualified for silicon; PHY/CDC and concurrent client arbitration absent.",
+  "scope": "Independent SDRAM pins, completion-edge acceptance and late/long response stalls. No physical timing qualification."
+}

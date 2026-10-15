@@ -4,6 +4,13 @@ from test_dual_s_frame_dma import reference
 
 
 def connect(bench, folder, superframes):
+    # The legacy watchdog scales only with the number of T FFT frames. A
+    # short Mode-3 run can end that watchdog before one S bank can drain.
+    # Extend only the deadlock watchdog; the S reuse deadline below is unchanged.
+    old='if(corecycles>FRAMES*250000)$fatal(1,"timeout");'
+    new=f'if(corecycles>FRAMES*250000 && $realtime-epoch>{(superframes+3)*77952*4000/28.86:.6f})$fatal(1,"timeout");'
+    assert old in bench
+    bench=bench.replace(old,new)
     incoming, expected = reference(superframes)
     for name, values in [('s_input_bytes', incoming), ('s_output_bytes', expected)]:
         (folder/f'{name}.hex').write_text('\n'.join(f'{x:02x}' for x in values)+'\n')

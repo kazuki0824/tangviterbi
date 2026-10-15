@@ -19,6 +19,12 @@ class SFrameContract(unittest.TestCase):
         self.assertEqual(traffic()['bytes_per_codeword'],644)
 
     def test_full_symbol_staging_rejection_is_scoped(self):
-        rows=report()['input_staging_cases']
+        rows=report(12)['input_staging_cases']
         self.assertEqual([x['rejected'] for x in rows],[True,True,False])
         self.assertTrue(all(not x['output_reorder_traffic_included'] for x in rows))
+        current=report()['input_staging_cases']
+        self.assertEqual([x['rejected'] for x in current],[False,False,False])
+        self.assertFalse(report()['full_receiver_adopted'])
+        both=report()['input_and_output_staging_cases']
+        self.assertEqual([x['rejected'] for x in both],[True,True,True])
+        self.assertTrue(all(x['output_reorder_traffic_included'] for x in both))

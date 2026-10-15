@@ -1,4 +1,4 @@
-"""Reject specific full-symbol SDRAM staging plans, never all T implementations."""
+"""Necessary-bandwidth test of one full-symbol SDRAM staging plan."""
 import argparse
 import hashlib
 import json
@@ -8,8 +8,8 @@ from dual_memory_contract import audit, groups, dense_traffic, S_CW_RATE
 from dual_s_frame_contract import traffic
 
 
-def report():
-    rows=[]
+def report(min_burst_clocks=11):
+    rows=[]; both=[]
     for mode in (1,2,3):
         r=1<<(mode-1)
         layers=[(3,4//r),(3,8//r),(7,16//r)]
@@ -22,17 +22,25 @@ def report():
         period=Fraction(2079*r,8)
         ring=sum(dense_traffic(delay,size) for delay,size in groups(mode,layers).items() if delay)
         demand=(6*4*(1<<(mode+10))+ring)/period + S_CW_RATE*traffic()['bytes_per_codeword']/1000000 + 10 + extra
-        # The controller cannot service a BL8 in less than 12 clocks. Each
+        # The controller cannot service a BL8 in less than min_burst_clocks clocks. Each
         # refresh must reserve tRP+tRFC=13 non-transfer clocks at least every
         # 1053 clocks. Ignore every other stall: an optimistic UPPER ceiling.
-        upper=Fraction(135*32,12)*Fraction(1053-13,1053)
+        upper=Fraction(135*32,min_burst_clocks)*Fraction(1053-13,1053)
         rows.append(dict(mode=mode,layers=layers,symbol_LLR_bytes=payload,
                          base_MBps=base['total_bus_MBps'],input_staging_MBps=float(extra),
                          staged_total_MBps=float(demand),optimistic_refresh_ceiling_MBps=float(upper),
                          rejected=demand>upper,minimum_queue_growth_bytes_per_ms=float(max(0,demand-upper)*1000),
                          output_reorder_traffic_included=False))
-    return dict(S=traffic(),input_staging_cases=rows,
-                scope='Specific full-symbol off-chip input staging, actual S DMA, 135 MHz controller. Not exclusion of every grouping algorithm or partition.',
+        # A second full-symbol staging pass to restore natural output order.
+        # Still optimistically packed, with no row-miss charge.
+        complete_demand=demand+extra
+        both.append(dict(mode=mode,layers=layers,staged_total_MBps=float(complete_demand),
+                         optimistic_refresh_ceiling_MBps=float(upper),
+                         rejected=complete_demand>upper,
+                         minimum_queue_growth_bytes_per_ms=float(max(0,complete_demand-upper)*1000),
+                         output_reorder_traffic_included=True))
+    return dict(S=traffic(),min_burst_clocks=min_burst_clocks,input_staging_cases=rows,input_and_output_staging_cases=both,
+                scope='Specific full-symbol off-chip input-only or input-and-output staging, actual S DMA, 135 MHz controller. Not exclusion of every grouping algorithm or partition.',
                 full_receiver_adopted=False,
                 source_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in
                                [Path(__file__),Path(__file__).with_name('dual_memory_contract.py'),Path(__file__).with_name('dual_s_frame_contract.py')]})

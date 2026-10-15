@@ -76,10 +76,10 @@ def audit(mode, layers, layout):
     # model used 448 B/CW and omitted the inter-frame transpose cost.
     s = S_CW_RATE*s_frame_traffic()["bytes_per_codeword"]/1000000
     total = fft + traffic/period + s + 10
-    # Universal optimistic controller ceiling: >= 12 memory cycles/request.
+    # Universal optimistic controller ceiling: >= 11 memory cycles/request (completion-edge acceptance).
     # No refresh, row misses, arbiter or CDC overhead included. This is an
     # upper bound, not a guaranteed service rate. Violating it proves rejection.
-    ceiling = Fraction(135*32, 12)
+    ceiling = Fraction(135*32, 11)
     return dict(mode=mode, layers=layers, layout=layout,
                 group_count=group_count, period_us=float(period),
                 T_bus_MBps=float(traffic/period), S_bus_MBps=float(s),
