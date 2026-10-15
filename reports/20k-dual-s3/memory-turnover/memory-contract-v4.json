@@ -1,0 +1,960 @@
+{
+  "source_sha256": "2ca10dbe5c50baa70578c4d08012c3385a9e7ef699dca718edff7516080c94dd",
+  "S_frame_dma": {
+    "write_bursts_per_superframe": 5040,
+    "read_bursts_per_superframe": 2688,
+    "bytes_per_codeword": 644,
+    "peak_MBps": 22.88896551724138,
+    "sdram_bytes": 172032,
+    "packet_payload_capacity": 406,
+    "packet_ram_logical_bytes": 512,
+    "packet_BSRAM_blocks": 1,
+    "output_fifo_words": 512,
+    "output_fifo_word_bits": 35,
+    "output_fifo_BSRAM_blocks": 1,
+    "output_fifo_payload_bytes": 2048,
+    "output_word_bytes": 4,
+    "read_burst_holding_bytes": 32,
+    "write_burst_holding_bytes": 32
+  },
+  "dependency_sha256": {
+    "dual_s_frame_contract.py": "9f604caaed06459bf159ca99e8d5a3707634d2dd9e4be70bab1df0755ec83a06"
+  },
+  "specification": "ARIB STD-B31 v2.2-E1 3.11.1, Tables 3-12 and 3-30",
+  "scope": "Address/storage/BL8 demand audit. Necessary conditions only; no WCET or FIFO bound.",
+  "witnesses": [
+    {
+      "mode": 1,
+      "layers": [
+        [
+          13,
+          16
+        ]
+      ],
+      "layout": "carrier_padded",
+      "group_count": 95,
+      "period_us": 259.875,
+      "T_bus_MBps": 304.14622414622414,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 526.1722748005507,
+      "T_ring_bytes": 30351360,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 30982144,
+      "capacity_slack_bytes": -22593536,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 133445.00207327792,
+      "capacity_pass": false,
+      "optimistic_rate_pass": false,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 1,
+      "layers": [
+        [
+          13,
+          16
+        ]
+      ],
+      "layout": "aligned_group",
+      "group_count": 95,
+      "period_us": 259.875,
+      "T_bus_MBps": 70.18759018759019,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 292.2136408419167,
+      "T_ring_bytes": 7004160,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 7634944,
+      "capacity_slack_bytes": 753664,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 1,
+      "layers": [
+        [
+          13,
+          16
+        ]
+      ],
+      "layout": "compact_group_masked",
+      "group_count": 95,
+      "period_us": 259.875,
+      "T_bus_MBps": 78.96103896103897,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 300.9870896153655,
+      "T_ring_bytes": 5690880,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 6321664,
+      "capacity_slack_bytes": 2066944,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 1,
+      "layers": [
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          11,
+          16
+        ]
+      ],
+      "layout": "carrier_padded",
+      "group_count": 191,
+      "period_us": 259.875,
+      "T_bus_MBps": 304.14622414622414,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 526.1722748005507,
+      "T_ring_bytes": 27432960,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 28063744,
+      "capacity_slack_bytes": -19675136,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 133445.00207327792,
+      "capacity_pass": false,
+      "optimistic_rate_pass": false,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 1,
+      "layers": [
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          11,
+          16
+        ]
+      ],
+      "layout": "aligned_group",
+      "group_count": 191,
+      "period_us": 259.875,
+      "T_bus_MBps": 93.82972582972583,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 315.85577648405234,
+      "T_ring_bytes": 7888896,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 8519680,
+      "capacity_slack_bytes": -131072,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": false,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 1,
+      "layers": [
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          11,
+          16
+        ]
+      ],
+      "layout": "compact_group_masked",
+      "group_count": 191,
+      "period_us": 259.875,
+      "T_bus_MBps": 99.6238902427737,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 321.64994089710024,
+      "T_ring_bytes": 5144832,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 5775616,
+      "capacity_slack_bytes": 2612992,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 2,
+      "layers": [
+        [
+          13,
+          8
+        ]
+      ],
+      "layout": "carrier_padded",
+      "group_count": 95,
+      "period_us": 519.75,
+      "T_bus_MBps": 304.14622414622414,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 526.1722748005507,
+      "T_ring_bytes": 30351360,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 30982144,
+      "capacity_slack_bytes": -22593536,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 133445.00207327792,
+      "capacity_pass": false,
+      "optimistic_rate_pass": false,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 2,
+      "layers": [
+        [
+          13,
+          8
+        ]
+      ],
+      "layout": "aligned_group",
+      "group_count": 95,
+      "period_us": 519.75,
+      "T_bus_MBps": 58.48965848965849,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 280.515709143985,
+      "T_ring_bytes": 5836800,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 6467584,
+      "capacity_slack_bytes": 1921024,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 2,
+      "layers": [
+        [
+          13,
+          8
+        ]
+      ],
+      "layout": "compact_group_masked",
+      "group_count": 95,
+      "period_us": 519.75,
+      "T_bus_MBps": 67.26310726310726,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 289.2891579174338,
+      "T_ring_bytes": 5690880,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 6321664,
+      "capacity_slack_bytes": 2066944,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 2,
+      "layers": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          11,
+          8
+        ]
+      ],
+      "layout": "carrier_padded",
+      "group_count": 191,
+      "period_us": 519.75,
+      "T_bus_MBps": 304.14622414622414,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 526.1722748005507,
+      "T_ring_bytes": 27432960,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 28063744,
+      "capacity_slack_bytes": -19675136,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 133445.00207327792,
+      "capacity_pass": false,
+      "optimistic_rate_pass": false,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 2,
+      "layers": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          11,
+          8
+        ]
+      ],
+      "layout": "aligned_group",
+      "group_count": 191,
+      "period_us": 519.75,
+      "T_bus_MBps": 70.31072631072631,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 292.3367769650528,
+      "T_ring_bytes": 6279168,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 6909952,
+      "capacity_slack_bytes": 1478656,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 2,
+      "layers": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          11,
+          8
+        ]
+      ],
+      "layout": "compact_group_masked",
+      "group_count": 191,
+      "period_us": 519.75,
+      "T_bus_MBps": 76.10489072377418,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 298.1309413781007,
+      "T_ring_bytes": 5144832,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 5775616,
+      "capacity_slack_bytes": 2612992,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 3,
+      "layers": [
+        [
+          13,
+          4
+        ]
+      ],
+      "layout": "carrier_padded",
+      "group_count": 95,
+      "period_us": 1039.5,
+      "T_bus_MBps": 304.14622414622414,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 526.1722748005507,
+      "T_ring_bytes": 30351360,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 30982144,
+      "capacity_slack_bytes": -22593536,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 133445.00207327792,
+      "capacity_pass": false,
+      "optimistic_rate_pass": false,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 3,
+      "layers": [
+        [
+          13,
+          4
+        ]
+      ],
+      "layout": "aligned_group",
+      "group_count": 95,
+      "period_us": 1039.5,
+      "T_bus_MBps": 58.48965848965849,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 280.515709143985,
+      "T_ring_bytes": 5836800,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 6467584,
+      "capacity_slack_bytes": 1921024,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 3,
+      "layers": [
+        [
+          13,
+          4
+        ]
+      ],
+      "layout": "compact_group_masked",
+      "group_count": 95,
+      "period_us": 1039.5,
+      "T_bus_MBps": 61.41414141414141,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 283.4401920684679,
+      "T_ring_bytes": 5690880,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 6321664,
+      "capacity_slack_bytes": 2066944,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 3,
+      "layers": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          11,
+          4
+        ]
+      ],
+      "layout": "carrier_padded",
+      "group_count": 191,
+      "period_us": 1039.5,
+      "T_bus_MBps": 304.14622414622414,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 526.1722748005507,
+      "T_ring_bytes": 27432960,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 28063744,
+      "capacity_slack_bytes": -19675136,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 133445.00207327792,
+      "capacity_pass": false,
+      "optimistic_rate_pass": false,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 3,
+      "layers": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          11,
+          4
+        ]
+      ],
+      "layout": "aligned_group",
+      "group_count": 191,
+      "period_us": 1039.5,
+      "T_bus_MBps": 61.444925444925445,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 283.47097609925197,
+      "T_ring_bytes": 5546496,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 6177280,
+      "capacity_slack_bytes": 2211328,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    },
+    {
+      "mode": 3,
+      "layers": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          11,
+          4
+        ]
+      ],
+      "layout": "compact_group_masked",
+      "group_count": 191,
+      "period_us": 1039.5,
+      "T_bus_MBps": 64.34539096427442,
+      "S_bus_MBps": 22.88896551724138,
+      "FFT_bus_MBps": 189.13708513708514,
+      "total_bus_MBps": 286.37144161860095,
+      "T_ring_bytes": 5144832,
+      "other_reserved_bytes": 630784,
+      "total_reserved_bytes": 5775616,
+      "capacity_slack_bytes": 2612992,
+      "optimistic_service_MBps": 392.72727272727275,
+      "overload_growth_min_bytes_per_ms": 0.0,
+      "capacity_pass": true,
+      "optimistic_rate_pass": true,
+      "implemented": false,
+      "adopted": false
+    }
+  ],
+  "aligned_group_all_config_extrema": [
+    {
+      "mode": 1,
+      "case_count": 4420,
+      "capacity_fail_count": 6,
+      "max_capacity": {
+        "mode": 1,
+        "layers": [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            11,
+            16
+          ]
+        ],
+        "layout": "aligned_group",
+        "group_count": 191,
+        "period_us": 259.875,
+        "T_bus_MBps": 93.82972582972583,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 315.85577648405234,
+        "T_ring_bytes": 7888896,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 8519680,
+        "capacity_slack_bytes": -131072,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": false,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "max_traffic": {
+        "mode": 1,
+        "layers": [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            11,
+            16
+          ]
+        ],
+        "layout": "aligned_group",
+        "group_count": 191,
+        "period_us": 259.875,
+        "T_bus_MBps": 93.82972582972583,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 315.85577648405234,
+        "T_ring_bytes": 7888896,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 8519680,
+        "capacity_slack_bytes": -131072,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": false,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "dense_max_capacity": {
+        "mode": 1,
+        "layers": [
+          [
+            13,
+            16
+          ]
+        ],
+        "layout": "compact_group_masked",
+        "group_count": 95,
+        "period_us": 259.875,
+        "T_bus_MBps": 78.96103896103897,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 300.9870896153655,
+        "T_ring_bytes": 5690880,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 6321664,
+        "capacity_slack_bytes": 2066944,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "dense_max_traffic": {
+        "mode": 1,
+        "layers": [
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            8
+          ],
+          [
+            7,
+            16
+          ]
+        ],
+        "layout": "compact_group_masked",
+        "group_count": 191,
+        "period_us": 259.875,
+        "T_bus_MBps": 100.38672438672438,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 322.4127750410509,
+        "T_ring_bytes": 4050432,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 4681216,
+        "capacity_slack_bytes": 3707392,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      }
+    },
+    {
+      "mode": 2,
+      "case_count": 4420,
+      "capacity_fail_count": 0,
+      "max_capacity": {
+        "mode": 2,
+        "layers": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            11,
+            8
+          ]
+        ],
+        "layout": "aligned_group",
+        "group_count": 191,
+        "period_us": 519.75,
+        "T_bus_MBps": 70.31072631072631,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 292.3367769650528,
+        "T_ring_bytes": 6279168,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 6909952,
+        "capacity_slack_bytes": 1478656,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "max_traffic": {
+        "mode": 2,
+        "layers": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            11,
+            8
+          ]
+        ],
+        "layout": "aligned_group",
+        "group_count": 191,
+        "period_us": 519.75,
+        "T_bus_MBps": 70.31072631072631,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 292.3367769650528,
+        "T_ring_bytes": 6279168,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 6909952,
+        "capacity_slack_bytes": 1478656,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "dense_max_capacity": {
+        "mode": 2,
+        "layers": [
+          [
+            13,
+            8
+          ]
+        ],
+        "layout": "compact_group_masked",
+        "group_count": 95,
+        "period_us": 519.75,
+        "T_bus_MBps": 67.26310726310726,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 289.2891579174338,
+        "T_ring_bytes": 5690880,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 6321664,
+        "capacity_slack_bytes": 2066944,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "dense_max_traffic": {
+        "mode": 2,
+        "layers": [
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            7,
+            8
+          ]
+        ],
+        "layout": "compact_group_masked",
+        "group_count": 191,
+        "period_us": 519.75,
+        "T_bus_MBps": 76.86772486772487,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 298.8937755220514,
+        "T_ring_bytes": 4050432,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 4681216,
+        "capacity_slack_bytes": 3707392,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      }
+    },
+    {
+      "mode": 3,
+      "case_count": 4420,
+      "capacity_fail_count": 0,
+      "max_capacity": {
+        "mode": 3,
+        "layers": [
+          [
+            13,
+            4
+          ]
+        ],
+        "layout": "aligned_group",
+        "group_count": 95,
+        "period_us": 1039.5,
+        "T_bus_MBps": 58.48965848965849,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 280.515709143985,
+        "T_ring_bytes": 5836800,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 6467584,
+        "capacity_slack_bytes": 1921024,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "max_traffic": {
+        "mode": 3,
+        "layers": [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            7,
+            4
+          ]
+        ],
+        "layout": "aligned_group",
+        "group_count": 191,
+        "period_us": 1039.5,
+        "T_bus_MBps": 64.4001924001924,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 286.4262430545189,
+        "T_ring_bytes": 4598784,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 5229568,
+        "capacity_slack_bytes": 3159040,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "dense_max_capacity": {
+        "mode": 3,
+        "layers": [
+          [
+            13,
+            4
+          ]
+        ],
+        "layout": "compact_group_masked",
+        "group_count": 95,
+        "period_us": 1039.5,
+        "T_bus_MBps": 61.41414141414141,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 283.4401920684679,
+        "T_ring_bytes": 5690880,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 6321664,
+        "capacity_slack_bytes": 2066944,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      },
+      "dense_max_traffic": {
+        "mode": 3,
+        "layers": [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            7,
+            4
+          ]
+        ],
+        "layout": "compact_group_masked",
+        "group_count": 191,
+        "period_us": 1039.5,
+        "T_bus_MBps": 65.10822510822511,
+        "S_bus_MBps": 22.88896551724138,
+        "FFT_bus_MBps": 189.13708513708514,
+        "total_bus_MBps": 287.1342757625516,
+        "T_ring_bytes": 4050432,
+        "other_reserved_bytes": 630784,
+        "total_reserved_bytes": 4681216,
+        "capacity_slack_bytes": 3707392,
+        "optimistic_service_MBps": 392.72727272727275,
+        "overload_growth_min_bytes_per_ms": 0.0,
+        "capacity_pass": true,
+        "optimistic_rate_pass": true,
+        "implemented": false,
+        "adopted": false
+      }
+    }
+  ]
+}

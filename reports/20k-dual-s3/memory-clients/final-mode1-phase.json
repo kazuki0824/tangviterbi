@@ -1,0 +1,119 @@
+{
+  "results": [
+    {
+      "contract": {
+        "mode": 1,
+        "layers": [
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            8
+          ],
+          [
+            11,
+            16
+          ]
+        ],
+        "T_ring_bytes": 5144832,
+        "source_requests": [
+          3246,
+          518,
+          2048,
+          324
+        ],
+        "duration_ns": 1039500,
+        "phase_ns": 129937,
+        "bank_isolation": true,
+        "S_priority": true
+      },
+      "frames": [
+        {
+          "run": "0",
+          "cycles": "34519",
+          "ns": "213080.264",
+          "peak_queue": "115",
+          "max_grant_wait": "1",
+          "max_refresh_gap": "1042",
+          "overlap": "18715",
+          "reads": "512",
+          "writes": "512",
+          "other_completed": "405"
+        },
+        {
+          "run": "1",
+          "cycles": "36516",
+          "ns": "225408.989",
+          "peak_queue": "115",
+          "max_grant_wait": "1",
+          "max_refresh_gap": "1042",
+          "overlap": "38417",
+          "reads": "1024",
+          "writes": "1024",
+          "other_completed": "1860"
+        },
+        {
+          "run": "2",
+          "cycles": "36361",
+          "ns": "224453.763",
+          "peak_queue": "195",
+          "max_grant_wait": "1",
+          "max_refresh_gap": "1042",
+          "overlap": "58081",
+          "reads": "1536",
+          "writes": "1536",
+          "other_completed": "3223"
+        },
+        {
+          "run": "3",
+          "cycles": "36596",
+          "ns": "225905.945",
+          "peak_queue": "195",
+          "max_grant_wait": "1",
+          "max_refresh_gap": "1042",
+          "overlap": "77810",
+          "reads": "2048",
+          "writes": "2048",
+          "other_completed": "4674"
+        }
+      ],
+      "queue": {
+        "fifo_entries": "194",
+        "external_pending": "8",
+        "peak_bytes": "6240",
+        "T_misses": "0",
+        "S_misses": "0",
+        "IO_misses": "0",
+        "management_misses": "0",
+        "lateness_ns": "0.000"
+      },
+      "FFT_deadline_pass": true,
+      "client_deadline_pass": true,
+      "staging_64KiB_pass": true,
+      "S_peak_pending_bursts": 14
+    }
+  ],
+  "source_sha256": {
+    "rtl/dual_fft_cross.sv": "11c079bc9898b302c080067bfb85c58d033576566bc3b0138426bd71b51c027b",
+    "rtl/dual_fft_memory_clients.sv": "524317225f942320d9487ec8641ea15e5c0ecd404874c60ada598de5ce620013",
+    "rtl/dual_fft_dma.sv": "aa3742e7825aae62f825de7360800c33ce1e13892646c36551754a046f749e72",
+    "rtl/dual_fft_burst_map.sv": "3cee1075cb4f11bd4a26ca85372e57c16c84d72f6b9965761547532c82781818",
+    "rtl/dual_fft_tile.sv": "bd80683414215ed22b4ee50e50528df7bc05d91b96c354dc1d276c37dccb6b9b",
+    "rtl/dual_fft_twiddle.sv": "723cc1b618f18502997c1f40c0b26c9a749619c1fc93e8e69bd04ac23d333577",
+    "rtl/dual_fft_memory.sv": "47379157ddd27fbe6a3d75592768e5b91c9e002f5cbb348bb6f8839187f204be",
+    "rtl/dual_burst_cdc.sv": "2ae886def51ed8450fc6e469e79f404aacfa41a97374e9852c18dd1a5379a421",
+    "rtl/dual_burst_fifo.sv": "6dfbe2fc592680bb76cc574155101da8855c6330684dc34b3ef380131b4cb10a",
+    "rtl/dual_burst_arbiter.sv": "dfdaad9e379971cefa77d01dd9da3012f0a337a59de95605a4d05b03dfbd1c8a",
+    "rtl/dual_sdram_burst.sv": "2a4497439488330982534b3277e9c66d8cc0c104349e8a470f109a8b51f8c6c9",
+    "tests/test_dual_memory_trace.py": "c91ca91f02f7f00c8a38d130b37d8b899e81110e45aeb390d65edba64402e60f",
+    "tests/test_dual_fft_memory.py": "70e810e2f23639e44b0901b1c3f743024996208438b140999e710b2a3cd640e6",
+    "tests/test_dual_sdram.py": "82b26f6e85dd0d354dab9083810a0f3bda81754cbcb669cc81ee718dbc94ed5d",
+    "experiments/dual_memory_trace.py": "16e8ca9da215600f4ca3ae3bbed1a1ba0fd4b555a18c5498d0d1f709ffb24ef1",
+    "experiments/dual_memory_contract.py": "1e48db03bddba69e7bbac8595d102ce450d486965ef916d74f68446349b94b46",
+    "experiments/dual_fft_reference.py": "bca4fb051888a8ddfa0c5a6c584ab378c7323afaf2c88145f4644559188e9d84",
+    "rtl/dual_fft_quarter_q16.hex": "47a095f8da170d9cd717709a98e5380711013690bc6bb52e2768ebca3fc40a5d"
+  },
+  "scope": "Real dense-ring BL8 addresses and byte masks through the connected FFT bus.\n\nFinite trace; grouped T producer and sequential S CW storage are explicit\ncontracts, not a claim that RF clients or their permutation are implemented.\n"
+}

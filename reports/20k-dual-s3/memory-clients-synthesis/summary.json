@@ -1,0 +1,83 @@
+{
+  "components": [
+    {
+      "component": "fifo",
+      "exit_code": 0,
+      "scope": "Observable synthetic wrapper including 256-bit stimulus. Fixed frame bases, variable FFT mode. Not full receiver, pin fit, or STA.",
+      "cells": {
+        "$scopeinfo": 1,
+        "ALU": 52,
+        "DFF": 163,
+        "DFFE": 161,
+        "DFFR": 246,
+        "DFFRE": 487,
+        "DFFS": 20,
+        "GND": 1,
+        "IBUF": 3,
+        "LUT1": 5,
+        "LUT2": 23,
+        "LUT3": 319,
+        "LUT4": 117,
+        "OBUF": 1,
+        "SDPX9B": 5,
+        "VCC": 1
+      },
+      "logic_positions_LUT_plus_ALU": 516,
+      "source_sha256": {
+        "rtl/dual_burst_fifo.sv": "6dfbe2fc592680bb76cc574155101da8855c6330684dc34b3ef380131b4cb10a",
+        "build/memory-clients-synth/fifo/top.sv": "d23a8f697845007390eca2c0c7f2ad89de7bacfd6cbe3f73837dea572e5b547a",
+        "ci/dual_memory_clients_evidence.py": "f5c4779941ce9ef6fcd8a7fab8f0e5710fd2b1c619f70d464845f996362c3aa4",
+        "rtl/dual_fft_quarter_q16.hex": "47a095f8da170d9cd717709a98e5380711013690bc6bb52e2768ebca3fc40a5d"
+      }
+    },
+    {
+      "component": "clients",
+      "exit_code": 0,
+      "scope": "Observable synthetic wrapper including 256-bit stimulus. Fixed frame bases, variable FFT mode. Not full receiver, pin fit, or STA.",
+      "cells": {
+        "$buf": 1,
+        "$scopeinfo": 13,
+        "ALU": 968,
+        "DFF": 190,
+        "DFFC": 6,
+        "DFFCE": 793,
+        "DFFE": 421,
+        "DFFP": 1,
+        "DFFR": 275,
+        "DFFRE": 1697,
+        "DFFS": 20,
+        "DFFSE": 17,
+        "DPX9B": 8,
+        "GND": 1,
+        "IBUF": 3,
+        "LUT1": 15,
+        "LUT2": 411,
+        "LUT3": 2507,
+        "LUT4": 1524,
+        "MULT18X18": 8,
+        "OBUF": 1,
+        "SDPX9B": 5,
+        "VCC": 1
+      },
+      "logic_positions_LUT_plus_ALU": 5425,
+      "source_sha256": {
+        "rtl/dual_fft_burst_map.sv": "3cee1075cb4f11bd4a26ca85372e57c16c84d72f6b9965761547532c82781818",
+        "rtl/dual_fft_cross.sv": "11c079bc9898b302c080067bfb85c58d033576566bc3b0138426bd71b51c027b",
+        "rtl/dual_fft_dma.sv": "aa3742e7825aae62f825de7360800c33ce1e13892646c36551754a046f749e72",
+        "rtl/dual_fft_memory.sv": "47379157ddd27fbe6a3d75592768e5b91c9e002f5cbb348bb6f8839187f204be",
+        "rtl/dual_fft_memory_clients.sv": "524317225f942320d9487ec8641ea15e5c0ecd404874c60ada598de5ce620013",
+        "rtl/dual_fft_tile.sv": "bd80683414215ed22b4ee50e50528df7bc05d91b96c354dc1d276c37dccb6b9b",
+        "rtl/dual_fft_twiddle.sv": "723cc1b618f18502997c1f40c0b26c9a749619c1fc93e8e69bd04ac23d333577",
+        "rtl/dual_burst_arbiter.sv": "dfdaad9e379971cefa77d01dd9da3012f0a337a59de95605a4d05b03dfbd1c8a",
+        "rtl/dual_burst_cdc.sv": "2ae886def51ed8450fc6e469e79f404aacfa41a97374e9852c18dd1a5379a421",
+        "rtl/dual_burst_fifo.sv": "6dfbe2fc592680bb76cc574155101da8855c6330684dc34b3ef380131b4cb10a",
+        "rtl/dual_sdram_burst.sv": "2a4497439488330982534b3277e9c66d8cc0c104349e8a470f109a8b51f8c6c9",
+        "build/memory-clients-synth/clients/top.sv": "eee31051ac7436187c783d6b25d26682da08b1c69f5be37eb5debf7645020dce",
+        "ci/dual_memory_clients_evidence.py": "f5c4779941ce9ef6fcd8a7fab8f0e5710fd2b1c619f70d464845f996362c3aa4",
+        "rtl/dual_fft_quarter_q16.hex": "47a095f8da170d9cd717709a98e5380711013690bc6bb52e2768ebca3fc40a5d"
+      }
+    }
+  ],
+  "toolchain": "OSS CAD Suite 2026-10-04",
+  "full_receiver_adopted": false
+}

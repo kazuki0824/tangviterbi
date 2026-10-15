@@ -1,0 +1,479 @@
+{
+  "toolchain": "OSS CAD Suite 2026-10-04, nextpnr e2fe86b3",
+  "components": [
+    {
+      "component": "fft",
+      "exit_code": 0,
+      "routing_completed": true,
+      "reported_partial_fmax": {
+        "cross_unit.clk": {
+          "achieved": 216.6847381591797,
+          "constraint": 162
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 15552,
+          "used": 918
+        },
+        "ALU54D": {
+          "available": 24,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 46,
+          "used": 6
+        },
+        "BUFG": {
+          "available": 24,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 15552,
+          "used": 529
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "DUMMY_CELL": {
+          "available": 0,
+          "used": 32
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "GW_JTAG": {
+          "available": 1,
+          "used": 0
+        },
+        "IOB": {
+          "available": 384,
+          "used": 3
+        },
+        "IOLOGICI": {
+          "available": 384,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 384,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 20736,
+          "used": 1426
+        },
+        "MULT18X18": {
+          "available": 48,
+          "used": 8
+        },
+        "MULT36X36": {
+          "available": 12,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 96,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 10368,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 5184,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 2592,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 2592,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 48,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 96,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 648,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "routed_logic_positions": 2344,
+      "full_domain_STA_qualified": false,
+      "source_sha256": {
+        "rtl/dual_fft_tile.sv": "bd80683414215ed22b4ee50e50528df7bc05d91b96c354dc1d276c37dccb6b9b",
+        "rtl/dual_fft_cross.sv": "11c079bc9898b302c080067bfb85c58d033576566bc3b0138426bd71b51c027b",
+        "rtl/dual_fft_twiddle.sv": "723cc1b618f18502997c1f40c0b26c9a749619c1fc93e8e69bd04ac23d333577",
+        "rtl/dual_fft_burst_map.sv": "3cee1075cb4f11bd4a26ca85372e57c16c84d72f6b9965761547532c82781818",
+        "build/dual-components/fft/top.sv": "674e458805cfac429db93b84666a21be15356896afc3dec3e25582bbbc3c2b7f",
+        "rtl/dual_fft_quarter_q16.hex": "47a095f8da170d9cd717709a98e5380711013690bc6bb52e2768ebca3fc40a5d"
+      },
+      "scope": "Synthetic observable component workload, including a 256-bit stimulus register. Not full receiver/PHY/PLL timing."
+    },
+    {
+      "component": "rs",
+      "exit_code": 1,
+      "routing_completed": true,
+      "reported_partial_fmax": {
+        "rs.clk": {
+          "achieved": 157.43072509765625,
+          "constraint": 162
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 15552,
+          "used": 216
+        },
+        "ALU54D": {
+          "available": 24,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 46,
+          "used": 2
+        },
+        "BUFG": {
+          "available": 24,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 15552,
+          "used": 1311
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "GW_JTAG": {
+          "available": 1,
+          "used": 0
+        },
+        "IOB": {
+          "available": 384,
+          "used": 3
+        },
+        "IOLOGICI": {
+          "available": 384,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 384,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 20736,
+          "used": 2570
+        },
+        "MULT18X18": {
+          "available": 48,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 12,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 96,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 10368,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 5184,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 2592,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 2592,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 48,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 96,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 648,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "routed_logic_positions": 2786,
+      "full_domain_STA_qualified": false,
+      "source_sha256": {
+        "rtl/dual_shared_rs.sv": "38c31e4c342f501dd46e2de9b9dc9dc1efd54faa714817def74831a60e913dee",
+        "build/dual-components/rs/top.sv": "b77c62c093786726fc31103c2686e79ef9612a906bc8bc2dae01d85a93b93a4b",
+        "build/dual-components/rs/decoder.sv": "08594ea679ff1a779e0a72b241d0de1fa87c520e292414b2bb07cf1144e3d610"
+      },
+      "scope": "Synthetic observable component workload, including a 256-bit stimulus register. Not full receiver/PHY/PLL timing."
+    },
+    {
+      "component": "sdram",
+      "exit_code": 0,
+      "routing_completed": true,
+      "reported_partial_fmax": {
+        "mem.clk": {
+          "achieved": 272.1088562011719,
+          "constraint": 135
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 15552,
+          "used": 96
+        },
+        "ALU54D": {
+          "available": 24,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 46,
+          "used": 0
+        },
+        "BUFG": {
+          "available": 24,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 15552,
+          "used": 866
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "GW_JTAG": {
+          "available": 1,
+          "used": 0
+        },
+        "IOB": {
+          "available": 384,
+          "used": 3
+        },
+        "IOLOGICI": {
+          "available": 384,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 384,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 20736,
+          "used": 1419
+        },
+        "MULT18X18": {
+          "available": 48,
+          "used": 0
+        },
+        "MULT36X36": {
+          "available": 12,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 96,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 10368,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 5184,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 2592,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 2592,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 48,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 96,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 648,
+          "used": 0
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "routed_logic_positions": 1515,
+      "full_domain_STA_qualified": false,
+      "source_sha256": {
+        "rtl/dual_sdram_burst.sv": "2a4497439488330982534b3277e9c66d8cc0c104349e8a470f109a8b51f8c6c9",
+        "build/dual-components/sdram/top.sv": "a39e1c7bf8599aec5399695cde5fa47749b818d16af6c093e1d26cb49ef2d7e1"
+      },
+      "scope": "Synthetic observable component workload, including a 256-bit stimulus register. Not full receiver/PHY/PLL timing."
+    }
+  ],
+  "timing_model_gaps": {
+    "source": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin_arch_gen.py",
+    "findings": [
+      "No DSP/MULT timing group in GW2A-18C packaged database or create_timing_info.",
+      "DP port-B output arc is named DO instead of DOB; ADB timing is attached to sp instead of dp."
+    ],
+    "consequence": "Do not treat reported MHz/PASS as coverage of BRAM-to-DSP-to-BRAM or all RS RAM paths. Vendor STA or a validated complete timing model required."
+  },
+  "full_receiver_adopted": false
+}

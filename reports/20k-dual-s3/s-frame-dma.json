@@ -1,0 +1,48 @@
+{
+  "results": [
+    {
+      "output_stop": false,
+      "output_interval_clocks": 1,
+      "input_bytes": 233856,
+      "output_bytes": 235008,
+      "writes": 15120,
+      "reads": 8064,
+      "input_stalls": 0,
+      "peak_packets": 1,
+      "first_output_cycle": 1404891,
+      "last_input_cycle": 4209390,
+      "final_cycle": 4403972
+    },
+    {
+      "output_stop": true,
+      "output_interval_clocks": 1,
+      "input_bytes": 233856,
+      "output_bytes": 235008,
+      "writes": 15120,
+      "reads": 8064,
+      "input_stalls": 88662,
+      "peak_packets": 1,
+      "first_output_cycle": 4209409,
+      "last_input_cycle": 5805306,
+      "final_cycle": 5999871
+    },
+    {
+      "output_stop": false,
+      "output_interval_clocks": 16,
+      "input_bytes": 233856,
+      "output_bytes": 235008,
+      "writes": 15120,
+      "reads": 8064,
+      "input_stalls": 0,
+      "peak_packets": 1,
+      "first_output_cycle": 1404896,
+      "last_input_cycle": 4209390,
+      "final_cycle": 5536720
+    }
+  ],
+  "source_sha256": {
+    "tests/test_dual_s_frame_dma.py": "7ea06e8c77f56692e74a91e9cc67dfb360cac96df368dd34129597f8c87cad58",
+    "rtl/dual_s_frame_dma.sv": "cb06a369df861955d21b6e45698fb051104fbeddb1095392c2fb65db991fc8dc"
+  },
+  "scope": "48 active TC8PSK slots. Synthetic response latency; not FFT simultaneous WCET."
+}

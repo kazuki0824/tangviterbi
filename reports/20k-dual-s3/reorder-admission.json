@@ -1,0 +1,103 @@
+{
+  "S": {
+    "write_bursts_per_superframe": 5040,
+    "read_bursts_per_superframe": 2688,
+    "bytes_per_codeword": 644,
+    "peak_MBps": 22.88896551724138,
+    "sdram_bytes": 172032,
+    "packet_payload_capacity": 406,
+    "packet_ram_logical_bytes": 512,
+    "packet_BSRAM_blocks": 1,
+    "output_fifo_words": 512,
+    "output_fifo_word_bits": 35,
+    "output_fifo_BSRAM_blocks": 1,
+    "output_fifo_payload_bytes": 2048,
+    "output_word_bytes": 4,
+    "read_burst_holding_bytes": 32,
+    "write_burst_holding_bytes": 32
+  },
+  "input_staging_cases": [
+    {
+      "mode": 1,
+      "layers": [
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          7,
+          16
+        ]
+      ],
+      "symbol_LLR_bytes": 7488,
+      "base_MBps": 322.4127750410509,
+      "input_staging_MBps": 57.62770562770563,
+      "staged_total_MBps": 380.0404806687565,
+      "optimistic_refresh_ceiling_MBps": 355.55555555555554,
+      "rejected": true,
+      "minimum_queue_growth_bytes_per_ms": 24484.925113200974,
+      "output_reorder_traffic_included": false
+    },
+    {
+      "mode": 2,
+      "layers": [
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          7,
+          8
+        ]
+      ],
+      "symbol_LLR_bytes": 14976,
+      "base_MBps": 298.8937755220514,
+      "input_staging_MBps": 57.62770562770563,
+      "staged_total_MBps": 356.521481149757,
+      "optimistic_refresh_ceiling_MBps": 355.55555555555554,
+      "rejected": true,
+      "minimum_queue_growth_bytes_per_ms": 965.9255942014563,
+      "output_reorder_traffic_included": false
+    },
+    {
+      "mode": 3,
+      "layers": [
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          7,
+          4
+        ]
+      ],
+      "symbol_LLR_bytes": 29952,
+      "base_MBps": 287.1342757625516,
+      "input_staging_MBps": 57.62770562770563,
+      "staged_total_MBps": 344.76198139025723,
+      "optimistic_refresh_ceiling_MBps": 355.55555555555554,
+      "rejected": false,
+      "minimum_queue_growth_bytes_per_ms": 0.0,
+      "output_reorder_traffic_included": false
+    }
+  ],
+  "scope": "Specific full-symbol off-chip input staging, actual S DMA, 135 MHz controller. Not exclusion of every grouping algorithm or partition.",
+  "full_receiver_adopted": false,
+  "source_sha256": {
+    "dual_reorder_admission.py": "ecfbe77b08978b7fcc9485553851fa4ab8d7822bdbab2504c855125349b4ca97",
+    "dual_memory_contract.py": "40defea08dece43338a2bdbbdf2cb7880dd276b9e05c987c8c1fc6a55ec14387",
+    "dual_s_frame_contract.py": "9f604caaed06459bf159ca99e8d5a3707634d2dd9e4be70bab1df0755ec83a06"
+  }
+}
