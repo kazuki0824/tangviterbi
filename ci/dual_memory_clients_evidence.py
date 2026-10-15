@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Synthesize connected memory clients and packed FIFO; no full receiver STA."""
-import argparse,gzip,hashlib,json,subprocess
+import argparse,gzip,hashlib,json,subprocess,shutil
 from collections import Counter
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -29,21 +29,29 @@ init,mfault,cmd,bank,addr,cke,dqm,oe,dout,stimulus[63:32],stimulus[95:64],level,
 stimulus[26],sr,stimulus[27],{stimulus[45:28],3'd0},stimulus,stimulus[127:96],srv,stimulus[46],sd);
 assign activity=^{busy,done,ffault,clip,tr,trv,sr,srv,init,mfault,cke,oe,td,sd,cmd,bank,addr,dqm,dout,level};
 '''}
+TOPS['s_frame']='wire ir,ov,clast,slast,qv,qw,sr,fault;wire[7:0] od;wire[20:0] qa;wire[255:0] qd;wire[31:0] qm;wire[1:0] pending;wire[3:0] owners;\ndual_s_frame_dma s(mem_clk,resetn,stimulus[0],ir,stimulus[8:1],ov,stimulus[9],od,clast,slast,\nqv,stimulus[10],qw,qa,qd,qm,stimulus[11],sr,stimulus,pending,owners,fault);\nassign activity=^{ir,ov,clast,slast,qv,qw,sr,fault,od,qa,qd,qm,pending,owners};\n'
+TOPS['s_clients']=TOPS['clients'].replace('dual_fft_memory_clients','dual_fft_s_memory').replace(
+    'stimulus[26],sr,stimulus[27],{stimulus[45:28],3\'d0},stimulus,stimulus[127:96],srv,stimulus[46],sd);',
+    'stimulus[26],sr,stimulus[34:27],srv,stimulus[46],sout,clast,slast,sfault,spending,sowners);').replace(
+    'wire busy,', 'wire[7:0] sout;wire clast,slast,sfault;wire[1:0] spending;wire[3:0] sowners;wire busy,').replace(
+    'oe,td,sd,cmd', 'oe,td,sout,clast,slast,sfault,spending,sowners,cmd')
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--yosys',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--components',default='fifo,clients,vector');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--yosys',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--components',default='fifo,clients,vector,s_frame,s_clients');a=p.parse_args()
     a.output.mkdir(parents=True,exist_ok=True);rows=[]
     for name in a.components.split(','):
         top=TOPS[name]
         folder=ROOT/'build'/'memory-clients-synth'/name;folder.mkdir(parents=True,exist_ok=True)
         (folder/'top.sv').write_text(PREFIX+top+'endmodule\n')
-        files=([ROOT/'rtl/dual_vector_exchange.sv'] if name=='vector' else [ROOT/'rtl/dual_burst_fifo.sv'] if name=='fifo' else
-               sorted((ROOT/'rtl').glob('dual_fft_*.sv'))+sorted((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_sdram_burst.sv'])
+        files=([ROOT/'rtl/dual_s_frame_dma.sv'] if name=='s_frame' else [ROOT/'rtl/dual_vector_exchange.sv'] if name=='vector' else [ROOT/'rtl/dual_burst_fifo.sv'] if name=='fifo' else
+               sorted((ROOT/'rtl').glob('dual_fft_*.sv'))+sorted((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv'])
         files+=[folder/'top.sv']
-        script='read_verilog -sv '+' '.join(map(str,files))+f'\nsynth_gowin -family gw2a -top top -nowidelut -json {folder}/design.json\ncheck -assert\n'
+        abc=Path(shutil.which(a.yosys) or a.yosys).resolve().with_name('yosys-abc')
+        abc_override=f'scratchpad -set abc9.exe {abc}\n' if abc.is_file() else ''
+        script=abc_override+'read_verilog -sv '+' '.join(map(str,files))+f'\nsynth_gowin -family gw2a -top top -nowidelut -json {folder}/design.json\ncheck -assert\n'
         (folder/'synth.ys').write_text(script)
         with (folder/'synth.log').open('w') as log:
             r=subprocess.run([a.yosys,'-Q','-s',str(folder/'synth.ys')],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,timeout=300)
-        row=dict(component=name,exit_code=r.returncode,scope=('Observable synthetic wrapper including 256-bit stimulus. Vector descriptor and stream inputs variable. Not full receiver, pin fit, or STA.' if name=='vector' else 'Observable synthetic wrapper including 256-bit stimulus. Fixed frame bases, variable FFT mode. Not full receiver, pin fit, or STA.'))
+        row=dict(component=name,exit_code=r.returncode,scope=('Observable synthetic wrapper including 256-bit stimulus. Vector descriptor and stream inputs variable. Not full receiver, pin fit, or STA.' if name=='vector' else 'Observable synthetic wrapper including 256-bit stimulus. S frame DMA, 48 active TC8PSK slots. Not full receiver, pin fit, or STA.' if name=='s_frame' else 'Observable synthetic wrapper including 256-bit stimulus. Fixed frame bases, variable FFT mode. Not full receiver, pin fit, or STA.'))
         if r.returncode==0:
             design=json.loads((folder/'design.json').read_text());counts=Counter(c['type'] for c in design['modules']['top']['cells'].values())
             row['cells']=dict(sorted(counts.items()));row['logic_positions_LUT_plus_ALU']=sum(n for t,n in counts.items() if t.startswith('LUT') or t=='ALU')

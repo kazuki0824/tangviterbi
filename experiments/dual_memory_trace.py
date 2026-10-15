@@ -10,7 +10,7 @@ from dual_memory_contract import groups
 
 S_PERIOD_NS=203*4/28.86*1000
 
-def make_trace(mode, frames, phase_ns=0, isolate=False, layers=None):
+def make_trace(mode, frames, phase_ns=0, isolate=False, layers=None, linear=False):
     r=1 << (mode-1); period=259875*r
     layers=layers or [(1,4//r),(1,8//r),(11,16//r)]
     gs=groups(mode,layers); base=262144; rings=[]
@@ -70,7 +70,8 @@ def make_trace(mode, frames, phase_ns=0, isolate=False, layers=None):
         for at,seq,deadline,write,address,data,mask,source in events:
             offset=address-65536
             page,col=divmod(offset,256)
-            row,bank=divmod(page,3)
+            if linear:bank,row=divmod(page,2048)
+            else:row,bank=divmod(page,3)
             physical=(row*4+bank+1)*256+col
             if not 0<=physical<2097152:raise ValueError('physical capacity')
             mapped.append((at,seq,deadline,write,physical,data,mask,source))
@@ -89,4 +90,4 @@ def make_trace(mode, frames, phase_ns=0, isolate=False, layers=None):
                            data=data,mask=mask,expected=0 if write else old,source=source))
     return result,dict(mode=mode,layers=layers,T_ring_bytes=base-262144,
                        source_requests=[sum(x['source']==s for x in result) for s in range(4)],
-                       duration_ns=horizon,phase_ns=phase_ns,bank_isolation=isolate)
+                       duration_ns=horizon,phase_ns=phase_ns,bank_isolation=isolate,background_layout='linear' if linear else 'striped')

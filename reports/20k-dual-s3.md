@@ -1,8 +1,10 @@
 # Tang Nano 20K ×1＋ESP32-S3 ×2：ISDB-T/S同時受信の分担見積もり
 
+**後続更新：[実S frame DMA・有限保持・競合の再検算](20k-dual-s3-s-frame-dma.md)。第1項目全体は未完了。以下の順次S CWモデルによる帯域・期限結果を実S permutationへ転用しない。**
+
 2026-10-14（JST）。基準はmain `4f92e8e`（PR #4取り込み後）。
 
-**最新：[密配置・有限FIFO・bank分離・S優先入口](20k-dual-s3-memory-clients.md)。64 frameと旧24 frameの有限契約試験を通過し、接続部分は5,425 logic／13 BSRAM／8 DSP。ただし実T/S client生成・producer保持・全位相の保証は未完了で、第1項目は継続中。全体占有率・STAの合格値ではない。**
+**前段：[密配置・有限FIFO・bank分離・S優先入口](20k-dual-s3-memory-clients.md)。64 frameと旧24 frameの有限契約試験を通過し、接続部分は5,425 logic／13 BSRAM／8 DSP。ただし実T/S client生成・producer保持・全位相の保証は未完了で、第1項目は継続中。全体占有率・STAの合格値ではない。**
 
 **優先して検証する設計案はB：S3は各RF取得・native IQの無損失転送、20Kは両復調を同時実行、TのFFTはタイル化してSDRAMを使用、RSはT/S/TMCCで共有する構成。**
 前段の設計予算は20,452 logic位置（98.63%）、44 BSRAM（95.65%）、38 DSP18（79.17%）。新規DMA・CDC・arbiterを結合した全体占有率は未測定で、この数字を結合RTLの合格値としない。

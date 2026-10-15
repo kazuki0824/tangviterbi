@@ -16,6 +16,7 @@ import math
 from functools import lru_cache
 import json
 from pathlib import Path
+from dual_s_frame_contract import traffic as s_frame_traffic
 
 OTHER_BYTES = 2*384*224 + 131072 + 65536 + 262144
 CAPACITY = 8 * 1024**2
@@ -60,7 +61,7 @@ def audit(mode, layers, layout):
             traffic += 2*((size+31)//32)*32
         elif layout == 'compact_group_masked':
             # Exact ring-offset average, including partial first/last BL8.
-            # Requires byte masks end-to-end (current integrated port lacks them).
+            # Requires byte masks end-to-end; the current port supports them.
             traffic += dense_traffic(delay,size)
         elif layout == 'carrier_padded':
             traffic += 2*32*(size//6)
@@ -71,8 +72,9 @@ def audit(mode, layers, layout):
         storage = sum(d*(n//6)*32 for d,n in g.items())
     # Capture/output + four FFT DMA transfers = six Q15 complex frames.
     fft = Fraction(6*4*(1 << (mode+10)), 1)/period
-    # Individually aligned 204-byte codewords: seven BL8 each direction.
-    s = S_CW_RATE*448/1000000
+    # Real S scatter writes plus seven BL8 reads; the old sequential-CW
+    # model used 448 B/CW and omitted the inter-frame transpose cost.
+    s = S_CW_RATE*s_frame_traffic()["bytes_per_codeword"]/1000000
     total = fft + traffic/period + s + 10
     # Universal optimistic controller ceiling: >= 12 memory cycles/request.
     # No refresh, row misses, arbiter or CDC overhead included. This is an
@@ -117,6 +119,8 @@ def report():
                             dense_max_capacity=max(dense_cases,key=lambda x:x['total_reserved_bytes']),
                             dense_max_traffic=max(dense_cases,key=lambda x:x['total_bus_MBps'])))
     return dict(source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                S_frame_dma=s_frame_traffic(),
+                dependency_sha256={'dual_s_frame_contract.py':hashlib.sha256(Path(__file__).with_name('dual_s_frame_contract.py').read_bytes()).hexdigest()},
                 specification='ARIB STD-B31 v2.2-E1 3.11.1, Tables 3-12 and 3-30',
                 scope='Address/storage/BL8 demand audit. Necessary conditions only; no WCET or FIFO bound.',
                 witnesses=witnesses,aligned_group_all_config_extrema=extrema)
