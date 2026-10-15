@@ -1,6 +1,8 @@
 # Tang Nano 20K ×1＋ESP32-S3 ×2：ISDB-T/S同時受信の分担見積もり
 
-**最新：[実フレームcapture／出力とT/S DMAの接続](20k-dual-s3-frame-stream.md)。実stream・有限slot所有権を接続し、2 slot案の期限不合格を確認して3 slot案へ修正。第1項目全体の完了・受信機採用とは区別する。**
+**最新：[T入力保持RAMと資源削減](20k-dual-s3-t-buffer.md)。T上流1 symbol保持を実RTLへ接続し、6条件・228 FFT framesで記載の有限契約を通過。Mode 3は保持RAM込み42/46 BSRAM。第1項目全体・全位相・受信機採用は未完了。**
+
+**前段：[実フレームcapture／出力とT/S DMAの接続](20k-dual-s3-frame-stream.md)。実stream・有限slot所有権を接続し、2 slot案の期限不合格を確認して3 slot案へ修正。第1項目全体の完了・受信機採用とは区別する。**
 
 **前段：[実T時間deinterleaveとFFT／Sの接続](20k-dual-s3-t-time-dma.md)。第1項目内の実T grouping/reorderをRTL化し、自然順byte列からの同時動作を検証。受信機全体の成立・正式採用は未確定。**
 

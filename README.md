@@ -1,3 +1,5 @@
+**2026-10-15 / PR #6 t-buffer follow-up archived:** [finite T input holding, 2P acceptance, and failed 1P phase](reports/20k-dual-s3-t-buffer.md) are preserved on main along with their 28 evidence files. This does **not** qualify candidate B or make a full receiver. See [candidate selection review](reports/pr6-20k-dual-s3-selection-review.md).
+
 **2026-10-15 / PR #6 evidence preserved (not an adopted receiver):** [20K × dual-S3 simultaneous T/S architecture-selection review](reports/pr6-20k-dual-s3-selection-review.md) and [measured/analytical evidence](reports/20k-dual-s3.md). Candidate B remains unqualified; only reports, recorded artifacts and offline analytical models/tests were preserved. No unfinished receiver RTL or PR #6 CI was promoted to main.
 
 2026-10-12追加：[指定順1〜6の進捗・同時メモリ／直接BSRAM部分実装](reports/s3-ordered-evaluation.md)。全体性能・採用は未確定。

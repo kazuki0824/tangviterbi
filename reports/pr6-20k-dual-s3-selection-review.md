@@ -44,6 +44,17 @@ The numerical results are trace- and implementation-specific. Some reports delib
 - Seven independent, non-receiver `experiments/dual_*.py` analytical models and four associated standalone `tests/test_dual_*.py` unittest modules are retained for future reassessment. They model finite workloads, not RF or static-timing acceptance. On the PR branch, the respective **21 unit tests** passed in the observed CI job; this archival transfer itself is not a new execution or whole-CI pass.
 - All active `rtl/dual_*.sv`, CI modifications, and RTL-integrated testbenches stay exclusively in PR #6. Any relative link to excluded source is pinned to the frozen PR revision. No PR closure, rebase or history rewrite is implied.
 
+## Later evidence checkpoint (2026-10-15, `d154c5081c5d`)
+
+The previous preservation checkpoint was `9aab5c3`. Before retiring PR #6, a new commit `d154c5081c5d` added a **bounded T upstream one-symbol buffer and compact time-DMA storage**. This new evidence is preserved separately at [T input buffer report](20k-dual-s3-t-buffer.md), with its intact [28-file evidence directory](20k-dual-s3/t-buffer/).
+
+- The old unbuffered Mode-1 half-symbol phase trial missed the original one-period deadline in **27/48 frames** (maximum **301.834 µs**, versus **259.875 µs**). The negative evidence remains intact.
+- The new circuit enforces a different two-period compute/output contract with actual finite input RAM and zero reported source start/word waits. Six finite Mode/phase trials (228 FFT frames, 6 S super-frames) passed the stated data and deadline checks. This does **not** establish the original one-period deadline or universal phase closure.
+- The new fixed Mode-3 partial synthesis uses **42/46 BSRAM**, 11 DSP18 and 12,076 LUT+ALU; adding only the already-known RS 2 BSRAM yields **44/46**, before full RF synchronization, channel estimation/equalization, soft demapping, dynamic TMCC, all FEC integration, queues and physical STA. This is still not a qualified whole receiver.
+- All newer report/data records are copied from the pinned PR snapshot, without importing its unfinished RTL or CI. Relevant RTL and tests remain retrievable in [that pinned commit](https://github.com/kazuki0824/tangviterbi/tree/d154c5081c5d7559ea2dcc61c57cef650d76fa02); PR closure alone does not remove the commit history. Never present the preserved CI result as a current receiver acceptance.
+
+**Architecture decision unchanged:** Candidate B was an experiment, not a proven winner; full-receiver performance/fit, lossless RF links and simultaneous TS output remain unproven. The archival checkpoint contains design evidence, not a ready-to-flash implementation.
+
 ## Required gates before choosing the next leading architecture
 
 1. Verify the **actual RF premise**: usable T and conventional-S I/Q sample rates, converter/LNB requirements, RF filters, C/N/MER/BER and continuous capture. The ESP32-S3's internal Wi-Fi RF is not a broadcast-band tuner; external converters are mandatory.
