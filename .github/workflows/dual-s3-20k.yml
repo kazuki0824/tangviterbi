@@ -52,6 +52,18 @@ jobs:
           assert {r['logn'] for r in rows} == {11, 12, 13}
           assert all(r['deadline_admitted'] for r in rows), rows
           PYTHON
+      - name: Check actual T buffer at half-symbol phase
+        run: |
+          DUAL_FRAME_TS_MODES=11 DUAL_FRAME_T_PHASE_NS=129937 DUAL_FRAME_TS_REPORT=build/dual-frame-ts-half.json python -m unittest discover -s tests -p test_dual_frame_ts.py -v
+          python - <<'PYTHON'
+          import json
+          rows = json.load(open('build/dual-frame-ts-half.json'))['results']
+          assert len(rows) == 1
+          r = rows[0]
+          assert r['actual_T_input_buffer'] and r['t_phase_ns'] == 129937
+          assert r['deadline_admitted'], r
+          assert all(int(r[k]) == 0 for k in ('t_start_wait', 't_word_wait', 't_capture_misses')), r
+          PYTHON
       - name: Record longer memory stress (functional success is not queue admission)
         env:
           DUAL_FFT_MEMORY_FRAMES: '32'
