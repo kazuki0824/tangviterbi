@@ -14,6 +14,8 @@ class DenseTrace(unittest.TestCase):
     def test_masked_layout_with_fft(self):
         frames=int(os.environ.get('DUAL_TRACE_FRAMES','4')); results=[]
         real_s=int(os.environ.get('DUAL_TRACE_REAL_S','0'))
+        real_t=bool(int(os.environ.get('DUAL_TRACE_REAL_T','0')))
+        if real_t:self.assertGreater(real_s,0)
         for logn in map(int,os.environ.get('DUAL_TRACE_MODES','11,12,13').split(',')):
             isolate=int(os.environ.get('DUAL_TRACE_ISOLATE','1'))
             phase_div=int(os.environ.get('DUAL_TRACE_PHASE_DIV','0'))
@@ -29,6 +31,10 @@ class DenseTrace(unittest.TestCase):
             contract['actual_S_superframes']=real_s
             contract['S_slot_major']=int(os.environ.get('DUAL_TRACE_S_SLOT_MAJOR','1')) if real_s else None
             if real_s:contract['source_requests'][1]=None
+            if real_t:
+                trace=[x for x in trace if x['source']!=0]
+                contract['source_requests'][0]=None
+                contract['actual_T_time_DMA']=True
             if real_s:
                 self.assertTrue(priority)
                 self.assertGreaterEqual(frames*259875*(1<<(logn-11)),real_s*77952*4000/28.86)
@@ -129,11 +135,15 @@ end
                     bench,real_defs=connect(bench,p,real_s)
                     bench=bench.replace('dual_fft_s_memory #(.INIT_CYCLES(32))',f"dual_fft_s_memory #(.INIT_CYCLES(32),.LINEAR_BANKS({int(contract['background_layout']=='linear')}),.SLOT_MAJOR({int(os.environ.get('DUAL_TRACE_S_SLOT_MAJOR','1'))}))")
                     bench=bench.replace('reg ov=0;',real_defs+'reg ov=0;')
+                if real_t:
+                    from dual_t_time_fixture import connect as connect_t
+                    bench,tdefs=connect_t(bench,p,logn-10,contract['layers'],frames)
+                    bench=bench.replace('reg ov=0;',tdefs+'reg ov=0;')
                 (p/'tb.sv').write_text(bench)
                 if real_s:
                     (ROOT/'build').mkdir(exist_ok=True)
                     (ROOT/'build/s-frame-integration-last.sv').write_text(bench)
-                files=list((ROOT/'rtl').glob('dual_fft_*.sv'))+list((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv']
+                files=list((ROOT/'rtl').glob('dual_fft_*.sv'))+list((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv',ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv']
                 subprocess.run(['iverilog','-g2012','-s','tb',f'-Ptb.LOGN={logn}',f'-Ptb.FRAMES={frames}','-Ptb.PROFILE=1','-o',str(p/'sim'),str(p/'tb.sv'),*map(str,files)],check=True,timeout=30)
                 run=subprocess.run(['vvp',str(p/'sim')],cwd=ROOT,capture_output=True,text=True,timeout=frames*30+60)
                 self.assertEqual(run.returncode,0,run.stdout+run.stderr)
@@ -148,7 +158,10 @@ end
                 if real_s:
                     result['S_DMA']=[dict(kv.split('=') for kv in line.split()[1:]) for line in run.stdout.splitlines() if line.startswith('SDMA')]
                     result['S_frames']=[dict(kv.split('=') for kv in line.split()[1:]) for line in run.stdout.splitlines() if line.startswith('SFRAME')]
+                if real_t:
+                    result['T_DMA']=[dict(kv.split('=') for kv in line.split()[1:]) for line in run.stdout.splitlines() if line.startswith('TREAL')]
+                    result['T_single_pending_frame_pass']=int(result['T_DMA'][0]['pending_input_frames'])<=1
                 results.append(result);print(json.dumps(result),flush=True)
         if os.environ.get('DUAL_TRACE_REPORT'):
-            files += [ROOT/'tests/dual_s_frame_fixture.py',ROOT/'tests/test_dual_s_frame_dma.py',Path(__file__),ROOT/'tests/test_dual_fft_memory.py',ROOT/'tests/test_dual_sdram.py',ROOT/'experiments/dual_memory_trace.py',ROOT/'experiments/dual_memory_contract.py',ROOT/'experiments/dual_fft_reference.py',ROOT/'rtl/dual_fft_quarter_q16.hex']
+            files += [ROOT/'tests/dual_t_time_fixture.py',ROOT/'tests/test_dual_t_time_dma.py',ROOT/'tests/dual_s_frame_fixture.py',ROOT/'tests/test_dual_s_frame_dma.py',Path(__file__),ROOT/'tests/test_dual_fft_memory.py',ROOT/'tests/test_dual_sdram.py',ROOT/'experiments/dual_memory_trace.py',ROOT/'experiments/dual_memory_contract.py',ROOT/'experiments/dual_fft_reference.py',ROOT/'rtl/dual_fft_quarter_q16.hex']
             Path(os.environ['DUAL_TRACE_REPORT']).write_text(json.dumps(dict(results=results,source_sha256={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest() for f in files},scope=__doc__),indent=2)+'\n')

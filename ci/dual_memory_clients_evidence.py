@@ -35,6 +35,20 @@ TOPS['s_clients']=TOPS['clients'].replace('dual_fft_memory_clients','dual_fft_s_
     'stimulus[26],sr,stimulus[34:27],srv,stimulus[46],sout,clast,slast,sfault,spending,sowners);').replace(
     'wire busy,', 'wire[7:0] sout;wire clast,slast,sfault;wire[1:0] spending;wire[3:0] sowners;wire busy,').replace(
     'oe,td,sd,cmd', 'oe,td,sout,clast,slast,sfault,spending,sowners,cmd')
+for mode in (1,2,3):
+    params=f'.MODE({mode}),.I0({4//(1<<(mode-1))}),.I1({8//(1<<(mode-1))}),.I2({16//(1<<(mode-1))})'
+    TOPS[f't_time{mode}']="""wire ready,ir,ov,last,settled,result,done,busy,fault,qv,qw,sr;
+wire[31:0] od;wire[20:0] qa;wire[255:0] qd;wire[31:0] qm;
+dual_t_time_dma #(PARAMS) t(mem_clk,resetn,stimulus[0],ready,stimulus[1],stimulus[2],ir,stimulus[34:3],
+ov,stimulus[11],od,last,settled,result,done,busy,fault,qv,stimulus[12],qw,qa,qd,qm,stimulus[13],sr,stimulus);
+assign activity=^{ready,ir,ov,last,settled,result,done,busy,fault,qv,qw,sr,od,qa,qd,qm};
+""".replace('PARAMS',params)
+    TOPS[f'ts_clients{mode}']=TOPS['s_clients'].replace('dual_fft_s_memory #(.INIT_CYCLES(27000))',
+        f'dual_fft_ts_memory #(.INIT_CYCLES(27000),{params})').replace(
+        'wire[7:0] sout;', 'wire tsready,tir,tov,tlast,tsettled,tresult,tdone,tbusy,tfault;wire[31:0] tod;wire[7:0] sout;').replace(
+        'sout,clast,slast,sfault,spending,sowners);',
+        'sout,clast,slast,sfault,spending,sowners,stimulus[47],tsready,stimulus[48],stimulus[49],tir,stimulus[81:50],tov,stimulus[58],tod,tlast,tsettled,tresult,tdone,tbusy,tfault);').replace(
+        'assign activity=^{busy,', 'assign activity=^{tsready,tir,tov,tlast,tsettled,tresult,tdone,tbusy,tfault,tod,busy,')
 def main():
     p=argparse.ArgumentParser();p.add_argument('--yosys',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--components',default='fifo,clients,vector,s_frame,s_clients');a=p.parse_args()
     a.output.mkdir(parents=True,exist_ok=True);rows=[]
@@ -42,8 +56,8 @@ def main():
         top=TOPS[name]
         folder=ROOT/'build'/'memory-clients-synth'/name;folder.mkdir(parents=True,exist_ok=True)
         (folder/'top.sv').write_text(PREFIX+top+'endmodule\n')
-        files=([ROOT/'rtl/dual_s_frame_dma.sv'] if name=='s_frame' else [ROOT/'rtl/dual_vector_exchange.sv'] if name=='vector' else [ROOT/'rtl/dual_burst_fifo.sv'] if name=='fifo' else
-               sorted((ROOT/'rtl').glob('dual_fft_*.sv'))+sorted((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv'])
+        files=([ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'] if name.startswith('t_time') else [ROOT/'rtl/dual_s_frame_dma.sv'] if name=='s_frame' else [ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'] if name=='vector' else [ROOT/'rtl/dual_burst_fifo.sv'] if name=='fifo' else
+               sorted((ROOT/'rtl').glob('dual_fft_*.sv'))+sorted((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv',ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'])
         files+=[folder/'top.sv']
         abc=Path(shutil.which(a.yosys) or a.yosys).resolve().with_name('yosys-abc')
         abc_override=f'scratchpad -set abc9.exe {abc}\n' if abc.is_file() else ''
@@ -51,7 +65,7 @@ def main():
         (folder/'synth.ys').write_text(script)
         with (folder/'synth.log').open('w') as log:
             r=subprocess.run([a.yosys,'-Q','-s',str(folder/'synth.ys')],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,timeout=300)
-        row=dict(component=name,exit_code=r.returncode,scope=('Observable synthetic wrapper including 256-bit stimulus. Vector descriptor and stream inputs variable. Not full receiver, pin fit, or STA.' if name=='vector' else 'Observable synthetic wrapper including 256-bit stimulus. S frame DMA, 48 active TC8PSK slots. Not full receiver, pin fit, or STA.' if name=='s_frame' else 'Observable synthetic wrapper including 256-bit stimulus. Fixed frame bases, variable FFT mode. Not full receiver, pin fit, or STA.'))
+        row=dict(component=name,exit_code=r.returncode,scope=('Fixed T mode/layers and 256-bit stimulus, not a complete receiver or runtime TMCC configuration; no STA.' if name.startswith(('t_time','ts_clients')) else 'Observable synthetic wrapper including 256-bit stimulus. Vector descriptor and stream inputs variable. Not full receiver, pin fit, or STA.' if name=='vector' else 'Observable synthetic wrapper including 256-bit stimulus. S frame DMA, 48 active TC8PSK slots. Not full receiver, pin fit, or STA.' if name=='s_frame' else 'Observable synthetic wrapper including 256-bit stimulus. Fixed frame bases, variable FFT mode. Not full receiver, pin fit, or STA.'))
         if r.returncode==0:
             design=json.loads((folder/'design.json').read_text());counts=Counter(c['type'] for c in design['modules']['top']['cells'].values())
             row['cells']=dict(sorted(counts.items()));row['logic_positions_LUT_plus_ALU']=sum(n for t,n in counts.items() if t.startswith('LUT') or t=='ALU')

@@ -1,5 +1,7 @@
 # Tang Nano 20K ×1＋ESP32-S3 ×2：ISDB-T/S同時受信の分担見積もり
 
+**最新：[実T時間deinterleaveとFFT／Sの接続](20k-dual-s3-t-time-dma.md)。第1項目内の実T grouping/reorderをRTL化し、自然順byte列からの同時動作を検証。受信機全体の成立・正式採用は未確定。**
+
 **後続更新：[SDRAM転送間の待ち削減と再検証](20k-dual-s3-memory-turnover.md)。旧128-frame反例を同条件で解消し、他Mode・位相変更も通過。実T/IO接続等を含む第1項目全体は未完了。以下は各段階の記録。**
 
 **後続更新：[実S frame DMA・有限保持・競合の再検算](20k-dual-s3-s-frame-dma.md)。第1項目全体は未完了。以下の順次S CWモデルによる帯域・期限結果を実S permutationへ転用しない。**
