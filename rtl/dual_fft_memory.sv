@@ -1,7 +1,7 @@
 // Integration boundary: FFT at core_clk, SDRAM and second client at mem_clk.
 // External producer must commit the input frame before start, and reserve all
 // three frame regions until done. No concurrent writes to those regions allowed.
-module dual_fft_memory #(parameter INIT_CYCLES=27000, FFT_BANK_ISOLATION=0, BACKGROUND_FIFO_DEPTH=0)(
+module dual_fft_memory #(parameter INIT_CYCLES=27000, FFT_BANK_ISOLATION=0, BACKGROUND_FIFO_DEPTH=0, DIRECT_RESPONSE=0)(
  input wire core_clk,mem_clk,resetn,start,input wire[3:0] mode_log,
  input wire[20:0] input_base,middle_base,output_base,
  output wire busy,done,fft_fault,overflow,
@@ -41,7 +41,7 @@ module dual_fft_memory #(parameter INIT_CYCLES=27000, FFT_BANK_ISOLATION=0, BACK
  end endgenerate
  wire[20:0] fft_address=FFT_BANK_ISOLATION?{ba[18:8],2'b00,ba[7:0]}:ba;
  wire[31:0] mask;wire mv,mr,mw,rv,rr;wire[20:0] ma;wire[255:0] md,rd;
- dual_burst_arbiter arb(mem_clk,resetn,{qv,bv},{qr,br},
+ dual_burst_arbiter #(.DIRECT_RESPONSE(DIRECT_RESPONSE)) arb(mem_clk,resetn,{qv,bv},{qr,br},
   {qw,bw},{qa,fft_address},{qd,bd},
   {other_rsp_valid,brv},{other_rsp_ready,brr},{other_rsp_data,brd},mv,mr,mw,ma,md,rv,rr,rd,{qm,bmask},mask);
  dual_sdram_burst #(.INIT_CYCLES(INIT_CYCLES)) memory(mem_clk,resetn,mv,mr,mw,ma,md,mask,

@@ -49,6 +49,11 @@ assign activity=^{ready,ir,ov,last,settled,result,done,busy,fault,qv,qw,sr,od,qa
         'sout,clast,slast,sfault,spending,sowners);',
         'sout,clast,slast,sfault,spending,sowners,stimulus[47],tsready,stimulus[48],stimulus[49],tir,stimulus[81:50],tov,stimulus[58],tod,tlast,tsettled,tresult,tdone,tbusy,tfault);').replace(
         'assign activity=^{busy,', 'assign activity=^{tsready,tir,tov,tlast,tsettled,tresult,tdone,tbusy,tfault,tod,busy,')
+    TOPS[f'stream_ts{mode}']=TOPS[f'ts_clients{mode}'].replace('dual_fft_ts_memory','dual_fft_stream_ts_memory').replace(
+        "mem(core_clk,mem_clk,resetn,stimulus[0],stimulus[4:1],21'd0,21'd8192,21'd16384,\nbusy,done,ffault,clip,",
+        "mem(core_clk,mem_clk,resetn,stimulus[0],capture_ready,stimulus[63:32],stimulus[1],bin_valid,stimulus[2],bin_data,bin_last,frame_owners,").replace(
+        'wire tsready,', 'wire capture_ready,bin_valid,bin_last;wire[31:0] bin_data;wire[8:0] frame_owners;wire tsready,').replace(
+        'tod,busy,done,ffault,clip,', 'tod,capture_ready,bin_valid,bin_data,bin_last,frame_owners,')
 def main():
     p=argparse.ArgumentParser();p.add_argument('--yosys',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--components',default='fifo,clients,vector,s_frame,s_clients');a=p.parse_args()
     a.output.mkdir(parents=True,exist_ok=True);rows=[]
@@ -57,17 +62,22 @@ def main():
         folder=ROOT/'build'/'memory-clients-synth'/name;folder.mkdir(parents=True,exist_ok=True)
         (folder/'top.sv').write_text(PREFIX+top+'endmodule\n')
         files=([ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'] if name.startswith('t_time') else [ROOT/'rtl/dual_s_frame_dma.sv'] if name=='s_frame' else [ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'] if name=='vector' else [ROOT/'rtl/dual_burst_fifo.sv'] if name=='fifo' else
-               sorted((ROOT/'rtl').glob('dual_fft_*.sv'))+sorted((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv',ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'])
+               sorted((ROOT/'rtl').glob('dual_fft_*.sv'))+sorted((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_frame_io.sv',ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv',ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'])
         files+=[folder/'top.sv']
         abc=Path(shutil.which(a.yosys) or a.yosys).resolve().with_name('yosys-abc')
         abc_override=f'scratchpad -set abc9.exe {abc}\n' if abc.is_file() else ''
-        script=abc_override+'read_verilog -sv '+' '.join(map(str,files))+f'\nsynth_gowin -family gw2a -top top -nowidelut -json {folder}/design.json\ncheck -assert\n'
+        # Split mixed constant/address buses before ABC9: the pinned Yosys
+        # otherwise leaves a multi-bit $buf with undriven inputs in this top.
+        # No setundef or ignored check failures; bit connectivity is preserved.
+        mapping=(f'synth_gowin -family gw2a -top top -nowidelut -run begin:map_luts\nsplitnets\nsynth_gowin -family gw2a -top top -nowidelut -run map_luts: -json {folder}/design.json' if name.startswith('stream_ts') else f'synth_gowin -family gw2a -top top -nowidelut -json {folder}/design.json')
+        script=abc_override+'read_verilog -sv '+' '.join(map(str,files))+'\n'+mapping+'\ncheck -assert\n'
         (folder/'synth.ys').write_text(script)
         with (folder/'synth.log').open('w') as log:
             r=subprocess.run([a.yosys,'-Q','-s',str(folder/'synth.ys')],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,timeout=300)
-        row=dict(component=name,exit_code=r.returncode,scope=('Fixed T mode/layers and 256-bit stimulus, not a complete receiver or runtime TMCC configuration; no STA.' if name.startswith(('t_time','ts_clients')) else 'Observable synthetic wrapper including 256-bit stimulus. Vector descriptor and stream inputs variable. Not full receiver, pin fit, or STA.' if name=='vector' else 'Observable synthetic wrapper including 256-bit stimulus. S frame DMA, 48 active TC8PSK slots. Not full receiver, pin fit, or STA.' if name=='s_frame' else 'Observable synthetic wrapper including 256-bit stimulus. Fixed frame bases, variable FFT mode. Not full receiver, pin fit, or STA.'))
+        row=dict(component=name,exit_code=r.returncode,scope=('Fixed T mode/layers and 256-bit stimulus, not a complete receiver or runtime TMCC configuration; no STA.' if name.startswith(('t_time','ts_clients','stream_ts')) else 'Observable synthetic wrapper including 256-bit stimulus. Vector descriptor and stream inputs variable. Not full receiver, pin fit, or STA.' if name=='vector' else 'Observable synthetic wrapper including 256-bit stimulus. S frame DMA, 48 active TC8PSK slots. Not full receiver, pin fit, or STA.' if name=='s_frame' else 'Observable synthetic wrapper including 256-bit stimulus. Fixed frame bases, variable FFT mode. Not full receiver, pin fit, or STA.'))
         if r.returncode==0:
             design=json.loads((folder/'design.json').read_text());counts=Counter(c['type'] for c in design['modules']['top']['cells'].values())
+            assert not any(t.startswith('$_') or t=='$buf' for t in counts), counts
             row['cells']=dict(sorted(counts.items()));row['logic_positions_LUT_plus_ALU']=sum(n for t,n in counts.items() if t.startswith('LUT') or t=='ALU')
         row['source_sha256']={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest() for f in files+[Path(__file__),ROOT/'rtl/dual_fft_quarter_q16.hex']}
         rows.append(row)
