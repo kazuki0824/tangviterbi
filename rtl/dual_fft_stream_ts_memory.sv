@@ -30,7 +30,7 @@ module dual_fft_stream_ts_memory #(parameter INIT_CYCLES=27000,MODE=1,S0=3,I0=4,
  assign other_ready=io_ready&&!bad_io;
  assign memory_fault=core_memory_fault|partition_fault;
  wire tv,tr,tw,trv,trr;wire[20:0] ta;wire[255:0] td,trd;wire[31:0] tm;
- dual_t_time_dma #(.MODE(MODE),.S0(S0),.I0(I0),.S1(S1),.I1(I1),.S2(S2),.I2(I2)) ttime(
+ dual_t_buffered_time_dma #(.MODE(MODE),.S0(S0),.I0(I0),.S1(S1),.I1(I1),.S2(S2),.I2(I2)) ttime(
   mem_clk,resetn,t_start,t_start_ready,t_drain,t_in_valid,t_in_ready,t_in_data,
   t_out_valid,t_out_ready,t_out_data,t_out_last,t_settled,t_result,t_done,t_busy,t_fault,
   tv,tr,tw,ta,td,tm,trv,trr,trd);

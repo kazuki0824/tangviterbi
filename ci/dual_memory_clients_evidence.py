@@ -62,7 +62,7 @@ def main():
         folder=ROOT/'build'/'memory-clients-synth'/name;folder.mkdir(parents=True,exist_ok=True)
         (folder/'top.sv').write_text(PREFIX+top+'endmodule\n')
         files=([ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'] if name.startswith('t_time') else [ROOT/'rtl/dual_s_frame_dma.sv'] if name=='s_frame' else [ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'] if name=='vector' else [ROOT/'rtl/dual_burst_fifo.sv'] if name=='fifo' else
-               sorted((ROOT/'rtl').glob('dual_fft_*.sv'))+sorted((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_frame_io.sv',ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv',ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'])
+               sorted((ROOT/'rtl').glob('dual_fft_*.sv'))+sorted((ROOT/'rtl').glob('dual_burst_*.sv'))+[ROOT/'rtl/dual_t_buffered_time_dma.sv',ROOT/'rtl/dual_frame_io.sv',ROOT/'rtl/dual_sdram_burst.sv',ROOT/'rtl/dual_s_frame_dma.sv',ROOT/'rtl/dual_t_time_dma.sv',ROOT/'rtl/dual_vector_exchange.sv',ROOT/'rtl/dual_vector_exchange_pipelined.sv'])
         files+=[folder/'top.sv']
         abc=Path(shutil.which(a.yosys) or a.yosys).resolve().with_name('yosys-abc')
         abc_override=f'scratchpad -set abc9.exe {abc}\n' if abc.is_file() else ''
