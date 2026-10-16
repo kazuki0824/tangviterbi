@@ -23,7 +23,7 @@ module research_sdf_fft #(
  wire [31:0] sample[0:LOGN];
  wire v[0:LOGN];
  wire r[0:LOGN];
- wire over[0:LOGN-1];
+ wire [LOGN-1:0] over;
  assign sample[0]=in_data;assign v[0]=in_valid;assign in_ready=r[0];
  assign out_data=sample[LOGN];assign out_valid=v[LOGN];
  assign r[LOGN]=out_ready;
@@ -68,7 +68,7 @@ module research_sdf_fft #(
  reg overflow_reg;
  always @(posedge clk) begin
    if(!resetn) overflow_reg<=0;
-   else if(|{over}) overflow_reg<=1;
+   else if(|over) overflow_reg<=1;
  end
  assign overflow=overflow_reg;
 endmodule
