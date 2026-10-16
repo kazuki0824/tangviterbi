@@ -8,6 +8,7 @@ on:
       - 'tests/test_research_sdf_stage.py'
       - 'experiments/research_sdf_oracle.py'
       - 'tests/test_research_sdf_oracle.py'
+      - 'tests/test_research_sdf_full_frame.py'
       - 'rtl/research_sdf_twiddle.sv'
       - 'rtl/research_sdf_quarter_q16.hex'
       - '.github/workflows/research-hybrid-fft.yml'
@@ -30,3 +31,5 @@ jobs:
           done
       - name: Run arithmetic checks and external-port handshake smoke
         run: python -m unittest discover -s tests -p 'test_fft_architecture_screen.py' -v && python -m unittest discover -s tests -p 'test_research_sdf_stage.py' -v && python -m unittest discover -s tests -p 'test_research_sdf_oracle.py' -v
+      - name: Bit-exact whole-frame RTL versus independent DIF oracle
+        run: python -m unittest discover -s tests -p 'test_research_sdf_full_frame.py' -v
