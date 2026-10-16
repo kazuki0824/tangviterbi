@@ -51,7 +51,7 @@ class TestResearchStage(unittest.TestCase):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d)
    (p/"tb.sv").write_text(TB)
-   subprocess.run(["iverilog","-g2012","-s","tb","-o",str(p/"sim"),str(p/"tb.sv"),str(ROOT/"rtl/research_sdf_stage.sv"),str(ROOT/"rtl/dual_fft_twiddle.sv")],check=True,cwd=ROOT,timeout=30)
+   subprocess.run(["iverilog","-g2012","-s","tb","-o",str(p/"sim"),str(p/"tb.sv"),str(ROOT/"rtl/research_sdf_stage.sv"),str(ROOT/"rtl/research_sdf_twiddle.sv")],check=True,cwd=ROOT,timeout=30)
    r=subprocess.run(["vvp",str(p/"sim")],capture_output=True,text=True,cwd=ROOT,timeout=30)
    self.assertEqual(r.returncode,0,r.stdout+r.stderr)
    self.assertIn("PASS stage",r.stdout)
