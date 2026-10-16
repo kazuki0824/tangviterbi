@@ -55,3 +55,22 @@ class TestResearchStage(unittest.TestCase):
    r=subprocess.run(["vvp",str(p/"sim")],capture_output=True,text=True,cwd=ROOT,timeout=30)
    self.assertEqual(r.returncode,0,r.stdout+r.stderr)
    self.assertIn("PASS stage",r.stdout)
+
+
+ def test_external_nonzero_constant_stream(self):
+  # Steady-state DIF SDF stage with D=4: (a+b)/2 followed by W*(a-b)/2.
+  # After the first four priming inputs the output sequence for constant
+  # 1024+0j is four 1024 values, four zeros, four 1024 values.
+  tb=TB.replace("reg [31:0] accepted=0,produced=0;integer i;",
+                "reg [31:0] accepted=0,produced=0;integer i;")
+  tb=tb.replace("if(dout!==32'd0)$fatal(1,\"nonzero output\");",
+      "if(dout !== ((produced>=4 && produced<8) ? 32'd0 : 32'd1024)) $fatal(1,\"wrong complex output at %d: %h\",produced,dout);")
+  tb=tb.replace("iv=1;din=0;","iv=1;din=32'd1024;")
+  tb=tb.replace("PASS stage zero-vector handshakes","PASS stage nonzero-vector handshakes")
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d)
+   (p/"tb.sv").write_text(tb)
+   subprocess.run(["iverilog","-g2012","-s","tb","-o",str(p/"sim"),str(p/"tb.sv"),str(ROOT/"rtl/research_sdf_stage.sv"),str(ROOT/"rtl/research_sdf_twiddle.sv")],check=True,cwd=ROOT,timeout=30)
+   r=subprocess.run(["vvp",str(p/"sim")],capture_output=True,text=True,cwd=ROOT,timeout=30)
+   self.assertEqual(r.returncode,0,r.stdout+r.stderr)
+   self.assertIn("PASS stage nonzero",r.stdout)
