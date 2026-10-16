@@ -32,7 +32,7 @@ module research_sdf_stage #(
  // SHIFT ranges from 0 through 12 in the supported N<=8192.
  wire [12:0] rom_phase=pending ? held_phase : selected_phase;
  wire signed [17:0] tw_re,tw_im;
- dual_fft_twiddle coeff(clk,rom_phase,tw_re,tw_im);
+ research_sdf_twiddle coeff(clk,rom_phase,tw_re,tw_im);
  wire port_ready=(EXTERNAL==0)||external_ready;
  wire slot_ready=!out_valid||out_ready;
  assign in_ready=resetn&&!pending&&slot_ready&&port_ready;
