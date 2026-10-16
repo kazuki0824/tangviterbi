@@ -13,6 +13,10 @@ on:
       - 'rtl/research_sdf_quarter_q16.hex'
       - '.github/workflows/research-hybrid-fft.yml'
   workflow_dispatch:
+concurrency:
+  # Supersede obsolete PR runs without cancelling intentionally dispatched runs.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 permissions:
   contents: read
 jobs:
