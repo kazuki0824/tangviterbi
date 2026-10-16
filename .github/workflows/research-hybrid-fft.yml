@@ -6,6 +6,10 @@ on:
       - 'experiments/fft_architecture_screen.py'
       - 'tests/test_fft_architecture_screen.py'
       - 'tests/test_research_sdf_stage.py'
+      - 'experiments/research_sdf_oracle.py'
+      - 'tests/test_research_sdf_oracle.py'
+      - 'rtl/research_sdf_twiddle.sv'
+      - 'rtl/research_sdf_quarter_q16.hex'
       - '.github/workflows/research-hybrid-fft.yml'
   workflow_dispatch:
 permissions:
@@ -17,10 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Install independent numerical oracle
+        run: python -m pip install numpy==2.3.5
       - name: Compile each elaborated FFT mode
         run: |
           for n in 11 12 13; do
             iverilog -g2012 -s research_sdf_fft -Presearch_sdf_fft.LOGN="$n" -o "/tmp/research_fft_$n" rtl/research_sdf_stage.sv rtl/research_sdf_fft.sv rtl/research_sdf_twiddle.sv
           done
       - name: Run arithmetic checks and external-port handshake smoke
-        run: python -m unittest discover -s tests -p 'test_fft_architecture_screen.py' -v && python -m unittest discover -s tests -p 'test_research_sdf_stage.py' -v
+        run: python -m unittest discover -s tests -p 'test_fft_architecture_screen.py' -v && python -m unittest discover -s tests -p 'test_research_sdf_stage.py' -v && python -m unittest discover -s tests -p 'test_research_sdf_oracle.py' -v
