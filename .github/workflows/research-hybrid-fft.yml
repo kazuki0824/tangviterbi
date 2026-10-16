@@ -1,0 +1,26 @@
+name: Research hybrid SDF FFT gates
+on:
+  pull_request:
+    paths:
+      - 'rtl/research_sdf_*.sv'
+      - 'experiments/fft_architecture_screen.py'
+      - 'tests/test_fft_architecture_screen.py'
+      - 'tests/test_research_sdf_stage.py'
+      - '.github/workflows/research-hybrid-fft.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rtl-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Compile each elaborated FFT mode
+        run: |
+          for n in 11 12 13; do
+            iverilog -g2012 -s research_sdf_fft -Presearch_sdf_fft.LOGN="$n" -o "/tmp/research_fft_$n" rtl/research_sdf_stage.sv rtl/research_sdf_fft.sv rtl/dual_fft_twiddle.sv
+          done
+      - name: Run arithmetic checks and external-port handshake smoke
+        run: python -m unittest discover -s tests -p 'test_fft_architecture_screen.py' -v && python -m unittest discover -s tests -p 'test_research_sdf_stage.py' -v
