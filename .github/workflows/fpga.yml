@@ -1,14 +1,61 @@
 name: FPGA resource and timing benchmark
 
 on:
+  # Integrations measure all 20 P&R configurations; PRs measure only benchmark inputs.
   push:
+    branches: [main]
   pull_request:
+    # PR paths match the entire cumulative diff. Do not list this YAML here,
+    # or a CI-only PR change will re-run all 20 P&R jobs on every subsequent push.
+    # Use workflow_dispatch to validate workflow-only changes before integration.
+    paths:
+      - 'rtl/benchmark_top.sv'
+      - 'rtl/psram_ctrl.sv'
+      - 'rtl/rs204_188_compact.sv'
+      - 'rtl/viterbi_k7_16acs.sv'
+      - 'rtl/viterbi_k7_32acs.sv'
+      - 'experiments/rs_syndrome_constants.sv'
+      - 'experiments/gf256_constants_tb.sv'
+      - 'ci/performance.json'
+      - 'ci/report.py'
+      - 'ci/run_pnr.sh'
+      - 'ci/validate_pnr_evidence.py'
+      - 'constraints/**'
+      - 'tests/test_rtl.py'
+      - 'tests/test_report.py'
+      - 'tests/test_validate_pnr_evidence.py'
+      - 'tests/fixtures/**'
+      - 'tests/*_tb.sv'
   workflow_dispatch:
+
+concurrency:
+  # Supersede obsolete PR runs without cancelling intentionally dispatched runs.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 
 permissions:
   contents: read
 
 jobs:
+  unit-tests:
+    name: Shared benchmark and controller unittests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install numerical oracle for the full unittest suite
+        run: python3 -m pip install numpy==2.2.6
+      - name: Set up OSS CAD Suite
+        uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: "2026-10-04"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check benchmark and controller transactions once per run
+        run: python3 -m unittest discover -s tests -v
+
   pnr:
     name: ${{ matrix.board }} / ${{ matrix.variant }}
     runs-on: ubuntu-latest
@@ -46,8 +93,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install host numerical oracle dependency
-        run: python3 -m pip install numpy==2.2.6
 
       - name: Set up OSS CAD Suite
         uses: YosysHQ/setup-oss-cad-suite@v4
@@ -55,8 +100,6 @@ jobs:
           version: "2026-10-04"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check benchmark and controller transactions
-        run: python3 -m unittest discover -s tests -v
 
       - name: Synthesize and measure (P&R for full designs)
         id: pnr
@@ -108,8 +151,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install host numerical oracle dependency
-        run: python3 -m pip install numpy==2.2.6
 
       - name: Set up OSS CAD Suite
         uses: YosysHQ/setup-oss-cad-suite@v4
@@ -117,8 +158,6 @@ jobs:
           version: "2026-10-04"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check benchmark and controller transactions
-        run: python3 -m unittest discover -s tests -v
 
       - name: Synthesize and measure (P&R for full designs)
         id: pnr
