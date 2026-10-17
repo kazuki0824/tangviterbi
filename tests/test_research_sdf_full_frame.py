@@ -28,6 +28,7 @@ wire [31:0] out_data,ext_wdata;
 wire [LOGN-1:0] out_bin;
 wire [LOGN-2:0] ext_ra,ext_wa;
 reg [31:0] ext_q=0, ext_mem[0:D-1], stimulus[0:N-1];
+reg [8*1024-1:0] stimulus_path;
 integer sent=0,received=0,cycles=0,j;
 research_sdf_fft #(.LOGN(LOGN)) dut(
  .clk(clk),.resetn(resetn),.in_valid(in_valid),.in_ready(in_ready),
@@ -90,7 +91,11 @@ always @(negedge clk)begin
  end
 end
 initial begin
- $readmemh("input.hex",stimulus);
+ // The oracle input is in a temporary directory, while the twiddle ROM
+ // uses a repository-relative path. Pass the stimulus path explicitly.
+ if(!$value$plusargs("INPUT_HEX=%s", stimulus_path))
+   $fatal(1,"missing +INPUT_HEX path for full-frame stimulus");
+ $readmemh(stimulus_path,stimulus);
  for(j=0;j<D;j=j+1) ext_mem[j]=32'd0;
  repeat(4)@(negedge clk);
  resetn=1;
@@ -135,7 +140,7 @@ class WholeFrameRTL(unittest.TestCase):
                  str(ROOT/"rtl/research_sdf_stage.sv"),
                  str(ROOT/"rtl/research_sdf_twiddle.sv")]
             subprocess.run(cmd,cwd=ROOT,check=True,capture_output=True,text=True,timeout=60)
-            result=subprocess.run(["vvp",str(p/"run")],cwd=ROOT,
+            result=subprocess.run(["vvp",str(p/"run"),f"+INPUT_HEX={p / 'input.hex'}"],cwd=ROOT,
                                   capture_output=True,text=True,timeout=180)
         self.assertEqual(result.returncode,0,result.stderr+"\n"+result.stdout[-3000:])
         rows=[l.split() for l in result.stdout.splitlines() if l.startswith("OUT ")]
