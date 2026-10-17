@@ -1,0 +1,4 @@
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/shared_sdf_fft.sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/shared_sdf_benchmark.sv /workspace/scratch/3793ea63b22e/tangviterbi/reports/pr7-fft-archive/rtl/research_sdf_twiddle.sv
+chparam -set EXTERNAL_FIRST 1 shared_sdf_benchmark
+synth_gowin -family gw2a -top shared_sdf_benchmark -nowidelut -json /workspace/scratch/3793ea63b22e/tangviterbi/build/shared-sdf-20k-v4/mapped.json
+check -assert

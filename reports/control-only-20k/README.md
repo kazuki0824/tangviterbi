@@ -1,5 +1,13 @@
 # ② Tang Nano 20K×1＋S3×2：T/S同時、逆方向は指令のみ
 
+## 続行更新：共有FFTは162 MHz通過、全体予算は依然ほぼ無余裕
+
+[共有FFTの実装・全候補再計算・検証結果](../shared-sdf-followup.md)を追加した。全Modeを連続処理するhybrid FFTは2,729 logic・1,502 FF・10 BSRAM・4 DSP、配置配線後222.568 MHzで162 MHz目標を通過。residentも単体目標を通るが18 BSRAMを使う。PHYと全受信機の合格ではない。
+
+旧共有RS BのFFT予算を実測値へ置換すると、hybridは20,681 logic（99.73%）・13,512 FF・46/46 BSRAM・34 DSP、residentは54 BSRAMとなる。未実装のcache等を加えた余裕は未成立。全[19境界](../shared-sdf-evidence/updated-20k/boundaries.md)・[84組](../shared-sdf-evidence/updated-20k/allowed-pairs.json.gz)を更新し、情報型・転送速度は保持した。GPIOの順序逆転分は未測定の時間上限を条件にpacked1,600 Bまで絞ったが、入力平滑化・CRC保持等は別。32 unittest成功。採用0を維持する。
+
+**以下は初回検算のスナップショット。最新の置換予算・今回の未達と区切りは上の続行報告を参照。**
+
 **結論：最も残しやすい処理分担は「各S3はRF取得・可逆転送、FPGAでT/Sの全復調とTS出力」だが、性能余裕内の採用案は確定できていない。** 旧PR6のtile FFT案は全体未成立、旧PR7のunshared SDF実装はDSP超過。通信が通ることだけを理由に再採用しない。指定手順の①全体性能は未通過、②正式通信割当0、③採用0。
 
 これは構成全体の実現不可能性を示すものではない。今回の結果は、比較対象・検算・改善が必要な箇所を保存した見積もりPRである。基準は `main@9a5b5d28d2350a312bf0d73d264ac5af6fe83dd6`。[共通方法・全通信profile・一次資料](../control-only-method.md)も参照する。
