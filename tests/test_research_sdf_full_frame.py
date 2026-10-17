@@ -37,6 +37,35 @@ research_sdf_fft #(.LOGN(LOGN)) dut(
  .external_read_addr(ext_ra),.external_read_data(ext_q),
  .external_write_enable(ext_we),.external_write_addr(ext_wa),
  .external_write_data(ext_wdata),.overflow(overflow));
+// Fail at the FIRST stage producing an unknown word, not when Python parses
+// the final output. This distinguishes uninitialised RAM from coefficient bugs.
+generate for(genvar stage_no=0;stage_no<LOGN;stage_no=stage_no+1)begin: known_stage
+ if(stage_no==0)begin: external_stage
+  always @(posedge clk) if(resetn && dut.stages[stage_no].outer.core.commit &&
+      dut.stages[stage_no].outer.core.held_output &&
+      (^dut.stages[stage_no].outer.core.produced === 1'bx))
+    $fatal(1,"undefined stage %0d: addr=%0d first=%b old=%h new=%h tw=(%h,%h) held=%h",
+      stage_no,dut.stages[stage_no].outer.core.held_addr,
+      dut.stages[stage_no].outer.core.held_first,
+      dut.stages[stage_no].outer.core.old_word,
+      dut.stages[stage_no].outer.core.produced,
+      dut.stages[stage_no].outer.core.tw_re,
+      dut.stages[stage_no].outer.core.tw_im,
+      dut.stages[stage_no].outer.core.held_data);
+ end else begin: internal_stage
+  always @(posedge clk) if(resetn && dut.stages[stage_no].inner.core.commit &&
+      dut.stages[stage_no].inner.core.held_output &&
+      (^dut.stages[stage_no].inner.core.produced === 1'bx))
+    $fatal(1,"undefined stage %0d: addr=%0d first=%b old=%h new=%h tw=(%h,%h) held=%h",
+      stage_no,dut.stages[stage_no].inner.core.held_addr,
+      dut.stages[stage_no].inner.core.held_first,
+      dut.stages[stage_no].inner.core.old_word,
+      dut.stages[stage_no].inner.core.produced,
+      dut.stages[stage_no].inner.core.tw_re,
+      dut.stages[stage_no].inner.core.tw_im,
+      dut.stages[stage_no].inner.core.held_data);
+ end
+end endgenerate
 always @(posedge clk) begin
  if(ext_re) ext_q<=ext_mem[ext_ra];
  if(ext_we) ext_mem[ext_wa]<=ext_wdata;
