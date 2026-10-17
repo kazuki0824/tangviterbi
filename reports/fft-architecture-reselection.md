@@ -32,3 +32,12 @@ These *substitution values are not actual RTL synthesis*: the original FFT 8 BSR
 **Static conditions checked**: (a) stage delay sizes equal (N−1)*4 bytes, (b) internal+external hybrid delays equal full delay, (c) 2 KiB-block minima are arithmetic, (d) bus traffic formula uses explicit GI1/32 period, (e) all candidates remain unqualified. Unit tests exercise these invariants. **Not checked**: actual SDF RTL, UART/GPIO physical closure, synthesis, physical STA, production PHY, real end-to-end TS, native S3 RF continuous capture. Do not promote this report as receiver evidence.
 
 Prior evidence: [PR6 selection audit](pr6-20k-dual-s3-selection-review.md), [T buffer](20k-dual-s3-t-buffer.md), [dual architecture estimate](20k-dual-s3.md), [FFT+SDRAM trials](20k-dual-s3-fft-sdram.md).
+
+
+## 2026-10-17 framed FFT prototype: hard limitations
+
+At commit `c20f04a9`, `rtl/research_sdf_framed_fft.sv` adds a finite, backpressured frame adapter around the bit-exact-tested ideal-RAM core. It accepts exactly N original complex Q15 samples (no sample reduction), autonomously supplies N−1 zero-tail words, drains N outputs, then clears all stage state before the next frame. The new tests drive nonzero data and impulse through the wrapper for all three T modes and check all bins against the independent integer reference. Pending CI [38988612174](https://github.com/kazuki0824/tangviterbi/actions/runs/38988612174): do not claim they pass until observed.
+
+**Not continuous:** every frame incurs N−1 additional input handshakes, startup/flush latency, and a reset clock. Without a separate ping-pong front-end and adequate compute/service margin, a continuous one-symbol-per-period source will overrun. This implementation is *only a framing correctness experiment*, not a viable final architecture. Its external port remains a one-cycle ideal synchronous read + one-cycle write, not a physically arbitrated SDRAM path. No synth/P&R/STA or resource-fit result is available.
+
+New gate: record accepted source samples, dummy tail counts, out-bin order, frame-end marker and restart isolation, then prove sustained symbol service under worst-case external arbitration without synthetic zero tails causing missed input. Any fit/timing optimization must maintain sample resolution and exact fixed-point oracle equality.
