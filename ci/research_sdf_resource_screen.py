@@ -51,7 +51,7 @@ def screen(counts,logn,exit_code):
       synthesized=exit_code==0,source_scope="ideal external synchronous RAM, FFT ONLY",
       primitive_counts=counts,logic_cells=logic,bsram_cells=ram,dsp_cells=dsp,
       upper_limits=dict(logic_sites=20736,bsram_blocks=46,dsp18=48),
-      resource_screen=dict(logic=logic<=20736,bsram=ram<=46,dsp=dsp<=48),
+      resource_screen=dict(logic=(logic<=20736 if exit_code==0 else None),\n                           bsram=(ram<=46 if exit_code==0 else None),\n                           dsp=(dsp<=48 if exit_code==0 else None)),
       **{"qualified_receiver":False,"whole_chip_STA":None,"physical_route_fit":None,
          "s3_continuous_IQ":None,"simultaneous_TS":None})
 
@@ -64,7 +64,7 @@ def main():
     a.output.mkdir(parents=True,exist_ok=True)
     sv=SOURCES[:3]
     synth=(
-        "read_verilog -sv "+" ".join(str(p) for p in sv)+"\n"
+        "read_verilog -sv -defer "+" ".join(str(p) for p in sv)+"\n"
         f"hierarchy -top research_sdf_fft -chparam LOGN {a.logn}\n"
         "synth_gowin -family gw2a -top research_sdf_fft -nowidelut"
         f" -json {a.output.resolve()/'mapped.json'}\n"
