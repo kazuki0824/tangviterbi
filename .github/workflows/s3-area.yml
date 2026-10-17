@@ -10,13 +10,25 @@ on:
       - 'experiments/check_isdb_rs.py'
       - 'experiments/compare_rs.py'
       - 'ci/s3_area_benchmark.py'
-      - '.github/workflows/s3-area.yml'
+      # Deliberately exclude this workflow YAML from the cumulative PR paths.
+      # Dispatch manually when the CI definition itself changes.
       - 'tests/test_s3_rs_area.py'
       - 'tests/rs_schedule_tb.sv'
       - 'tests/rs_budget_tb.sv'
-      - 'rtl/**'
+      # ci/s3_area_benchmark.py compiles these legacy benchmark modules only.
+      - 'rtl/benchmark_top.sv'
+      - 'rtl/psram_ctrl.sv'
+      - 'rtl/rs204_188_compact.sv'
+      - 'rtl/viterbi_k7_16acs.sv'
+      - 'rtl/viterbi_k7_32acs.sv'
+      - 'experiments/s3_stream_schedule.py'
+      - 'tests/test_s3_stream_schedule.py'
       - 'experiments/rs_syndrome_constants.sv'
   workflow_dispatch:
+concurrency:
+  # Supersede obsolete PR runs without cancelling intentionally dispatched runs.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 permissions:
   contents: read
 jobs:
