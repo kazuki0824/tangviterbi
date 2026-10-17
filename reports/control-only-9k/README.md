@@ -1,5 +1,13 @@
 # ① Tang Nano 9K×1＋S3×1：T/S切替、逆方向は指令のみ
 
+## 続行更新：FFT単体は108 MHz通過、全体採用は未達
+
+[共有FFTの実装・全候補再計算・検証結果](../shared-sdf-followup.md)を追加した。全Modeの連続FFTを実装し、9K hybridは2,747 logic・1,502 FF・10 BSRAM・4 DSP、配置配線後109.493 MHzで108 MHz目標を通過。ただし有効区間の演算余裕は2.175%で、外部delayは理想RAMのまま。
+
+この実測値で旧FFT予算を置換すると、TのRF-only案は9,496 logic、T FIRをSoCへ移す案も8,744 logicとなり、9Kの8,640を超える。結合回路の面積下限ではないが、この予算から性能余裕を認定できない。新しい[全19境界](../shared-sdf-evidence/updated-9k/boundaries.md)・[84組](../shared-sdf-evidence/updated-9k/allowed-pairs.json.gz)へ反映した。SoC/FPGAの境界情報と通信速度は変わらず、下記カタログを参照する。32 unittest成功、110 MHz試行とresidentの不合格も保存。採用0を維持する。
+
+**以下は初回検算のスナップショット。最新の置換予算・今回の未達と区切りは上の続行報告を参照。**
+
 **結論：条件に合う比較対象は抽出できたが、性能余裕を確認した採用案はまだ出せていない。** 過去HEADの低費用CPUモデルから残る分担は、A「RF取得だけSoC、全復調FPGA」とB「Tだけ通常FIRをSoCへ移す」。Sは両案ともRF取得だけSoC。全体FPGA資源と同時WCETが未確定なので、指定された①性能→②通信→③採用では①未通過、正式割当0、採用0とする。9K構成全体の不可能性を証明した結果ではない。
 
 基準HEADは `9a5b5d28d2350a312bf0d73d264ac5af6fe83dd6`。共通の[検算方法・全通信profile・一次資料](../control-only-method.md)と合わせて読む。本PRは見積もりの記録であり、受信機RTL完成や実機動作の報告ではない。
