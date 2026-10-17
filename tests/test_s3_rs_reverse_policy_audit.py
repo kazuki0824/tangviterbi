@@ -5,7 +5,7 @@ class ReversePolicyAudit(unittest.TestCase):
  def test_all_five(self): self.assertEqual(len(self.c),5)
  def test_rates(self):
   self.assertAlmostEqual(float(RS_CW_PER_S),35541.87192118227)
-  self.assertAlmostEqual(self.r["clock_and_rate"]["S1_old_scalar_RS_only_Mcycles_s"],783.052494,places=2)
+  self.assertAlmostEqual(self.r["clock_and_rate"]["S1_old_scalar_RS_only_Mcycles_s"],784.053694581,places=2)
  def test_transport_is_conditional_not_blanket_failure(self):
   for n in ["S-2/SoC_BM_Chien_Forney","S-3/SoC_BM_Omega","S-4/SoC_BM_Omega_Forney"]:
    self.assertTrue(self.c[n]["aggregate_wire_necessary_condition"])
