@@ -1,8 +1,8 @@
 """Whole-frame RTL-vs-independent bit-exact integer DIF FFT comparison.
 
-The RTL currently needs a *testbench-supplied* N-1 zero tail to drain the
-streaming pipeline, plus reset before each frame. This is not a production
-frame adapter or an operational SDRAM timing model.
+The framed adapter itself supplies the N-1 zero tail and resets after each
+frame. This is not a continuous production frame adapter or an operational
+SDRAM timing model.
 """
 import random
 import shutil
@@ -42,29 +42,29 @@ research_sdf_framed_fft #(.LOGN(LOGN)) dut(
 // the final output. This distinguishes uninitialised RAM from coefficient bugs.
 generate for(genvar stage_no=0;stage_no<LOGN;stage_no=stage_no+1)begin: known_stage
  if(stage_no==0)begin: external_stage
-  always @(posedge clk) if(resetn && dut.stages[stage_no].outer.core.commit &&
-      dut.stages[stage_no].outer.core.held_output &&
-      (^dut.stages[stage_no].outer.core.produced === 1'bx))
+  always @(posedge clk) if(resetn && dut.core.stages[stage_no].outer.core.commit &&
+      dut.core.stages[stage_no].outer.core.held_output &&
+      (^dut.core.stages[stage_no].outer.core.produced === 1'bx))
     $fatal(1,"undefined stage %0d: addr=%0d first=%b old=%h new=%h tw=(%h,%h) held=%h",
-      stage_no,dut.stages[stage_no].outer.core.held_addr,
-      dut.stages[stage_no].outer.core.held_first,
-      dut.stages[stage_no].outer.core.old_word,
-      dut.stages[stage_no].outer.core.produced,
-      dut.stages[stage_no].outer.core.tw_re,
-      dut.stages[stage_no].outer.core.tw_im,
-      dut.stages[stage_no].outer.core.held_data);
+      stage_no,dut.core.stages[stage_no].outer.core.held_addr,
+      dut.core.stages[stage_no].outer.core.held_first,
+      dut.core.stages[stage_no].outer.core.old_word,
+      dut.core.stages[stage_no].outer.core.produced,
+      dut.core.stages[stage_no].outer.core.tw_re,
+      dut.core.stages[stage_no].outer.core.tw_im,
+      dut.core.stages[stage_no].outer.core.held_data);
  end else begin: internal_stage
-  always @(posedge clk) if(resetn && dut.stages[stage_no].inner.core.commit &&
-      dut.stages[stage_no].inner.core.held_output &&
-      (^dut.stages[stage_no].inner.core.produced === 1'bx))
+  always @(posedge clk) if(resetn && dut.core.stages[stage_no].inner.core.commit &&
+      dut.core.stages[stage_no].inner.core.held_output &&
+      (^dut.core.stages[stage_no].inner.core.produced === 1'bx))
     $fatal(1,"undefined stage %0d: addr=%0d first=%b old=%h new=%h tw=(%h,%h) held=%h",
-      stage_no,dut.stages[stage_no].inner.core.held_addr,
-      dut.stages[stage_no].inner.core.held_first,
-      dut.stages[stage_no].inner.core.old_word,
-      dut.stages[stage_no].inner.core.produced,
-      dut.stages[stage_no].inner.core.tw_re,
-      dut.stages[stage_no].inner.core.tw_im,
-      dut.stages[stage_no].inner.core.held_data);
+      stage_no,dut.core.stages[stage_no].inner.core.held_addr,
+      dut.core.stages[stage_no].inner.core.held_first,
+      dut.core.stages[stage_no].inner.core.old_word,
+      dut.core.stages[stage_no].inner.core.produced,
+      dut.core.stages[stage_no].inner.core.tw_re,
+      dut.core.stages[stage_no].inner.core.tw_im,
+      dut.core.stages[stage_no].inner.core.held_data);
  end
 end endgenerate
 always @(posedge clk) begin
@@ -140,7 +140,10 @@ class FramedWholeFrameRTL(unittest.TestCase):
                  str(ROOT/"rtl/research_sdf_framed_fft.sv"),
                  str(ROOT/"rtl/research_sdf_stage.sv"),
                  str(ROOT/"rtl/research_sdf_twiddle.sv")]
-            subprocess.run(cmd,cwd=ROOT,check=True,capture_output=True,text=True,timeout=60)
+            compile_result=subprocess.run(cmd,cwd=ROOT,capture_output=True,text=True,timeout=60)
+            self.assertEqual(compile_result.returncode,0,
+                f"Icarus compile failed (LOGN={logn}, case={case})\n"
+                +compile_result.stdout+"\n"+compile_result.stderr)
             result=subprocess.run(["vvp",str(p/"run"),f"+INPUT_HEX={p / 'input.hex'}"],cwd=ROOT,
                                   capture_output=True,text=True,timeout=180)
         self.assertEqual(result.returncode,0,result.stderr+"\n"+result.stdout[-3000:])
