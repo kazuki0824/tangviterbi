@@ -4,6 +4,7 @@ on:
     paths:
       - 'rtl/research_sdf_*.sv'
       - 'tests/test_research_sdf_framed.py'
+      - 'ci/research_sdf_resource_screen.py'
       - 'experiments/fft_architecture_screen.py'
       - 'tests/test_fft_architecture_screen.py'
       - 'tests/test_research_sdf_stage.py'
@@ -41,3 +42,21 @@ jobs:
       - name: Bit-exact whole-frame RTL versus independent DIF oracle
         run: python -m unittest discover -s tests -p 'test_research_sdf_full_frame.py' -v
 
+
+  mapped-resource-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned synthesis
+        run: python -m pip install yowasp-yosys==0.70.0.0.post1259 yowasp-runtime==1.96 wasmtime==47.0.1
+      - name: Map research Mode-3 FFT to GW2A cells (not P&R or receiver)
+        run: python ci/research_sdf_resource_screen.py --yosys yowasp-yosys --logn 13 --output build/research-sdf-synthesis
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: research-sdf-resource-screen
+          path: build/research-sdf-synthesis
