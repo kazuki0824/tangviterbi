@@ -34,7 +34,7 @@ def count_cells(design):
         visiting.add(module)
         for cell in modules[module].get("cells",{}).values():
             kind=cell["type"]
-            if kind in modules and "cells" in modules[kind]:
+            if kind in modules and (kind.startswith("$paramod") or kind.startswith("research_sdf_")):
                 visit(kind,times)
             else:
                 counts[kind]+=times
