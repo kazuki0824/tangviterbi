@@ -1,0 +1,62 @@
+name: Research hybrid SDF FFT gates
+on:
+  pull_request:
+    paths:
+      - 'rtl/research_sdf_*.sv'
+      - 'tests/test_research_sdf_framed.py'
+      - 'ci/research_sdf_resource_screen.py'
+      - 'experiments/fft_architecture_screen.py'
+      - 'tests/test_fft_architecture_screen.py'
+      - 'tests/test_research_sdf_stage.py'
+      - 'experiments/research_sdf_oracle.py'
+      - 'tests/test_research_sdf_oracle.py'
+      - 'tests/test_research_sdf_full_frame.py'
+      - 'rtl/research_sdf_twiddle.sv'
+      - 'rtl/research_sdf_quarter_q16.hex'
+      - '.github/workflows/research-hybrid-fft.yml'
+  workflow_dispatch:
+concurrency:
+  # Supersede obsolete PR runs without cancelling intentionally dispatched runs.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
+permissions:
+  contents: read
+jobs:
+  rtl-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Install independent numerical oracle
+        run: python -m pip install numpy==2.3.5
+      - name: Compile each elaborated FFT mode
+        run: |
+          for n in 11 12 13; do
+            iverilog -g2012 -s research_sdf_fft -Presearch_sdf_fft.LOGN="$n" -o "/tmp/research_fft_$n" rtl/research_sdf_stage.sv rtl/research_sdf_fft.sv rtl/research_sdf_twiddle.sv
+          done
+      - name: Run arithmetic checks and external-port handshake smoke
+        run: python -m unittest discover -s tests -p 'test_fft_architecture_screen.py' -v && python -m unittest discover -s tests -p 'test_research_sdf_stage.py' -v && python -m unittest discover -s tests -p 'test_research_sdf_oracle.py' -v
+      - name: Verify explicit framed adapter on all FFT modes
+        run: python -m unittest discover -s tests -p 'test_research_sdf_framed.py' -v
+      - name: Bit-exact whole-frame RTL versus independent DIF oracle
+        run: python -m unittest discover -s tests -p 'test_research_sdf_full_frame.py' -v
+
+
+  mapped-resource-screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned synthesis
+        run: python -m pip install yowasp-yosys==0.70.0.0.post1259 yowasp-runtime==1.96 wasmtime==47.0.1
+      - name: Map research Mode-3 FFT to GW2A cells (not P&R or receiver)
+        run: python ci/research_sdf_resource_screen.py --yosys yowasp-yosys --logn 13 --output build/research-sdf-synthesis
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: research-sdf-resource-screen
+          path: build/research-sdf-synthesis
