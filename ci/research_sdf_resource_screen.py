@@ -85,7 +85,10 @@ def main():
             exit_code=124
     design_path=a.output/"mapped.json"
     if exit_code==0 and design_path.exists():
-        counts=count_cells(json.loads(design_path.read_text()))
+        mapped=json.loads(design_path.read_text())
+        cell_inventory={name:len(m.get("cells",{})) for name,m in mapped["modules"].items()}
+        (a.output/"module-inventory.json").write_text(json.dumps(cell_inventory,indent=2)+"\n")
+        counts=count_cells(mapped)
     else:
         counts={}
     result=screen(counts,a.logn,exit_code)
@@ -96,8 +99,8 @@ def main():
     if exit_code:
         print((a.output/"synth.log").read_text(errors="replace")[-2800:],file=sys.stderr)
         raise SystemExit(exit_code)
-    if not counts:
-        raise SystemExit("Synthesis produced no mapped cells")
+    if not counts or sum(counts.values())==0:
+        raise SystemExit("Synthesis produced zero mapped cells; invalid area evidence")
     # RESOURCE OVERFLOW is legitimate negative experimental evidence.
     # Do not fail the workflow for physical cost; summary records true/false.
 if __name__=="__main__":
