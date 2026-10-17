@@ -65,9 +65,11 @@ def main():
     a=p.parse_args()
     a.output.mkdir(parents=True,exist_ok=True)
     sv=SOURCES[:3]
+    if a.logn != 13:
+        raise SystemExit("This pinned synthesis first measures the default LOGN=13 top only")
     synth=(
         "read_verilog -sv -defer "+" ".join(str(p) for p in sv)+"\n"
-        f"hierarchy -top research_sdf_fft -chparam LOGN {a.logn}\n"
+        
         "synth_gowin -family gw2a -top research_sdf_fft -nowidelut"
         f" -json {a.output.resolve()/'mapped.json'}\n"
         "check -assert\n"
