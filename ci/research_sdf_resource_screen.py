@@ -99,8 +99,9 @@ def main():
     if exit_code:
         print((a.output/"synth.log").read_text(errors="replace")[-2800:],file=sys.stderr)
         raise SystemExit(exit_code)
-    if not counts or sum(counts.values())==0:
-        raise SystemExit("Synthesis produced zero mapped cells; invalid area evidence")
+    if not counts or sum(counts.values())==0 or (result["logic_cells"]==0 and result["bsram_cells"]==0 and result["dsp_cells"]==0):
+        print("Unrecognized/empty cell classification: "+json.dumps(dict(counts)),file=sys.stderr)
+        raise SystemExit("Synthesis resource accounting is zero/unknown; invalid fit evidence")
     # RESOURCE OVERFLOW is legitimate negative experimental evidence.
     # Do not fail the workflow for physical cost; summary records true/false.
 if __name__=="__main__":
