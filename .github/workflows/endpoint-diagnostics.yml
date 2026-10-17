@@ -1,7 +1,7 @@
 name: 9K complete endpoint timing diagnostics
 
 on:
-  pull_request:
+  # Run resource-intensive nextpnr diagnostics explicitly, not on every PR update.
   workflow_dispatch:
 
 permissions:
@@ -13,33 +13,17 @@ jobs:
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v5
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      - name: Check whether this commit requests the diagnostic build
-        id: request
-        run: |
-          python3 - <<'PY'
-          import os, subprocess
-          subject = subprocess.check_output(['git', 'log', '-1', '--format=%s'], text=True)
-          enabled = os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch' or '[endpoint-diagnostics]' in subject
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
-              out.write('enabled=' + str(enabled).lower() + '\n')
-          PY
 
       - name: Install diagnostic build dependencies
-        if: steps.request.outputs.enabled == 'true'
         run: sudo apt-get update && sudo apt-get install -y cmake ninja-build libboost-all-dev libeigen3-dev
 
       - name: Set up pinned OSS CAD Suite
-        if: steps.request.outputs.enabled == 'true'
         uses: YosysHQ/setup-oss-cad-suite@v4
         with:
           version: "2026-10-04"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fetch pinned nextpnr source
-        if: steps.request.outputs.enabled == 'true'
         uses: actions/checkout@v5
         with:
           repository: YosysHQ/nextpnr
@@ -48,7 +32,6 @@ jobs:
           submodules: recursive
 
       - name: Build report-only instrumentation with the suite's chip database
-        if: steps.request.outputs.enabled == 'true'
         timeout-minutes: 20
         run: |
           python3 ci/patch_nextpnr_endpoint_report.py build/nextpnr-source
@@ -67,12 +50,11 @@ jobs:
           test -f build/nextpnr-instrumented/share/himbaechel/gowin/chipdb-GW1N-9C.bin
 
       - name: Compare official, compiled-control and endpoint-diagnostic runs
-        if: steps.request.outputs.enabled == 'true'
         timeout-minutes: 15
         run: python3 ci/endpoint_diagnostics.py --instrumented-nextpnr build/nextpnr-instrumented/nextpnr-himbaechel
 
       - name: Preserve diagnostic evidence
-        if: always() && steps.request.outputs.enabled == 'true'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: 9k-complete-endpoint-timing
