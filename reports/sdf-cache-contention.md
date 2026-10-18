@@ -1,5 +1,7 @@
 # ② 現行SDF cacheの競合試験：仲裁で期限結果が変わる
 
+追記：[16入力frame・slot位相一巡の検証](sdf-cache-phase-sweep.md)では13 symbol後に遅延が戻った。一方、入力最大滞留は5 sampleへ増えた。以下の4 sampleは元の短区間の測定値として保持する。
+
 2026-10-19 JST。現行`shared_sdf_fft`＋32 B `sdf_delay_cache`＋実`dual_sdram_burst`へ背景要求を追加した。**旧6転送FFTの代用品ではなく、現行FFTが実際に発行するread/write要求を使う。** 背景側は均等到着の合成負荷であり、実K7/deinterleave/S frame回路は未接続。
 
 ## 境界と背景負荷
