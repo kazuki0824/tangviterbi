@@ -1,5 +1,7 @@
 # ② 現行SDF FFTの外部delay契約と旧負荷モデルの訂正
 
+追記：[有限32 B cache＋実controllerの接続試験](sdf-delay-cache.md)で、他clientなしのMode 3全bin一致を確認。以下は理想RAM時点の測定記録。競合・全体資源は引き続き未達。
+
 2026-10-19 JST。現在の資源見積もりに使う `shared_sdf_fft.sv` と、直前のSDRAM競合試験のFFT負荷が異なることを確認した。**旧6転送FFTの128要求まとめ処理が通過した結果を、現行SDF FFTを接続できる根拠には使わない。** 旧試験はその合成負荷に対するcontrollerの測定として残す。
 
 ## 今回直接確認した範囲
