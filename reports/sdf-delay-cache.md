@@ -1,5 +1,7 @@
 # ② 有限line cacheと現行FFT・実SDRAM controllerの初接続
 
+追記：[現行cacheへ背景負荷を加えた仲裁比較](sdf-cache-contention.md)。以下は他clientなしの測定記録。
+
 2026-10-19 JST。理想外部RAMを、[sdf_delay_cache.sv](../rtl/sdf_delay_cache.sv)＋既存`dual_sdram_burst.sv`に置換した。**他clientなしのMode 3連続入力で3 complete frameの全24576 binが整数参照モデルと一致した。競合・物理接続・受信機全体の合格ではない。**
 
 ## 実装した予約と容量
