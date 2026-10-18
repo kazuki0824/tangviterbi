@@ -1,0 +1,48 @@
+{
+  "sources": {
+    "device": "https://cdn.gowinsemi.com.cn/DS226E.pdf",
+    "controller": "https://cdn.gowinsemi.com.cn/IPUG279E.pdf"
+  },
+  "versions": {
+    "device": "DS226-2.7E 2026-07-31",
+    "controller": "IPUG279-1.4E 2025-05-09"
+  },
+  "core_MHz": 154.28571428571428,
+  "period_ns": 6.481481481481482,
+  "published_SDRAM_MHz": 166,
+  "frequency_headroom_MHz": 11.714285714285714,
+  "frequency_gate": true,
+  "PLL": {
+    "IDIV_SEL": 6,
+    "FBDIV_SEL": 39,
+    "ODIV_SEL": 4,
+    "PFD_MHz": 3.857142857142857,
+    "VCO_MHz": 617.1428571428571,
+    "arithmetic_ranges_pass": true,
+    "placement_pass": null
+  },
+  "published_refresh_interval_us": 15.625,
+  "retained_refresh_interval_us": 7.7972222222222225,
+  "published_access_time_ns": 5.4,
+  "period_minus_published_access_time_ns": 1.0814814814814815,
+  "access_time_warning": "Subtraction is NOT setup slack: capture phase, clock skew, package delay, setup/hold and uncertainty still missing.",
+  "unqualified": [
+    "tRCD",
+    "tRP",
+    "tRFC",
+    "tWR",
+    "tMRD",
+    "tRAS",
+    "tRC",
+    "tRRD",
+    "CL3 detailed timing",
+    "DQ output hold/min delay",
+    "input setup/hold",
+    "package/IO delays",
+    "PLL phase and uncertainty",
+    "reset/lock release"
+  ],
+  "physical_timing_pass": null,
+  "whole_receiver_pass": null,
+  "decision": "continue common-clock digital integration; do not claim PHY closure"
+}

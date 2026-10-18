@@ -1,3 +1,7 @@
+# 2026-10-19 仕様確認の更新
+
+[一次資料との照合](sdram-spec-gate.md)：内蔵SDR SDRAMの166 MHz仕様とPLL数値範囲を確認。154.286 MHz案は公称周波数内。個別command timing・IO setup/hold・位相の確定は未達であり、物理合格ではない。
+
 # 内部CDCを先に減らす：②のclock設計監査
 
 2026-10-18。結論：135 MHzメモリdomainは必須条件ではない。演算とSDRAM controllerのuser側を154.285714 MHzへ統一する案を先に検証する。ただしPHYの実デバイスtimingを満たした証拠はまだない。実装済みCDCを除去して資源を減らした測定結果でもない。確定資源削減は0。
