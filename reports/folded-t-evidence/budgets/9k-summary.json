@@ -1,0 +1,148 @@
+{
+  "board": "9k",
+  "scope": "Overlay measured T kernels on all 448 existing variants, per CAD scenario.\n\nOther blocks remain estimates. Costs already reserved in the old budget are\nnot added again; omitted integration/context cost is NOT silently set to zero.\nNo performance candidate is adopted solely from this arithmetic replacement.\n",
+  "old_T_kernel_replaced": {
+    "logic_sites_estimate": 2952,
+    "FF": 1502,
+    "BSRAM": 2,
+    "DSP18": 0
+  },
+  "input_sha256": "c72a9e26e17cca29cd96de489302445be0325e9cc225b62fa53207d8dcafacf8",
+  "cases": [
+    {
+      "trial": "9k-16-onehot-final",
+      "proof": "reports/folded-t-evidence/9k-16-onehot-final/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3337,
+        "FF": 1812,
+        "BSRAM": 1,
+        "DSP18": 0
+      },
+      "cycles_per_step": 5,
+      "required_MHz": 126.06060606060606,
+      "target_MHz": 132.0,
+      "arithmetic_utilization_percent": 95.50045913682276,
+      "routed_fmax_MHz": 109.76948547363281,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 9881,
+        "FF": 6642,
+        "BSRAM": 15,
+        "DSP18": 18
+      }
+    },
+    {
+      "trial": "9k-22",
+      "proof": "reports/folded-t-evidence/9k-22/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3654,
+        "FF": 1553,
+        "BSRAM": 2,
+        "DSP18": 0
+      },
+      "cycles_per_step": 3,
+      "required_MHz": 75.63636363636363,
+      "target_MHz": 108.0,
+      "arithmetic_utilization_percent": 70.03367003367003,
+      "routed_fmax_MHz": 56.322166442871094,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 10198,
+        "FF": 6383,
+        "BSRAM": 16,
+        "DSP18": 18
+      }
+    },
+    {
+      "trial": "9k-22-onehot-final",
+      "proof": "reports/folded-t-evidence/9k-22-onehot-final/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3844,
+        "FF": 2131,
+        "BSRAM": 2,
+        "DSP18": 0
+      },
+      "cycles_per_step": 4,
+      "required_MHz": 100.84848484848484,
+      "target_MHz": 108.0,
+      "arithmetic_utilization_percent": 93.37822671156003,
+      "routed_fmax_MHz": 103.18852233886719,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 10388,
+        "FF": 6961,
+        "BSRAM": 16,
+        "DSP18": 18
+      }
+    },
+    {
+      "trial": "9k-22-pipe",
+      "proof": "reports/folded-t-evidence/9k-22-pipe/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3936,
+        "FF": 2127,
+        "BSRAM": 2,
+        "DSP18": 0
+      },
+      "cycles_per_step": 4,
+      "required_MHz": 100.84848484848484,
+      "target_MHz": 108.0,
+      "arithmetic_utilization_percent": 93.37822671156003,
+      "routed_fmax_MHz": 84.4951400756836,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 10480,
+        "FF": 6957,
+        "BSRAM": 16,
+        "DSP18": 18
+      }
+    },
+    {
+      "trial": "9k-baseline",
+      "proof": "reports/folded-t-evidence/9k-baseline/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3706,
+        "FF": 1474,
+        "BSRAM": 2,
+        "DSP18": 0
+      },
+      "cycles_per_step": 2,
+      "required_MHz": 50.42424242424242,
+      "target_MHz": 108.0,
+      "arithmetic_utilization_percent": 46.689113355780016,
+      "routed_fmax_MHz": 101.4713363647461,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 10250,
+        "FF": 6304,
+        "BSRAM": 16,
+        "DSP18": 18
+      }
+    }
+  ],
+  "bandwidth_catalog": "reports/control-only-9k/bandwidth-catalog.json.gz",
+  "forward_information_and_bandwidth_unchanged": true,
+  "reverse_payload_allowed": false,
+  "formally_assigned_routes": 0,
+  "adopted_receivers": 0
+}

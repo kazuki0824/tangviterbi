@@ -1,0 +1,88 @@
+{
+  "scope": "Periodic main/TMCC service check, explicitly NOT actual deinterleaver arrivals.\n\nITU-R BO.1408-1 Table 3: 48 slots, 39936 symbols/frame, 8 frames/superframe.\n28.86 MBd and 2667 clocks/CW are existing repository inputs. TMCC is charged\none full 204-byte decoder service (a conservative work allocation, not proof\nthat the existing decoder correctly accepts RS(64,48)). All discrete event\nphases immediately before/after ideal main arrivals are checked. Real DMA\nbursts, decode-release jitter and output stalls remain separate contracts.\n",
+  "source": "https://www.itu.int/dms_pubrec/itu-r/rec/bo/R-REC-BO.1408-1-200204-I!!PDF-E.pdf",
+  "symbol_rate_MBd": 28.86,
+  "main_jobs_per_superframe": 384,
+  "TMCC_jobs_per_superframe": 1,
+  "cycles_per_job": 2667,
+  "superframe_us": 11070.27027027027,
+  "mean_required_MHz": 92.75247802734376,
+  "scenarios": [
+    {
+      "clock_MHz": 90,
+      "phase_cases": 772,
+      "worst_wait": {
+        "clock_MHz": 90.0,
+        "TMCC_phase_symbols": 1016,
+        "TMCC_first_at_tie": false,
+        "max_wait_us": 2714.2142065142066,
+        "max_response_us": 2743.84753984754,
+        "max_waiting_jobs": 92,
+        "periodic_tail_repeats": false,
+        "tail_backlog_ticks": [
+          104118765,
+          118775160
+        ],
+        "capacity_pass": false,
+        "service_us": 29.633333333333333,
+        "receiver_adopted": false
+      },
+      "worst_response_us": 2743.84753984754,
+      "max_waiting_jobs": 92,
+      "all_periodic_tails_repeat": false,
+      "all_capacity_pass": false
+    },
+    {
+      "clock_MHz": 93.1532,
+      "phase_cases": 772,
+      "worst_wait": {
+        "clock_MHz": 93.1532,
+        "TMCC_phase_symbols": 1016,
+        "TMCC_first_at_tie": false,
+        "max_wait_us": 28.630256394842046,
+        "max_response_us": 57.26051278968409,
+        "max_waiting_jobs": 1,
+        "periodic_tail_repeats": true,
+        "tail_backlog_ticks": [
+          191492518,
+          191492518
+        ],
+        "capacity_pass": true,
+        "service_us": 28.630256394842046,
+        "receiver_adopted": false
+      },
+      "worst_response_us": 57.26051278968409,
+      "max_waiting_jobs": 1,
+      "all_periodic_tails_repeat": true,
+      "all_capacity_pass": true
+    },
+    {
+      "clock_MHz": 99,
+      "phase_cases": 772,
+      "worst_wait": {
+        "clock_MHz": 99.0,
+        "TMCC_phase_symbols": 1016,
+        "TMCC_first_at_tie": false,
+        "max_wait_us": 26.939393939393938,
+        "max_response_us": 53.878787878787875,
+        "max_waiting_jobs": 1,
+        "periodic_tail_repeats": true,
+        "tail_backlog_ticks": [
+          1276227,
+          1276227
+        ],
+        "capacity_pass": true,
+        "service_us": 26.939393939393938,
+        "receiver_adopted": false
+      },
+      "worst_response_us": 53.878787878787875,
+      "max_waiting_jobs": 1,
+      "all_periodic_tails_repeat": true,
+      "all_capacity_pass": true
+    }
+  ],
+  "real_deinterleaver_DMA_arrivals_verified": false,
+  "output_backpressure_included": false,
+  "actual_clock_generator_verified": false,
+  "receiver_adopted": false
+}
