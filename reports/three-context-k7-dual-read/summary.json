@@ -1,0 +1,25 @@
+{
+  "scope": "Three-context 16-ACS K7 partial CAD probe; no receiver or external I/O qualification.",
+  "contexts": 3,
+  "clocks_per_slot": 4,
+  "target_MHz": 108,
+  "generated_sha256": "87b0250fae32f344972fd95c3eb3f03b02bd6923474a54ca92476d67d4931f42",
+  "source_sha256": {
+    "experiments/three_context_k7.py": "d52dcba35b78b3d85829a3c609ee610ebceec12f4af36db826dcf9ea920ec55f",
+    "rtl/shared_k7_context.sv": "69e105e6e1277fa7478f35049a3bc246f737c3ef2148bb8b77d19bfe0368b063"
+  },
+  "external_IO_STA_verified": false,
+  "whole_receiver_verified": false,
+  "input_scheduler_and_FIFO_included": false,
+  "output_backpressure_supported": false,
+  "pin_scope": "fixed probe inputs and six LED outputs; not receiver wiring or external STA",
+  "yosys_version": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "synth_exit": 0,
+  "pnr_exit": 125,
+  "pnr_version": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)",
+  "route_completed": false,
+  "errors": [
+    "ERROR: Unable to place cell 'g_metric[10].bank.0.1', no BELs remaining to implement cell type 'RAM16SDP4'"
+  ],
+  "partial_target_pass": false
+}
