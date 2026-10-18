@@ -1,5 +1,7 @@
 # ② 周期入力のFFT slot位相一巡を検証
 
+追記：[仲裁の合成可能RTL化と再接続](sdf-rtl-arbiter.md)。以下は旧testbench仲裁での位相一巡結果で、新仲裁の長期検証へ自動的に引き継がない。
+
 2026-10-19 JST。前回のpaced試験で後続frame間隔が160381 clocksとなり、symbol周期160380より各1 clock長かった。短い観測だけでは累積遅延なのかslot位相による変動なのか区別できなかったため、現行FFT＋32 B cache＋実controllerを16入力frame・15出力frameへ延長した。
 
 ## 試験の範囲
