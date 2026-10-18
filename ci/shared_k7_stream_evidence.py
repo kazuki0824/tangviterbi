@@ -9,12 +9,18 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--frequency',type=float,default=1080/7);a=p.parse_args()
  d=a.output.resolve();d.mkdir(parents=True,exist_ok=True)
  for name in ('mapped.json','pnr.json','summary.json'):(d/name).unlink(missing_ok=True)
- rtl=(ROOT/'rtl/shared_k7_context.sv').read_text()+'\n'+(ROOT/'rtl/shared_k7_stream.sv').read_text();(d/'dut.sv').write_text(rtl)
+ rtl=(ROOT/'rtl/shared_k7_context.sv').read_text()+'\n'+(ROOT/'rtl/shared_k7_stream.sv').read_text()+'''
+module shared_k7_stream_probe(input clk,resetn,in_valid,output in_ready,
+ input[1:0]in_context,input[7:0]soft0,soft1,input[1:0]erasure,
+ output out_valid,out_bit,output[1:0]out_context);
+ shared_k7_stream dut(clk,resetn,in_valid,in_ready,in_context,soft0,soft1,erasure,out_valid,out_bit,out_context,);
+endmodule
+''';(d/'dut.sv').write_text(rtl)
  signals=['resetn','in_valid','in_ready','in_context[0]','in_context[1]','out_context[0]','out_context[1]']+[f'soft0[{i}]'for i in range(8)]+[f'soft1[{i}]'for i in range(8)]+['erasure[0]','erasure[1]','out_valid','out_bit']
  pins=[73,74,75,85,77,15,16,27,28,25,26,29,30,31,17,20,19,18,76,80,42,41,56,54,51,48,55]
  assert len(signals)==len(pins)
  (d/'pins.cst').write_text(''.join(f'IO_LOC "{s}" {n};\nIO_PORT "{s}" IO_TYPE=LVCMOS33;\n'for s,n in [('clk',4),*zip(signals,pins)]))
- (d/'synth.ys').write_text(f'read_verilog -sv {d}/dut.sv\nsynth_gowin -family gw2a -top shared_k7_stream -nowidelut -json {d}/mapped.json\ncheck -assert\n')
+ (d/'synth.ys').write_text(f'read_verilog -sv {d}/dut.sv\nsynth_gowin -family gw2a -top shared_k7_stream_probe -nowidelut -json {d}/mapped.json\ncheck -assert\n')
  result=dict(scope=__doc__,contexts=4,FIFO_words_per_context=16,maintenance_period_slots=128,clocks_per_slot=2,target_MHz=a.frequency,
              generated_sha256=hashlib.sha256(rtl.encode()).hexdigest(),
              source_sha256={x:hashlib.sha256((ROOT/x).read_bytes()).hexdigest()for x in ['rtl/shared_k7_context.sv','rtl/shared_k7_stream.sv','ci/shared_k7_stream_evidence.py']},

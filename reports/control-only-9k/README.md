@@ -1,3 +1,5 @@
+> ①の進め方：[9K専用の再設計順と合格線](../9k-recovery-plan.md)。Tは最低1610 logic＋未計上統合費用の削減が必要。T内共有・FFT/RSとの複合削減→S用image→NOR切替の順で判定。新たな9K P&Rは未実施。②の[depuncture接続成果](../shared-k7-depuncture-results.md)も共通保存。
+
 > 続行結果：[②のFIFO・スケジューラ接続](../shared-k7-stream-results.md)。20Kで154.286 MHz目標を部分通過した共通成果を保存。①の資源未達を解消した測定ではない。
 
 > 最新：[K7の意味・共有対象](../k7-explained.md)／[②20Kの4 context共有実装結果](../shared-k7-context-results.md)。②では154.286 MHzで部分通過。①で同じ資源削減・速度が得られたとは扱わず、①の資源未達は維持。

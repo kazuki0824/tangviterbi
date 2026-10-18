@@ -42,7 +42,7 @@ class StreamTest(unittest.TestCase):
 reg clk=0;always #5 clk=~clk;
 reg resetn=0,iv=0;wire ir,ov,ob;reg[1:0]ctx=0;wire[1:0]oc;
 reg[17:0]word=0;
-shared_k7_stream #(.WEIGHTED(WEIGHT_OPTION)) dut(clk,resetn,iv,ir,ctx,word[17:10],word[9:2],word[1:0],ov,ob,oc);
+shared_k7_stream #(.WEIGHTED(WEIGHT_OPTION)) dut(clk,resetn,iv,ir,ctx,word[17:10],word[9:2],word[1:0],ov,ob,oc,);
 reg[17:0]words[0:6143];reg[1:0]order[0:6143];
 integer ep,j,c,k,f,g,committed,cycles=0,stalls=0;integer counts[0:3];
 integer last_data[0:3];integer last_idle[0:3];integer slot_no=0;reg[63:0]decision;

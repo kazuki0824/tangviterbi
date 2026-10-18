@@ -1,3 +1,5 @@
+> 続行：[depuncture接続・満杯context回避・上流保持の検算](shared-k7-depuncture-results.md)。以下は前回の接続時点。
+
 # ② 共有K7への入力FIFO・仲裁・保守スロットの接続
 
 2026-10-18。前回の4 context K7を実際のFIFOとschedulerへ接続した。主実装は `rtl/shared_k7_stream.sv`、内側の復号回路は `rtl/shared_k7_context.sv`。T最大3階層＋S BPSK/QPSKの独立状態を保持する。S TC8PSKは従来どおり別回路。
