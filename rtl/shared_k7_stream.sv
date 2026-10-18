@@ -8,7 +8,8 @@ module shared_k7_stream #(parameter WEIGHTED = 1) (
     input wire [7:0] soft0, soft1,
     input wire [1:0] erasure,
     output wire out_valid, out_bit,
-    output wire [1:0] out_context
+    output wire [1:0] out_context,
+    output wire [3:0] context_ready
 );
     wire [3:0] nonempty, full;
     wire [17:0] heads [0:3];
@@ -70,7 +71,8 @@ module shared_k7_stream #(parameter WEIGHTED = 1) (
     wire pop = resetn && prepare && data_slot;
     // No combinational ready dependency on the consumer: full queues take
     // one cycle to advertise the space freed by a simultaneous pop.
-    assign in_ready = resetn && !full[in_context];
+    assign context_ready = {4{resetn}} & ~full;
+    assign in_ready = context_ready[in_context];
     wire push = in_valid && in_ready;
     generate for (genvar c=0;c<4;c=c+1) begin : g_fifo
         (* ram_style = "distributed" *) reg [17:0] words [0:15];

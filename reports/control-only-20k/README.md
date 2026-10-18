@@ -1,3 +1,5 @@
+> 最新：[4系統depunctureを接続](../shared-k7-depuncture-results.md)。接続後157.679 MHzで154.286 MHz目標を部分通過。上流59904 BのT soft保持候補は未割当、実SDRAM期限は未達。
+
 > 最新：[入力FIFO・重み付き仲裁を接続](../shared-k7-stream-results.md)。接続後160.231 MHzで154.286 MHz目標を部分通過。統合予約を433 logic/211 FF位置消費。上流のT burst保持・実SDRAMの期限保証は未完、正式採用0。
 
 > 最新：[K7の説明](../k7-explained.md)／[4 context共有の実装・配置配線結果](../shared-k7-context-results.md)。154.286 MHzで部分通過、全体混合予算20472 logic・46 BSRAM。周辺LUT/FFの使用制限を含む。正式採用0。以下の以前の数値は各時点の記録。

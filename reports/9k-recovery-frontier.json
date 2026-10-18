@@ -1,0 +1,196 @@
+{
+  "source_hashes": {
+    "reports/four-soc-comparison/inputs.json.gz": "b73e3e85b4ed411da3bd838f2a4c1c64dfc7b9bf621811f5eeb4af94ff28dc33",
+    "reports/shared-sdf-evidence/9k-hybrid/summary.json": "22c12f9a0d217db0d966cef4062fce2181aef9ad1661cb2613eb83f2fe6f65a8",
+    "reports/folded-t-evidence/9k-baseline/summary.json": "300bdef7cf3fdbe581e38b0a0632a6ad791884fc247875455032b0648b510711"
+  },
+  "T_blocks": {
+    "FFT": {
+      "logic_sites_estimate": 2747,
+      "FF": 1502,
+      "BSRAM": 10,
+      "DSP18": 4
+    },
+    "FIR": {
+      "BSRAM": 2,
+      "DSP18": 8,
+      "FF": 1536,
+      "logic_sites_estimate": 752
+    },
+    "RS": {
+      "BSRAM": 1,
+      "DSP18": 0,
+      "FF": 960,
+      "logic_sites_estimate": 2085
+    },
+    "TS_node": {
+      "BSRAM": 0,
+      "DSP18": 0,
+      "FF": 64,
+      "logic_sites_estimate": 64
+    },
+    "equalize_demap": {
+      "BSRAM": 0,
+      "DSP18": 5,
+      "FF": 384,
+      "logic_sites_estimate": 384
+    },
+    "sync": {
+      "BSRAM": 1,
+      "DSP18": 1,
+      "FF": 256,
+      "logic_sites_estimate": 256
+    },
+    "time_deinterleave": {
+      "BSRAM": 0,
+      "DSP18": 0,
+      "FF": 128,
+      "logic_sites_estimate": 256
+    },
+    "trellis": {
+      "logic_sites_estimate": 3706,
+      "FF": 1474,
+      "BSRAM": 2,
+      "DSP18": 0
+    }
+  },
+  "T_mixed_total": {
+    "logic_sites_estimate": 10250,
+    "FF": 6304,
+    "BSRAM": 16,
+    "DSP18": 18
+  },
+  "T_missing_integration_cost": null,
+  "T_capacity": {
+    "logic_sites_estimate": 8640,
+    "FF": 6480,
+    "BSRAM": 26,
+    "DSP18": 20
+  },
+  "T_remaining_before_missing_integration": {
+    "logic_sites_estimate": -1610,
+    "FF": 176,
+    "BSRAM": 10,
+    "DSP18": 2
+  },
+  "recovery_frontier": [
+    {
+      "blocks": [
+        "trellis"
+      ],
+      "current_mixed_logic": 3706,
+      "maximum_replacement_logic_before_missing_integration": 2096,
+      "required_reduction": 1610,
+      "rule": "Subtract the still-unmeasured integration cost I from this ceiling; include three T contexts in replacement if trellis is replaced, otherwise in I. Not a lower bound or a proven achievable target."
+    },
+    {
+      "blocks": [
+        "FFT"
+      ],
+      "current_mixed_logic": 2747,
+      "maximum_replacement_logic_before_missing_integration": 1137,
+      "required_reduction": 1610,
+      "rule": "Subtract the still-unmeasured integration cost I from this ceiling; include three T contexts in replacement if trellis is replaced, otherwise in I. Not a lower bound or a proven achievable target."
+    },
+    {
+      "blocks": [
+        "RS"
+      ],
+      "current_mixed_logic": 2085,
+      "maximum_replacement_logic_before_missing_integration": 475,
+      "required_reduction": 1610,
+      "rule": "Subtract the still-unmeasured integration cost I from this ceiling; include three T contexts in replacement if trellis is replaced, otherwise in I. Not a lower bound or a proven achievable target."
+    },
+    {
+      "blocks": [
+        "trellis",
+        "FFT"
+      ],
+      "current_mixed_logic": 6453,
+      "maximum_replacement_logic_before_missing_integration": 4843,
+      "required_reduction": 1610,
+      "rule": "Subtract the still-unmeasured integration cost I from this ceiling; include three T contexts in replacement if trellis is replaced, otherwise in I. Not a lower bound or a proven achievable target."
+    },
+    {
+      "blocks": [
+        "trellis",
+        "RS"
+      ],
+      "current_mixed_logic": 5791,
+      "maximum_replacement_logic_before_missing_integration": 4181,
+      "required_reduction": 1610,
+      "rule": "Subtract the still-unmeasured integration cost I from this ceiling; include three T contexts in replacement if trellis is replaced, otherwise in I. Not a lower bound or a proven achievable target."
+    },
+    {
+      "blocks": [
+        "FFT",
+        "RS"
+      ],
+      "current_mixed_logic": 4832,
+      "maximum_replacement_logic_before_missing_integration": 3222,
+      "required_reduction": 1610,
+      "rule": "Subtract the still-unmeasured integration cost I from this ceiling; include three T contexts in replacement if trellis is replaced, otherwise in I. Not a lower bound or a proven achievable target."
+    },
+    {
+      "blocks": [
+        "trellis",
+        "FFT",
+        "RS"
+      ],
+      "current_mixed_logic": 8538,
+      "maximum_replacement_logic_before_missing_integration": 6928,
+      "required_reduction": 1610,
+      "rule": "Subtract the still-unmeasured integration cost I from this ceiling; include three T contexts in replacement if trellis is replaced, otherwise in I. Not a lower bound or a proven achievable target."
+    }
+  ],
+  "T_clock_trials": [
+    {
+      "clocks_per_step": 2,
+      "arithmetic_minimum_MHz": 50.42424242424242,
+      "at_108MHz_arithmetic_percent": 46.68911335578002,
+      "implemented_three_context": false
+    },
+    {
+      "clocks_per_step": 4,
+      "arithmetic_minimum_MHz": 100.84848484848484,
+      "at_108MHz_arithmetic_percent": 93.37822671156005,
+      "implemented_three_context": false
+    },
+    {
+      "clocks_per_step": 5,
+      "arithmetic_minimum_MHz": 126.06060606060606,
+      "at_108MHz_arithmetic_percent": 116.72278338945006,
+      "implemented_three_context": false
+    },
+    {
+      "clocks_per_step": 6,
+      "arithmetic_minimum_MHz": 151.27272727272728,
+      "at_108MHz_arithmetic_percent": 140.06734006734007,
+      "implemented_three_context": false
+    },
+    {
+      "clocks_per_step": 8,
+      "arithmetic_minimum_MHz": 201.6969696969697,
+      "at_108MHz_arithmetic_percent": 186.7564534231201,
+      "implemented_three_context": false
+    }
+  ],
+  "S_stage_only": {
+    "logic_sites_estimate": 6421,
+    "FF": 4190,
+    "BSRAM": 14,
+    "DSP18": 15
+  },
+  "S_stage_missing": [
+    "BPSK/QPSK K7 full-mode implementation or measured trellis sharing",
+    "TMCC",
+    "physical memory, queues, CDC, I/O"
+  ],
+  "S_RF_high_CPU_before_driver_percent": 93.42447916666667,
+  "FIR_migration_only_T_logic": 9498,
+  "FIR_migration_high_CPU_before_driver_percent": 123.435,
+  "two_images_combination": "max(T,S), already applied; never subtract S from T again",
+  "new_9k_CAD_performed": false,
+  "adopted_receivers": 0,
+  "formally_assigned_routes": 0
+}
