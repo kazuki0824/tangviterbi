@@ -1,0 +1,172 @@
+{
+  "scope": "Four-context K7 plus input queues and scheduler; partial CAD probe.",
+  "contexts": 4,
+  "FIFO_words_per_context": 16,
+  "maintenance_period_slots": 128,
+  "clocks_per_slot": 2,
+  "target_MHz": 154.28571428571428,
+  "generated_sha256": "9605eb23b29fa73a0a388747f8d268a82b1f093092f10ef15b0a7f65aa1464cb",
+  "source_sha256": {
+    "rtl/shared_k7_context.sv": "69e105e6e1277fa7478f35049a3bc246f737c3ef2148bb8b77d19bfe0368b063",
+    "rtl/shared_k7_stream.sv": "13e61931f29c35be7a7be608b531a1af4548f26e724c7dd5505d1fd0b7f29002",
+    "ci/shared_k7_stream_evidence.py": "a6c0ab6ee3d02a6574fc5d5766ca5eeca0a7280a3895c9b256c8d28a8d4573c0"
+  },
+  "external_IO_STA_verified": false,
+  "whole_receiver_verified": false,
+  "input_scheduler_and_FIFO_included": true,
+  "output_backpressure_supported": false,
+  "pin_scope": "fixed test ports on J5/J6; not receiver wiring or board load timing",
+  "yosys_version": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "synth_exit": 0,
+  "pnr_exit": 0,
+  "pnr_version": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)",
+  "route_completed": true,
+  "errors": [],
+  "utilization": {
+    "ALU": {
+      "available": 15552,
+      "used": 1556
+    },
+    "ALU54D": {
+      "available": 24,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 46,
+      "used": 4
+    },
+    "BUFG": {
+      "available": 24,
+      "used": 1
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 15552,
+      "used": 1428
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "GW_JTAG": {
+      "available": 1,
+      "used": 0
+    },
+    "IOB": {
+      "available": 384,
+      "used": 28
+    },
+    "IOLOGICI": {
+      "available": 384,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 384,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 20736,
+      "used": 3600
+    },
+    "MULT18X18": {
+      "available": 48,
+      "used": 0
+    },
+    "MULT36X36": {
+      "available": 12,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 96,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 10368,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 5184,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 2592,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 2592,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 48,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 96,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 648,
+      "used": 244
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "fmax": {
+    "core.clk": {
+      "achieved": 156.00624084472656,
+      "constraint": 154.28570556640625
+    }
+  },
+  "logic_positions": 5156,
+  "FF": 1428,
+  "BSRAM": 4,
+  "RAM16SDP4": 244,
+  "logic_sites_with_ram_blockers": 6132,
+  "FF_sites_with_ram_blockers": 2892,
+  "partial_target_pass": true
+}

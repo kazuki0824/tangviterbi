@@ -1,0 +1,481 @@
+{
+  "base_commit": "9a5b5d28d2350a312bf0d73d264ac5af6fe83dd6",
+  "board": "9k",
+  "capacity": {
+    "logic_sites_estimate": 8640,
+    "FF": 6480,
+    "BSRAM": 26,
+    "DSP18": 20
+  },
+  "source_sha256": {
+    "reports/s3-partition-audit/inputs.json.gz": "666b12734d08c644ea51b25f4b2b227c39e1b32de1f77de601136bff19910f3b",
+    "reports/s3-partition-audit/estimate.json.gz": "669ee0290cc0f6efa8bce771e634e200bba6874d2ed24f4f3f145fe65ae4866d",
+    "reports/four-soc-comparison/inputs.json.gz": "b73e3e85b4ed411da3bd838f2a4c1c64dfc7b9bf621811f5eeb4af94ff28dc33",
+    "reports/20k-dual-s3/summary.json": "30929b3263abd3657be1b4c7de29700587fdd97bf224eea582279f6a6caae985",
+    "reports/20k-dual-s3/components/summary.json": "13589fcf8ac0d9a0552f0d4c903a49d86453bfece281d3a4244a067147e5c80a"
+  },
+  "all_stage_ownership_count": 320,
+  "forbidden_return_count": 304,
+  "allowed_T_count": 9,
+  "allowed_S_count": 7,
+  "allowed_pair_count": 63,
+  "all_stage_pair_count": 16384,
+  "profile_count": 18,
+  "auxiliary_port_set_count": 555,
+  "auxiliary_raw_pair_count": 19203,
+  "maximum_legacy_CPU_recheck_error": 1.8189894035458565e-12,
+  "profiles": [
+    {
+      "name": "SPI2_1bit_80",
+      "group": "SPI2",
+      "pins": 4,
+      "capacity_MBps": 9.512308406874128,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 1,
+      "dma_rx": 1,
+      "direction": "forward"
+    },
+    {
+      "name": "SPI2_2bit_80",
+      "group": "SPI2",
+      "pins": 4,
+      "capacity_MBps": 18.180204172214825,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 1,
+      "dma_rx": 1,
+      "direction": "forward"
+    },
+    {
+      "name": "SPI2_4bit_80",
+      "group": "SPI2",
+      "pins": 6,
+      "capacity_MBps": 33.3958418263351,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 1,
+      "dma_rx": 1,
+      "direction": "forward"
+    },
+    {
+      "name": "SPI2_8bit_80",
+      "group": "SPI2",
+      "pins": 10,
+      "capacity_MBps": 70.32765774788953,
+      "batch_bytes": 12288,
+      "API_active_us": 20,
+      "dma_tx": 1,
+      "dma_rx": 1,
+      "direction": "forward"
+    },
+    {
+      "name": "SPI3_1bit_80",
+      "group": "SPI3",
+      "pins": 4,
+      "capacity_MBps": 9.512308406874128,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 1,
+      "dma_rx": 1,
+      "direction": "forward"
+    },
+    {
+      "name": "SPI3_2bit_80",
+      "group": "SPI3",
+      "pins": 4,
+      "capacity_MBps": 18.180204172214825,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 1,
+      "dma_rx": 1,
+      "direction": "forward"
+    },
+    {
+      "name": "SPI3_4bit_80",
+      "group": "SPI3",
+      "pins": 6,
+      "capacity_MBps": 33.3958418263351,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 1,
+      "dma_rx": 1,
+      "direction": "forward"
+    },
+    {
+      "name": "LCD8_40",
+      "group": "LCD",
+      "pins": 11,
+      "capacity_MBps": 36.96750902527076,
+      "batch_bytes": 4096,
+      "API_active_us": 8,
+      "dma_tx": 1,
+      "dma_rx": 0,
+      "direction": "forward"
+    },
+    {
+      "name": "LCD16_40",
+      "group": "LCD",
+      "pins": 19,
+      "capacity_MBps": 68.95622895622895,
+      "batch_bytes": 4096,
+      "API_active_us": 8,
+      "dma_tx": 1,
+      "dma_rx": 0,
+      "direction": "forward"
+    },
+    {
+      "name": "CAM8_40",
+      "group": "CAM",
+      "pins": 11,
+      "capacity_MBps": 36.96750902527076,
+      "batch_bytes": 4096,
+      "API_active_us": 8,
+      "dma_tx": 0,
+      "dma_rx": 1,
+      "direction": "return_only"
+    },
+    {
+      "name": "CAM16_40",
+      "group": "CAM",
+      "pins": 19,
+      "capacity_MBps": 68.95622895622895,
+      "batch_bytes": 4096,
+      "API_active_us": 8,
+      "dma_tx": 0,
+      "dma_rx": 1,
+      "direction": "return_only"
+    },
+    {
+      "name": "SDIO4_SDR40",
+      "group": "SDHOST",
+      "pins": 6,
+      "capacity_MBps": 17.651368239603535,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 0,
+      "dma_rx": 0,
+      "direction": "forward"
+    },
+    {
+      "name": "eMMC8_SDR40",
+      "group": "SDHOST",
+      "pins": 10,
+      "capacity_MBps": 31.690522243713733,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 0,
+      "dma_rx": 0,
+      "direction": "forward"
+    },
+    {
+      "name": "eMMC4_DDR40",
+      "group": "SDHOST",
+      "pins": 6,
+      "capacity_MBps": 31.690522243713733,
+      "batch_bytes": 4096,
+      "API_active_us": 20,
+      "dma_tx": 0,
+      "dma_rx": 0,
+      "direction": "forward"
+    },
+    {
+      "name": "I2S0_TX40",
+      "group": "I2S0",
+      "pins": 3,
+      "capacity_MBps": 4.980544747081712,
+      "batch_bytes": 4096,
+      "API_active_us": 0,
+      "dma_tx": 1,
+      "dma_rx": 0,
+      "direction": "forward"
+    },
+    {
+      "name": "I2S0_RX40",
+      "group": "I2S0",
+      "pins": 3,
+      "capacity_MBps": 4.980544747081712,
+      "batch_bytes": 4096,
+      "API_active_us": 0,
+      "dma_tx": 0,
+      "dma_rx": 1,
+      "direction": "return_only"
+    },
+    {
+      "name": "I2S1_TX40",
+      "group": "I2S1",
+      "pins": 3,
+      "capacity_MBps": 4.980544747081712,
+      "batch_bytes": 4096,
+      "API_active_us": 0,
+      "dma_tx": 1,
+      "dma_rx": 0,
+      "direction": "forward"
+    },
+    {
+      "name": "I2S1_RX40",
+      "group": "I2S1",
+      "pins": 3,
+      "capacity_MBps": 4.980544747081712,
+      "batch_bytes": 4096,
+      "API_active_us": 0,
+      "dma_tx": 0,
+      "dma_rx": 1,
+      "direction": "return_only"
+    }
+  ],
+  "dedicated_gpio": [
+    {
+      "rate_Msamples_s": 16,
+      "lanes": 1,
+      "payload_MBps": 40.0,
+      "loop_capacity_MBps": 105.49450549450549,
+      "framed_budget_capacity_MBps": 101.80026948819334,
+      "spare_MBps": 61.80026948819332,
+      "spare_percent": 60.70737317189603,
+      "each_active_core_useful_service_percent": 39.29262682810398,
+      "busy_polling_core_percent": 100,
+      "CPU_aggregate_useful_percent": 19.64631341405199,
+      "worst_n": 15362,
+      "worst_alignment": 15,
+      "service_us": 377.2583333333333,
+      "same_core_arrival_us": 960.125,
+      "data_clock_pins": 9,
+      "command_pins": 1,
+      "framing_budget_cycles": 600,
+      "capture_service_budget_cycles": 2400,
+      "all_budgets_unmeasured_on_Tang": true,
+      "max_ahead_unit_packed_bytes": 40760,
+      "reorder_full_spill_memory_MBps": 0,
+      "full_receiver_fit": null,
+      "assigned": false
+    },
+    {
+      "rate_Msamples_s": 16,
+      "lanes": 2,
+      "payload_MBps": 40.0,
+      "loop_capacity_MBps": 210.98901098901098,
+      "framed_budget_capacity_MBps": 203.60053897638667,
+      "spare_MBps": 163.60053897638664,
+      "spare_percent": 80.35368658594801,
+      "each_active_core_useful_service_percent": 19.64631341405199,
+      "busy_polling_core_percent": 100,
+      "CPU_aggregate_useful_percent": 19.64631341405199,
+      "worst_n": 15362,
+      "worst_alignment": 15,
+      "service_us": 377.2583333333333,
+      "same_core_arrival_us": 1920.25,
+      "data_clock_pins": 17,
+      "command_pins": 1,
+      "framing_budget_cycles": 600,
+      "capture_service_budget_cycles": 2400,
+      "all_budgets_unmeasured_on_Tang": true,
+      "max_ahead_unit_packed_bytes": 40760,
+      "reorder_full_spill_memory_MBps": 80.0,
+      "full_receiver_fit": null,
+      "assigned": false
+    },
+    {
+      "rate_Msamples_s": 40,
+      "lanes": 1,
+      "payload_MBps": 100.0,
+      "loop_capacity_MBps": 105.49450549450549,
+      "framed_budget_capacity_MBps": 101.80026948819334,
+      "spare_MBps": 1.80026948819334,
+      "spare_percent": 1.7684329297400603,
+      "each_active_core_useful_service_percent": 98.23156707025994,
+      "busy_polling_core_percent": 100,
+      "CPU_aggregate_useful_percent": 49.11578353512997,
+      "worst_n": 15362,
+      "worst_alignment": 15,
+      "service_us": 377.2583333333333,
+      "same_core_arrival_us": 384.05,
+      "data_clock_pins": 9,
+      "command_pins": 1,
+      "framing_budget_cycles": 600,
+      "capture_service_budget_cycles": 2400,
+      "all_budgets_unmeasured_on_Tang": true,
+      "max_ahead_unit_packed_bytes": 40760,
+      "reorder_full_spill_memory_MBps": 0,
+      "full_receiver_fit": null,
+      "assigned": false
+    },
+    {
+      "rate_Msamples_s": 40,
+      "lanes": 2,
+      "payload_MBps": 100.0,
+      "loop_capacity_MBps": 210.98901098901098,
+      "framed_budget_capacity_MBps": 203.60053897638667,
+      "spare_MBps": 103.60053897638667,
+      "spare_percent": 50.88421646487002,
+      "each_active_core_useful_service_percent": 49.11578353512997,
+      "busy_polling_core_percent": 100,
+      "CPU_aggregate_useful_percent": 49.11578353512997,
+      "worst_n": 15362,
+      "worst_alignment": 15,
+      "service_us": 377.2583333333333,
+      "same_core_arrival_us": 768.1,
+      "data_clock_pins": 17,
+      "command_pins": 1,
+      "framing_budget_cycles": 600,
+      "capture_service_budget_cycles": 2400,
+      "all_budgets_unmeasured_on_Tang": true,
+      "max_ahead_unit_packed_bytes": 40760,
+      "reorder_full_spill_memory_MBps": 200.0,
+      "full_receiver_fit": null,
+      "assigned": false
+    },
+    {
+      "rate_Msamples_s": 80,
+      "lanes": 2,
+      "payload_MBps": 200.0,
+      "loop_capacity_MBps": 210.98901098901098,
+      "framed_budget_capacity_MBps": 203.60053897638667,
+      "spare_MBps": 3.60053897638668,
+      "spare_percent": 1.7684329297400603,
+      "each_active_core_useful_service_percent": 98.23156707025994,
+      "busy_polling_core_percent": 100,
+      "CPU_aggregate_useful_percent": 98.23156707025994,
+      "worst_n": 15362,
+      "worst_alignment": 15,
+      "service_us": 377.2583333333333,
+      "same_core_arrival_us": 384.05,
+      "data_clock_pins": 17,
+      "command_pins": 1,
+      "framing_budget_cycles": 600,
+      "capture_service_budget_cycles": 2400,
+      "all_budgets_unmeasured_on_Tang": true,
+      "max_ahead_unit_packed_bytes": 40760,
+      "reorder_full_spill_memory_MBps": 400.0,
+      "full_receiver_fit": null,
+      "assigned": false
+    }
+  ],
+  "rechecks": {
+    "archived_20k_allocations": [
+      {
+        "id": "A_tiled_independent_RS",
+        "recomputed": {
+          "logic_sites_estimate": 22252,
+          "FF": 14186,
+          "BSRAM": 47,
+          "DSP18": 38
+        },
+        "stored": {
+          "logic_sites_estimate": 22252,
+          "FF": 14186,
+          "BSRAM": 47,
+          "DSP18": 38
+        },
+        "arithmetic_equal": true,
+        "allocation_not_synthesis": true
+      },
+      {
+        "id": "B_tiled_shared_RS",
+        "recomputed": {
+          "logic_sites_estimate": 20452,
+          "FF": 13034,
+          "BSRAM": 44,
+          "DSP18": 38
+        },
+        "stored": {
+          "logic_sites_estimate": 20452,
+          "FF": 13034,
+          "BSRAM": 44,
+          "DSP18": 38
+        },
+        "arithmetic_equal": true,
+        "allocation_not_synthesis": true
+      },
+      {
+        "id": "C_resident_shared_RS",
+        "recomputed": {
+          "logic_sites_estimate": 18952,
+          "FF": 13034,
+          "BSRAM": 56,
+          "DSP18": 34
+        },
+        "stored": {
+          "logic_sites_estimate": 18952,
+          "FF": 13034,
+          "BSRAM": 56,
+          "DSP18": 34
+        },
+        "arithmetic_equal": true,
+        "allocation_not_synthesis": true
+      },
+      {
+        "id": "D_SoC_FFT_shared_RS",
+        "recomputed": {
+          "logic_sites_estimate": 18452,
+          "FF": 12522,
+          "BSRAM": 40,
+          "DSP18": 30
+        },
+        "stored": {
+          "logic_sites_estimate": 18452,
+          "FF": 12522,
+          "BSRAM": 40,
+          "DSP18": 30
+        },
+        "arithmetic_equal": true,
+        "allocation_not_synthesis": true
+      }
+    ],
+    "fft": [
+      {
+        "n": 2048,
+        "period_us": 259.875,
+        "tiled_cycles": 30720,
+        "target162_utilization": 0.7296955445103593,
+        "resident_delay_bytes": 8188,
+        "hybrid_internal_delay_bytes": 4092,
+        "hybrid_external_traffic_MBps": 63.04569504569505
+      },
+      {
+        "n": 4096,
+        "period_us": 519.75,
+        "tiled_cycles": 65536,
+        "target162_utilization": 0.7783419141443833,
+        "resident_delay_bytes": 16380,
+        "hybrid_internal_delay_bytes": 8188,
+        "hybrid_external_traffic_MBps": 63.04569504569505
+      },
+      {
+        "n": 8192,
+        "period_us": 1039.5,
+        "tiled_cycles": 139264,
+        "target162_utilization": 0.8269882837784073,
+        "resident_delay_bytes": 32764,
+        "hybrid_internal_delay_bytes": 16380,
+        "hybrid_external_traffic_MBps": 63.04569504569505
+      }
+    ],
+    "T_TS_Mbit_s": 23.234699940582296,
+    "S_RS_deadline_us": 28.135828135828135,
+    "T_RS_deadline_us": 64.73076923076923,
+    "shared_RS_required_MHz": 136.48791800427395,
+    "S_compact_RS_required_MHz": 94.7901724137931,
+    "S_best_partial_recorded_MHz": 93.1532,
+    "K7_shared_T_plus_QPSK_required_MHz": 151.43424242424243,
+    "K7_context_switch_and_T_hierarchical_contexts_included": false,
+    "T_time_deinterleave_bytes": 5690880,
+    "PSRAM_equal_read_write_pin_model_MBps": 299.92899408284023,
+    "old_tiled_SDRAM_MBps": 271.26587450863315,
+    "eSpDR_source": "f279bf823eee41796dfd1ac21f13e1ed9b418c82",
+    "GPIO_internal_memory_reserved_bytes": 442368,
+    "GPIO_memory_fraction_of_512KiB": 0.84375
+  },
+  "performance_confirmed_count": 0,
+  "formally_assigned_count": 0,
+  "adopted_count": 0,
+  "complete_feasibility_estimate": false,
+  "stage1_unknowns": [
+    "complete FPGA allocation/placement/STA",
+    "per-core joint WCET",
+    "RF continuous acquisition and channel bandwidth",
+    "memory arbitration and finite queue bounds"
+  ],
+  "control_rule": "FPGA->S3: commands only; no IQ/FFT/LLR/syndrome/coefficients/TS",
+  "lossless_rule": "No additional software decimation or precision reduction for transport"
+}

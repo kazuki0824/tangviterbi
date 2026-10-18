@@ -1,0 +1,147 @@
+{
+  "scope": "Reconstruct allocations; expose conditional recovery budgets, never adoption.",
+  "inputs_sha256": {
+    "reports/20k-dual-s3/summary.json": "30929b3263abd3657be1b4c7de29700587fdd97bf224eea582279f6a6caae985",
+    "reports/shared-sdf-evidence/20k-hybrid/summary.json": "16269d9a1082ea2f08cfb18ec12e6d1513c2c784c51359f0d05715e675a1e116",
+    "reports/folded-t-evidence/20k-16-erasure-registered/summary.json": "b270bb1bc98bf897e496900dadb0de0c8093f0a249e8b8fe1a215f8665c85c12",
+    "reports/folded-t-evidence/20k-baseline-erasure/summary.json": "d25c14a12c2ccea8e8936c6e2fbf7fa2263ec7c224f745e3d07174c9d4da23a3"
+  },
+  "blocks": {
+    "T_FIR_sync": {
+      "logic_sites_estimate": 1008,
+      "FF": 1792,
+      "BSRAM": 3,
+      "DSP18": 9
+    },
+    "T_equalize_interleave_TS": {
+      "logic_sites_estimate": 704,
+      "FF": 576,
+      "BSRAM": 0,
+      "DSP18": 5
+    },
+    "T_K7": {
+      "logic_sites_estimate": 3431,
+      "FF": 1833,
+      "BSRAM": 1,
+      "DSP18": 0
+    },
+    "S_FIR_sync_frame_TS": {
+      "logic_sites_estimate": 1128,
+      "FF": 1472,
+      "BSRAM": 9,
+      "DSP18": 14
+    },
+    "S_TC8PSK": {
+      "logic_sites_estimate": 3208,
+      "FF": 1758,
+      "BSRAM": 4,
+      "DSP18": 2
+    },
+    "S_BPSK_QPSK_K7_extra": {
+      "logic_sites_estimate": 2952,
+      "FF": 1502,
+      "BSRAM": 2,
+      "DSP18": 0
+    },
+    "RS_S": {
+      "logic_sites_estimate": 3000,
+      "FF": 1408,
+      "BSRAM": 3,
+      "DSP18": 0
+    },
+    "FFT_tiled": {
+      "logic_sites_estimate": 2729,
+      "FF": 1502,
+      "BSRAM": 10,
+      "DSP18": 4
+    },
+    "IO_SDRAM_TMCC_control_reserve": {
+      "logic_sites_estimate": 3000,
+      "FF": 2000,
+      "BSRAM": 13,
+      "DSP18": 0
+    }
+  },
+  "reconstructed": {
+    "logic_sites_estimate": 21160,
+    "FF": 13843,
+    "BSRAM": 45,
+    "DSP18": 34
+  },
+  "separately_measured": {
+    "logic_sites_estimate": 6160,
+    "FF": 3335,
+    "BSRAM": 11,
+    "DSP18": 4
+  },
+  "inherited_stage_allocations": {
+    "logic_sites_estimate": 12000,
+    "FF": 8508,
+    "BSRAM": 21,
+    "DSP18": 30
+  },
+  "integration_reserve": {
+    "logic_sites_estimate": 3000,
+    "FF": 2000,
+    "BSRAM": 13,
+    "DSP18": 0
+  },
+  "maximum_integration_if_other_blocks_unchanged": {
+    "logic_sites_estimate": 2576,
+    "FF": 3709,
+    "BSRAM": 14,
+    "DSP18": 14
+  },
+  "duplicate_reserve_entries": 0,
+  "proven_duplicate_savings": {
+    "logic_sites_estimate": 0,
+    "FF": 0,
+    "BSRAM": 0,
+    "DSP18": 0
+  },
+  "independent_kernel_missing": [
+    "T three-hierarchy context",
+    "S K7 correct full-mode implementation",
+    "physical memory/transport/CDC/TMCC integration"
+  ],
+  "shared_K7": {
+    "conditional_resources": {
+      "logic_sites_estimate": 18511,
+      "FF": 11984,
+      "BSRAM": 44,
+      "DSP18": 34
+    },
+    "maximum_additional_cost": {
+      "logic_sites_estimate": 2225,
+      "FF": 3568,
+      "BSRAM": 2,
+      "DSP18": 14
+    },
+    "rates_Mstep_s": {
+      "T": 25.21212121212121,
+      "S": 50.504999999999995
+    },
+    "scenarios": [
+      {
+        "clock_MHz": 162,
+        "required_MHz": 151.43424242424243,
+        "arithmetic_utilization_percent": 93.47792742237186,
+        "extra_cycles_per_second": 10565757.575757572,
+        "full_context_implementation_verified": false
+      },
+      {
+        "clock_MHz": 180,
+        "required_MHz": 151.43424242424243,
+        "arithmetic_utilization_percent": 84.13013468013467,
+        "extra_cycles_per_second": 28565757.575757574,
+        "full_context_implementation_verified": false
+      }
+    ],
+    "four_context_survivor_bits": 65536,
+    "additional_metric_bits_over_one_context": 2496,
+    "memory_warning": "bit counts only; ports, packing, output banks and scheduling not implemented",
+    "adopted": false
+  },
+  "formally_assigned_routes": 0,
+  "adopted_receivers": 0
+}

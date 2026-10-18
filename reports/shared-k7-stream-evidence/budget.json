@@ -1,0 +1,173 @@
+{
+  "cases": [
+    {
+      "trial": "registered-prototype",
+      "measured_core_plus_wrapper": {
+        "logic": 6132,
+        "FF_sites": 2892,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "delta_from_previous_core": {
+        "logic": 437,
+        "FF_sites": 211,
+        "BSRAM": 0,
+        "DSP18": 0
+      },
+      "reserve_consumed": {
+        "logic": 437,
+        "FF_sites": 211,
+        "BSRAM": 0,
+        "DSP18": 0
+      },
+      "remaining_unimplemented_reserve": {
+        "logic": 2563,
+        "FF_sites": 1789,
+        "BSRAM": 13,
+        "DSP18": 0
+      },
+      "mixed_whole_budget": {
+        "logic": 20472,
+        "FF_sites": 13189,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "Fmax": {
+        "core.clk": {
+          "achieved": 156.00624084472656,
+          "constraint": 154.28570556640625
+        }
+      },
+      "partial_pass": true,
+      "receiver_adopted": false
+    },
+    {
+      "trial": "round-robin-direct",
+      "measured_core_plus_wrapper": {
+        "logic": 6144,
+        "FF_sites": 2867,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "delta_from_previous_core": {
+        "logic": 449,
+        "FF_sites": 186,
+        "BSRAM": 0,
+        "DSP18": 0
+      },
+      "reserve_consumed": {
+        "logic": 449,
+        "FF_sites": 186,
+        "BSRAM": 0,
+        "DSP18": 0
+      },
+      "remaining_unimplemented_reserve": {
+        "logic": 2551,
+        "FF_sites": 1814,
+        "BSRAM": 13,
+        "DSP18": 0
+      },
+      "mixed_whole_budget": {
+        "logic": 20472,
+        "FF_sites": 13189,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "Fmax": {
+        "core.clk": {
+          "achieved": 138.5425262451172,
+          "constraint": 154.28570556640625
+        }
+      },
+      "partial_pass": false,
+      "receiver_adopted": false
+    },
+    {
+      "trial": "weighted-direct",
+      "measured_core_plus_wrapper": {
+        "logic": 6134,
+        "FF_sites": 2869,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "delta_from_previous_core": {
+        "logic": 439,
+        "FF_sites": 188,
+        "BSRAM": 0,
+        "DSP18": 0
+      },
+      "reserve_consumed": {
+        "logic": 439,
+        "FF_sites": 188,
+        "BSRAM": 0,
+        "DSP18": 0
+      },
+      "remaining_unimplemented_reserve": {
+        "logic": 2561,
+        "FF_sites": 1812,
+        "BSRAM": 13,
+        "DSP18": 0
+      },
+      "mixed_whole_budget": {
+        "logic": 20472,
+        "FF_sites": 13189,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "Fmax": {
+        "core.clk": {
+          "achieved": 147.77597045898438,
+          "constraint": 154.28570556640625
+        }
+      },
+      "partial_pass": false,
+      "receiver_adopted": false
+    },
+    {
+      "trial": "weighted-registered",
+      "measured_core_plus_wrapper": {
+        "logic": 6128,
+        "FF_sites": 2892,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "delta_from_previous_core": {
+        "logic": 433,
+        "FF_sites": 211,
+        "BSRAM": 0,
+        "DSP18": 0
+      },
+      "reserve_consumed": {
+        "logic": 433,
+        "FF_sites": 211,
+        "BSRAM": 0,
+        "DSP18": 0
+      },
+      "remaining_unimplemented_reserve": {
+        "logic": 2567,
+        "FF_sites": 1789,
+        "BSRAM": 13,
+        "DSP18": 0
+      },
+      "mixed_whole_budget": {
+        "logic": 20472,
+        "FF_sites": 13189,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "Fmax": {
+        "core.clk": {
+          "achieved": 160.23072814941406,
+          "constraint": 154.28570556640625
+        }
+      },
+      "partial_pass": true,
+      "receiver_adopted": false
+    }
+  ],
+  "actual_whole_receiver_resources": null,
+  "warning": "Same mixed whole budget means reserve was consumed, not that new logic is free. Delta compares two partial P&R mappings; remaining blocks still allocations. No new upstream T burst storage/controller counted as implemented.",
+  "upstream_storage_and_memory_timing_verified": false,
+  "CPU_and_boundary_flows_unchanged": true,
+  "formally_assigned_routes": 0
+}

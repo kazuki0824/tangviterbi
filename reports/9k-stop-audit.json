@@ -1,0 +1,71 @@
+{
+  "rows": [
+    {
+      "FFT": "hybrid",
+      "RS": "resetless",
+      "optimistic_mixed_logic": 9861,
+      "excess_before_missing_cost": 1221,
+      "K7_actual_MHz": 51.926475524902344,
+      "K7_required_MHz": 100.84848484848484,
+      "admission": false
+    },
+    {
+      "FFT": "hybrid",
+      "RS": "resetless4",
+      "optimistic_mixed_logic": 9455,
+      "excess_before_missing_cost": 815,
+      "K7_actual_MHz": 51.926475524902344,
+      "K7_required_MHz": 100.84848484848484,
+      "admission": false
+    },
+    {
+      "FFT": "hybrid",
+      "RS": "shared-resetless4",
+      "optimistic_mixed_logic": 9394,
+      "excess_before_missing_cost": 754,
+      "K7_actual_MHz": 51.926475524902344,
+      "K7_required_MHz": 100.84848484848484,
+      "admission": false
+    },
+    {
+      "FFT": "resident",
+      "RS": "resetless",
+      "optimistic_mixed_logic": 9817,
+      "excess_before_missing_cost": 1177,
+      "K7_actual_MHz": 51.926475524902344,
+      "K7_required_MHz": 100.84848484848484,
+      "admission": false
+    },
+    {
+      "FFT": "resident",
+      "RS": "resetless4",
+      "optimistic_mixed_logic": 9411,
+      "excess_before_missing_cost": 771,
+      "K7_actual_MHz": 51.926475524902344,
+      "K7_required_MHz": 100.84848484848484,
+      "admission": false
+    },
+    {
+      "FFT": "resident",
+      "RS": "shared-resetless4",
+      "optimistic_mixed_logic": 9350,
+      "excess_before_missing_cost": 710,
+      "K7_actual_MHz": 51.926475524902344,
+      "K7_required_MHz": 100.84848484848484,
+      "admission": false
+    }
+  ],
+  "source_sha256": {
+    "reports/9k-recovery-frontier.json": "1bd2cd9a172190865752adc05449bcfeb50a66a26fac01833e107b972d43b90b",
+    "reports/three-context-k7-split/summary.json": "60020cffe7b4afd8b0302f547601de9d1d438f5e33a324947f0d152394e81e3d",
+    "reports/shared-sdf-evidence/9k-hybrid/summary.json": "22c12f9a0d217db0d966cef4062fce2181aef9ad1661cb2613eb83f2fe6f65a8",
+    "reports/s3-area/resetless.json": "f5b166e89c7a8ea593ac6e9ad75e78313fd7ae867cc65e28c736f913aa4f7e5a",
+    "reports/s3-area/resetless4.json": "3a46ad1761ec77ee37b1dd1f18c9feb4008d6414b2d0d5e74ec838a8bb755415",
+    "reports/s3-area/shared-resetless4.json": "b1f589ff334a2a6e635e7883bf67d9ba70836ede1c47119bed5f33db200747f8",
+    "reports/shared-sdf-evidence/9k-resident/summary.json": "4152bff6743f46297075c05b2118493ce4af38f9972c3f93970eb344f8f514cc"
+  },
+  "qualification": "Optimistic screen mixes independent logic equivalents and routed sites; NOT a silicon lower bound. K7 RAM blockers and integration omitted. Every row also fails measured K7 timing.",
+  "validated_replacement_candidates": 0,
+  "status": "pause_9k_implementation_search",
+  "mathematical_impossibility_proven": false
+}
