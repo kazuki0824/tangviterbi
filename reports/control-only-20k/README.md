@@ -1,3 +1,5 @@
+> 最新：[入力FIFO・重み付き仲裁を接続](../shared-k7-stream-results.md)。接続後160.231 MHzで154.286 MHz目標を部分通過。統合予約を433 logic/211 FF位置消費。上流のT burst保持・実SDRAMの期限保証は未完、正式採用0。
+
 > 最新：[K7の説明](../k7-explained.md)／[4 context共有の実装・配置配線結果](../shared-k7-context-results.md)。154.286 MHzで部分通過、全体混合予算20472 logic・46 BSRAM。周辺LUT/FFの使用制限を含む。正式採用0。以下の以前の数値は各時点の記録。
 
 > 用語説明：[K7とは何か・何を共有するか](../k7-explained.md)。

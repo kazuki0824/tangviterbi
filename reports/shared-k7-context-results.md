@@ -1,3 +1,5 @@
+> 続行結果：[FIFO・スケジューラ接続と検証](shared-k7-stream-results.md)。以下は裸core実装時点の記録。
+
 # ② T/S K7共有：4 contextの実装と配置配線
 
 2026-10-18。[K7の意味と共有範囲](k7-explained.md)を先に説明する。K7は拘束長7の畳み込み符号を復号するViterbi回路。ここで扱うのはT最大3階層＋S BPSK/QPSKの4状態であり、S TC8PSK回路は別に残す。
@@ -32,7 +34,7 @@ survivorのBRAM出力は全体で1組にし、前の読出しcontextタグと保
 | slotaddr-162 | 5695 | 2681 | 224 / 4 | 162.000000 / 156.764374 | 内 / 未達 |
 | tagged-fixed-162 | 9850 | 4648 | 32 / 4 | 162.000000 / 88.487747 | 超過 / 未達 |
 
-全測定は20K、seed 1、162 MHz目標、同一のテスト用端子。PLL・実I/O delay・基板負荷・他receiver回路は未接続。RTL機能試験と配置配線は別の検証であり、この表は完成受信機の合格ではない。
+全測定は20K、seed 1、表に記したclock目標、同一のテスト用端子。PLL・実I/O delay・基板負荷・他receiver回路は未接続。RTL機能試験と配置配線は別の検証であり、この表は完成受信機の合格ではない。
 
 **途中報告の訂正**：localshift版を最終JSONのLUT4＋ALUだけで数えると5496になったが、分散RAMにより使用不能になる周辺LUTを含んでいなかった。nextpnr `e2fe86b3`は`postRoute`でblockerセルを削除し、`slice_valid`ではRAMの周辺4 LUT/6 FFを他用途へ使えなくする。今回のGW2A-18Cでは、容量需要を以下で集計する。
 
