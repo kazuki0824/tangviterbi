@@ -1,5 +1,7 @@
 # ② SDRAM仕様による154.286 MHz案の判定
 
+追記：公式参照archiveを取得し、LQ144向け・PLL/SDC不一致・独立memory timing model未発見を確認した。[取得後の監査と続行先](sdram-reference-audit.md)を参照。PHY未確定という判定は変わらない。
+
 2026-10-19 JST。**共通154.285714 MHz案を周波数上限で除外する理由はない。PHY合格は未確定。** 従来のcontroller単体Fmaxを実メモリ仕様へ読み替えず、Gowinの現行データシートを確認した。
 
 ## 根拠と検算
