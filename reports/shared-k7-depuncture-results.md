@@ -1,3 +1,7 @@
+# 2026-10-18 次の統合順の更新
+
+[内部clock統一監査](common-clock-audit.md)を追加。59904 B buffer/CDCを先に追加せず、共通154.286 MHzとメモリPHY条件を先に検証する。135 MHz共通案は現K7能力不足。154.286 MHz候補は換算した時間設定でSDRAMのデジタル試験を通過したが、PHY・全client期限・全体P&Rは未達。buffer寿命はclock統一でも別途必要。
+
 # ② 上流depunctureの接続と、保持場所の具体化
 
 2026-10-18。`rtl/shared_k7_depuncture_stream.sv`に4個の既存depuncture回路を接続し、各系統の符号率・パンクチャ位相・途中のX soft値を独立に保持する。続く共有K7のFIFO・S:T=2:1仲裁・保守slot・grant registerは維持する。
