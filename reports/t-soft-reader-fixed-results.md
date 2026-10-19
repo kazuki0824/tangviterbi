@@ -1,5 +1,7 @@
 # ② 固定context descriptorによるreader面積削減
 
+**後続測定:** [service＋reader統合の実測・②の実現可能性判定](t-soft-sdram-service-results.md)。単体費用の合計から4 logicだけ減り、現追跡値22095/20736、1359超過。以下は単体比較の記録として維持する。
+
 ## 判定
 
 T reader/cacheは**2251→1373 logic位置（878削減）**、FF位置579→500へ減った。最終版の同一probe・seed 1の部分P&RはFmax163.532303 MHzで、目標154.285714 MHzを通過した。3×64 B cache、2 bank、soft精度、要求・応答のclock契約は維持した。
