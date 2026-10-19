@@ -16,7 +16,11 @@ module dual_sdram_burst #(
  localparam BOOT=0,IPRE=1,IREF=2,MODE=3,IDLE=4,PRE=5,ACT=6,
             RCMD=7,WCMD=8,RLAT=9,RDATA=10,WDATA=11,WAIT=12,
             COMPLETE=13,PREALL=14,REFRESH=15,CLOSE=16;
- reg[4:0] state,after_wait;reg[15:0] wait_count,refresh_age;
+ // Only threshold predicates are observed; saturating at the fault threshold
+ // preserves them and avoids keeping unreachable high timer bits.
+ localparam REFRESH_WIDTH=$clog2(REFRESH_CYCLES+1);
+ reg[4:0] state,after_wait;reg[15:0] wait_count;
+ reg[REFRESH_WIDTH-1:0] refresh_age;
  reg[3:0] init_refreshes;reg[2:0] beat;
  reg response_valid;reg[255:0] response_data;
  reg writing;reg[20:0] address;reg[255:0] write_data;reg[31:0] masks;
@@ -68,7 +72,7 @@ module dual_sdram_burst #(
    for(k=0;k<4;k=k+1)row[k]<=0;
   end else begin
    if(rsp_valid && rsp_ready)response_valid<=0;
-   if(initialized && refresh_age<65535)refresh_age<=refresh_age+1'b1;
+   if(initialized && refresh_age<REFRESH_CYCLES)refresh_age<=refresh_age+1'b1;
    if(initialized && refresh_age>=REFRESH_CYCLES)fault<=1;
    case(state)
     BOOT:if(wait_count==0)state<=IPRE;else wait_count<=wait_count-1'b1;

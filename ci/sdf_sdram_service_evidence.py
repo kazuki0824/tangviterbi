@@ -11,9 +11,10 @@ def ff(c):return sum(v for k,v in c.items() if k.startswith('DFF'))
 def read(p):
  return json.loads(p.read_text()) if p.exists() else json.loads(gzip.decompress(Path(str(p)+'.gz').read_bytes()))
 def main():
- p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--collect-only',action='store_true');p.add_argument('--rotation',action='store_true');a=p.parse_args();d=a.output.resolve();d.mkdir(parents=True,exist_ok=True)
+ p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--collect-only',action='store_true');p.add_argument('--rotation',action='store_true');p.add_argument('--read-only-spill',action='store_true');a=p.parse_args();d=a.output.resolve();d.mkdir(parents=True,exist_ok=True)
  files=FILES.copy()
  if a.rotation:files[:2]=['experiments/rotation_sdf_delay_cache.sv','experiments/rotation_sdram_client_arbiter.sv']
+ if a.read_only_spill:files[3]='experiments/read_only_spill_service.sv'
  commands=[]
  for prefix,top,files in [('core-','sdf_sdram_service',files[:-1]),('','sdf_sdram_service_probe',files)]:
   script='read_verilog -sv '+' '.join(str(ROOT/f) for f in files)+'\n'
@@ -51,7 +52,7 @@ def main():
  assert ff(tc)==u['DFF']['used']
  core=counts(read(d/'core-mapped.json')['modules']['sdf_sdram_service']['cells'])
  log=(d/'pnr.log').read_text();excess=logic(sc)-2231
- result=dict(scope=__doc__,variant="rotation" if a.rotation else "current",harness_register_count=harness_register_count,target_MHz=1080/7,source_sha256={f:hashlib.sha256((ROOT/f).read_bytes()).hexdigest() for f in files+['ci/sdf_sdram_service_evidence.py']},
+ result=dict(scope=__doc__,variant="read-only-spill" if a.read_only_spill else "rotation" if a.rotation else "current",harness_register_count=harness_register_count,target_MHz=1080/7,source_sha256={f:hashlib.sha256((ROOT/f).read_bytes()).hexdigest() for f in files+['ci/sdf_sdram_service_evidence.py']},
   yosys_version=subprocess.check_output(['yosys','-V'],text=True).strip(),
   pnr_version=subprocess.check_output(['nextpnr-himbaechel','--version'],stderr=subprocess.STDOUT,text=True).strip(),
   core_mapped_cells=core,core_mapped_logic=logic(core),core_mapped_FF=ff(core),

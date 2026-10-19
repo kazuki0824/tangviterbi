@@ -1,0 +1,70 @@
+{
+  "results": [
+    {
+      "requests": 640,
+      "refreshes": 21,
+      "max_refresh_gap": 1193,
+      "read_cycles": 5201,
+      "write_cycles": 5440,
+      "trace": "same_row",
+      "open_page": false,
+      "first_phase_bursts": 256,
+      "second_phase_bursts": 256,
+      "first_phase_MBps": 243.01260746559726,
+      "second_phase_MBps": 232.3361344537815
+    },
+    {
+      "requests": 640,
+      "refreshes": 17,
+      "max_refresh_gap": 1189,
+      "read_cycles": 2860,
+      "write_cycles": 3138,
+      "trace": "same_row",
+      "open_page": true,
+      "first_phase_bursts": 256,
+      "second_phase_bursts": 256,
+      "first_phase_MBps": 441.9260739260739,
+      "second_phase_MBps": 402.7751980333242
+    },
+    {
+      "requests": 6784,
+      "refreshes": 129,
+      "max_refresh_gap": 1197,
+      "read_cycles": 127784,
+      "write_cycles": 10645,
+      "trace": "fft_mode3_and_conflicts",
+      "open_page": false,
+      "first_phase_bursts": 6144,
+      "second_phase_bursts": 512,
+      "first_phase_MBps": 237.3834417007271,
+      "second_phase_MBps": 237.4652083473126
+    },
+    {
+      "requests": 6784,
+      "refreshes": 86,
+      "max_refresh_gap": 1196,
+      "read_cycles": 78136,
+      "write_cycles": 9988,
+      "trace": "fft_mode3_and_conflicts",
+      "open_page": true,
+      "first_phase_bursts": 6144,
+      "second_phase_bursts": 512,
+      "first_phase_MBps": 388.21805204112974,
+      "second_phase_MBps": 253.0854167858573
+    }
+  ],
+  "source_sha256": {
+    "rtl/dual_sdram_burst.sv": "f4171020364292917ff3107afc051920af76b22e008e5c4dc9abfc8be3a9af81",
+    "tests/test_common_clock_sdram.py": "23f5f46839a09f25714af2e3223df2819dc095062116b5489de1e9ac1bd14338"
+  },
+  "clock_MHz_assumed": 154.28571428571428,
+  "CL": 3,
+  "TRCD": 4,
+  "TRP": 4,
+  "TWR": 4,
+  "TRFC": 12,
+  "TMRD": 4,
+  "refresh_cycles": 1203,
+  "init_cycles": 30858,
+  "qualification": "Independent digital command model, Full 30858-cycle initialization. Old assumed nanosecond minima preserved; CAS=3 speed grade unqualified. Timing inputs are unqualified for silicon; PHY/CDC and concurrent client arbitration absent."
+}

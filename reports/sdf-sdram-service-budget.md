@@ -1,5 +1,7 @@
 # ② 統合SDRAM serviceの面積監査：現実装は残予約を超過
 
+追記：[T spill read専用化とrefresh幅縮小](read-only-spill-budget-results.md)で本体2485 logic、全体追跡値20726/20736（10残り）へ更新。ただし残未実装費用を0とした追跡値で、全体収容は未確認。以下は各測定時点の記録。
+
 追記：[観測回路を分割した同条件の再測定](pipelined-observation-results.md)で回転cache版は185.735519 MHz、全体追跡値20999/20736（263 logic超過）。機能検証済みの回転cache/固定maskを部分削減として採用した。旧probeの速度・帰属集計は以下の時点の記録として保持する。
 
 追記：[readだけのシフト化を単独検証](sdram-read-shift-results.md)し、機能/配置配線が通過。部分削減を採用したが、更新全体追跡値21299/20736で563 logic超過。以下は基準/旧試行の記録。

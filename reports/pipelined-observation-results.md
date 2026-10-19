@@ -1,5 +1,7 @@
 # ② 観測回路を分割して再測定：回転cache版の速度通過、面積263超過
 
+追記：[T spill read専用化とrefresh幅縮小](read-only-spill-budget-results.md)で本体2485 logic、全体追跡値20726/20736（10残り）へ更新。ただし残未実装費用を0とした追跡値で、全体収容は未確認。以下は各測定時点の記録。
+
 2026-10-19 JST。前回の回転cache＋固定mask仲裁は、signatureを含む最悪pathで133.58 MHzとなり、部分回路の速度を判定できていなかった。本体の出力をレジスタで受けてからsignatureを計算するprobeへ変更し、read-only controller版と回転cache版を同じ条件で比較した。
 
 **回転cache＋固定mask仲裁のprobe Fmaxは185.735519 MHzで、154.285714 MHz目標を通過した。機能照合済みのRTLとsource hashが一致することも確認し、部分削減として現行RTLへ採用した。全体追跡値は20999/20736、依然263 logic超過のため、受信機全体の採用には到達していない。**
