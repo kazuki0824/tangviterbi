@@ -1,5 +1,7 @@
 # ② SDRAM仲裁を合成可能RTLへ置換
 
+追記：[統合SDRAM serviceの面積監査](sdf-sdram-service-budget.md)で本体3357 logic、残予約超過1126、更新全体予算21598/20736を確認。旧予約込み予算を現実装が収まる証拠には使わない。
+
 2026-10-19 JST。これまでtestbench内だった仲裁を、[sdram_client_arbiter.sv](../rtl/sdram_client_arbiter.sv)として実装した。現行FFT＋32 B cache＋実SDRAM controllerに接続し直す。背景のrelease/アドレス/データ保持は依然testbenchモデルで、実K7/deinterleave/S frame回路は未接続。
 
 ## 所有権と保持の実装
