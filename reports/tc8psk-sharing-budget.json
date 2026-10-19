@@ -1,0 +1,73 @@
+{
+  "scope": "Standalone allocation audit and shared TC8 core prototype; no complete alternative receiver budget.",
+  "feasibility_status": "undetermined",
+  "search_stopped": false,
+  "continuation_reason": "Concrete shared-TC8 prototype passed coded+uncoded oracle and partial CAD; connected FIFO/metric/scheduler still required.",
+  "standalone_cases": [
+    {
+      "name": "acs22",
+      "measured_partial": {
+        "logic": 3645,
+        "FF_sites": 1521,
+        "BSRAM": 4,
+        "DSP": 2
+      },
+      "mixed_logic": 22532,
+      "logic_capacity": 20736,
+      "logic_excess": 1796,
+      "mixed_FF_sites": 12787,
+      "mixed_BSRAM": 46,
+      "mixed_DSP": 34,
+      "old_allocation_replaced_optimistically": true,
+      "other_missing_integration_logic_cost_zero": true,
+      "adopted": false
+    },
+    {
+      "name": "acs32",
+      "measured_partial": {
+        "logic": 3929,
+        "FF_sites": 1567,
+        "BSRAM": 4,
+        "DSP": 2
+      },
+      "mixed_logic": 22816,
+      "logic_capacity": 20736,
+      "logic_excess": 2080,
+      "mixed_FF_sites": 12833,
+      "mixed_BSRAM": 46,
+      "mixed_DSP": 34,
+      "old_allocation_replaced_optimistically": true,
+      "other_missing_integration_logic_cost_zero": true,
+      "adopted": false
+    }
+  ],
+  "shared_core_delta": {
+    "logic_with_ram_blockers": 263,
+    "FF_sites_with_ram_blockers": 197,
+    "BSRAM": 1,
+    "DSP18": 0
+  },
+  "shared_variant_whole_resources": null,
+  "independent_survivor_removal_credit_applied": 0,
+  "metric_generator_in_shared_probe": false,
+  "FIFO_scheduler_in_shared_probe": false,
+  "all_mode_retune_verified": false,
+  "average_only": {
+    "T_max_Msteps": 25.21212121212121,
+    "TC8_Msteps": 28.86,
+    "combined_Msteps": 54.07212121212121,
+    "capacity_with_maintenance_Msteps": 76.54017857142857,
+    "utilization_percent": 70.6454077078749,
+    "S_binary_worst_Msteps": 75.71712121212121
+  },
+  "device": {
+    "logic": 20736,
+    "FF_sites": 15552,
+    "BSRAM": 46,
+    "DSP": 48
+  },
+  "formally_assigned_routes": 0,
+  "adopted_receivers": 0,
+  "all_20k_partitions_impossible_proved": false,
+  "source_hashes_verified": true
+}

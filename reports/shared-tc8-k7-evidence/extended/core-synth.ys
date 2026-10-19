@@ -1,0 +1,4 @@
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/shared_k7_context.sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/shared_tc8_k7_context.sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/shared_tc8_k7_boundary.sv
+chparam -set USE_TC8 1 shared_tc8_k7_boundary
+synth_gowin -family gw2a -top shared_tc8_k7_boundary -nowidelut -json /workspace/scratch/3793ea63b22e/tangviterbi/reports/shared-tc8-k7-evidence/extended/core-mapped.json
+check -assert
