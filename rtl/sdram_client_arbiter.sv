@@ -18,17 +18,30 @@ module sdram_client_arbiter(
  localparam SELECT=0,ISSUE=1,RESPONSE=2;
  reg [1:0] state;
  reg [5:0] owner;
- reg [2:0] rr;
+ // Keep the circular cursor binary: FSM recoding leaves a $buf in this toolchain.
+ (* fsm_encoding="none" *) reg [2:0] rr;
  reg [5:0] chosen;
- integer offset,index,k;
+ reg [4:0] priority_mask,eligible;
+ integer k;
  always @* begin
-  chosen=0;index=0;
+  // Two fixed priority encoders avoid variable index/add/modulo chains.
+  case(rr)
+   0:priority_mask=5'b11111;
+   1:priority_mask=5'b11110;
+   2:priority_mask=5'b11100;
+   3:priority_mask=5'b11000;
+   4:priority_mask=5'b10000;
+   default:priority_mask=5'b11111;
+  endcase
+  eligible=client_valid[4:0]&priority_mask;
+  if(eligible==0)eligible=client_valid[4:0];
+  chosen=0;
+  if(eligible[0])chosen[0]=1;
+  else if(eligible[1])chosen[1]=1;
+  else if(eligible[2])chosen[2]=1;
+  else if(eligible[3])chosen[3]=1;
+  else if(eligible[4])chosen[4]=1;
   if(client_valid[5])chosen=6'b100000;
-  else for(offset=0;offset<5;offset=offset+1)begin
-   index=rr+offset;
-   if(index>=5)index=index-5;
-   if(chosen==0 && client_valid[index])chosen[index]=1'b1;
-  end
   req_write=0;req_address=0;req_data=0;req_dqm=0;
   for(k=0;k<6;k=k+1)begin
    req_write=req_write | (owner[k] & client_write[k]);

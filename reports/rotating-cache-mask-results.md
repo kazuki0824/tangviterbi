@@ -1,5 +1,7 @@
 # ② FFT line回転と固定マスク仲裁の比較
 
+追記：[観測回路を分割した同条件の再測定](pipelined-observation-results.md)で回転cache版は185.735519 MHz、全体追跡値20999/20736（263 logic超過）。機能検証済みの回転cache/固定maskを部分削減として採用した。旧probeの速度・帰属集計は以下の時点の記録として保持する。
+
 2026-10-19 JST。read-only controllerの部分削減後も残る563 logic超過に対し、FFT outer-delay cacheのword選択と、仲裁の循環選択経路を改めた。全受信機ではなく、既存cache/仲裁/controllerの境界で比較する。
 
 **結論：回転cache＋固定mask仲裁は機能試験を通ったが、面積が99 logic超過し、probe timingも未達のため未採用。現行RTLは9a038f8のread-only controller採用版を維持する。** 候補のRTLは `experiments/rotation_sdf_delay_cache.sv` と `experiments/rotation_sdram_client_arbiter.sv` へ保存した。

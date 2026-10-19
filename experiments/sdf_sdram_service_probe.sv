@@ -4,12 +4,26 @@ module sdf_sdram_service_probe(input wire clk,resetn,scan_enable,scan_in,
  output wire signature);
  reg [1650:0] stimulus;
  wire [354:0] observed;
+ // Capture service outputs before reducing them. Service timing ends at these
+ // registers, rather than traversing the full 355-bit signature XOR tree.
+ reg [354:0] observed_capture;
+ reg [11:0] digest_chunks;
  reg digest;
+ genvar group_index;
+ generate for(group_index=0;group_index<12;group_index=group_index+1)begin: chunk
+  localparam START=group_index*32;
+  localparam WIDTH=(355-START<32) ? 355-START : 32;
+  always @(posedge clk)begin
+   if(!resetn)digest_chunks[group_index]<=0;
+   else digest_chunks[group_index]<=^observed_capture[START+:WIDTH];
+  end
+ end endgenerate
  always @(posedge clk)begin
-  if(!resetn)begin stimulus<=0;digest<=0;end
+  if(!resetn)begin stimulus<=0;observed_capture<=0;digest<=0;end
   else begin
    if(scan_enable)stimulus<={stimulus[1649:0],scan_in};
-   digest<=digest ^ (^observed);
+   observed_capture<=observed;
+   digest<=digest ^ (^digest_chunks);
   end
  end
  assign signature=digest;
