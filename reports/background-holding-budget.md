@@ -55,3 +55,7 @@ python ci/sdf_sdram_service_evidence.py --background-hold \
 追加コピーで吸収する方針を止め、まずT soft readerのaddress生成・2 symbol ring寿命・3×64 B cacheを一つのproducerとして実装する。既存stageの実データ保持からreadyまで直接駆動できる範囲を特定し、response待ちとbank再使用を含めて実K7消費へ接続する。従来モデルの必要平均read間隔171.346154 clocks以下だけでなく、実仲裁で有限cacheが溢れずsymbol期限を守るか確認する。未計上費用を0にして10 logicへ押し込まない。
 
 SoC→FPGAはT native I10/Q10 40 MB/sとS native I10/Q10 100 MB/s、FPGA→SoCは指令のみのまま。保持案によって境界情報や経路候補の帯域条件は変わらない。全候補・期限・上下経路は[PR9の一覧](https://github.com/kazuki0824/tangviterbi/pull/9)から辿れる。全体P&R/STA、PHY、実burst/scatter、S3連続取得/転送/WCET、RF→TSは未達。正式性能合格・通信路割当・採用は0。①は探索停止のまま。
+
+## 直接要求を保持するreaderの追試
+
+[T soft readerの実装・実K7接続・実service競合の結果](t-soft-reader-results.md)を追加した。追加汎用slotなしでも、reader/cache単体の部分費用2251 logicを計上すると追跡値22977/20736で超過する。機能と有限供給の試験は前進したが、直接保持案の全体収容を確認した状態ではない。
