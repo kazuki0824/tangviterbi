@@ -56,3 +56,7 @@ read payloadをreset/write応答時に消去せず、writing種別で0のwrite a
 - [不採用案CAD](sdf-sdram-no-payload-clear-evidence/summary.json)／[不採用案FFT照合](sdf-rtl-arbiter-no-payload-clear.json)。controller snapshotと試験時hashを対応させ、現行counter版へ流用しない。
 
 CAD再現：`python ci/sdf_sdram_service_evidence.py --output <new-dir>`。同じservice実験用コピーは `--read-only-spill` でも測定できる。機能検査は上記unittestをIcarus/vvpで実行する。旧案の再現は対応snapshotを使う一時checkoutで行う。
+
+## 背景保持の追試
+
+[所有権照合と追加1件保持案](background-holding-budget.md)を追加した。5 producerへ独立slotを足す案は配置後3761 logicとなり、旧stage allocationを維持する追跡値22002/20736で超過したため不採用。上記20726は保持費用なしの比較元として残す。stage自身の保持から直接駆動する構成は未実装であり、この反例だけで除外しない。
