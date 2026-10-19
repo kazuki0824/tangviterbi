@@ -1,5 +1,7 @@
 # ② 統合SDRAM serviceの面積監査：現実装は残予約を超過
 
+追記：[readだけのシフト化を単独検証](sdram-read-shift-results.md)し、機能/配置配線が通過。部分削減を採用したが、更新全体追跡値21299/20736で563 logic超過。以下は基準/旧試行の記録。
+
 2026-10-19 JST。cache・仲裁・controllerを[sdf_sdram_service.sv](../rtl/sdf_sdram_service.sv)で接続し、従来と同じGW2A向け`-nowidelut`とGW2AR-18 QN88配置配線で数え直した。**現実装の費用を従来予算へ置換すると20K容量を超える。時間試験が通っただけでは採用できない。**
 
 ## 境界と測定方法

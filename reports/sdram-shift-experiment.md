@@ -1,5 +1,7 @@
 # ② SDRAM burstのシフト化比較：両方向案は不採用
 
+追記：[readだけのシフト化を単独検証](sdram-read-shift-results.md)し、機能/配置配線が通過。部分削減を採用したが、更新全体追跡値21299/20736で563 logic超過。以下は基準/旧試行の記録。
+
 2026-10-19 JST。面積超過862 logicを受け、256 bit保持の可変beat選択を32 bitずつのシフトへ変更する案を検証した。**両方向シフト案は機能試験に成功したが、面積とFmaxが悪化したため採用しない。`rtl/dual_sdram_burst.sv`はa3cab3b時点の実装に戻した。**
 
 | 案 | 本体直接合成 logic | 元との差 | 配置後本体 logic | probe Fmax MHz | 判定 |

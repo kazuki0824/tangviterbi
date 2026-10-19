@@ -30,7 +30,7 @@ module dual_sdram_burst #(
  wire command_allowed=!response_valid || rsp_ready;
  assign rsp_valid=response_valid || completing;
  assign rsp_data=response_valid ? response_data :
-                 state==RDATA ? {dq_in,response_data[223:0]} : 256'd0;
+                 state==RDATA ? {dq_in,response_data[255:32]} : 256'd0;
  assign req_ready=(state==IDLE || (completing && rsp_ready)) && !fault && !refresh_due && command_allowed;
  assign sd_cke=resetn;
  always @* begin
@@ -85,7 +85,7 @@ module dual_sdram_burst #(
     RCMD:if(command_allowed)begin wait_count<=CL-2;state<=RLAT;beat<=0;end
     RLAT:if(wait_count==0)state<=RDATA;else wait_count<=wait_count-1'b1;
     RDATA:begin
-     response_data[beat*32+:32]<=dq_in;
+     response_data<={dq_in,response_data[255:32]};
      if(beat==7)begin response_valid<=!OPEN_PAGE || !rsp_ready;state<=OPEN_PAGE?IDLE:CLOSE;end
      else beat<=beat+1'b1;
     end
