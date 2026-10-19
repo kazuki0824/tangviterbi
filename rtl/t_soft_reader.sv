@@ -25,33 +25,62 @@ module t_soft_reader(
  localparam IDLE=0,REQUEST=1,RESPONSE=2;
  reg[1:0]state;
  reg[1:0]fetch_context;
- reg[2:0]fetch_index;
  reg[20:0]held_address;
  reg[5:0]fetch_length,beat;
- reg fetch_found,output_found,bank_empty,commit_legal;
+ wire[20:0]active_address[0:2];
+ wire[15:0]active_remaining[0:2];
+ wire[5:0]chunk_length[0:2];
+ wire[2:0]fetch_eligible,output_eligible,illegal_region;
+ genvar context_index;
+ generate for(context_index=0;context_index<3;context_index=context_index+1)begin: descriptor_view
+  // length/32 is at most 2047: overflow can only happen in the final
+  // 2048-burst window. Test that window in parallel with a 12-bit sum.
+  // Equality at the device end is legal only without a partial last burst.
+  wire[11:0]end_low_bursts={1'b0,commit_addresses[context_index*21+3+:11]}+
+   {1'b0,commit_lengths[context_index*16+5+:11]};
+  assign illegal_region[context_index]=commit_lengths[context_index*16+:16]!=0 &&
+   (commit_addresses[context_index*21+:3]!=0 ||
+    ((&commit_addresses[context_index*21+14+:7]) && end_low_bursts[11] &&
+     ((|end_low_bursts[10:0]) || (|commit_lengths[context_index*16+:5]))));
+  // Constant indices keep bank muxes and descriptor write enables explicit.
+  assign active_address[context_index]=read_bank ? address[context_index+3]:address[context_index];
+  assign active_remaining[context_index]=read_bank ? remaining[context_index+3]:remaining[context_index];
+  assign chunk_length[context_index]=active_remaining[context_index]<32 ? active_remaining[context_index][5:0]:6'd32;
+  // A full 32-byte chunk always fits at count<=32. At counts 33..63,
+  // only a short final chunk can fit; compare its five-bit tail directly.
+  assign fetch_eligible[context_index]=live[read_bank] && active_remaining[context_index]!=0 &&
+   (count[context_index]<=32 ||
+    (count[context_index]<64 && active_remaining[context_index][15:5]==0 &&
+     ({1'b0,count[context_index][4:0]}+{1'b0,active_remaining[context_index][4:0]}<=6'd32)));
+  assign output_eligible[context_index]=count[context_index]!=0;
+ end endgenerate
+ wire bank_empty=!(|{active_remaining[0],active_remaining[1],active_remaining[2]});
+ wire fetch_found=|fetch_eligible,output_found=|output_eligible;
+ reg commit_legal;
  reg[1:0]fetch_choice,output_choice;
- integer i,j,candidate,index;
+ reg[2:0]fetch_mask,output_mask,fetch_candidates,output_candidates;
+ integer i,j;
  always @* begin
-  commit_legal=1;
-  for(i=0;i<3;i=i+1)
-   if(commit_lengths[i*16+:16]!=0 &&
-    (commit_addresses[i*21+:3]!=0 ||
-     ({1'b0,commit_addresses[i*21+:21]} +
-      (({6'd0,commit_lengths[i*16+:16]}+22'd31)>>5)*8)>22'h200000))commit_legal=0;
-  fetch_found=0;fetch_choice=0;output_found=0;output_choice=0;
-  bank_empty=1;candidate=0;index=0;
-  for(i=0;i<3;i=i+1)begin
-   if(remaining[read_bank*3+i]!=0)bank_empty=0;
-   candidate=fetch_rr+i;if(candidate>=3)candidate=candidate-3;
-   index=read_bank*3+candidate;
-   if(!fetch_found && live[read_bank] && remaining[index]!=0 &&
-    count[candidate]+((remaining[index]<32)?remaining[index]:16'd32)<=64)begin
-    fetch_found=1;fetch_choice=candidate;
-   end
-   candidate=output_rr+i;if(candidate>=3)candidate=candidate-3;
-   if(!output_found && count[candidate]!=0)begin output_found=1;output_choice=candidate;end
-  end
+  commit_legal=!(|illegal_region);
+  case(fetch_rr)
+   1:fetch_mask=3'b110;2:fetch_mask=3'b100;default:fetch_mask=3'b111;
+  endcase
+  case(output_rr)
+   1:output_mask=3'b110;2:output_mask=3'b100;default:output_mask=3'b111;
+  endcase
+  fetch_candidates=fetch_eligible & fetch_mask;
+  if(fetch_candidates==0)fetch_candidates=fetch_eligible;
+  output_candidates=output_eligible & output_mask;
+  if(output_candidates==0)output_candidates=output_eligible;
+  fetch_choice=fetch_candidates[0] ? 0 : fetch_candidates[1] ? 1 : 2;
+  output_choice=output_candidates[0] ? 0 : output_candidates[1] ? 1 : 2;
  end
+ wire[2:0]fetch_grant={fetch_candidates[2] && !(|fetch_candidates[1:0]),
+  fetch_candidates[1] && !fetch_candidates[0],fetch_candidates[0]};
+ wire[20:0]chosen_address=({21{fetch_grant[0]}} & active_address[0]) |
+  ({21{fetch_grant[1]}} & active_address[1]) | ({21{fetch_grant[2]}} & active_address[2]);
+ wire[5:0]chosen_length=({6{fetch_grant[0]}} & chunk_length[0]) |
+  ({6{fetch_grant[1]}} & chunk_length[1]) | ({6{fetch_grant[2]}} & chunk_length[2]);
  assign bank_live=live;
  assign commit_ready=resetn && !fault && !live[write_bank] && commit_legal;
  assign reuse_blocked=resetn && commit_valid && live[write_bank];
@@ -68,22 +97,38 @@ module t_soft_reader(
    2:cache2[wp[2]]<=received_byte;
   endcase
  end
+ wire finish_read=put && beat==fetch_length-1;
+ // Empty-bank payload registers may capture a rejected descriptor. It is
+ // never made live: commit_ready still checks every region, fault latches,
+ // and only global reset clears fault and all descriptors. Keeping legality
+ // off this wide payload enable does not acknowledge an invalid request.
+ wire capture_descriptor=commit_valid && !fault && !live[write_bank];
+ wire[15:0]remaining_after_read=active_remaining[fetch_context]-fetch_length;
+ wire[20:0]next_address=held_address+21'd8;
+ genvar descriptor_index;
+ generate for(descriptor_index=0;descriptor_index<6;descriptor_index=descriptor_index+1)begin: descriptor_storage
+  always @(posedge clk)begin
+   if(!resetn)begin address[descriptor_index]<=0;remaining[descriptor_index]<=0;end
+   else if(capture_descriptor && write_bank==(descriptor_index/3))begin
+    address[descriptor_index]<={commit_addresses[(descriptor_index%3)*21+3+:18],3'b000};
+    remaining[descriptor_index]<=commit_lengths[(descriptor_index%3)*16+:16];
+   end else if(finish_read && read_bank==(descriptor_index/3) && fetch_context==(descriptor_index%3))begin
+    address[descriptor_index]<=next_address;
+    remaining[descriptor_index]<=remaining_after_read;
+   end
+  end
+ end endgenerate
  always @(posedge clk)begin
   if(!resetn)begin
    live<=0;write_bank<=0;read_bank<=0;state<=IDLE;fault<=0;
-   fetch_rr<=0;output_rr<=0;fetch_context<=0;fetch_index<=0;
+   fetch_rr<=0;output_rr<=0;fetch_context<=0;
    held_address<=0;fetch_length<=0;beat<=0;
    soft_valid<=0;soft_context<=0;soft_data<=0;
-   for(j=0;j<6;j=j+1)begin address[j]<=0;remaining[j]<=0;end
    for(j=0;j<3;j=j+1)begin wp[j]<=0;rp[j]<=0;count[j]<=0;end
   end else begin
    if(commit_valid && !commit_legal)fault<=1;
    if(commit_valid && commit_ready)begin
     live[write_bank]<=1;write_bank<=!write_bank;
-    for(j=0;j<3;j=j+1)begin
-     address[write_bank*3+j]<=commit_addresses[j*21+:21];
-     remaining[write_bank*3+j]<=commit_lengths[j*16+:16];
-    end
    end
    if(!soft_valid || soft_ready)begin
     soft_valid<=pop;
@@ -109,17 +154,15 @@ module t_soft_reader(
     IDLE:if(live[read_bank])begin
      if(bank_empty)begin live[read_bank]<=0;read_bank<=!read_bank;end
      else if(fetch_found && !fault)begin
-      fetch_context<=fetch_choice;fetch_index<=read_bank*3+fetch_choice;
-      held_address<=address[read_bank*3+fetch_choice];
-      fetch_length<=remaining[read_bank*3+fetch_choice]<32 ? remaining[read_bank*3+fetch_choice]:16'd32;
+      fetch_context<=fetch_choice;
+      held_address<=chosen_address;
+      fetch_length<=chosen_length;
       beat<=0;state<=REQUEST;
      end
     end
     REQUEST:if(req_valid && req_ready)state<=RESPONSE;
     RESPONSE:if(put)begin
      if(beat==fetch_length-1)begin
-      remaining[fetch_index]<=remaining[fetch_index]-fetch_length;
-      address[fetch_index]<=address[fetch_index]+21'd8;
       fetch_rr<=fetch_context==2?0:fetch_context+1'b1;
       beat<=0;state<=IDLE;
      end else beat<=beat+1'b1;

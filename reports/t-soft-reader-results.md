@@ -1,5 +1,7 @@
 # ② T soft reader・3階層cacheの実装と実K7接続
 
+**後続版:** [固定context化の資源・再試験結果](t-soft-reader-fixed-results.md)。以下は可変index版2251 logic時点の比較元として保持する。現行readerは1373 logic、全体追跡22099/20736で依然超過。
+
 ## 判定
 
 T soft readerと3×64 B cache、2-bank symbol descriptorをRTL化した。実共有K7との有限試験でT最大3階層とSの復号bitを照合し、実SDRAM serviceとの別の有限競合試験も13位相で完了した。**機能・供給条件の部分検証は前進したが、面積超過のため受信機として不採用／未成立**である。
