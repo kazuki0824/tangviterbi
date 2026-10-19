@@ -42,6 +42,11 @@ initial begin
  for(i=1;i<5;i=i+1)begin
   @(posedge clk);@(negedge clk);#1;check_request(i);complete(i);
  end
+ // Move cursor to 4, then exercise wrap to lower-numbered pending clients.
+ cv=6'b010000;@(posedge clk);@(negedge clk);#1;check_request(4);complete(4);
+ cv=6'b001000;@(posedge clk);@(negedge clk);#1;check_request(3);complete(3);
+ cv=6'b000011;@(posedge clk);@(negedge clk);#1;check_request(0);complete(0);
+ @(posedge clk);@(negedge clk);#1;check_request(1);complete(1);
  repeat(3)@(negedge clk);
  if(qv || cr || crv)$fatal(1,"phantom transaction");
  $display("PASS six clients, locked request, seven-cycle response stalls, masks, priority and background RR");$finish;
@@ -51,9 +56,42 @@ endmodule
 '''
 @unittest.skipUnless(shutil.which('iverilog') and shutil.which('vvp'),'Icarus required')
 class ArbiterTest(unittest.TestCase):
+ rtl_file=ROOT/"rtl/sdram_client_arbiter.sv"
  def test_locked_request_and_response(self):
   with tempfile.TemporaryDirectory() as d:
    p=Path(d);(p/'tb.sv').write_text(TB)
-   subprocess.run(['iverilog','-g2012','-s','tb','-o',str(p/'sim'),str(p/'tb.sv'),str(ROOT/'rtl/sdram_client_arbiter.sv')],check=True)
+   subprocess.run(['iverilog','-g2012','-s','tb','-o',str(p/'sim'),str(p/'tb.sv'),str(self.rtl_file)],check=True)
    r=subprocess.run(['vvp',str(p/'sim')],capture_output=True,text=True,timeout=20)
    self.assertEqual(r.returncode,0,r.stdout+r.stderr);self.assertIn('PASS six clients',r.stdout)
+
+ def test_all_request_subsets_and_cursors(self):
+  # Selection oracle is circular search, independent of the mask implementation.
+  expected=[]
+  for cursor in range(5):
+   for valid in range(64):
+    selected=32 if valid&32 else next((1<<((cursor+j)%5) for j in range(5) if valid&(1<<((cursor+j)%5))),0)
+    expected.append(selected)
+  tb=TB[:TB.index('initial begin\n for(i=0;')]+r'''
+integer cursor,subset;
+initial begin
+ resetn=1;
+ for(cursor=0;cursor<5;cursor=cursor+1)begin
+  for(subset=0;subset<64;subset=subset+1)begin
+   dut.rr=cursor;cv=subset;#1;
+   $display("SELECT %0d",dut.chosen);
+  end
+ end
+ $finish;
+end
+endmodule
+'''
+  with tempfile.TemporaryDirectory() as d:
+   p=Path(d);(p/'tb.sv').write_text(tb)
+   subprocess.run(['iverilog','-g2012','-s','tb','-o',str(p/'sim'),str(p/'tb.sv'),str(self.rtl_file)],check=True)
+   r=subprocess.run(['vvp',str(p/'sim')],capture_output=True,text=True,timeout=20)
+   self.assertEqual(r.returncode,0,r.stdout+r.stderr)
+   observed=[int(s.split()[1]) for s in r.stdout.splitlines() if s.startswith('SELECT ')]
+   self.assertEqual(observed,expected)
+
+class ArbiterCandidateTest(ArbiterTest):
+ rtl_file=ROOT/"experiments/rotation_sdram_client_arbiter.sv"

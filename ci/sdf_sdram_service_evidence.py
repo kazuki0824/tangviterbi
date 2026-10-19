@@ -27,6 +27,15 @@ def main():
   code=run(cmd,ROOT,d/'pnr.log',600)
   (d/'pnr-exit.json').write_text(json.dumps(code)+'\n')
  (d/'commands.json').write_text(json.dumps(commands,indent=2)+'\n')
+ if not (d/'routed.json').exists() and not (d/'routed.json.gz').exists():
+  log=(d/'pnr.log').read_text()
+  result=dict(scope=__doc__,route_completed=False,service_logic_positions=None,
+   pnr_exit=read(d/'pnr-exit.json') if (d/'pnr-exit.json').exists() else None,
+   pnr_errors=[line for line in log.splitlines() if line.startswith('ERROR:')],
+   source_sha256={f:hashlib.sha256((ROOT/f).read_bytes()).hexdigest() for f in FILES+['ci/sdf_sdram_service_evidence.py']},
+   qualified_receiver=False)
+  (d/'summary.json').write_text(json.dumps(result,indent=2)+'\n')
+  print(json.dumps(result,indent=2));return
  mapped=read(d/'mapped.json')['modules']['sdf_sdram_service_probe']['cells'];routed=read(d/'routed.json')['modules']['top']['cells']
  regs={k for k,v in mapped.items() if v['type'].startswith('DFF') and FILES[-1] in v.get('attributes',{}).get('src','')}
  assert len(regs)==1652, 'scan 1651 + signature 1 must survive'
