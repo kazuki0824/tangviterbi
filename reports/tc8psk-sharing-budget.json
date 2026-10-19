@@ -2,7 +2,7 @@
   "scope": "Standalone TC8 audit, shared core prototype, and connected T3+S metric/depuncture/FIFO/scheduler/K7 stage. Other receiver stages remain allocations.",
   "feasibility_status": "undetermined",
   "search_stopped": false,
-  "continuation_reason": "Connected TC8 alternative passed independent full-ACS/bit oracle and partial P&R. Mixed resource diagnostic now fits, but real service/burst/holding, full receiver and SoC gates remain.",
+  "continuation_reason": "Joint data and finite deadlines improved; best joint Fmax153.491943 remains below154.285714, seed2 hit600s. Measured residual arbiter owner-to-controller path has a concrete unmeasured22-bit metadata-register option; adopted receivers remain0.",
   "standalone_cases": [
     {
       "name": "acs22",
@@ -114,5 +114,10 @@
     38831
   ],
   "actual_service_plus_K7_test": false,
-  "whole_receiver_deadlines_verified": false
+  "whole_receiver_deadlines_verified": false,
+  "latest_joint_budget": "reports/shared-receiver-service-budget.json",
+  "latest_joint_report": "reports/shared-receiver-service-results.md",
+  "latest_joint_partial_target_pass": false,
+  "latest_joint_best_Fmax_MHz": 153.491943359375,
+  "latest_joint_seed2_exit": 124
 }

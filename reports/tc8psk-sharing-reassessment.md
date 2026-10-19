@@ -1,5 +1,7 @@
 # ② TC8PSK割当の検算と、共有coreへの構成変更
 
+**最新：[SDRAM service・reader・共有K7の同時接続検証](shared-receiver-service-results.md)。** 以下のcore/stage単体・19891等の診断値は、その時点の測定範囲の記録。新しいS保持・接続後のclock合否は最新レポートを参照。
+
 **更新：[metric・depuncture・FIFO・調停まで接続した結果](shared-tc8-k7-connected-results.md)を参照。** 接続stageの部分P&Rが通過し、混在診断値は19891 logicへ改善した。以下はcore単体を測った時点の記録で、接続未実施・credit 0という記述はその時点の状態。②全体の成立確認は依然0。
 
 ## 結論と打ち止めの判断
