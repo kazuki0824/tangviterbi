@@ -1,0 +1,76 @@
+{
+  "scope": "16-symbol layout reference and isolated BL8 IO RTL, not integrated time deinterleaver",
+  "adopted": false,
+  "whole_receiver_verified": false,
+  "synthesis": {
+    "reader_barrel": {
+      "cells": {
+        "DFFRE": 96,
+        "LUT4": 491,
+        "IBUF": 332,
+        "LUT2": 191,
+        "ALU": 38,
+        "LUT3": 818,
+        "VCC": 1,
+        "GND": 1,
+        "DFFE": 248,
+        "OBUF": 34,
+        "DFFR": 1,
+        "LUT1": 1,
+        "DFF": 4
+      },
+      "logic": 1539,
+      "FF": 349,
+      "placed": false
+    },
+    "reader_serial": {
+      "cells": {
+        "DFFRE": 96,
+        "LUT4": 78,
+        "IBUF": 332,
+        "LUT2": 31,
+        "ALU": 37,
+        "LUT3": 268,
+        "VCC": 1,
+        "DFFE": 248,
+        "OBUF": 34,
+        "DFFR": 1,
+        "LUT1": 1,
+        "GND": 1,
+        "DFF": 4
+      },
+      "logic": 415,
+      "FF": 349,
+      "placed": false
+    },
+    "writer": {
+      "cells": {
+        "DFFRE": 77,
+        "LUT4": 74,
+        "IBUF": 84,
+        "ALU": 24,
+        "LUT2": 15,
+        "LUT3": 16,
+        "DFFE": 256,
+        "GND": 1,
+        "VCC": 1,
+        "OBUF": 282,
+        "DFFR": 1,
+        "LUT1": 1,
+        "DFF": 4
+      },
+      "logic": 130,
+      "FF": 338,
+      "placed": false
+    }
+  },
+  "source_sha256": {
+    "experiments/t_time_block_layout.py": "56b3a85771a29f146ba8fe569c8830cb2749106a5413d3706699b7c4467ee55d",
+    "experiments/t_time_block_reader.sv": "ce1e648acc38a36c515908b35d3a9b81605188b003c3c6987c463b0b532037fd",
+    "experiments/t_time_block_writer.sv": "b69cede9f60db402c6cec7234a20210adb1510e104314f0097b62ddae7d681fa",
+    "tests/test_t_time_block_layout.py": "ca9447c6fe083f8809ccc4211c69f6340300d09037df9b90e425eef27bede35a",
+    "tests/test_t_time_block_reader.py": "22ce95c7a5d16e96178947e0eec45914f18cbe5841f17cbc39eddeefd16b2695",
+    "tests/test_t_time_block_writer.py": "1f2212393e31f47883c5811be0c2815995c45401f60bd8fb5b85ab62c88f5198",
+    "tests/test_shared_receiver_block_tti_load.py": "ed58dd6fd85798578967f8386c3ba8892bcc955de76cf83231fef0dffd60b2ab"
+  }
+}
