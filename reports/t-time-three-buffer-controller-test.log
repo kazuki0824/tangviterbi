@@ -1,0 +1,36 @@
+test_three_buffer_trace (tests.test_t_time_three_buffer_controller.ControllerScheduleTest.test_three_buffer_trace) ... {'mode': 3, 'batch': 100, 'period_clocks': 160380, 'epoch_clocks': 2566080, 'ring_bytes': 6344832, 'scratch_bytes_each': 479232, 'three_scratch_end': 7782528, 'remaining_after_Tspill_Sframe_FFT': 451840, 'tile_bytes': 1536, 'roles': {'incoming': 1, 'processing': 0, 'outgoing': 2}, 'requests_per_client': [14976, 14976, 63336, 0, 0, 0], 'serial_transform_byte_clocks': 0, 'serialized_bytes': False, 'competing': False, 'real_TTI_addresses': True, 'S_and_FFT_are_proxies': True, 'cold_fill_and_whole_receiver_verified': False}
+CLIENT id=0 finish=2446215 late_requests=0 max_lateness=0
+CLIENT id=1 finish=2446236 late_requests=0 max_lateness=0
+CLIENT id=2 finish=1357289 late_requests=0 max_lateness=0
+CLIENT id=3 finish=0 late_requests=0 max_lateness=0
+CLIENT id=4 finish=0 late_requests=0 max_lateness=0
+CLIENT id=5 finish=0 late_requests=0 max_lateness=0
+DONE clocks=2446236 refresh_gap=1197
+/tmp/tmp0aamlyq3/tb.sv:46: $finish called at 24771985 (1s)
+
+{'mode': 3, 'batch': 100, 'period_clocks': 160380, 'epoch_clocks': 2566080, 'ring_bytes': 6344832, 'scratch_bytes_each': 479232, 'three_scratch_end': 7782528, 'remaining_after_Tspill_Sframe_FFT': 451840, 'tile_bytes': 1536, 'roles': {'incoming': 1, 'processing': 0, 'outgoing': 2}, 'requests_per_client': [14976, 14976, 63336, 0, 0, 0], 'serial_transform_byte_clocks': 1966848, 'serialized_bytes': True, 'competing': False, 'real_TTI_addresses': True, 'S_and_FFT_are_proxies': True, 'cold_fill_and_whole_receiver_verified': False}
+CLIENT id=0 finish=2461013 late_requests=0 max_lateness=0
+CLIENT id=1 finish=2461034 late_requests=0 max_lateness=0
+CLIENT id=2 finish=3165008 late_requests=12956 max_lateness=598928
+CLIENT id=3 finish=0 late_requests=0 max_lateness=0
+CLIENT id=4 finish=0 late_requests=0 max_lateness=0
+CLIENT id=5 finish=0 late_requests=0 max_lateness=0
+DONE clocks=3165008 refresh_gap=1197
+/tmp/tmp7950qag8/tb.sv:46: $finish called at 31959705 (1s)
+
+{'mode': 3, 'batch': 100, 'period_clocks': 160380, 'epoch_clocks': 2566080, 'ring_bytes': 6344832, 'scratch_bytes_each': 479232, 'three_scratch_end': 7782528, 'remaining_after_Tspill_Sframe_FFT': 451840, 'tile_bytes': 1536, 'roles': {'incoming': 1, 'processing': 0, 'outgoing': 2}, 'requests_per_client': [14976, 14976, 63336, 29952, 17152, 32768], 'serial_transform_byte_clocks': 0, 'serialized_bytes': False, 'competing': True, 'real_TTI_addresses': True, 'S_and_FFT_are_proxies': True, 'cold_fill_and_whole_receiver_verified': False}
+CLIENT id=0 finish=2529937 late_requests=0 max_lateness=0
+CLIENT id=1 finish=2529958 late_requests=0 max_lateness=0
+CLIENT id=2 finish=3213576 late_requests=37276 max_lateness=647496
+CLIENT id=3 finish=2696995 late_requests=24035 max_lateness=325637
+CLIENT id=4 finish=2540532 late_requests=0 max_lateness=0
+CLIENT id=5 finish=2566018 late_requests=0 max_lateness=0
+DONE clocks=3213576 refresh_gap=1197
+/tmp/tmp6hgnmnwv/tb.sv:46: $finish called at 32445385 (1s)
+
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 293.783s
+
+OK

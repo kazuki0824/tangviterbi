@@ -1,0 +1,26 @@
+test_three_buffer_trace (tests.test_t_time_three_buffer_wide.ControllerScheduleTest.test_three_buffer_trace) ... {'mode': 3, 'batch': 100, 'period_clocks': 160380, 'epoch_clocks': 2566080, 'ring_bytes': 6344832, 'scratch_bytes_each': 479232, 'three_scratch_end': 7782528, 'remaining_after_Tspill_Sframe_FFT': 451840, 'tile_bytes': 1536, 'roles': {'incoming': 1, 'processing': 0, 'outgoing': 2}, 'requests_per_client': [14976, 14976, 63336, 29952, 17152, 32768], 'serial_transform_byte_clocks': 491712, 'serialized_bytes': True, 'competing': True, 'real_TTI_addresses': True, 'S_and_FFT_are_proxies': True, 'cold_fill_and_whole_receiver_verified': False, 'transform_bytes_per_clock': 4}
+CLIENT id=0 finish=2472666 late_requests=0 max_lateness=0
+CLIENT id=1 finish=2473291 late_requests=0 max_lateness=0
+CLIENT id=2 finish=2925302 late_requests=16209 max_lateness=359222
+CLIENT id=3 finish=2490166 late_requests=0 max_lateness=0
+CLIENT id=4 finish=2476729 late_requests=0 max_lateness=0
+CLIENT id=5 finish=2566013 late_requests=0 max_lateness=0
+DONE clocks=2925302 refresh_gap=1197
+/tmp/tmpyu95cw33/tb.sv:46: $finish called at 29562645 (1s)
+
+{'mode': 3, 'batch': 100, 'period_clocks': 160380, 'epoch_clocks': 2566080, 'ring_bytes': 6344832, 'scratch_bytes_each': 479232, 'three_scratch_end': 7782528, 'remaining_after_Tspill_Sframe_FFT': 451840, 'tile_bytes': 1536, 'roles': {'incoming': 1, 'processing': 0, 'outgoing': 2}, 'requests_per_client': [14976, 14976, 63336, 29952, 17152, 32768], 'serial_transform_byte_clocks': 63336, 'serialized_bytes': True, 'competing': True, 'real_TTI_addresses': True, 'S_and_FFT_are_proxies': True, 'cold_fill_and_whole_receiver_verified': False, 'transform_bytes_per_clock': 32}
+CLIENT id=0 finish=2472632 late_requests=0 max_lateness=0
+CLIENT id=1 finish=2473232 late_requests=0 max_lateness=0
+CLIENT id=2 finish=2597286 late_requests=2022 max_lateness=31206
+CLIENT id=3 finish=2490158 late_requests=0 max_lateness=0
+CLIENT id=4 finish=2476644 late_requests=0 max_lateness=0
+CLIENT id=5 finish=2566023 late_requests=0 max_lateness=0
+DONE clocks=2597286 refresh_gap=1197
+/tmp/tmpx61qr984/tb.sv:46: $finish called at 26282485 (1s)
+
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 203.940s
+
+OK
