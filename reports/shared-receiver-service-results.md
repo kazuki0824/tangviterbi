@@ -10,6 +10,8 @@
 
 4. [ready直結を除いた版](../experiments/shared_receiver_service_isolated.sv)。256-bit退避版を基に、[depuncture](../experiments/s3_depuncture_isolated.sv)の入力readyを `!out_valid` の保持状態で決め、output-readyからの同clock bypassを除く。前pairの消費と次soft入力を同時に行わないので、値は保存されるが受付間隔が延びる。T2語FIFOはこの版には加えない。全5符号化率の独立pair oracleと統合期限を再検査する。
 
+5. [要求metadata登録版](../experiments/shared_receiver_service_metadata.sv)。ready直結除去版の[arbiter](../experiments/sdram_client_arbiter_metadata.sv)で、既存SELECT edgeにaddress21＋write1を登録する。ISSUE/RESPONSEの周期・所有権・round-robin規則を変えず、payload256とDQM32はproducer保持のままとする。登録値はreq_valid時のみ有効で、無効時の値をresetする回路は加えない。
+
 全版で同じclock/reset、T3＋S同時稼働、S binary/TC8、元のdepuncture/soft/cost精度を維持。mode/rate変更はglobal reset、Sだけの独立retuneと出力backpressureは未実装。試作はexperiments内で、既存の生産用RTLを変更しない。
 
 S FIFOをtestbench内の未課金保持として扱うことをやめ、今回の測定回路へ含めた。T response32 BとT FIFO2語も各版の実費に含める。BG各producerのrequest保持、実FFT・interleaver・復調出力の保持はまだ実装されておらず、今回の追加保持と同じものとみなさない。
@@ -18,7 +20,7 @@ ready直結除去の[単体試験](../tests/test_s3_depuncture_isolated.py)は�
 
 ## データ・プロトコル検査
 
-[比較unittest](../tests/test_shared_receiver_service.py)、[T2語版unittest](../tests/test_shared_receiver_service_elastic.py)。[比較結果JSON](shared-receiver-service-test.json)、[T2語版JSON](shared-receiver-service-elastic-test.json)、[ready直結除去版JSON](shared-receiver-service-isolated-test.json)。各版でS binaryとTC8を別のglobal reset epochとして検査した。
+[比較unittest](../tests/test_shared_receiver_service.py)、[T2語版unittest](../tests/test_shared_receiver_service_elastic.py)。[比較結果JSON](shared-receiver-service-test.json)、[T2語版JSON](shared-receiver-service-elastic-test.json)、[ready直結除去版JSON](shared-receiver-service-isolated-test.json)。[metadata登録版JSON](shared-receiver-service-metadata-test.json)も含め、各版でS binaryとTC8を別のglobal reset epochとして検査した。
 
 - T Mode 1、1/5/7 segment、各7/8、2 symbol。T softは各symbol 576/2880/4032 B、合計7488 B、平均28.813853 MB/s。
 - 初期symbolをcontroller RTL経由で書いてからt=0にcommitする。以降は次symbolのwrite完了後にのみcommit。実T spill write 3 symbol×234＝702 BL8（初期prefillを含む）、T readは2 symbol×234＝468 BL8。最初に読んだ物理bankを3番目のsymbolで実際に再使用し、liveが解放されるまでwriteを待つ。
@@ -28,6 +30,8 @@ ready直結除去の[単体試験](../tests/test_s3_depuncture_isolated.py)は�
 - traceback出力をACS直後で打ち切らず、末尾に2000 clocksを与える。64-bit bank単位の出力数を検査し、有限列の未確定末尾を全量出力済みとしない。binary時の未使用B1は比較しない。
 
 [S FIFO単体試験](../tests/test_s_input_fifo.py)は3372 wordを独立accepted-word列と照合し、256要素満杯・output stall時の安定性・複数回のpointer周回・完全drainを確認した。
+
+[arbiter cycle miter](../tests/test_sdram_client_arbiter_metadata.py)は、producerがreadyまで要求を保持する契約で旧版と登録版を20,000周期比較した。要求3,288件、応答3,287件、途中resetによる処理中断を含み、ready/valid・応答先・有効要求metadata/payload/DQMが全周期一致した。[実行log](sdram-client-arbiter-metadata-test.log)。
 
 ## clock単位の有限期限
 
@@ -43,6 +47,10 @@ ready直結除去の[単体試験](../tests/test_s3_depuncture_isolated.py)は�
 | 退避＋T2語 | TC8 | 26230 | 36935 | 76461 | 0 |
 | ready直結除去 | binary | 38916 | 37038 | 76501 | 0 |
 | ready直結除去 | TC8 | 26230 | 36935 | 76461 | 0 |
+| metadata登録 | binary | 38916 | 37038 | 76501 | 0 |
+| metadata登録 | TC8 | 26230 | 36935 | 76461 | 0 |
+
+metadata登録版の記録した全trace値はready直結除去版と一致し、T/Sデータoracleも通過した。転送周期を増やした改善ではない。
 
 ready直結を除いたdepunctureの、下流stallがない場合の必要処理clockはsoft数＋pair数である。S binary最悪7/8は57.72＋50.505＝108.225 Mclock/s、T最大は28.813853＋25.212121＝54.025974 Mclock/s。各contextは独立回路である。共通soft入力需要は86.533853 MB/sだが、調停やstallを含めた有効能力の証明ではなく、必要条件の検算にとどまる。
 
@@ -52,7 +60,7 @@ ready直結を除いたdepunctureの、下流stallがない場合の必要処理
 
 ## CADと資源台帳
 
-各版の[元reader CAD](shared-receiver-service-evidence/summary.json)、[退避版CAD](shared-receiver-service-buffered-evidence/summary.json)、[T2語版CAD](shared-receiver-service-elastic-evidence/summary.json)、[ready直結除去版CAD](shared-receiver-service-isolated-evidence/summary.json)。seed 1、同じ1874-FF probe、GW2AR-LV18QN88C8/I7、目標1080/7 MHz。source hashとcommandを保存する。scan1497＋capture364＋digest13 FFとそのpassthrough/digestだけをprobe費用として分離し、capture D側logicを本体へ課金する。
+各版の[元reader CAD](shared-receiver-service-evidence/summary.json)、[退避版CAD](shared-receiver-service-buffered-evidence/summary.json)、[T2語版CAD](shared-receiver-service-elastic-evidence/summary.json)、[ready直結除去版CAD](shared-receiver-service-isolated-evidence/summary.json)、[metadata登録版CAD](shared-receiver-service-metadata-evidence/summary.json)。seed 1、同じ1874-FF probe、GW2AR-LV18QN88C8/I7、目標1080/7 MHz。source hashとcommandを保存する。scan1497＋capture364＋digest13 FFとそのpassthrough/digestだけをprobe費用として分離し、capture D側logicを本体へ課金する。
 
 CADの最終数値と混在台帳は[再計算JSON](shared-receiver-service-budget.json)を参照。台帳は旧19891 logicからservice/reader3854と共有TC8 stage7468を一度だけ除き、joint netlist実費を足す。独立TC8の3208をさらに削除しない。FF/BSRAM/DSPも同じ所有権で置換する。
 
@@ -67,8 +75,10 @@ CADの最終数値と混在台帳は[再計算JSON](shared-receiver-service-budg
 | 退避＋T2語 / 1 | 11518 | 5392 | 6 / 2 | 121.565773 | 不合格 |
 | ready直結除去 / 1 | 11491 | 5370 | 6 / 2 | 153.491943 | 不合格 |
 | 同じRTL / 2 | — | — | — | 未確定 | 600秒で計算未完 |
+| metadata登録 / 1 初回 | 11569 | 5394 | 6 / 2 | 134.390533* | 配線未完 |
+| metadata登録 / 1 再実行 | 11569 | 5394 | 6 / 2 | 134.390533 | 不合格 |
 
-元readerの実行はexit 1で、ログにRouting complete記録がない。出力reportの128.915817を成功した完走結果とは扱わない。他3版は配線完了後にclock条件でexit 1となった。**有限試験のclock数が期限内でも、実時間の性能合格ではない。**
+元readerの実行はexit 1で、ログにRouting complete記録がない。出力reportの128.915817を成功した完走結果とは扱わない。元の比較3版は配線完了後にclock条件でexit 1となった。**有限試験のclock数が期限内でも、実時間の性能合格ではない。**
 
 T2語FIFOだけでは長いready経路がFIFOのread pointer制御へ移り、改善しなかった。mapped source位置を追うと、depunctureの保持状態やK7入力FIFOのcountから上流保持へ戻る経路だった。ready直結除去でこの経路を短くし、seed 1の最長経路はSDRAM arbiter owner→要求metadata選択→controller stateへ移った。必要周期6.481481 nsに対しreport経路6.515000 nsで、約0.033519 ns不足する。
 
@@ -76,9 +86,15 @@ ready直結除去版を台帳へ置換すると `19891−3854−7468＋11491＝2
 
 現在の最高reported Fmaxは153.491943 MHz。目標との差は0.793771 MHz、約0.5145%。**統合clock合格は0で、性能合格・通信路正式割当・採用へ進めない。**
 
-次の具体的な対策候補は、arbiterがSELECTでownerを登録するのと同時に要求address21＋write1の22-bit metadataを登録し、既存ISSUE周期の長い選択経路を切ること。現行のproducer保持契約の下では、選択時と要求受理時でmetadataが同じでなければならず、周期追加なしで試せる余地がある。これはまだ実装・性能確認していない案であり、資源や成立のcreditを与えない。
+22-bit metadata登録案は実装・検算したが**不採用**。初回はexit 1、明示ERRORなし、Routing complete記録なしで終了したため、出力reportの134.390533 MHzを最終配線値とは扱わなかった。同一RTL・collector・seed・pin・clockで再実行し、今度は配線完了、clock不合格のERRORと正常終了記録を確認した。[初回CAD](shared-receiver-service-metadata-evidence/summary.json)、[再実行CAD](shared-receiver-service-metadata-retry-evidence/summary.json)。再実行でも134.390533 MHzで、source hashの一致を台帳生成時に検査する。初回終了の原因は断定しない。
 
-探索を打ち止めとする根拠は現時点ではないが、成立する別案を確認したという意味でもない。残る経路対策が資源・目標clock・実期限を満たさず、測定根拠のある改善も残らなければ、この共有構成の救済を打ち切る。②全方式の不可能性とは区別する。
+登録版のjoint費用11569 logic・5394 FF位置・6 BSRAM・2 DSPを置換すると、混在診断値は20138/20736 logic（97.116%、残598）、12144/15552 FF位置（78.086%、残3408）、44/46 BSRAM（残2）、34/48 DSP（残14）。ready直結除去版に比べlogic＋78、FF位置＋24で、22 bitという信号幅だけでは周辺の再合成・配置費用を表せない。有限試験が同周期で通ってもclockを改善せず、旧版を置き換えない。
+
+配線後の最長経路は `controller.refresh_age` →加算/比較・request受付制御→ `controller.state`。report周期7.441000 ns、必要6.481481 nsに対し0.959519 ns不足。[pin/P&R JSON](shared-receiver-service-metadata-retry-evidence/pnr.json)に始点・終点・delayを保存する。22-bit登録だけで全経路を解決できるという仮説は棄却する。
+
+次はcarry比較がrefresh_due・飽和・faultのどの述語を共有しているかをmapped netlist上で確定する。その上で検証する余地があるのは、最高153.49 MHzのready直結除去版を基点に、refresh受付用の判定を1 clock先のcounter値から事前登録し、元の閾値・refresh周期・受付禁止周期と完全一致させる案。登録版の余分な22-bit費用を引き継ぐ案ではない。counterの加算と比較から受付/FSMへ至る実測経路に対応するが、まだ実装・同周期性・資源・clock未検証でありcreditを与えない。閾値前後、refresh reset、初期化、応答stallを旧controllerとcycle単位で照合してから統合CADへ進む。
+
+探索を打ち止めとする根拠は現時点ではないが、成立する別案を確認したという意味でもない。refresh判定を含む残る経路対策が資源・目標clock・実期限を満たさず、測定根拠のある改善も残らなければ、この共有構成の救済を打ち切る。②全方式の不可能性とは区別する。
 
 ## 情報・通信経路と未達
 

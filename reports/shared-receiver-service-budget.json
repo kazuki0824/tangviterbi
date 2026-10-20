@@ -46,7 +46,8 @@
       "adopted": false,
       "response_capture_bits": 0,
       "T_elastic_FIFO_words": 0,
-      "isolated_depuncture_ready": false
+      "isolated_depuncture_ready": false,
+      "registered_request_metadata_bits": 0
     },
     {
       "name": "buffered",
@@ -85,7 +86,8 @@
       "adopted": false,
       "response_capture_bits": 256,
       "T_elastic_FIFO_words": 0,
-      "isolated_depuncture_ready": false
+      "isolated_depuncture_ready": false,
+      "registered_request_metadata_bits": 0
     },
     {
       "name": "elastic",
@@ -124,7 +126,8 @@
       "adopted": false,
       "response_capture_bits": 256,
       "T_elastic_FIFO_words": 2,
-      "isolated_depuncture_ready": false
+      "isolated_depuncture_ready": false,
+      "registered_request_metadata_bits": 0
     },
     {
       "name": "isolated",
@@ -163,7 +166,8 @@
       "adopted": false,
       "response_capture_bits": 256,
       "T_elastic_FIFO_words": 0,
-      "isolated_depuncture_ready": true
+      "isolated_depuncture_ready": true,
+      "registered_request_metadata_bits": 0
     },
     {
       "name": "isolated-seed2",
@@ -183,7 +187,88 @@
       "adopted": false,
       "response_capture_bits": 256,
       "T_elastic_FIFO_words": 0,
-      "isolated_depuncture_ready": true
+      "isolated_depuncture_ready": true,
+      "registered_request_metadata_bits": 0
+    },
+    {
+      "name": "metadata",
+      "evidence": "reports/shared-receiver-service-metadata-evidence/summary.json",
+      "measured_partial": {
+        "logic_with_ram_blockers": 11569,
+        "FF_sites_with_ram_blockers": 5394,
+        "BSRAM": 6,
+        "DSP18": 2,
+        "RAM16SDP4": 273,
+        "pnr_exit": 1,
+        "route_completed": false,
+        "partial_target_pass": false,
+        "reported_fmax_MHz": 134.39053344726562
+      },
+      "mixed_diagnostic": {
+        "logic": 20138,
+        "FF_sites": 12144,
+        "BSRAM": 44,
+        "DSP18": 34,
+        "occupancy_percent": {
+          "logic": 97.11612654320987,
+          "FF_sites": 78.08641975308642,
+          "BSRAM": 95.65217391304348,
+          "DSP18": 70.83333333333333
+        },
+        "margins": {
+          "logic": 598,
+          "FF_sites": 3408,
+          "BSRAM": 2,
+          "DSP18": 14
+        },
+        "logic_margin": 598,
+        "resource_only_within_capacity": true
+      },
+      "adopted": false,
+      "response_capture_bits": 256,
+      "T_elastic_FIFO_words": 0,
+      "isolated_depuncture_ready": true,
+      "registered_request_metadata_bits": 22
+    },
+    {
+      "name": "metadata-retry",
+      "evidence": "reports/shared-receiver-service-metadata-retry-evidence/summary.json",
+      "measured_partial": {
+        "logic_with_ram_blockers": 11569,
+        "FF_sites_with_ram_blockers": 5394,
+        "BSRAM": 6,
+        "DSP18": 2,
+        "RAM16SDP4": 273,
+        "pnr_exit": 1,
+        "route_completed": true,
+        "partial_target_pass": false,
+        "reported_fmax_MHz": 134.39053344726562
+      },
+      "mixed_diagnostic": {
+        "logic": 20138,
+        "FF_sites": 12144,
+        "BSRAM": 44,
+        "DSP18": 34,
+        "occupancy_percent": {
+          "logic": 97.11612654320987,
+          "FF_sites": 78.08641975308642,
+          "BSRAM": 95.65217391304348,
+          "DSP18": 70.83333333333333
+        },
+        "margins": {
+          "logic": 598,
+          "FF_sites": 3408,
+          "BSRAM": 2,
+          "DSP18": 14
+        },
+        "logic_margin": 598,
+        "resource_only_within_capacity": true
+      },
+      "adopted": false,
+      "response_capture_bits": 256,
+      "T_elastic_FIFO_words": 0,
+      "isolated_depuncture_ready": true,
+      "registered_request_metadata_bits": 22
     }
   ],
   "source_s_FIFO_capacity": 256,
@@ -457,12 +542,78 @@
       ]
     }
   ],
+  "metadata_traces": [
+    {
+      "cycle": 110000,
+      "T_write": 702,
+      "commits": 2,
+      "S": 28307,
+      "steps": 1008,
+      "start": 34334,
+      "max_T_symbol_ACS_latency": 38916,
+      "deadline_misses": 0,
+      "commit_lateness": 0,
+      "S_external_backlog_peak": 1,
+      "S_FIFO_peak": 20,
+      "writer_reuse_wait": 14793,
+      "all_done": 80176,
+      "FFT_done": 76501,
+      "FFT_first": 37038,
+      "write_B": 23728,
+      "write_C": 61112,
+      "read_requests": 468,
+      "T_writes": 702,
+      "refreshes": 80,
+      "max_refresh_gap": 1201,
+      "TC8": 0,
+      "buffered_response": true,
+      "outputs": [
+        896,
+        4928,
+        6976,
+        26176
+      ]
+    },
+    {
+      "cycle": 110000,
+      "T_write": 702,
+      "commits": 2,
+      "S": 14153,
+      "steps": 1008,
+      "start": 34334,
+      "max_T_symbol_ACS_latency": 26230,
+      "deadline_misses": 0,
+      "commit_lateness": 0,
+      "S_external_backlog_peak": 1,
+      "S_FIFO_peak": 1,
+      "writer_reuse_wait": 736,
+      "all_done": 80198,
+      "FFT_done": 76461,
+      "FFT_first": 36935,
+      "write_B": 25310,
+      "write_C": 63834,
+      "read_requests": 468,
+      "T_writes": 702,
+      "refreshes": 80,
+      "max_refresh_gap": 1201,
+      "TC8": 1,
+      "buffered_response": true,
+      "outputs": [
+        896,
+        4928,
+        6976,
+        14912
+      ]
+    }
+  ],
+  "metadata_cycle_traces_identical_to_isolated": true,
   "all_phase_or_long_term_proof": false,
   "same_RTL_and_probe_across_seeds": true,
   "selected_for_next_gate": null,
   "signal_information_precision_changed": false,
   "software_quality_reduction": false,
-  "continuation_reason": "The measured residual owner-to-controller path has a concrete unmeasured 22-bit metadata-register option; no resource or feasibility credit is assigned to it.",
+  "continuation_reason": "The 22-bit SELECT metadata register failed routed timing at134.390533MHz and is rejected. Best remains isolated153.491943MHz. A cycle-equivalent refresh-due predecode on the best baseline is an unmeasured next test, with zero feasibility credit; actual bursts/holding/whole integration remain unqualified.",
+  "metadata_retry_identical_sources": true,
   "seed2_time_limit_seconds": 600,
-  "generator_sha256": "431427aa3fe7f8a5c1695fb7514d5fb75ba43eed80f8e0f442a690356c79fe9e"
+  "generator_sha256": "a2b37b8ae32e8121ab46724cb677f13fbbe7a30f2570594f3ecce12985744ee6"
 }
