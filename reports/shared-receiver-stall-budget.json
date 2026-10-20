@@ -1,0 +1,65 @@
+{
+  "scope": "Necessary average stall limits; not sufficient deadlines or arrival bounds.",
+  "assumptions": [
+    "Two clocks per K7 step; one maintenance slot in 128.",
+    "T maximum 26208 steps per 1039.5 us.",
+    "Binary S 50.505 Msteps/s; TC8 S 28.86 Msteps/s.",
+    "Fmax is a single routed probe result, not an operating guarantee.",
+    "Positive allowance does not prove bounded queues or per-symbol deadlines.",
+    "Negative allowance rejects sustained operation of this fixed core at that clock, even with ideal ingress."
+  ],
+  "conditions": {
+    "target_binary": {
+      "clock_MHz": 154.28571428571428,
+      "demand_Msteps_s": 75.71712121212121,
+      "capacity_Msteps_s": 76.54017857142857,
+      "necessary_average_condition_pass": true,
+      "spare_steps_per_second": 823057.3593073593,
+      "maximum_additional_lost_clocks_per_second": 1646114.7186147186,
+      "maximum_additional_lost_clock_fraction": 0.010669262065095398,
+      "T_mode3_symbol_clocks": 160380.0,
+      "maximum_additional_lost_clocks_per_T_mode3_symbol": 1711.13625,
+      "minimum_clock_MHz_without_extra_stalls": 152.62663803388213,
+      "whole_receiver_verified": false
+    },
+    "target_tc8": {
+      "clock_MHz": 154.28571428571428,
+      "demand_Msteps_s": 54.07212121212121,
+      "capacity_Msteps_s": 76.54017857142857,
+      "necessary_average_condition_pass": true,
+      "spare_steps_per_second": 22468057.35930736,
+      "maximum_additional_lost_clocks_per_second": 44936114.71861472,
+      "maximum_additional_lost_clock_fraction": 0.29125259539842874,
+      "T_mode3_symbol_clocks": 160380.0,
+      "maximum_additional_lost_clocks_per_T_mode3_symbol": 46711.09125,
+      "minimum_clock_MHz_without_extra_stalls": 108.99577189214985,
+      "whole_receiver_verified": false
+    },
+    "best_actual_fft_binary": {
+      "clock_MHz": 146.22019958496094,
+      "demand_Msteps_s": 75.71712121212121,
+      "capacity_Msteps_s": 72.53892713785172,
+      "necessary_average_condition_pass": false,
+      "spare_steps_per_second": -3178194.074269496,
+      "maximum_additional_lost_clocks_per_second": -6356388.148538992,
+      "maximum_additional_lost_clock_fraction": -0.04347134094045348,
+      "T_mode3_symbol_clocks": 151995.8974685669,
+      "maximum_additional_lost_clocks_per_T_mode3_symbol": -6607.465480406282,
+      "minimum_clock_MHz_without_extra_stalls": 152.62663803388213,
+      "whole_receiver_verified": false
+    },
+    "best_actual_fft_tc8": {
+      "clock_MHz": 146.22019958496094,
+      "demand_Msteps_s": 54.07212121212121,
+      "capacity_Msteps_s": 72.53892713785172,
+      "necessary_average_condition_pass": true,
+      "spare_steps_per_second": 18466805.925730504,
+      "maximum_additional_lost_clocks_per_second": 36933611.85146101,
+      "maximum_additional_lost_clock_fraction": 0.2525889853542486,
+      "T_mode3_symbol_clocks": 151995.8974685669,
+      "maximum_additional_lost_clocks_per_T_mode3_symbol": 38392.48951959372,
+      "minimum_clock_MHz_without_extra_stalls": 108.99577189214985,
+      "whole_receiver_verified": false
+    }
+  }
+}
