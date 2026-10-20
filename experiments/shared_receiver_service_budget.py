@@ -3,8 +3,8 @@ import hashlib,json
 from pathlib import Path
 r=Path(__file__).resolve().parents[1]
 variants=[]
-for name in ['','-buffered','-elastic','-isolated','-isolated-seed2','-metadata','-metadata-retry']:
- p=r/f'reports/shared-receiver-service{name}-evidence/summary.json'
+for name in ['','-buffered','-elastic','-isolated','-isolated-seed2','-metadata','-metadata-retry','-refresh-predecode']:
+ p=r/('reports/shared-receiver-refresh-predecode-evidence/summary.json' if name=='-refresh-predecode' else f'reports/shared-receiver-service{name}-evidence/summary.json')
  if not p.exists():raise SystemExit('CAD still running: '+str(p))
  d=json.loads(p.read_text());fmax=next(iter(d.get('fmax',{}).values()),{}).get('achieved')
  measured={k:d.get(k)for k in ['logic_with_ram_blockers','FF_sites_with_ram_blockers','BSRAM','DSP18','RAM16SDP4','pnr_exit','route_completed','partial_target_pass']};measured['reported_fmax_MHz']=fmax
@@ -15,7 +15,7 @@ for name in ['','-buffered','-elastic','-isolated','-isolated-seed2','-metadata'
   mix['occupancy_percent']={k:100*mix[k]/v for k,v in [('logic',20736),('FF_sites',15552),('BSRAM',46),('DSP18',48)]}
   mix['margins']={k:v-mix[k] for k,v in [('logic',20736),('FF_sites',15552),('BSRAM',46),('DSP18',48)]}
   mix['logic_margin']=20736-mix['logic'];mix['resource_only_within_capacity']=all(mix[k]<=v for k,v in [('logic',20736),('FF_sites',15552),('BSRAM',46),('DSP18',48)])
- variants.append(dict(name='original'if not name else name[1:],evidence=str(p.relative_to(r)),measured_partial=measured,mixed_diagnostic=mix,adopted=False,response_capture_bits=0 if not name else 256,T_elastic_FIFO_words=2 if name=='-elastic' else 0,isolated_depuncture_ready=name in ('-isolated','-isolated-seed2','-metadata','-metadata-retry'),registered_request_metadata_bits=22 if name in ('-metadata','-metadata-retry') else 0))
+ variants.append(dict(name='original'if not name else name[1:],evidence=str(p.relative_to(r)),measured_partial=measured,mixed_diagnostic=mix,adopted=False,response_capture_bits=0 if not name else 256,T_elastic_FIFO_words=2 if name=='-elastic' else 0,isolated_depuncture_ready=name in ('-isolated','-isolated-seed2','-metadata','-metadata-retry','-refresh-predecode'),registered_request_metadata_bits=22 if name in ('-metadata','-metadata-retry') else 0))
 metadata=json.loads((r/'reports/shared-receiver-service-metadata-test.json').read_text())
 isolated=json.loads((r/'reports/shared-receiver-service-isolated-test.json').read_text())
 base=json.loads((r/'reports/shared-receiver-service-test.json').read_text());elastic=json.loads((r/'reports/shared-receiver-service-elastic-test.json').read_text())
@@ -25,10 +25,14 @@ b=json.loads((r/'reports/shared-receiver-service-isolated-seed2-evidence/summary
 sv=lambda d:{f:h for f,h in d['source_sha256'].items() if f.endswith('.sv')}
 assert sv(a)==sv(b), 'Seed comparison must use identical RTL and probe'
 result['same_RTL_and_probe_across_seeds']=True
-result['selected_for_next_gate']='metadata-retry' if variants[-1]['measured_partial']['partial_target_pass'] and metadata['all_diagnostic_deadlines_pass'] and variants[-1]['mixed_diagnostic']['resource_only_within_capacity'] else None
+refresh=json.loads((r/'reports/shared-receiver-refresh-predecode-test.json').read_text())
+result['refresh_predecode_traces']=refresh['traces']
+assert refresh['traces']==isolated['traces']
+result['refresh_predecode_cycle_traces_identical_to_isolated']=True
+result['selected_for_next_gate']='refresh-predecode' if variants[-1]['measured_partial']['partial_target_pass'] and refresh['all_diagnostic_deadlines_pass'] and variants[-1]['mixed_diagnostic']['resource_only_within_capacity'] else None
 result['signal_information_precision_changed']=False
 result['software_quality_reduction']=False
-result['continuation_reason']='The 22-bit SELECT metadata register failed routed timing at134.390533MHz and is rejected. Best remains isolated153.491943MHz. A cycle-equivalent refresh-due predecode on the best baseline is an unmeasured next test, with zero feasibility credit; actual bursts/holding/whole integration remain unqualified.'
+result['continuation_reason']='Refresh predecode passes the service/reader/K7 partial target at 156.739807MHz with identical recorded traces. Actual FFT integration is a separate gate; other receiver stages, physical IO, S3 capture/transport and WCET remain unqualified. Normal peripheral S routes fail the high CPU model after driver costs.'
 first=json.loads((r/'reports/shared-receiver-service-metadata-evidence/summary.json').read_text())
 retry=json.loads((r/'reports/shared-receiver-service-metadata-retry-evidence/summary.json').read_text())
 assert first['source_sha256']==retry['source_sha256'], 'Retry must use identical sources and collector'

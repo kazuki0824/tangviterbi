@@ -269,6 +269,46 @@
       "T_elastic_FIFO_words": 0,
       "isolated_depuncture_ready": true,
       "registered_request_metadata_bits": 22
+    },
+    {
+      "name": "refresh-predecode",
+      "evidence": "reports/shared-receiver-refresh-predecode-evidence/summary.json",
+      "measured_partial": {
+        "logic_with_ram_blockers": 11474,
+        "FF_sites_with_ram_blockers": 5371,
+        "BSRAM": 6,
+        "DSP18": 2,
+        "RAM16SDP4": 273,
+        "pnr_exit": 0,
+        "route_completed": true,
+        "partial_target_pass": true,
+        "reported_fmax_MHz": 156.73980712890625
+      },
+      "mixed_diagnostic": {
+        "logic": 20043,
+        "FF_sites": 12121,
+        "BSRAM": 44,
+        "DSP18": 34,
+        "occupancy_percent": {
+          "logic": 96.65798611111111,
+          "FF_sites": 77.93852880658436,
+          "BSRAM": 95.65217391304348,
+          "DSP18": 70.83333333333333
+        },
+        "margins": {
+          "logic": 693,
+          "FF_sites": 3431,
+          "BSRAM": 2,
+          "DSP18": 14
+        },
+        "logic_margin": 693,
+        "resource_only_within_capacity": true
+      },
+      "adopted": false,
+      "response_capture_bits": 256,
+      "T_elastic_FIFO_words": 0,
+      "isolated_depuncture_ready": true,
+      "registered_request_metadata_bits": 0
     }
   ],
   "source_s_FIFO_capacity": 256,
@@ -609,11 +649,76 @@
   "metadata_cycle_traces_identical_to_isolated": true,
   "all_phase_or_long_term_proof": false,
   "same_RTL_and_probe_across_seeds": true,
-  "selected_for_next_gate": null,
+  "refresh_predecode_traces": [
+    {
+      "cycle": 110000,
+      "T_write": 702,
+      "commits": 2,
+      "S": 28307,
+      "steps": 1008,
+      "start": 34334,
+      "max_T_symbol_ACS_latency": 38916,
+      "deadline_misses": 0,
+      "commit_lateness": 0,
+      "S_external_backlog_peak": 1,
+      "S_FIFO_peak": 20,
+      "writer_reuse_wait": 14793,
+      "all_done": 80176,
+      "FFT_done": 76501,
+      "FFT_first": 37038,
+      "write_B": 23728,
+      "write_C": 61112,
+      "read_requests": 468,
+      "T_writes": 702,
+      "refreshes": 80,
+      "max_refresh_gap": 1201,
+      "TC8": 0,
+      "buffered_response": true,
+      "outputs": [
+        896,
+        4928,
+        6976,
+        26176
+      ]
+    },
+    {
+      "cycle": 110000,
+      "T_write": 702,
+      "commits": 2,
+      "S": 14153,
+      "steps": 1008,
+      "start": 34334,
+      "max_T_symbol_ACS_latency": 26230,
+      "deadline_misses": 0,
+      "commit_lateness": 0,
+      "S_external_backlog_peak": 1,
+      "S_FIFO_peak": 1,
+      "writer_reuse_wait": 736,
+      "all_done": 80198,
+      "FFT_done": 76461,
+      "FFT_first": 36935,
+      "write_B": 25310,
+      "write_C": 63834,
+      "read_requests": 468,
+      "T_writes": 702,
+      "refreshes": 80,
+      "max_refresh_gap": 1201,
+      "TC8": 1,
+      "buffered_response": true,
+      "outputs": [
+        896,
+        4928,
+        6976,
+        14912
+      ]
+    }
+  ],
+  "refresh_predecode_cycle_traces_identical_to_isolated": true,
+  "selected_for_next_gate": "refresh-predecode",
   "signal_information_precision_changed": false,
   "software_quality_reduction": false,
-  "continuation_reason": "The 22-bit SELECT metadata register failed routed timing at134.390533MHz and is rejected. Best remains isolated153.491943MHz. A cycle-equivalent refresh-due predecode on the best baseline is an unmeasured next test, with zero feasibility credit; actual bursts/holding/whole integration remain unqualified.",
+  "continuation_reason": "Refresh predecode passes the service/reader/K7 partial target at 156.739807MHz with identical recorded traces. Actual FFT integration is a separate gate; other receiver stages, physical IO, S3 capture/transport and WCET remain unqualified. Normal peripheral S routes fail the high CPU model after driver costs.",
   "metadata_retry_identical_sources": true,
   "seed2_time_limit_seconds": 600,
-  "generator_sha256": "a2b37b8ae32e8121ab46724cb677f13fbbe7a30f2570594f3ecce12985744ee6"
+  "generator_sha256": "4a1efda7e6f5ca578ff431497ab2f7b004a19e39316abf79fbd17ef7825a85ab"
 }

@@ -2,7 +2,7 @@
   "scope": "Standalone TC8 audit, shared core prototype, and connected T3+S metric/depuncture/FIFO/scheduler/K7 stage. Other receiver stages remain allocations.",
   "feasibility_status": "undetermined",
   "search_stopped": false,
-  "continuation_reason": "22-bit request metadata registration preserved data/cycles but failed routed timing134.390533MHz; rejected. Best remains153.491943MHz below154.285714. Next unmeasured option: cycle-equivalent refresh-due predecode on the best baseline; no feasibility credit.",
+  "continuation_reason": "Refresh predecode passes the service/reader/K7 target at156.739807MHz; actual FFT integration and remaining receiver stages are separate gates. S normal peripheral routes fail high CPU model including driver. No complete receiver qualification.",
   "standalone_cases": [
     {
       "name": "acs22",
@@ -113,15 +113,20 @@
     21207,
     38831
   ],
-  "actual_service_plus_K7_test": false,
+  "actual_service_plus_K7_test": true,
   "whole_receiver_deadlines_verified": false,
   "latest_joint_budget": "reports/shared-receiver-service-budget.json",
-  "latest_joint_report": "reports/shared-receiver-service-results.md",
-  "latest_joint_partial_target_pass": false,
-  "latest_joint_best_Fmax_MHz": 153.491943359375,
+  "latest_joint_report": "reports/continuation-20261020.md",
+  "latest_joint_partial_target_pass": true,
+  "latest_joint_best_Fmax_MHz": 156.73980712890625,
   "latest_joint_seed2_exit": 124,
   "latest_joint_metadata_Fmax_MHz": 134.39053344726562,
   "latest_joint_metadata_partial_target_pass": false,
   "latest_joint_metadata_route_completed": true,
-  "latest_joint_metadata_mixed_logic": 20138
+  "latest_joint_metadata_mixed_logic": 20138,
+  "latest_joint_refresh_evidence": "reports/shared-receiver-refresh-predecode-evidence/summary.json",
+  "latest_joint_partial_scope": "service/reader/K7 without actual FFT; actual FFT variants are recorded separately in reports/continuation-20261020.json",
+  "latest_actual_FFT_joint_budget": "reports/continuation-20261020.json",
+  "latest_actual_FFT_joint_best_Fmax_MHz": 146.22019958496094,
+  "latest_actual_FFT_joint_partial_target_pass": false
 }

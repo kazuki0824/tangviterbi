@@ -1,3 +1,5 @@
+> 2026-10-20更新：refresh判定の事前登録で、このservice/reader/K7部分は156.739807 MHzとなり目標を通過した。以下の153.49 MHz未達・事前登録未実装という記述は以前の比較履歴。現状は[継続検証](continuation-20261020.md)、[更新台帳](shared-receiver-service-budget.json)を参照。全受信機の合格ではない。
+
 # ② SDRAM controller RTL・T reader・共有K7の同時接続
 
 **②全体は未確定。成立確認済み分担・正式通信路割当・採用は0。** core単体・理想メモリ機会の試験から進め、同じ回路上でSDRAM controller、T reader、TC8/binary共有K7、S保持FIFOとT/S入力選択を接続した。シミュレーションと部分P&Rであり、実基板の動作確認や全受信機・ESP32-S3の成立確認ではない。
