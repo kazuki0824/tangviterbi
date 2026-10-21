@@ -1,0 +1,25 @@
+test_all_bits_hold_and_reset (tests.test_compact_dsp_scan_probe.ProbeTest.test_all_bits_hold_and_reset) ... ERROR
+
+======================================================================
+ERROR: test_all_bits_hold_and_reset (tests.test_compact_dsp_scan_probe.ProbeTest.test_all_bits_hold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/3793ea63b22e/tangviterbi/tests/test_compact_dsp_scan_probe.py", line 47, in test_all_bits_hold_and_reset
+    r=subprocess.run(['vvp',str(p/'sim')],capture_output=True,text=True,timeout=30)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['vvp', '/tmp/tmp9_mp7269/sim']' timed out after 30 seconds
+
+----------------------------------------------------------------------
+Ran 1 test in 30.076s
+
+FAILED (errors=1)

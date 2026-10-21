@@ -1,0 +1,109 @@
+{
+  "scope": "Collect fixture experiments without treating a necessary bound as placement.",
+  "rows": [
+    {
+      "variant": "dsp-probe",
+      "bound": 20671,
+      "margin": 65,
+      "pnr_exit": 125,
+      "route_completed": false,
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'dut.fft.mode_DFFRE_Q_1' of type 'DFFRE' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "compact-dsp-probe",
+      "bound": 20556,
+      "margin": 180,
+      "pnr_exit": 125,
+      "route_completed": false,
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'dut.fft.output_pipe_DFFR_Q_1' of type 'DFFR' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "compact-dsp-probe-sa",
+      "bound": 20556,
+      "margin": 180,
+      "pnr_exit": -11,
+      "route_completed": false,
+      "errors": [],
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "compact-bram-probe",
+      "bound": 20401,
+      "margin": 335,
+      "pnr_exit": 125,
+      "route_completed": false,
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'dut.fft.in_data_DFFRE_Q_7' of type 'DFFRE' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "compact-bram-probe-prebuffer",
+      "bound": 20401,
+      "margin": 335,
+      "pnr_exit": 125,
+      "route_completed": false,
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'ff_input_identity_57' of type 'LUT1' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "compact-bram-probe-prebuffer-sa",
+      "bound": 20401,
+      "margin": 335,
+      "pnr_exit": -11,
+      "route_completed": false,
+      "errors": [],
+      "source_hashes_verified": true
+    }
+  ],
+  "configuration_1_stopped": true,
+  "formal_receiver_adoptions": 0,
+  "whole_receiver_verified": false,
+  "unchanged_receiver_core_netlists": {
+    "dsp-probe": true,
+    "compact-dsp-probe": true,
+    "compact-bram-probe": true
+  },
+  "physical_capacity": {
+    "LUT": 20736,
+    "FF": 15552,
+    "BSRAM": 46,
+    "MULT18": 48
+  },
+  "input_sha256": {
+    "reports/shared-receiver-fft-tile-dsp-probe-route/summary.json": "8eea66e2f07776bf31c5ecad574a04434e41199122e92fd18f3fb3099a21b4f4",
+    "reports/shared-receiver-fft-tile-dsp-probe-route/placement-gate.json": "294f5cec818cd33a1a09a01d28dffc5dcd9283bc47801b0ea995de51c07a9c79",
+    "reports/shared-receiver-fft-tile-dsp-probe-route/command.json": "f92b172b47968e2dc1f4d825dd279598acf723e8e11ca1ef3ccaebcea003659e",
+    "reports/shared-receiver-fft-tile-compact-dsp-probe-route/summary.json": "3e730f862b29a98ded6cf79c3fc5169da610fa1a219372be2748188f2c301820",
+    "reports/shared-receiver-fft-tile-compact-dsp-probe-route/placement-gate.json": "ffd629e2b06c05d5ac00b21d1c320127f4710e93a655375d1404e21c87a599d4",
+    "reports/shared-receiver-fft-tile-compact-dsp-probe-route/command.json": "6ac2e1254afa59e1e08de46861d807ee9e270624c022ac9e46c27b29b931765a",
+    "reports/shared-receiver-fft-tile-compact-dsp-probe-sa-route/summary.json": "57a3808115381f5780f357ab371c65001a6127c0bbce60970bce489a0b3afab3",
+    "reports/shared-receiver-fft-tile-compact-dsp-probe-sa-route/placement-gate.json": "ffd629e2b06c05d5ac00b21d1c320127f4710e93a655375d1404e21c87a599d4",
+    "reports/shared-receiver-fft-tile-compact-dsp-probe-sa-route/command.json": "a3672039ce243ec3180fef4141de4730f01dcf8e4fe37978ea2708152036f26a",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-route/summary.json": "51f23d4c773058da712f535b02f658ca983178b2a83ec6ea289b3bac7b1ee993",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-route/placement-gate.json": "7557a449ab9abcade78e0c89a443bf77305a93c19f5c356f57b7aa35988c0d0c",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-route/command.json": "95986259cb99d9d505399aceef1298da71dc89fa0fc9794f7dbdcbe055bb6d95",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-prebuffer-route/summary.json": "e23ca098fc1cd9768e06d64d6910e8fedce6f406fef464f9bb173ec1b17e6dc9",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-prebuffer-route/placement-gate.json": "cc645b58d507278f14e1ed6afe2dba45b25e5815a357e7c87c714b1b49f5f148",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-prebuffer-route/command.json": "397c6105b171fcb8cd8bef262881b3f5a3168ac2195dd1e068a75c0828f9892e",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-prebuffer-route/mapped.identity-proof.json": "8a5714c910a0245931b1943dadacd44ec135728a1a9001e7ef17cf389e015233",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-prebuffer-sa-route/summary.json": "b9d1839f08597b25a67ec860c090de3c74195810d0ce5c2e68d45096f6207603",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-prebuffer-sa-route/placement-gate.json": "cc645b58d507278f14e1ed6afe2dba45b25e5815a357e7c87c714b1b49f5f148",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-prebuffer-sa-route/command.json": "e3ebef232c9fb94b451aa4f064fa004807eb344a63a7e60ada92e616c83ed2cf",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-prebuffer-sa-route/mapped.identity-proof.json": "8a5714c910a0245931b1943dadacd44ec135728a1a9001e7ef17cf389e015233",
+    "reports/dsp-probe-contract.json": "8bdf45d50a57ed36d690cce7b4bd52800f4d68b13d3efcb01f6afc027945c74f",
+    "reports/dsp-scan-probe-tests.log": "0fe3f7abdc1ccd9748bc14537f1d8c63f63f6e1a5d371883ae0302ac9c39755b",
+    "reports/compact-dsp-scan-probe-tests.log": "48aef6f2a13e2bd2ea68641743b837daa5c1a408336491bfb8dd91650c2b143d",
+    "reports/bram-observation-probe-tests.log": "1af48e9863ddcd255c043564fe04831952451becec326275add9b6388958382d",
+    "reports/gowin-materialize-ff-inputs-tests.log": "25921d96b8a21079ab3410b2c0725610372e40ec6c0cc6d1fe4d0098c2a636e1"
+  },
+  "collector_sha256": "73c76ece064fe55e3b271f529cfd210da7d17cea0ae52f8748b8a06242501dbf"
+}
