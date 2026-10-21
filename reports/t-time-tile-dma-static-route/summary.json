@@ -1,0 +1,208 @@
+{
+  "scope": "Standalone actual tile DMA and memory. No shared arbiter/controller, FFT/K7, global descriptor supplier or PHY included.",
+  "target_MHz": 154.28571428571428,
+  "pnr_exit": 0,
+  "source_sha256": {
+    "experiments/t_time_tile_store.sv": "4a4e5d3f89684f94ad31ea75da8b1e53a97836b8ac004064838ac6cc723d66f3",
+    "experiments/t_time_tile_dma_static.sv": "a235561bc32735521571d7c947b6dfe25e5d4f4d374e8d50b003ef30af4497e9",
+    "experiments/t_time_tile_dma_probe.sv": "34558094c37015156e76f03aed27cdef91f3919685d212ba70235ce656e57db2",
+    "ci/t_time_tile_dma_evidence.py": "9a458f9cab5bd5a5ca60046f388afe92553c545f4a266ff5d3477bc2ce0788f8"
+  },
+  "harness_register_count": 686,
+  "whole_receiver_verified": false,
+  "external_IO_STA_verified": false,
+  "service_included": false,
+  "K7_included": false,
+  "mapped_core_cells": {
+    "DFFR": 21,
+    "LUT4": 2297,
+    "ALU": 160,
+    "LUT3": 6278,
+    "LUT2": 760,
+    "DFFRE": 262,
+    "IBUF": 395,
+    "LUT1": 1,
+    "OBUF": 283,
+    "DFF": 65,
+    "DFFE": 4865,
+    "$scopeinfo": 1,
+    "SDPX9B": 2,
+    "GND": 1,
+    "VCC": 1
+  },
+  "joint_cells": {
+    "LUT4": 3011,
+    "BUFG": 1,
+    "ALU": 182,
+    "GSR": 1,
+    "OBUF": 1,
+    "IBUF": 4,
+    "LUT2": 332,
+    "LUT3": 7204,
+    "DFFE": 4865,
+    "DFFRE": 262,
+    "DFFR": 21,
+    "GOWIN_GND": 1,
+    "DFF": 65,
+    "GOWIN_VCC": 1,
+    "SDP": 2
+  },
+  "harness_cells": {
+    "LUT4": 486,
+    "DFFR": 293,
+    "DFFRE": 393,
+    "LUT3": 1,
+    "LUT2": 8,
+    "LUT1": 1
+  },
+  "logic_with_ram_blockers": 10729,
+  "FF_sites_with_ram_blockers": 5213,
+  "BSRAM": 2,
+  "DSP18": 0,
+  "RAM16SDP4": 0,
+  "fmax": {
+    "dut.clk": {
+      "achieved": 175.4385986328125,
+      "constraint": 154.28570556640625
+    }
+  },
+  "utilization": {
+    "ALU": {
+      "available": 15552,
+      "used": 182
+    },
+    "ALU54D": {
+      "available": 24,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 46,
+      "used": 2
+    },
+    "BUFG": {
+      "available": 24,
+      "used": 1
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 15552,
+      "used": 5899
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "GW_JTAG": {
+      "available": 1,
+      "used": 0
+    },
+    "IOB": {
+      "available": 384,
+      "used": 5
+    },
+    "IOLOGICI": {
+      "available": 384,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 384,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 20736,
+      "used": 11043
+    },
+    "MULT18X18": {
+      "available": 48,
+      "used": 0
+    },
+    "MULT36X36": {
+      "available": 12,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 96,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 10368,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 5184,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 2592,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 2592,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 48,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 96,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 648,
+      "used": 0
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "route_completed": true,
+  "partial_target_pass": true,
+  "errors": [],
+  "yosys_version": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "pnr_version": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
+}
