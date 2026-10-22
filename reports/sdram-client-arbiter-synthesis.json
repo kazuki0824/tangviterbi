@@ -1,0 +1,24 @@
+{
+  "command": "yosys -Q -T -p \"read_verilog -sv rtl/sdram_client_arbiter.sv; synth_gowin -top sdram_client_arbiter; stat\"",
+  "toolchain": "OSS CAD Suite 2026-10-04",
+  "cells": {
+    "ALU": 18,
+    "DFF": 3,
+    "DFFRE": 9,
+    "GND": 1,
+    "IBUF": 2132,
+    "LUT1": 53,
+    "LUT2": 35,
+    "LUT3": 340,
+    "LUT4": 984,
+    "MUX2_LUT5": 49,
+    "MUX2_LUT6": 21,
+    "MUX2_LUT7": 8,
+    "MUX2_LUT8": 3,
+    "OBUF": 580,
+    "VCC": 1
+  },
+  "rtl_sha256": "2c986fccbc05f4faa6517975a40b39c673c5c83b546f20fa645859e91a395451",
+  "place_and_route": false,
+  "note": "Standalone mapped cells, not packed utilization/Fmax. Port buffers are not board pin requirements."
+}

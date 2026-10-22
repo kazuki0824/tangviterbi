@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-20",
+  "source": "https://cdn.gowinsemi.com.cn/DS226E.pdf",
+  "source_version": "DS226-2.7E 2026-07-31 section2.2.1",
+  "guide": "https://www.gowinsemi.com/upload/database_doc/281/document/5d280116bebab.pdf",
+  "guide_section": "6.2: phase adjustment and SDRAM IO setup/hold",
+  "clock_MHz": 154.28571428571428,
+  "period_ns": 6.481481481481482,
+  "SDRAM_nominal_max_MHz": 166,
+  "SDRAM_access_time_ns": 5.4,
+  "one_cycle_residual_before_IO_setup_skew_jitter_ns": 1.0814814814814815,
+  "documented_refresh_interval_ns": 15625.0,
+  "implemented_refresh_limit_ns": 7797.222222222223,
+  "command_separations_ns": {
+    "TRP": 25.925925925925927,
+    "TRCD": 25.925925925925927,
+    "TRFC": 77.77777777777779,
+    "TWR": 25.925925925925927,
+    "TMRD": 25.925925925925927,
+    "CL": 19.444444444444446
+  },
+  "initial_wait_ns": 200005.55555555556,
+  "external_IO_STA_verified": false,
+  "physical_pin_netlist": false,
+  "PLL_phase_implemented": false,
+  "missing": [
+    "SDRAM minimum data-valid/hold and command setup/hold bounds tied to exact device",
+    "routed SDRAM-pad min/max delays and clock insertion delay",
+    "generated clock phase plus jitter/uncertainty",
+    "real top-level SDRAM IO buffer/tri-state and constraints"
+  ],
+  "conclusion": "Nominal maximum frequency and command-count simulation do not establish IO timing. No fabricated input/output delay values or zero-delay pass is used. Refresh limit is more frequent than nominal 4096/64ms; it is retained for this comparison."
+}

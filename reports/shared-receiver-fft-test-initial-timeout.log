@@ -1,0 +1,25 @@
+test_mode3_fft_and_continuous_s (test_shared_receiver_fft.FFTJointTest.test_mode3_fft_and_continuous_s) ... ERROR
+
+======================================================================
+ERROR: test_mode3_fft_and_continuous_s (test_shared_receiver_fft.FFTJointTest.test_mode3_fft_and_continuous_s)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/3793ea63b22e/tangviterbi/tests/test_shared_receiver_fft.py", line 68, in test_mode3_fft_and_continuous_s
+    p=subprocess.run(['vvp',str(d/'sim'),f'+INPUT_HEX={d/"input.hex"}'],cwd=ARCHIVE,text=True,capture_output=True,timeout=300)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['vvp', '/tmp/tmpff_nrbkh/sim', '+INPUT_HEX=/tmp/tmpff_nrbkh/input.hex']' timed out after 300 seconds
+
+----------------------------------------------------------------------
+Ran 1 test in 300.458s
+
+FAILED (errors=1)

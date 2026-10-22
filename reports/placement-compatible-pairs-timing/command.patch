@@ -1,0 +1,15 @@
+--- command.cc
++++ command-checkpoint-timing.cc
+@@ -679,6 +679,12 @@
+         customBitstream(ctx.get());
+     }
+ 
++    // Diagnostic only: save estimated timing after placement, without routing.
++    if (vm.count("no-route")) {
++        ctx->assignArchInfo();
++        timing_analysis(ctx.get(), true, true, true, false, true);
++    }
++
+     if (vm.count("write")) {
+         std::string filename = vm["write"].as<std::string>();
+         auto f = open_ofstream_and_log_error(filename, "JSON '--write' file");

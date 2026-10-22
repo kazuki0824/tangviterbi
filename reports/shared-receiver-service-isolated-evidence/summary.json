@@ -1,0 +1,244 @@
+{
+  "scope": "Buffered-response joint service/reader, 256-word S FIFO, ingress selection, TC8 metric, T3/S K7; no FFT math, PHY or whole receiver.",
+  "target_MHz": 154.28571428571428,
+  "pnr_exit": 1,
+  "source_sha256": {
+    "rtl/sdf_delay_cache.sv": "4ec4dadc12e228de180c78e8196ed382cb931a27455684992d4f557bc07c8c6a",
+    "rtl/sdram_client_arbiter.sv": "cfd670a7c92a024f6681add8dc71cc741cb5efde728783e605617ec748180225",
+    "rtl/dual_sdram_burst.sv": "f4171020364292917ff3107afc051920af76b22e008e5c4dc9abfc8be3a9af81",
+    "rtl/sdf_sdram_service.sv": "43848aae4f849a419f808c69bb7102ace35a577cdb21b1360a944fbe00cc379e",
+    "experiments/t_soft_reader_buffered.sv": "f9911c8e4f6899dad579e9bd349729a879f24002d511055a3b4ee9fc605b00a6",
+    "experiments/t_soft_sdram_service_buffered.sv": "f68206ab67f644ac90f66ed110d2255bf1b5d4b0a5f1b8e9aec4d950b9607bd2",
+    "experiments/shared_tc8_k7_context.sv": "fdce20f55b8acbf0f033d7906277ba1ca567df38c62562135de60d5e43f5a837",
+    "experiments/s3_depuncture_isolated.sv": "5a52d465dc8613bc08d590ba51cc8e3b55d65a51a67b00986bae7081b3ca5ddf",
+    "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
+    "experiments/shared_tc8_k7_stream.sv": "fa2c188fb7f74acbb29fcbc80b2a8d7625a599a5481c966dca777770a878bcdd",
+    "experiments/shared_tc8_k7_depuncture_isolated_stream.sv": "0eb3873f03bed399181e7e390bb46e3f7d2b6a2ffbf05af1f66fe38cd9761001",
+    "experiments/s_input_fifo.sv": "c1206b001db2b508a96d23ace2c8697d180f07b3d9f5fef56c5b8d305522d206",
+    "experiments/shared_receiver_service_isolated.sv": "8fa5a90f461db5d5361b8451b1d29d77f57a09663514cabccf6162e6f8852e5d",
+    "experiments/shared_receiver_service_isolated_probe.sv": "eeabc0f4890b564d2f4f5400bf107085ea4184a2f537829f1f0dffa3435e6e08",
+    "ci/shared_receiver_service_isolated_evidence.py": "e494c1f9a1ecb84767a0c18d280ebd33c90727cc5e455a989716ec961f6a6ed0"
+  },
+  "harness_register_count": 1874,
+  "whole_receiver_verified": false,
+  "external_IO_STA_verified": false,
+  "service_included": true,
+  "K7_included": true,
+  "mapped_core_cells": {
+    "OBUF": 364,
+    "LUT2": 994,
+    "LUT4": 2370,
+    "LUT3": 2865,
+    "ALU": 1995,
+    "$scopeinfo": 15,
+    "IBUF": 1499,
+    "DFFCE": 631,
+    "LUT1": 31,
+    "DFFE": 1485,
+    "DFFRE": 1416,
+    "GND": 1,
+    "MULT18X18": 2,
+    "DFFC": 11,
+    "DFFP": 3,
+    "DFF": 148,
+    "DPB": 1,
+    "DFFR": 29,
+    "RAM16SDP4": 273,
+    "DPX9B": 4,
+    "DFFPE": 1,
+    "DFFSE": 8,
+    "SDPX9B": 1,
+    "VCC": 1
+  },
+  "joint_cells": {
+    "LUT4": 4226,
+    "BUFG": 1,
+    "DUMMY_CELL": 8,
+    "ALU": 2214,
+    "GSR": 1,
+    "OBUF": 1,
+    "IBUF": 4,
+    "LUT2": 931,
+    "LUT3": 2997,
+    "DFFC": 11,
+    "DFFCE": 631,
+    "GOWIN_GND": 1,
+    "DFFE": 1485,
+    "DFF": 148,
+    "LUT1": 31,
+    "SDP": 1,
+    "DFFRE": 1416,
+    "DFFSE": 8,
+    "DFFR": 29,
+    "RAM16SDP4": 273,
+    "DP": 5,
+    "DFFP": 3,
+    "DFFPE": 1,
+    "MULT18X18": 2,
+    "GOWIN_VCC": 1
+  },
+  "harness_cells": {
+    "LUT4": 1911,
+    "DFF": 1,
+    "DFFR": 376,
+    "DFFRE": 1497,
+    "LUT3": 4,
+    "LUT2": 11
+  },
+  "logic_with_ram_blockers": 11491,
+  "FF_sites_with_ram_blockers": 5370,
+  "BSRAM": 6,
+  "DSP18": 2,
+  "RAM16SDP4": 273,
+  "fmax": {
+    "dut.clk": {
+      "achieved": 153.491943359375,
+      "constraint": 154.28570556640625
+    }
+  },
+  "utilization": {
+    "ALU": {
+      "available": 15552,
+      "used": 2214
+    },
+    "ALU54D": {
+      "available": 24,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 46,
+      "used": 6
+    },
+    "BUFG": {
+      "available": 24,
+      "used": 1
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 15552,
+      "used": 5606
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "DUMMY_CELL": {
+      "available": 0,
+      "used": 8
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "GW_JTAG": {
+      "available": 1,
+      "used": 0
+    },
+    "IOB": {
+      "available": 384,
+      "used": 5
+    },
+    "IOLOGICI": {
+      "available": 384,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 384,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 20736,
+      "used": 10111
+    },
+    "MULT18X18": {
+      "available": 48,
+      "used": 2
+    },
+    "MULT36X36": {
+      "available": 12,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 96,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 10368,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 5184,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 2592,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 2592,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 48,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 96,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 648,
+      "used": 273
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "route_completed": true,
+  "partial_target_pass": false,
+  "errors": [
+    "ERROR: Max frequency for clock 'dut.clk': 153.49 MHz (FAIL at 154.29 MHz)"
+  ],
+  "yosys_version": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "pnr_version": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
+}

@@ -1,0 +1,228 @@
+{
+  "scope": "20K metric+TC8PSK survivor sizing, not synchronization or a receiver.",
+  "ACS_lanes": 32,
+  "metric_width": 12,
+  "cost_shift": 22,
+  "input_IQ_width": 16,
+  "clocks_per_symbol": 3,
+  "target_MHz": 154.28571428571428,
+  "pnr_exit": 0,
+  "harness_FF": 39,
+  "source_sha256": {
+    "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
+    "rtl/s_tc8psk_chain.sv": "a84ab8be51812d29820b9e41843969f43c64627b72fa8a65169104a3f6e4196b",
+    "experiments/s_tc8psk_chain_probe.sv": "3e371bc2ed2e17c373250bc7589b194dd4577422530204e679ffb6a4c0275c0d",
+    "experiments/s3_tc8psk.py": "e1b05412cb19e4ae39fc5e4c8b69c93669b7cc1a631888b26303f22cae5110e2",
+    "experiments/s3_viterbi_traceback.py": "24737f8f5c715d6a33c803e115d953cd5dd5adf119edc42c5997e35a43451d96",
+    "ci/tc8psk_20k_evidence.py": "5df00da33b59f304c9938defdca07e245e575053c12309f89652d71627483987",
+    "ci/t_soft_reader_evidence.py": "c5c8da938be22e31691cda0732286159deca77a7ad12f995e902d2caf8a1b405"
+  },
+  "generated_sha256": "35aed1ce917ad44427b44d5244f2fee7935cdba0a03756a4ce0bed5039e9cf4c",
+  "whole_receiver_verified": false,
+  "external_IO_STA_verified": false,
+  "output_backpressure_supported": false,
+  "core_mapped_cells": {
+    "OBUF": 4,
+    "$scopeinfo": 2,
+    "DFFE": 1155,
+    "LUT3": 712,
+    "DFFRE": 4,
+    "ALU": 1464,
+    "LUT2": 134,
+    "IBUF": 35,
+    "DFFCE": 174,
+    "LUT1": 11,
+    "DFFC": 9,
+    "DFFP": 1,
+    "LUT4": 472,
+    "GND": 1,
+    "MULT18X18": 2,
+    "DFF": 224,
+    "DPB": 2,
+    "SDPX9B": 2,
+    "VCC": 1
+  },
+  "chain_cells": {
+    "LUT4": 1373,
+    "BUFG": 1,
+    "DUMMY_CELL": 8,
+    "ALU": 1692,
+    "GSR": 1,
+    "OBUF": 1,
+    "IBUF": 4,
+    "LUT3": 718,
+    "DFFC": 9,
+    "LUT2": 135,
+    "DFFCE": 174,
+    "DFF": 224,
+    "GOWIN_GND": 1,
+    "LUT1": 11,
+    "SDP": 2,
+    "DFFE": 1155,
+    "DP": 2,
+    "MULT18X18": 2,
+    "GOWIN_VCC": 1,
+    "DFFRE": 4,
+    "DFFP": 1
+  },
+  "harness_cells": {
+    "LUT4": 35,
+    "DFFR": 6,
+    "DFFRE": 33,
+    "LUT2": 1
+  },
+  "logic_with_ram_blockers": 3929,
+  "FF_sites_with_ram_blockers": 1567,
+  "BSRAM": 4,
+  "DSP18": 2,
+  "RAM16SDP4": 0,
+  "fmax": {
+    "dut.clk": {
+      "achieved": 254.8419952392578,
+      "constraint": 154.28570556640625
+    }
+  },
+  "utilization": {
+    "ALU": {
+      "available": 15552,
+      "used": 1692
+    },
+    "ALU54D": {
+      "available": 24,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 46,
+      "used": 4
+    },
+    "BUFG": {
+      "available": 24,
+      "used": 1
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 15552,
+      "used": 1606
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "DUMMY_CELL": {
+      "available": 0,
+      "used": 8
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "GW_JTAG": {
+      "available": 1,
+      "used": 0
+    },
+    "IOB": {
+      "available": 384,
+      "used": 5
+    },
+    "IOLOGICI": {
+      "available": 384,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 384,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 20736,
+      "used": 2273
+    },
+    "MULT18X18": {
+      "available": 48,
+      "used": 2
+    },
+    "MULT36X36": {
+      "available": 12,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 96,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 10368,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 5184,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 2592,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 2592,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 48,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 96,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 648,
+      "used": 0
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "route_completed": true,
+  "errors": [],
+  "partial_target_pass": true,
+  "yosys_version": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "pnr_version": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
+}

@@ -1,0 +1,132 @@
+{
+  "scope": "Standalone TC8 audit, shared core prototype, and connected T3+S metric/depuncture/FIFO/scheduler/K7 stage. Other receiver stages remain allocations.",
+  "feasibility_status": "undetermined",
+  "search_stopped": false,
+  "continuation_reason": "Refresh predecode passes the service/reader/K7 target at156.739807MHz; actual FFT integration and remaining receiver stages are separate gates. S normal peripheral routes fail high CPU model including driver. No complete receiver qualification.",
+  "standalone_cases": [
+    {
+      "name": "acs22",
+      "measured_partial": {
+        "logic": 3645,
+        "FF_sites": 1521,
+        "BSRAM": 4,
+        "DSP": 2
+      },
+      "mixed_logic": 22532,
+      "logic_capacity": 20736,
+      "logic_excess": 1796,
+      "mixed_FF_sites": 12787,
+      "mixed_BSRAM": 46,
+      "mixed_DSP": 34,
+      "old_allocation_replaced_optimistically": true,
+      "other_missing_integration_logic_cost_zero": true,
+      "adopted": false
+    },
+    {
+      "name": "acs32",
+      "measured_partial": {
+        "logic": 3929,
+        "FF_sites": 1567,
+        "BSRAM": 4,
+        "DSP": 2
+      },
+      "mixed_logic": 22816,
+      "logic_capacity": 20736,
+      "logic_excess": 2080,
+      "mixed_FF_sites": 12833,
+      "mixed_BSRAM": 46,
+      "mixed_DSP": 34,
+      "old_allocation_replaced_optimistically": true,
+      "other_missing_integration_logic_cost_zero": true,
+      "adopted": false
+    }
+  ],
+  "shared_core_delta": {
+    "logic_with_ram_blockers": 263,
+    "FF_sites_with_ram_blockers": 197,
+    "BSRAM": 1,
+    "DSP18": 0
+  },
+  "shared_variant_whole_resources": null,
+  "independent_survivor_removal_credit_applied": 3208,
+  "metric_generator_in_shared_probe": true,
+  "FIFO_scheduler_in_shared_probe": true,
+  "all_mode_retune_verified": false,
+  "average_only": {
+    "T_max_Msteps": 25.21212121212121,
+    "TC8_Msteps": 28.86,
+    "combined_Msteps": 54.07212121212121,
+    "capacity_with_maintenance_Msteps": 76.54017857142857,
+    "utilization_percent": 70.6454077078749,
+    "S_binary_worst_Msteps": 75.71712121212121
+  },
+  "device": {
+    "logic": 20736,
+    "FF_sites": 15552,
+    "BSRAM": 46,
+    "DSP": 48
+  },
+  "formally_assigned_routes": 0,
+  "adopted_receivers": 0,
+  "all_20k_partitions_impossible_proved": false,
+  "source_hashes_verified": true,
+  "independent_survivor_removal_credit_scope": "Remove old aggregate S_TC8PSK allocation once, only in the mixed diagnostic after inserting the complete alternative stage; not a full receiver measurement.",
+  "connected_shared_stage": {
+    "target_MHz": 154.28571428571428,
+    "logic_with_ram_blockers": 7468,
+    "FF_sites_with_ram_blockers": 3528,
+    "BSRAM": 5,
+    "DSP18": 2,
+    "RAM16SDP4": 249,
+    "fmax": {
+      "dut.clk": {
+        "achieved": 154.63121032714844,
+        "constraint": 154.28570556640625
+      }
+    },
+    "partial_target_pass": true
+  },
+  "shared_mixed_diagnostic": {
+    "logic": 19891,
+    "FF_sites": 11759,
+    "BSRAM": 43,
+    "DSP18": 34,
+    "logic_margin": 845,
+    "FF_site_margin": 3793,
+    "BSRAM_margin": 3,
+    "DSP18_margin": 14,
+    "logic_formula": "22095 - 6464 - 3208 + 7468",
+    "FF_formula": "13024 - 3035 - 1758 + 3528",
+    "BSRAM_formula": "46 - 4 - 4 + 5",
+    "DSP18_formula": "34 - 0 - 2 + 2",
+    "other_missing_integration_cost_zero": true,
+    "other_stages_are_allocations": true,
+    "whole_receiver_PnR": false,
+    "resource_lower_bound": false,
+    "adopted": false
+  },
+  "connected_functional_test": "reports/shared-tc8-k7-connected-test.json",
+  "finite_paced_test": "reports/shared-tc8-k7-paced-test.json",
+  "finite_paced_probe_passed": true,
+  "finite_paced_probe_scope": "Finite ideal-source deadline probe, not actual SDRAM service or full S burst proof.",
+  "finite_T_symbol_ACS_latency_clocks": [
+    21207,
+    38831
+  ],
+  "actual_service_plus_K7_test": true,
+  "whole_receiver_deadlines_verified": false,
+  "latest_joint_budget": "reports/shared-receiver-service-budget.json",
+  "latest_joint_report": "reports/continuation-20261020.md",
+  "latest_joint_partial_target_pass": true,
+  "latest_joint_best_Fmax_MHz": 156.73980712890625,
+  "latest_joint_seed2_exit": 124,
+  "latest_joint_metadata_Fmax_MHz": 134.39053344726562,
+  "latest_joint_metadata_partial_target_pass": false,
+  "latest_joint_metadata_route_completed": true,
+  "latest_joint_metadata_mixed_logic": 20138,
+  "latest_joint_refresh_evidence": "reports/shared-receiver-refresh-predecode-evidence/summary.json",
+  "latest_joint_partial_scope": "service/reader/K7 without actual FFT; actual FFT variants are recorded separately in reports/continuation-20261020.json",
+  "latest_actual_FFT_joint_budget": "reports/continuation-20261020.json",
+  "latest_actual_FFT_joint_best_Fmax_MHz": 146.22019958496094,
+  "latest_actual_FFT_joint_partial_target_pass": false
+}

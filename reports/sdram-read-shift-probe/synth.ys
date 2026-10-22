@@ -1,0 +1,3 @@
+read_verilog -sv tangviterbi/rtl/sdf_delay_cache.sv tangviterbi/rtl/sdram_client_arbiter.sv tangviterbi/reports/sdram-read-shift-probe/controller.sv tangviterbi/rtl/sdf_sdram_service.sv
+synth_gowin -family gw2a -top sdf_sdram_service -nowidelut -json tangviterbi/reports/sdram-read-shift-probe/mapped.json
+check -assert

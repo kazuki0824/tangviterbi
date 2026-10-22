@@ -1,0 +1,31 @@
+{
+  "scope": "Known TC8PSK data and sustained-rate check for the measured 20K chains.",
+  "results": [
+    {
+      "lanes": 22,
+      "summary": "PASS symbols=8192 first=2 last=24575 max_gap=3\n/tmp/tmp0qpwlf11/tb.sv:22: $finish called at 251810 (1s)",
+      "input_symbols": 8192,
+      "output_pairs": 8128,
+      "checked_information_bits": 16128,
+      "error_bits": 0,
+      "generated_sha256": "7327bac155b406ddd8ff400e74f7ea7580e4393b345e60f58569c0b03531f7a2"
+    },
+    {
+      "lanes": 32,
+      "summary": "PASS symbols=8192 first=2 last=24575 max_gap=3\n/tmp/tmp0qpwlf11/tb.sv:22: $finish called at 251810 (1s)",
+      "input_symbols": 8192,
+      "output_pairs": 8128,
+      "checked_information_bits": 16128,
+      "error_bits": 0,
+      "generated_sha256": "35aed1ce917ad44427b44d5244f2fee7935cdba0a03756a4ce0bed5039e9cf4c"
+    }
+  ],
+  "source_sha256": {
+    "tests/test_tc8psk_20k_chain.py": "718c673eb5ecdf4232a288b3090211d742ea7875a0e9cfbd575564158680e7e3",
+    "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
+    "rtl/s_tc8psk_chain.sv": "a84ab8be51812d29820b9e41843969f43c64627b72fa8a65169104a3f6e4196b",
+    "experiments/s3_tc8psk.py": "e1b05412cb19e4ae39fc5e4c8b69c93669b7cc1a631888b26303f22cae5110e2",
+    "experiments/s3_viterbi_traceback.py": "24737f8f5c715d6a33c803e115d953cd5dd5adf119edc42c5997e35a43451d96"
+  },
+  "whole_receiver_verified": false
+}

@@ -1,0 +1,26 @@
+{
+  "scope": "Current FFT + finite line adapter + actual controller, independent pin RAM.\nNo background clients or PHY. Measures stalls instead of assuming ideal RAM.\n",
+  "summary": "PASS sent=32768 checked=24576 cycles=566710 frame_cycles=298870,432796,566709 input_gap=65 output_gap=52 clipped=0",
+  "checked_bins": 24576,
+  "oracle_bit_exact": true,
+  "frame_cycles": [
+    298870,
+    432796,
+    566709
+  ],
+  "frame_intervals": [
+    133926,
+    133913
+  ],
+  "target_symbol_clocks": 160380,
+  "background_clients": false,
+  "PHY_verified": false,
+  "source_sha256": {
+    "tests/test_sdf_delay_cache.py": "c5fb2211e578903f284fa19f89e3237307d2178c0d45226552f83d517d3cd6fe",
+    "rtl/sdf_delay_cache.sv": "b9772d2e0ebc6955754c87d2816ca28a52a411275a58cea698b48ae7251dbe2e",
+    "rtl/shared_sdf_fft.sv": "9bc1a576fb1c59176bef64779126277a77c6d57357d15da543fa928d2b04fec8",
+    "rtl/dual_sdram_burst.sv": "f29fba4928e6771a7466a3839603b39563216f54edc78f36c2ff16f6257ae684",
+    "tests/test_common_clock_sdram.py": "23f5f46839a09f25714af2e3223df2819dc095062116b5489de1e9ac1bd14338",
+    "tests/test_shared_sdf_fft.py": "22135acbd8b84fe81efaed4976ec358d5f25c348863292f31af63c44467f6b22"
+  }
+}
