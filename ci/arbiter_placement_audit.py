@@ -4,7 +4,7 @@ from pathlib import Path
 R=Path(__file__).resolve().parents[1];sys.path.insert(0,str(R))
 from ci.gowin_ff_site_audit import audit
 out={}
-for label in ['arbiter-parallel','arbiter-matrix','controller-bank-parallel']:
+for label in ['arbiter-parallel','arbiter-matrix','controller-bank-parallel','controller-client-lookahead']:
  d=R/'reports'/label;p=d/'placement-timing'
  a=json.loads(gzip.decompress((d/'packed.json.gz').read_bytes()))['modules']['top']['cells']
  b=json.loads(gzip.decompress((p/'placed.json.gz').read_bytes()))['modules']['top']['cells']
