@@ -1,0 +1,19 @@
+{
+  "observations": [
+    {
+      "phase": "about 20 seconds after start",
+      "rss_kib": 234656,
+      "cpu_percent": 113,
+      "memory_available_mib": 8868,
+      "disk_available_gib": 18,
+      "source": "ps, free -m, df -h output"
+    },
+    {
+      "phase": "about 690 seconds after start",
+      "monitor_command": "ps -C nextpnr-himbaechel -o pid,etime,time,pcpu,rss,stat,comm",
+      "exit": 1,
+      "message": "fatal library error, lookup self",
+      "interpretation": "Process-monitor command failure; route heartbeat still advancing, not evidence of route failure or resource exhaustion"
+    }
+  ]
+}
