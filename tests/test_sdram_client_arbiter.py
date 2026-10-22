@@ -74,7 +74,7 @@ class ArbiterTest(unittest.TestCase):
   tb=TB[:TB.index('initial begin\n for(i=0;')]+r'''
 integer cursor,subset;
 initial begin
- resetn=1;
+ resetn=0;repeat(2)@(negedge clk);resetn=1;
  for(cursor=0;cursor<5;cursor=cursor+1)begin
   for(subset=0;subset<64;subset=subset+1)begin
    dut.rr=cursor;cv=subset;#1;
