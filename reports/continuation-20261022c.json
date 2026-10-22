@@ -1,0 +1,634 @@
+{
+  "baseline_commit": "33f93d04f5e733b1cacfe24b2885d09f48d16e41",
+  "target_MHz": 154.28571428571428,
+  "baseline_routed_MHz": 99.08838653564453,
+  "baseline_physical_sites": 19423,
+  "baseline_pack_lower_bound": 19404,
+  "receiver_adopted": false,
+  "qualified_routes": 0,
+  "variants": {
+    "parallel": {
+      "mapped_lower_bound": 19417,
+      "FF": 8662,
+      "finite_clients": [
+        {
+          "id": 0,
+          "finish": 2483896,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 1,
+          "finish": 2484525,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 2,
+          "finish": 2562998,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 3,
+          "finish": 2514327,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 4,
+          "finish": 2489406,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 5,
+          "finish": 2566013,
+          "late_requests": 0,
+          "max_lateness": 0
+        }
+      ],
+      "finite_cycle_margin": 3082,
+      "route": {
+        "timeout_seconds": 1800,
+        "binary_sha256": "d72d2903f4ccf7c569deec4e205356cb661cffdfcd82408dde414ba0b90790ad",
+        "mapped_sha256": "954e346b61983a2166ceb269f3476e234d996b37e948c4ccb3ddb7d810573f69",
+        "target_MHz": 154.28571428571428,
+        "whole_receiver_verified": false,
+        "backend_source_sha256": {
+          "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+          "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+        },
+        "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+        "timeout": true,
+        "exit": -9,
+        "seconds": 1800.0869584559987,
+        "route_completed": false,
+        "errors": []
+      },
+      "formal_equivalence_pass": true,
+      "placement_diagnostic": {
+        "routed": false,
+        "input_sha256": "954e346b61983a2166ceb269f3476e234d996b37e948c4ccb3ddb7d810573f69",
+        "binary_sha256": "e47bcc3070e56f332220697def29182757922335895f913917618ec10bcf4a94",
+        "exit": 0,
+        "seconds": 275.8919112229996,
+        "fmax_estimated": {
+          "dut.clk": {
+            "achieved": 81.71269989013672,
+            "constraint": 154.28570556640625
+          }
+        },
+        "predicted_path_delay_ns_by_type": {
+          "clk-skew": 1.5,
+          "clk-to-q": 0.23100000619888306,
+          "routing": 5.100000098347664,
+          "logic": 5.372000098228455,
+          "setup": 0.03500000014901161
+        },
+        "launch": {
+          "cell": "dut.tile.phase_DFF_Q_2",
+          "loc": [
+            44,
+            35
+          ],
+          "port": "CLK"
+        },
+        "capture": {
+          "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+          "loc": [
+            34,
+            30
+          ],
+          "port": "D"
+        },
+        "logic_stages": 13,
+        "physical_sites": {
+          "FF": 8662,
+          "packed_logic_with_ram_blockers": 19451,
+          "minimum_extra_passthrough_LUTs": 0,
+          "optimistic_logic_site_lower_bound": 19451,
+          "capacity": 20736,
+          "excess": -1285,
+          "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+        },
+        "timing.json_sha256": "f5cac0d896785e8db5d4b44bf7f68f0c0eb2198131cb6b98f6c597b7bdb10bcd",
+        "placed.json_sha256": "34c8c12b867b862fbd07a6ea010c8bb0fc3d2de4ca76ffe15eedb5acb593f95c"
+      },
+      "postplace_added_identity_LUTs": 34,
+      "artifact_sha256": {
+        "reports/arbiter-parallel/verified-contract.log": "4aeca284f08dffa3fa7c0c7598c73c154ed601d54881ae3d2de5a8d4b4c8f55e",
+        "reports/arbiter-parallel/finite.json": "8b7d1bf0f104f452662ad58fda806815b7a84334ff456606ec0d216ba2e59ff7",
+        "reports/arbiter-parallel/mapped-result.json": "bc268411cdd154af9307476b9fe1209eb01cfa228e8b8e81306302b4a7625a50",
+        "reports/arbiter-parallel/route-result.json": "1403e0ae92f570971d8ad0341db1d2f59614ffe27113bef3734dba5aa329463f",
+        "reports/arbiter-parallel/structural-depth.json": "b40970844395cdea654f1d87f9435d664f64adfae020dfff78fc2498c9dfc05b"
+      }
+    },
+    "matrix": {
+      "mapped_lower_bound": 19421,
+      "FF": 8662,
+      "finite_clients": [
+        {
+          "id": 0,
+          "finish": 2483896,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 1,
+          "finish": 2484525,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 2,
+          "finish": 2562998,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 3,
+          "finish": 2514327,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 4,
+          "finish": 2489406,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 5,
+          "finish": 2566013,
+          "late_requests": 0,
+          "max_lateness": 0
+        }
+      ],
+      "finite_cycle_margin": 3082,
+      "route": {
+        "timeout_seconds": 1800,
+        "binary_sha256": "d72d2903f4ccf7c569deec4e205356cb661cffdfcd82408dde414ba0b90790ad",
+        "mapped_sha256": "e6d354f98968fc18f5db0734b70032e06398f99f214ef1fefd2fc8f64bb55f55",
+        "target_MHz": 154.28571428571428,
+        "whole_receiver_verified": false,
+        "backend_source_sha256": {
+          "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+          "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+        },
+        "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+        "timeout": true,
+        "exit": -9,
+        "seconds": 1800.0644211450053,
+        "route_completed": false,
+        "errors": []
+      },
+      "formal_equivalence_pass": true,
+      "placement_diagnostic": {
+        "routed": false,
+        "input_sha256": "e6d354f98968fc18f5db0734b70032e06398f99f214ef1fefd2fc8f64bb55f55",
+        "binary_sha256": "e47bcc3070e56f332220697def29182757922335895f913917618ec10bcf4a94",
+        "exit": 0,
+        "seconds": 339.1335209329991,
+        "fmax_estimated": {
+          "dut.clk": {
+            "achieved": 62.4141845703125,
+            "constraint": 154.28570556640625
+          }
+        },
+        "predicted_path_delay_ns_by_type": {
+          "clk-skew": 5.800000190734863,
+          "clk-to-q": 0.23100000619888306,
+          "routing": 6.599999904632568,
+          "logic": 3.356000065803528,
+          "setup": 0.03500000014901161
+        },
+        "launch": {
+          "cell": "dut.memory.service.arb.remaining_DFFRE_Q_4",
+          "loc": [
+            46,
+            8
+          ],
+          "port": "CLK"
+        },
+        "capture": {
+          "cell": "dut.memory.service.controller.write_data_DFFRE_Q_155",
+          "loc": [
+            6,
+            26
+          ],
+          "port": "D"
+        },
+        "logic_stages": 7,
+        "physical_sites": {
+          "FF": 8662,
+          "packed_logic_with_ram_blockers": 19439,
+          "minimum_extra_passthrough_LUTs": 0,
+          "optimistic_logic_site_lower_bound": 19439,
+          "capacity": 20736,
+          "excess": -1297,
+          "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+        },
+        "timing.json_sha256": "a22b392bac5a912a96c6bb2b1ac87bd656502ba76b6c650386837925cc3da65b",
+        "placed.json_sha256": "7743cafd9653fac4a1427d1698df99be224937b443bd46d9f6863fcc2849521b"
+      },
+      "postplace_added_identity_LUTs": 18,
+      "artifact_sha256": {
+        "reports/arbiter-matrix/equivalence-contract.log": "16cce526e5a95996af3ea2bed897205c32cd519daa060f952b9126f3473e37b7",
+        "reports/arbiter-matrix/finite.json": "6991bada6638ad1e6e15bac838b3177a1cd8d62246448b57a620fced211e9970",
+        "reports/arbiter-matrix/mapped-result.json": "2152f3b02e8606a0b3ac9aee0287e9655849c19be9a11c9694d04472ab3b6fc0",
+        "reports/arbiter-matrix/route-result.json": "7f1f5b584f0f1da4bae7c2787330e387485ec18d2c1d20d2f26a95241ace31c1",
+        "reports/arbiter-matrix/structural-depth.json": "96b9e1d1476f764c3a27f682b33430dc2db05c3b611229d92e8c417dd81ded51"
+      }
+    },
+    "bank": {
+      "mapped_lower_bound": 19443,
+      "FF": 8662,
+      "finite_clients": [
+        {
+          "id": 0,
+          "finish": 2483896,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 1,
+          "finish": 2484525,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 2,
+          "finish": 2562998,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 3,
+          "finish": 2514327,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 4,
+          "finish": 2489406,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 5,
+          "finish": 2566013,
+          "late_requests": 0,
+          "max_lateness": 0
+        }
+      ],
+      "finite_cycle_margin": 3082,
+      "route": {
+        "timeout_seconds": 1800,
+        "binary_sha256": "d72d2903f4ccf7c569deec4e205356cb661cffdfcd82408dde414ba0b90790ad",
+        "mapped_sha256": "041b890780774c266f63b8aa17ce469c6314a95574dddfda8706db9d3ab96a9f",
+        "target_MHz": 154.28571428571428,
+        "whole_receiver_verified": false,
+        "backend_source_sha256": {
+          "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+          "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+        },
+        "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+        "timeout": true,
+        "exit": -9,
+        "seconds": 1800.0915745579987,
+        "route_completed": false,
+        "errors": []
+      },
+      "formal_equivalence_pass": true,
+      "placement_diagnostic": {
+        "routed": false,
+        "input_sha256": "041b890780774c266f63b8aa17ce469c6314a95574dddfda8706db9d3ab96a9f",
+        "binary_sha256": "e47bcc3070e56f332220697def29182757922335895f913917618ec10bcf4a94",
+        "exit": 0,
+        "seconds": 327.2915518459995,
+        "fmax_estimated": {
+          "dut.clk": {
+            "achieved": 76.5989990234375,
+            "constraint": 154.28570556640625
+          }
+        },
+        "predicted_path_delay_ns_by_type": {
+          "clk-skew": 1.7000000476837158,
+          "clk-to-q": 0.23100000619888306,
+          "routing": 5.100000016391277,
+          "logic": 5.989000082015991,
+          "setup": 0.03500000014901161
+        },
+        "launch": {
+          "cell": "dut.memory.service.arb.remaining_DFFRE_Q_4",
+          "loc": [
+            52,
+            25
+          ],
+          "port": "CLK"
+        },
+        "capture": {
+          "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+          "loc": [
+            34,
+            24
+          ],
+          "port": "D"
+        },
+        "logic_stages": 13,
+        "physical_sites": {
+          "FF": 8662,
+          "packed_logic_with_ram_blockers": 19469,
+          "minimum_extra_passthrough_LUTs": 0,
+          "optimistic_logic_site_lower_bound": 19469,
+          "capacity": 20736,
+          "excess": -1267,
+          "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+        },
+        "timing.json_sha256": "efa67eaa7b5017143400a88f32a914658e2dc20a2d7b76e90c03eca57210c9bb",
+        "placed.json_sha256": "2032f2002e8d64b804150faefea61d535c7bc4505905b21d08bab6e9019045ac"
+      },
+      "postplace_added_identity_LUTs": 26,
+      "artifact_sha256": {
+        "reports/controller-bank-parallel/equivalence.log": "c7c4b8b412f0388cc25d70be76874aaa91567b5057ba6d5262789d39f07d5293",
+        "reports/controller-bank-parallel/finite.json": "b8f85d4ee564ed65f0c12307cb95726589b31d5b2d112824017d3ce8cd2dbc2c",
+        "reports/controller-bank-parallel/mapped-result.json": "33673fb39814fb1e0d17de4ec96b2faebf6d8288bf75b364c57c3a935d132007",
+        "reports/controller-bank-parallel/route-result.json": "609a6289e2e3b7f4c8e40d6f05a20303c8241685c0a93489d029f9856d15b43f",
+        "reports/controller-bank-parallel/structural-depth.json": "e09f41f7721cc22f11f74b42f9bfdcd35fc7d028d874705d8715c82ebdce61fd"
+      }
+    },
+    "lookahead": {
+      "mapped_lower_bound": 19604,
+      "FF": 8672,
+      "finite_clients": [
+        {
+          "id": 0,
+          "finish": 2483896,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 1,
+          "finish": 2484525,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 2,
+          "finish": 2562998,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 3,
+          "finish": 2514327,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 4,
+          "finish": 2489406,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 5,
+          "finish": 2566013,
+          "late_requests": 0,
+          "max_lateness": 0
+        }
+      ],
+      "finite_cycle_margin": 3082,
+      "route": {
+        "timeout_seconds": 1800,
+        "binary_sha256": "d72d2903f4ccf7c569deec4e205356cb661cffdfcd82408dde414ba0b90790ad",
+        "mapped_sha256": "8b3ee4d86a20e8bd6e44ea686abde17141ae40863f6d8de08dc65f3c5b5f3ee3",
+        "target_MHz": 154.28571428571428,
+        "whole_receiver_verified": false,
+        "backend_source_sha256": {
+          "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+          "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+        },
+        "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+        "exit": 1,
+        "seconds": 1697.617252031996,
+        "route_completed": true,
+        "errors": [
+          "ERROR: Max frequency for clock 'dut.clk': 142.69 MHz (FAIL at 154.29 MHz)"
+        ],
+        "fmax": {
+          "dut.clk": {
+            "achieved": 142.69406127929688,
+            "constraint": 154.28570556640625
+          }
+        },
+        "physical_sites": {
+          "FF": 8672,
+          "packed_logic_with_ram_blockers": 19623,
+          "minimum_extra_passthrough_LUTs": 0,
+          "optimistic_logic_site_lower_bound": 19623,
+          "capacity": 20736,
+          "excess": -1113,
+          "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+        },
+        "path_delay_ns_by_type": {
+          "clk-to-q": 0.23100000619888306,
+          "routing": 3.462999999523163,
+          "logic": 3.2790000438690186,
+          "setup": 0.03500000014901161
+        },
+        "launch": {
+          "cell": "dut.memory.service.arb.rr_DFFRE_Q_1",
+          "loc": [
+            39,
+            2
+          ],
+          "port": "Q"
+        },
+        "capture": {
+          "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+          "loc": [
+            14,
+            7
+          ],
+          "port": "D"
+        },
+        "logic_stages": 7,
+        "pnr.json_sha256": "3716dbd75cde2712ebb97d4afc8c32ca1cfcb2273a4e0663ccccd35f4be46a1f",
+        "routed.json_sha256": "fde05547b7797e63612462c9e46bc139b13a65ab96014cfa4a7baaeaece8582c"
+      },
+      "formal_equivalence_pass": true,
+      "routed_MHz": 142.69406127929688,
+      "target_pass": false,
+      "K7_minimum_pass": false,
+      "critical_period_ns": 7.008000049740076,
+      "placement_diagnostic": {
+        "routed": false,
+        "input_sha256": "8b3ee4d86a20e8bd6e44ea686abde17141ae40863f6d8de08dc65f3c5b5f3ee3",
+        "binary_sha256": "e47bcc3070e56f332220697def29182757922335895f913917618ec10bcf4a94",
+        "exit": 0,
+        "seconds": 202.01290739199612,
+        "fmax_estimated": {
+          "dut.clk": {
+            "achieved": 89.73438262939453,
+            "constraint": 154.28570556640625
+          }
+        },
+        "predicted_path_delay_ns_by_type": {
+          "clk-skew": 3,
+          "clk-to-q": 0.23100000619888306,
+          "routing": 4.3999999314546585,
+          "logic": 3.478000044822693,
+          "setup": 0.03500000014901161
+        },
+        "launch": {
+          "cell": "dut.memory.service.arb.rr_DFFRE_Q_1",
+          "loc": [
+            39,
+            2
+          ],
+          "port": "CLK"
+        },
+        "capture": {
+          "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+          "loc": [
+            14,
+            7
+          ],
+          "port": "D"
+        },
+        "logic_stages": 7,
+        "physical_sites": {
+          "FF": 8672,
+          "packed_logic_with_ram_blockers": 19623,
+          "minimum_extra_passthrough_LUTs": 0,
+          "optimistic_logic_site_lower_bound": 19623,
+          "capacity": 20736,
+          "excess": -1113,
+          "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+        },
+        "timing.json_sha256": "7ac4443a0bc68120ce171d3f608514e9af55d2306fc3d4647f703b223291f54b",
+        "placed.json_sha256": "8642fcde2f68d7cc880b28250cb977e5854e020e3e812ddcfe757e6fee61daa7"
+      },
+      "postplace_added_identity_LUTs": 19,
+      "artifact_sha256": {
+        "reports/controller-client-lookahead/proof.log": "9ecef6671d99a6a97885e6c2114c45ad49ac13a0bbfdcc856d77e6b962287e37",
+        "reports/controller-client-lookahead/finite.json": "dd0109e0c71bccf9cda2a10dd6ed1219d63ce24726e500ecff0ccd398a3be714",
+        "reports/controller-client-lookahead/mapped-result.json": "a1334fc1f89e80682f3fb8320e370749682117a5242cb525fb6214a13e3bae07",
+        "reports/controller-client-lookahead/route-result.json": "e035edec6820ff93a858909f58bf3eeec6e0674fceb54c23301dc352b6ca6544",
+        "reports/controller-client-lookahead/structural-depth.json": "4785a55d5d2eef2a118024a4fb859ea0d5bba91599b0951bae0fdb9c5a5f6387"
+      }
+    }
+  },
+  "matrix_extended": {
+    "timeout_seconds": 3600,
+    "original_trial_timeout_seconds": 1800,
+    "restart_not_resume": true,
+    "reason": "Obtain routed STA for the progressing matrix candidate; keep original timeout evidence",
+    "binary_sha256": "d72d2903f4ccf7c569deec4e205356cb661cffdfcd82408dde414ba0b90790ad",
+    "mapped_sha256": "e6d354f98968fc18f5db0734b70032e06398f99f214ef1fefd2fc8f64bb55f55",
+    "target_MHz": 154.28571428571428,
+    "whole_receiver_verified": false,
+    "backend_source_sha256": {
+      "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+      "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+    },
+    "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+    "exit": 1,
+    "seconds": 3418.9456551009935,
+    "route_completed": true,
+    "errors": [
+      "ERROR: Max frequency for clock 'dut.clk': 84.48 MHz (FAIL at 154.29 MHz)"
+    ],
+    "fmax": {
+      "dut.clk": {
+        "achieved": 84.48086547851562,
+        "constraint": 154.28570556640625
+      }
+    },
+    "physical_sites": {
+      "FF": 8662,
+      "packed_logic_with_ram_blockers": 19439,
+      "minimum_extra_passthrough_LUTs": 0,
+      "optimistic_logic_site_lower_bound": 19439,
+      "capacity": 20736,
+      "excess": -1297,
+      "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+    },
+    "path_delay_ns_by_type": {
+      "clk-to-q": 0.23100000619888306,
+      "routing": 6.0869999676942825,
+      "logic": 5.484000086784363,
+      "setup": 0.03500000014901161
+    },
+    "launch": {
+      "cell": "dut.tile.aligning_DFFR_Q",
+      "loc": [
+        26,
+        3
+      ],
+      "port": "Q"
+    },
+    "capture": {
+      "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+      "loc": [
+        42,
+        25
+      ],
+      "port": "D"
+    },
+    "logic_stages": 13,
+    "pnr.json_sha256": "6f4b59332af40880a9ef51fa076c4efdb3967aa084caa761af483e9a7f5f0b7a",
+    "routed.json_sha256": "8c5d08c9157613ee02ba069cdae0654e53b6240ae82b3bbc905b522afa7cc190"
+  },
+  "timeout_policy": {
+    "initial_seconds": 1800,
+    "reference_completion_seconds": 1759.65,
+    "extended_seconds": 3600,
+    "diagnostic_seconds": 600,
+    "basis": "Heuristic execution budgets, not a convergence guarantee or receiver deadline",
+    "timeout_is_infeasibility": false
+  },
+  "source_sha256": {
+    "ci/arbiter_placement_timing.py": "02b0b915cdfe95ebf819edfa2e7de99222937eaa88ac782cf4be61cb0c9a071b",
+    "ci/build_arbiter_placement_timing.py": "a88772a58df8f904fcb90bf8d965fad739f8e72292c4d24459496781fa13a948",
+    "ci/arbiter_selection_summary.py": "d6e47398660941874f6b1a81a2b7c3900f6003a70eb7a82f61c8d995bd6193fe",
+    "tests/test_sdram_client_arbiter.py": "bac91cdf22bd53a7c43744d89a0c71233e953081c5cf04f8024840a75193e5ea",
+    "experiments/sdram_client_arbiter_parallel.sv": "822edfaa6b994f8aeac533469adad3d6aef752fcd0dba5d810869a1e4a91aacc",
+    "experiments/sdram_client_arbiter_parallel_metadata.sv": "839de289580f114d26f7a6cc903cccdfda201835fa86a24b3aece0e8fa19e83c",
+    "tests/test_sdram_client_arbiter_parallel.py": "347d2c97869f3ad0e91380b009c05414e72e91c1fc64d44412ce70432d061989",
+    "tests/test_t_time_tile_dma_parallel.py": "32303c30825132b20699ff47dde73df7129d1fb53bff6234a4ce7ad92ddb7e80",
+    "ci/arbiter_parallel_evidence.py": "d8426f2ea90e8acc7b5d97c9893ecb4086e5272cdb492d7a7c9b77cc1d2d2fce",
+    "ci/arbiter_parallel_route.py": "475c55fad8c53bb532187bcbc5b3fdc80ed21c1ef39e136dcc7ed48434c23791",
+    "ci/arbiter_parallel_path_depth.py": "089585523de3503b3e5ad1c0b7e5b1f62fed84fb9e8e7231312e0e82b4bf97f1",
+    "experiments/sdram_client_arbiter_matrix.sv": "156665c3cb63ab8928062b2cf151a038f5a492cb35dd50e45fbefbfd4d220012",
+    "experiments/sdram_client_arbiter_matrix_metadata.sv": "ecf75afcba7ad00075f5a32342529d352a981240cff0fc94b98b833a9fc4bea5",
+    "tests/test_sdram_client_arbiter_matrix.py": "5002f2b79076bf411e65f40c4bc1f448bd4991717bdf05b5df3770e046c29e4e",
+    "tests/test_t_time_tile_dma_matrix.py": "351b23944616f1a8d953da04d034125414fb73f55341093ff90c1b24ec53bc3a",
+    "ci/arbiter_matrix_evidence.py": "bc87f140999dd3ac099a08aa4bf632077183f07a9c6170eb5e09bf3ac417819f",
+    "ci/arbiter_matrix_route.py": "daa4e206cbddfb3dd0963546a937ab7613ad786f35f1b397f88428cb70c79631",
+    "ci/arbiter_matrix_path_depth.py": "865cfbb09b007e64e862cf22ce85b418c93849acc749f47425129f82a747216b",
+    "experiments/dual_sdram_bank_parallel.sv": "a926894fcfe81a147399a321ad4381857fb96175c284554016ab40fd8d8af29e",
+    "tests/test_sdram_bank_parallel.py": "32d59315606404c53064e49b124d56126b4b95c7c37ffd1cfeadf0348f698be6",
+    "tests/test_t_time_tile_dma_bank_parallel.py": "36fa8dfc7c70ef185f699259253fc0c7fe283c7ed3cc7bb37a20769377b22b83",
+    "ci/controller_bank_parallel_evidence.py": "240d6355471faa7ff23b83fe65bcf373a982f167217b7aa9bdd807b097c209cd",
+    "ci/controller_bank_parallel_route.py": "5a0fb2ed495cebdda437de7a16ae084d7c7dea39721a1bd6bef9a9a168b950ce",
+    "ci/controller_bank_parallel_path_depth.py": "3c15e9a4788407de20aaf063cd7302df5b310152c80ec9b7833c6ceecd0d8be7",
+    "ci/arbiter_route_progress.py": "3c02082ddbe2a3a4b1e1638ec587268aae563e4102fb7f4e1357c23c918245e0",
+    "experiments/dual_sdram_client_lookahead.sv": "ae9cf6d2b1269c6c27b803fc7a2bbb0b9a9f72cbada04be0730f011fc881109e",
+    "experiments/sdf_sdram_service_lookahead.sv": "7c65a3743d29647b4c506008c589c8f5a1f2da5a6c720697f2e3df62d09dcecd",
+    "experiments/sdram_client_arbiter_lookahead.sv": "ce98a378f6ef95a6701b451ca870a60c3ab2594c2cf0ef0724766939f5655b23",
+    "experiments/sdram_client_arbiter_lookahead_metadata.sv": "f8240838734ad0ba8551538d7ec13bd2ba4c2eb32e07c13f76e5bd16a0f89316",
+    "tests/test_sdram_client_lookahead.py": "e4c915cdf59b23fb408ca547d6a493d31de2aa7c4c1ed52411c68fd95448f2dc",
+    "tests/test_t_time_tile_dma_lookahead.py": "9b9f7dd5437dd91910b82af02d23ff734edef39bf9f529e57b568a9033b85ee9",
+    "tests/test_receiver_control_single_cycle.py": "aab8c8383e49ea54182220144bba6623320c4139285368f2b43da1c585e0d12e",
+    "ci/controller_client_lookahead_evidence.py": "7685448be012d47aff4c6f3cff28570d9acd119be5d938ebe4b24c2c15219a35",
+    "ci/controller_client_lookahead_route.py": "8ae32deaf00c7811482f6eeb7234842b5450af3d0c09904990385041f8f4e4b6",
+    "ci/controller_client_lookahead_path_depth.py": "524d9a2bfa9fbef1aa915741c1fdb37a0d34a95233d78fb05bbb99bc274eed61",
+    "ci/arbiter_matrix_route_extended.py": "8bbb681c62f05c7e623970709d93a93374633fd211121cbe8389d55caa69375e",
+    "ci/arbiter_placement_audit.py": "baf87b15b237ec35faa1b7842fd17011a689b1f17974010d7d710fba62d99ebe",
+    "reports/arbiter-matrix-extended/route-result.json": "1a2cdbf958a9c37c89c2679dc3dfaf9e1ff3d7c59478c96a8094c5035966698d",
+    "reports/arbiter-matrix-extended/route.log": "3cc28bbc23279ba463b74523ce06b5b36e54cadf8199d33c3ca33cb9fd072837"
+  }
+}
