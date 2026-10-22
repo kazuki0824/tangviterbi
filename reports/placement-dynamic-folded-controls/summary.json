@@ -1,0 +1,77 @@
+{
+  "target_FF": "dut.bg_address_DFFRE_Q_60",
+  "exit": 125,
+  "seconds": 10.90076463999867,
+  "counters": {
+    "alu_lut_same_site": {
+      "all": 0,
+      "target": 0
+    },
+    "ram_ff_block": {
+      "all": 0,
+      "target": 0
+    },
+    "ram_ff67_block": {
+      "all": 0,
+      "target": 0
+    },
+    "ram_lut_block": {
+      "all": 0,
+      "target": 0
+    },
+    "ram_alu_block": {
+      "all": 0,
+      "target": 0
+    },
+    "adjacent_alu_mode": {
+      "all": 0,
+      "target": 0
+    },
+    "ff_data_source": {
+      "all": 0,
+      "target": 0
+    },
+    "ff_type": {
+      "all": 1475045,
+      "target": 3787
+    },
+    "ff_lsr": {
+      "all": 29151,
+      "target": 0
+    },
+    "ff_clock": {
+      "all": 0,
+      "target": 0
+    },
+    "ff_enable": {
+      "all": 487746,
+      "target": 0
+    },
+    "ff67_lsr": {
+      "all": 0,
+      "target": 0
+    },
+    "ff67_clock": {
+      "all": 0,
+      "target": 0
+    },
+    "ff67_enable": {
+      "all": 0,
+      "target": 0
+    },
+    "accepted": {
+      "all": 26381,
+      "target": 0
+    }
+  },
+  "errors": [
+    "ERROR: Unable to find legal placement for cell 'ff_input_identity_57' of type 'LUT4' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+  ],
+  "binary_sha256": "dc13a9318556fcb2b0134242eb2a149705843ad57b46d361387df12a6f21755e",
+  "mapped_sha256": "24280bc21e1d69aec40a3f339ca14f7f9895b9c7b60fede6bb6014c5deed89e7",
+  "source_sha256": {
+    "ci/gowin_folded_controls_diagnostics.py": "f9c9c9a2612a0d3374c9312a6bf6c281298fd71b6f19738fafb8ecb4995735f8",
+    "ci/patch_gowin_placement_targeted.py": "c8b0555f8e1500965243638531214c39cf26ad51715d25d397e4a849b4230c7b"
+  },
+  "same_failure_as_official": true
+}

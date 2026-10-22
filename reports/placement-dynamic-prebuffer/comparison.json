@@ -1,0 +1,94 @@
+{
+  "target_FF": "dut.fft.active_mode_DFFE_Q",
+  "scope": "Diagnose the paired LUT/receiver-FF failure on the unchanged prebuffer netlist.",
+  "mapped_sha256": "8d3b659f6e1278a8b4537e021b02e352e0e47a40a4a2402c751d95ed3d7963ff",
+  "runs": {
+    "official": {
+      "exit": 125,
+      "seconds": 10.749215023000943,
+      "binary_sha256": "b8a76c74e615fa915dfbe460c15aaf0f419756e67d64e0c08cfd906b9f445be1",
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'ff_input_identity_127' of type 'LUT1' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "counters": {},
+      "route_completed": false
+    },
+    "instrumented": {
+      "exit": 125,
+      "seconds": 11.049645376999251,
+      "binary_sha256": "dc13a9318556fcb2b0134242eb2a149705843ad57b46d361387df12a6f21755e",
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'ff_input_identity_127' of type 'LUT1' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "counters": {
+        "alu_lut_same_site": {
+          "all": 0,
+          "target": 0
+        },
+        "ram_ff_block": {
+          "all": 0,
+          "target": 0
+        },
+        "ram_ff67_block": {
+          "all": 0,
+          "target": 0
+        },
+        "ram_lut_block": {
+          "all": 0,
+          "target": 0
+        },
+        "ram_alu_block": {
+          "all": 0,
+          "target": 0
+        },
+        "adjacent_alu_mode": {
+          "all": 0,
+          "target": 0
+        },
+        "ff_data_source": {
+          "all": 0,
+          "target": 0
+        },
+        "ff_type": {
+          "all": 1575550,
+          "target": 1663
+        },
+        "ff_lsr": {
+          "all": 75440,
+          "target": 0
+        },
+        "ff_clock": {
+          "all": 0,
+          "target": 0
+        },
+        "ff_enable": {
+          "all": 890151,
+          "target": 3133
+        },
+        "ff67_lsr": {
+          "all": 0,
+          "target": 0
+        },
+        "ff67_clock": {
+          "all": 0,
+          "target": 0
+        },
+        "ff67_enable": {
+          "all": 0,
+          "target": 0
+        },
+        "accepted": {
+          "all": 26241,
+          "target": 0
+        }
+      },
+      "route_completed": false
+    }
+  },
+  "same_failure": true,
+  "source_sha256": {
+    "ci/gowin_prebuffer_diagnostics.py": "692c3877017ed1559332c41b315a33419815a411998f02127ddcacf42a06bdaa",
+    "ci/patch_gowin_placement_targeted.py": "c8b0555f8e1500965243638531214c39cf26ad51715d25d397e4a849b4230c7b"
+  },
+  "whole_receiver_verified": false
+}
