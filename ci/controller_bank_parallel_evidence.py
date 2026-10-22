@@ -1,4 +1,4 @@
-"""Mapped full fixture for the cycle-equivalent parallel arbiter experiment."""
+"""Mapped full fixture for the cycle-equivalent parallel bank-row experiment."""
 import gzip, hashlib, json, os, subprocess, sys, time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))

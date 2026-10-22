@@ -1,4 +1,4 @@
-"""Original finite data/deadline oracle with only the arbiter implementation replaced."""
+"""Original finite data/deadline oracle with only the controller row-lookup implementation replaced."""
 import test_t_time_tile_dma_onehot as base
 class TileDMATest(base.TileDMATest):
  def test_real_data_and_deadlines(self):
