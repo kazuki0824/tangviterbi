@@ -1,0 +1,44 @@
+--- 
++++ 
+@@ -1125,6 +1125,41 @@
+ 
+             empty_clocks.erase(launch.clock);
+         }
++
++            // Diagnostic only: retain tied endpoints and expose the engine's
++            // setup slack plus a complete path. Normal Fmax and P&R are unchanged.
++            if (ctx->settings.count(ctx->id("diagnostics/final_report"))) {
++                std::vector<CellPortKey> diagnostic_endpoints;
++                for (const auto &ep : domains.at(dp.key.capture).endpoints) {
++                    const auto &pd = ports.at(ep.first);
++                    if (pd.domain_pairs.count(i))
++                        diagnostic_endpoints.push_back(ep.first);
++                }
++                std::sort(diagnostic_endpoints.begin(), diagnostic_endpoints.end(),
++                          [&](const CellPortKey &a, const CellPortKey &b) {
++                    auto sa = ports.at(a).domain_pairs.at(i).setup_slack;
++                    auto sb = ports.at(b).domain_pairs.at(i).setup_slack;
++                    if (sa != sb)
++                        return sa < sb;
++                    return std::make_pair(a.cell.str(ctx), a.port.str(ctx)) <
++                           std::make_pair(b.cell.str(ctx), b.port.str(ctx));
++                });
++                int negative = 0;
++                for (const auto &ep : diagnostic_endpoints)
++                    if (ctx->getDelayNS(ports.at(ep).domain_pairs.at(i).setup_slack) < 0)
++                        ++negative;
++                log_info("Endpoint coverage domain=%d clock=%s total=%zu failing=%d\n",
++                         i, launch.clock.c_str(ctx), diagnostic_endpoints.size(), negative);
++                int rank = 0;
++                for (const auto &ep : diagnostic_endpoints) {
++                    auto slack = ports.at(ep).domain_pairs.at(i).setup_slack;
++                    if (rank >= 32 && ctx->getDelayNS(slack) >= 0)
++                        break;
++                    log_info("Endpoint diagnostic domain=%d rank=%d cell=%s port=%s setup_slack_ns=%.6f\n",
++                             i, ++rank, ep.cell.c_str(ctx), ep.port.c_str(ctx), ctx->getDelayNS(slack));
++                    xclock_reports.emplace_back(build_critical_path_report(i, ep, true));
++                }
++            }
+     }
+ 
+     for (int i = 0; i < int(domain_pairs.size()); i++) {
