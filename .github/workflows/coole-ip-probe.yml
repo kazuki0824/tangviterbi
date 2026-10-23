@@ -40,6 +40,11 @@ jobs:
           fi
           rc=$?
           echo "Probe returned $rc; inspect summary.json and synth/pnr logs; this workflow does not accept the design." >> "$GITHUB_STEP_SUMMARY"
+          echo "=== KEY YOSYS OPTIMIZATION WARNINGS ==="
+          LOG="build/upstream-${{ matrix.variant }}/synth.log"
+          grep -Ei "warning|conflict|multiple|constant|undriven|removed|driven|optimized|cell|DFF" "$LOG" | tail -n 130 || true
+          echo "=== YOSYS LOG TAIL ==="
+          tail -n 100 "$LOG" || true
           exit 0
       - name: Upload logs and resource data
         if: always()
