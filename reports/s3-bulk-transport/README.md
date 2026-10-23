@@ -1,3 +1,5 @@
+> 続行結果：[2worker packing・RF/SPI所有権の実装](../s3-parallel-pack/README.md)。通信だけだった前回からC接続を進めました。実SDK task・内部RAM・core別WCETは未確認です。
+
 # ②：32 KiB raw SPI送受信の実装検証
 
 ②だけを進め、前回 `588704f` の「既存4 KiB通信形式では32 KiBを送れない」を解消する実験用API・RTLを実装した。**32 KiB送受信の機能試験は合格。全受信機の成立判定・採用はまだ0件**。①の構成・PRは変更しない。
