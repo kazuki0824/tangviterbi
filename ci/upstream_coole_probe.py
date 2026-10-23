@@ -19,7 +19,8 @@ WRAPPER = r"""
 module coole_probe (
     input wire clk_i, rst_an_i, frame_start_i,
     output wire [7:0] dst_wdata_o,
-    output wire dst_wr_o, frame_done_o, busy_o
+    output wire dst_wr_o, frame_done_o, busy_o,
+    output wire [7:0] diagnostic_o
 );
     wire [11:0] src_addr_o, dst_addr_o;
     wire src_rd_o;
@@ -37,10 +38,12 @@ module coole_probe (
         tb_rdata_i <= survivor[tb_addr_o];
         if (tb_wr_o) survivor[tb_addr_o] <= tb_wdata_o;
     end
+    assign diagnostic_o = core.pm_tmp_s_0[7:0] ^ core.pm_tmp_s_31[7:0] ^
+                          core.pm_tmp_s_63[7:0] ^ core.bm_s_0[7:0];
     viterbi_core #(.WIDTH_BM(9),.SRC_ADDR_W(12),.DST_ADDR_W(12),.W_TB_ADDR(6)) core (
         .clk_i(clk_i),.rst_an_i(rst_an_i),.rst_sync_i(1'b0),
         .frame_start_i(frame_start_i),
-        .register_num_i(2'd0),.valid_polynomials_i(3'd0),
+        .register_num_i({frame_start_i, data_q[3]}),.valid_polynomials_i(data_q[6:4]),
         .tail_biting_en_i(1'b0),
         .polynomial1_i(8'h79),.polynomial2_i(8'h5b),
         .polynomial3_i(8'd0),.polynomial4_i(8'd0),
@@ -132,6 +135,7 @@ def main():
         inputs = [("clk_i",52),("rst_an_i",35),("frame_start_i",25)]
         outputs = [("dst_wr_o",10),("frame_done_o",11),("busy_o",13)]
         outputs.extend((f"dst_wdata_o[{i}]",pin) for i,pin in enumerate([14,15,16,26,27,28,29,30]))
+        outputs.extend((f"diagnostic_o[{i}]",pin) for i,pin in enumerate([31,32,33,34,36,37,38,40]))
         cst.write_text("".join(f'IO_LOC "{name}" {pin};\nIO_PORT "{name}" IO_TYPE=LVCMOS33;\n' for name,pin in inputs+outputs))
         cmd = ["nextpnr-himbaechel","--json",str(out/"mapped.json"),
                "--device","GW1NR-LV9QN88PC6/I5",
@@ -150,7 +154,8 @@ def main():
             result["logic_positions"] = sum(u.get(k,{}).get("used",0) for k in ("LUT4","ALU"))
             for key in ("LUT4","ALU","DFF","BSRAM","RAM16SDP4","MULT18X18"):
                 result[key] = u.get(key,{}).get("used",0)
-    result["sizing_qualified"] = bool(result.get("route_completed") and result.get("pnr_exit")==0)
+    result["sizing_qualified"] = bool(result.get("route_completed") and result.get("pnr_exit")==0 and result.get("logic_positions",0)>500)
+    result["instrumented_core_logic_retained"] = result.get("logic_positions",0)>500
     result["full_rate_qualified"] = False  # requires functional and service-rate validation
     (out/"summary.json").write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
     print(json.dumps(result,indent=2,sort_keys=True))
