@@ -7,6 +7,8 @@ on:
       - 'rtl/three_context_k7.sv'
       - 'experiments/three_context_k7.py'
       - 'tests/test_three_context_k7.py'
+      - 'tests/test_three_context_k7_window.py'
+      - 'rtl/three_context_k7_window.sv'
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,8 +24,10 @@ jobs:
       - name: Install Icarus Verilog
         run: sudo apt-get update && sudo apt-get install -y iverilog
       - name: Run independent three-context baseline oracle
-        run: python3 -m unittest discover -s tests -p 'test_three_context_k7.py' -v
+        run: |
+          python3 -m unittest discover -s tests -p 'test_three_context_k7.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_window.py' -v
       - name: Explicitly record missing paired external-IP experiment
         run: |
-          echo 'Baseline functional oracle ran; upstream-inspired sliding-window RTL is not yet implemented.' >> "$GITHUB_STEP_SUMMARY"
-          echo 'No claims about paired P&R Fmax, resource improvement, or receiver feasibility.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Both baseline and experimental 64+64 sliding-window variant are checked against independent oracle. Any functional regression fails this job.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Paired P&R Fmax/resource improvement and whole-receiver feasibility remain unverified.' >> "$GITHUB_STEP_SUMMARY"
