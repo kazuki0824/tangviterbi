@@ -1,0 +1,50 @@
+name: Direct upstream coole198669 9K probe
+on:
+  pull_request:
+    paths:
+      - 'ci/upstream_coole_probe.py'
+      - '.github/workflows/coole-ip-probe.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  direct-ip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [unmodified, typo-corrected]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: "2026-10-04"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fetch pinned actual external IP
+        run: |
+          git clone https://github.com/coole198669/viterbi_decoder.git build/upstream
+          git -C build/upstream checkout --detach 5412b61196a425179def39e030828dac978161da
+          test "$(git -C build/upstream rev-parse HEAD)" = "5412b61196a425179def39e030828dac978161da"
+      - name: Actual external decoder sizing experiment
+        shell: bash
+        run: |
+          set +e
+          if [ "${{ matrix.variant }}" = "typo-corrected" ]; then
+            python3 -m ci.upstream_coole_probe --source build/upstream --output build/upstream-typo-corrected --normalize-multiple-driver
+          else
+            python3 -m ci.upstream_coole_probe --source build/upstream --output build/upstream-unmodified
+          fi
+          rc=$?
+          echo "Probe returned $rc; inspect summary.json and synth/pnr logs; this workflow does not accept the design." >> "$GITHUB_STEP_SUMMARY"
+          exit 0
+      - name: Upload logs and resource data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coole-ip-${{ matrix.variant }}
+          path: build/upstream-${{ matrix.variant }}/
+          if-no-files-found: warn
