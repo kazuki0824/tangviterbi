@@ -58,3 +58,20 @@ Compare artifacts:
 - [Experimental 64+64](https://github.com/kazuki0824/tangviterbi/actions/runs/39911179061/artifacts/12483175622)
 
 Next: the remaining BM->ACS critical path needs pipelining/overlap without increasing four clocks/step, and metric/survivor physical banks need to fit the overall `2096-I` allocation. A real implementation of the upstream two-cycle SRAM schedule and 64-ACS alternative, including actual Gowin port mapping, is **not** covered by this narrowly controlled timing experiment.
+
+## Direct external-IP RTL measurement (run 39960597565, 2026-10-23)
+
+The actual pinned `coole198669/viterbi_decoder` 64-ACS decoder was synthesized twice with Yosys Gowin flow, not merely the 64+64 local derivative. Source SHA256 values and full mapped netlist are recorded by CI. Results:
+
+| Variant | Mapped top LUT4+ALU | Mapped FF | P&R | Admissible Fmax |
+|---|---:|---:|---|---|
+| Upstream unmodified | 38 (P&R 77) | 27 | completes with core optimized out | **None: invalid** |
+| Upstream traceback multiple-driver corrected | **8567** | **1863** | failed legal placement (ALU) after 57,668,431 attempts | **None: unrouted** |
+
+The source file `traceback.v` writes `tb_bits_valid_r` from two procedural blocks; diagnostic second run changes the first to `last_bit_load_r` and preserves original code in unmodified case. This dramatically changes what the synthesizer retains. **Do not interpret 172/194 MHz unmodified result as external-IP performance.** The corrected mapped top has 8567 LUT4+ALU, near the device's 8640 nominal LUT4 positions, and is already a **single-context** original 64-ACS decoder, not the three-context 16-ACS RTL. Nominal 8567/8640 alone does not prove or disprove physical fit because ALU packing, RAM and placement constraints apply. Actual legal placement failed and no timing/Fmax exists. The `mapped_top_is_flat=false` flag reflects Yosys $scopeinfo/internal module declarations in its emitted JSON, so infer fit from *mapped top cell types and placement failure*, not that flag alone. Observe that baseline PR #8 has **3317 post-route** positions and **757 post-route** FF; these are not matched mapping-stage counts.
+
+[Direct CI Run](https://github.com/kazuki0824/tangviterbi/actions/runs/39960597565).
+
+**Defensible conclusion:** coole198669's original 64-ACS one-context IP as tested cannot be adopted as an already-fitting, routed three-context 9K decoder. Local 16-ACS design has considerably smaller measured logic footprint but itself fails its 100.848485 MHz deadline, and its area exceeds the allocated K7-alone 2096-I budget. Therefore **neither measured implementation qualifies for the whole receiver**. Whether a redesigned 3-context implementation employing coole's traceback/memory scheduling could meet area+timing remains an open engineering question requiring an equivalent-function implemented candidate, not conjecture from IP counts.
+
+**Still unverified:** side-by-side independent functional decoding of corrected upstream with matching 8bit soft and erasure semantics; rate-normalized throughput and three-context save/restore; cross-seed placement and entire decoder/receiver. CI job green is only successful measurement execution and does not change rejection.
