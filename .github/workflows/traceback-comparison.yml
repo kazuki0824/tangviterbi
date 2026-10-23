@@ -9,6 +9,7 @@ on:
       - 'tests/test_three_context_k7.py'
       - 'tests/test_three_context_k7_window.py'
       - 'rtl/three_context_k7_window.sv'
+      - 'ci/compare_traceback_pnr.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,3 +32,28 @@ jobs:
         run: |
           echo 'Both baseline and experimental 64+64 sliding-window variant are checked against independent oracle. Any functional regression fails this job.' >> "$GITHUB_STEP_SUMMARY"
           echo 'Paired P&R Fmax/resource improvement and whole-receiver feasibility remain unverified.' >> "$GITHUB_STEP_SUMMARY"
+  paired-pnr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [baseline, window]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: "2026-10-04"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run 9K same constraints and seed
+        run: python3 -m ci.compare_traceback_pnr --variant "${{ matrix.variant }}" --output "build/traceback-${{ matrix.variant }}"
+      - name: Upload paired evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: traceback-${{ matrix.variant }}
+          path: build/traceback-${{ matrix.variant }}/
+          if-no-files-found: error
