@@ -10,12 +10,12 @@
  * reap returns ESP_OK; on an unexpected SDK error the port stays poisoned.
  * Pin/electrical timing, FPGA ready/status and RF acquisition are not provided.
  */
-enum { S3_SPI_MAX_SEGMENTS = 8 };
+enum { S3_SPI_MAX_SEGMENTS = 8, S3_BULK_BYTES = 32768 };
 typedef struct {
     spi_device_handle_t device;
     spi_host_device_t host;
     unsigned lanes, count, capacity;
-    bool sct, busy, poisoned, polling;
+    bool sct, busy, poisoned, polling, bulk;
     spi_multi_transaction_t *segments;
 } s3_spi_port;
 
@@ -25,6 +25,15 @@ typedef struct {
 esp_err_t s3_spi_open(s3_spi_port *port, spi_host_device_t host,
                        const spi_bus_config_t *pins, int cs, unsigned lanes,
                        bool sct, spi_multi_transaction_t *storage, unsigned capacity);
+/* Opt-in raw-only single asynchronous 32-KiB transaction on SPI2 or SPI3.
+ * Payload must be one contiguous internal DMA arena, leased until reap.
+ * Uses D711/length=32768, requiring RX WRITE_BYTES=32768 and page splitter.
+ * No IQ reads, SCT, polling or automatic ring ownership in this API.
+ */
+esp_err_t s3_spi_open_bulk(s3_spi_port *port, spi_host_device_t host,
+ const spi_bus_config_t *pins, int cs, unsigned lanes, spi_multi_transaction_t *storage);
+esp_err_t s3_spi_prepare_bulk(s3_spi_port *port, unsigned epoch,
+ uint32_t offset, void *payload);
 /* Only SPI3 dedicated bus, idle and owned by this task. Acquire once before
  * RF starts; poll_end is called only after the pinned LL done flag is true. */
 esp_err_t s3_spi_use_polling(s3_spi_port *port);

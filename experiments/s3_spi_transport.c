@@ -10,9 +10,9 @@
 #endif
 _Static_assert(SOC_SPI_SCT_SUPPORTED, "SCT required");
 
-esp_err_t s3_spi_open(s3_spi_port *p, spi_host_device_t host,
+static esp_err_t open_port(s3_spi_port *p, spi_host_device_t host,
                        const spi_bus_config_t *pins, int cs, unsigned lanes,
-                       bool sct, spi_multi_transaction_t *storage, unsigned capacity)
+                       bool sct, spi_multi_transaction_t *storage, unsigned capacity, bool bulk)
 {
     if (!p || !pins || !storage || capacity == 0 || capacity > S3_SPI_MAX_SEGMENTS ||
         (!sct && capacity != 1) || cs < 0 || (host != SPI2_HOST && host != SPI3_HOST) ||
@@ -20,13 +20,13 @@ esp_err_t s3_spi_open(s3_spi_port *p, spi_host_device_t host,
         (sct && host != SPI2_HOST)) return ESP_ERR_INVALID_ARG;
     memset(p, 0, sizeof(*p));
     p->host = host; p->lanes = lanes; p->sct = sct;
-    p->segments = storage; p->capacity = capacity;
+    p->segments = storage; p->capacity = capacity; p->bulk = bulk;
     spi_bus_config_t config = *pins;
     /* IDF allocates ceil(max_transfer_sz/4092) descriptors in BOTH directions.
      * An SCT segment uses one 60-byte config descriptor and two for 4096 B.
      * 24 is pool capacity, not an allocated 98-KiB payload staging area.
      */
-    config.max_transfer_sz = sct ? 3 * capacity * 4092 : S3_PAGE_BYTES;
+    config.max_transfer_sz = bulk ? S3_BULK_BYTES : sct ? 3 * capacity * 4092 : S3_PAGE_BYTES;
     config.flags = SPICOMMON_BUSFLAG_MASTER |
                    (lanes == 8 ? SPICOMMON_BUSFLAG_OCTAL : SPICOMMON_BUSFLAG_QUAD);
     esp_err_t err = spi_bus_initialize(host, &config, SPI_DMA_CH_AUTO);
@@ -48,9 +48,44 @@ esp_err_t s3_spi_open(s3_spi_port *p, spi_host_device_t host,
     return err;
 }
 
+esp_err_t s3_spi_open(s3_spi_port *p, spi_host_device_t host,
+ const spi_bus_config_t *pins, int cs, unsigned lanes, bool sct,
+ spi_multi_transaction_t *storage, unsigned capacity)
+{
+ return open_port(p,host,pins,cs,lanes,sct,storage,capacity,false);
+}
+
+esp_err_t s3_spi_open_bulk(s3_spi_port *p, spi_host_device_t host,
+ const spi_bus_config_t *pins, int cs, unsigned lanes, spi_multi_transaction_t *storage)
+{
+ return open_port(p,host,pins,cs,lanes,false,storage,1,true);
+}
+
+esp_err_t IRAM_ATTR s3_spi_prepare_bulk(s3_spi_port *p, unsigned epoch,
+ uint32_t offset, void *payload)
+{
+ if(!p || !p->device || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
+ p->count=0;
+ if(!p->bulk || p->sct || p->polling || !payload || ((uintptr_t)payload & 3) ||
+    !epoch || epoch>UINT16_MAX || offset%S3_PAGE_BYTES) return ESP_ERR_INVALID_ARG;
+ uint8_t *b=payload;
+ if(!esp_ptr_internal(b) || !esp_ptr_internal(b+S3_BULK_BYTES-1) ||
+    !esp_ptr_dma_capable(b) || !esp_ptr_dma_capable(b+S3_BULK_BYTES-1))
+    return ESP_ERR_INVALID_ARG;
+ spi_multi_transaction_t *s=&p->segments[0];
+ memset(s,0,sizeof(*s));
+ s->base.flags=(p->lanes==8 ? SPI_TRANS_MODE_OCT : SPI_TRANS_MODE_QIO) |
+   SPI_TRANS_MULTILINE_CMD | SPI_TRANS_MULTILINE_ADDR | SPI_TRANS_DMA_BUFFER_ALIGN_MANUAL;
+ s->base.cmd=0xd711;
+ s->base.addr=((uint64_t)epoch<<48)|((uint64_t)offset<<16)|S3_BULK_BYTES;
+ s->base.length=S3_BULK_BYTES*8;
+ s->base.tx_buffer=payload;s->base.user=p;p->count=1;
+ return ESP_OK;
+}
+
 esp_err_t s3_spi_use_polling(s3_spi_port *p)
 {
- if(!p||!p->device||p->host!=SPI3_HOST||p->sct||p->busy||p->poisoned||p->polling)return ESP_ERR_INVALID_STATE;
+ if(!p||!p->device||p->host!=SPI3_HOST||p->sct||p->bulk||p->busy||p->poisoned||p->polling)return ESP_ERR_INVALID_STATE;
  esp_err_t rc=spi_device_acquire_bus(p->device,portMAX_DELAY);
  if(rc==ESP_OK)p->polling=true;
  return rc;
@@ -61,7 +96,7 @@ esp_err_t IRAM_ATTR s3_spi_prepare_pages(s3_spi_port *p, unsigned stream, unsign
 {
     if (!p || !p->device || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
     p->count = 0;
-    if (!payloads || pages == 0 || pages > p->capacity) return ESP_ERR_INVALID_ARG;
+    if (p->bulk || !payloads || pages == 0 || pages > p->capacity) return ESP_ERR_INVALID_ARG;
     for (unsigned i = 0; i < pages; ++i) {
         /* A ring wrap may use different page pointers, without a copy. */
         uint8_t *b = payloads[i];
