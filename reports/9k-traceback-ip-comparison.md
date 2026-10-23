@@ -37,3 +37,24 @@ The historical 9K README reports that a **legacy** Viterbi benchmark failed an i
 5. Check unchanged four-clock interval, simultaneous survivor read/write collisions, three-context schedule and flush latency. Reject an apparent area win that misses either Fmax or the 2096-I logic budget; do not claim whole-receiver feasibility from a partial block.
 
 **Current implementation (2026-10-23):** `rtl/three_context_k7_window.sv` changes only the existing decoder's 60-convergence/64-emission window to 64-convergence/64-emission, adjusts the traceback start position, and retains the same 16-ACS, 8-bit soft metrics and context scheduler. `tests/test_three_context_k7_window.py` runs the independent oracle on that candidate; `ci/compare_traceback_pnr.py` and `.github/workflows/traceback-comparison.yml` execute both candidates on identical GW1NR-9 settings (108 MHz, seed 1). This is an **upstream-inspired scheduling experiment**, not a verbatim port of coole198669's 64-ACS RTL or its exact external SRAM microarchitecture. Baseline+experimental oracle CI at commit `c07f21a` succeeded (run 39911060518). The newly added paired-P&R run at commit `0186a70` must be inspected for results before a quantitative conclusion. The same-clock schedule does not independently guarantee enough receiver area or throughput.
+
+## Same-target comparison measured by CI (run 39911179061)
+
+Matched `GW1NR-LV9QN88PC6/I5`, same 108 MHz target and seed 1; both completed routing. CI workflow jobs are green because the measurement driver does **not** enforce the timing/area acceptance gates; `partial_target_pass` is false for **both** candidates.
+
+| P&R measurement | Existing #8 split-bank 60+64 | Trial 64+64 window | Delta |
+|---|---:|---:|---:|
+| Routed Fmax (MHz) | 51.9264755 | 57.0873985 | +5.160923 (+9.94%) |
+| LUT4+ALU position lower-bound | 3317 | 3311 | -6 |
+| DFF | 757 | 757 | 0 |
+| BSRAM | 4 | 4 | 0 |
+| RAM16SDP4 | 160 | 160 | 0 |
+| Required minimum MHz (4 clocks/step) | 100.848485 | 100.848485 | both fail |
+
+This is **not** a viable receiver architecture. The trial is also well above the K7-only `2096-I` logic allowance. The CI baseline and experimental oracle checks in run 39911060518 succeeded; this does not cover complete receiver operation, all continuous streaming and full physical I/O timing. Measured values were taken from individual P&R job logs rather than inferred from the workflows' green check marks.
+
+Compare artifacts:
+- [Existing 60+64](https://github.com/kazuki0824/tangviterbi/actions/runs/39911179061/artifacts/12482509388)
+- [Experimental 64+64](https://github.com/kazuki0824/tangviterbi/actions/runs/39911179061/artifacts/12483175622)
+
+Next: the remaining BM->ACS critical path needs pipelining/overlap without increasing four clocks/step, and metric/survivor physical banks need to fit the overall `2096-I` allocation. A real implementation of the upstream two-cycle SRAM schedule and 64-ACS alternative, including actual Gowin port mapping, is **not** covered by this narrowly controlled timing experiment.
