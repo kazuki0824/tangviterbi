@@ -1,0 +1,29 @@
+name: 9K traceback comparative evidence
+on:
+  pull_request:
+    paths:
+      - 'reports/9k-traceback-ip-comparison.md'
+      - '.github/workflows/traceback-comparison.yml'
+      - 'rtl/three_context_k7.sv'
+      - 'experiments/three_context_k7.py'
+      - 'tests/test_three_context_k7.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  baseline-functional:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Icarus Verilog
+        run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Run independent three-context baseline oracle
+        run: python3 -m unittest discover -s tests -p 'test_three_context_k7.py' -v
+      - name: Explicitly record missing paired external-IP experiment
+        run: |
+          echo 'Baseline functional oracle ran; upstream-inspired sliding-window RTL is not yet implemented.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'No claims about paired P&R Fmax, resource improvement, or receiver feasibility.' >> "$GITHUB_STEP_SUMMARY"
