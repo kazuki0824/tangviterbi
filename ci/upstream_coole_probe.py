@@ -18,13 +18,16 @@ NAMES = ("BMU.v", "ACS.v", "pm_normalize.v", "traceback.v", "viterbi_core.v")
 WRAPPER = r"""
 module coole_probe (
     input wire clk_i, rst_an_i, frame_start_i,
-    input wire [23:0] src_rdata_i,
-    output wire src_rd_o,
-    output wire [11:0] src_addr_o,
     output wire [7:0] dst_wdata_o,
-    output wire [11:0] dst_addr_o,
     output wire dst_wr_o, frame_done_o, busy_o
 );
+    wire [11:0] src_addr_o, dst_addr_o;
+    wire src_rd_o;
+    reg [23:0] data_q;
+    wire [23:0] src_rdata_i = data_q ^ {12'd0,src_addr_o};
+    always @(posedge clk_i or negedge rst_an_i)
+      if(!rst_an_i) data_q <= 24'hace135;
+      else if(src_rd_o) data_q <= {data_q[22:0],data_q[23]^data_q[22]^data_q[21]^data_q[16]};
     wire tb_wr_o, tb_rd_o;
     wire [5:0] tb_addr_o;
     wire [63:0] tb_wdata_o;
@@ -125,9 +128,14 @@ def main():
     result["yosys_version"] = subprocess.check_output(["yosys","-V"],text=True).strip()
     result["synth_exit"] = run(["yosys","-Q","-s",str(ys)],cwd=ROOT,logfile=out/"synth.log")
     if result["synth_exit"] == 0:
+        cst = out / "pins.cst"
+        inputs = [("clk_i",52),("rst_an_i",35),("frame_start_i",25)]
+        outputs = [("dst_wr_o",10),("frame_done_o",11),("busy_o",13)]
+        outputs.extend((f"dst_wdata_o[{i}]",pin) for i,pin in enumerate([14,15,16,26,27,28,29,30]))
+        cst.write_text("".join(f'IO_LOC "{name}" {pin};\nIO_PORT "{name}" IO_TYPE=LVCMOS33;\n' for name,pin in inputs+outputs))
         cmd = ["nextpnr-himbaechel","--json",str(out/"mapped.json"),
                "--device","GW1NR-LV9QN88PC6/I5",
-               "--vopt","family=GW1N-9C",
+               "--vopt","family=GW1N-9C","--vopt",f"cst={cst}",
                "--freq","108","--seed","1","--report",str(out/"pnr.json")]
         (out/"pnr-command.json").write_text(json.dumps(cmd,indent=2))
         result["pnr_exit"] = run(cmd,cwd=ROOT,logfile=out/"pnr.log")
