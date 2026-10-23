@@ -28,7 +28,7 @@ The historical 9K README reports that a **legacy** Viterbi benchmark failed an i
 
 **Timing bound:** for #8, accepted trellis steps must sustain 25.212121 Mstep/s, or at least 100.848484 MHz at four clocks/step *before* any extra stalls. A traceback memory scheme alone cannot eliminate the current measured soft/erasure -> BM -> ACS critical path (logic 8.72 ns and routing 10.54 ns). Replacing only traceback is therefore **not a demonstrated route to timing closure**. Retaining a four-clock interface is an explicit acceptance gate.
 
-## Required controlled comparison (not yet completed)
+## Controlled comparison implementation and remaining evidence
 
 1. Establish a structurally equivalent #8 fork with the same 16-ACS input and metric math, soft precision (8-bit), puncturing erasures, 3-context interleaving, reset/idle behavior and required 25.212121 Mstep/s. Change ONLY survivor storage/traceback.
 2. Implement upstream-inspired sliding-window double-buffering with bounded memory ports; do not vendor the upstream RTL verbatim, because of the 64-ACS/frame interface mismatch and the multiple-driver finding.
@@ -36,4 +36,4 @@ The historical 9K README reports that a **legacy** Viterbi benchmark failed an i
 4. Synthesize, place and route both with pinned OSS CAD, identical GW1NR-LV9QN88PC6/I5, constraints, seed and 108 MHz target. Record routed MHz, LUT4, ALU, FF, RAM16SDP4, BSRAM, DSP, and negative outcomes explicitly.
 5. Check unchanged four-clock interval, simultaneous survivor read/write collisions, three-context schedule and flush latency. Reject an apparent area win that misses either Fmax or the 2096-I logic budget; do not claim whole-receiver feasibility from a partial block.
 
-**Status:** this commit provides an evidence-based *architectural comparison and reproducibility gate*, not the requested completed controlled P&R trial. The IP-inspired RTL variant and paired P&R results remain unimplemented. Do not infer external-IP superiority from missing measurements.
+**Current implementation (2026-10-23):** `rtl/three_context_k7_window.sv` changes only the existing decoder's 60-convergence/64-emission window to 64-convergence/64-emission, adjusts the traceback start position, and retains the same 16-ACS, 8-bit soft metrics and context scheduler. `tests/test_three_context_k7_window.py` runs the independent oracle on that candidate; `ci/compare_traceback_pnr.py` and `.github/workflows/traceback-comparison.yml` execute both candidates on identical GW1NR-9 settings (108 MHz, seed 1). This is an **upstream-inspired scheduling experiment**, not a verbatim port of coole198669's 64-ACS RTL or its exact external SRAM microarchitecture. Baseline+experimental oracle CI at commit `c07f21a` succeeded (run 39911060518). The newly added paired-P&R run at commit `0186a70` must be inspected for results before a quantitative conclusion. The same-clock schedule does not independently guarantee enough receiver area or throughput.
