@@ -131,6 +131,40 @@ def main():
     result["yosys_version"] = subprocess.check_output(["yosys","-V"],text=True).strip()
     result["synth_exit"] = run(["yosys","-Q","-s",str(ys)],cwd=ROOT,logfile=out/"synth.log")
     if result["synth_exit"] == 0:
+        # Pre-P&R structural census; a placer failure cannot hide synthesis area.
+        mapped = json.loads((out/"mapped.json").read_text())
+        modules = mapped.get("modules", {})
+        top_modules = [name for name, info in modules.items() if str(info.get("attributes",{}).get("top","0")).lstrip("0") == "1"]
+        # Yosys Gowin flow flattens the design; if not, preserve per-module data
+        # rather than pretending a single top-only census includes child instances.
+        census = {}
+        for mod, info in modules.items():
+            cells = info.get("cells",{})
+            types = {}
+            for cell in cells.values():
+                name=cell.get("type","")
+                types[name]=types.get(name,0)+1
+            census[mod] = dict(cell_count=len(cells), types=types)
+        result["mapped_top_modules"] = top_modules
+        result["mapped_module_census"] = census
+        result["mapped_all_modules_cell_counts"] = {
+            mod: row["cell_count"] for mod,row in census.items()
+        }
+        top = modules.get("coole_probe",{})
+        ct=census.get("coole_probe",{}).get("types",{})
+        result["mapped_top_cell_types"] = ct
+        result["mapped_top_logic_positions"] = ct.get("LUT4",0)+ct.get("ALU",0)
+        result["mapped_top_FF_count"] = sum(v for k,v in ct.items() if k.startswith("DFF"))
+        result["mapped_top_BSRAM_count"] = sum(v for k,v in ct.items() if k.startswith("DPB") or k.startswith("SP") or k == "BSRAM")
+        result["mapped_top_is_flat"] = all(cell.get("type") not in modules for cell in top.get("cells",{}).values())
+        result["mapped_logic_over_8640"] = bool(result["mapped_top_is_flat"] and result["mapped_top_logic_positions"] > 8640)
+        result["mapped_logic_over_K7_allowance_2096"] = bool(result["mapped_top_is_flat"] and result["mapped_top_logic_positions"] > 2096)
+        print("PRE-PLACE NETLIST CENSUS: "+json.dumps({
+          "top":top_modules,"flat":result["mapped_top_is_flat"],
+          "top_logic_positions":result["mapped_top_logic_positions"],
+          "top_FFs":result["mapped_top_FF_count"],
+          "top_types":ct,
+          "modules":result["mapped_all_modules_cell_counts"]},sort_keys=True),flush=True)
         cst = out / "pins.cst"
         inputs = [("clk_i",52),("rst_an_i",35),("frame_start_i",25)]
         outputs = [("dst_wr_o",10),("frame_done_o",11),("busy_o",13)]
@@ -154,7 +188,8 @@ def main():
             result["logic_positions"] = sum(u.get(k,{}).get("used",0) for k in ("LUT4","ALU"))
             for key in ("LUT4","ALU","DFF","BSRAM","RAM16SDP4","MULT18X18"):
                 result[key] = u.get(key,{}).get("used",0)
-    result["sizing_qualified"] = bool(result.get("route_completed") and result.get("pnr_exit")==0 and result.get("logic_positions",0)>500)
+    result["sizing_qualified"] = bool(result.get("route_completed") and result.get("pnr_exit")==0 and result.get("logic_positions",0)>500 and result.get("mapped_top_is_flat"))
+    result["preplace_logic_fit_8640"] = bool(result.get("mapped_top_is_flat") and not result.get("mapped_logic_over_8640") and result.get("mapped_top_logic_positions",0)>500)
     result["instrumented_core_logic_retained"] = result.get("logic_positions",0)>500
     result["full_rate_qualified"] = False  # requires functional and service-rate validation
     (out/"summary.json").write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
