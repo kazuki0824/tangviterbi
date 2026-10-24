@@ -48,3 +48,32 @@ R/P/H/Cはそれぞれのcycle費用。Hはbodyとclockを除いたslice処理�
 実SDKはperformance最適化設定。リンク済みELFの[step](sdk-step.dis)と[packing](sdk-pack.dis)から、caller反復6＋packing39＝45命令を確認した。[要約](sdk-loop-summary.json)。前回のfreestanding O2に対応する回数で、Osの50命令をこのSDK実行列の値として使わない。[費用係数の再現script](../../ci/s3_pack_path_budget.py)も保存。
 
 成果物は依然link-only probeであり、RF/worker/SPIの実taskを起動した受信試験ではない。今回閉じたのは前回変更のSDK静的配置確認と有限条件の経路回数。R/P/H/CとRF/SPI等の費用、各core deadlineは未完。
+
+## run・境界・slice管理の命令数を埋める
+
+[分岐先から再decodeする監査](../../ci/s3_pack_cfg_audit.py)を追加し、固定したSDK ELFの実際に到達できる命令と分岐を取得した。[CFG](cfg/cfg.json)、[読みやすい命令一覧](cfg/reachable.txt)、[計数結果](cfg/results.json)。単純な線形objdumpではpaddingからdecodeしたため分岐先が別命令の途中に見える箇所があった。これを放置せず、関数入口・条件分岐の両方・jump先から読み直した。実装の不正命令ではなく表示の問題であり、既存packing本体39/反復45の値は変わらない。
+
+sourceで回数を制限している4つのloop（3bank走査、block反復、5byte書込み、slice内dispatch）のback edgeを取り除くと、残りが非循環になることを確認した。slice管理・run管理では互いに排他的なbranchもすべて足すため、次は**宣言した成功経路・visit条件における保守的な命令数集計**であり、実時間上限ではない。
+
+| 単位 | 命令数の係数 | 含む範囲 |
+|---|---:|---|
+| 8sample block | 45 | caller反復6＋pack_eight39 |
+| run開始 | 118 | slice内位置計算・境界判定・run初期化/後処理。slow側の排他branchも含む保守値 |
+| slow pair | 173 | 上記118＋5byte loopの11命令×5 |
+| slice | 213 | step_implのbody外150＋bank走査追加2回×17＋clocked wrapper29 |
+
+`命令数集計 = 45×block + 118×run + 173×slow pair + 213×slice`
+
+run項は全bulk反復を除き、slow項はbyte loopを別に加算する。slice項はrun/slow bodyを除く。clock callbackへのcall命令は含むがcallee内部は含まない。pack_eight内部は45へ含むため別途足さない。実taskによるwrapperの呼出し・空job poll・RF/SPI・interrupt/context spill・pipeline/cache/bus待ちは別。分岐回数は前節の実C計数24条件に対応するもので、全てのRF入力量分布を検証したわけではない。
+
+12288sample/bank、512pair/slice、先頭0なら、各workerはT47.959/S119.899 M命令/s以下という集計になる。先頭16380ではworker0がT48.802/S122.005へ増える。これに全命令1cycleという理想仮定を置けば同じ数値のMcycles/sとなるが、**保守的な命令数を数えたことは、1命令1cycleという仮定を保守的にするものではない。** 実行時間保証とは区別する。[96ケース](cfg/results.json)。
+
+CFGの内部edge閉包、命令領域の非重複、padding誤decodeの回帰、ELF hash、領域分割と時計待ち未確定の扱いを[3 unittest](cfg/tests.log)で確認。実機又は完全なCPU emulatorでこの命令列を実行した試験ではなく、CとCFGの完全な形式的同値証明でもない。
+
+### 共通時計候補の内部も確認
+
+同じELFの `esp_timer_get_time`、`systimer_hal_get_counter_value`、`systimer_ticks_to_us` を調べた。通常のSDK初期化で換算function pointerへ後者を登録することも[pinned source](cfg/timer-source.json)で確認。callback候補の命令数は初回成功なら40命令、counter更新待ちの追加反復ごとに3命令、値整合性の再読出しごとに6命令。さらにMMIO等の待ち時間、callback adapterの費用が必要になる。
+
+更新待ち・再読出し回数の上限をまだ得ていないため、40cyclesを時計のWCETとして代入しない。現在のnative取得のcore別cycle時計と同じepoch/単位だとも扱わない。共通時計への統合にはdeadline・bound・RF pollを同じ時刻基準へ変換する実装と検証が必要で、このAPIを呼ぶだけで契約が満たされるわけではない。
+
+今回、以前R/P/Hとして未算入だったcaller処理の**命令数係数**を埋めた。残るのは命令・MMIO待ちの費用、共通時計とRF/SPI担当処理の統合、各coreの期限。受信機採用は増えていない。
