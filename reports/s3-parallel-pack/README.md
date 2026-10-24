@@ -1,3 +1,5 @@
+> 続行結果：[実SDKリンクと起動RAM配置の比較](../s3-raw-sdk/README.md)。N8R8/N16R8でリンク確認。BSS stack案は起動容量NG、late stack案は容量必要条件まで通過。実runtime統合・WCETは未確認です。
+
 # ②：2worker無損失packing・RF bank所有権・SPI leaseの実装
 
 前回 `9a1a397` の32 KiB通信実装に、**2worker packing、native RF bank受渡し、SPI送信完了までのlease管理**を接続した。ホスト上の並行動作とS3向けコンパイルは合格した。**実機の2コア性能・内部RAM配置・全FPGAの成立は未確認で、性能合格→正式通信路割当→採用は0→0→0を維持する。** ①は変更しない。
