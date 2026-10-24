@@ -9,3 +9,7 @@ target_link_options(${COMPONENT_LIB} INTERFACE "-T${CMAKE_CURRENT_LIST_DIR}/sram
 if(RAW_LATE_TASK_STACKS)
  target_compile_definitions(${COMPONENT_LIB} PRIVATE RAW_LATE_TASK_STACKS=1)
 endif()
+
+if(RAW_ONLY_SPI)
+ target_compile_definitions(${COMPONENT_LIB} PRIVATE S3_RAW_ONLY_SPI=1)
+endif()

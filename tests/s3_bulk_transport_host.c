@@ -30,6 +30,10 @@ int main(void) {
  for(unsigned lanes=4;lanes<=8;lanes+=4) {
   s3_spi_port p;spi_multi_transaction_t tx;
   int host=lanes==8 ? SPI2_HOST : SPI3_HOST;
+#ifdef S3_RAW_ONLY_SPI
+  assert(s3_spi_open(&p,host,&pins,10,lanes,false,&tx,1)==ESP_ERR_NOT_SUPPORTED);
+  if(host==SPI2_HOST) assert(s3_spi_open(&p,host,&pins,10,lanes,true,&tx,1)==ESP_ERR_NOT_SUPPORTED);
+#endif
   assert(s3_spi_open_bulk(&p,host,&pins,10,lanes,&tx)==ESP_OK);
   assert(s3_spi_use_polling(&p)==ESP_ERR_INVALID_STATE);
   assert(s3_spi_prepare_bulk(&p,0,0,data)==ESP_ERR_INVALID_ARG);

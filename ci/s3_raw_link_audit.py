@@ -163,6 +163,10 @@ def main():
         for name in ('spi_bus_lock_bg_entry','spi_bus_lock_bg_exit','spi_bus_lock_get_acquiring_dev','spi_bus_lock_bg_clear_req','spi_bus_lock_bg_check_dev_acq','spi_bus_lock_bg_check_dev_req'):
             address=app.symbols.get(name,(0,))[0]
             result['checks'].append(dict(name='IRAM_'+name,ok=0x40374000<=address<0x403a0000,detail=hex(address)))
+    if build_record.get('raw_only_spi'):
+        app=ELF32(a.build/'s3_raw_probe.elf')
+        for name in ('spi_device_queue_multi_trans','spi_device_get_multi_trans_result','spi_device_polling_start','spi_device_polling_end','spi_bus_multi_trans_mode_enable'):
+            result['checks'].append(dict(name='raw_only_absent_'+name,ok=name not in app.symbols))
     result['all_static_checks_pass']=all(c['ok'] for c in result['checks'])
     result['memory_necessary_pass'] &= result['all_static_checks_pass']
     (a.output/'build.log.gz').write_bytes(gzip.compress((a.build.parent/'build.log').read_bytes(),mtime=0))

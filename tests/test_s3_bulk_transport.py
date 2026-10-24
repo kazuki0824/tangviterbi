@@ -8,11 +8,17 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 class BulkTransportTest(unittest.TestCase):
+    def test_raw_only_C_descriptor_and_lease(self):
+        self.check_C_descriptor_and_lease(['-DS3_RAW_ONLY_SPI=1'])
+
     def test_C_descriptor_and_lease(self):
+        self.check_C_descriptor_and_lease([])
+
+    def check_C_descriptor_and_lease(self, extra):
         with tempfile.TemporaryDirectory() as temp:
             exe = Path(temp)/'host'
             subprocess.run(['cc','-std=c11','-O2','-Wall','-Wextra','-Werror',
-                '-fsanitize=undefined','-fno-sanitize-recover=all','-Itests/s3_sdk_shim',
+                '-fsanitize=undefined','-fno-sanitize-recover=all']+extra+['-Itests/s3_sdk_shim',
                 '-Iexperiments','experiments/s3_transport.c','experiments/s3_spi_transport.c',
                 'tests/s3_bulk_transport_host.c','-o',str(exe)],cwd=ROOT,check=True)
             subprocess.run([str(exe)],check=True)

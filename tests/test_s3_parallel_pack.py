@@ -27,13 +27,19 @@ class ParallelPackTest(unittest.TestCase):
             run=subprocess.run([str(exe)],capture_output=True,text=True,timeout=120)
             self.assertEqual(run.returncode,0,run.stdout+run.stderr)
             print(run.stdout.strip())
+    def test_raw_only_bulk_SPI_lease_adapter_and_queue_failure(self):
+        self.check_bulk_SPI_lease_adapter_and_queue_failure(['-DS3_RAW_ONLY_SPI=1'])
+
     def test_bulk_SPI_lease_adapter_and_queue_failure(self):
+        self.check_bulk_SPI_lease_adapter_and_queue_failure([])
+
+    def check_bulk_SPI_lease_adapter_and_queue_failure(self, extra):
         with tempfile.TemporaryDirectory() as temp:
             exe=Path(temp)/'spi'
             sources=['s3_parallel_pack.c','s3_parallel_spi.c','s3_spi_transport.c','s3_transport.c']
             subprocess.run(['cc','-std=c11','-O2','-Wall','-Wextra','-Werror',
                 '-fsanitize=undefined','-fno-sanitize-recover=all','-Iexperiments','-Itests/s3_sdk_shim']+
-                ['experiments/'+x for x in sources]+['tests/s3_parallel_spi_host.c','-o',str(exe)],cwd=ROOT,check=True)
+                ['experiments/'+x for x in sources]+['tests/s3_parallel_spi_host.c','-o',str(exe)]+extra,cwd=ROOT,check=True)
             run=subprocess.run([str(exe)],capture_output=True,text=True,timeout=120)
             self.assertEqual(run.returncode,0,run.stdout+run.stderr)
             print(run.stdout.strip())

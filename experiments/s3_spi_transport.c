@@ -18,6 +18,10 @@ static esp_err_t open_port(s3_spi_port *p, spi_host_device_t host,
         (!sct && capacity != 1) || cs < 0 || (host != SPI2_HOST && host != SPI3_HOST) ||
         (lanes != 4 && lanes != 8) || (lanes == 8 && host != SPI2_HOST) ||
         (sct && host != SPI2_HOST)) return ESP_ERR_INVALID_ARG;
+#ifdef S3_RAW_ONLY_SPI
+    /* Dedicated raw build: do not retain SCT/polling driver entry points. */
+    if (!bulk || sct) return ESP_ERR_NOT_SUPPORTED;
+#endif
     memset(p, 0, sizeof(*p));
     p->host = host; p->lanes = lanes; p->sct = sct;
     p->segments = storage; p->capacity = capacity; p->bulk = bulk;
@@ -38,7 +42,9 @@ static esp_err_t open_port(s3_spi_port *p, spi_host_device_t host,
     };
     err = spi_bus_add_device(host, &dev, &p->device);
     if (err != ESP_OK) { spi_bus_free(host); return err; }
+#ifndef S3_RAW_ONLY_SPI
     if (sct) err = spi_bus_multi_trans_mode_enable(p->device, true);
+#endif
     int actual_khz = 0;
     if (err == ESP_OK) err = spi_device_get_actual_freq(p->device, &actual_khz);
     if (err == ESP_OK && actual_khz != 80000) err = ESP_ERR_NOT_SUPPORTED;
@@ -144,8 +150,13 @@ esp_err_t IRAM_ATTR s3_spi_queue(s3_spi_port *p)
     if (!p || !p->device || p->busy || p->poisoned || !p->count)
         return ESP_ERR_INVALID_STATE;
     p->busy = true;
+#ifdef S3_RAW_ONLY_SPI
+    if (!p->bulk || p->sct || p->polling) { p->poisoned = true; return ESP_ERR_INVALID_STATE; }
+    esp_err_t err = spi_device_queue_trans(p->device, &p->segments[0].base, 0);
+#else
     esp_err_t err = p->polling ? spi_device_polling_start(p->device,&p->segments[0].base,portMAX_DELAY) : p->sct ? spi_device_queue_multi_trans(p->device, p->segments, p->count, 0) :
                             spi_device_queue_trans(p->device, &p->segments[0].base, 0);
+#endif
     /* SCT error paths in this pinned SDK may already own DMA descriptors.
      * Do not recycle payload or silently retry after any unexpected failure. */
     if (err != ESP_OK) p->poisoned = true;
@@ -157,6 +168,11 @@ esp_err_t IRAM_ATTR s3_spi_reap(s3_spi_port *p)
     if (!p || !p->device || !p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
     esp_err_t err;
     void *completed = NULL;
+#ifdef S3_RAW_ONLY_SPI
+    if (!p->bulk || p->sct || p->polling) { p->poisoned = true; return ESP_ERR_INVALID_STATE; }
+    spi_transaction_t *done = NULL;
+    err = spi_device_get_trans_result(p->device, &done, 0); completed = done;
+#else
     if(p->polling) {
         // IDF polling_end(0) can spin until the NEXT RTOS tick (strict >).
         // Use the exact HAL completion predicate first; one owner, one device,
@@ -171,6 +187,7 @@ esp_err_t IRAM_ATTR s3_spi_reap(s3_spi_port *p)
         spi_transaction_t *done = NULL;
         err = spi_device_get_trans_result(p->device, &done, 0); completed = done;
     }
+#endif
     if (err == ESP_ERR_TIMEOUT) return err;
     if (err != ESP_OK || completed != &p->segments[0]) {
         p->poisoned = true; return err == ESP_OK ? ESP_ERR_INVALID_STATE : err;
@@ -182,8 +199,13 @@ esp_err_t IRAM_ATTR s3_spi_reap(s3_spi_port *p)
 esp_err_t s3_spi_close(s3_spi_port *p)
 {
     if (!p || !p->device || p->busy || p->poisoned) return ESP_ERR_INVALID_STATE;
+#ifdef S3_RAW_ONLY_SPI
+    if (!p->bulk || p->sct || p->polling) return ESP_ERR_INVALID_STATE;
+    esp_err_t err = ESP_OK;
+#else
     if(p->polling){spi_device_release_bus(p->device);p->polling=false;}
     esp_err_t err = p->sct ? spi_bus_multi_trans_mode_enable(p->device, false) : ESP_OK;
+#endif
     if (err == ESP_OK) err = spi_bus_remove_device(p->device);
     if (err != ESP_OK) return err;
     p->device = NULL;
