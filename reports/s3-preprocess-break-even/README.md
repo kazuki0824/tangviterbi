@@ -58,3 +58,22 @@ EspressifのESP-DSP commit `3c8ac0fdfec83740b783e200862c8d0c056de0ad` を確認�
 既存出力型から再計算したoutput/input比はTが32/63、Sが1443/2000。整数間引きのaes3関数への単純置換でこの比率を保つことはできない。整数間引きの係数を変えたり追加でsampleを捨てたりして帯域を合わせる案は採用しない。公式の[benchmark表](https://docs.espressif.com/projects/esp-dsp/en/latest/esp32/esp-dsp-benchmarks.html)も、今回の複素・分数比・係数・精度と一致するWCET証拠ではない。
 
 今回確認できたのは、既存模型の不利と、公式関数への単純置換で解決したとは言えないことまで。専用の位相別SIMD／処理融合が上記閾値に届かないという命令・メモリ下限の証明は未了である。また到達する実装も示していない。次の具体的作業は、同品質の係数・位相・丸め契約を固定した専用kernelと、IQ展開・bank処理を含むtarget費用の比較。これを未確認のまま「前処理が有利になることはない」とは記載しない。
+
+## 元資料を回収し、直接FIRの単純SIMD化を絞り込み
+
+元資料 `isdb-9k-four-soc-reestimate.html` version 24を回収し、SHA256が既存provenanceの `ce9a0b99692dfff79e5627b4337ebeab284b12d879a3eb5f00cbf38281fd4f67` と一致することを確認した。HTML内添付の `partition_ledger.py` から該当関数を抽出し、[式とsource hash](original-fir-model.json)を保存した。
+
+Tは32tap、Sは16tapの想定。FIR＋展開の費用は、Tが `(36又は48) × 512/63 + (3又は5) × 16`、Sが `(26又は36) × 28.86 + (3又は5) × 40` Mcycles/sで再現できる。これは実測kernelの費用ではなく、仮定したcycles/outputとcycles/inputを足したもの。したがって過去の「既存kernel費用」は**既存の演算費用模型**として読む必要がある。係数列・位相ごとの精度・同品質の合否条件を、この式から復元することはできない。
+
+Espressif [ESP32-S3 TRM](https://documentation.espressif.com/esp32-s3_technical_reference_manual_en.pdf)のPIE pipeline節と `EE.VMULAS.S16.ACCX` の仕様に基づき、8個のsigned16積を1命令、理想1命令/cycleとして数えた。I/Q各成分でN個の積をそのまま計算する直接FIRなら、積和だけの楽観費用は `2 × N × output_Msample_s / 8` Mcycles/s。2coreへ分けても合計命令数は減らない。SIMDのload併用命令があっても積和命令数そのものは減らない。
+
+| 直接FIR | 積和だけの楽観費用 Mcycles/s | rawを下回るFIR＋展開の閾値 低/高 | 判定（他の費用固定） |
+|---|---:|---:|---|
+| T32tap | 65.016 | 64.590 / 64.082未満 | 低/高とも積和だけで超える。単純SIMD置換ではrawよりCPUを減らせない |
+| S16tap | 115.440 | 122.298 / 86.858未満 | 高条件は超える。低条件は残6.858 Mcycles/sなので積和数だけでは除外できない |
+
+S低条件の残予算は入力複素sample当たり0.17146 cycles。展開・load・位相制御・積和結果の取出し・保存等をすべて賄う値であり、達成を意味しない。旧展開費用3/5 cycles/inputをそのまま残すなら、積和＋展開はT113.016/145.016、S235.440/315.440 Mcycles/sとなり、どちらも低/高とも逆転条件を満たさない。
+
+[再現スクリプト](../../experiments/s3_fir_direct_floor.py)、[結果](direct-fir-floor.json)。元式再現4件＋整数個outputでの独立積和数確認2件に合格。2 unittestも合格し、S低条件を誤って除外しないことを確認した。
+
+この判定は**指定tap数の積を省かない直接s16 FIRで、FIR以外の費用を固定した場合**に限る。係数の零・対称性による積の削減、位相間再利用、FFT convolution、RF管理まで変える融合処理は対象外。同じtap数だけでは品質一致も保証されない。従って「すべての前処理がrawより不利」は未確定だが、係数特性を使わずMACだけ高速化する案を、根拠なく次の有望候補とする必要はなくなった。CPU費用の比較であり、FPGA資源不足を緩和する目的でFIR移管を検討する余地は残る。
