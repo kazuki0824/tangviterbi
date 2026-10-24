@@ -1,4 +1,5 @@
 """Run real pinned TLSF; distinguish projection success from boot evidence."""
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -12,10 +13,15 @@ from s3_tlsf32_replay import run, prepare_sources
 class StartupReplayTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        if not all(importlib.util.find_spec(m) for m in ('unicorn', 'elftools')):
+            raise unittest.SkipTest('32-bit allocator replay requires unicorn and pyelftools; see reports/s3-startup-order/README.md')
         cls.directory = tempfile.TemporaryDirectory()
         source = os.environ.get('TLSF_SOURCE')
         cls.result = run(Path(cls.directory.name) / 'result.json', Path(source) if source else None)
         cls.traces = {t['name']: t for t in cls.result['traces']}
+        cls.placement = run(Path(cls.directory.name) / 'placement.json', Path(source) if source else None,
+                            ('n16r8-late-stacks', 'n16r8-late-stacks-heap-flash'),
+                            ROOT / 'reports/s3-startup-order/sdk')
 
     @classmethod
     def tearDownClass(cls):
@@ -51,6 +57,19 @@ class StartupReplayTest(unittest.TestCase):
         self.assertFalse(self.result['hardware_boot_executed'])
         self.assertFalse(self.result['receiver_adopted'])
         self.assertIn('unbuilt sensitivity', self.result['conclusion_scope'])
+
+    def test_real_flash_placement_retains_main_stack_and_passes_projection(self):
+        trace = next(t for t in self.placement['traces']
+                     if t['name'] == 'n16r8-late-stacks-heap-flash-main8192-records1')
+        self.assertTrue(trace['projected_trace_pass'])
+        self.assertEqual(next(e['bytes'] for e in trace['events'] if e['name'] == 'main_stack'), 8704)
+        source = ROOT / 'reports/s3-startup-order/sdk'
+        before = json.loads((source / 'n16r8-late-stacks/result.json').read_text())
+        after = json.loads((source / 'n16r8-late-stacks-heap-flash/result.json').read_text())
+        self.assertEqual(before['sizes'], after['sizes'])
+        self.assertEqual(after['startup']['main_stack_bytes'], before['startup']['main_stack_bytes'])
+        self.assertEqual(sum(int(b, 16) - int(a, 16) for a, b in after['payload_regions']), 131072)
+        self.assertFalse(self.placement['hardware_boot_executed'])
 
     def test_tampered_allocator_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:

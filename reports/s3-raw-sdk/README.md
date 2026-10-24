@@ -1,4 +1,4 @@
-> 続報：[N16R8の起動時確保順序](../s3-startup-order/README.md)。容量通過のlate案も既知確保列ではmainの連続確保に失敗。容量検証と確保順序を区別する。
+> 続報：[N16R8の起動時確保順序](../s3-startup-order/README.md)。容量通過のlate案も既知確保列ではmainの連続確保に失敗。続くheap関数Flash配置では容量を維持して実リンク・既知確保列通過。全boot/runtimeの成立とは区別する。
 
 # ②：実ESP-IDFリンクとraw専用内部RAM配置（2026-10-24 JST）
 

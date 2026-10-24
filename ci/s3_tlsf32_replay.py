@@ -77,16 +77,32 @@ def prepare_sources(directory):
     return manifest
 
 
-def run(output, source_dir=None):
+def run(output, source_dir=None, profiles=('n16r8', 'n16r8-late-stacks'), input_root=None):
     directory = ROOT / 'build/s3-tlsf32'
     directory.mkdir(parents=True, exist_ok=True)
     source_dir = source_dir or directory / 'tlsf'
     manifest = prepare_sources(source_dir)
     cases = []
     inputs = {}
-    for profile in ('n16r8', 'n16r8-late-stacks'):
-        path = ROOT / 'reports/s3-raw-sdk' / profile / 'result.json'
+    for profile in profiles:
+        path = ((input_root or ROOT / 'reports/s3-raw-sdk') / profile / 'result.json').resolve()
         result = json.loads(path.read_text())
+        # Independently recheck wrapper/heap-record ABI from the saved target ELF.
+        from elftools.elf.elffile import ELFFile
+        import io
+        app_bytes = gzip.decompress((path.parent / 's3_raw_probe.elf.gz').read_bytes())
+        if hashlib.sha256(app_bytes).hexdigest() != result['ELF_sha256']:
+            raise ValueError('saved target ELF hash mismatch')
+        dwarf = ELFFile(io.BytesIO(app_bytes)).get_dwarf_info()
+        sizes = {n: set() for n in ('heap_t_', 'multi_heap_info', 'control_t')}
+        for unit in dwarf.iter_CUs():
+            for die in unit.iter_DIEs():
+                name = die.attributes.get('DW_AT_name')
+                size = die.attributes.get('DW_AT_byte_size')
+                if name and size and name.value.decode(errors='replace') in sizes:
+                    sizes[name.value.decode()].add(size.value)
+        if sizes != {'heap_t_': {36}, 'multi_heap_info': {20}, 'control_t': {36}}:
+            raise ValueError(f'unsupported target allocator layout: {sizes}')
         inputs[str(path.relative_to(ROOT))] = hashlib.sha256(path.read_bytes()).hexdigest()
         config_path = path.parent / 'sdkconfig.json.gz'
         config = json.loads(gzip.decompress(config_path.read_bytes()))
@@ -124,7 +140,10 @@ def run(output, source_dir=None):
     import unicorn
     import elftools
     result = dict(scope=__doc__, input_sha256=inputs, scenarios=cases, traces=traces,
-                  source_manifest=manifest, tool_versions={
+                  source_manifest=manifest, implementation_sha256={
+                      str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                      for p in [Path(__file__).resolve(), ROOT / 'ci/s3_tlsf32_replay.c',
+                                *sorted((ROOT / 'ci/tlsf32_shim').glob('*.h'))]}, tool_versions={
                       'cc': subprocess.check_output(['cc', '--version'], text=True).splitlines()[0],
                       'unicorn': unicorn.__version__, 'pyelftools': elftools.__version__},
                   replay_ELF_sha256=hashlib.sha256(binary.read_bytes()).hexdigest(),
@@ -146,8 +165,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, default=ROOT / 'reports/s3-startup-order/result.json')
     parser.add_argument('--tlsf-source', type=Path)
+    parser.add_argument('--input-root', type=Path)
+    parser.add_argument('--profile', action='append')
     args = parser.parse_args()
-    result = run(args.output, args.tlsf_source)
+    result = run(args.output, args.tlsf_source, args.profile or ('n16r8', 'n16r8-late-stacks'), args.input_root)
     for trace in result['traces']:
         failed = next((e['name'] for e in trace['events'] if e['heap'] is None), '-')
         print(trace['name'], trace['projected_trace_pass'], failed)
