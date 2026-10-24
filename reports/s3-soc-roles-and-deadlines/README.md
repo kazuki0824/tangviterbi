@@ -72,3 +72,22 @@ PYTHONPATH=tests python -m unittest test_s3_parallel_deadline test_s3_parallel_p
 python ci/s3_raw_probe_build.py --flash-mb 16 --late-stacks --no-phy-nvs --raw-only-spi
 python ci/s3_tlsf32_replay.py --tlsf-source build/tlsf --input-root reports/s3-soc-roles-and-deadlines/sdk --profile n16r8-late-stacks-no-phy-nvs --profile n16r8-late-stacks-no-phy-nvs-raw-only-spi --output build/clocked-startup.json
 ```
+
+## 続検算：IQ送信の費用と、均等packingの偏り
+
+信号処理上のSoCの役割はIQ取得・無損失packing・送信である。ただしCPUが全bitをSPI端子へ書き続ける方式ではなく、SPI送信はDMAに任せる。CPUにはRF bank管理、32bit格納sampleから20bit/sampleへの無損失packing、DMA取引管理が残る。Sは40 MSa/sなので、RF rawの32bit/sample読出しは160 MB/s、packed出力は100 MB/s。これは必要データ量であって、内部bus利用率や実CPU時間の測定ではない。追加間引き・再量子化はしない。
+
+現 `s3_pp_accept` は `cut=pairs/2` でpackingをほぼ均分する。RF bank準備・切替は `s3_native_poll` 内で同期実行し、SPIもcoordinator所有の想定である。この実装に「RF集約費用全部を均分」した99.529%を転用できない。
+
+[再現計算](../../experiments/s3_pack_owner_budget.py)と[結果](owner-budget.json)では、旧RF集約費用を保存し、packingを8 cycles/sampleと仮定、残額をすべてcoordinatorに課金した。**残額は実測済みの直列処理内訳ではない。** 旧集約値から差し引いた未分類の費用であり、この配置は感度条件である。SPIは32 KiB/API、20 µs activeの旧条件を保持する。
+
+| 条件 | T core0 / core1 | S core0 / core1 |
+|---|---:|---:|
+| packingのみ半分ずつ、残額＋両SPIはcore0 | 53.015% / 26.667% | **126.286% / 66.667%** |
+| packing比率で両coreを均衡（未実装） | 39.841% / 39.841% | 96.477% / 96.477% |
+
+Sのこの模型ではworker1にpackingの**69.715%超～75%未満**を配分する必要があり、均衡点は72.357%。そこでの残予算は各core **8.456 Mcycles/s**。実時計・slice管理・割込み・メモリ競合など、旧費用に含まれると確認できていない処理をここへ計上する必要がある。有限bankの丸め、slice期限、RF poll間隔、実driver待ちを含む実行可能scheduleではまだない。均等packing案のこの条件での超過を、全分担の不可能性とはしない。
+
+6件の独立算術チェックを累積実行し合格（旧集約値との一致・均衡式・配分区間の存在）。source SHA256を結果に保存。実装を無根拠に72.357%へ固定する変更はしていない。次のCPU見積もりは、実kernelのpacking費用と直列費用を分離し、その値でworker配分・clock費用・期限を結合する必要がある。RF取得品質、全runtimeメモリ、実配線、全FPGA資源/STAも未完了であり、採用件数は増やさない。
+
+再現：`python experiments/s3_pack_owner_budget.py --output build/owner-budget.json`
