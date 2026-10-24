@@ -1,5 +1,8 @@
 # ② N16R8：raw専用SPIでheapのIRAM配置を維持する比較
 
+**後続:** [SoC全役割と完了時刻チェック](../s3-soc-roles-and-deadlines/README.md)を追加。新コードの内部RAM費用256 Bを再計算し、既知起動確保列も再確認した。以下の数値は前段の履歴。
+
+
 [前段](../s3-spi-isr-placement/README.md)で、heap Flash＋SPI ISR IRAMは固定SDKの依存条件に反することが判明した。この比較はheapをIRAMへ戻し、使用しないSCT/polling APIへの参照をraw専用アダプタから除くことでRAMを回収する。N16R8のみ成立する案を許容し、①は変更しない。
 
 ## 実装と比較条件
