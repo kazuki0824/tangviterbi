@@ -157,6 +157,12 @@ def main():
         result['checks'].append(dict(name='requested_heap_placement_effective',ok=bool(config.get('HEAP_PLACE_FUNCTION_INTO_FLASH'))==build_record['heap_in_flash']))
     if 'no_phy_nvs' in build_record:
         result['checks'].append(dict(name='requested_phy_storage_effective',ok=bool(config.get('ESP_PHY_CALIBRATION_AND_DATA_STORAGE'))==(not build_record['no_phy_nvs'])))
+    if build_record.get('spi_lock_iram'):
+        result['checks'].append(dict(name='requested_SPI_lock_ISR_placement_effective',ok=bool(config.get('ESP_SPI_BUS_LOCK_ISR_FUNCS_IN_IRAM'))))
+        app=ELF32(a.build/'s3_raw_probe.elf')
+        for name in ('spi_bus_lock_bg_entry','spi_bus_lock_bg_exit','spi_bus_lock_get_acquiring_dev','spi_bus_lock_bg_clear_req','spi_bus_lock_bg_check_dev_acq','spi_bus_lock_bg_check_dev_req'):
+            address=app.symbols.get(name,(0,))[0]
+            result['checks'].append(dict(name='IRAM_'+name,ok=0x40374000<=address<0x403a0000,detail=hex(address)))
     result['all_static_checks_pass']=all(c['ok'] for c in result['checks'])
     result['memory_necessary_pass'] &= result['all_static_checks_pass']
     (a.output/'build.log.gz').write_bytes(gzip.compress((a.build.parent/'build.log').read_bytes(),mtime=0))

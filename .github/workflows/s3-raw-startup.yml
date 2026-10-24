@@ -23,16 +23,20 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           status=0
-          for placement in iram flash flash-no-nvs; do
+          for placement in iram flash flash-no-nvs flash-no-nvs-lock; do
             extra=()
             profile=n16r8-late-stacks
             if [[ "$placement" != iram ]]; then
               extra+=(--heap-in-flash)
               profile+=-heap-flash
             fi
-            if [[ "$placement" == flash-no-nvs ]]; then
+            if [[ "$placement" == flash-no-nvs* ]]; then
               extra+=(--no-phy-nvs)
               profile+=-no-phy-nvs
+            fi
+            if [[ "$placement" == flash-no-nvs-lock ]]; then
+              extra+=(--spi-lock-iram)
+              profile+=-spi-lock-iram
             fi
             python ci/s3_raw_probe_build.py --flash-mb 16 --late-stacks "${extra[@]}" || status=1
             rom=$(find "$IDF_TOOLS_PATH/tools/esp-rom-elfs" -name esp32s3_rev0_rom.elf -print -quit)

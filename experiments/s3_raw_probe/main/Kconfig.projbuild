@@ -1,0 +1,10 @@
+menu "Raw receiver diagnostic"
+config RAW_SPI_LOCK_ISR_IN_IRAM
+    bool "Place SPI bus lock ISR helpers in IRAM"
+    default n
+    select ESP_SPI_BUS_LOCK_ISR_FUNCS_IN_IRAM
+    help
+        SPI_MASTER_ISR_IN_IRAM does not select these helpers in pinned IDF
+        5.5.1. This option closes their known Flash placement gap only;
+        it does not prove the complete interrupt call graph cache safe.
+endmenu
