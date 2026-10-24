@@ -142,3 +142,36 @@ Q15係数の全表はT2046～2050 B、S46174～46178 B。prototypeの反転対�
 **この変更は再利用可能な履歴と正確な出力時刻の実装であり、register常駐SIMDの実装ではない。** 最小履歴はT128/S64 Bだが、C基準構造体は最大33tap配列と管理情報込み156 B。係数全表はT2048/S46176 Bで、他のRF・DMA・RTOSメモリは別。履歴のregister割当、係数load、I/Qの個別accumulator、位相更新、最終出力変換を含むtarget命令列と測定が必要。scalar実数MAC1個/cycleの仮定でも積和だけで2coreの108.360%/192.400%なので、このC基準を性能合格にはしない。SIMD化後の費用をこの比率から推定しない。
 
 今回の前進は、重複展開を実コードから除去し、64bit積和が必須という想定も不要にしたこと。未確認の高速化を性能合格扱いせず、候補→通信路→採用の順序を保つ。新たな通信路割当・採用候補は増えていない。①は変更していない。
+
+## 2026-10-25：ESP32-S3実SIMD命令列のcompileと費用
+
+[ACCX版assembly](../../experiments/s3_fir_accx.S)を実装し、ESP32-S3構成のGCC14.2.0_20241119でassemble・逆assembleした。[命令列](accx/accx.dis)、[監査結果](accx/accx-audit.json)、[再現用script](../../ci/s3_fir_accx_audit.py)。toolchain archiveは過去記録のSHA256と一致。これまでのホストCだけの比較から、実targetが受理するSIMD命令列の比較へ進んだ。実機での実行・cycle測定は未実施。
+
+16/32tapの連続したplanar I/Q履歴を受け、I/Q別の32bit積和を返す。係数はq4～q5（16tap）／q4～q7（32tap）へ一度読み、I/Qで共有。q0～q3を履歴の読出し・整列に使用する。32tapでは積和・次のload・次の整列を一命令へまとめた `EE.VMULAS.S16.ACCX.LD.IP.QUP` を使った。係数をI/Qそれぞれで読み直す設計にはしていない。一方、履歴を次の出力までregisterに保持する実装ではない。
+
+通常のPIE loadは非整列addressを切り捨てるため、そのままでは履歴位置によって別sampleを読んでしまう。USAR/SRC命令で2byte刻みの位置を復元する。各成分の履歴では `floor(ptr/16)*16` から `(K/8+1)*16` bytesを読むので、窓の外側にも読出し可能領域が必要。従来の単一循環配列をpointerだけ渡して使えるAPIではない。実receiverへ接続するには、例えば新しい順に連続する二重履歴を設ける必要があり、その書込み・追加メモリを無料扱いしない。
+
+| 固定kernel | T32tap | S16tap |
+|---|---:|---:|
+| 1複素出力当たり命令数 | 29 | 23 |
+| うち8並列MAC命令 | 8 | 4 |
+| 全命令を理想1cycleと置いた費用 Mcycles/s | 235.683 | 663.780 |
+| 240MHz×2coreに対する比率 | 49.101% | 138.288% |
+| entry・shift=0設定・returnをすべて除いた費用 Mcycles/s | 211.302 | 577.200 |
+| 履歴load bytes/複素出力 | 160 | 96 |
+| 係数load bytes/複素出力 | 64 | 32 |
+
+この費用は命令数からの楽観模型であり測定WCETではない。callerのcall、IQ展開、履歴更新、位相管理、出力Q15変換、RF/DMA/RTOS、stall/cache競合を含まない。2coreの分担・同期費用も含まない。8byte出力は比較用accumulatorで、FPGAへ8byteを送る案ではない。
+
+**この具体的ACCX実装は、T/Sとも「rawより少ないCPU性能で済む案」にならない。** 前節の逆転閾値T64.590/64.082、S122.298/86.858 Mcycles/sをkernelだけで超える。Sは理想模型でも2core合計を超え、上記3命令の削除でも解消しない。Tの49.101%はFIR単体であり、受信機全体が成立したという意味ではない。性能合格として通信路を割り当てる対象には追加しない。
+
+[4 unittest](accx/tests.log)では、逆assembleされた命令列を小さな[TRM意味モデル](../../experiments/s3_fir_accx_model.py)で評価した。I/Q独立の全64通りのhalfword整列、固定Kの全1475位相、極値を独立dot productと比較し、非整列処理を故意に壊すと不一致になることも確認。source/disassembly hashを照合する。このモデルは手書きで、target machine codeの実行、命令decoder、ABI window spill、interrupt、cycleを検証していない。実Cや実機でassemblyを実行した試験と混同しない。[TRM節・版・hash](accx/sources.json)。
+
+未確認範囲は、複数出力をまとめるQACC配置、出力間のregister再利用、特殊係数等による演算削減など。今回の結果を全SIMD方式の不可能証明へ拡張しない。先にSIMD化を期待してこのACCX案の配線・通信実装へ進む必要はなくなった。①には変更なし。
+
+再現例（toolchain展開先を指定）：
+
+```sh
+python ci/s3_fir_accx_audit.py --toolchain build/fir-target/xtensa-esp-elf --output reports/s3-preprocess-break-even/accx
+python -m unittest discover -s tests -p 'test_s3_fir_*.py' -v
+```
