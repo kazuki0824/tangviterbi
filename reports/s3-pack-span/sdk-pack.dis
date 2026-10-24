@@ -1,0 +1,47 @@
+
+s3_raw_probe.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.text:
+
+40376bb8 <pack_eight>:
+40376bb8:	004136        	entry	a1, 32
+40376bbb:	23d8      	l32i.n	a13, a3, 8
+40376bbd:	53c8      	l32i.n	a12, a3, 20
+40376bbf:	13f8      	l32i.n	a15, a3, 4
+40376bc1:	43e8      	l32i.n	a14, a3, 16
+40376bc3:	0388      	l32i.n	a8, a3, 0
+40376bc5:	f6bdb1        	l32r	a11, 403746bc <_iram_text_start+0x2b8> (fffff00 <UserFrameTotalSize+0xffffe00>)
+40376bc8:	f6be61        	l32r	a6, 403746c0 <_iram_text_start+0x2bc> (fffff0 <UserFrameTotalSize+0xfffef0>)
+40376bcb:	33a8      	l32i.n	a10, a3, 12
+40376bcd:	6398      	l32i.n	a9, a3, 24
+40376bcf:	11dd80        	slli	a13, a13, 8
+40376bd2:	7338      	l32i.n	a3, a3, 28
+40376bd4:	11ccc0        	slli	a12, a12, 4
+40376bd7:	747cf0        	extui	a7, a15, 12, 8
+40376bda:	10ddb0        	and	a13, a13, a11
+40376bdd:	10cc60        	and	a12, a12, a6
+40376be0:	35b0e0        	extui	a11, a14, 16, 4
+40376be3:	118840        	slli	a8, a8, 12
+40376be6:	20d7d0        	or	a13, a7, a13
+40376be9:	20bbc0        	or	a11, a11, a12
+40376bec:	017a40        	slli	a7, a10, 28
+40376bef:	01c980        	slli	a12, a9, 24
+40376bf2:	418c80        	srli	a8, a8, 12
+40376bf5:	01ffc0        	slli	a15, a15, 20
+40376bf8:	f4a4a0        	extui	a10, a10, 4, 16
+40376bfb:	11ee00        	slli	a14, a14, 16
+40376bfe:	b49890        	extui	a9, a9, 8, 12
+40376c01:	113340        	slli	a3, a3, 12
+40376c04:	2088f0        	or	a8, a8, a15
+40376c07:	20dd70        	or	a13, a13, a7
+40376c0a:	20aae0        	or	a10, a10, a14
+40376c0d:	20bbc0        	or	a11, a11, a12
+40376c10:	209930        	or	a9, a9, a3
+40376c13:	0289      	s32i.n	a8, a2, 0
+40376c15:	12d9      	s32i.n	a13, a2, 4
+40376c17:	22a9      	s32i.n	a10, a2, 8
+40376c19:	32b9      	s32i.n	a11, a2, 12
+40376c1b:	4299      	s32i.n	a9, a2, 16
+40376c1d:	f01d      	retw.n
+	...
