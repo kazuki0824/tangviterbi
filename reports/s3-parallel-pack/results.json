@@ -1,0 +1,162 @@
+{
+  "checks": [
+    {
+      "name": "test_s3_parallel_pack",
+      "ok": true
+    },
+    {
+      "name": "test_s3_native_capture",
+      "ok": true
+    },
+    {
+      "name": "test_s3_capture_bridge",
+      "ok": true
+    },
+    {
+      "name": "test_s3_transport",
+      "ok": true
+    },
+    {
+      "name": "test_s3_rf_pump",
+      "ok": true
+    },
+    {
+      "name": "TSAN_compile",
+      "ok": true
+    },
+    {
+      "name": "TSAN_2000banks",
+      "ok": true
+    },
+    {
+      "name": "S3_compile_pack",
+      "ok": true
+    },
+    {
+      "name": "S3_disassemble_pack",
+      "ok": true
+    },
+    {
+      "name": "shared_fast_helper_8reads_5stores",
+      "ok": true
+    },
+    {
+      "name": "S3_symbols_pack",
+      "ok": true
+    },
+    {
+      "name": "pack_no_atomic_runtime_helpers",
+      "ok": true
+    },
+    {
+      "name": "S3_compile_adapter",
+      "ok": true
+    },
+    {
+      "name": "S3_disassemble_adapter",
+      "ok": true
+    },
+    {
+      "name": "S3_symbols_adapter",
+      "ok": true
+    },
+    {
+      "name": "adapter_no_atomic_runtime_helpers",
+      "ok": true
+    },
+    {
+      "name": "S3_compile_spi_adapter",
+      "ok": true
+    },
+    {
+      "name": "S3_disassemble_spi_adapter",
+      "ok": true
+    },
+    {
+      "name": "S3_symbols_spi_adapter",
+      "ok": true
+    },
+    {
+      "name": "spi_adapter_no_atomic_runtime_helpers",
+      "ok": true
+    },
+    {
+      "name": "S3_compile_sizes",
+      "ok": true
+    },
+    {
+      "name": "S3_disassemble_sizes",
+      "ok": true
+    },
+    {
+      "name": "S3_symbols_sizes",
+      "ok": true
+    },
+    {
+      "name": "sizes_no_atomic_runtime_helpers",
+      "ok": true
+    },
+    {
+      "name": "S3_size_constants",
+      "ok": true
+    },
+    {
+      "name": "diff_check",
+      "ok": true
+    }
+  ],
+  "all_pass": true,
+  "memory": {
+    "packer_metadata": 392,
+    "sink_callbacks": 20,
+    "native_capture": 144,
+    "per_bank_metadata": 80,
+    "SPI_transfer_metadata": 24,
+    "payload_bytes": 131072,
+    "old_reclaimed_free_upper_bound": 9524,
+    "remaining_after_new_metadata_and_sink_upper_bound": 9064,
+    "SDK_link_DMA_contiguity_tasks_and_driver_verified": false
+  },
+  "fast_helper": {
+    "instructions": 39,
+    "source_reads": 8,
+    "packed_word_writes": 5,
+    "samples": 8,
+    "whole_worker_WCET": null
+  },
+  "source_sha256": {
+    "experiments/s3_parallel_pack.c": "1f096949e921138b05cd4d1e4dcbe55e956579e3df0897c7a3d27a6f18f9f83c",
+    "experiments/s3_parallel_pack.h": "5c23103b600acea13aae3288db52e227c35c46689deb6f2244ce7e0f1c6ef4fd",
+    "experiments/s3_parallel_capture.c": "bbfbfe10b908e8e68bd4aec4ce34139903d710eff6ba0625f092439e776c793e",
+    "experiments/s3_parallel_capture.h": "ab6305ef9773882e0b96e3953d2d90e296f92de899d51590addb1b7fe6b7ce6d",
+    "experiments/s3_native_capture.c": "f4130fa23451e01cb67ca5a7daea6eca8ac6a7842d62ba3a09fd2c67bbeb96ce",
+    "experiments/s3_native_capture.h": "8ca68c45e9fab1adeb70903f9c89d4d06dba2ec8f1b06d685d4c23ada27b7ec8",
+    "experiments/s3_iq10_block.h": "aacc0cd8e1f10de23523e9bebeded384b5e515f485c0876cdffaeecd92b93b8e",
+    "experiments/s3_transport.c": "3d1429b6412c31f4fa4a2909a618a770935f1fb8d3270cdd68210b7afd6dd748",
+    "tests/s3_parallel_pack_host.c": "9bb9dfd6deac1ce544019f09bbdc214d6450774b552887a3d1f9ccbd83cd9792",
+    "tests/s3_parallel_capture_host.c": "9ecc9d9348929590f0802cc0a5aa22d7223a8f74752a3158114f026f4e60eab4",
+    "tests/test_s3_parallel_pack.py": "901af8ae9c4e20cbd98ed25f6ed8ac821502aac3cb178e893b0a2b71240d1d43",
+    "experiments/check_s3_parallel_pack.py": "e784f216e9c1ebd27e943a6fbfb81cbb19a209670de97711fed1fd3171c125a5",
+    "experiments/s3_parallel_spi.h": "4f97d7678818556269f5cbb99b3e4386cc040879461d280fd836762e09dde6f2",
+    "experiments/s3_parallel_spi.c": "79c36beb259d723b3ea812d3428a89d58c13b87a001fabc05e0105fcc4de2983",
+    "tests/s3_parallel_spi_host.c": "a9fec6a58d7cdacf6e13ba4d7d60c91280eb7a7dac2471bd7d1d49c94170b956"
+  },
+  "target_flags": [
+    "-std=gnu17",
+    "-O2",
+    "-mlongcalls",
+    "-mdisable-hardware-atomics",
+    "-fno-builtin-memcpy",
+    "-fno-builtin-memset",
+    "-fstack-usage",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Iexperiments",
+    "-Itests/s3_sdk_shim"
+  ],
+  "SDK_linked": false,
+  "WCET_measured": false,
+  "receiver_adopted": false,
+  "formal_routes": 0
+}

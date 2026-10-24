@@ -1,0 +1,49 @@
+name: S3 raw-only SPI placement
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_raw_probe/**'
+      - 'experiments/s3_spi_transport.c'
+      - 'ci/s3_raw_probe_build.py'
+      - 'ci/s3_raw_link_audit.py'
+      - '.github/workflows/s3-raw-only-spi.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: s3-raw-only-spi-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  link:
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.5.1
+    steps:
+      - uses: actions/checkout@v5
+      - name: Test clocked worker publication and ownership
+        run: PYTHONPATH=tests python -m unittest test_s3_parallel_deadline test_s3_parallel_pack -v
+      - name: Compare raw-only adapter with heap functions retained in IRAM
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          status=0
+          for mode in common raw-only; do
+            extra=()
+            profile=n16r8-late-stacks-no-phy-nvs
+            if [[ "$mode" == raw-only ]]; then
+              extra+=(--raw-only-spi)
+              profile+=-raw-only-spi
+            fi
+            python ci/s3_raw_probe_build.py --flash-mb 16 --late-stacks --no-phy-nvs "${extra[@]}" || status=1
+            rom=$(find "$IDF_TOOLS_PATH/tools/esp-rom-elfs" -name esp32s3_rev0_rom.elf -print -quit)
+            python ci/s3_raw_link_audit.py --build "build/s3-raw-probe/$profile/idf" --rom "$rom" --output "build/raw-only-results/$profile" || status=1
+          done
+          exit "$status"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-raw-only-spi-placement
+          path: |
+            build/raw-only-results/
+            build/s3-raw-probe/*/build-result.json
+            build/s3-raw-probe/*/build.log
+          retention-days: 30

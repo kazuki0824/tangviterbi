@@ -7,14 +7,16 @@
 // and must mute the TS path.
 // FIFO is a clock-crossing elasticity buffer, not a complete page store.
 // SPI reads (D71B) generate header tokens but no RX payload.
-module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0, IGNORE_CONTROL=0)(
+module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0, IGNORE_CONTROL=0, WRITE_BYTES=4096)(
  input wire spi_clk, cs_n, clk, resetn,
  input wire [LANES-1:0] dq,
  output wire valid, input wire ready, output wire [35:0] token,
  output wire overflow
 );
  initial if(LANES!=4 && LANES!=8) $fatal(1,"SPI width must be 4 or 8");
- reg [13:0] byte_count;
+ initial if(WRITE_BYTES!=4096 && WRITE_BYTES!=32768) $fatal(1,"unsupported write length");
+ localparam COUNT_W=$clog2(WRITE_BYTES+12);
+ reg [COUNT_W-1:0] byte_count;
  reg nibble;
  reg [3:0] high_nibble;
  reg [31:0] shift;
@@ -25,8 +27,8 @@ module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0, IGNORE_CONTRO
  wire [31:0] header_word={shift[23:0],octet};
  wire [31:0] payload_word={octet,shift[31:8]};
  wire is_write=command==16'hd711 || command==16'hd712;
- wire body=byte_count>=10 && byte_count<14'd4106 && is_write;
- wire last_word=byte_count==14'd4105;
+ wire body=byte_count>=10 && byte_count<WRITE_BYTES+10 && is_write;
+ wire last_word=byte_count==WRITE_BYTES+9;
  wire word_end=body && byte_count[1:0]==1;
  wire wvalid=!cs_n && byte_end && !(IGNORE_IQ_READ && command==16'hd71b) &&
              !(IGNORE_CONTROL && (command==16'hd71c || command==16'hd71d || command==16'hd71e)) &&
@@ -38,7 +40,7 @@ module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0, IGNORE_CONTRO
  (* async_reg="true" *) reg fault1,fault2;
  always @(posedge spi_clk or negedge resetn) begin
   if(!resetn) sticky<=0;
-  else if((wvalid&&!wrdy) || (!cs_n && byte_end && is_write && byte_count>=4106)) sticky<=1;
+  else if((wvalid&&!wrdy) || (!cs_n && byte_end && is_write && byte_count>=WRITE_BYTES+10)) sticky<=1;
  end
  always @(posedge clk or negedge resetn) begin
   if(!resetn) begin fault1<=0;fault2<=0;end
@@ -50,7 +52,7 @@ module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0, IGNORE_CONTRO
   else begin
    if(LANES==4) begin nibble<=!nibble;high_nibble<=dq[3:0];end
    if(byte_end) begin
-    if(byte_count!=14'h3fff) byte_count<=byte_count+1'b1;
+    if(byte_count!={COUNT_W{1'b1}}) byte_count<=byte_count+1'b1;
     shift<=byte_count<10 ? header_word : payload_word;
     if(byte_count==1) command<={shift[7:0],octet};
    end

@@ -1,0 +1,57 @@
+{
+  "scope": "Conditional marginal clock budget using historical perfectly divided RF model; not measured, not a feasible assignment",
+  "source_SHA256": "499aee5c5a66d571be2b2bb9e77dfffb40ddce0db1fd4257c24a90fc7aa4640e",
+  "core0_old_percent": 99.52860514322917,
+  "core0_old_spare_cycles_s": 1131347.65625,
+  "formula": "extra = (10e6 / pairs_per_slice) * (2*clock_read_cycles + other_added_cycles_per_slice); partial slices and idle polling add costs",
+  "rows": [
+    {
+      "pairs": 64,
+      "samples": 128,
+      "slices_per_second_per_core": 156250.0,
+      "two_clock_read_budget_cycles_each_if_other_new_cost_zero": 3.6203125,
+      "pack_only_us_at_8_cycles_sample": 4.266666666666667,
+      "poll_blackout_limit_us": 50,
+      "pack_alone_exceeds_limit": false
+    },
+    {
+      "pairs": 128,
+      "samples": 256,
+      "slices_per_second_per_core": 78125.0,
+      "two_clock_read_budget_cycles_each_if_other_new_cost_zero": 7.240625,
+      "pack_only_us_at_8_cycles_sample": 8.533333333333333,
+      "poll_blackout_limit_us": 50,
+      "pack_alone_exceeds_limit": false
+    },
+    {
+      "pairs": 256,
+      "samples": 512,
+      "slices_per_second_per_core": 39062.5,
+      "two_clock_read_budget_cycles_each_if_other_new_cost_zero": 14.48125,
+      "pack_only_us_at_8_cycles_sample": 17.066666666666666,
+      "poll_blackout_limit_us": 50,
+      "pack_alone_exceeds_limit": false
+    },
+    {
+      "pairs": 512,
+      "samples": 1024,
+      "slices_per_second_per_core": 19531.25,
+      "two_clock_read_budget_cycles_each_if_other_new_cost_zero": 28.9625,
+      "pack_only_us_at_8_cycles_sample": 34.13333333333333,
+      "poll_blackout_limit_us": 50,
+      "pack_alone_exceeds_limit": false
+    },
+    {
+      "pairs": 1024,
+      "samples": 2048,
+      "slices_per_second_per_core": 9765.625,
+      "two_clock_read_budget_cycles_each_if_other_new_cost_zero": 57.925,
+      "pack_only_us_at_8_cycles_sample": 68.26666666666667,
+      "poll_blackout_limit_us": 50,
+      "pack_alone_exceeds_limit": true
+    }
+  ],
+  "WCET_measured": false,
+  "RF_workload_division_proven": false,
+  "receiver_adopted": false
+}

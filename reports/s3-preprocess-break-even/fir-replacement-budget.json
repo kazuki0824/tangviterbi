@@ -1,0 +1,92 @@
+{
+  "scope": "Necessary break-even targets for replacing the inherited FIR cost, not WCET.",
+  "assumptions": [
+    "All non-FIR prelink costs, output Q15 format and API costs fixed",
+    "FIR cost includes raw IQ unpack; packing is not added again",
+    "Limits compare same inherited low/high scenarios, not measured bounds",
+    "Equality only ties raw; improvement needs strict inequality",
+    "A fused implementation changing fixed costs requires full recomputation"
+  ],
+  "rows": [
+    {
+      "id": "S3-T-001",
+      "old_FIR_including_unpack_Mcycles_s": [
+        340.57142857142856,
+        470.0952380952381
+      ],
+      "replacement_FIR_including_unpack_must_be_below_Mcycles_s": [
+        64.58953373015873,
+        64.08159722222223
+      ],
+      "required_speedup_greater_than": [
+        5.272857828549486,
+        7.335885160056815
+      ],
+      "aggregate_cycles_per_input_complex_sample_limit": [
+        4.036845858134921,
+        4.005099826388889
+      ],
+      "aggregate_cycles_per_output_complex_sample_limit": [
+        7.947540283203126,
+        7.885040283203126
+      ],
+      "output_complex_Msample_s": 8.126984126984127,
+      "output_input_ratio": "32/63",
+      "lower_bound_proves_impossible": false,
+      "implementation_meets_target": false
+    },
+    {
+      "id": "S3-S-001",
+      "old_FIR_including_unpack_Mcycles_s": [
+        870.36,
+        1238.96
+      ],
+      "replacement_FIR_including_unpack_must_be_below_Mcycles_s": [
+        122.29828125000006,
+        86.85828124999989
+      ],
+      "required_speedup_greater_than": [
+        7.116698543136718,
+        14.264155152160596
+      ],
+      "aggregate_cycles_per_input_complex_sample_limit": [
+        3.0574570312500016,
+        2.1714570312499974
+      ],
+      "aggregate_cycles_per_output_complex_sample_limit": [
+        4.237639682952185,
+        3.0096424549549514
+      ],
+      "output_complex_Msample_s": 28.86,
+      "output_input_ratio": "1443/2000",
+      "lower_bound_proves_impossible": false,
+      "implementation_meets_target": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "S3-T-001_sample_rate",
+      "passed": true
+    },
+    {
+      "name": "S3-T-001_break_even_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-001_break_even_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_sample_rate",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_break_even_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_break_even_1",
+      "passed": true
+    }
+  ]
+}
