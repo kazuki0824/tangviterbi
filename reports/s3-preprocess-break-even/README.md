@@ -1,5 +1,7 @@
 # ②：IQを処理してから送る案はCPUを節約できるか
 
+**現在の区切り：[列挙済み候補の比較結果・残作業・次工程](COMPARISON-STATUS.md)。2026-10-25に一巡を確定し、raw案のcore別期限確認へ戻った。以下は検証履歴。**
+
 **その可能性を事前に排除しない。現在の既存kernel費用模型では、全14前処理prefixがraw IQ案よりCPUを使うことを再検算した。** 前処理で送信量やpacking費用を減らせる場合はあるため、処理費用との正味差で判断する。信号品質を下げるための追加software間引き・再量子化は引き続き除外する。同品質の受信処理をFPGAからSoCへ移管する候補は比較対象である。
 
 対象はT9境界＋S7境界（raw各1を含む）。[全16境界表](all-prefixes.md)、[型・資源・計算結果](results.json)、[再現スクリプト](../../experiments/s3_preprocess_break_even.py)。元の全320所有者表から指令以外のFPGA→SoC通信を要しない境界を抽出し、保存元入力から転送前費用を再計算した。既存の63同時組と全通信候補は[元の見積もり](../partition-recheck-20261023/README.md)を保持する。今回の補助比較だけで性能ゲートや正式経路割当を通過させない。
@@ -206,3 +208,13 @@ ESP32-S3 GCC14.2でassemble/逆assembleし、[実命令列](qacc/qacc.dis)を保
 [5 unittest](qacc/tests.log)で実Cによる準備と逆assemblyのTRM意味モデルを接続し、T8/S1443個の全バッチ位相組と周期境界、零初期履歴、40bit符号・極値、padding非更新、誤ったlane配置の検出を確認した。ホストで実行したのは準備Cと意味モデルであり、assemblyの実機実行ではない。[一次資料の節・hash](qacc/sources.json)。未知の係数の受信品質や全QACC方式の優劣を確定した試験でもない。
 
 次に残る直接FIRの比較対象は、並べ替え中間配列を作らず履歴をregister内で組み替える配置と、複数batch間の再利用。その評価でも必要なload/並べ替えを無料にせず、同じ入力・係数・出力契約で比べる。①は変更していない。
+
+## 中間IQ配列を使わないregister履歴配置
+
+[生成器](../../experiments/s3_fir_register_schedule.py)から、T2種類/S4種類の実際のバッチ位相pattern向けassemblyを生成し、ESP32-S3 toolchainでassemble・逆assembleした。[生成assembly](register/register.S)、[命令列](register/register.dis)、[結果](register/register-audit.json)。4出力の最初をm=4b、phase初期値0とする固定batch配置の全patternであり、任意の開始phase配置を網羅する主張ではない。
+
+展開済みのI16/Q16を1複素sample=32bit語として連続履歴に持つ。q0～q5に16tap＋4出力の時刻差をcacheし、各laneに必要な32bit語をAR経由でq6へ組み、q7の係数でQACCへ積和する。Tは16tapごとの2tileで履歴loadの一部が重複する。tap-major IQ中間配列は作らず、同じ履歴registerを複数tap/出力で使う。係数はoldest-firstに反転したtap-major表が必要で、その準備費用は無料扱いの楽観比較に留まる。
+
+4出力当たりT309命令、Sはpatternにより157/158命令。全位相で平均するとT627.810/S1133.895 Mcycles/s（理想1命令/cycle）。history load・setup・保存をすべて無料にし、batch間で履歴を完全再利用できると仮定しても、4lane×2move＋1MACというこの配置の9命令/tapは残り、T585.143/S1038.960 Mcycles/s。したがって、このAR経由gather配置を高速化候補として追い続けない。異なるvector shuffle配置の下限証明ではない。
+
+[T8/S1443バッチ位相組の整数一致などを含む23 unittest](register/tests.log)が合格。実行したのはassemblyのTRM意味モデルで、実機実行ではない。命令監査ではreturn後のalignment NOPを実行命令へ誤算入しないよう修正し、回帰試験も追加した。既存ACCX/QACCの数値は変更なし。

@@ -91,3 +91,13 @@ Sのこの模型ではworker1にpackingの**69.715%超～75%未満**を配分す
 6件の独立算術チェックを累積実行し合格（旧集約値との一致・均衡式・配分区間の存在）。source SHA256を結果に保存。実装を無根拠に72.357%へ固定する変更はしていない。次のCPU見積もりは、実kernelのpacking費用と直列費用を分離し、その値でworker配分・clock費用・期限を結合する必要がある。RF取得品質、全runtimeメモリ、実配線、全FPGA資源/STAも未完了であり、採用件数は増やさない。
 
 再現：`python experiments/s3_pack_owner_budget.py --output build/owner-budget.json`
+
+## 2026-10-25：前処理比較を一巡し、実packing命令列へ移行
+
+[比較の区切りと全残作業](../s3-preprocess-break-even/COMPARISON-STATUS.md)を確定。raw最良の普遍的証明を待たず、raw案自身の各core期限・実費用の確認へ戻る。
+
+[既存packingのtarget監査](pack-instructions/results.json)では、実際の `s3_parallel_pack.c` をESP32-S3 GCC14.2のO2/Osでcompileした。両方とも `pack_eight` は8sample当たり39命令（4.875命令/sample）、入力8word load・出力5word store・literal load2件。理想1命令/cycleならT78/S195 Mcycles/sである。
+
+これはfreestanding relocatable objectの関数単体で、全SDK link・IRAM配置・実機計測をやり直した結果ではない。callerのcall、fast path判定、境界slow path、bank/slice管理、clock、メモリ待ち・競合・割込みが費用外。旧8 cycles/sample仮定を実証したとも、4.875 cycles/sampleのWCETへ更新できたとも言わない。旧owner-budgetの残額へ機械的に足引きせず、次にcaller経路を実装に対応させる。
+
+[再現script](../../ci/s3_pack_instruction_audit.py)、[O2命令列](pack-instructions/O2.dis)、[Os命令列](pack-instructions/Os.dis)。packing/clocked deadlineと既存前処理比較の[8 unittest](pack-instructions/tests.log)に合格。新しいraw採用判定、core均等配分の是認は行っていない。

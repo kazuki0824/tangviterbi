@@ -9,7 +9,11 @@ def instructions(text, symbol):
     result=[]
     for line in body.splitlines():
         m=re.match(r'\s*[0-9a-f]+:\s+[0-9a-f]+\s+(\S+)(?:\s+(.*))?$',line)
-        if m: result.append((m[1],[a.strip() for a in (m[2] or '').split(',') if a.strip()]))
+        if m:
+            result.append((m[1],[a.strip() for a in (m[2] or '').split(',') if a.strip()]))
+            # These audited kernels are straight-line and return exactly once.
+            # Alignment NOPs following retw belong to no executed path.
+            if m[1]=='retw.n': break
     return result
 
 def execute(code, iv, qv, coeff, i_offset=0, q_offset=0):

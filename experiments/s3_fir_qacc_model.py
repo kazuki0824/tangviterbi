@@ -3,7 +3,7 @@ import struct
 
 def execute(code, samples, coefficients):
     regions={0x1000:struct.pack('<'+'h'*len(samples),*samples),0x4000:struct.pack('<'+'h'*len(coefficients),*coefficients)}
-    a={'a2':0x1000,'a3':0x4000,'a4':0x8000};q={};acc=[0]*8;out=bytearray([0xA5]*64);reads=[]
+    a={'a2':0x1000,'a3':0x4000,'a4':0x8000};q={f'q{j}':[0]*8 for j in range(8)};acc=[0]*8;out=bytearray([0xA5]*64);reads=[]
     def load(addr):
         addr&=~15
         for base,data in regions.items():
@@ -15,6 +15,13 @@ def execute(code, samples, coefficients):
     for op,args in code:
         if op in ('entry','retw.n'): continue
         if op=='ee.zero.qacc': acc=[0]*8
+        elif op=='addi':
+            dest,src,imm=args;a[dest]=a[src]+int(imm)
+        elif op=='ee.movi.32.a':
+            src,dest,index=args;j=2*int(index);a[dest]=(q[src][j]&65535)|((q[src][j+1]&65535)<<16)
+        elif op=='ee.movi.32.q':
+            dest,src,index=args;j=2*int(index);v=list(q[dest]);word=a[src]
+            v[j],v[j+1]=struct.unpack('<2h',word.to_bytes(4,'little'));q[dest]=v
         elif op=='ee.vld.128.ip':
             dest,ptr,step=args;q[dest]=load(a[ptr]);a[ptr]+=int(step)
         elif op=='ee.vmulas.s16.qacc':mac(*args)
