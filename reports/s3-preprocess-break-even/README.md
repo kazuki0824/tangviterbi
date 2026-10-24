@@ -35,3 +35,26 @@ S FIR境界はQ15複素表現なので、sample数を減らしてもbit幅の増
 python experiments/s3_preprocess_break_even.py --output build/preprocess-break-even
 python -m unittest discover -s tests -p test_s3_preprocess_break_even.py -v
 ```
+
+## 事前確認の未完了を明示し、FIR置換の必要性能を定量化
+
+「前処理で必要性能が減ることは起こり得ない」と事前確認した事実はない。前処理候補を比較集合に残す理由と、その比較を未完了にしている理由は異なる。未完了自体に設計上の目的があるわけではなく、raw具体化を先行した結果、未解決として残っている。したがってrawの要求性能を、このハードウェア目標に不可避の最低性能とは説明しない。
+
+実現する分担を1つ示すには全代替実装の不可能性証明は不要だが、rawが成立未確認である現在、代替の検証を省略して実現不可とも結論しない。
+
+[置換予算の計算](../../experiments/s3_fir_replacement_budget.py)・[結果](fir-replacement-budget.json)では、既存FIR段費用だけを未知値Xに置き換え、rawのAPI込み費用を下回るXを求めた。FIR以外の費用・Q15出力・API条件は固定。Xには既存台帳と同じくFIRとraw IQ展開の両方を含む。
+
+| 対象 | Xの閾値 低/高 Mcycles/s（未満） | 既存段模型から必要な高速化 低/高 | 出力複素sample当たり合計cyclesの閾値 低/高 |
+|---|---:|---:|---:|
+| T FIR | 64.590 / 64.082 | 5.273倍超 / 7.336倍超 | 7.948 / 7.885 |
+| S FIR | 122.298 / 86.858 | 7.117倍超 / 14.264倍超 | 4.238 / 3.010 |
+
+これは実装の到達可能速度ではなく、改善案が超えるべき比較基準。処理融合でFIR以外の費用も変わる場合は、その分を再計算する。全CPU条件の改善がFPGA/通信/メモリを含む成立を保証するわけでもない。6件の閾値・rate検算に合格。
+
+### 公式ESP-DSPの置換可否も確認
+
+EspressifのESP-DSP commit `3c8ac0fdfec83740b783e200862c8d0c056de0ad` を確認し、[source URLとSHA256](esp-dsp-source-audit.json)を保存した。`dsps_fir.h` ではS3最適化時の整数間引きFIRは `dsps_fird_s16_aes3`、多レートFIRは `dsps_firmr_s16_ansi` に対応する。前者のassemblyはSIMD積和を使うが、後者はscalar Cの位相・係数参照ループである。
+
+既存出力型から再計算したoutput/input比はTが32/63、Sが1443/2000。整数間引きのaes3関数への単純置換でこの比率を保つことはできない。整数間引きの係数を変えたり追加でsampleを捨てたりして帯域を合わせる案は採用しない。公式の[benchmark表](https://docs.espressif.com/projects/esp-dsp/en/latest/esp32/esp-dsp-benchmarks.html)も、今回の複素・分数比・係数・精度と一致するWCET証拠ではない。
+
+今回確認できたのは、既存模型の不利と、公式関数への単純置換で解決したとは言えないことまで。専用の位相別SIMD／処理融合が上記閾値に届かないという命令・メモリ下限の証明は未了である。また到達する実装も示していない。次の具体的作業は、同品質の係数・位相・丸め契約を固定した専用kernelと、IQ展開・bank処理を含むtarget費用の比較。これを未確認のまま「前処理が有利になることはない」とは記載しない。
