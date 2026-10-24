@@ -4,6 +4,11 @@ on:
     paths:
       - 'experiments/s3_raw_probe/**'
       - 'experiments/s3_spi_transport.c'
+      - 'experiments/s3_parallel_pack.c'
+      - 'experiments/s3_parallel_pack.h'
+      - 'experiments/s3_iq10_block.h'
+      - 'tests/test_s3_parallel_span.py'
+      - 'tests/s3_parallel_span_host.c'
       - 'ci/s3_raw_probe_build.py'
       - 'ci/s3_raw_link_audit.py'
       - '.github/workflows/s3-raw-only-spi.yml'
@@ -20,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Test clocked worker publication and ownership
-        run: PYTHONPATH=tests python -m unittest test_s3_parallel_deadline test_s3_parallel_pack -v
+        run: PYTHONPATH=tests python -m unittest test_s3_parallel_deadline test_s3_parallel_pack test_s3_parallel_span -v
       - name: Compare raw-only adapter with heap functions retained in IRAM
         shell: bash
         run: |

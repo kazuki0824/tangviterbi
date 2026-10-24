@@ -95,7 +95,19 @@ static int HOT s3_pp_step_impl(s3_parallel_pack *p,unsigned worker,unsigned max_
   unsigned input=(b->first+logical-(unsigned)b->has_prefix)%S3_PP_WORDS;
   if(n-i>=4 && (!b->has_prefix || logical) && input<=S3_PP_WORDS-8 &&
      !(offset&3) && offset<=S3_PP_CHUNK-20) {
-   pack_eight(p->buffers[slot]+offset,b->words+input);i+=4;
+   // Bound one contiguous run once. The bank/payload ownership stays unchanged
+   // throughout this slice; neither source wrap nor arena end may be crossed.
+   unsigned blocks=(n-i)/4;
+   unsigned input_blocks=(S3_PP_WORDS-input)/8;
+   unsigned output_blocks=(S3_PP_CHUNK-offset)/20;
+   if(blocks>input_blocks)blocks=input_blocks;
+   if(blocks>output_blocks)blocks=output_blocks;
+   const uint32_t *src=b->words+input;
+   uint8_t *dst=p->buffers[slot]+offset;
+   for(unsigned block=0;block<blocks;++block) {
+    pack_eight(dst,src);src+=8;dst+=20;
+   }
+   i+=4*blocks;
   } else {
    uint32_t a=word(b,logical),c=word(b,logical+1);
    uint8_t bytes[5]={(uint8_t)a,(uint8_t)(a>>8),(uint8_t)((a>>16)|(c<<4)),
