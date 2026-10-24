@@ -1,5 +1,11 @@
 > 続報：[N16R8のSPI/PHY動的確保とNVS保存なし構成](../s3-runtime-memory/README.md)。全runtime成立の証明とは区別して費用を更新。
 
+**現在の優先候補:** [raw専用SPI・heap IRAM構成](../s3-raw-only-spi/README.md)はSDKの当該依存条件を満たし、容量を維持して既知起動確保列を通過した。以下は比較の履歴。
+
+
+**後続訂正:** [SPI ISR配置監査](../s3-spi-isr-placement/README.md)で、heap Flash＋SPI ISR IRAMはSDK依存条件に反するselectであることを確認。SDKが許容する組合せという評価を撤回し、独自構成として検証する。実リンクと既知確保列の結果は、設定適合の証明ではない。
+
+
 # ② N16R8の起動時連続確保を検証
 
 N16R8だけで成立する案も許容する（2026-10-24追加条件）。①は変更しない。

@@ -1,6 +1,11 @@
 # ② N16R8：SPI/PHYの動的確保とFlash配置条件
 
+**現在の優先候補:** [raw専用SPI・heap IRAM構成](../s3-raw-only-spi/README.md)はSDKの当該依存条件を満たし、容量を維持して既知起動確保列を通過した。以下は比較の履歴。
+
+
 **N16R8のheap関数Flash配置＋PHY較正データのNVS保存なし、を実SDKでリンクした。全バッファ・stack容量を保ち、既知の起動確保列8ケースも通過した。** SPI/PHYの未計上オブジェクトを追加して再計算したが、全runtime heap・実機boot・受信機の成立は未確認。N16R8のみ成立する案を許容し、①は変更しない。
+
+**後続の訂正:** [SPI ISR配置の検算](../s3-spi-isr-placement/README.md)で、heap FlashとSPI ISR IRAMのSDK依存条件違反、およびbus lock 6関数のFlash残留を確認した。下記リンク・メモリ計算の事実は保持するが、SDK設定適合やcache-off動作成功の証拠にはならない。
 
 ## 追加構成と検証
 
