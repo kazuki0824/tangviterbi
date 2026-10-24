@@ -42,6 +42,17 @@ int s3_pp_accept(s3_parallel_pack*, unsigned bank, const uint32_t *words,
  */
 int s3_pp_step(s3_parallel_pack*, unsigned worker, unsigned max_pairs,
  uint64_t now, uint64_t bound, unsigned *processed);
+/* A monotonic, cross-core common clock in the same epoch/units as accept's
+ * deadline. Its reads and quantization error must be included in bound.
+ * Clocked step checks the post-read timestamp before publishing DONE.
+ * This sampled interval excludes callback return/publication overhead; it is
+ * not a measurement of the entire function WCET. Fault retains
+ * source/payload ownership; no automatic retry or buffer reuse is allowed.
+ * The legacy step above trusts the supplied bound; it does not measure time.
+ */
+typedef uint64_t (*s3_pp_clock)(void*);
+int s3_pp_step_clocked(s3_parallel_pack*, unsigned worker, unsigned max_pairs,
+ s3_pp_clock, void *clock_ctx, uint64_t bound, unsigned *processed);
 int s3_pp_collect(s3_parallel_pack*, uint64_t now);
 int s3_pp_reclaim(s3_parallel_pack*, unsigned bank);
 /* take leases one full contiguous 32-KiB payload. complete ONLY after SPI reap.

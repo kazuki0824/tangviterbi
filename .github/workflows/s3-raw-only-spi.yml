@@ -19,6 +19,8 @@ jobs:
     container: espressif/idf:v5.5.1
     steps:
       - uses: actions/checkout@v5
+      - name: Test clocked worker publication and ownership
+        run: PYTHONPATH=tests python -m unittest test_s3_parallel_deadline test_s3_parallel_pack -v
       - name: Compare raw-only adapter with heap functions retained in IRAM
         shell: bash
         run: |

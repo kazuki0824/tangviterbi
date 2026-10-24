@@ -70,8 +70,8 @@ static uint32_t HOT word(const s3_pp_bank *b,unsigned index) {
  if(b->has_prefix) { if(!index)return b->prefix;--index; }
  return b->words[(b->first+index)%S3_PP_WORDS]&0xfffff;
 }
-int HOT s3_pp_step(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
- uint64_t now,uint64_t bound,unsigned *processed) {
+static int HOT s3_pp_step_impl(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
+ uint64_t now,uint64_t bound,unsigned *processed,s3_pp_clock clock,void *clock_ctx) {
  if(!p || !processed)return S3_PP_INVALID;
  *processed=0;
  if(atomic_load_explicit(&p->fault,memory_order_relaxed))return S3_PP_FAULT;
@@ -108,8 +108,28 @@ int HOT s3_pp_step(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
   }
  }
  j->cursor+=n;*processed=n;
+ // Never publish DONE before the final clock read. The coordinator can recycle
+ // a bank immediately after observing both DONE states. A late/invalid clock
+ // must therefore fault while this job is still READY, even on the last slice.
+ if(clock) {
+  uint64_t finished=clock(clock_ctx);
+  if(finished<now || finished-now>bound || finished>=b->deadline)
+   return fail(p,S3_PP_DEADLINE);
+ }
  if(j->cursor==j->end)atomic_store_explicit(&j->state,DONE,memory_order_release);
  return S3_PP_OK;
+}
+int HOT s3_pp_step(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
+ uint64_t now,uint64_t bound,unsigned *processed) {
+ return s3_pp_step_impl(p,worker,max_pairs,now,bound,processed,NULL,NULL);
+}
+int HOT s3_pp_step_clocked(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
+ s3_pp_clock clock,void *clock_ctx,uint64_t bound,unsigned *processed) {
+ if(!clock) {
+  if(processed)*processed=0;
+  return p?fail(p,S3_PP_INVALID):S3_PP_INVALID;
+ }
+ return s3_pp_step_impl(p,worker,max_pairs,clock(clock_ctx),bound,processed,clock,clock_ctx);
 }
 int HOT s3_pp_collect(s3_parallel_pack *p,uint64_t now) {
  if(!p)return S3_PP_INVALID;

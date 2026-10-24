@@ -61,6 +61,7 @@ static int raw_initialize_storage(void) {
 // Volatile function pointers preserve real SDK call graphs without executing
 // undocumented RF register operations, guessed pins, or PHY initialization.
 int (*volatile raw_keep_step)(s3_parallel_pack*,unsigned,unsigned,uint64_t,uint64_t,unsigned*)=s3_pp_step;
+int (*volatile raw_keep_clocked_step)(s3_parallel_pack*,unsigned,unsigned,s3_pp_clock,void*,uint64_t,unsigned*)=s3_pp_step_clocked;
 int64_t (*volatile raw_keep_clock)(void)=esp_timer_get_time;
 void (*volatile raw_keep_tasks)(void)=raw_create_tasks;
 int (*volatile raw_keep_storage)(void)=raw_initialize_storage;
@@ -77,9 +78,9 @@ void app_main(void) {
  printf("RAW LINK PROBE ONLY: payload=%u task_storage=%u; no RF/SPI/tasks started\n",
         4*S3_PP_CHUNK,(unsigned)(2*RAW_STACK_BYTES+sizeof(raw_task_tcbs)));
  // Read volatile anchors to prevent linker GC. Never call them in app_main.
- printf("anchors=%p %p %p %p %p %p %p %p %p %p sizes=%p state=%p %p %p %p step=%p clock=%p stacks=%p\n",
+ printf("anchors=%p %p %p %p %p %p %p %p %p %p sizes=%p state=%p %p %p %p step=%p clock=%p stacks=%p clocked=%p\n",
   (void*)raw_keep_tasks,(void*)raw_keep_storage,(void*)raw_keep_phy,
   (void*)raw_keep_native,(void*)raw_keep_poll,(void*)raw_keep_mmio,
   (void*)raw_keep_collect,(void*)raw_keep_open,(void*)raw_keep_submit,(void*)raw_keep_reap,
-  (void*)raw_probe_sizes,(void*)&raw_capture,(void*)raw_ports,(void*)raw_descriptors,(void*)raw_transfers,(void*)raw_keep_step,(void*)raw_keep_clock,(void*)raw_task_stacks);
+  (void*)raw_probe_sizes,(void*)&raw_capture,(void*)raw_ports,(void*)raw_descriptors,(void*)raw_transfers,(void*)raw_keep_step,(void*)raw_keep_clock,(void*)raw_task_stacks,(void*)raw_keep_clocked_step);
 }
