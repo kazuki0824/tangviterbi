@@ -175,3 +175,34 @@ Q15係数の全表はT2046～2050 B、S46174～46178 B。prototypeの反転対�
 python ci/s3_fir_accx_audit.py --toolchain build/fir-target/xtensa-esp-elf --output reports/s3-preprocess-break-even/accx
 python -m unittest discover -s tests -p 'test_s3_fir_*.py' -v
 ```
+
+## 2026-10-25：4複素出力をまとめるQACC配置
+
+[QACC assembly](../../experiments/s3_fir_qacc.S)では8本のsigned40 laneを `I0,Q0,I1,Q1,I2,Q2,I3,Q3` に割り当て、4出力を同時に計算する。各tapの係数vectorは `c0,c0,c1,c1,c2,c2,c3,c3`。MACと次入力loadを一命令へ融合し、最後だけ余計なloadをしない。結果はQACC全40bitを保存するため、比較の都合で丸め・再量子化を追加していない。出力64 B領域のうち40 Bを書き、残りはpadding。これは試験用の整数結果保存形式で、SoC→FPGAの送信形式ではない。
+
+ESP32-S3 GCC14.2でassemble/逆assembleし、[実命令列](qacc/qacc.dis)を保存。[準備用C](../../experiments/s3_fir_qacc_prepare.c)もtarget compileに成功。Cは既に展開されたIQ履歴とphase-major係数表からtap-majorの二つの配列を作る基準実装で、高速kernelと称していない。初期履歴は零、4出力の時刻・位相は各mについて `floor(m*M/L), m*M mod L` から求める。
+
+| 4出力QACC | T32tap | S16tap |
+|---|---:|---:|
+| 4複素出力当たり実命令数 | 72 | 40 |
+| 理想1命令/cycleのkernel費用 Mcycles/s | 146.286 | 288.600 |
+| 2core合計480 Mcycles/sに対する比率 | 30.476% | 60.125% |
+| entry/zero/保存/returnをすべて無料にしたload＋MAC費用 Mcycles/s | 132.063 | 238.095 |
+| 準備配列：IQ / 係数 bytes | 512 / 512 | 256 / 256 |
+| 準備Cの論理書込み MB/s | 2080.508 | 3694.080 |
+| 全位相順序を事前展開した係数表 bytes | 4096 | 369408 |
+| 元のphase-major係数表 bytes | 2048 | 46176 |
+
+[監査script](../../ci/s3_fir_qacc_audit.py)、[数値と6チェック](qacc/qacc-audit.json)。命令数費用にIQ展開・並べ替え・履歴更新・位相管理・Q15出力変換・RF/DMA/RTOS・stallは含まない。並べ替えが別CPU passなら、その書込みだけを最大16 B/store・理想1cycleと仮定しても、T130.032/S230.880 Mcycles/sをさらに要する。Cの論理アクセス数を実bus trafficとは扱わない。これらの配列を作らずregister上で並べ替える方式は別候補。
+
+係数を事前展開する場合、4出力ずつ進む開始位相の周期は `L/gcd(L,4)`。Tは8組、Sは1443組となる。1組16K bytesなので表は元のT2倍/S8倍。N16R8のPSRAMへ表を置く可能性はあるが、存在する容量だけを理由にcache/bandwidth/実行期限が成立するとはしない。小さなscratchを使ってその都度並べ替える方式は表容量を減らす代わりに準備費用を払う。
+
+4出力を待つ追加の入力時刻差（最初と最後の出力が必要とする最新sample間）は、位相によりT0.3125～0.375 µs、S0.100～0.125 µs。これはバッチ待ちだけであり、FIR群遅延・演算時間・bank待ちを含む最終deadlineではない。平均出力間隔の3倍と実入力到着時刻を区別した。
+
+**rawよりCPUを軽くする目的では、この具体的なtap-major QACC案も不適合。** 並べ替えも最終保存も無料にしても、T64.590/64.082、S122.298/86.858 Mcycles/sという逆転閾値を超える。前回ACCX実装よりkernel費用は減るが、それだけではrawより安くならない。係数表事前展開によってこのkernelのload数が消えるわけでもない。
+
+一方、「rawよりCPU費用が大きい」と「FPGA資源を減らすためのFIR移管が成立しない」は別の判定である。旧模型のFIR以外とAPI費用を固定し、新kernelだけを置換すると、並べ替え等を無料にした全SoC費用はT240.932～273.440、S549.389～664.829 Mcycles/s。Sはこの固定条件で既に480を超える。Tは超えないため、今回の結果だけでFIR移管全体を不可能とはしない。ただしTも未算入処理・各core期限・メモリ・通信路・FPGA資源の確認前なので性能合格候補には追加しない。以前の「採用対象から外す」は、性能合格として採用しないという意味で、Tの全FIR移管を否定する根拠にはならない。
+
+[5 unittest](qacc/tests.log)で実Cによる準備と逆assemblyのTRM意味モデルを接続し、T8/S1443個の全バッチ位相組と周期境界、零初期履歴、40bit符号・極値、padding非更新、誤ったlane配置の検出を確認した。ホストで実行したのは準備Cと意味モデルであり、assemblyの実機実行ではない。[一次資料の節・hash](qacc/sources.json)。未知の係数の受信品質や全QACC方式の優劣を確定した試験でもない。
+
+次に残る直接FIRの比較対象は、並べ替え中間配列を作らず履歴をregister内で組み替える配置と、複数batch間の再利用。その評価でも必要なload/並べ替えを無料にせず、同じ入力・係数・出力契約で比べる。①は変更していない。
