@@ -153,6 +153,8 @@ def main():
     config=json.loads((a.build/'config/sdkconfig.json').read_text())
     result['checks'].append(dict(name='requested_flash_effective',ok=config.get(f"ESPTOOLPY_FLASHSIZE_{build_record['flash_MB']}MB")==True))
     result['checks'].append(dict(name='source_unchanged_during_build',ok=build_record['source_unchanged_during_build']))
+    if 'heap_in_flash' in build_record:
+        result['checks'].append(dict(name='requested_heap_placement_effective',ok=bool(config.get('HEAP_PLACE_FUNCTION_INTO_FLASH'))==build_record['heap_in_flash']))
     result['all_static_checks_pass']=all(c['ok'] for c in result['checks'])
     result['memory_necessary_pass'] &= result['all_static_checks_pass']
     (a.output/'build.log.gz').write_bytes(gzip.compress((a.build.parent/'build.log').read_bytes(),mtime=0))

@@ -1,3 +1,5 @@
+> 続報：[N16R8の起動時確保順序](../s3-startup-order/README.md)。容量通過のlate案も既知確保列ではmainの連続確保に失敗。容量検証と確保順序を区別する。
+
 # ②：実ESP-IDFリンクとraw専用内部RAM配置（2026-10-24 JST）
 
 **N8R8/N16R8とも実ESP-IDF 5.5.1でリンクできた。ただし元のBSS stack配置は、起動前の内部RAM不足で不合格。** 2workerのstack合計8 KiBをapp_main以降の領域へ移すと、送信128 KiB・stack容量を削らずに容量の必要条件を通過した。起動成功、全runtime heap、task scheduling、WCET、全受信機の成立は未確認。

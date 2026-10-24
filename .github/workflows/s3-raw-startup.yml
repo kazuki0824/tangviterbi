@@ -1,0 +1,46 @@
+name: S3 raw startup placement
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_raw_probe/**'
+      - 'ci/s3_raw_probe_build.py'
+      - 'ci/s3_raw_link_audit.py'
+      - '.github/workflows/s3-raw-startup.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: s3-raw-startup-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  link:
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.5.1
+    steps:
+      - uses: actions/checkout@v5
+      - name: Compare N16R8 placements, retaining all buffer and stack sizes
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          status=0
+          for placement in iram flash; do
+            extra=()
+            profile=n16r8-late-stacks
+            if [[ "$placement" == flash ]]; then
+              extra+=(--heap-in-flash)
+              profile+=-heap-flash
+            fi
+            python ci/s3_raw_probe_build.py --flash-mb 16 --late-stacks "${extra[@]}" || status=1
+            rom=$(find "$IDF_TOOLS_PATH/tools/esp-rom-elfs" -name esp32s3_rev0_rom.elf -print -quit)
+            python ci/s3_raw_link_audit.py --build "build/s3-raw-probe/$profile/idf" --rom "$rom" --output "build/raw-startup-results/$profile" || status=1
+          done
+          exit "$status"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-raw-startup-placement
+          path: |
+            build/raw-startup-results/
+            build/s3-raw-probe/*/build-result.json
+            build/s3-raw-probe/*/build.log
+          retention-days: 30
