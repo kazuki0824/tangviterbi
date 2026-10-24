@@ -75,3 +75,20 @@ The source file `traceback.v` writes `tb_bits_valid_r` from two procedural block
 **Defensible conclusion:** coole198669's original 64-ACS one-context IP as tested cannot be adopted as an already-fitting, routed three-context 9K decoder. Local 16-ACS design has considerably smaller measured logic footprint but itself fails its 100.848485 MHz deadline, and its area exceeds the allocated K7-alone 2096-I budget. Therefore **neither measured implementation qualifies for the whole receiver**. Whether a redesigned 3-context implementation employing coole's traceback/memory scheduling could meet area+timing remains an open engineering question requiring an equivalent-function implemented candidate, not conjecture from IP counts.
 
 **Still unverified:** side-by-side independent functional decoding of corrected upstream with matching 8bit soft and erasure semantics; rate-normalized throughput and three-context save/restore; cross-seed placement and entire decoder/receiver. CI job green is only successful measurement execution and does not change rejection.
+
+## Alternating-cycle Survivor read experiment (run 40106415482)
+
+The PR now contains `rtl/three_context_k7_coole_scheduled.sv`, a **three-context adaptation of the external implementation's every-other-clock survivor read + subsequent state transition schedule**, retaining the baseline 16-ACS, four clocks per accepted step, 8-bit soft inputs and erasure interface. Unlike the earlier window-only experiment, this changes the memory access/traceback scheduling. It is **not** a full `coole198669` 64-ACS port; upstream's exact microarchitecture remains distinct.
+
+| GW1NR-9 mapped, routed measurement (108MHz target, seed 1) | Existing #8 | 64+64 window-only | Alternating-cycle external-inspired scheduling |
+|---|---:|---:|---:|
+| Routed Fmax (MHz) | 51.926476 | 57.087399 | **43.230156** |
+| Post-route LUT4+ALU | 3317 | 3311 | **2909** |
+| DFF | 757 | 757 | **610** |
+| BSRAM | 4 | 4 | **4** |
+| RAM16SDP4 | 160 | 160 | **128** |
+| Necessary 100.848485MHz | FAIL | FAIL | **FAIL** |
+
+The coole-scheduled trial saves 408 logic positions, 147 DFF and 32 RAM16SDP4 against the existing #8, **but loses 8.696 MHz Fmax**. It cannot be adopted under the stated ISDB-T rate contract. The P&R job's green status means experiment executed; `partial_target_pass=false`. [CI measurement](https://github.com/kazuki0824/tangviterbi/actions/runs/40106415482).
+
+**Functional qualification:** `tests/test_three_context_k7_coole_scheduled.py` was added to compare the new variant against the same independent metric/survivor/decoded-bit oracle. This result must be explicitly checked before functional claims. Do not infer functional correctness from P&R. Physical receiver integration and downstream output service contracts are still unverified.
