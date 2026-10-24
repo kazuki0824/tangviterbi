@@ -155,6 +155,8 @@ def main():
     result['checks'].append(dict(name='source_unchanged_during_build',ok=build_record['source_unchanged_during_build']))
     if 'heap_in_flash' in build_record:
         result['checks'].append(dict(name='requested_heap_placement_effective',ok=bool(config.get('HEAP_PLACE_FUNCTION_INTO_FLASH'))==build_record['heap_in_flash']))
+    if 'no_phy_nvs' in build_record:
+        result['checks'].append(dict(name='requested_phy_storage_effective',ok=bool(config.get('ESP_PHY_CALIBRATION_AND_DATA_STORAGE'))==(not build_record['no_phy_nvs'])))
     result['all_static_checks_pass']=all(c['ok'] for c in result['checks'])
     result['memory_necessary_pass'] &= result['all_static_checks_pass']
     (a.output/'build.log.gz').write_bytes(gzip.compress((a.build.parent/'build.log').read_bytes(),mtime=0))
