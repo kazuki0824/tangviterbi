@@ -1,3 +1,5 @@
+> 前処理案との追加比較：[全16境界の正味CPU費用と転送API削減](../s3-preprocess-break-even/README.md)。既存模型では前処理案のCPU節約は見られないが、新kernel・同品質hardware前処理を事前排除した結論ではありません。
+
 > 最新の続行結果：[32 KiB raw SPI送受信の実装と機能試験](../s3-bulk-transport/README.md)。新API/RTLで通信形式を実装済み。以下は前回commit時点の記録で、2core分担・内部RAM・全体性能の未確認事項は継続します。
 
 > 続行結果：[32 KiB案のcore別・RAM・bank寿命と既存通信形式](../s3-batch-bank-closure/README.md)。既存構成への設定変更だけでは不成立。以下の96.477%は2core合計模型であり、並列化・再配置・通信形式変更は未実装です。
