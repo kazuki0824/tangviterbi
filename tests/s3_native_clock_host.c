@@ -14,7 +14,7 @@ static bool accept(void*c,unsigned b,const uint32_t*w,unsigned f,unsigned n,uint
 static s3_native_capture start(unsigned bad){
  memset(&hw,0,sizeof(hw));hw.time=(UINT64_C(1)<<40)+123;hw.select=7;hw.bad=bad;
  s3_native_capture s={0};s3_native_io io={mock_read,mock_write,NULL,bank,NULL};s3_native_sink sink={&hw,yes,yesbank,yesbank,accept};
- bool ok=s3_native_start_sink_clocked(&s,sink,io,40,timer,NULL);
+ bool ok=s3_native_start_sink_clocked(&s,sink,io,40,timer,NULL,0);
  assert(ok==(bad!=1&&bad!=2));
  if(!ok)assert(!s.running&&!hw.enabled&&hw.select==7&&s.fault==S3_NATIVE_CLOCK_FAULT);
  return s;

@@ -22,7 +22,7 @@ static uint64_t HOT clock_now(s3_native_capture *s) {
  if(s->common_clock){
   uint64_t t=s->common_clock(s->clock_ctx);
   // Leave room for every native deadline addition before accepting time.
-  if(t<s->now || t>UINT64_MAX-2u*THRESHOLD*s->cpp){
+  if(t<s->now || t<s->clock_error || t>UINT64_MAX-2u*THRESHOLD*s->cpp){
    fail(s,S3_NATIVE_CLOCK_FAULT);return s->now;
   }
   s->now=t;return t;
@@ -76,51 +76,53 @@ bool s3_native_start(s3_native_capture*s,s3_capture_bridge*b,s3_native_io io,uns
  return ok;
 }
 static bool start_sink(s3_native_capture*s,s3_native_sink sink,s3_native_io io,unsigned rate,
- s3_native_clock clock,void *clock_ctx){
+ s3_native_clock clock,void *clock_ctx,uint32_t clock_error){
  if(!s||s->running||!sink.ctx||!sink.healthy||!sink.available||!sink.reclaim||!sink.accept||
     !sink.healthy(sink.ctx)||!io.read||!io.write||(!clock&&!io.cycles)||!io.bank||(rate!=16&&rate!=40))return false;
  for(unsigned b=0;b<3;++b)if(!sink.available(sink.ctx,b))return false;
- memset(s,0,sizeof(*s));s->sink=sink;s->io=io;s->cpp=240/rate;s->common_clock=clock;s->clock_ctx=clock_ctx;s->saved=rd(s,SELECT);
+ memset(s,0,sizeof(*s));s->sink=sink;s->io=io;s->cpp=240/rate;s->common_clock=clock;s->clock_ctx=clock_ctx;s->clock_error=clock_error;s->saved=rd(s,SELECT);
  s->ctrl=0x24000|(rate==16?1u<<16:1u<<15);
  wr(s,CTRL,0);for(unsigned i=0;i<3;++i)fill(s,i,0,16384);
  wr(s,CONFIG,0xc2040);wr(s,CTRL,s->ctrl);wr(s,SELECT,(s->saved&~15u)|1u);
  s->running=true;
  if(clock){clock_now(s);if(s->fault)return false;}
  else s->last_clock=io.cycles(io.ctx);
+ s->switch_earliest=s->now-s->clock_error;
  wr(s,CTRL,s->ctrl|0x80000000u);s->w0=rd(s,INDEX)&MASK;s->expected=(s->w0-256)&MASK;
- s->switched=clock_now(s);return !s->fault;
+ s->switched=clock_now(s);if(!clock)s->switch_earliest=s->switched;return !s->fault;
 }
 bool s3_native_start_sink(s3_native_capture*s,s3_native_sink sink,s3_native_io io,unsigned rate){
- return start_sink(s,sink,io,rate,NULL,NULL);
+ return start_sink(s,sink,io,rate,NULL,NULL,0);
 }
 bool s3_native_start_sink_clocked(s3_native_capture*s,s3_native_sink sink,s3_native_io io,unsigned rate,
- s3_native_clock clock,void *clock_ctx){
+ s3_native_clock clock,void *clock_ctx,uint32_t clock_error){
  if(!clock)return false;
- return start_sink(s,sink,io,rate,clock,clock_ctx);
+ return start_sink(s,sink,io,rate,clock,clock_ctx,clock_error);
 }
 bool HOT s3_native_poll(s3_native_capture*s){
  if(!s||!s->running||s->fault)return false;
  uint64_t now=clock_now(s);if(s->fault)return false;unsigned b=s->active,next=(b+1)%3;
  if(!s->sink.healthy(s->sink.ctx))return fail(s,1);
  if(s->settling){
-  if(now-s->switched>(16384-128)*s->cpp)return fail(s,4);
-  if(now-s->switched<16*s->cpp)return true;
+  if(now-s->switch_earliest>(16384-128)*s->cpp)return fail(s,4);
+  if(now-s->switched<(uint64_t)16*s->cpp+s->clock_error)return true;
   unsigned f=first(s,b,s->unit?s->start[b]:(s->w0-1024)&MASK,START);
   unsigned e=end(s,b,s->unit?s->end[b]:s->write_index,s->write_index,s->unit?END:1024);
   unsigned count=(e-f)&MASK;
   if(f==UINT32_MAX||e==UINT32_MAX||(s->unit&&f!=s->expected)||
      count<(s->unit?THRESHOLD:THRESHOLD-1024)||count>THRESHOLD+LATE+64)return fail(s,2);
-  uint64_t deadline=s->switched+2*THRESHOLD*s->cpp-20000-(1024+LATE)*s->cpp;
+  uint64_t deadline=s->switch_earliest+2*THRESHOLD*s->cpp-20000-(1024+LATE)*s->cpp;
   now=clock_now(s);if(s->fault)return false;
   if(!s->sink.accept(s->sink.ctx,b,s->io.bank(s->io.ctx,b),f,count,s->index,now,deadline))return fail(s,3);
   s->index+=count;s->expected=e;s->active=next;++s->unit;s->prepared=false;s->settling=false;
   clock_now(s);return !s->fault;
  }
- if(now-s->switched>(16384-128)*s->cpp)return fail(s,4);
+ if(now-s->switch_earliest>(16384-128)*s->cpp)return fail(s,4);
  unsigned w=rd(s,INDEX)&MASK,written=(w-s->expected)&MASK;
  if(written>=THRESHOLD){
   if(!s->prepared||written>THRESHOLD+LATE)return fail(s,5);
-  s->write_index=w;wr(s,SELECT,(s->saved&~15u)|(1u<<next));s->switched=clock_now(s);if(s->fault)return false;s->settling=true;return true;
+  s->switch_earliest=now-s->clock_error;
+  s->write_index=w;wr(s,SELECT,(s->saved&~15u)|(1u<<next));s->switched=clock_now(s);if(s->fault)return false;if(!s->common_clock)s->switch_earliest=s->switched;s->settling=true;return true;
  }
  if(!s->prepared){
   if(s->sink.available(s->sink.ctx,next)){

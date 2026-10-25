@@ -1,9 +1,10 @@
 #include "s3_parallel_capture.h"
+#include "s3_timer_clock.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
 enum {CTRL=0x60033d5c,INDEX=0x60033d60,SELECT=0x600c101c};
-static struct hw {uint32_t banks[3][16384];uint64_t cycles,samples;unsigned cpp,phase,index,mask;bool run;} h;
+static struct hw {uint32_t banks[3][16384];uint64_t cycles,samples;unsigned cpp,phase,index,mask,quantum;bool run;} h;
 static void tick(unsigned cycles){
  h.cycles+=cycles;
  if(!h.run)return;
@@ -14,7 +15,7 @@ static void tick(unsigned cycles){
 }
 static uint32_t rd(void*c,uint32_t a){(void)c;if(a==INDEX){tick(h.cpp);return h.index;}if(a==SELECT)return h.mask;return 0;}
 static void wr(void*c,uint32_t a,uint32_t v){(void)c;tick(h.cpp);if(a==CTRL)h.run=(v>>31)!=0;if(a==SELECT)h.mask=v&15;}
-static uint64_t common_clock(void*c){assert(c==&h);return h.cycles;}
+static uint64_t common_clock(void*c){assert(c==&h);return h.quantum?s3_timer_clock_upper((int64_t)(h.cycles/240)):h.cycles;}
 static uint32_t cycles(void*c){(void)c;return h.cycles;}
 static uint32_t* bank(void*c,unsigned b){(void)c;return h.banks[b];}
 static uint8_t expected(uint64_t at){uint64_t a=((at/5)*2)&0xfffff,b=(a+1)&0xfffff;return ((a|(b<<20))>>((at%5)*8))&255;}
@@ -29,13 +30,13 @@ static void consume(s3_parallel_pack*p,uint64_t*bytes) {
  }
 }
 int main(void) {
- for(unsigned common=0;common<2;++common)for(unsigned rate=16;rate<=40;rate+=24)for(unsigned stall=0;stall<2;++stall) {
-  memset(&h,0,sizeof(h));h.cpp=240/rate;h.cycles=(common?(UINT64_C(1)<<40):0)+UINT32_MAX-5000u;
+ for(unsigned common=0;common<3;++common)for(unsigned rate=16;rate<=40;rate+=24)for(unsigned stall=0;stall<2;++stall) {
+  memset(&h,0,sizeof(h));h.cpp=240/rate;h.quantum=common==2?240:0;h.cycles=(common?(UINT64_C(1)<<40):0)+UINT32_MAX-5000u;
   s3_parallel_pack p;s3_native_capture capture={0};
   uint8_t*buffers[4]={payload[0],payload[1],payload[2],payload[3]};
   assert(s3_pp_init(&p,buffers)==S3_PP_OK);
   s3_native_io io={rd,wr,cycles,bank,0};
-  if(common){io.cycles=NULL;assert(s3_pp_native_start_clocked(&capture,&p,io,rate,common_clock,&h));assert(capture.now==h.cycles);}
+  if(common){io.cycles=NULL;assert(s3_pp_native_start_clocked(&capture,&p,io,rate,common_clock,&h,h.quantum));assert(capture.now==common_clock(&h));}
   else assert(s3_pp_native_start(&capture,&p,io,rate));
   uint64_t bytes=0;
   for(unsigned i=0;i<100000 && capture.running && capture.unit<80;++i) {
@@ -44,7 +45,7 @@ int main(void) {
    if(!s3_native_poll(&capture))break;
    unsigned n;
    for(unsigned w=0;w<(stall?1u:2u);++w) {
-    int rc=common?s3_pp_step_clocked(&p,w,128,common_clock,&h,1000,&n):s3_pp_step(&p,w,128,capture.now,1000,&n);
+    int rc=common?s3_pp_step_clocked_quantized(&p,w,128,common_clock,&h,h.quantum,1000,&n):s3_pp_step(&p,w,128,capture.now,1000,&n);
     if(rc!=S3_PP_OK && rc!=S3_PP_EMPTY){s3_native_stop(&capture);break;}
    }
    consume(&p,&bytes);
@@ -58,7 +59,7 @@ int main(void) {
    while(p.count) {
     unsigned n;
     for(unsigned w=0;w<2;++w) {
-     int rc=common?s3_pp_step_clocked(&p,w,8192,common_clock,&h,1000,&n):s3_pp_step(&p,w,8192,capture.now,1000,&n);
+     int rc=common?s3_pp_step_clocked_quantized(&p,w,8192,common_clock,&h,h.quantum,1000,&n):s3_pp_step(&p,w,8192,capture.now,1000,&n);
      assert(rc==S3_PP_OK || rc==S3_PP_EMPTY);
     }
     assert(s3_pp_collect(&p,capture.now)==S3_PP_OK);consume(&p,&bytes);

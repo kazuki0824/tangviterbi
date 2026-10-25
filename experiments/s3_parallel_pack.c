@@ -71,11 +71,11 @@ static uint32_t HOT word(const s3_pp_bank *b,unsigned index) {
  return b->words[(b->first+index)%S3_PP_WORDS]&0xfffff;
 }
 static int HOT s3_pp_step_impl(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
- uint64_t now,uint64_t bound,unsigned *processed,s3_pp_clock clock,void *clock_ctx) {
+ uint64_t now,uint64_t bound,unsigned *processed,s3_pp_clock clock,void *clock_ctx,uint32_t clock_error) {
  if(!p || !processed)return S3_PP_INVALID;
  *processed=0;
  if(atomic_load_explicit(&p->fault,memory_order_relaxed))return S3_PP_FAULT;
- if(worker>1 || !max_pairs || !bound)return fail(p,S3_PP_INVALID);
+ if(worker>1 || !max_pairs || !bound || clock_error>=bound)return fail(p,S3_PP_INVALID);
  s3_pp_bank *b=NULL;
  for(unsigned i=0;i<3;++i) {
   s3_pp_bank *candidate=&p->banks[i];
@@ -125,7 +125,7 @@ static int HOT s3_pp_step_impl(s3_parallel_pack *p,unsigned worker,unsigned max_
  // must therefore fault while this job is still READY, even on the last slice.
  if(clock) {
   uint64_t finished=clock(clock_ctx);
-  if(finished<now || finished-now>bound || finished>=b->deadline)
+  if(finished<now || finished-now>bound-clock_error || finished>=b->deadline)
    return fail(p,S3_PP_DEADLINE);
  }
  if(j->cursor==j->end)atomic_store_explicit(&j->state,DONE,memory_order_release);
@@ -133,7 +133,7 @@ static int HOT s3_pp_step_impl(s3_parallel_pack *p,unsigned worker,unsigned max_
 }
 int HOT s3_pp_step(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
  uint64_t now,uint64_t bound,unsigned *processed) {
- return s3_pp_step_impl(p,worker,max_pairs,now,bound,processed,NULL,NULL);
+ return s3_pp_step_impl(p,worker,max_pairs,now,bound,processed,NULL,NULL,0);
 }
 int HOT s3_pp_step_clocked(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
  s3_pp_clock clock,void *clock_ctx,uint64_t bound,unsigned *processed) {
@@ -141,7 +141,7 @@ int HOT s3_pp_step_clocked(s3_parallel_pack *p,unsigned worker,unsigned max_pair
   if(processed)*processed=0;
   return p?fail(p,S3_PP_INVALID):S3_PP_INVALID;
  }
- return s3_pp_step_impl(p,worker,max_pairs,clock(clock_ctx),bound,processed,clock,clock_ctx);
+ return s3_pp_step_impl(p,worker,max_pairs,clock(clock_ctx),bound,processed,clock,clock_ctx,0);
 }
 int HOT s3_pp_collect(s3_parallel_pack *p,uint64_t now) {
  if(!p)return S3_PP_INVALID;
@@ -188,4 +188,10 @@ int HOT s3_pp_complete(s3_parallel_pack *p,uint64_t sequence) {
   p->dma_state[p->retired%4]=DMA_FREE;++p->retired;
  }
  return S3_PP_OK;
+}
+
+int HOT s3_pp_step_clocked_quantized(s3_parallel_pack *p,unsigned worker,unsigned max_pairs,
+ s3_pp_clock clock,void *clock_ctx,uint32_t clock_error,uint64_t bound,unsigned *processed) {
+ if(!clock){if(processed)*processed=0;return p?fail(p,S3_PP_INVALID):S3_PP_INVALID;}
+ return s3_pp_step_impl(p,worker,max_pairs,clock(clock_ctx),bound,processed,clock,clock_ctx,clock_error);
 }

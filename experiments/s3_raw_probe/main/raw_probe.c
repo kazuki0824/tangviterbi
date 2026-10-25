@@ -11,6 +11,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "s3_parallel_capture.h"
+#include "s3_timer_clock.h"
 #include "s3_parallel_spi.h"
 #include "hal/dma_types.h"
 
@@ -61,12 +62,12 @@ static int raw_initialize_storage(void) {
 // Volatile function pointers preserve real SDK call graphs without executing
 // undocumented RF register operations, guessed pins, or PHY initialization.
 int (*volatile raw_keep_step)(s3_parallel_pack*,unsigned,unsigned,uint64_t,uint64_t,unsigned*)=s3_pp_step;
-int (*volatile raw_keep_clocked_step)(s3_parallel_pack*,unsigned,unsigned,s3_pp_clock,void*,uint64_t,unsigned*)=s3_pp_step_clocked;
-int64_t (*volatile raw_keep_clock)(void)=esp_timer_get_time;
+int (*volatile raw_keep_clocked_step)(s3_parallel_pack*,unsigned,unsigned,uint64_t,unsigned*)=s3_pp_step_timer;
+uint64_t (*volatile raw_keep_clock)(void*)=s3_timer_clock;
 void (*volatile raw_keep_tasks)(void)=raw_create_tasks;
 int (*volatile raw_keep_storage)(void)=raw_initialize_storage;
 void (*volatile raw_keep_phy)(esp_phy_modem_t)=esp_phy_enable;
-bool (*volatile raw_keep_native)(s3_native_capture*,s3_parallel_pack*,s3_native_io,unsigned,s3_native_clock,void*)=s3_pp_native_start_clocked;
+bool (*volatile raw_keep_native)(s3_native_capture*,s3_parallel_pack*,s3_native_io,unsigned)=s3_pp_native_start_timer;
 bool (*volatile raw_keep_poll)(s3_native_capture*)=s3_native_poll;
 s3_native_io (*volatile raw_keep_mmio)(void)=s3_native_mmio;
 int (*volatile raw_keep_collect)(s3_parallel_pack*,uint64_t)=s3_pp_collect;

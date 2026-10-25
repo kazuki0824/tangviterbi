@@ -1,28 +1,57 @@
-# ② 共通絶対時刻をRF期限とpackingへ渡す経路
+# ② 共通時計の接続・量子化補正・読取り待ち評価
 
-2026-10-25。従来のnative取得APIは、coordinator coreの32-bit cycle countを受信開始時の0へ延長していた。この値を、別coreのcycle countやSDK起動時起点のesp_timer時刻と比較してはいけない。
+2026-10-25。対象は依頼の手順1/2のみ。①と実task schedule（手順3）には進まない。
 
-今回 `s3_native_start_sink_clocked` と `s3_pp_native_start_clocked` を追加。呼出し側が渡した64-bit common clockの絶対値を維持して、RF bankのnow/deadlineを生成する。両workerの既存 `s3_pp_step_clocked` に同じcallback/contextを渡せる。単位は既存native演算に合わせて1/240 MHz。追加のper-core時刻延長状態、clock lock、動的確保はない。旧32-bit APIは既存の単core模型向けに残し、今回の共通clock経路ではio.cyclesをNULLにできる。
+## 実装した接続
 
-**ハードウェア共通時計の実装・精度・待ち時間の確認まで完了したわけではない。** 今回実装したのは、実CのRF→bank期限→worker比較を同じepoch/単位で動かす接続経路と異常時処理。FreeRTOS実taskはまだ起動しない。raw SDK link probeの保持対象をclocked startへ変更し、そのコードと追加stateをSDK全体で検証する。
+SDK public API `esp_timer_get_time()`（pinned IDF 5.5.1ではSYSTIMER counter0）を使う `s3_timer_clock` を追加した。新規timer割込み・周辺回路・heap・共有可変状態・spinlockを追加しない。SDKの初期化済み時計を両coreから読む。受信中はsleep、counter再設定、debug haltを行わない前提。native MMIO callbackが切替を完了する契約と、RF境界検出自体の実機妥当性は既存の別確認事項。
 
-## 時計異常と所有権
+`esp_timer_get_time()`をµs整数qとすると、adapterは `U=(q+1)*240` を返す。単位は1/240 MHz、epochはSDK起動時で、誤差幅E=240。この値はCPUのCCOUNTではなく、同じ時間単位に換算した上端値。clock契約は **U−E ≤ 時計が観測した時刻 ≤ U**。負値・乗算overflowはUINT64_MAXとして失敗する。
 
-callbackのUINT64_MAX、native内での逆行、deadline加算可能範囲を超える値をCLOCK_FAULT=8としてRF停止・SELECT復元。poll内の各時計読出しの後でfaultを確認し、失敗値を使ってbank acceptや成功returnへ進まない。accept後の最終読出しで失敗した場合は、既に渡したbankを取り消さずRFを止める。worker/DMAの所有権は維持し、停止・再初期化は既存のquiesce契約に従う。
+- `s3_pp_native_start_timer` がnativeへcallback/contextとEを設定する。
+- 両workerは `s3_pp_step_timer` を使用する。内部では `s3_pp_step_clocked_quantized` が同じcallback/Eを使う。
+- coordinatorのcollectにも `s3_timer_clock(NULL)` を渡す。workerからcapture.nowを読む必要はない。
+- SDK link probeは新start/worker/clockを保持する。probe自体はRF/PHY/SPI/tasksを起動しない。
 
-`UINT64_MAX - 2*THRESHOLD*cpp`までを時計値の許可上限とする。これは固定の運用timeoutではなく、実際のdeadline加算がuint64 overflowしないための算術条件。開始時にも検査する。
+旧APIはE=0の正確な合成時計や従来の単core模型向けに残す。`s3_pp_native_start_clocked` / `s3_native_start_sink_clocked` はclock_error引数を追加した。未補償µsを旧E=0経路へ渡してはいけない。
 
-## 確認したこと
+## 安全側の時刻比較
 
-- 実nativeと実packingを通した既存host受渡し試験を、旧時計/共通時計×T/S×正常/worker停止の8ケースへ拡張。共通時計の開始値は2^40を超え、下位32-bit境界も横断する。io.cyclesはNULLとし、callbackの絶対値とcapture.now一致を確認。正常時はそれぞれ80 banks、全送信byteを独立20-bit期待列と照合。
-- 時計読出し失敗を起動の2点、poll入口/末尾、SELECT切替後、accept前/後へ注入。RF停止・SELECT復元、accept前失敗なら未受渡し、accept後失敗なら受渡し済みであることを確認。逆行と算術上限の両側も確認。
-- 既存のpthread packing、SPI lease、clocked deadline、native capture、全開始位置fillを含む合計8 unittest成功。UBSan有効。これらの時計は合成で、callback/packing/storeの実時間を測定していない。
-- 実native/parallel adapterをS3 GCC14.2 O2・最小SDK宣言stubでobject compile成功。SDK link・メモリ配置・命令数は今回の追加後に再確認する。直前の204.776 Mcycles/sやメモリ残量を新コードの成立保証に使わない。
+切替前に取得したUから `switch_earliest=U−E` を保存し、切替後の時計上端を `switched` として保存する。前後のcallback間に切替処理が完了する契約なら、実切替時刻はこの区間内にある。poll入口の既存読出しを切替前側として使い、専用の追加読出しは設けない。
 
-## 1µs時計をそのまま接続しない理由
+| 判定 | 使用する量 | 安全側になる理由 |
+|---|---|---|
+| settling最小待ち | `now_upper−switched−E ≥ 16*cpp` | 現在の下端から切替の上端を引くので、実経過を過大評価しない |
+| bank age上限 | `now_upper−switch_earliest ≤ (16384−128)*cpp` | 現在の上端から切替の下端を引くので、実経過を過小評価しない |
+| bank期限 | `switch_earliest + 2*THRESHOLD*cpp − 20000 − (1024+LATE)*cpp` | 切替後の遅い時刻を起点にして期限を延ばさない |
+| worker開始前 | `now_upper + bound < deadline`（減算で検査） | 開始観測時刻を早く見積もらない |
+| worker終了後 | `finished_upper < deadline`かつ`finished_upper−started_upper+E ≤ bound` | 終了の遅れと量子化によるelapsed過小評価を検出 |
 
-`esp_timer_get_time()*240`なら単位だけはそろうが、nativeのsettling判定は16 samples。Sでは96 cycles=0.4µs、Tでは240 cycles=1µsである。例えばSで切替が0.99µs、次観測が1.00µsなら、実経過0.01µsでも切捨てµs差は1µsになり、0.4µsを待ったと誤判定し得る。入力が常にこの位相になるという主張ではなく、無補償接続が安全でない反例。
+callbackの**採時点からreturnまで**、最後の確認からDONE公開までの費用は、この区間のEに含めない。Eは量子化幅であって全callback WCETではない。これらは呼出し処理のWCET/boundへ別計上する必要がある。今回、この未確定費用を0と仮定して性能合格にはしていない。
 
-したがって、このAPIへ無補償のµs時計adapterは追加していない。次は実際の共通clockの分解能・読出し誤差・SDK内の更新待ち/整合性再試行の上限を確認し、必要ならsettling/age/worker deadlineを安全側へ補正して接続する。時計関数の公称命令数をWCETと扱わない。その後、RF準備開始位相・packing slice・SPI送信・割込みを含む実task scheduleを評価する。通信路の正式割当・採用は性能条件の成立後。①は変更しない。
+例えばSの16 samples待ちは0.4µs。切替0.99µs→次観測1.00µsの例では、未補償µs差は1µsだが、補正後の最小経過は0以下となり受渡しを許可しない。待ちの増加は処理遅延であり、IQの間引き・再量子化・欠落を許可する変更ではない。
 
-再現: `python -m unittest tests.test_s3_native_clock tests.test_s3_parallel_pack tests.test_s3_native_capture tests.test_s3_parallel_deadline tests.test_s3_native_fill`。
+## 検証
+
+`tests/s3_timer_clock_host.c` は実SDK adapter（esp_timer_get_timeだけをmock）、実native、実packingを使用。240通りのµs内位相×721経過値×T/S＝346080ケースで、早すぎるsettling許可がないこと、期限を実切替より後ろへ延ばさないことを検査。age上限、負値/overflow、worker量子化幅込みのbound境界、開始前期限も確認。
+
+既存受渡しは旧/正確な共通/µs量子化共通×T/S×正常/worker停止の12ケースへ拡張。正常は各80 banks、全送信byteを独立期待列と照合。時計異常時のRF停止・SELECT復元、accept前後、既存pthread/SPI lease/deadline/fillを含む合計9 unittest成功。host時計は合成、実時間測定ではない。ログは quantized/tests.log。
+
+## 読取り待ち時間の評価結果
+
+根拠は[固定SDK source](source-provenance.json)とTRM v1.8 §11.4.1/§11.4.3/§11.5.1。source snapshotをsourcesへ保存した。
+
+1. `esp_timer_impl_get_time`→`systimer_hal_get_counter_value`がUPDATEを書き、VALUE_VALIDを待つwhileを実行する。
+2. low/high/lowが整合するまでdo/whileを繰り返す。SDKはISRからの再読出しをこの処理の理由としている。別coreも同じcounter snapshotを更新できる。
+3. TRMはUPDATE→VALID待ち→値読出しの手順を指定するが、確認した該当節にUPDATE完了の最大cycle数はない。SDK sourceにも有限の最大反復回数はない。
+4. 旧SDK実命令列で確認した追加反復費用はready待ち3命令、整合性再読出し6命令。ただし1命令1cycleやMMIO待ち0を上限として使わない。新adapterと新SDK配置の費用は再確認する。
+
+したがって、**量子化補正を含む接続は実装済みだが、clock読取りWCETの有限な数値上限は未証明**。これはハードウェアが通常無限に待つという主張ではない。上限を導くには、UPDATE/MMIOの最大応答時間と、ISR・他coreによるsnapshot更新/割込みの到来・実行時間制約が必要。現在の資料・実装だけから数値を創作しない。任意回数で打ち切るtimeoutも追加していない。失敗停止を加えるだけでは、必要な連続受信が成立する証明にはならないためである。
+
+手順2の完了条件「安全な共通時刻判定」に対して量子化の誤判定は解消したが、全callback所要時間まで含む保証は残る。**手順2全体の完了とは報告しない。** 実行順序・IRQ予算の仮定を必要とする部分は手順3との依存として明記し、今回は手順3の実装を追加しない。
+
+## 手順1：前回6e689acのSDK確認
+
+[SDK CI 40195029323](https://github.com/kazuki0824/tangviterbi/actions/runs/40195029323)成功。共通40＋raw専用45 check、capture stateは144→152 B、raw専用heap開始0x3fcac648。成果物をsdk-beforeへ保存。新ELFでメモリ台帳19check、限定SPI ISR配置26checkも成功（JSON参照）。これは量子化補正追加**前**の結果で、新コードの配置は別途確認する。
+
+[RF共存診断40195029317](https://github.com/kazuki0824/tangviterbi/actions/runs/40195029317)も成功し、前回の依存ヘッダ漏れは解消した。一方、receiver functional closureのnew-components jobはpyelftools未導入とS3_ROM_ELF未設定で2件エラー。workflowへ固定pyelftoolsと、IDF tools.json指定ROM archive（SHA256照合後rev0 ELFのみ取得）の準備を追加。該当6 unittestはローカルで成功。試験をskipしていない。今回コードのSDK/CI結果は追記する。

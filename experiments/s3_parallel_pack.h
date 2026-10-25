@@ -53,6 +53,9 @@ int s3_pp_step(s3_parallel_pack*, unsigned worker, unsigned max_pairs,
 typedef uint64_t (*s3_pp_clock)(void*);
 int s3_pp_step_clocked(s3_parallel_pack*, unsigned worker, unsigned max_pairs,
  s3_pp_clock, void *clock_ctx, uint64_t bound, unsigned *processed);
+/* U-E <= sampled time <= U. bound must cover elapsed + E and callback tail. */
+int s3_pp_step_clocked_quantized(s3_parallel_pack*,unsigned worker,unsigned max_pairs,
+ s3_pp_clock,void *clock_ctx,uint32_t clock_error,uint64_t bound,unsigned *processed);
 int s3_pp_collect(s3_parallel_pack*, uint64_t now);
 int s3_pp_reclaim(s3_parallel_pack*, unsigned bank);
 /* take leases one full contiguous 32-KiB payload. complete ONLY after SPI reap.
