@@ -110,16 +110,21 @@ endmodule''')
     ep,c,dec,*m=line.split();actual[int(ep)][int(c)].append(([int(v,16)for v in m],int(dec,16)))
    for line in (d/'bits.txt').read_text().splitlines():
     ep,c,b=map(int,line.split());bits[ep][c].append(b)
-   from collections import Counter
+   from collections import Counter,defaultdict
    events=Counter()
+   event_details=defaultdict(list)
    for event_row in (d/'events.txt').read_text().splitlines():
-    event_kind,event_epoch,event_context=event_row.split()
-    events[(event_kind,int(event_epoch),int(event_context))]+=1
+    columns=event_row.split()
+    event_kind,event_epoch,event_context=columns[:3]
+    key=(int(event_epoch),int(event_context))
+    events[(event_kind,*key)]+=1
+    if event_kind=="EDETAIL":
+     event_details[key].append(" ".join(columns[3:]))
   for ep in range(6):
    for c in range(3):
     with self.subTest(epoch=ep,context=c):
      self.assertEqual(actual[ep][c],oracle.reference(epochs[ep][c]))
-     self.assertGreater(len(bits[ep][c]),800, f"epoch={ep} context={c}: count={len(bits[ep][c])}, trace starts={events[('START',ep,c)]}, trace completions={events[('END',ep,c)]}, overwrites={events[('OVERWRITE',ep,c)]}, collide={events[('COLLISION',ep,c)]}, drained={events[('DRAIN',ep,c)]}")
+     self.assertGreater(len(bits[ep][c]),800, f"epoch={ep} context={c}: count={len(bits[ep][c])}, trace starts={events[('START',ep,c)]}, trace completions={events[('END',ep,c)]}, overwrites={events[('OVERWRITE',ep,c)]}, collide={events[('COLLISION',ep,c)]}, drained={events[('DRAIN',ep,c)]}, end_states={event_details[(ep,c)][:5]}")
      if ep:
       observed=bits[ep][c][64:]
       expected=wanted[ep][c][64:len(bits[ep][c])]
