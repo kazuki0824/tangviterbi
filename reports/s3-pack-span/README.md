@@ -77,3 +77,7 @@ CFGの内部edge閉包、命令領域の非重複、padding誤decodeの回帰、
 更新待ち・再読出し回数の上限をまだ得ていないため、40cyclesを時計のWCETとして代入しない。現在のnative取得のcore別cycle時計と同じepoch/単位だとも扱わない。共通時計への統合にはdeadline・bound・RF pollを同じ時刻基準へ変換する実装と検証が必要で、このAPIを呼ぶだけで契約が満たされるわけではない。
 
 今回、以前R/P/Hとして未算入だったcaller処理の**命令数係数**を埋めた。残るのは命令・MMIO待ちの費用、共通時計とRF/SPI担当処理の統合、各coreの期限。受信機採用は増えていない。
+
+## RF担当coreのsentinel費用
+
+[次bank準備のSDK命令数と位相条件](native-prepare/README.md)を追加。公称S入力ではfill bodyだけで116.667 M命令/s。旧API仮定と現在の等分packingを足した条件付きcoordinator模型は251.215 Mcycles/sとなり、余裕ありと扱えない。命令訪問数の保守性・API未測定のため、不可能の証明にも使わない。
