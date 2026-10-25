@@ -19,7 +19,7 @@ class ParallelPackTest(unittest.TestCase):
     def test_native_bank_handoff_and_stalled_worker_stop(self):
         with tempfile.TemporaryDirectory() as temp:
             exe=Path(temp)/'capture'
-            sources=['s3_parallel_pack.c','s3_parallel_capture.c','s3_native_capture.c',
+            sources=['s3_parallel_pack.c','s3_parallel_capture.c','s3_native_capture.c','s3_cycle_clock.c',
                      's3_capture_bridge.c','s3_transport.c']
             subprocess.run(['cc','-std=c11','-O2','-Wall','-Wextra','-Werror',
                 '-fsanitize=undefined','-fno-sanitize-recover=all','-Iexperiments']+

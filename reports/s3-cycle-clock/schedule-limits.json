@@ -1,0 +1,122 @@
+{
+  "scope": "Necessary timing limits for raw equal-share packing; NOT a WCET proof.\n\nThe phase bound is conditional on ordinary INDEX-observation gap <= D, no\nunmodelled RF counter discontinuity, and first-preparation entry no later than\nthe same bound after a failed reclaim. It does not prove the task schedule.\n",
+  "native_constants": {
+    "THRESHOLD": 12288,
+    "LATE": 2000,
+    "START": 3072,
+    "END": 4096,
+    "prepare_reserve": 20000,
+    "guard": 1024
+  },
+  "rows": [
+    {
+      "rate_Msample_s": 16,
+      "cpp": 15,
+      "ordinary_gap_cycles": 30000,
+      "unavailable_stop_written": 7931,
+      "switch_limit_written": 14288,
+      "latest_prepare_observation_written": 9930,
+      "max_extra_preparation_cycles": 35370,
+      "max_extra_preparation_us": 147.375,
+      "standard": "T",
+      "nominal_bank_period_us": 768.0,
+      "earliest_native_lease_us": 1263.6666666666667,
+      "payload_MB_s": 40.0,
+      "preparation_reference_ideal_us": 89.89166666666667,
+      "preparation_other_cost_capacity_us": 57.483333333333334,
+      "nominal_core0_reference_nonpacking_us": 108.64166666666667,
+      "nominal_worker_limits": [
+        {
+          "pairs_per_slice": 64,
+          "slices_per_worker_bank": 48,
+          "core0_full_slice_average_ceiling_us": 13.736631944444444,
+          "core1_full_slice_average_ceiling_us": 16.0,
+          "scope": "necessary nominal utilization ceilings; all omitted costs reduce these"
+        },
+        {
+          "pairs_per_slice": 128,
+          "slices_per_worker_bank": 24,
+          "core0_full_slice_average_ceiling_us": 27.473263888888887,
+          "core1_full_slice_average_ceiling_us": 32.0,
+          "scope": "necessary nominal utilization ceilings; all omitted costs reduce these"
+        },
+        {
+          "pairs_per_slice": 512,
+          "slices_per_worker_bank": 6,
+          "core0_full_slice_average_ceiling_us": 109.89305555555555,
+          "core1_full_slice_average_ceiling_us": 128.0,
+          "scope": "necessary nominal utilization ceilings; all omitted costs reduce these"
+        },
+        {
+          "pairs_per_slice": 1024,
+          "slices_per_worker_bank": 3,
+          "core0_full_slice_average_ceiling_us": 219.7861111111111,
+          "core1_full_slice_average_ceiling_us": 256.0,
+          "scope": "necessary nominal utilization ceilings; all omitted costs reduce these"
+        }
+      ]
+    },
+    {
+      "rate_Msample_s": 40,
+      "cpp": 6,
+      "ordinary_gap_cycles": 12000,
+      "unavailable_stop_written": 5931,
+      "switch_limit_written": 14288,
+      "latest_prepare_observation_written": 7930,
+      "max_extra_preparation_cycles": 26148,
+      "max_extra_preparation_us": 108.95,
+      "standard": "S",
+      "nominal_bank_period_us": 307.2,
+      "earliest_native_lease_us": 455.46666666666664,
+      "payload_MB_s": 100.0,
+      "preparation_reference_ideal_us": 89.89166666666667,
+      "preparation_other_cost_capacity_us": 19.058333333333334,
+      "nominal_core0_reference_nonpacking_us": 108.64166666666667,
+      "nominal_worker_limits": [
+        {
+          "pairs_per_slice": 64,
+          "slices_per_worker_bank": 48,
+          "core0_full_slice_average_ceiling_us": 4.136631944444445,
+          "core1_full_slice_average_ceiling_us": 6.4,
+          "scope": "necessary nominal utilization ceilings; all omitted costs reduce these"
+        },
+        {
+          "pairs_per_slice": 128,
+          "slices_per_worker_bank": 24,
+          "core0_full_slice_average_ceiling_us": 8.27326388888889,
+          "core1_full_slice_average_ceiling_us": 12.8,
+          "scope": "necessary nominal utilization ceilings; all omitted costs reduce these"
+        },
+        {
+          "pairs_per_slice": 512,
+          "slices_per_worker_bank": 6,
+          "core0_full_slice_average_ceiling_us": 33.09305555555556,
+          "core1_full_slice_average_ceiling_us": 51.2,
+          "scope": "necessary nominal utilization ceilings; all omitted costs reduce these"
+        },
+        {
+          "pairs_per_slice": 1024,
+          "slices_per_worker_bank": 3,
+          "core0_full_slice_average_ceiling_us": 66.18611111111112,
+          "core1_full_slice_average_ceiling_us": 102.4,
+          "scope": "necessary nominal utilization ceilings; all omitted costs reduce these"
+        }
+      ]
+    }
+  ],
+  "assumptions": [
+    "continuous RF/index model; hardware ABI not established",
+    "equal packing split; nominal THRESHOLD samples/bank for utilization only",
+    "21574 fill instructions treated as 21574 cycles ONLY for sensitivity",
+    "20 us active API per 32768 payload bytes ONLY for sensitivity",
+    "ordinary gap and phase-entry hypotheses must be established by scheduling"
+  ],
+  "source_sha256": {
+    "experiments/s3_native_capture.c": "c2ad0db240000d385bedd6562d0b08794bf4c307450b981327a55c3dc2d97ad3",
+    "experiments/s3_parallel_pack.c": "6851bef3ef1e066cfc95da904ed1864849752fcdad3ef697bbcc718728f21fa4",
+    "experiments/s3_cycle_clock.c": "7d913ead195d18114a9cb6fff6aaa17167d992df72ffc940c01763a05e33a379"
+  },
+  "actual_schedule_verified": false,
+  "WCET_proven": false,
+  "receiver_adopted": false
+}
