@@ -253,7 +253,10 @@ module three_context_k7_coole_scheduled #(
             end
 
             if (start_trace) begin
-                read_ptr[context_id] <= wr_ptr[context_id] - 4; // Match baseline traceback window alignment state[context_id] <= 0; walk[context_id] <= 0;
+                // Preserve the baseline survivor window alignment and reset all trace state.
+                read_ptr[context_id] <= wr_ptr[context_id] - 4;
+                state[context_id] <= 0;
+                walk[context_id] <= 0;
                 priming[context_id] <= 0; prime_extra[context_id] <= 0; tracing[context_id] <= 1;
             end else if (tracing[context_id] && (phase == 1 || phase == 3)) begin
                 read_ptr[context_id] <= read_ptr[context_id] - 1;
