@@ -92,6 +92,11 @@ def audit(elf_path, map_path, config_path, rom_path):
         selected=next((entry for entry in entries if entry in app.symbols and app.address(entry)==target),None)
         check('clocked_entry_known',selected is not None,hex(target))
         if selected:hot+=entries[selected]
+    if 'raw_keep_cycle_clock' in app.symbols:
+        target=struct.unpack('<I',app.read(app.address('raw_keep_cycle_clock'),4))[0]
+        check('cycle_clock_entry_known','s3_cycle_clock_read' in app.symbols and target==app.address('s3_cycle_clock_read'))
+        hot+=['s3_cycle_clock_read']
+        if 's3_cycle_clock_advance' in app.symbols:hot+=['s3_cycle_clock_advance']
     hot_symbols={name:hex(app.address(name)) if name in app.symbols else None for name in hot}
     for name in hot:check('IRAM_'+name,name in app.symbols and 0x40374000<=app.address(name)<0x403a0000)
     all_reserved=reserved+[(int(rom['ROM_reserved_start'],16),0x3fcf0000)]

@@ -1,6 +1,6 @@
 idf_component_register(SRCS "raw_probe.c"
  "../../s3_parallel_pack.c" "../../s3_parallel_capture.c" "../../s3_parallel_spi.c"
- "../../s3_timer_clock.c" "../../s3_native_capture.c" "../../s3_capture_bridge.c"
+ "../../s3_timer_clock.c" "../../s3_cycle_clock.c" "../../s3_native_capture.c" "../../s3_capture_bridge.c"
  "../../s3_transport.c" "../../s3_spi_transport.c"
  INCLUDE_DIRS "." "../.."
  PRIV_REQUIRES heap esp_driver_spi esp_timer esp_phy esp_psram)

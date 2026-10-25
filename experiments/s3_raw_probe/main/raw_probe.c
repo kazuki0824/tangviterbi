@@ -12,6 +12,7 @@
 #include "freertos/task.h"
 #include "s3_parallel_capture.h"
 #include "s3_timer_clock.h"
+#include "s3_cycle_clock.h"
 #include "s3_parallel_spi.h"
 #include "hal/dma_types.h"
 
@@ -23,6 +24,9 @@ SOC_RESERVE_MEMORY_REGION(0x3fcf0000,0x3fcf8000,s3_raw_bulk_upper1);
 DMA_ATTR uint8_t raw_lower_buffers[2][S3_PP_CHUNK];
 s3_parallel_pack raw_pack;
 s3_native_capture raw_capture;
+// Alternative candidate; one exclusively owned state per pinned core.
+// Calibration and capture are NOT started by this link-only probe.
+s3_cycle_clock_state raw_cycle_clocks[2];
 s3_spi_port raw_ports[2];
 spi_multi_transaction_t raw_descriptors[2];
 s3_pp_transfer raw_transfers[2];
@@ -64,6 +68,8 @@ static int raw_initialize_storage(void) {
 int (*volatile raw_keep_step)(s3_parallel_pack*,unsigned,unsigned,uint64_t,uint64_t,unsigned*)=s3_pp_step;
 int (*volatile raw_keep_clocked_step)(s3_parallel_pack*,unsigned,unsigned,uint64_t,unsigned*)=s3_pp_step_timer;
 uint64_t (*volatile raw_keep_clock)(void*)=s3_timer_clock;
+uint64_t (*volatile raw_keep_cycle_clock)(void*)=s3_cycle_clock_read;
+bool (*volatile raw_keep_cycle_init)(s3_cycle_clock_state*)=s3_cycle_clock_init;
 void (*volatile raw_keep_tasks)(void)=raw_create_tasks;
 int (*volatile raw_keep_storage)(void)=raw_initialize_storage;
 void (*volatile raw_keep_phy)(esp_phy_modem_t)=esp_phy_enable;
@@ -78,6 +84,8 @@ esp_err_t (*volatile raw_keep_reap)(s3_pp_transfer*)=s3_pp_spi_reap;
 void app_main(void) {
  printf("RAW LINK PROBE ONLY: payload=%u task_storage=%u; no RF/SPI/tasks started\n",
         4*S3_PP_CHUNK,(unsigned)(2*RAW_STACK_BYTES+sizeof(raw_task_tcbs)));
+ printf("cycle candidate=%p init=%p state=%p bytes=%u\n",(void*)raw_keep_cycle_clock,
+        (void*)raw_keep_cycle_init,(void*)raw_cycle_clocks,(unsigned)sizeof(raw_cycle_clocks));
  // Read volatile anchors to prevent linker GC. Never call them in app_main.
  printf("anchors=%p %p %p %p %p %p %p %p %p %p sizes=%p state=%p %p %p %p step=%p clock=%p stacks=%p clocked=%p\n",
   (void*)raw_keep_tasks,(void*)raw_keep_storage,(void*)raw_keep_phy,

@@ -1,0 +1,25 @@
+test_calibration_intervals_and_actual_adapter (test_s3_cycle_clock.CycleClockTest.test_calibration_intervals_and_actual_adapter) ... PASS 116640 calibration phase/latency/offset cases; wrap, overflow, two-core epoch, no runtime SYSTIMER reads
+ok
+test_actual_adapter_and_quantized_phases (test_s3_timer_clock.TimerClockTest.test_actual_adapter_and_quantized_phases) ... PASS actual SDK adapter + native/worker interval compensation: 346080 phase/elapsed cases; stale/overflow/bound/deadline checks
+
+ok
+test_faults_stop_RF_before_handoff (test_s3_native_clock.NativeClockTest.test_faults_stop_RF_before_handoff) ... PASS common clock: startup/poll/switch/preaccept/postaccept failed reads, regression, deadline arithmetic boundary, RF stop and SELECT restore
+
+ok
+test_clock_checked_before_final_publication_and_bank_reuse (test_s3_parallel_deadline.ParallelDeadlineTest.test_clock_checked_before_final_publication_and_bank_reuse) ... PASS final/partial late completion, bound overrun, clock regression, late collect, precheck, null clock
+ok
+test_ROM_collision_and_wrong_config_are_both_reported (test_s3_raw_link_audit.RawLinkAuditTest.test_ROM_collision_and_wrong_config_are_both_reported) ... ok
+test_clocked_probe_target_must_match_an_audited_entry (test_s3_raw_link_audit.RawLinkAuditTest.test_clocked_probe_target_must_match_an_audited_entry) ... ok
+test_link_success_does_not_override_early_startup_shortage (test_s3_raw_link_audit.RawLinkAuditTest.test_link_success_does_not_override_early_startup_shortage) ... ok
+test_relocation_preserves_payload_stack_sizes_and_only_passes_necessary_bound (test_s3_raw_link_audit.RawLinkAuditTest.test_relocation_preserves_payload_stack_sizes_and_only_passes_necessary_bound) ... ok
+test_all_independent_scenarios_run_despite_failures (test_s3_tlsf32_replay.StartupReplayTest.test_all_independent_scenarios_run_despite_failures) ... ok
+test_late_stack_capacity_pass_still_fails_main_contiguous_allocation (test_s3_tlsf32_replay.StartupReplayTest.test_late_stack_capacity_pass_still_fails_main_contiguous_allocation) ... ok
+test_real_flash_placement_retains_main_stack_and_passes_projection (test_s3_tlsf32_replay.StartupReplayTest.test_real_flash_placement_retains_main_stack_and_passes_projection) ... ok
+test_real_tlsf_selects_diram_before_rtc (test_s3_tlsf32_replay.StartupReplayTest.test_real_tlsf_selects_diram_before_rtc) ... ok
+test_smaller_main_is_only_a_sensitivity_case (test_s3_tlsf32_replay.StartupReplayTest.test_smaller_main_is_only_a_sensitivity_case) ... ok
+test_tampered_allocator_is_rejected (test_s3_tlsf32_replay.StartupReplayTest.test_tampered_allocator_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 43.611s
+
+OK

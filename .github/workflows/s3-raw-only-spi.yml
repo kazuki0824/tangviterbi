@@ -7,6 +7,9 @@ on:
       - 'experiments/s3_native_capture.*'
       - 'experiments/s3_parallel_capture.*'
       - 'experiments/s3_timer_clock.*'
+      - 'experiments/s3_cycle_clock.*'
+      - 'tests/test_s3_cycle_clock.py'
+      - 'tests/s3_cycle_clock_host.c'
       - 'tests/test_s3_timer_clock.py'
       - 'tests/s3_timer_clock_host.c'
       - 'tests/test_s3_native_clock.py'
@@ -34,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Test clocked worker publication and ownership
-        run: PYTHONPATH=tests python -m unittest test_s3_parallel_deadline test_s3_parallel_pack test_s3_parallel_span test_s3_native_fill test_s3_native_capture test_s3_native_clock test_s3_timer_clock -v
+        run: PYTHONPATH=tests python -m unittest test_s3_parallel_deadline test_s3_parallel_pack test_s3_parallel_span test_s3_native_fill test_s3_native_capture test_s3_native_clock test_s3_timer_clock test_s3_cycle_clock -v
       - name: Compare raw-only adapter with heap functions retained in IRAM
         shell: bash
         run: |
