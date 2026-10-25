@@ -55,3 +55,24 @@ callbackの**採時点からreturnまで**、最後の確認からDONE公開ま�
 [SDK CI 40195029323](https://github.com/kazuki0824/tangviterbi/actions/runs/40195029323)成功。共通40＋raw専用45 check、capture stateは144→152 B、raw専用heap開始0x3fcac648。成果物をsdk-beforeへ保存。新ELFでメモリ台帳19check、限定SPI ISR配置26checkも成功（JSON参照）。これは量子化補正追加**前**の結果で、新コードの配置は別途確認する。
 
 [RF共存診断40195029317](https://github.com/kazuki0824/tangviterbi/actions/runs/40195029317)も成功し、前回の依存ヘッダ漏れは解消した。一方、receiver functional closureのnew-components jobはpyelftools未導入とS3_ROM_ELF未設定で2件エラー。workflowへ固定pyelftoolsと、IDF tools.json指定ROM archive（SHA256照合後rev0 ELFのみ取得）の準備を追加。該当6 unittestはローカルで成功。試験をskipしていない。今回コードのSDK/CI結果は追記する。
+
+
+### 他の時計との比較範囲
+
+GPTimerのpublic `gptimer_get_raw_count` も確認した。固定SDKではspinlockのcritical section内でcaptureし、S3の `timer_ll_trigger_soft_capture` がupdate bitのクリアをwhileで待つ。単にGPTimerへ置き換えるだけで待ち時間上限が確定するとは言えず、今回そのための追加周辺回路/lockは導入しない。source snapshotも保存した。
+
+各coreのCCOUNTは読出し自体にSYSTIMERの更新待ちを持たないが、共通時計として使うにはcore間offsetの校正誤差、固定周波数/停止条件、32-bit wrapを見失わない呼出し間隔を別途証明する必要がある。性能的に不可能とは判定しない。今回の実装はSDK共通時計の経路であり、全時計方式を棄却したものではない。
+
+前の手順表では、時計の読出し上限評価と手順3のISR/他core実行条件の依存を十分に示していなかった。手順2のソフトウェア接続・量子化補正と、リアルタイム上限の保証を区別して報告する。
+
+## 今回のSDK成果物による確認（d454dbd）
+
+[raw-only SPI CI 40198230335](https://github.com/kazuki0824/tangviterbi/actions/runs/40198230335)は成功。共通45＋raw専用50 static checkが全て成功。旧worker名を固定していた監査は実際の保持pointerから経路を判定するよう修正し、不明なpointerは失敗させる。修正前a8a029dはSDKビルド後の監査で停止したため、成功扱いにしない。
+
+成果物ZIP（artifact 12601375019）のSHA256は `e30f675d27576b7867154daa144ba42030f23b55ddc36f3a984bb5d2c344071d`。展開したELF/map/config/build logをsdkへ保存。sdk-verification.jsonでELF hash、対象8 source hash、時計/native/workerの6関数のIRAM配置、計15 checkを再確認した。
+
+capture stateは152→160 B。raw専用 `_heap_start=0x3fcac650`、`_iram_end=0x40387900`。内部メモリ台帳19 checkと限定SPI ISR配置26 checkも成功。fresh-vector条件の残量上限はSPI使用時17464 B、PHY校正時15468 B、定常17340 B。これはallocator断片化・未計上経路を含む実機空きheapの保証ではない。
+
+SDK時計adapterは54 B、worker timer wrapperは32 B、quantized worker wrapperは78 B、esp_timer_get_timeは22 B、systimer HAL readは72 Bで全てIRAM。これらのbyte数は実行時間の上限を示さない。clock WCET未証明という上の結論は変わらない。実機起動・連続受信は未実施。
+
+同commitのraw startup、actual linker-map、host FFT CIも成功。receiver functional closureとRF共存診断は確認時点で実行中であり、全CI成功とはしていない。closureのROM準備stepは成功した。
