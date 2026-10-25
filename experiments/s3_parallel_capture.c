@@ -18,3 +18,10 @@ bool s3_pp_native_start(s3_native_capture*s,s3_parallel_pack*p,s3_native_io io,u
  s3_native_sink sink={p,healthy,available,available,accept};
  return s3_native_start_sink(s,sink,io,rate);
 }
+
+bool s3_pp_native_start_clocked(s3_native_capture*s,s3_parallel_pack*p,s3_native_io io,unsigned rate,
+ s3_native_clock clock,void *clock_ctx) {
+ if(!p || p->next_sample || p->count || p->reserved || p->submitted || p->have_carry)return false;
+ s3_native_sink sink={p,healthy,available,available,accept};
+ return s3_native_start_sink_clocked(s,sink,io,rate,clock,clock_ctx);
+}

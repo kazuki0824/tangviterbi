@@ -8,4 +8,10 @@
  * often enough; this adapter alone is not a FreeRTOS scheduling proof.
  */
 bool s3_pp_native_start(s3_native_capture*,s3_parallel_pack*,s3_native_io,unsigned rate);
+/* Shared absolute epoch replaces the legacy coordinator-relative counter.
+ * Give both workers exactly this clock/context; never read capture.now from
+ * another core. Time quantization and callback WCET remain caller obligations.
+ */
+bool s3_pp_native_start_clocked(s3_native_capture*,s3_parallel_pack*,s3_native_io,
+ unsigned rate,s3_native_clock,void *clock_ctx);
 #endif

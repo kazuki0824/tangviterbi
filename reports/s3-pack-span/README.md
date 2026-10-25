@@ -85,3 +85,7 @@ CFGの内部edge閉包、命令領域の非重複、padding誤decodeの回帰、
 ## sentinel連続区間化の実装
 
 [全開始位置の機能試験とtarget object](native-fill-optimized/README.md)。各wordのmask/address計算を区間開始へ移し、bodyは5→3命令。公称Sで46.667 M命令/sを削減。SDK全体の配置確認と、phaseを含む期限検証は別に必要。
+
+## 共通時刻への接続経路
+
+[RF期限とworker比較の共通epoch対応](../s3-common-clock/README.md)を実装。64-bit絶対時刻のまま受渡し、時計異常時停止を試験。ハードウェア時計の精度/待ち時間と実task scheduleは未完。
