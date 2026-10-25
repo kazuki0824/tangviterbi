@@ -24,7 +24,14 @@ static void HOT wr(s3_native_capture*s,uint32_t a,uint32_t v){s->io.write(s->io.
 static uint32_t HOT rd(s3_native_capture*s,uint32_t a){return s->io.read(s->io.ctx,a);}
 static void HOT fill(s3_native_capture*s,unsigned b,unsigned at,unsigned n) {
  volatile uint32_t *p=s->io.bank(s->io.ctx,b);
- for(unsigned i=0;i<n;++i)p[(at+i)&MASK]=SENTINEL;
+ // Keep the same volatile stores and order, but mask only at ring wraps.
+ at&=MASK;
+ while(n){
+  unsigned span=MASK+1-at;if(span>n)span=n;
+  volatile uint32_t *dst=p+at;
+  for(unsigned i=0;i<span;++i)*dst++=SENTINEL;
+  n-=span;at=0;
+ }
 #ifdef ESP_PLATFORM
  __asm__ volatile("memw" ::: "memory");
 #endif

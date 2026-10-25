@@ -81,3 +81,7 @@ CFGの内部edge閉包、命令領域の非重複、padding誤decodeの回帰、
 ## RF担当coreのsentinel費用
 
 [次bank準備のSDK命令数と位相条件](native-prepare/README.md)を追加。公称S入力ではfill bodyだけで116.667 M命令/s。旧API仮定と現在の等分packingを足した条件付きcoordinator模型は251.215 Mcycles/sとなり、余裕ありと扱えない。命令訪問数の保守性・API未測定のため、不可能の証明にも使わない。
+
+## sentinel連続区間化の実装
+
+[全開始位置の機能試験とtarget object](native-fill-optimized/README.md)。各wordのmask/address計算を区間開始へ移し、bodyは5→3命令。公称Sで46.667 M命令/sを削減。SDK全体の配置確認と、phaseを含む期限検証は別に必要。
