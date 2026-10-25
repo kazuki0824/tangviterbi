@@ -45,7 +45,7 @@ reg resetn=0,sv=0,iv=0;reg[1:0]ctx=0,erase=0;reg[7:0]a=0,b=0;
 wire sr,ir,ov,ob;wire[1:0]oc;
 three_context_k7 dut(clk,resetn,sv,sr,ctx,oc,iv,ir,a,b,erase,ov,ob);
 reg[17:0]words[0:18431];reg[1:0]order[0:18431];
-integer e,j,c,k,index,t=0,f,g;integer count[0:2];reg[63:0]decision;integer committed;
+integer e,j,c,k,index,t=0,f,g,h;integer count[0:2];reg[63:0]decision;integer committed;
 task slot(input[1:0]who,input valid,input[17:0]word);
 begin
  @(negedge clk);ctx=who;sv=1;iv=valid;{a,b,erase}=word;#1;
@@ -59,7 +59,7 @@ begin
 end endtask
 initial begin
  $readmemh("input.hex",words);$readmemh("schedule.hex",order);
- f=$fopen("metrics.txt","w");g=$fopen("bits.txt","w");
+ f=$fopen("metrics.txt","w");g=$fopen("bits.txt","w");h=$fopen("events.txt","w");
  for(e=0;e<6;e=e+1)begin
  resetn=0;sv=0;iv=0;repeat(3)@(negedge clk);resetn=1;
  for(c=0;c<3;c=c+1)begin slot(c,0,0);count[c]=0;end
@@ -74,7 +74,7 @@ initial begin
  @(negedge clk);ctx=e%3;sv=1;iv=1;a=77;b=201;erase=0;
  @(negedge clk);resetn=0;sv=0;iv=0;
  end
- $fclose(f);$fclose(g);$finish;
+ $fclose(f);$fclose(g);$fclose(h);$finish;
 end
 always @(posedge clk)begin
  if(resetn&&dut.tick&&dut.initialized[dut.context_id]&&dut.step_enable&&dut.phase==3)begin
@@ -83,6 +83,11 @@ always @(posedge clk)begin
  for(k=0;k<64;k=k+1)$fwrite(f,"%x ",dut.metrics[64*committed+k]);$fwrite(f,"\\n");end
 end
 always @(posedge clk)begin #1;if(resetn&&ov)$fdisplay(g,"%0d %0d %0d",e,oc,ob);end
+always @(posedge clk) begin
+ if(resetn && dut.tick && dut.start_trace) $fdisplay(h,"START %0d %0d",e,dut.context_id);
+ if(resetn && dut.tick && dut.tracing[dut.context_id] && dut.walk[dut.context_id]==123 && (dut.phase==1 || dut.phase==3))
+   $fdisplay(h,"END %0d %0d",e,dut.context_id);
+end
 endmodule''')
    subprocess.run(['iverilog','-g2012','-s','tb','-o',str(d/'sim'),str(d/'dut.sv'),str(d/'tb.sv')],check=True,capture_output=True)
    p=subprocess.run(['vvp',str(d/'sim')],cwd=d,check=True,capture_output=True,text=True,timeout=180)
@@ -95,13 +100,13 @@ endmodule''')
    for c in range(3):
     with self.subTest(epoch=ep,context=c):
      self.assertEqual(actual[ep][c],oracle.reference(epochs[ep][c]))
-     self.assertGreater(len(bits[ep][c]),800)
+     self.assertGreater(len(bits[ep][c]),800, f"epoch={ep} context={c}: count={len(bits[ep][c])}, trace starts={events[('START',ep,c)]}, trace completions={events[('END',ep,c)]}")
      if ep:
       observed=bits[ep][c][64:]
       expected=wanted[ep][c][64:len(bits[ep][c])]
-      for offset,(actual,reference) in enumerate(zip(observed,expected)):
-       if actual!=reference:
-        self.fail(f"decoded-bit mismatch epoch={ep} context={c} bit={offset+64} actual={actual} expected={reference}")
+      for offset,(bit_observed,reference) in enumerate(zip(observed,expected)):
+       if bit_observed!=reference:
+        self.fail(f"decoded-bit mismatch epoch={ep} context={c} bit={offset+64} actual={bit_observed} expected={reference} trace_starts={events[('START',ep,c)]} trace_completions={events[('END',ep,c)]}")
       self.assertEqual(len(observed),len(expected))
 
 if __name__=='__main__':unittest.main()
