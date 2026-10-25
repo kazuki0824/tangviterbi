@@ -9,10 +9,15 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--variant", choices=("baseline", "window", "coole-scheduled"), required=True)
+    p.add_argument("--variant", choices=("baseline", "window", "coole-scheduled", "bm-staged"), required=True)
     p.add_argument("--output", required=True)
     args = p.parse_args()
-    if args.variant == "coole-scheduled":
+    if args.variant == "bm-staged":
+        source = (ROOT / "rtl/three_context_k7_bm_staged.sv").read_text()
+        assert "module three_context_k7_bm_staged #(" in source
+        candidate = source.replace("module three_context_k7_bm_staged #(", "module three_context_k7 #(", 1)
+        evidence.generate = lambda split_banks=True: candidate
+    elif args.variant == "coole-scheduled":
         source = (ROOT / "rtl/three_context_k7_coole_scheduled.sv").read_text()
         assert "module three_context_k7_coole_scheduled #(" in source
         candidate = source.replace("module three_context_k7_coole_scheduled #(", "module three_context_k7 #(", 1)
