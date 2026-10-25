@@ -28,6 +28,21 @@ GCC14.2 esp-14.2.0_20241119、ESP32-S3設定、O2で**実ファイル全体**を
 
 ## SDK全体の確認
 
-raw-only SPI workflowへnative sourceと新試験のpathを追加し、既存の共通/raw専用2構成のSDK build・link監査へこの変更を通す。ローカルobject確認2チェックと7 unittestは成功。SDK CI結果は別途確認する。配置/heap/IRAMは旧結果を新sourceへ流用しない。
+raw-only SPI workflowへnative sourceと新試験のpathを追加し、既存の共通/raw専用2構成のSDK build・link監査へこの変更を通す。ローカルobject確認2チェックと7 unittestは成功。SDK CIの結果と再検算は下記。配置/heap/IRAMは旧結果を新sourceへ流用しない。
 
 再現: `python -m ci.s3_native_fill_target --toolchain build/fir-target/xtensa-esp-elf --output reports/s3-pack-span/native-fill-optimized`。
+
+
+## SDK link結果を確認
+
+[raw-only SPI placement run 40192845126](https://github.com/kazuki0824/tangviterbi/actions/runs/40192845126) はproduction commit `176653a216363191004efc17390e4aafebec7126`で成功。共通40＋raw専用45＝85静的check成功。artifact 12598732910のZIP SHA256は `2a00f43e2ffed941c28131683134c85d07da130301865a0894b8934073a7e278`。ELF/map/config/build logをsdk以下に保存した。
+
+`ci/s3_native_fill_sdk_audit.py`で8チェック成功: artifact内ELF hash、native/packing source hash、packing主要3関数の旧SDKとのバイト列・アドレス一致、SDK fillの3命令bodyと25命令の関数形を確認。実SDKのfill cloneは69 bytes、0x40377408。前節のobjectだけで得たbody/区間費用を、同じproductionのSDKでも確認できた。packing内部の以前のCFG集計は同一命令列へ適用できる。callback先・メモリ待ち・呼出し元全体の実時間は引き続き別。
+
+raw専用の `_iram_end` は0x40387800→0x40387900、`_heap_start` は0x3fcac540→0x3fcac640。共通構成の両境界は前回と同じ。raw専用はalignment込みで内部heap開始が256 B進む。メモリ台帳19チェックと限定SPI ISR配置26チェックを新ELFで再実行して成功。fresh vectorsの場合の既知動的費用控除後の**残量上限**はSPI初期化17480 B、PHY較正15484 B、定常17356 B。未計上起動費用・断片化・TLSF replay・実bootはこの結果で解消していない。
+
+別の[RF共存診断run 40192845047](https://github.com/kazuki0824/tangviterbi/actions/runs/40192845047)は8 profileすべてで `s3_transport.c` が `s3_iq10_block.h` を見つけられず停止した。リンク容量の判定に達していない。診断用コピーの依存ヘッダ漏れを修正し、workflowのpathにも追加した。実copy-listをASTから読み、そのコピー先でtransportをhost構文検査して成功。SDKでの再実行結果は別途確認する。「全CI成功」とは報告しない。
+
+### 期限検証へ引き継ぐ数値
+
+fill clone全体の安全側包絡21574命令を1命令/cycleと仮定し、他の処理を無料にした場合、S入力は3596 samples進む。前回の開始位相条件のbody-only値8314に代わり、fill-clone-onlyの最遅writtenは10692となる（14288−3596）。実際にはINDEX観測からfill開始まで、bank callback内部、次INDEX/SELECTまで、割込み等をさらに差し引く必要がある。早期準備を含む実task scheduleと共通clockはまだ未統合で、10692を本番の固定許可値として追加していない。

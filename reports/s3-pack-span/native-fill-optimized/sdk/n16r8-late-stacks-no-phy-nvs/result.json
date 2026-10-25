@@ -1,0 +1,554 @@
+{
+  "checks": [
+    {
+      "name": "ROM_nonoverlap",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "config_SPIRAM",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_SPIRAM_MODE_OCT",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_ESP32S3_DATA_CACHE_32KB",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_SPI_MASTER_IN_IRAM",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_SPI_MASTER_ISR_IN_IRAM",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_FREERTOS_NUMBER_OF_CORES",
+      "ok": true,
+      "detail": 2
+    },
+    {
+      "name": "iram_before_RF_alias",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "static_data_before_RF",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "reserved_0x3fcb0000",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "reserved_0x3fce0000",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "reserved_0x3fcf0000",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lower_two_chunks_size",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "payload_alignment",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "payload_sum_128KiB",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "payload_before_RF_or_upper",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "payload_pairwise_disjoint",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "two_static_task_stacks",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "two_static_TCBs",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "late_stack_pointers",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "late_stacks_reserved",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_step",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_accept",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_collect",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_reclaim",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_take",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_complete",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_native_poll",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_spi_prepare_bulk",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_spi_queue",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_spi_reap",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_spi_submit",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_spi_reap",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_step_clocked",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_step_impl",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "timer_constructor_known",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "requested_flash_effective",
+      "ok": true
+    },
+    {
+      "name": "source_unchanged_during_build",
+      "ok": true
+    },
+    {
+      "name": "requested_heap_placement_effective",
+      "ok": true
+    },
+    {
+      "name": "requested_phy_storage_effective",
+      "ok": true
+    }
+  ],
+  "all_static_checks_pass": true,
+  "sizes": {
+    "pack": 392,
+    "capture": 144,
+    "ports": 64,
+    "descriptors": 112,
+    "transfers": 48,
+    "task_stacks": 8192,
+    "task_TCBs": 680,
+    "StaticTask_t": 340,
+    "DMA_descriptor": 12,
+    "StackType_t": 1
+  },
+  "payload_regions": [
+    [
+      "0x3fc9a3b8",
+      "0x3fcaa3b8"
+    ],
+    [
+      "0x3fce0000",
+      "0x3fce8000"
+    ],
+    [
+      "0x3fcf0000",
+      "0x3fcf8000"
+    ]
+  ],
+  "hot_symbols": {
+    "s3_pp_step": "0x403771d0",
+    "s3_pp_accept": "0x40376f84",
+    "s3_pp_collect": "0x40377248",
+    "s3_pp_reclaim": "0x4037b984",
+    "s3_pp_take": "0x4037b9ac",
+    "s3_pp_complete": "0x4037ba40",
+    "s3_native_poll": "0x403774f4",
+    "s3_spi_prepare_bulk": "0x403778e0",
+    "s3_spi_queue": "0x40377a10",
+    "s3_spi_reap": "0x40377a70",
+    "s3_pp_spi_submit": "0x40377394",
+    "s3_pp_spi_reap": "0x4037742c"
+  },
+  "symbols": {
+    "_iram_end": "0x40388800",
+    "_data_start": "0x3fc98800",
+    "_heap_start": "0x3fcad550",
+    "raw_task_stacks": "0x3c03a630",
+    "raw_task_tcbs": "0x3fcacd20"
+  },
+  "late_task_stacks": true,
+  "startup": {
+    "early_internal_bytes": 16832,
+    "late_internal_bytes": 14116,
+    "RTC_generous_bytes": 8168,
+    "early_regions": [
+      [
+        "0x3fcad550",
+        "0x3fcb0000"
+      ],
+      [
+        "0x3fce8000",
+        "0x3fce9710"
+      ]
+    ],
+    "late_regions": [
+      [
+        "0x3fce9710",
+        "0x3fcea000"
+      ],
+      [
+        "0x3fcec000",
+        "0x3fceee34"
+      ]
+    ],
+    "stack_lower_bound": {
+      "main": 8704,
+      "esp_timer": 4096,
+      "IPC_two_cores": 2560,
+      "idle_two_cores": 3072
+    },
+    "startup_task_count": 6,
+    "TCB_lower_bound": 2040,
+    "early_headroom_upper_bound": 4528,
+    "post_late_headroom_upper_bound": 18644,
+    "main_stack_bytes": 8704,
+    "main_stack_raw_size_candidates": [
+      [
+        "0x3fcad550",
+        "0x3fcb0000"
+      ]
+    ],
+    "allocation_order_and_contiguous_fit_verified": false,
+    "reserve_DMA_pool": 4096,
+    "early_necessary_capacity_pass": true,
+    "pool_necessary_capacity_pass": true,
+    "allocator_early": {
+      "target_layout": {
+        "multi_heap_info": 20,
+        "control_t": 36,
+        "pointer_bytes": 4
+      },
+      "heaps": [
+        {
+          "name": "DIRAM",
+          "region_bytes": 10928,
+          "tlsf_control_bytes": 396,
+          "metadata_lower_bound_bytes": 424
+        },
+        {
+          "name": "RTC_fast",
+          "region_bytes": 8168,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        },
+        {
+          "name": "early_DIRAM_0",
+          "region_bytes": 5904,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        }
+      ],
+      "live_task_allocation_headers_lower_bound_bytes": 48,
+      "allocator_overhead_lower_bound_bytes": 1248,
+      "free_before_DMA_pool_upper_bound_bytes": 3280,
+      "DMA_pool_target_bytes": 0,
+      "pool_necessary_capacity_pass": true,
+      "pool_shortage_lower_bound_bytes": 0,
+      "scope": "Necessary capacity only; ignores allocation ordering, other constructors, heap_caps records, Wi-Fi, event, drivers, fragmentation and additional pool metadata",
+      "sources": [
+        "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/multi_heap.c",
+        "https://github.com/espressif/tlsf/blob/2867f6883a12920b1969ff9624c0ab0e4185c2ce/tlsf.c"
+      ]
+    },
+    "allocator_final": {
+      "target_layout": {
+        "multi_heap_info": 20,
+        "control_t": 36,
+        "pointer_bytes": 4
+      },
+      "heaps": [
+        {
+          "name": "DIRAM",
+          "region_bytes": 10928,
+          "tlsf_control_bytes": 396,
+          "metadata_lower_bound_bytes": 424
+        },
+        {
+          "name": "RTC_fast",
+          "region_bytes": 8168,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        },
+        {
+          "name": "early_DIRAM_0",
+          "region_bytes": 5904,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        },
+        {
+          "name": "early_DIRAM_1",
+          "region_bytes": 2288,
+          "tlsf_control_bytes": 324,
+          "metadata_lower_bound_bytes": 352
+        },
+        {
+          "name": "early_DIRAM_2",
+          "region_bytes": 11828,
+          "tlsf_control_bytes": 396,
+          "metadata_lower_bound_bytes": 424
+        }
+      ],
+      "live_task_allocation_headers_lower_bound_bytes": 48,
+      "allocator_overhead_lower_bound_bytes": 2024,
+      "free_before_DMA_pool_upper_bound_bytes": 16620,
+      "DMA_pool_target_bytes": 4096,
+      "pool_necessary_capacity_pass": true,
+      "pool_shortage_lower_bound_bytes": 0,
+      "scope": "Necessary capacity only; ignores allocation ordering, other constructors, heap_caps records, Wi-Fi, event, drivers, fragmentation and additional pool metadata",
+      "sources": [
+        "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/multi_heap.c",
+        "https://github.com/espressif/tlsf/blob/2867f6883a12920b1969ff9624c0ab0e4185c2ce/tlsf.c"
+      ]
+    },
+    "physical_boot_verified": false,
+    "excluded": [
+      "heap metadata/fragmentation",
+      "driver/PHY allocations",
+      "idle task extra stack overhead",
+      "other startup allocations"
+    ]
+  },
+  "driver_lower_bound": {
+    "type_sizes": {
+      "spi_device_t": 124,
+      "spi_host_t": 184,
+      "spi_trans_priv_t": 20,
+      "spicommon_bus_context_t": 96,
+      "spi_dma_ctx_t": 20,
+      "Queue_t": 84,
+      "multi_heap_info": 20,
+      "control_t": 36
+    },
+    "per_port_objects": 424,
+    "per_port_queue_bytes": 208,
+    "per_port_descriptor_bytes": 216,
+    "two_port_known_allocation_lower_bound": 1696,
+    "total_internal_after_known_driver_upper_bound": 14924,
+    "not_counted": [
+      "GDMA channels/groups/pairs",
+      "bus/device locks",
+      "interrupt handles",
+      "allocation headers/alignment",
+      "PHY/calibration allocations",
+      "other runtime allocations"
+    ]
+  },
+  "ROM_audit": {
+    "scope": "Audit reservations against the actual ESP32-S3 ROM layout, not heap totals.\n\nThe SDK appends the ROM reservation at runtime, hence ld cannot detect this\ncollision. The supplied ROM ELF is revision-specific; runtime hardware still\nmust match its layout. No ELF is executed by this tool.\n",
+    "ELF_sha256": "e96e55e234e0866d36edf5636831dd48288c0d90e950bff928638e3be0b2a35c",
+    "ROM_ELF_sha256": "c0ce0f338d1de1bdc6efbef1591779a2a42c1ab7d759d3c6ae8ae63a7dd34cfd",
+    "ROM_shared_buffer_start": "0x3fce9704",
+    "ROM_reserved_start": "0x3fceee34",
+    "ROM_reserved_end": "0x3fcf0000",
+    "static_reservations": [
+      {
+        "start": "0x600fffe8",
+        "end": "0x60100000"
+      },
+      {
+        "start": "0x600fe000",
+        "end": "0x600fe000"
+      },
+      {
+        "start": "0x3c000000",
+        "end": "0x3e000000"
+      },
+      {
+        "start": "0x40374000",
+        "end": "0x40388800"
+      },
+      {
+        "start": "0x3fc84000",
+        "end": "0x3fc98800"
+      },
+      {
+        "start": "0x3fc98800",
+        "end": "0x3fcad550"
+      },
+      {
+        "start": "0x3fcea000",
+        "end": "0x3fcec000"
+      },
+      {
+        "start": "0x3fcf0000",
+        "end": "0x3fcf8000"
+      },
+      {
+        "start": "0x3fce0000",
+        "end": "0x3fce8000"
+      },
+      {
+        "start": "0x3fcb0000",
+        "end": "0x3fce0000"
+      }
+    ],
+    "conflicts": [],
+    "ROM_reservation_nonoverlap_pass": true,
+    "SDK_behavior_on_overlap": "s_prepare_reserved_regions logs conflict then aborts before app_main",
+    "hardware_revision_layout_verified": false,
+    "receiver_adopted": false
+  },
+  "memory_necessary_pass": true,
+  "ELF_sha256": "e96e55e234e0866d36edf5636831dd48288c0d90e950bff928638e3be0b2a35c",
+  "map_sha256": "552f148ad8d736679c1bb761a2c9cf21ef9593c3a6eeb6f17a0dba14bfc7e6c0",
+  "receiver_adopted": false,
+  "formal_routes": 0,
+  "hardware_boot_executed": false,
+  "WCET_measured": false,
+  "build": {
+    "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+    "source_sha256": {
+      "experiments/s3_capture_bridge.c": "1439d512f9881c1f4d02e7bfc57a733c71452fc1451103fcdc82278212e431a7",
+      "experiments/s3_capture_bridge.h": "1ac9f7df2305be87b5de110e9921c44165cbb352060b738c51496e611ca8c3ff",
+      "experiments/s3_control.c": "cdb06b4e055ff044c9c947702b0819e04c9e067470870c5b55cfdc8c1c313447",
+      "experiments/s3_control.h": "4c006af6d1ba77a6b7d6128c48dd070f4f0ac4f327de45cded91a596084fa810",
+      "experiments/s3_fft_capture_service.c": "fb4408fa522010af24c7f127924fb21bd34d848c8917e00437e17ba79556dd5e",
+      "experiments/s3_fft_capture_service.h": "da91c449e27128c025dedf87771cb4c20fc0a57601e65cff1c0a3f306170c9e7",
+      "experiments/s3_fft_exchange.c": "66c8c828aeb1d5b3b1ffafc2c2c8c5b6beedee4e1f74c6b01b3fa39d408cc581",
+      "experiments/s3_fft_exchange.h": "57be718282449a9aee28b8416b9f8c35f48c4f55ec19dbd41e08ba8303e1be7d",
+      "experiments/s3_fft_simd.c": "7d59fd99d15481faf32baeb6e15bef7bf5e579d203d9cf300d64c0fc98c4f4a0",
+      "experiments/s3_fft_simd.h": "6085ae0fb48ac5bd6ed3d42902be452a8ce13c942f5c5f765950a80b5078c15a",
+      "experiments/s3_fft_simd_tiles.c": "e3899003b062e64f30e5a2f645de9b15674d814fcf4a9fa35e59102c2185aaa6",
+      "experiments/s3_fft_simd_tiles.h": "fea0625aee409a14960949fae159c681e6919c2816e32c3d42ff60ae6d037cd0",
+      "experiments/s3_fft_tasks.c": "e6feb9ce653a429185c971496b5ea3970ab06280bc8ca1702e9626a613edb8f2",
+      "experiments/s3_fft_tasks.h": "010e82df36c44f8327e1faeb015625bbf4d83ca85860dc35eaccb87454f19cd8",
+      "experiments/s3_fft_tiles.c": "a9fe7b2bab1e7c3b7c21e4cd4dcaedfa30003914926f191cc72c59a7efe6b38c",
+      "experiments/s3_fft_tiles.h": "130674fb1da169c8eb565359d853b4e3cb7ee059ec4409352b1df45ca8e06e14",
+      "experiments/s3_fft_worker.c": "6d09e1c4ec1f6653c2c425d2efc9e8ea5d4f37714900f1faac762be5a3b09cfa",
+      "experiments/s3_fft_worker.h": "da781575837eb0e33d650d9ffbd2e7d8c932964eb9427663a00a5e31455c3add",
+      "experiments/s3_fir_accx.h": "c254e1c8d47fbc837d8f4b8800dbc9710491a6d69fb493f2f70d12d4deebf868",
+      "experiments/s3_fir_fused_reference.c": "02f61255431f3a1a2a321d7100be6ce2fc94d6d6d9608c1eb67dc57fec47c92d",
+      "experiments/s3_fir_fused_reference.h": "21f0edc7c26f8bb1b5b5ff3a7d74d3ef561acd18d678c5354605c92a9d7b741b",
+      "experiments/s3_fir_qacc_prepare.c": "4dfc8013913e2c8ea9616e7ec6ff144a56a59443922930198f9eddfeb004ddfe",
+      "experiments/s3_fir_qacc_prepare.h": "144d075cdb8faa9e32e71a5f2a39632bafddee4bd8d4c8b46d6d6c9f59c90690",
+      "experiments/s3_fir_stream_reference.c": "ec7984d8c619e6589c4bc8ff362e20e239cc130d69993ae51b155eaae9b57503",
+      "experiments/s3_fir_stream_reference.h": "17f530b2ee912e559a6acb12988ecc69f57f98ef6b7868baaef91b5225a94867",
+      "experiments/s3_iq10_block.h": "aacc0cd8e1f10de23523e9bebeded384b5e515f485c0876cdffaeecd92b93b8e",
+      "experiments/s3_iq_credit.c": "020bcd59afa608766fc575a9008096a4ac41efaa7482dd28238daae7e46f9799",
+      "experiments/s3_iq_credit.h": "c40e64c15cf197717f255efd7fa387dcc482015f4d28cd90c31547ef6e457323",
+      "experiments/s3_mode_switch.c": "27055745ac26558c075b1923787df4f92aadfd1e52915e22f0cfda016d5eebec",
+      "experiments/s3_mode_switch.h": "8bc8355831a20adb2beaa62062364b7de07a3449eead19db30487f993f068852",
+      "experiments/s3_native_capture.c": "dbfb756a858d3a3da2ba4068af8929da415ac0afd2000271052534329d44ead5",
+      "experiments/s3_native_capture.h": "8ca68c45e9fab1adeb70903f9c89d4d06dba2ec8f1b06d685d4c23ada27b7ec8",
+      "experiments/s3_pack_path_probe.c": "481d48a13c911eb9b1b4f1ba21738e3ad86464b4f0aec9e94c65ef258bd4c7ae",
+      "experiments/s3_parallel_capture.c": "bbfbfe10b908e8e68bd4aec4ce34139903d710eff6ba0625f092439e776c793e",
+      "experiments/s3_parallel_capture.h": "ab6305ef9773882e0b96e3953d2d90e296f92de899d51590addb1b7fe6b7ce6d",
+      "experiments/s3_parallel_pack.c": "f259cb44f2509d18957a960c7a5a349519fa87af2a593a72a083acbdcb61aa6d",
+      "experiments/s3_parallel_pack.h": "bddcf56ef4e77f9f493dc5242f61d1e78750ad28c63bbd97f915dbf07045c537",
+      "experiments/s3_parallel_spi.c": "79c36beb259d723b3ea812d3428a89d58c13b87a001fabc05e0105fcc4de2983",
+      "experiments/s3_parallel_spi.h": "4f97d7678818556269f5cbb99b3e4386cc040879461d280fd836762e09dde6f2",
+      "experiments/s3_pipeline_esp.c": "1e9acb4092b2770c3504754aec60ccce181238781bb0d6e5e9c64e43ab42dcf2",
+      "experiments/s3_pipeline_esp.h": "dc7f825e3d630e3e01b29e67dcb060658cabcf0d3a144e2cfbc3bbcad66f3df1",
+      "experiments/s3_raw_probe/CMakeLists.txt": "3db187abc159bde0444ac10059fdf882b3298dc0bc72443f8f9a1302a09dbfa0",
+      "experiments/s3_raw_probe/main/CMakeLists.txt": "1a42771a3bcb616fe6d4758f6565938d22e024a0a6db8ba209ccfb788e22e40e",
+      "experiments/s3_raw_probe/main/Kconfig.projbuild": "9a15df24966d7ac0d45f48710a79c7604cfcb7204d28330549479d7a1cc54832",
+      "experiments/s3_raw_probe/main/raw_probe.c": "894bc60967e2f6b7c1b50abe3c2af05ff5f14c56a3e243d8b6d85dc598b23c0b",
+      "experiments/s3_raw_probe/main/sram_guard.ld": "172f9f9679a9d176c947c098af6343c68a41f753a7a6587352fae48f3952e505",
+      "experiments/s3_raw_probe/sdkconfig.defaults": "9cf584a71c2127d1b6b91a87f60593f1d5dfdfae16d33421185f9449a104df3e",
+      "experiments/s3_reconfig_esp.c": "7e58b609f167ad24ccf033659ef900f25447bcf494429ebe4ccfee539ec5efff",
+      "experiments/s3_reconfig_esp.h": "ed68ece3139e0cc13ddfb1a895a5f92c68c5cc89d3d15f1eb5ce1f0a9dcde4c9",
+      "experiments/s3_rf_pump.c": "e47f5a432e90f064ca8fa8e46471e91eb6e45e535ca98778c9c6f77e2594db18",
+      "experiments/s3_rf_pump.h": "3493e45cfbdbd434000e856bb915b419a5d18cddbc85d0426d10827b9a6f871a",
+      "experiments/s3_rs_offload.c": "053984c0edfb27dac2be61bea16e2fbc9bf54c57f48f0ad4a4306d8ff4f5c1fe",
+      "experiments/s3_rs_offload.h": "3ac412e2c19f23da4f69438b37d973d2502e24d07c95f39d83513c88645ce7b5",
+      "experiments/s3_rs_rpc.c": "b223ad6a285bb3234824da3d8a769e23f707fd28f2c1aace80b0279e5895667c",
+      "experiments/s3_rs_rpc.h": "e4e7d0ef249ae994f489f25f55fdff2402a9340d022d5de5af3904f715e91a9e",
+      "experiments/s3_rs_workspace.c": "7a4c546b1823fbb6c0e7e21d6498b74af8dc874d5692af7bb8e37fae4ab02ed5",
+      "experiments/s3_rs_workspace.h": "b0cca4fb81537923c792a6aff75a67ba1bc5e4c3ab46e2ff40d745c43a7fb880",
+      "experiments/s3_spi_transport.c": "231ee522e51a70c6e3e4e3574c1ac806a7905d33d1fc439a96c5c7a473949416",
+      "experiments/s3_spi_transport.h": "a8608c5d80450f6214f800e6aee1a2b025f40fc076b8b86adc20981f927fed6b",
+      "experiments/s3_transport.c": "3d1429b6412c31f4fa4a2909a618a770935f1fb8d3270cdd68210b7afd6dd748",
+      "experiments/s3_transport.h": "2a875b1d001394ba77734f0d1428b45486714145525231228220fc56a1c91fbd"
+    },
+    "source_unchanged_during_build": true,
+    "flash_MB": 16,
+    "late_task_stacks": true,
+    "heap_in_flash": false,
+    "no_phy_nvs": true,
+    "spi_lock_iram": false,
+    "raw_only_spi": false,
+    "exit_code": 0,
+    "link_succeeded": true,
+    "hardware_boot_executed": false,
+    "scope": "link-only raw storage and dormant task reservations; no firmware scheduling or board validation"
+  }
+}
