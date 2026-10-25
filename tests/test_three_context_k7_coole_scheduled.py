@@ -96,6 +96,11 @@ endmodule''')
     ep,c,dec,*m=line.split();actual[int(ep)][int(c)].append(([int(v,16)for v in m],int(dec,16)))
    for line in (d/'bits.txt').read_text().splitlines():
     ep,c,b=map(int,line.split());bits[ep][c].append(b)
+  from collections import Counter
+  events=Counter()
+  for event_row in (d/'events.txt').read_text().splitlines():
+   event_kind,event_epoch,event_context=event_row.split()
+   events[(event_kind,int(event_epoch),int(event_context))]+=1
   for ep in range(6):
    for c in range(3):
     with self.subTest(epoch=ep,context=c):
