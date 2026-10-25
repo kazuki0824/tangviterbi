@@ -81,10 +81,19 @@ def audit(elf_path, map_path, config_path, rom_path):
 
     hot=['s3_pp_step','s3_pp_accept','s3_pp_collect','s3_pp_reclaim','s3_pp_take','s3_pp_complete',
          's3_native_poll','s3_spi_prepare_bulk','s3_spi_queue','s3_spi_reap','s3_pp_spi_submit','s3_pp_spi_reap']
-    hot_symbols={name:hex(app.address(name)) for name in hot}
     if 'raw_keep_clocked_step' in app.symbols:
-        hot += ['s3_pp_step_clocked','s3_pp_step_impl']
-    for name in hot:check('IRAM_'+name,0x40374000<=app.address(name)<0x403a0000)
+        target=struct.unpack('<I',app.read(app.address('raw_keep_clocked_step'),4))[0]
+        entries={
+            's3_pp_step_clocked':['s3_pp_step_clocked','s3_pp_step_impl'],
+            's3_pp_step_timer':['s3_pp_step_timer','s3_pp_step_clocked_quantized',
+                                's3_pp_step_impl','s3_timer_clock','esp_timer_get_time',
+                                'systimer_hal_get_counter_value'],
+        }
+        selected=next((entry for entry in entries if entry in app.symbols and app.address(entry)==target),None)
+        check('clocked_entry_known',selected is not None,hex(target))
+        if selected:hot+=entries[selected]
+    hot_symbols={name:hex(app.address(name)) if name in app.symbols else None for name in hot}
+    for name in hot:check('IRAM_'+name,name in app.symbols and 0x40374000<=app.address(name)<0x403a0000)
     all_reserved=reserved+[(int(rom['ROM_reserved_start'],16),0x3fcf0000)]
     early=subtract([(0x3fc88000,0x3fce9710),(0x3fcf0000,0x3fcf8000)],all_reserved)
     late=subtract([(0x3fce9710,0x3fcf0000)],all_reserved)

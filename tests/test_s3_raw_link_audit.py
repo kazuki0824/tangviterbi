@@ -44,6 +44,23 @@ class RawLinkAuditTest(unittest.TestCase):
                 self.assertGreater(result['startup']['allocator_final']['allocator_overhead_lower_bound_bytes'],
                                    result['startup']['allocator_early']['allocator_overhead_lower_bound_bytes'])
 
+    def test_clocked_probe_target_must_match_an_audited_entry(self):
+        with tempfile.TemporaryDirectory() as d:
+            directory=Path(d)
+            source=ROOT/'reports/s3-common-clock/sdk-before/n16r8-late-stacks-no-phy-nvs-raw-only-spi'
+            for name in ('s3_raw_probe.elf','s3_raw_probe.map','sdkconfig.json'):
+                (directory/name).write_bytes(gzip.decompress((source/(name+'.gz')).read_bytes()))
+            args=(directory/'s3_raw_probe.elf',directory/'s3_raw_probe.map',directory/'sdkconfig.json',self.rom)
+            good=audit(*args)
+            self.assertTrue(good['all_static_checks_pass'])
+            self.assertIn('s3_pp_step_clocked',good['hot_symbols'])
+            elf=ELF32(args[0]);address=elf.address('raw_keep_clocked_step')
+            section=next(s for s in elf.sections if s[1]!=8 and s[3]<=address< s[3]+s[5])
+            data=bytearray(args[0].read_bytes());struct.pack_into('<I',data,section[4]+address-section[3],0);args[0].write_bytes(data)
+            bad=audit(*args)
+            self.assertFalse(bad['all_static_checks_pass'])
+            self.assertIn('clocked_entry_known',{c['name'] for c in bad['checks'] if not c['ok']})
+
     def test_ROM_collision_and_wrong_config_are_both_reported(self):
         with tempfile.TemporaryDirectory() as d:
             args=self.unpack('n16r8-late-stacks',Path(d));elf=ELF32(args[0])
