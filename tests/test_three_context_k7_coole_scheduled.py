@@ -85,8 +85,14 @@ end
 always @(posedge clk)begin #1;if(resetn&&ov)$fdisplay(g,"%0d %0d %0d",e,oc,ob);end
 always @(posedge clk) begin
  if(resetn && dut.tick && dut.start_trace) $fdisplay(h,"START %0d %0d",e,dut.context_id);
- if(resetn && dut.tick && dut.tracing[dut.context_id] && dut.walk[dut.context_id]==123 && (dut.phase==1 || dut.phase==3))
+ if(resetn && dut.tick && dut.tracing[dut.context_id] && dut.walk[dut.context_id]==123 && (dut.phase==1 || dut.phase==3)) begin
    $fdisplay(h,"END %0d %0d",e,dut.context_id);
+   if(dut.decoded_ready[dut.context_id][dut.decoded_write[dut.context_id]])
+     $fdisplay(h,"OVERWRITE %0d %0d",e,dut.context_id);
+ end
+ if(resetn && dut.tick && dut.decoded_ready[dut.context_id][dut.decoded_read[dut.context_id]] &&
+   dut.output_tick[dut.context_id] && dut.output_pos[dut.context_id]==63)
+    $fdisplay(h,"DRAIN %0d %0d",e,dut.context_id);
 end
 endmodule''')
    subprocess.run(['iverilog','-g2012','-s','tb','-o',str(d/'sim'),str(d/'dut.sv'),str(d/'tb.sv')],check=True,capture_output=True)
@@ -105,13 +111,13 @@ endmodule''')
    for c in range(3):
     with self.subTest(epoch=ep,context=c):
      self.assertEqual(actual[ep][c],oracle.reference(epochs[ep][c]))
-     self.assertGreater(len(bits[ep][c]),800, f"epoch={ep} context={c}: count={len(bits[ep][c])}, trace starts={events[('START',ep,c)]}, trace completions={events[('END',ep,c)]}")
+     self.assertGreater(len(bits[ep][c]),800, f"epoch={ep} context={c}: count={len(bits[ep][c])}, trace starts={events[('START',ep,c)]}, trace completions={events[('END',ep,c)]}, overwrites={events[('OVERWRITE',ep,c)]}, drained={events[('DRAIN',ep,c)]}")
      if ep:
       observed=bits[ep][c][64:]
       expected=wanted[ep][c][64:len(bits[ep][c])]
       for offset,(bit_observed,reference) in enumerate(zip(observed,expected)):
        if bit_observed!=reference:
-        self.fail(f"decoded-bit mismatch epoch={ep} context={c} bit={offset+64} actual={bit_observed} expected={reference} trace_starts={events[('START',ep,c)]} trace_completions={events[('END',ep,c)]}")
+        self.fail(f"decoded-bit mismatch epoch={ep} context={c} bit={offset+64} actual={bit_observed} expected={reference} trace_starts={events[('START',ep,c)]} trace_completions={events[('END',ep,c)]} overwrites={events[('OVERWRITE',ep,c)]} drained={events[('DRAIN',ep,c)]}")
       self.assertEqual(len(observed),len(expected))
 
 if __name__=='__main__':unittest.main()
