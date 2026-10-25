@@ -92,3 +92,38 @@ The PR now contains `rtl/three_context_k7_coole_scheduled.sv`, a **three-context
 The coole-scheduled trial saves 408 logic positions, 147 DFF and 32 RAM16SDP4 against the existing #8, **but loses 8.696 MHz Fmax**. It cannot be adopted under the stated ISDB-T rate contract. The P&R job's green status means experiment executed; `partial_target_pass=false`. [CI measurement](https://github.com/kazuki0824/tangviterbi/actions/runs/40106415482).
 
 **Functional qualification:** `tests/test_three_context_k7_coole_scheduled.py` was added to compare the new variant against the same independent metric/survivor/decoded-bit oracle. This result must be explicitly checked before functional claims. Do not infer functional correctness from P&R. Physical receiver integration and downstream output service contracts are still unverified.
+
+## Validated final three-context comparison — 2026-10-25
+
+**Run [40196899136](https://github.com/kazuki0824/tangviterbi/actions/runs/40196899136), source `02df5b8c8c2b39e4460fc2f0184eb42061d7a7f0`.**
+
+The independent long-stream oracle succeeded across all three measured implementations: baseline 2 test cases, 64/64-window 1 test case, and coole-inspired alternating survivor read 1 test case. Each exercises 6 epochs, 3 contexts, 1024 symbols/context/epoch (18,432 trellis steps per variant), including soft metrics, puncturing/erasure, context interleaving, idle and reset. The coole-inspired variant's previously failing test now passes.
+
+### The actual error and correction
+
+Commit `caa2119d` changed `read_ptr <= wr_ptr-1;` into `read_ptr <= wr_ptr-4; // comment` on a line that also contained `state[context_id] <= 0; walk[context_id] <= 0;`. The line comment **accidentally suppressed both assignments**, so the tracing state and walk counter were not reset at the start of each block. This introduced a real regression in our experimental RTL. In the failing CI, 15 start events per epoch/context sometimes coincided with stale `walk==123`; the `if(start_trace)` priority suppressed 1–7 actual completions, explaining the loss of 64-bit blocks. The test bench also initially contained a shadowed `actual` variable and read a deleted temporary file; those diagnostic-test defects were fixed separately and must not be attributed to the decoder.
+
+Commit `02df5b8c` places `read_ptr`, `state` and `walk` reset assignments on separate active lines. The existing independent oracle suite proves this correction in run 40196899136, without weakening the decoded-bit assertions. We did not add special handling for simultaneous start/completion; the coincidence arose from the missing trace counter reset.
+
+### Matched target measurements
+
+All three locally equivalent 3-context, 16-ACS, 8-bit soft/erasure RTL candidates used `GW1NR-LV9QN88PC6/I5`, 108 MHz constraint, seed 1; all completed routing but **failed** the required 100.848485 MHz.
+
+| Metric | Current #8 split banks | 64/64 local window | coole-inspired alternating read, corrected |
+|---|---:|---:|---:|
+| Post-route Fmax MHz | 51.926476 | 57.087399 | **42.526047** |
+| LUT4+ALU positions | 3317 | 3311 | **2905** |
+| FF | 757 | 757 | **610** |
+| BSRAM | 4 | 4 | **4** |
+| RAM16SDP4 | 160 | 160 | **128** |
+| Independent full-stream oracle | PASS | PASS | **PASS** |
+| Required clock 100.848485 MHz | FAIL | FAIL | **FAIL** |
+| K7-only allowance `2096-I` logic positions | FAIL | FAIL | **FAIL** |
+
+The corrected alternating-read experiment saves 412 positions (12.42%), 147 FF and 32 RAM16SDP4 compared with #8 but *reduces* Fmax by 9.400429 MHz (18.10%). This is a negative adoption result. The 64/64 local-window trial has the best observed route Fmax (57.087399 MHz), still far below the minimum; its advantage is seed-specific and not a receiver qualification.
+
+### Direct upstream original-IP cross-check
+
+The real `coole198669` 64-ACS **single-context** IP RTL (pinned 5412b61), including its BMU/ACS/normalizer/traceback, was evaluated separately. Original upstream multi-driven traceback produces an invalid optimized-away netlist. Correcting that multiple-driver fault retains 8567 mapped LUT4+ALU and 1863 FF, but placement on 9K fails; no valid routed Fmax. This upstream original is neither an equivalent 3-context design nor an observed lower-area alternative. Do not compute direct equivalence ratios between mapped original and post-route adapted designs.
+
+**Comparison conclusion:** among controlled same-semantics adaptations, the original #8 and the coole-style traceback schedule both fail 9K timing/area constraints; the coole-style schedule trades speed for area rather than solving either acceptance gate. A viable redesign has not been established. This **closes the specifically requested side-by-side comparison** of this external traceback approach, not the ISDB receiver or a search over every possible K7 design and not the entire open-source IP catalog. The PR remains Draft as evidence, not a mergeable decoder. No rebase/Resolve/merge.
