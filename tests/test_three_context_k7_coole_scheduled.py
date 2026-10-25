@@ -96,6 +96,12 @@ endmodule''')
     with self.subTest(epoch=ep,context=c):
      self.assertEqual(actual[ep][c],oracle.reference(epochs[ep][c]))
      self.assertGreater(len(bits[ep][c]),800)
-     if ep:self.assertEqual(bits[ep][c][64:],wanted[ep][c][64:len(bits[ep][c])])
+     if ep:
+      observed=bits[ep][c][64:]
+      expected=wanted[ep][c][64:len(bits[ep][c])]
+      for offset,(actual,reference) in enumerate(zip(observed,expected)):
+       if actual!=reference:
+        self.fail(f"decoded-bit mismatch epoch={ep} context={c} bit={offset+64} actual={actual} expected={reference}")
+      self.assertEqual(len(observed),len(expected))
 
 if __name__=='__main__':unittest.main()
