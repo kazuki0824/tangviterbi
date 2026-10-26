@@ -1,8 +1,8 @@
 #include "s3_native_capture.c"
 #include <assert.h>
 #include <stdio.h>
-static struct {uint32_t words[16384],select;uint64_t time;unsigned reads,bad,accepts;bool enabled;} hw;
-static uint32_t mock_read(void*c,uint32_t a){(void)c;return a==SELECT?hw.select:0;}
+static struct {uint32_t words[16384],select;uint64_t time;unsigned reads,bad,accepts,index_reads;bool enabled;} hw;
+static uint32_t mock_read(void*c,uint32_t a){(void)c;if(a==INDEX)++hw.index_reads;return a==SELECT?hw.select:0;}
 static void mock_write(void*c,uint32_t a,uint32_t v){(void)c;if(a==CTRL)hw.enabled=(v>>31)!=0;if(a==SELECT)hw.select=v;}
 static uint32_t *bank(void*c,unsigned b){(void)c;(void)b;return hw.words;}
 static uint64_t timer(void*c){(void)c;++hw.reads;return hw.reads==hw.bad?UINT64_MAX:hw.time;}
@@ -44,5 +44,17 @@ int main(void){
   hw.bad=hw.reads+point; // before accept or after successful accept
   assert(!s3_native_poll(&s));assert(s.fault==S3_NATIVE_CLOCK_FAULT&&!hw.enabled&&hw.accepts==point-2&&hw.select==7);
  }
+ // Poll invocation count is not INDEX observation count. Ordinary polling
+ // reads INDEX; both settling paths return without an INDEX read.
+ s=start(0);unsigned observations=hw.index_reads;
+ assert(s3_native_poll(&s)&&hw.index_reads==observations+1);
+ s=start(0);observations=hw.index_reads;s.settling=true;
+ hw.time+=95;assert(s3_native_poll(&s)&&s.settling&&hw.index_reads==observations);
+ ++hw.time;s.unit=1;s.active=0;s.start[0]=0;s.end[0]=12288;s.write_index=12290;s.expected=1;
+ for(unsigned k=0;k<16384;++k)hw.words[k]=SENTINEL;
+ for(unsigned k=1;k<12290;++k)hw.words[k]=k;
+ assert(s3_native_poll(&s)&&!s.settling&&hw.accepts==1&&hw.index_reads==observations);
+ s3_native_stop(&s);
+ puts("PASS observation distinction: ordinary poll reads INDEX; settling wait and settlement/accept do not");
  puts("PASS common clock: startup/poll/switch/preaccept/postaccept failed reads, regression, deadline arithmetic boundary, RF stop and SELECT restore");
 }

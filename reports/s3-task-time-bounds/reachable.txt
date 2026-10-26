@@ -1,0 +1,262 @@
+esp_task_wdt_reset
+4200d788: entry a1, 48
+4200d78b: l32r a7, 42000eb8 <_stext+0xe98> (3fcacc2c <p_twdt_obj>)
+4200d78e: l32i.n a8, a7, 0
+4200d790: bnez.n a8, 4200d7ba <esp_task_wdt_reset+0x32>
+4200d792: l32r a8, 4200003c <_stext+0x1c> (403856ec <esp_log_timestamp>)
+4200d795: callx8 a8
+4200d798: l32r a11, 42000ec0 <_stext+0xea0> (3c037300 <_flash_rodata_start+0x71e0>)
+4200d79b: movi a8, 0x2ba
+4200d79e: l32r a15, 42000f40 <_stext+0xf20> (3c03ace8 <__FUNCTION__$5>)
+4200d7a1: l32r a12, 42000f0c <_stext+0xeec> (3c0374a0 <_flash_rodata_start+0x7380>)
+4200d7a4: mov.n a13, a10
+4200d7a6: s32i.n a8, a1, 0
+4200d7a8: or a14, a11, a11
+4200d7ab: movi a10, 1
+4200d7ae: l32r a8, 42000040 <_stext+0x20> (40385660 <esp_log>)
+4200d7b1: callx8 a8
+4200d7b4: movi a2, 0x103
+4200d7b7: j 4200d850 <esp_task_wdt_reset+0xc8>
+4200d7ba: l32r a8, 420003c0 <_stext+0x3a0> (403810b8 <xTaskGetCurrentTaskHandle>)
+4200d7bd: callx8 a8
+4200d7c0: mov.n a5, a10
+4200d7c2: l32r a10, 42000eb4 <_stext+0xe94> (3fc98994 <spinlock>)
+4200d7c5: movi.n a11, -1
+4200d7c7: l32r a8, 420004b4 <_stext+0x494> (4037f568 <xPortEnterCriticalTimeout>)
+4200d7ca: callx8 a8
+4200d7cd: l32i.n a12, a7, 0
+4200d7cf: l32i.n a8, a12, 4
+4200d7d1: beqz.n a8, 4200d7f8 <esp_task_wdt_reset+0x70>
+4200d7d3: movi.n a11, 0
+4200d7d5: mov.n a6, a11
+4200d7d7: movi.n a10, 1
+4200d7d9: l32i.n a9, a8, 4
+4200d7db: beq a5, a9, 4200d7ee <esp_task_wdt_reset+0x66>
+4200d7de: l8ui a9, a8, 12
+4200d7e1: xor a9, a9, a10
+4200d7e4: or a9, a6, a9
+4200d7e7: extui a6, a9, 0, 8
+4200d7ea: j 4200d7f0 <esp_task_wdt_reset+0x68>
+4200d7ee: mov.n a11, a8
+4200d7f0: l32i a8, a8, 0
+4200d7f3: bnez a8, 4200d7d9 <esp_task_wdt_reset+0x51>
+4200d7f6: bnez.n a11, 4200d81d <esp_task_wdt_reset+0x95>
+4200d7f8: l32r a8, 4200004c <_stext+0x2c> (3fc98050 <esp_log_default_level>)
+4200d7fb: l32i.n a8, a8, 0
+4200d7fd: beqz a8, 4200d844 <esp_task_wdt_reset+0xbc>
+4200d800: l32r a8, 4200003c <_stext+0x1c> (403856ec <esp_log_timestamp>)
+4200d803: callx8 a8
+4200d806: mov.n a11, a10
+4200d808: l32r a13, 42000f40 <_stext+0xf20> (3c03ace8 <__FUNCTION__$5>)
+4200d80b: l32r a12, 42000ec0 <_stext+0xea0> (3c037300 <_flash_rodata_start+0x71e0>)
+4200d80e: l32r a10, 42000ec8 <_stext+0xea8> (3c037348 <_flash_rodata_start+0x7228>)
+4200d811: movi a14, 0x2c3
+4200d814: l32r a8, 42000080 <_stext+0x60> (400005d0 <esp_rom_printf>)
+4200d817: callx8 a8
+4200d81a: j 4200d844 <esp_task_wdt_reset+0xbc>
+4200d81d: movi.n a8, 1
+4200d81f: s8i a8, a11, 12
+4200d822: beqz.n a6, 4200d829 <esp_task_wdt_reset+0xa1>
+4200d824: movi.n a2, 0
+4200d826: j 4200d847 <esp_task_wdt_reset+0xbf>
+4200d829: l32i.n a10, a12, 0
+4200d82b: l32r a8, 42000ed0 <_stext+0xeb0> (40379d40 <esp_task_wdt_impl_timer_feed>)
+4200d82e: callx8 a8
+4200d831: l32i.n a8, a7, 0
+4200d833: l32i.n a8, a8, 4
+4200d835: beqz a8, 4200d824 <esp_task_wdt_reset+0x9c>
+4200d838: s8i a6, a8, 12
+4200d83b: l32i.n a8, a8, 0
+4200d83d: bnez a8, 4200d838 <esp_task_wdt_reset+0xb0>
+4200d840: j 4200d824 <esp_task_wdt_reset+0x9c>
+4200d844: movi a2, 0x105
+4200d847: l32r a10, 42000eb4 <_stext+0xe94> (3fc98994 <spinlock>)
+4200d84a: l32r a8, 420004b8 <_stext+0x498> (4037f6b8 <vPortExitCritical>)
+4200d84d: callx8 a8
+4200d850: retw.n 
+
+xPortEnterCriticalTimeout
+4037f568: entry a1, 48
+4037f56b: rsil a8, 3
+4037f56e: s32i a8, a1, 0
+4037f571: bnez a2, 4037f583 <xPortEnterCriticalTimeout+0x1b>
+4037f574: l32r a13, 40374f58 <_iram_text_start+0xb54> (3c034728 <_flash_rodata_start+0x4608>)
+4037f577: l32r a12, 40374f5c <_iram_text_start+0xb58> (3c039fec <__func__$2>)
+4037f57a: l32r a10, 40374f60 <_iram_text_start+0xb5c> (3c034758 <_flash_rodata_start+0x4638>)
+4037f57d: movi a11, 84
+4037f580: call8 40385828 <__assert_func>
+4037f583: rsil a5, 3
+4037f586: rsr.prid a7
+4037f589: l32i a9, a2, 0
+4037f58c: bne a7, a9, 4037f5b5 <xPortEnterCriticalTimeout+0x4d>
+4037f58f: l32i.n a9, a2, 4
+4037f591: movi a11, 253
+4037f594: addi.n a10, a9, -1
+4037f596: bgeu a11, a10, 4037f5a8 <xPortEnterCriticalTimeout+0x40>
+4037f599: l32r a13, 40374f64 <_iram_text_start+0xb60> (3c034764 <_flash_rodata_start+0x4644>)
+4037f59c: l32r a12, 40374f5c <_iram_text_start+0xb58> (3c039fec <__func__$2>)
+4037f59f: l32r a10, 40374f60 <_iram_text_start+0xb5c> (3c034758 <_flash_rodata_start+0x4638>)
+4037f5a2: movi a11, 106
+4037f5a5: call8 40385828 <__assert_func>
+4037f5a8: addi.n a9, a9, 1
+4037f5aa: s32i.n a9, a2, 4
+4037f5ac: wsr.ps a5
+4037f5af: rsync 
+4037f5b2: j 4037f683 <xPortEnterCriticalTimeout+0x11b>
+4037f5b5: l32r a11, 40374e9c <_iram_text_start+0xa98> (b33fffff <_rtc_reserved_end+0x532fffff>)
+4037f5b8: or a12, a7, a7
+4037f5bb: or a10, a2, a2
+4037f5be: call8 4037b890 <esp_cpu_compare_and_set>
+4037f5c1: beqz.n a3, 4037f5fa <xPortEnterCriticalTimeout+0x92>
+4037f5c3: bnez.n a10, 4037f5fa <xPortEnterCriticalTimeout+0x92>
+4037f5c5: rsr.ccount a4
+4037f5c8: l32r a6, 40374e9c <_iram_text_start+0xa98> (b33fffff <_rtc_reserved_end+0x532fffff>)
+4037f5cb: beqi a3, -1, 4037f5e8 <xPortEnterCriticalTimeout+0x80>
+4037f5ce: mov.n a12, a7
+4037f5d0: mov.n a11, a6
+4037f5d2: or a10, a2, a2
+4037f5d5: call8 4037b890 <esp_cpu_compare_and_set>
+4037f5d8: bnez a10, 4037f6b1 <xPortEnterCriticalTimeout+0x149>
+4037f5db: rsr.ccount a9
+4037f5de: sub a9, a9, a4
+4037f5e1: bgeu a3, a9, 4037f5ce <xPortEnterCriticalTimeout+0x66>
+4037f5e4: j 4037f6ac <xPortEnterCriticalTimeout+0x144>
+4037f5e8: or a12, a7, a7
+4037f5eb: or a11, a6, a6
+4037f5ee: or a10, a2, a2
+4037f5f1: call8 4037b890 <esp_cpu_compare_and_set>
+4037f5f4: beqz a10, 4037f5e8 <xPortEnterCriticalTimeout+0x80>
+4037f5f7: j 4037f6b1 <xPortEnterCriticalTimeout+0x149>
+4037f5fa: l32i a9, a2, 0
+4037f5fd: beqz a10, 4037f635 <xPortEnterCriticalTimeout+0xcd>
+4037f600: beq a7, a9, 4037f612 <xPortEnterCriticalTimeout+0xaa>
+4037f603: l32r a13, 40374f68 <_iram_text_start+0xb64> (3c03478c <_flash_rodata_start+0x466c>)
+4037f606: l32r a12, 40374f5c <_iram_text_start+0xb58> (3c039fec <__func__$2>)
+4037f609: l32r a10, 40374f60 <_iram_text_start+0xb5c> (3c034758 <_flash_rodata_start+0x4638>)
+4037f60c: movi a11, 141
+4037f60f: call8 40385828 <__assert_func>
+4037f612: l32i.n a9, a2, 4
+4037f614: beqz.n a9, 4037f625 <xPortEnterCriticalTimeout+0xbd>
+4037f616: l32r a13, 40374f6c <_iram_text_start+0xb68> (3c0347ac <_flash_rodata_start+0x468c>)
+4037f619: l32r a12, 40374f5c <_iram_text_start+0xb58> (3c039fec <__func__$2>)
+4037f61c: l32r a10, 40374f60 <_iram_text_start+0xb5c> (3c034758 <_flash_rodata_start+0x4638>)
+4037f61f: movi a11, 142
+4037f622: call8 40385828 <__assert_func>
+4037f625: movi.n a9, 1
+4037f627: s32i.n a9, a2, 4
+4037f629: wsr.ps a5
+4037f62c: rsync 
+4037f62f: j 4037f683 <xPortEnterCriticalTimeout+0x11b>
+4037f635: l32r a10, 40374f70 <_iram_text_start+0xb6c> (6666 <UserFrameTotalSize+0x6566>)
+4037f638: xor a10, a7, a10
+4037f63b: beq a10, a9, 4037f656 <xPortEnterCriticalTimeout+0xee>
+4037f63e: l32r a10, 40374e9c <_iram_text_start+0xa98> (b33fffff <_rtc_reserved_end+0x532fffff>)
+4037f641: beq a9, a10, 4037f656 <xPortEnterCriticalTimeout+0xee>
+4037f644: l32r a13, 40374f74 <_iram_text_start+0xb70> (3c0347c0 <_flash_rodata_start+0x46a0>)
+4037f647: l32r a12, 40374f5c <_iram_text_start+0xb58> (3c039fec <__func__$2>)
+4037f64a: l32r a10, 40374f60 <_iram_text_start+0xb5c> (3c034758 <_flash_rodata_start+0x4638>)
+4037f64d: movi a11, 145
+4037f650: or a1, a1, a1
+4037f653: call8 40385828 <__assert_func>
+4037f656: l32i a8, a2, 4
+4037f659: movi a9, 254
+4037f65c: bgeu a9, a8, 4037f66e <xPortEnterCriticalTimeout+0x106>
+4037f65f: l32r a13, 40374f78 <_iram_text_start+0xb74> (3c034804 <_flash_rodata_start+0x46e4>)
+4037f662: l32r a12, 40374f5c <_iram_text_start+0xb58> (3c039fec <__func__$2>)
+4037f665: l32r a10, 40374f60 <_iram_text_start+0xb5c> (3c034758 <_flash_rodata_start+0x4638>)
+4037f668: movi a11, 146
+4037f66b: call8 40385828 <__assert_func>
+4037f66e: wsr.ps a5
+4037f671: rsync 
+4037f674: l32i a10, a1, 0
+4037f677: movi a2, 0
+4037f67a: l32r a8, 40374f54 <_iram_text_start+0xb50> (40001c38 <_xtos_set_intlevel>)
+4037f67d: callx8 a8
+4037f680: j 4037f6b6 <xPortEnterCriticalTimeout+0x14e>
+4037f683: rsr.prid a8
+4037f686: extui a8, a8, 13, 1
+4037f689: l32r a9, 40374f7c <_iram_text_start+0xb78> (3fcac368 <port_uxCriticalNesting>)
+4037f68c: slli a10, a8, 2
+4037f68f: addx4 a8, a8, a9
+4037f692: l32i.n a9, a8, 0
+4037f694: addi.n a9, a9, 1
+4037f696: s32i.n a9, a8, 0
+4037f698: beqi a9, 1, 4037f6a0 <xPortEnterCriticalTimeout+0x138>
+4037f69b: movi.n a2, 1
+4037f69d: j 4037f6b6 <xPortEnterCriticalTimeout+0x14e>
+4037f6a0: l32r a8, 40374f80 <_iram_text_start+0xb7c> (3fcac360 <port_uxOldInterruptState>)
+4037f6a3: l32i.n a9, a1, 0
+4037f6a5: add.n a8, a8, a10
+4037f6a7: s32i.n a9, a8, 0
+4037f6a9: j 4037f69b <xPortEnterCriticalTimeout+0x133>
+4037f6ac: l32i.n a9, a2, 0
+4037f6ae: j 4037f635 <xPortEnterCriticalTimeout+0xcd>
+4037f6b1: l32i.n a9, a2, 0
+4037f6b3: j 4037f600 <xPortEnterCriticalTimeout+0x98>
+4037f6b6: retw.n 
+
+feed
+40377480: entry a1, 32
+40377483: extui a10, a3, 0, 16
+40377486: addx2 a10, a10, a10
+40377489: addx8 a10, a10, a2
+4037748c: addi a10, a10, 88
+4037748f: call8 4037b5dc <s3_cycle_clock_read>
+40377492: mov.n a6, a10
+40377494: mov.n a7, a11
+40377496: bnei a10, -1, 403774b2 <feed+0x32>
+40377499: bnei a11, -1, 403774b2 <feed+0x32>
+4037749c: movi.n a8, 2
+4037749e: memw 
+403774a1: s32i a8, a2, 160
+403774a4: memw 
+403774a7: movi.n a8, 1
+403774a9: memw 
+403774ac: s32i a8, a2, 156
+403774af: j 403774e8 <feed+0x68>
+403774b2: bnez.n a4, 403774cd <feed+0x4d>
+403774b4: addi a8, a3, 20
+403774b7: addx8 a8, a8, a2
+403774ba: l32i.n a9, a8, 12
+403774bc: bltu a7, a9, 403774c8 <feed+0x48>
+403774bf: bne a9, a7, 403774cd <feed+0x4d>
+403774c2: l32i a8, a8, 8
+403774c5: bgeu a6, a8, 403774cd <feed+0x4d>
+403774c8: movi.n a2, 1
+403774ca: j 4037752b <feed+0xab>
+403774cd: l32r a8, 403746e8 <_iram_text_start+0x2e4> (4200d788 <esp_task_wdt_reset>)
+403774d0: callx8 a8
+403774d3: beqz.n a10, 403774ed <feed+0x6d>
+403774d5: movi.n a8, 3
+403774d7: memw 
+403774da: s32i a8, a2, 160
+403774dd: memw 
+403774e0: movi.n a8, 1
+403774e2: memw 
+403774e5: s32i a8, a2, 156
+403774e8: movi.n a2, 0
+403774ea: j 4037752b <feed+0xab>
+403774ed: l32r a10, 403746e4 <_iram_text_start+0x2e0> (3a980 <UserFrameTotalSize+0x3a880>)
+403774f0: l32i a8, a2, 72
+403774f3: muluh a9, a8, a10
+403774f6: mull a8, a8, a10
+403774f9: srli a11, a9, 1
+403774fc: ssai 1
+403774ff: src a8, a9, a8
+40377502: movi.n a9, -1
+40377504: movi.n a10, -1
+40377506: xor a9, a11, a9
+40377509: xor a10, a8, a10
+4037750c: bltu a9, a7, 4037749c <feed+0x1c>
+4037750f: bne a7, a9, 40377515 <feed+0x95>
+40377512: bltu a10, a6, 4037749c <feed+0x1c>
+40377515: add.n a6, a6, a8
+40377517: addi a3, a3, 20
+4037751a: add.n a7, a7, a11
+4037751c: saltu a8, a6, a8
+4037751f: addx8 a3, a3, a2
+40377522: add.n a7, a7, a8
+40377524: s32i.n a6, a3, 8
+40377526: s32i.n a7, a3, 12
+40377528: j 403774c8 <feed+0x48>
+4037752b: retw.n 
