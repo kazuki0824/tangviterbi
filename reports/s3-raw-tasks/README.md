@@ -16,7 +16,7 @@
 
 ## watchdogの扱い
 
-固定SDKのtask_wdt.cではSMP時のidle監視がuser entryであり、idle task handleをesp_task_wdt_deleteする方法では解除できない。公開 `esp_task_wdt_reconfigure` によりidle_core_maskを0にする。両receiver taskを先にTWDT登録し、timeout_ms/trigger_panicと他の登録task/userは維持する。watchdog全体を無効化しない。設定変更はcore0だけが行う。
+固定SDKのtask_wdt.cではSMP時のidle監視がuser entryであり、idle task handleをesp_task_wdt_deleteする方法では解除できない。公開 `esp_task_wdt_reconfigure` によりidle_core_maskを0にする。両receiver taskを先にTWDT登録し、timeout_ms/trigger_panicと他の登録task/userは維持する。受信中のwatchdog監視を無効化しない（reconfigure内部のtimer停止・再開はRF開始前/停止後に行う）。設定変更はcore0だけが行う。
 
 callerがTWDT設定の唯一の管理者であり、渡す設定が現在の実設定と一致することが前提。公開getterは使っておらず、SDK defaultを実設定と推定しない。他コードによる並行reconfigureを許す実装ではない。
 
@@ -33,3 +33,23 @@ peer停止後、SPIは各portを1回nonblocking reapする。未完了/異常な
 host-tests.log。実task entryを2 pthreadで走らせ、SDK/RF/packing/SPI calleeをmockしたlifecycle試験を追加した。通常停止、最後のtick待機にいるpeer、校正失敗、TWDT登録失敗、SPI失敗とDMA未完了保持を確認。既存の実native/packing出力一致試験も実行した。lifecycle試験を実RF/SDKの時間検証とはしない。
 
 実task entryができたことと、すべての処理が期限内に終わることは別。IRQ affinity4候補、task priority、各slice/API/clock/watchdog/IRQ/memory競合のWCETと連続入力response timeは未確定。起動前のcallerによるboard設定・task生成と、停止後のsupervisorも別途必要。SDK placement、増分state/コード、TWDT entryの動的確保は新ELFで確認する。全受信機の採用は依然0。
+
+## 新SDKでの配置・容量検算
+
+[675025c SDK CI 40248353257](https://github.com/kazuki0824/tangviterbi/actions/runs/40248353257)成功。共通49/raw専用54 static check、成果物のELF/source/配置/型情報13checkが成功。artifact12619727361のZIP SHA256は `d5c15a0dbee861fcd25ee6c4f3db67b785199c9832efeb59d716e61665cb07b7`。sdk以下にELF/map/config/logを保存。
+
+runtime state184 B、2task引数16 B、entry code1302 B（IRAM）。raw専用heap開始は0x3fcac780→0x3fcace58、整列込み1752 B増。比較用の旧時計state/entryも保持したprobeであり、state200 Bだけを増分として扱わない。
+
+SPI/PHY台帳19checkを新ELFで再実行。fresh vectorsで既知費用控除後の残量上限はSPI15408 B、PHY校正13412 B、定常15284 B。この台帳はTWDT全費用を含まず、利用可能heapの保証ではない。
+
+TWDTのDWARF実サイズはentry16 B、object16 B。4 B/割当ての最小header込みで、receiver2taskのentryは最低40 B、idle2＋receiver2の起動切替時は最低80 B、watchdog objectは最低20 B。既存watchdog IRQ handle/vector、他の登録entry、allocator丸め・断片化は別。callocが全て内部RAMへ配置される保証もないため、これを無条件に内部残量から引いた値を全構成共通の上限としては示さない（sdk-evidence.json）。
+
+停止前cancel、校正誤差幅がbound以上、idle priority、既存TWDT登録のtask終了時解除を追加し、lifecycleは合計9条件。extended-tests.logに保存した。未送信データの完走・実機時間・cache-off実行を保証する試験ではない。
+
+## CPU費用へ追加すべき実呼出し
+
+正常なowner_iterationはworker0 slice1回、collect1回、最大reap2回/submit2回、RF poll7回、feed判定1回。feed判定は毎回CCOUNTを読むが、SDK TWDT resetはtimeout/2到達時だけ呼ぶ。worker1はslice1回＋feed判定1回。空jobの場合の反復回数はslice成功数だけでは求まらず、busy pollingのCPU/共有メモリ負荷を除外してはいけない。
+
+通常native pollを2clock readの経路とした場合、owner反復はnative14＋worker2＋collect1＋feed1=18 clock read、worker1反復はworker2＋feed1=3。native経路により回数は変わる。旧集計のworker2readだけを新task全体の時計費用として使わない。7回のpollを挟んだこと自体も、各gapがS50µs/T125µs以下であるという証拠ではない。
+
+TWDT resetには共有spinlockと登録entryの走査がある。割込み/critical-section/他coreの到来条件・entry数と費用を含めた上限はまだ得ていない。taskの呼出し順序は実装できたが、その数値上限を創作して性能合格にはしない。現在の固定SDK構成と実core割当てを用いた応答時間評価へ引き継ぐ。

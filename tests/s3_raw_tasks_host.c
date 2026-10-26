@@ -17,7 +17,7 @@ static atomic_uint subscribed[2],feed_count[2],idle_mask,rf_started,rf_stopped;
 static atomic_uint deletes,delayed_peer,release_peer;
 static unsigned polls,reconfigs,reaps,submits;
 unsigned xPortGetCoreID(void){return core;}
-unsigned uxTaskPriorityGet(TaskHandle_t h){assert(!h);return 1;}
+unsigned uxTaskPriorityGet(TaskHandle_t h){assert(!h);return mode==8?0:1;}
 void vTaskDelete(TaskHandle_t h){assert(!h);atomic_fetch_add(&deletes,1);}
 void vTaskDelay(TickType_t n){
  assert(n==1);
@@ -27,7 +27,7 @@ void vTaskDelay(TickType_t n){
   while(!atomic_load(&release_peer))sched_yield();
  sched_yield();
 }
-esp_err_t esp_task_wdt_status(TaskHandle_t h){assert(!h);return ESP_ERR_NOT_FOUND;}
+esp_err_t esp_task_wdt_status(TaskHandle_t h){assert(!h);return atomic_load(&subscribed[core])?ESP_OK:ESP_ERR_NOT_FOUND;}
 esp_err_t esp_task_wdt_add(TaskHandle_t h){assert(!h);if(mode==2&&core==1)return ESP_ERR_INVALID_STATE;atomic_store(&subscribed[core],1);return ESP_OK;}
 esp_err_t esp_task_wdt_delete(TaskHandle_t h){assert(!h);assert(atomic_exchange(&subscribed[core],0));return ESP_OK;}
 esp_err_t esp_task_wdt_reset(void){assert(atomic_load(&subscribed[core]));atomic_fetch_add(&feed_count[core],1);return ESP_OK;}
@@ -63,13 +63,16 @@ esp_err_t s3_pp_spi_submit(s3_pp_transfer*x,s3_parallel_pack*p,s3_spi_port*port,
 static void*entry(void*a){core=((s3_raw_task_arg*)a)->core;s3_raw_task_entry(a);return NULL;}
 static void reset(unsigned m){
  mode=m;polls=reconfigs=reaps=submits=0;memset(&pack,0,sizeof(pack));memset(&capture,0,sizeof(capture));memset(ports,0,sizeof(ports));memset(transfers,0,sizeof(transfers));
- for(unsigned i=0;i<2;++i){ports[i].bulk=true;atomic_store(&subscribed[i],0);atomic_store(&feed_count[i],0);}
+ for(unsigned i=0;i<2;++i){ports[i].bulk=true;atomic_store(&subscribed[i],m==9);atomic_store(&feed_count[i],0);}
  atomic_store(&idle_mask,3);atomic_store(&rf_started,0);atomic_store(&rf_stopped,0);atomic_store(&deletes,0);atomic_store(&delayed_peer,0);atomic_store(&release_peer,0);
  s3_raw_tasks_config c={.pack=&pack,.capture=&capture,.ports={&ports[0],&ports[1]},.transfers={&transfers[0],&transfers[1]},.rate=40,.epoch=1,.slice_pairs=512,.slice_bound={10000,10000},.watchdog={5000,3,true}};
+ if(m==6)c.slice_bound[1]=100;
  assert(s3_raw_tasks_init(&r,&c));
+ if(m==5)s3_raw_tasks_request_stop(&r);
 }
 int main(void){
- for(unsigned m=0;m<5;++m){
+ for(unsigned m=0;m<10;++m){
+  if(m==7)continue;
   reset(m);s3_raw_task_arg args[2]={{&r,0},{&r,1}};pthread_t threads[2];
   if(m==1){
    // Hold peer in its last sleeping startup wait while core0 becomes ready.
@@ -84,10 +87,10 @@ int main(void){
   for(unsigned i=0;i<2;++i)assert(!pthread_join(threads[i],NULL));
   assert(atomic_load(&deletes)==2&&atomic_load(&r.stopped[0])&&atomic_load(&r.stopped[1]));
   assert(atomic_load(&idle_mask)==3&&!atomic_load(&subscribed[0])&&!atomic_load(&subscribed[1]));
-  if(m==2||m==3)assert(!atomic_load(&rf_started)&&!reconfigs&&atomic_load(&r.fault));
+  if(m==2||m==3||m==5||m==6||m==8){assert(!atomic_load(&rf_started)&&!reconfigs);if(m!=5)assert(atomic_load(&r.fault));}
   else assert(atomic_load(&rf_started)&&atomic_load(&rf_stopped)&&reconfigs==2&&submits);
   if(m==4)assert(atomic_load(&r.fault)&&transfers[0].active); // no false DMA release
-  else if(m<2)assert(!atomic_load(&r.fault)&&!transfers[0].active&&!transfers[1].active);
+  else if(m<2||m==9)assert(!atomic_load(&r.fault)&&!transfers[0].active&&!transfers[1].active);
  }
- puts("PASS actual task lifecycle: startup sleeping-peer race, calibration/WDT failure, owner calls, stop/join, watchdog restoration, retained failed DMA lease");
+ puts("PASS actual task lifecycle: startup sleeping-peer race, calibration/WDT failure, owner calls, stop/join, watchdog restoration, retained failed DMA lease; pre-cancel, calibration-bound rejection, idle-priority rejection, pre-existing subscription cleanup");
 }
