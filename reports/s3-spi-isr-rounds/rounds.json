@@ -1,0 +1,590 @@
+{
+  "scope": "Finite interleaving model of ONE raw SPI host's outer ISR loop.\n\nSingle registered device, no acquire_bus, one owner, one outstanding transfer.\nA completion ISR publishes its old result before this loop: owner may enqueue\nat most one replacement, then cannot enqueue again until that replacement's\nlater completion ISR. Producer enqueue precedes atomic REQ publication.\nAtomic operations terminate; their retries and elapsed time are NOT modeled.\n",
+  "rows": [
+    {
+      "initial": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 3
+      },
+      "max_outer_rounds": 2,
+      "witness": [
+        "enqueue",
+        "schedule",
+        "publish REQ",
+        "exit snapshot",
+        "retry",
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 16
+    },
+    {
+      "initial": [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 3
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "schedule",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 3
+    },
+    {
+      "initial": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 3
+      },
+      "max_outer_rounds": 2,
+      "witness": [
+        "schedule",
+        "publish REQ",
+        "exit snapshot",
+        "retry",
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 13
+    },
+    {
+      "initial": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 3
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "schedule",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 3
+    },
+    {
+      "initial": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "receive",
+          "clear PEND",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 6
+      },
+      "max_outer_rounds": 2,
+      "witness": [
+        "schedule",
+        "check request",
+        "receive",
+        "enqueue",
+        "publish REQ",
+        "clear PEND",
+        "exit snapshot",
+        "retry",
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 31
+    },
+    {
+      "initial": [
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "receive",
+          "clear PEND",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 6
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "schedule",
+        "check request",
+        "receive",
+        "clear PEND",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 6
+    },
+    {
+      "initial": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "receive",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 5
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "publish REQ",
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 15
+    },
+    {
+      "initial": [
+        0,
+        0,
+        1,
+        1,
+        2,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "receive",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 5
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "schedule",
+        "check request",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 5
+    },
+    {
+      "initial": [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "set PEND",
+          "clear snapshotted REQ",
+          "receive",
+          "clear PEND",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 8
+      },
+      "max_outer_rounds": 2,
+      "witness": [
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "enqueue",
+        "publish REQ",
+        "clear PEND",
+        "exit snapshot",
+        "retry",
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 32
+    },
+    {
+      "initial": [
+        0,
+        1,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "set PEND",
+          "clear snapshotted REQ",
+          "receive",
+          "clear PEND",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 8
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "clear PEND",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 8
+    },
+    {
+      "initial": [
+        0,
+        1,
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "set PEND",
+          "clear snapshotted REQ",
+          "receive",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 7
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "publish REQ",
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 17
+    },
+    {
+      "initial": [
+        0,
+        1,
+        0,
+        1,
+        2,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "set PEND",
+          "clear snapshotted REQ",
+          "receive",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 7
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 7
+    },
+    {
+      "initial": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "set PEND",
+          "clear snapshotted REQ",
+          "receive",
+          "clear PEND",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 8
+      },
+      "max_outer_rounds": 2,
+      "witness": [
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "enqueue",
+        "publish REQ",
+        "clear PEND",
+        "exit snapshot",
+        "retry",
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 35
+    },
+    {
+      "initial": [
+        0,
+        1,
+        1,
+        0,
+        2,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "set PEND",
+          "clear snapshotted REQ",
+          "receive",
+          "clear PEND",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 8
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "clear PEND",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 8
+    },
+    {
+      "initial": [
+        0,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "set PEND",
+          "clear snapshotted REQ",
+          "receive",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 7
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "publish REQ",
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 17
+    },
+    {
+      "initial": [
+        0,
+        1,
+        1,
+        1,
+        2,
+        0,
+        0
+      ],
+      "same_core": {
+        "max_outer_rounds": 1,
+        "witness": [
+          "schedule",
+          "check request",
+          "set PEND",
+          "clear snapshotted REQ",
+          "receive",
+          "exit snapshot",
+          "exit"
+        ],
+        "states": 7
+      },
+      "max_outer_rounds": 1,
+      "witness": [
+        "schedule",
+        "check request",
+        "set PEND",
+        "clear snapshotted REQ",
+        "receive",
+        "exit snapshot",
+        "exit"
+      ],
+      "states": 7
+    }
+  ],
+  "source_sha256": {
+    "experiments/s3_parallel_spi.c": "79c36beb259d723b3ea812d3428a89d58c13b87a001fabc05e0105fcc4de2983",
+    "experiments/s3_raw_tasks.c": "472ddc05d761d1381773b5a756339d4da78a6064d863b5353fcfde200e38853c",
+    "reports/s3-spi-wait-audit/sources/spi_bus_lock.c": "e40cccc457a4fa4f2bb170c58031699beccbd384238459533e2cdf44bab5159b",
+    "reports/s3-spi-wait-audit/sources/spi_master.c": "1634611334180a80e0643d0f32a0af73447b6bbfbe381c0e5799f93de5af64f6"
+  },
+  "max_outer_rounds": 2,
+  "state_count": 223,
+  "atomic_retry_bound": null,
+  "elapsed_upper_cycles": null,
+  "actual_schedule_verified": false,
+  "receiver_adopted": false
+}
