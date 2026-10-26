@@ -28,7 +28,7 @@ def report(profile, commit):
         expected = hashlib.sha256(subprocess.check_output(['git','show',commit+':'+path],cwd=ROOT)).hexdigest()
         check('source_'+path, expected == d['build']['source_sha256'].get(path))
     allocations = {}
-    for name in ('raw_runtime','raw_runtime_args'):
+    for name in ('raw_runtime', 'raw_launch' if 'raw_launch' in symbols else 'raw_runtime_args'):
         s = symbols[name]
         allocations[name] = dict(address=hex(s['st_value']),bytes=s['st_size'])
         check('internal_'+name, 0x3fc88000 <= s['st_value'] and s['st_value']+s['st_size'] <= 0x3fcb0000)

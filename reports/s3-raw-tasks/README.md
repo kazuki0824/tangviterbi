@@ -32,7 +32,7 @@ peer停止後、SPIは各portを1回nonblocking reapする。未完了/異常な
 
 host-tests.log。実task entryを2 pthreadで走らせ、SDK/RF/packing/SPI calleeをmockしたlifecycle試験を追加した。通常停止、最後のtick待機にいるpeer、校正失敗、TWDT登録失敗、SPI失敗とDMA未完了保持を確認。既存の実native/packing出力一致試験も実行した。lifecycle試験を実RF/SDKの時間検証とはしない。
 
-実task entryができたことと、すべての処理が期限内に終わることは別。IRQ affinity4候補、task priority、各slice/API/clock/watchdog/IRQ/memory競合のWCETと連続入力response timeは未確定。起動前のcallerによるboard設定・task生成と、停止後のsupervisorも別途必要。SDK placement、増分state/コード、TWDT entryの動的確保は新ELFで確認する。全受信機の採用は依然0。
+実task entryができたことと、すべての処理が期限内に終わることは別。IRQ affinity4候補、task priority、各slice/API/clock/watchdog/IRQ/memory競合のWCETと連続入力response timeは未確定。起動前のcallerによるboard設定と、停止後のsupervisorも別途必要。静的task生成は下記の起動処理で追加した。SDK placement、増分state/コード、TWDT entryの動的確保は新ELFで確認する。全受信機の採用は依然0。
 
 ## 新SDKでの配置・容量検算
 
@@ -53,3 +53,20 @@ TWDTのDWARF実サイズはentry16 B、object16 B。4 B/割当ての最小header
 通常native pollを2clock readの経路とした場合、owner反復はnative14＋worker2＋collect1＋feed1=18 clock read、worker1反復はworker2＋feed1=3。native経路により回数は変わる。旧集計のworker2readだけを新task全体の時計費用として使わない。7回のpollを挟んだこと自体も、各gapがS50µs/T125µs以下であるという証拠ではない。
 
 TWDT resetには共有spinlockと登録entryの走査がある。割込み/critical-section/他coreの到来条件・entry数と費用を含めた上限はまだ得ていない。taskの呼出し順序は実装できたが、その数値上限を創作して性能合格にはしない。現在の固定SDK構成と実core割当てを用いた応答時間評価へ引き継ぐ。
+
+## 静的task生成と部分失敗（今回の追加）
+
+`s3_raw_tasks_launch` はcallerが初期化したruntimeと、永続する起動state、stack/TCB、priorityを受け取る。worker1を先に生成し、その後owner0を生成する。ownerを先に生成してpeer生成に失敗すると、停止時に存在しないpeerを待つため、この順序には停止手順上の意味がある。
+
+- worker生成失敗：ownerは作らずstop/faultを記録する。
+- owner生成失敗：生成済みworkerへstopを公開する。workerはRF開始前に自分でTWDT登録を解除して終了する。返値falseでもworkerの削除完了までは起動state/stack/TCBを保持する。
+- 両方成功：trueは2task生成成功だけを表す。RF開始・期限達成・受信成立の成功ではない。
+- 一度試行した起動stateによる再起動を拒否する。停止済みflagを未生成taskに偽装せず、handlesで生成の有無を区別する。
+
+callerは単独のsupervisorであること、storageが有効な重ならない内部RAMでありstartup用途から回収済みであること、runtime初期化とPHY/SPI設定が済んでいることが前提。stackの4096 Bは従来probeの予約量であり、実測済みstack boundではない。priorityもcaller指定で、上限内・idleより大きいことを確認するだけで時間保証はしない。
+
+link probeの休眠ダミーtask生成をこの実起動処理の保持に置き換えた。app_mainからは呼ばない。新レイアウトのSDK検証はCI結果で確認する必要があり、上記675025cの容量値を新変更の値として流用しない。
+
+`launcher-tests.log`：実launcher＋実task entryのhost試験で最初/2個目の生成失敗、生成成功、生成順序、重複起動拒否、priority範囲を確認。既存の時計・native/packing試験を含む7 unittest成功。SDK APIはmockであり、実機task生成・メモリ空き・WCETの証明ではない。
+
+前実装675025cの6 workflowはすべて成功を確認した。今回の変更のCI結果とは区別する。

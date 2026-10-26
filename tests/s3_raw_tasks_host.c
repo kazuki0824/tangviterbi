@@ -61,6 +61,17 @@ esp_err_t s3_pp_spi_submit(s3_pp_transfer*x,s3_parallel_pack*p,s3_spi_port*port,
  return mode==4?ESP_ERR_INVALID_STATE:ESP_OK;
 }
 static void*entry(void*a){core=((s3_raw_task_arg*)a)->core;s3_raw_task_entry(a);return NULL;}
+struct host_task {pthread_t thread;};
+static struct host_task created[2];
+static unsigned create_calls;
+TaskHandle_t xTaskCreateStaticPinnedToCore(void (*fn)(void*),const char*name,unsigned bytes,
+ void*arg,unsigned priority,StackType_t*stack,StaticTask_t*tcb,int target){
+ assert(fn==s3_raw_task_entry&&name&&bytes==4096&&priority==1&&stack&&tcb);
+ assert(target==(create_calls==0?1:0));++create_calls;
+ assert(((s3_raw_task_arg*)arg)->core==(unsigned)target);
+ if((mode==10&&target==1)||(mode==11&&target==0))return NULL;
+ assert(!pthread_create(&created[target].thread,NULL,entry,arg));return &created[target];
+}
 static void reset(unsigned m){
  mode=m;polls=reconfigs=reaps=submits=0;memset(&pack,0,sizeof(pack));memset(&capture,0,sizeof(capture));memset(ports,0,sizeof(ports));memset(transfers,0,sizeof(transfers));
  for(unsigned i=0;i<2;++i){ports[i].bulk=true;atomic_store(&subscribed[i],m==9);atomic_store(&feed_count[i],0);}
@@ -93,4 +104,28 @@ int main(void){
   else if(m<2||m==9)assert(!atomic_load(&r.fault)&&!transfers[0].active&&!transfers[1].active);
  }
  puts("PASS actual task lifecycle: startup sleeping-peer race, calibration/WDT failure, owner calls, stop/join, watchdog restoration, retained failed DMA lease; pre-cancel, calibration-bound rejection, idle-priority rejection, pre-existing subscription cleanup");
+ for(unsigned m=10;m<=12;++m){
+  reset(m);create_calls=0;s3_raw_launch launch={0};
+  StackType_t storage[2][4096/sizeof(StackType_t)];StaticTask_t tcbs[2];
+  StackType_t*stacks[2]={storage[0],storage[1]};StaticTask_t*controls[2]={&tcbs[0],&tcbs[1]};
+  unsigned priorities[2]={0,1};
+  assert(!s3_raw_tasks_launch(&r,&launch,stacks,controls,4096,priorities));
+  assert(!create_calls&&!launch.attempted);priorities[0]=configMAX_PRIORITIES;
+  assert(!s3_raw_tasks_launch(&r,&launch,stacks,controls,4096,priorities));
+  assert(!create_calls&&!launch.attempted);priorities[0]=1;
+  assert(s3_raw_tasks_launch(&r,&launch,stacks,controls,4096,priorities)==(m==12));
+  unsigned calls=create_calls;
+  assert(!s3_raw_tasks_launch(&r,&launch,stacks,controls,4096,priorities));
+  assert(create_calls==calls); // Never duplicate a partial or completed launch.
+  for(unsigned i=0;i<2;++i)if(launch.handles[i])assert(!pthread_join(created[i].thread,NULL));
+  assert(create_calls==(m==10?1:2));
+  assert(atomic_load(&deletes)==(m==10?0:m==11?1:2));
+  assert(atomic_load(&idle_mask)==3&&!atomic_load(&subscribed[0])&&!atomic_load(&subscribed[1]));
+  if(m!=12){
+   assert(!atomic_load(&rf_started)&&!reconfigs&&atomic_load(&r.stop)&&atomic_load(&r.fault));
+   assert(!launch.handles[0]&&!atomic_load(&r.stopped[0]));
+   assert(atomic_load(&r.stopped[1])==(m==11));
+  }else assert(atomic_load(&rf_started)&&atomic_load(&rf_stopped)&&!atomic_load(&r.fault));
+ }
+ puts("PASS actual static launcher: peer-first, first/second creation failure, partial cleanup, successful launch, priority validation and duplicate rejection");
 }

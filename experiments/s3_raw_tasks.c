@@ -12,6 +12,29 @@ static void IRAM_ATTR fault(s3_raw_tasks*r,unsigned code) {
 void s3_raw_tasks_request_stop(s3_raw_tasks*r) {
  if(r)atomic_store_explicit(&r->stop,1,memory_order_release);
 }
+bool s3_raw_tasks_launch(s3_raw_tasks*r,s3_raw_launch*l,StackType_t*const stacks[2],
+                         StaticTask_t*const tcbs[2],unsigned bytes,const unsigned priority[2]) {
+ if(!r||!l||l->attempted||!stacks||!tcbs||!priority||!bytes||
+    bytes%sizeof(StackType_t)||!stacks[0]||!stacks[1]||!tcbs[0]||!tcbs[1]||
+    stacks[0]==stacks[1]||tcbs[0]==tcbs[1])return false;
+ for(unsigned i=0;i<2;++i)
+  if(!priority[i]||priority[i]>=configMAX_PRIORITIES||
+     atomic_load_explicit(&r->ready[i],memory_order_acquire)||
+     atomic_load_explicit(&r->stopped[i],memory_order_acquire))return false;
+ if(atomic_load_explicit(&r->stop,memory_order_acquire)||
+    atomic_load_explicit(&r->run,memory_order_acquire))return false;
+ l->attempted=true;
+ for(unsigned i=0;i<2;++i){l->args[i]=(s3_raw_task_arg){r,i};l->handles[i]=NULL;}
+ // A lone worker can exit by itself. A lone owner waits for a missing peer
+ // during shutdown, so never create the owner first.
+ l->handles[1]=xTaskCreateStaticPinnedToCore(s3_raw_task_entry,"raw-pack",bytes,
+    &l->args[1],priority[1],stacks[1],tcbs[1],1);
+ if(!l->handles[1]){fault(r,RAW_TASK_CONFIG);return false;}
+ l->handles[0]=xTaskCreateStaticPinnedToCore(s3_raw_task_entry,"raw-owner",bytes,
+    &l->args[0],priority[0],stacks[0],tcbs[0],0);
+ if(!l->handles[0]){fault(r,RAW_TASK_CONFIG);return false;}
+ return true;
+}
 static bool IRAM_ATTR stopping(s3_raw_tasks*r) {
  return atomic_load_explicit(&r->stop,memory_order_acquire)!=0;
 }

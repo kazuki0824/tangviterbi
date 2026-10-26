@@ -29,7 +29,7 @@ s3_native_capture raw_capture;
 // Calibration and capture are NOT started by this link-only probe.
 s3_cycle_clock_state raw_cycle_clocks[2];
 s3_raw_tasks raw_runtime;
-s3_raw_task_arg raw_runtime_args[2]={{&raw_runtime,0},{&raw_runtime,1}};
+s3_raw_launch raw_launch;
 s3_spi_port raw_ports[2];
 spi_multi_transaction_t raw_descriptors[2];
 s3_pp_transfer raw_transfers[2];
@@ -45,21 +45,16 @@ StackType_t *const raw_task_stacks[2]={(StackType_t*)0x3fcea000,(StackType_t*)0x
 StackType_t raw_task_stacks[2][RAW_STACK_BYTES/sizeof(StackType_t)];
 #endif
 StaticTask_t raw_task_tcbs[2];
-TaskHandle_t raw_task_handles[2];
 const uint32_t raw_probe_sizes[]={sizeof(raw_pack),sizeof(raw_capture),sizeof(raw_ports),
  sizeof(raw_descriptors),sizeof(raw_transfers),2*RAW_STACK_BYTES,sizeof(raw_task_tcbs),
  sizeof(StaticTask_t),sizeof(dma_descriptor_align4_t),sizeof(StackType_t)};
 
-// Dormant tasks reserve actual internal stacks/TCBs and retain task creation
-// APIs. This is not a scheduler implementation or a slice-time assumption.
-static void raw_worker_task(void *arg) {
- (void)arg;
- for(;;)ulTaskNotifyTake(pdTRUE,portMAX_DELAY);
-}
-static void raw_create_tasks(void) {
- for(unsigned i=0;i<2;++i)
-  raw_task_handles[i]=xTaskCreateStaticPinnedToCore(raw_worker_task,"raw-probe",
-   RAW_STACK_BYTES,(void*)(uintptr_t)i,1,raw_task_stacks[i],&raw_task_tcbs[i],i);
+// Retain the actual creation path, but do not invoke it. Board initialization,
+// measured stack bounds and priority selection remain caller prerequisites.
+static bool raw_create_tasks(const unsigned priority[2]) {
+ StackType_t *stacks[2]={raw_task_stacks[0],raw_task_stacks[1]};
+ StaticTask_t *tcbs[2]={&raw_task_tcbs[0],&raw_task_tcbs[1]};
+ return s3_raw_tasks_launch(&raw_runtime,&raw_launch,stacks,tcbs,RAW_STACK_BYTES,priority);
 }
 static int raw_initialize_storage(void) {
  uint8_t *buffers[4]={raw_lower_buffers[0],raw_lower_buffers[1],
@@ -75,7 +70,7 @@ uint64_t (*volatile raw_keep_cycle_clock)(void*)=s3_cycle_clock_read;
 bool (*volatile raw_keep_cycle_init)(s3_cycle_clock_state*)=s3_cycle_clock_init;
 void (*volatile raw_keep_runtime_entry)(void*)=s3_raw_task_entry;
 bool (*volatile raw_keep_runtime_init)(s3_raw_tasks*,const s3_raw_tasks_config*)=s3_raw_tasks_init;
-void (*volatile raw_keep_tasks)(void)=raw_create_tasks;
+bool (*volatile raw_keep_tasks)(const unsigned*)=raw_create_tasks;
 int (*volatile raw_keep_storage)(void)=raw_initialize_storage;
 void (*volatile raw_keep_phy)(esp_phy_modem_t)=esp_phy_enable;
 bool (*volatile raw_keep_native)(s3_native_capture*,s3_parallel_pack*,s3_native_io,unsigned)=s3_pp_native_start_timer;
@@ -91,8 +86,8 @@ void app_main(void) {
         4*S3_PP_CHUNK,(unsigned)(2*RAW_STACK_BYTES+sizeof(raw_task_tcbs)));
  printf("cycle candidate=%p init=%p state=%p bytes=%u\n",(void*)raw_keep_cycle_clock,
         (void*)raw_keep_cycle_init,(void*)raw_cycle_clocks,(unsigned)sizeof(raw_cycle_clocks));
- printf("runtime candidate=%p init=%p args=%p bytes=%u; not started\n",
-        (void*)raw_keep_runtime_entry,(void*)raw_keep_runtime_init,(void*)raw_runtime_args,(unsigned)sizeof(raw_runtime));
+ printf("runtime candidate=%p init=%p launch=%p bytes=%u; not started\n",
+        (void*)raw_keep_runtime_entry,(void*)raw_keep_runtime_init,(void*)&raw_launch,(unsigned)sizeof(raw_runtime));
  // Read volatile anchors to prevent linker GC. Never call them in app_main.
  printf("anchors=%p %p %p %p %p %p %p %p %p %p sizes=%p state=%p %p %p %p step=%p clock=%p stacks=%p clocked=%p\n",
   (void*)raw_keep_tasks,(void*)raw_keep_storage,(void*)raw_keep_phy,

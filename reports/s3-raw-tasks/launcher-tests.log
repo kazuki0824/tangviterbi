@@ -1,0 +1,43 @@
+test_task_start_stop_and_watchdog_ownership (test_s3_raw_tasks.RawTasksTest.test_task_start_stop_and_watchdog_ownership) ... PASS actual task lifecycle: startup sleeping-peer race, calibration/WDT failure, owner calls, stop/join, watchdog restoration, retained failed DMA lease; pre-cancel, calibration-bound rejection, idle-priority rejection, pre-existing subscription cleanup
+PASS actual static launcher: peer-first, first/second creation failure, partial cleanup, successful launch, priority validation and duplicate rejection
+ok
+test_calibration_intervals_and_actual_adapter (test_s3_cycle_clock.CycleClockTest.test_calibration_intervals_and_actual_adapter) ... PASS 116640 calibration phase/latency/offset cases; wrap, overflow, two-core epoch, no runtime SYSTIMER reads
+ok
+test_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_bulk_SPI_lease_adapter_and_queue_failure) ... PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+ok
+test_concurrent_lossless_ownership_and_negative_boundaries (test_s3_parallel_pack.ParallelPackTest.test_concurrent_lossless_ownership_and_negative_boundaries) ... PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS concurrent banks=1 samples=1 checked_DMA_bytes=0 tail_bytes=0 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS concurrent banks=2 samples=12292 checked_DMA_bytes=0 tail_bytes=30730 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS concurrent banks=17 samples=184760 checked_DMA_bytes=458752 tail_bytes=3148 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+ok
+test_native_bank_handoff_and_stalled_worker_stop (test_s3_parallel_pack.ParallelPackTest.test_native_bank_handoff_and_stalled_worker_stop) ... PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+ok
+test_raw_only_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_raw_only_bulk_SPI_lease_adapter_and_queue_failure) ... PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+ok
+test_faults_stop_RF_before_handoff (test_s3_native_clock.NativeClockTest.test_faults_stop_RF_before_handoff) ... PASS common clock: startup/poll/switch/preaccept/postaccept failed reads, regression, deadline arithmetic boundary, RF stop and SELECT restore
+
+ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 3.926s
+
+OK
