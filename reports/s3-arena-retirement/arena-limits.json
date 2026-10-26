@@ -1,0 +1,123 @@
+{
+  "scope": "Exact output-capacity obligation at acceptance; not a SPI service proof.",
+  "chunk_bytes": 32768,
+  "arenas": 4,
+  "source_sha256": {
+    "experiments/s3_parallel_pack.h": "f5ab2974cb907ed7b89de97ec8572d43f26f4c77d08d59b583c414e5779e9d1f",
+    "experiments/s3_parallel_pack.c": "6851bef3ef1e066cfc95da904ed1864849752fcdad3ef697bbcc718728f21fa4",
+    "experiments/s3_native_capture.c": "c2ad0db240000d385bedd6562d0b08794bf4c307450b981327a55c3dc2d97ad3"
+  },
+  "rows": [
+    {
+      "max_banks": 1,
+      "samples": 14352,
+      "reserved_bytes": 35880,
+      "carry_samples": 0,
+      "ordered_retired_chunks": 0,
+      "minimum_ordered_retired_chunks": 0,
+      "occupied_bytes": 35880,
+      "free_bytes": 95192,
+      "capacity_condition_met": true,
+      "SPI_service_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "max_banks": 2,
+      "samples": 28704,
+      "reserved_bytes": 71760,
+      "carry_samples": 0,
+      "ordered_retired_chunks": 0,
+      "minimum_ordered_retired_chunks": 0,
+      "occupied_bytes": 71760,
+      "free_bytes": 59312,
+      "capacity_condition_met": true,
+      "SPI_service_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "max_banks": 3,
+      "samples": 43056,
+      "reserved_bytes": 107640,
+      "carry_samples": 0,
+      "ordered_retired_chunks": 0,
+      "minimum_ordered_retired_chunks": 0,
+      "occupied_bytes": 107640,
+      "free_bytes": 23432,
+      "capacity_condition_met": true,
+      "SPI_service_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "max_banks": 4,
+      "samples": 57408,
+      "reserved_bytes": 143520,
+      "carry_samples": 0,
+      "ordered_retired_chunks": 0,
+      "minimum_ordered_retired_chunks": 1,
+      "occupied_bytes": 143520,
+      "free_bytes": -12448,
+      "capacity_condition_met": false,
+      "SPI_service_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "max_banks": 5,
+      "samples": 71760,
+      "reserved_bytes": 179400,
+      "carry_samples": 0,
+      "ordered_retired_chunks": 0,
+      "minimum_ordered_retired_chunks": 2,
+      "occupied_bytes": 179400,
+      "free_bytes": -48328,
+      "capacity_condition_met": false,
+      "SPI_service_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "max_banks": 6,
+      "samples": 86112,
+      "reserved_bytes": 215280,
+      "carry_samples": 0,
+      "ordered_retired_chunks": 0,
+      "minimum_ordered_retired_chunks": 3,
+      "occupied_bytes": 215280,
+      "free_bytes": -84208,
+      "capacity_condition_met": false,
+      "SPI_service_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "max_banks": 7,
+      "samples": 100464,
+      "reserved_bytes": 251160,
+      "carry_samples": 0,
+      "ordered_retired_chunks": 0,
+      "minimum_ordered_retired_chunks": 4,
+      "occupied_bytes": 251160,
+      "free_bytes": -120088,
+      "capacity_condition_met": false,
+      "SPI_service_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "max_banks": 8,
+      "samples": 114816,
+      "reserved_bytes": 287040,
+      "carry_samples": 0,
+      "ordered_retired_chunks": 0,
+      "minimum_ordered_retired_chunks": 5,
+      "occupied_bytes": 287040,
+      "free_bytes": -155968,
+      "capacity_condition_met": false,
+      "SPI_service_verified": false,
+      "receiver_adopted": false
+    }
+  ],
+  "required_evidence": [
+    "at each native acceptance the required ordered prefix has retired",
+    "publication, submission, wire service, completion ISR and reap elapsed bounds",
+    "actual port allocation, command overhead, shared-memory contention and out-of-order completions"
+  ],
+  "caveat": "rows are capacity arithmetic, not verified native arrival times or SPI schedules",
+  "receiver_adopted": false
+}

@@ -155,4 +155,27 @@ static void oldest_bank_service(void) {
   assert(p.buffers[(at/S3_PP_CHUNK)%4][at%S3_PP_CHUNK]==byte(at));
  puts("PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact");
 }
-int main(int argc,char **argv) {negatives();variable_bank_slices();oldest_bank_service();concurrent(argc>1?(unsigned)atoi(argv[1]):2000);return 0;}
+static void native_size_output_retirement(void) {
+ init();uint64_t total=0;
+ for(unsigned i=0;i<3;++i){
+  fill(i,0,14352,total);
+  assert(s3_pp_accept(&p,i,source[i],0,14352,total,0,100)==S3_PP_OK);
+  total+=14352;finish_jobs();
+  assert(s3_pp_reclaim(&p,i)==S3_PP_OK && p.count==0);
+ }
+ assert(p.reserved==107640 && p.published==107640);
+ uint64_t seq[2];const uint8_t *payload[2];
+ for(unsigned i=0;i<2;++i)assert(s3_pp_take(&p,&seq[i],&payload[i])==S3_PP_OK);
+ assert(s3_pp_complete(&p,seq[1])==S3_PP_OK && p.retired==0);
+ fill(0,0,14352,total);
+ assert(s3_pp_accept(&p,0,source[0],0,14352,total,0,100)==S3_PP_BUSY);
+ assert(p.count==0 && p.next_sample==total && !atomic_load(&p.fault));
+ for(unsigned k=0;k<S3_PP_CHUNK;++k)assert(payload[0][k]==byte(k));
+ assert(s3_pp_complete(&p,seq[0])==S3_PP_OK && p.retired==2);
+ assert(s3_pp_accept(&p,0,source[0],0,14352,total,0,100)==S3_PP_OK);
+ finish_jobs();assert(p.reserved==143520);
+ for(uint64_t at=p.retired*S3_PP_CHUNK;at<p.published;++at)
+  assert(p.buffers[(at/S3_PP_CHUNK)%4][at%S3_PP_CHUNK]==byte(at));
+ puts("PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement");
+}
+int main(int argc,char **argv) {negatives();variable_bank_slices();oldest_bank_service();native_size_output_retirement();concurrent(argc>1?(unsigned)atoi(argv[1]):2000);return 0;}
