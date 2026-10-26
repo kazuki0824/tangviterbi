@@ -118,4 +118,22 @@ static void concurrent(unsigned banks) {
  printf("PASS concurrent banks=%u samples=%llu checked_DMA_bytes=%llu tail_bytes=%llu metadata_bytes=%zu\n",
   banks,(unsigned long long)total,(unsigned long long)checked,(unsigned long long)(p.published-checked),sizeof(p));
 }
-int main(int argc,char **argv) {negatives();concurrent(argc>1?(unsigned)atoi(argv[1]):2000);return 0;}
+static void variable_bank_slices(void) {
+ for(unsigned carry=0;carry<2;++carry)for(unsigned large=0;large<2;++large){
+  init();
+  if(carry){fill(1,0,1,0);assert(s3_pp_accept(&p,1,source[1],0,1,0,0,100)==S3_PP_OK);finish_jobs();}
+  unsigned count=large?14352:12288;
+  fill(0,16380,count,carry);
+  assert(s3_pp_accept(&p,0,source[0],16380,count,carry,0,100)==S3_PP_OK);
+  for(unsigned w=0;w<2;++w){
+   unsigned calls=0,n;int rc;
+   while((rc=s3_pp_step(&p,w,512,0,1,&n))==S3_PP_OK){assert(n&&n<=512);++calls;}
+   assert(rc==S3_PP_EMPTY&&calls==(large?8u:6u));
+  }
+  assert(s3_pp_collect(&p,0)==S3_PP_OK);
+  for(uint64_t at=0;at<p.published;++at)
+   assert(p.buffers[(at/S3_PP_CHUNK)%4][at%S3_PP_CHUNK]==byte(at));
+ }
+ puts("PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap");
+}
+int main(int argc,char **argv) {negatives();variable_bank_slices();concurrent(argc>1?(unsigned)atoi(argv[1]):2000);return 0;}

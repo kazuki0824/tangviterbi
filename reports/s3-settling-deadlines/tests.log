@@ -1,0 +1,53 @@
+test_faults_stop_RF_before_handoff (test_s3_native_clock.NativeClockTest.test_faults_stop_RF_before_handoff) ... PASS observation distinction: ordinary poll reads INDEX; settling wait and settlement/accept do not
+PASS first post-settlement INDEX: T/S busy gate-1/gate and available THRESHOLD-1/THRESHOLD
+PASS common clock: startup/poll/switch/preaccept/postaccept failed reads, regression, deadline arithmetic boundary, RF stop and SELECT restore
+
+ok
+test_preparation_and_blackout_share_the_same_window (test_s3_settling_limits.SettlingLimitsTest.test_preparation_and_blackout_share_the_same_window) ... ok
+test_rounding_at_first_busy_and_available_boundaries (test_s3_settling_limits.SettlingLimitsTest.test_rounding_at_first_busy_and_available_boundaries) ... ok
+test_unknown_and_local_pass_never_certify_receiver (test_s3_settling_limits.SettlingLimitsTest.test_unknown_and_local_pass_never_certify_receiver) ... ok
+test_exact_limit_includes_poll_tails_and_does_not_prove_receiver (test_s3_task_gap_limits.TaskGapTest.test_exact_limit_includes_poll_tails_and_does_not_prove_receiver) ... ok
+test_single_reset_bound_exceeds_S_budget_even_if_rare (test_s3_task_gap_limits.TaskGapTest.test_single_reset_bound_exceeds_S_budget_even_if_rare) ... ok
+test_unknown_is_not_free_or_passed (test_s3_task_gap_limits.TaskGapTest.test_unknown_is_not_free_or_passed) ... ok
+test_current_native_constants_and_utilization_limits (test_s3_raw_schedule_limits.RawScheduleLimitsTest.test_current_native_constants_and_utilization_limits) ... ok
+test_preparation_phase_bound_including_rounding (test_s3_raw_schedule_limits.RawScheduleLimitsTest.test_preparation_phase_bound_including_rounding) ... ok
+test_unknown_costs_never_become_a_pass (test_s3_raw_schedule_limits.RawScheduleLimitsTest.test_unknown_costs_never_become_a_pass) ... ok
+test_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_bulk_SPI_lease_adapter_and_queue_failure) ... PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+ok
+test_concurrent_lossless_ownership_and_negative_boundaries (test_s3_parallel_pack.ParallelPackTest.test_concurrent_lossless_ownership_and_negative_boundaries) ... PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS concurrent banks=1 samples=1 checked_DMA_bytes=0 tail_bytes=0 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS concurrent banks=2 samples=12292 checked_DMA_bytes=0 tail_bytes=30730 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS concurrent banks=17 samples=184760 checked_DMA_bytes=458752 tail_bytes=3148 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+ok
+test_native_bank_handoff_and_stalled_worker_stop (test_s3_parallel_pack.ParallelPackTest.test_native_bank_handoff_and_stalled_worker_stop) ... PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+ok
+test_raw_only_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_raw_only_bulk_SPI_lease_adapter_and_queue_failure) ... PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 3.692s
+
+OK
