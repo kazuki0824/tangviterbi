@@ -1,0 +1,164 @@
+{
+  "ELF_sha256": "63574430d050a002f8939670f14ddf9be550c2ffb9e383a3784ba4d63d1380d6",
+  "checks": [
+    {
+      "name": "source_task_wdt.c",
+      "passed": true
+    },
+    {
+      "name": "source_esp_task_wdt.h",
+      "passed": true
+    },
+    {
+      "name": "source_task_wdt_impl_timergroup.c",
+      "passed": true
+    },
+    {
+      "name": "source_heap_caps.c",
+      "passed": true
+    },
+    {
+      "name": "source_heap_caps_base.c",
+      "passed": true
+    },
+    {
+      "name": "source_heap.c",
+      "passed": true
+    },
+    {
+      "name": "source_intr_alloc.c",
+      "passed": true
+    },
+    {
+      "name": "same_ELF",
+      "passed": true
+    },
+    {
+      "name": "scoped_runtime_audit",
+      "passed": true
+    },
+    {
+      "name": "scoped_task_audit",
+      "passed": true
+    }
+  ],
+  "ABI_with_minimum_headers": {
+    "entry": 20,
+    "object": 20,
+    "IRQ_handle": 12,
+    "fresh_vector": 16
+  },
+  "phases": {
+    "existing_vectors": {
+      "SPI_live": {
+        "known_entry_count": 2,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 72,
+        "forced_internal_min_bytes": 12,
+        "remaining_internal_upper_bound_after_forced_TWDT": 15428,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 15368
+      },
+      "PHY_calibration": {
+        "known_entry_count": 2,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 72,
+        "forced_internal_min_bytes": 12,
+        "remaining_internal_upper_bound_after_forced_TWDT": 13432,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 13372
+      },
+      "steady": {
+        "known_entry_count": 2,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 72,
+        "forced_internal_min_bytes": 12,
+        "remaining_internal_upper_bound_after_forced_TWDT": 15304,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 15244
+      },
+      "receiver_start_overlap": {
+        "known_entry_count": 4,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 112,
+        "forced_internal_min_bytes": 12,
+        "remaining_internal_upper_bound_after_forced_TWDT": 15304,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 15204
+      },
+      "idle_restore_overlap": {
+        "known_entry_count": 3,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 92,
+        "forced_internal_min_bytes": 12,
+        "remaining_internal_upper_bound_after_forced_TWDT": 15304,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 15224
+      }
+    },
+    "fresh_vectors": {
+      "SPI_live": {
+        "known_entry_count": 2,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 88,
+        "forced_internal_min_bytes": 28,
+        "remaining_internal_upper_bound_after_forced_TWDT": 15380,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 15320
+      },
+      "PHY_calibration": {
+        "known_entry_count": 2,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 88,
+        "forced_internal_min_bytes": 28,
+        "remaining_internal_upper_bound_after_forced_TWDT": 13384,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 13324
+      },
+      "steady": {
+        "known_entry_count": 2,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 88,
+        "forced_internal_min_bytes": 28,
+        "remaining_internal_upper_bound_after_forced_TWDT": 15256,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 15196
+      },
+      "receiver_start_overlap": {
+        "known_entry_count": 4,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 128,
+        "forced_internal_min_bytes": 28,
+        "remaining_internal_upper_bound_after_forced_TWDT": 15256,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 15156
+      },
+      "idle_restore_overlap": {
+        "known_entry_count": 3,
+        "extra_entry_count": "M >= 0",
+        "known_TWDT_total_min_bytes": 108,
+        "forced_internal_min_bytes": 28,
+        "remaining_internal_upper_bound_after_forced_TWDT": 15256,
+        "conditional_all_known_TWDT_calloc_internal_upper_bound": 15176
+      }
+    }
+  },
+  "conditions": [
+    "successful TWDT hardware interrupt allocation",
+    "two idle registrations initially; receiver task entries are newly added",
+    "PHY calibration completes before receiver task creation",
+    "peer unregisters before owner restores the two idle registrations",
+    "existing_vectors/fresh_vectors apply consistently to SPI and TWDT",
+    "M other registrations are not charged in numeric subtotals"
+  ],
+  "calloc_placement": "16-byte objects prefer internal with limit 16384 but DEFAULT fallback may use PSRAM",
+  "extra_entry_min_bytes": 20,
+  "receive_reset_list_visits": {
+    "entries": "N = 2 + M",
+    "lookup": "N",
+    "clear_flags_when_all_reset": "N",
+    "maximum_total": "2*N = 4 + 2*M",
+    "note": "SDK reset has no allocation; list traversal is inside a shared spinlock"
+  },
+  "excluded": [
+    "other TWDT registrations",
+    "allocator rounding/fragmentation",
+    "lazy libc/logging/hook allocations",
+    "all other omissions in runtime-memory.json",
+    "spinlock/IRQ arrival bounds and PSRAM access latency"
+  ],
+  "complete_heap_proven": false,
+  "WCET_proven": false,
+  "receiver_adopted": false
+}

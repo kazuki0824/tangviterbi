@@ -6,23 +6,27 @@
 
 | # | 役割 | SoC内の担当と内容 | 現状 |
 |---|---|---|---|
-| 1 | 起動・資源準備 | CPU/SDKがFlash/PSRAM等の初期化、内部RAM予約、stack/TCB、SPI driver/DMA領域を準備 | 実SDKリンク・配置・既知起動確保列を検査済み。全bootと全runtime heapは未確認 |
+| 1 | 起動・資源準備 | CPU/SDKがFlash/PSRAM等の初期化、内部RAM予約、stack/TCB、SPI driver/DMA領域を準備 | 実SDKリンク・配置・既知起動確保列を検査済み。2task静的生成と部分失敗時の停止を追加。全bootと全runtime heapは未確認 |
 | 2 | RF/PHY設定・維持 | CPUがRF設定・選局・帯域/rate等を制御し、RF回路が信号取得。PHY完全較正、PLL追従等 | SDKのPHY入口はリンク済み。対象RFでの選局・品質確認、制御系統との統合は未完了。外付け周波数変換/LNB等のRF回路自体をCPUソフトが代替する意味ではない |
 | 3 | 生I/Q取得とbank引渡し | RFハードウェアのbank書込みをCPUが監視。index/sentinelによる境界確認、bank切替、sample順序の維持 | native取得コードと模型試験あり。未公開RF ABIを用いており実機での連続・無欠落取得は未確認 |
 | 4 | 無損失packing | CPUの2workerで各sampleのI10/Q10を詰め、2sample＝5byteへ格納 | 実Cと並行ホスト試験済み。追加のデシメート・再量子化・FFT・復調は行わない |
 | 5 | バッファと所有権の管理 | CPUがRF3bank・送信4×32 KiBを管理。両worker完了前のRF再使用を禁止。SPI逆順完了でも連続完了分だけ解放。奇数sampleのcarry維持 | 実装・ホスト試験済み。容量の実時間十分性は未確認 |
-| 6 | core実行順・時計・期限管理 | CPUがRF poll、bounded packing slice、collect、SPI処理を実行。共通epoch/単位の時計で期限判定 | 実task scheduler/common clockの統合とWCETは未完了。今回、完了時刻を確認してからDONEを公開するAPIを追加 |
+| 6 | core実行順・時計・期限管理 | CPUがRF poll、bounded packing slice、collect、SPI処理を実行。共通epoch/単位の時計で期限判定 | 校正CCOUNT時計とcore0/1の実task entry・起動handshakeを統合済み。WCET・IRQ込みresponse timeは未確認 |
 | 7 | FPGA向けraw転送 | CPUがepoch/offset/lengthを付けてSPI2 Octal＋SPI3 Quadへ割当。SPI/GDMAが送信し、CPUが完了を回収 | raw専用32 KiB API・FPGA側有限試験あり。pin map、物理同時転送、実時間帯域の確認は未完了 |
 | 8 | 指令の受信・反映 | FPGAからの選局/電源等の指令を受け、対象RF/制御ハードへ反映。復調データの戻りは受けない | raw受信系との指令入口・状態遷移の統合は未完了。診断アプリは指令待受けも開始しない |
-| 9 | 異常停止・回復 | CPUが期限超過、bank境界/順序不整合、送信失敗等を検出してRFを停止。worker/DMA静止後にepoch更新・再初期化、FPGAの出力停止と整合を取る | 部品のfault/保持/停止処理は実装済み。実機全体の停止・再開・TS無効化の統合は未完了 |
+| 9 | 異常停止・回復 | CPUが期限超過、bank境界/順序不整合、送信失敗等を検出してRFを停止。worker/DMA静止後にepoch更新・再初期化、FPGAの出力停止と整合を取る | RF停止・peer終了待ち・DMA lease保持・TWDT復元はtaskへ統合済み。削除完了/DMA drainを確認するsupervisor、再開・TS無効化は未完了 |
 
 電源やLNB等の操作は採用する外付け回路に依存する指令であり、その回路・配線・実装が完成しているという意味ではない。SoCが担当しないのは、FPGA側の同期/周波数・位相補正/FFT/等化/軟判定、deinterleave、Viterbi/RS等のFEC、TS生成・出力である（各方式で必要な処理のみ）。
 
 T側の候補rateは16 MSa/sでraw40 MB/s、S側は40 MSa/sでraw100 MB/s。いずれも20bit/sampleの無損失packing後で、header等は別費用。S40条件のRF品質は未確認。FPGA→SoCは指令だけという制約を維持する。
 
-coordinatorがRF poll・bank公開/回収・両SPI APIを所有し、worker ID 0/1がpackingを分担する。**これはAPIの所有権であり、現在の実RTOS task配置ではない。** `s3_raw_probe/main/raw_probe.c`は引き続きlink-only診断で、task本体は通知待ちのみ。app_mainはRF/PHY/SPI/taskを起動しない。SoCが梱包だけを担当する、あるいは完成済み受信firmwareがある、とは説明しない。
+coordinatorがRF poll・bank公開/回収・両SPI APIを所有し、worker ID 0/1がpackingを分担する。2026-10-26時点ではcore0がcoordinator＋worker0、core1がworker1という実task entryと静的生成関数を追加済み（[最新の起動・停止/SDK証拠](../s3-raw-tasks/README.md)）。`s3_raw_probe/main/raw_probe.c`は引き続きlink-only診断で、実taskと生成経路を保持する。app_mainはRF/PHY/SPI/taskを起動しない。SoCが梱包だけを担当する、あるいは完成済み受信firmwareがある、とは説明しない。
 
-## 今回追加した完了時刻の確認
+## 完了時刻確認APIを追加した段階の記録（以降の数値は当時の版）
+
+現在の時計接続・task配置・メモリ値は上記の最新報告を参照。以下の未実装という記載や旧CPU模型は、APIを追加した当時の状態を記録したもので、現在の採用判定へ流用しない。
+
+### 当時追加した完了時刻の確認
 
 従来の`s3_pp_step(now,bound,...)`は開始時に`now+bound < deadline`を確認するが、実行後の時計を読まない。呼出側が真のWCET上限を供給する契約が満たされれば整合する。一方、実測・統合途中でboundを超えて最後のsliceがDONEになった場合、後のcollectは「未完了job」だけを期限確認するため、完了した遅延を検出できない。これをWCET実証や実装済みの超過検出と混同しない。
 

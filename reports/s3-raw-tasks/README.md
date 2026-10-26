@@ -70,3 +70,29 @@ link probeの休眠ダミーtask生成をこの実起動処理の保持に置き
 `launcher-tests.log`：実launcher＋実task entryのhost試験で最初/2個目の生成失敗、生成成功、生成順序、重複起動拒否、priority範囲を確認。既存の時計・native/packing試験を含む7 unittest成功。SDK APIはmockであり、実機task生成・メモリ空き・WCETの証明ではない。
 
 前実装675025cの6 workflowはすべて成功を確認した。今回の変更のCI結果とは区別する。
+
+## watchdogを含めたメモリ・走査回数の追加検算
+
+固定SDKのcalloc→heap_caps_malloc_defaultを確認した。16 BのTWDT object/entryは16384 B以下なので内部RAMを優先するが、失敗時はDEFAULT capabilityで再試行する。したがって「小さいから必ず内部RAM」は成立しない。ソースとSHAはsources.json、再計算はci/s3_raw_watchdog_budget.pyに保存した。
+
+一方、TWDT interrupt handleは内部RAM限定8 B、新規vector descriptorは内部RAM限定12 B。最小header各4 B込みで、既存vector利用なら12 B、新規vectorなら28 Bを既知の内部RAM費用として追加できる。timer implementation contextはstaticなので再加算しない。APPTRACE wrapperとsleep retentionは対象構成では無効。
+
+起動時idle2＋receiver2のentryは4個、受信中はreceiver2個。停止時はpeerの登録解除後にidleを復元するため、owner1＋idle2の3個である。他の登録M個は別に残り、1個につき少なくとも20 Bを要する。objectとIRQを含む既知費用は、新規vectorの場合、起動重複128 B・受信中88 B・復元重複108 B。全部内部にある場合の条件付き計算と、内部配置が保証される28 Bだけを控除した計算を分けた。
+
+watchdog-budget-675025c.jsonは**前SDKのELF**による検算。定常の残量上限15284 Bから内部限定28 Bを引くと15256 B、既知callocも全て内部という追加条件下では15196 B。他の登録・断片化・未計上費用を含まない上限であり、実機空き容量や起動成功の保証ではない。新launcherのELFには改めて適用する。
+
+resetのSDK実装は登録リストN個を全走査し、全員feed済みならさらにN個のflagを消去する。受信中N=2+Mなら最大4+2M個のentry訪問。reset内の動的確保はないが、共有spinlock、MMIO、外部RAM配置の可能性、IRQ競合が残るため、この回数をcycles/WCETに読み替えない。
+
+## 静的launcherを含むSDK検証結果
+
+[992f497 / CI 40280323040](https://github.com/kazuki0824/tangviterbi/actions/runs/40280323040)成功。artifact12632202299、ZIP SHA256 `fd23463bc844cbf39ca824fa5647a2043dbd4fa67a131b88514ed5351ad88c37`。sdk-launcher以下へ保存した。共通49/raw54の配置check、source/ELF/型の13check、SPI/PHY台帳19check、TWDT追加台帳10checkが成功。
+
+raw_launchは28 B（引数とhandlesを内包）、raw_runtimeは184 B。旧args/handlesと休眠ダミーtaskを除去し、実生成経路をリンクした結果、heap開始は0x3fcace58→0x3fcace60、8 B増。launcherは334 B、probeの生成wrapperは49 Bで、両方Flash上。受信開始前の処理でありIRAM配置の要求にはしていない。
+
+| 新ELF / 新規vector条件 | SPI準備後 | PHY較正中 | 定常受信 | receiver生成時重複 | idle復元時重複 |
+|---|---:|---:|---:|---:|---:|
+| 既知SPI/PHY控除後の内部RAM残量上限 B | 15400 | 13404 | 15276 | 15276 | 15276 |
+| TWDTの内部限定28 Bも控除した上限 B | 15372 | 13376 | 15248 | 15248 | 15248 |
+| 既知TWDT callocも全て内部という条件下の上限 B | 15312 | 13316 | 15188 | 15148 | 15168 |
+
+launcher-sdk-evidence.json、launcher-runtime-memory.json、launcher-watchdog-budget.jsonで再計算可能。未知の追加登録、allocator丸め/断片化、PHY binary内等の未計上分は残る。上限が正でもメモリ成立の証明にはならない。priority/stack/IRQ・MMIO/メモリ待ち込みの時間上限も未確認。
