@@ -13,6 +13,7 @@
 #include "s3_parallel_capture.h"
 #include "s3_timer_clock.h"
 #include "s3_cycle_clock.h"
+#include "s3_raw_tasks.h"
 #include "s3_parallel_spi.h"
 #include "hal/dma_types.h"
 
@@ -27,6 +28,8 @@ s3_native_capture raw_capture;
 // Alternative candidate; one exclusively owned state per pinned core.
 // Calibration and capture are NOT started by this link-only probe.
 s3_cycle_clock_state raw_cycle_clocks[2];
+s3_raw_tasks raw_runtime;
+s3_raw_task_arg raw_runtime_args[2]={{&raw_runtime,0},{&raw_runtime,1}};
 s3_spi_port raw_ports[2];
 spi_multi_transaction_t raw_descriptors[2];
 s3_pp_transfer raw_transfers[2];
@@ -70,6 +73,8 @@ int (*volatile raw_keep_clocked_step)(s3_parallel_pack*,unsigned,unsigned,uint64
 uint64_t (*volatile raw_keep_clock)(void*)=s3_timer_clock;
 uint64_t (*volatile raw_keep_cycle_clock)(void*)=s3_cycle_clock_read;
 bool (*volatile raw_keep_cycle_init)(s3_cycle_clock_state*)=s3_cycle_clock_init;
+void (*volatile raw_keep_runtime_entry)(void*)=s3_raw_task_entry;
+bool (*volatile raw_keep_runtime_init)(s3_raw_tasks*,const s3_raw_tasks_config*)=s3_raw_tasks_init;
 void (*volatile raw_keep_tasks)(void)=raw_create_tasks;
 int (*volatile raw_keep_storage)(void)=raw_initialize_storage;
 void (*volatile raw_keep_phy)(esp_phy_modem_t)=esp_phy_enable;
@@ -86,6 +91,8 @@ void app_main(void) {
         4*S3_PP_CHUNK,(unsigned)(2*RAW_STACK_BYTES+sizeof(raw_task_tcbs)));
  printf("cycle candidate=%p init=%p state=%p bytes=%u\n",(void*)raw_keep_cycle_clock,
         (void*)raw_keep_cycle_init,(void*)raw_cycle_clocks,(unsigned)sizeof(raw_cycle_clocks));
+ printf("runtime candidate=%p init=%p args=%p bytes=%u; not started\n",
+        (void*)raw_keep_runtime_entry,(void*)raw_keep_runtime_init,(void*)raw_runtime_args,(unsigned)sizeof(raw_runtime));
  // Read volatile anchors to prevent linker GC. Never call them in app_main.
  printf("anchors=%p %p %p %p %p %p %p %p %p %p sizes=%p state=%p %p %p %p step=%p clock=%p stacks=%p clocked=%p\n",
   (void*)raw_keep_tasks,(void*)raw_keep_storage,(void*)raw_keep_phy,

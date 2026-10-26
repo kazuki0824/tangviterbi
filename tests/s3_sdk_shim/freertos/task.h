@@ -12,6 +12,7 @@ void vTaskDelete(TaskHandle_t);
 void vTaskDelay(TickType_t);
 TickType_t xTaskGetTickCount(void);
 unsigned xPortGetCoreID(void);
+unsigned uxTaskPriorityGet(TaskHandle_t);
 eTaskState eTaskGetState(TaskHandle_t);
 void taskYIELD(void);
 #endif

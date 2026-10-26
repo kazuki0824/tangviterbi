@@ -1,0 +1,35 @@
+# ② raw task起動・停止の実装と、時間保証との境界
+
+2026-10-26。前回ec7a8a2の6 workflowはすべて成功。receiver functional closure（40240765473）も成功し、unicorn不足とbuffered stdoutによる成果物生成エラーは解消した。①は変更しない。
+
+## 実装した担当と起動順序
+
+`experiments/s3_raw_tasks.c`に実FreeRTOS task entryを追加した。外側のboard launcherがPHY/SPI・新規pack/bufferを初期化し、2個の静的taskをcore0/1へ固定して起動する契約。rate、epoch、slice長、各workerの時間bound、現在のTWDT設定をcallerが与える。未測定のboundをdefault値として埋めていない。SDK link probeはentry/state/初期化関数を保持するが、app_mainは実行しない。
+
+- core0: RF poll、worker0、collect、2 portのreap/submit。各処理の間へRF pollを置く。有限sliceを使い、受信中にtick-sized delayを入れない。
+- core1: worker1。payload所有権のtake/completeはcore0だけが操作する。
+- 両taskが校正・watchdog登録を終え、core1が全tick待機を抜けたready=2をrelease公開する。core0はacquire確認後にだけRF開始へ進む。
+- 起動待機でidleが動いた後のCCOUNT連続性を仮定しないよう、両coreとも最後のtick待機後に再校正する。その後は停止までtick待機をしない。実行coreの一致と、校正誤差幅E < worker boundも確認する。
+- core0のRF開始成功をrun flagで公開する。core1はready=2以降、このflagをtick睡眠せず待つ。ready=1だけでは起動しない。
+
+起動中はRF停止状態でtick待機できるが、core1がその待機から戻る前にRFを開始すると最大1tick=10ms遅れる。Sのbank期限に収まらないため、上記ready=2 handshakeは必要。強制的にpeerをその待機へ留める試験で、RFが先に始まらないことを確認した。
+
+## watchdogの扱い
+
+固定SDKのtask_wdt.cではSMP時のidle監視がuser entryであり、idle task handleをesp_task_wdt_deleteする方法では解除できない。公開 `esp_task_wdt_reconfigure` によりidle_core_maskを0にする。両receiver taskを先にTWDT登録し、timeout_ms/trigger_panicと他の登録task/userは維持する。watchdog全体を無効化しない。設定変更はcore0だけが行う。
+
+callerがTWDT設定の唯一の管理者であり、渡す設定が現在の実設定と一致することが前提。公開getterは使っておらず、SDK defaultを実設定と推定しない。他コードによる並行reconfigureを許す実装ではない。
+
+受信中のfeed間隔は渡されたtimeoutの半分。これはTWDT期限から導いた間隔でありRF処理の時間保証ではない。feed自身のSDK lock/entry走査費用もRF gapへ計上する必要がある。起動・停止待機では毎回feedする。WDTが発報してもDMA所有権が解消するとは扱わない。
+
+## 停止・異常
+
+各coreが自分の処理失敗をstopへ公開する。core0はRFを止めてからpeerのstoppedを待つ。worker1はpackingを抜けた後にのみstoppedを公開する。peerが止まらなければ任意timeoutで安全なreuseへ進まず、監視された待機のままとする。
+
+peer停止後、SPIは各portを1回nonblocking reapする。未完了/異常ならactive/leaseを保持する。idle監視を元の設定へ戻し、各task自身のTWDT登録を解除してtaskを削除する。stopped flagだけではDMA完了やtask stack回収完了ではない。外側supervisorはtask削除とDMAのdrain/resetを確認するまでstorageを再初期化してはいけない。正常停止時に未送信IQを最後までTSへ流す機能も、この停止処理の保証には含まない。
+
+## 試験と限界
+
+host-tests.log。実task entryを2 pthreadで走らせ、SDK/RF/packing/SPI calleeをmockしたlifecycle試験を追加した。通常停止、最後のtick待機にいるpeer、校正失敗、TWDT登録失敗、SPI失敗とDMA未完了保持を確認。既存の実native/packing出力一致試験も実行した。lifecycle試験を実RF/SDKの時間検証とはしない。
+
+実task entryができたことと、すべての処理が期限内に終わることは別。IRQ affinity4候補、task priority、各slice/API/clock/watchdog/IRQ/memory競合のWCETと連続入力response timeは未確定。起動前のcallerによるboard設定・task生成と、停止後のsupervisorも別途必要。SDK placement、増分state/コード、TWDT entryの動的確保は新ELFで確認する。全受信機の採用は依然0。
