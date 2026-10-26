@@ -1,0 +1,139 @@
+spi_bus_lock_bg_request
+40379eac: entry a1, 32
+40379eaf: l32i a7, a2, 4
+40379eb2: l32i a11, a2, 8
+40379eb5: memw 
+40379eb8: l32i a8, a7, 4
+40379ebb: extui a11, a11, 0, 10
+40379ebe: bne a2, a8, 40379ede <spi_bus_lock_bg_request+0x32>
+40379ec1: movi.n a8, 1
+40379ec3: memw 
+40379ec6: s8i a8, a7, 8
+40379ec9: movi.n a12, 5
+40379ecb: mov.n a10, a7
+40379ecd: call8 40385b38 <__atomic_fetch_or_4>
+40379ed0: l32i.n a8, a2, 8
+40379ed2: and a10, a10, a8
+40379ed5: slli a10, a10, 12
+40379ed8: bnez.n a10, 40379ef1 <spi_bus_lock_bg_request+0x45>
+40379eda: j 40379eea <spi_bus_lock_bg_request+0x3e>
+40379ede: movi a12, 5
+40379ee1: or a10, a7, a7
+40379ee4: call8 40385b38 <__atomic_fetch_or_4>
+40379ee7: bnez a10, 40379ef1 <spi_bus_lock_bg_request+0x45>
+40379eea: l32i.n a8, a7, 36
+40379eec: l32i.n a10, a7, 44
+40379eee: callx8 a8
+40379ef1: movi.n a2, 0
+40379ef3: retw.n 
+
+spi_bus_lock_bg_check_dev_req
+40379f40: entry a1, 32
+40379f43: l32i a7, a2, 4
+40379f46: memw 
+40379f49: memw 
+40379f4c: l32i a9, a7, 0
+40379f4f: memw 
+40379f52: l32i.n a8, a2, 8
+40379f54: and a8, a9, a8
+40379f57: extui a10, a8, 0, 10
+40379f5a: beqz.n a10, 40379f7a <spi_bus_lock_bg_check_dev_req+0x3a>
+40379f5c: extui a2, a9, 0, 10
+40379f5f: slli a11, a2, 10
+40379f62: movi.n a12, 5
+40379f64: mov.n a10, a7
+40379f66: call8 40385b38 <__atomic_fetch_or_4>
+40379f69: movi.n a11, -1
+40379f6b: xor a11, a2, a11
+40379f6e: movi.n a12, 5
+40379f70: mov.n a10, a7
+40379f72: call8 40385af0 <__atomic_fetch_and_4>
+40379f75: movi.n a2, 1
+40379f77: j 40379f85 <spi_bus_lock_bg_check_dev_req+0x45>
+40379f7a: extui a8, a8, 10, 10
+40379f7d: slli a8, a8, 10
+40379f80: movi.n a2, 1
+40379f82: moveqz a2, a8, a8
+40379f85: retw.n 
+
+__atomic_fetch_or_4
+40385b38: entry a1, 32
+40385b3b: l32r a8, 40374998 <_iram_text_start+0x594> (c4000000 <_rtc_reserved_end+0x63f00000>)
+40385b3e: l32r a9, 403745bc <_iram_text_start+0x1b8> (1ffffff <UserFrameTotalSize+0x1fffeff>)
+40385b41: add a8, a2, a8
+40385b44: or a7, a2, a2
+40385b47: bgeu a9, a8, 40385b59 <__atomic_fetch_or_4+0x21>
+40385b4a: or a10, a2, a2
+40385b4d: mov.n a12, a4
+40385b4f: mov.n a11, a3
+40385b51: call8 40385c94 <__atomic_s32c1i_fetch_or_4>
+40385b54: mov.n a2, a10
+40385b56: j 40385b7c <__atomic_fetch_or_4+0x44>
+40385b59: call8 4037f544 <xPortInIsrContext>
+40385b5c: l32r a4, 40375438 <_iram_text_start+0x1034> (3fc98140 <s_atomic_lock>)
+40385b5f: movi.n a11, -1
+40385b61: or a10, a4, a4
+40385b64: call8 4037f568 <xPortEnterCriticalTimeout>
+40385b67: memw 
+40385b6a: l32i.n a2, a2, 0
+40385b6c: or a3, a3, a2
+40385b6f: memw 
+40385b72: s32i.n a3, a7, 0
+40385b74: call8 4037f544 <xPortInIsrContext>
+40385b77: mov.n a10, a4
+40385b79: call8 4037f6b8 <vPortExitCritical>
+40385b7c: retw.n 
+
+__atomic_fetch_and_4
+40385af0: entry a1, 32
+40385af3: l32r a8, 40374998 <_iram_text_start+0x594> (c4000000 <_rtc_reserved_end+0x63f00000>)
+40385af6: l32r a9, 403745bc <_iram_text_start+0x1b8> (1ffffff <UserFrameTotalSize+0x1fffeff>)
+40385af9: add a8, a2, a8
+40385afc: or a7, a2, a2
+40385aff: bgeu a9, a8, 40385b11 <__atomic_fetch_and_4+0x21>
+40385b02: or a10, a2, a2
+40385b05: mov.n a12, a4
+40385b07: mov.n a11, a3
+40385b09: call8 40385c78 <__atomic_s32c1i_fetch_and_4>
+40385b0c: mov.n a2, a10
+40385b0e: j 40385b34 <__atomic_fetch_and_4+0x44>
+40385b11: call8 4037f544 <xPortInIsrContext>
+40385b14: l32r a4, 40375438 <_iram_text_start+0x1034> (3fc98140 <s_atomic_lock>)
+40385b17: movi.n a11, -1
+40385b19: or a10, a4, a4
+40385b1c: call8 4037f568 <xPortEnterCriticalTimeout>
+40385b1f: memw 
+40385b22: l32i.n a2, a2, 0
+40385b24: and a3, a3, a2
+40385b27: memw 
+40385b2a: s32i.n a3, a7, 0
+40385b2c: call8 4037f544 <xPortInIsrContext>
+40385b2f: mov.n a10, a4
+40385b31: call8 4037f6b8 <vPortExitCritical>
+40385b34: retw.n 
+
+__atomic_s32c1i_fetch_or_4
+40385c94: entry a1, 32
+40385c97: memw 
+40385c9a: l32i.n a9, a2, 0
+40385c9c: mov.n a8, a2
+40385c9e: mov.n a2, a9
+40385ca0: or a10, a9, a3
+40385ca3: wsr.scompare1 a9
+40385ca6: s32c1i a10, a8, 0
+40385ca9: mov.n a9, a10
+40385cab: bne a10, a2, 40385c9e <__atomic_s32c1i_fetch_or_4+0xa>
+40385cae: retw.n 
+
+__atomic_s32c1i_fetch_and_4
+40385c78: entry a1, 32
+40385c7b: memw 
+40385c7e: l32i.n a9, a2, 0
+40385c80: mov.n a8, a2
+40385c82: mov.n a2, a9
+40385c84: and a10, a9, a3
+40385c87: wsr.scompare1 a9
+40385c8a: s32c1i a10, a8, 0
+40385c8d: mov.n a9, a10
+40385c8f: bne a10, a2, 40385c82 <__atomic_s32c1i_fetch_and_4+0xa>
+40385c92: retw.n 

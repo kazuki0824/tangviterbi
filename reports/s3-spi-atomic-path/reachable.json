@@ -1,0 +1,1290 @@
+{
+  "spi_bus_lock_bg_request": [
+    {
+      "address": "0x40379eac",
+      "bytes": 3,
+      "op": "entry",
+      "operands": "a1, 32",
+      "edges": [
+        "0x40379eaf"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379eaf",
+      "bytes": 3,
+      "op": "l32i",
+      "operands": "a7, a2, 4",
+      "edges": [
+        "0x40379eb2"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379eb2",
+      "bytes": 3,
+      "op": "l32i",
+      "operands": "a11, a2, 8",
+      "edges": [
+        "0x40379eb5"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379eb5",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40379eb8"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379eb8",
+      "bytes": 3,
+      "op": "l32i",
+      "operands": "a8, a7, 4",
+      "edges": [
+        "0x40379ebb"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ebb",
+      "bytes": 3,
+      "op": "extui",
+      "operands": "a11, a11, 0, 10",
+      "edges": [
+        "0x40379ebe"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ebe",
+      "bytes": 3,
+      "op": "bne",
+      "operands": "a2, a8, 40379ede <spi_bus_lock_bg_request+0x32>",
+      "edges": [
+        "0x40379ede",
+        "0x40379ec1"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ec1",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a8, 1",
+      "edges": [
+        "0x40379ec3"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ec3",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40379ec6"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ec6",
+      "bytes": 3,
+      "op": "s8i",
+      "operands": "a8, a7, 8",
+      "edges": [
+        "0x40379ec9"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ec9",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a12, 5",
+      "edges": [
+        "0x40379ecb"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ecb",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a10, a7",
+      "edges": [
+        "0x40379ecd"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ecd",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "40385b38 <__atomic_fetch_or_4>",
+      "edges": [
+        "0x40379ed0"
+      ],
+      "call": "40385b38 <__atomic_fetch_or_4>"
+    },
+    {
+      "address": "0x40379ed0",
+      "bytes": 2,
+      "op": "l32i.n",
+      "operands": "a8, a2, 8",
+      "edges": [
+        "0x40379ed2"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ed2",
+      "bytes": 3,
+      "op": "and",
+      "operands": "a10, a10, a8",
+      "edges": [
+        "0x40379ed5"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ed5",
+      "bytes": 3,
+      "op": "slli",
+      "operands": "a10, a10, 12",
+      "edges": [
+        "0x40379ed8"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ed8",
+      "bytes": 2,
+      "op": "bnez.n",
+      "operands": "a10, 40379ef1 <spi_bus_lock_bg_request+0x45>",
+      "edges": [
+        "0x40379ef1",
+        "0x40379eda"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379eda",
+      "bytes": 3,
+      "op": "j",
+      "operands": "40379eea <spi_bus_lock_bg_request+0x3e>",
+      "edges": [
+        "0x40379eea"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379eea",
+      "bytes": 2,
+      "op": "l32i.n",
+      "operands": "a8, a7, 36",
+      "edges": [
+        "0x40379eec"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379eec",
+      "bytes": 2,
+      "op": "l32i.n",
+      "operands": "a10, a7, 44",
+      "edges": [
+        "0x40379eee"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379eee",
+      "bytes": 3,
+      "op": "callx8",
+      "operands": "a8",
+      "edges": [
+        "0x40379ef1"
+      ],
+      "call": "a8"
+    },
+    {
+      "address": "0x40379ef1",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a2, 0",
+      "edges": [
+        "0x40379ef3"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ef3",
+      "bytes": 2,
+      "op": "retw.n",
+      "operands": "",
+      "edges": [],
+      "call": null
+    },
+    {
+      "address": "0x40379ede",
+      "bytes": 3,
+      "op": "movi",
+      "operands": "a12, 5",
+      "edges": [
+        "0x40379ee1"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ee1",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a10, a7, a7",
+      "edges": [
+        "0x40379ee4"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379ee4",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "40385b38 <__atomic_fetch_or_4>",
+      "edges": [
+        "0x40379ee7"
+      ],
+      "call": "40385b38 <__atomic_fetch_or_4>"
+    },
+    {
+      "address": "0x40379ee7",
+      "bytes": 3,
+      "op": "bnez",
+      "operands": "a10, 40379ef1 <spi_bus_lock_bg_request+0x45>",
+      "edges": [
+        "0x40379ef1",
+        "0x40379eea"
+      ],
+      "call": null
+    }
+  ],
+  "spi_bus_lock_bg_check_dev_req": [
+    {
+      "address": "0x40379f40",
+      "bytes": 3,
+      "op": "entry",
+      "operands": "a1, 32",
+      "edges": [
+        "0x40379f43"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f43",
+      "bytes": 3,
+      "op": "l32i",
+      "operands": "a7, a2, 4",
+      "edges": [
+        "0x40379f46"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f46",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40379f49"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f49",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40379f4c"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f4c",
+      "bytes": 3,
+      "op": "l32i",
+      "operands": "a9, a7, 0",
+      "edges": [
+        "0x40379f4f"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f4f",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40379f52"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f52",
+      "bytes": 2,
+      "op": "l32i.n",
+      "operands": "a8, a2, 8",
+      "edges": [
+        "0x40379f54"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f54",
+      "bytes": 3,
+      "op": "and",
+      "operands": "a8, a9, a8",
+      "edges": [
+        "0x40379f57"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f57",
+      "bytes": 3,
+      "op": "extui",
+      "operands": "a10, a8, 0, 10",
+      "edges": [
+        "0x40379f5a"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f5a",
+      "bytes": 2,
+      "op": "beqz.n",
+      "operands": "a10, 40379f7a <spi_bus_lock_bg_check_dev_req+0x3a>",
+      "edges": [
+        "0x40379f7a",
+        "0x40379f5c"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f5c",
+      "bytes": 3,
+      "op": "extui",
+      "operands": "a2, a9, 0, 10",
+      "edges": [
+        "0x40379f5f"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f5f",
+      "bytes": 3,
+      "op": "slli",
+      "operands": "a11, a2, 10",
+      "edges": [
+        "0x40379f62"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f62",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a12, 5",
+      "edges": [
+        "0x40379f64"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f64",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a10, a7",
+      "edges": [
+        "0x40379f66"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f66",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "40385b38 <__atomic_fetch_or_4>",
+      "edges": [
+        "0x40379f69"
+      ],
+      "call": "40385b38 <__atomic_fetch_or_4>"
+    },
+    {
+      "address": "0x40379f69",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a11, -1",
+      "edges": [
+        "0x40379f6b"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f6b",
+      "bytes": 3,
+      "op": "xor",
+      "operands": "a11, a2, a11",
+      "edges": [
+        "0x40379f6e"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f6e",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a12, 5",
+      "edges": [
+        "0x40379f70"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f70",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a10, a7",
+      "edges": [
+        "0x40379f72"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f72",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "40385af0 <__atomic_fetch_and_4>",
+      "edges": [
+        "0x40379f75"
+      ],
+      "call": "40385af0 <__atomic_fetch_and_4>"
+    },
+    {
+      "address": "0x40379f75",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a2, 1",
+      "edges": [
+        "0x40379f77"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f77",
+      "bytes": 3,
+      "op": "j",
+      "operands": "40379f85 <spi_bus_lock_bg_check_dev_req+0x45>",
+      "edges": [
+        "0x40379f85"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f85",
+      "bytes": 2,
+      "op": "retw.n",
+      "operands": "",
+      "edges": [],
+      "call": null
+    },
+    {
+      "address": "0x40379f7a",
+      "bytes": 3,
+      "op": "extui",
+      "operands": "a8, a8, 10, 10",
+      "edges": [
+        "0x40379f7d"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f7d",
+      "bytes": 3,
+      "op": "slli",
+      "operands": "a8, a8, 10",
+      "edges": [
+        "0x40379f80"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f80",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a2, 1",
+      "edges": [
+        "0x40379f82"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40379f82",
+      "bytes": 3,
+      "op": "moveqz",
+      "operands": "a2, a8, a8",
+      "edges": [
+        "0x40379f85"
+      ],
+      "call": null
+    }
+  ],
+  "__atomic_fetch_or_4": [
+    {
+      "address": "0x40385b38",
+      "bytes": 3,
+      "op": "entry",
+      "operands": "a1, 32",
+      "edges": [
+        "0x40385b3b"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b3b",
+      "bytes": 3,
+      "op": "l32r",
+      "operands": "a8, 40374998 <_iram_text_start+0x594> (c4000000 <_rtc_reserved_end+0x63f00000>)",
+      "edges": [
+        "0x40385b3e"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b3e",
+      "bytes": 3,
+      "op": "l32r",
+      "operands": "a9, 403745bc <_iram_text_start+0x1b8> (1ffffff <UserFrameTotalSize+0x1fffeff>)",
+      "edges": [
+        "0x40385b41"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b41",
+      "bytes": 3,
+      "op": "add",
+      "operands": "a8, a2, a8",
+      "edges": [
+        "0x40385b44"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b44",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a7, a2, a2",
+      "edges": [
+        "0x40385b47"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b47",
+      "bytes": 3,
+      "op": "bgeu",
+      "operands": "a9, a8, 40385b59 <__atomic_fetch_or_4+0x21>",
+      "edges": [
+        "0x40385b59",
+        "0x40385b4a"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b4a",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a10, a2, a2",
+      "edges": [
+        "0x40385b4d"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b4d",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a12, a4",
+      "edges": [
+        "0x40385b4f"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b4f",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a11, a3",
+      "edges": [
+        "0x40385b51"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b51",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "40385c94 <__atomic_s32c1i_fetch_or_4>",
+      "edges": [
+        "0x40385b54"
+      ],
+      "call": "40385c94 <__atomic_s32c1i_fetch_or_4>"
+    },
+    {
+      "address": "0x40385b54",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a2, a10",
+      "edges": [
+        "0x40385b56"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b56",
+      "bytes": 3,
+      "op": "j",
+      "operands": "40385b7c <__atomic_fetch_or_4+0x44>",
+      "edges": [
+        "0x40385b7c"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b7c",
+      "bytes": 2,
+      "op": "retw.n",
+      "operands": "",
+      "edges": [],
+      "call": null
+    },
+    {
+      "address": "0x40385b59",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "4037f544 <xPortInIsrContext>",
+      "edges": [
+        "0x40385b5c"
+      ],
+      "call": "4037f544 <xPortInIsrContext>"
+    },
+    {
+      "address": "0x40385b5c",
+      "bytes": 3,
+      "op": "l32r",
+      "operands": "a4, 40375438 <_iram_text_start+0x1034> (3fc98140 <s_atomic_lock>)",
+      "edges": [
+        "0x40385b5f"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b5f",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a11, -1",
+      "edges": [
+        "0x40385b61"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b61",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a10, a4, a4",
+      "edges": [
+        "0x40385b64"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b64",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "4037f568 <xPortEnterCriticalTimeout>",
+      "edges": [
+        "0x40385b67"
+      ],
+      "call": "4037f568 <xPortEnterCriticalTimeout>"
+    },
+    {
+      "address": "0x40385b67",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40385b6a"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b6a",
+      "bytes": 2,
+      "op": "l32i.n",
+      "operands": "a2, a2, 0",
+      "edges": [
+        "0x40385b6c"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b6c",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a3, a3, a2",
+      "edges": [
+        "0x40385b6f"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b6f",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40385b72"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b72",
+      "bytes": 2,
+      "op": "s32i.n",
+      "operands": "a3, a7, 0",
+      "edges": [
+        "0x40385b74"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b74",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "4037f544 <xPortInIsrContext>",
+      "edges": [
+        "0x40385b77"
+      ],
+      "call": "4037f544 <xPortInIsrContext>"
+    },
+    {
+      "address": "0x40385b77",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a10, a4",
+      "edges": [
+        "0x40385b79"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b79",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "4037f6b8 <vPortExitCritical>",
+      "edges": [
+        "0x40385b7c"
+      ],
+      "call": "4037f6b8 <vPortExitCritical>"
+    }
+  ],
+  "__atomic_fetch_and_4": [
+    {
+      "address": "0x40385af0",
+      "bytes": 3,
+      "op": "entry",
+      "operands": "a1, 32",
+      "edges": [
+        "0x40385af3"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385af3",
+      "bytes": 3,
+      "op": "l32r",
+      "operands": "a8, 40374998 <_iram_text_start+0x594> (c4000000 <_rtc_reserved_end+0x63f00000>)",
+      "edges": [
+        "0x40385af6"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385af6",
+      "bytes": 3,
+      "op": "l32r",
+      "operands": "a9, 403745bc <_iram_text_start+0x1b8> (1ffffff <UserFrameTotalSize+0x1fffeff>)",
+      "edges": [
+        "0x40385af9"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385af9",
+      "bytes": 3,
+      "op": "add",
+      "operands": "a8, a2, a8",
+      "edges": [
+        "0x40385afc"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385afc",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a7, a2, a2",
+      "edges": [
+        "0x40385aff"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385aff",
+      "bytes": 3,
+      "op": "bgeu",
+      "operands": "a9, a8, 40385b11 <__atomic_fetch_and_4+0x21>",
+      "edges": [
+        "0x40385b11",
+        "0x40385b02"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b02",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a10, a2, a2",
+      "edges": [
+        "0x40385b05"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b05",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a12, a4",
+      "edges": [
+        "0x40385b07"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b07",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a11, a3",
+      "edges": [
+        "0x40385b09"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b09",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "40385c78 <__atomic_s32c1i_fetch_and_4>",
+      "edges": [
+        "0x40385b0c"
+      ],
+      "call": "40385c78 <__atomic_s32c1i_fetch_and_4>"
+    },
+    {
+      "address": "0x40385b0c",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a2, a10",
+      "edges": [
+        "0x40385b0e"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b0e",
+      "bytes": 3,
+      "op": "j",
+      "operands": "40385b34 <__atomic_fetch_and_4+0x44>",
+      "edges": [
+        "0x40385b34"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b34",
+      "bytes": 2,
+      "op": "retw.n",
+      "operands": "",
+      "edges": [],
+      "call": null
+    },
+    {
+      "address": "0x40385b11",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "4037f544 <xPortInIsrContext>",
+      "edges": [
+        "0x40385b14"
+      ],
+      "call": "4037f544 <xPortInIsrContext>"
+    },
+    {
+      "address": "0x40385b14",
+      "bytes": 3,
+      "op": "l32r",
+      "operands": "a4, 40375438 <_iram_text_start+0x1034> (3fc98140 <s_atomic_lock>)",
+      "edges": [
+        "0x40385b17"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b17",
+      "bytes": 2,
+      "op": "movi.n",
+      "operands": "a11, -1",
+      "edges": [
+        "0x40385b19"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b19",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a10, a4, a4",
+      "edges": [
+        "0x40385b1c"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b1c",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "4037f568 <xPortEnterCriticalTimeout>",
+      "edges": [
+        "0x40385b1f"
+      ],
+      "call": "4037f568 <xPortEnterCriticalTimeout>"
+    },
+    {
+      "address": "0x40385b1f",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40385b22"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b22",
+      "bytes": 2,
+      "op": "l32i.n",
+      "operands": "a2, a2, 0",
+      "edges": [
+        "0x40385b24"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b24",
+      "bytes": 3,
+      "op": "and",
+      "operands": "a3, a3, a2",
+      "edges": [
+        "0x40385b27"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b27",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40385b2a"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b2a",
+      "bytes": 2,
+      "op": "s32i.n",
+      "operands": "a3, a7, 0",
+      "edges": [
+        "0x40385b2c"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b2c",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "4037f544 <xPortInIsrContext>",
+      "edges": [
+        "0x40385b2f"
+      ],
+      "call": "4037f544 <xPortInIsrContext>"
+    },
+    {
+      "address": "0x40385b2f",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a10, a4",
+      "edges": [
+        "0x40385b31"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385b31",
+      "bytes": 3,
+      "op": "call8",
+      "operands": "4037f6b8 <vPortExitCritical>",
+      "edges": [
+        "0x40385b34"
+      ],
+      "call": "4037f6b8 <vPortExitCritical>"
+    }
+  ],
+  "__atomic_s32c1i_fetch_or_4": [
+    {
+      "address": "0x40385c94",
+      "bytes": 3,
+      "op": "entry",
+      "operands": "a1, 32",
+      "edges": [
+        "0x40385c97"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c97",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40385c9a"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c9a",
+      "bytes": 2,
+      "op": "l32i.n",
+      "operands": "a9, a2, 0",
+      "edges": [
+        "0x40385c9c"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c9c",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a8, a2",
+      "edges": [
+        "0x40385c9e"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c9e",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a2, a9",
+      "edges": [
+        "0x40385ca0"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385ca0",
+      "bytes": 3,
+      "op": "or",
+      "operands": "a10, a9, a3",
+      "edges": [
+        "0x40385ca3"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385ca3",
+      "bytes": 3,
+      "op": "wsr.scompare1",
+      "operands": "a9",
+      "edges": [
+        "0x40385ca6"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385ca6",
+      "bytes": 3,
+      "op": "s32c1i",
+      "operands": "a10, a8, 0",
+      "edges": [
+        "0x40385ca9"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385ca9",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a9, a10",
+      "edges": [
+        "0x40385cab"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385cab",
+      "bytes": 3,
+      "op": "bne",
+      "operands": "a10, a2, 40385c9e <__atomic_s32c1i_fetch_or_4+0xa>",
+      "edges": [
+        "0x40385c9e",
+        "0x40385cae"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385cae",
+      "bytes": 2,
+      "op": "retw.n",
+      "operands": "",
+      "edges": [],
+      "call": null
+    }
+  ],
+  "__atomic_s32c1i_fetch_and_4": [
+    {
+      "address": "0x40385c78",
+      "bytes": 3,
+      "op": "entry",
+      "operands": "a1, 32",
+      "edges": [
+        "0x40385c7b"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c7b",
+      "bytes": 3,
+      "op": "memw",
+      "operands": "",
+      "edges": [
+        "0x40385c7e"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c7e",
+      "bytes": 2,
+      "op": "l32i.n",
+      "operands": "a9, a2, 0",
+      "edges": [
+        "0x40385c80"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c80",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a8, a2",
+      "edges": [
+        "0x40385c82"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c82",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a2, a9",
+      "edges": [
+        "0x40385c84"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c84",
+      "bytes": 3,
+      "op": "and",
+      "operands": "a10, a9, a3",
+      "edges": [
+        "0x40385c87"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c87",
+      "bytes": 3,
+      "op": "wsr.scompare1",
+      "operands": "a9",
+      "edges": [
+        "0x40385c8a"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c8a",
+      "bytes": 3,
+      "op": "s32c1i",
+      "operands": "a10, a8, 0",
+      "edges": [
+        "0x40385c8d"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c8d",
+      "bytes": 2,
+      "op": "mov.n",
+      "operands": "a9, a10",
+      "edges": [
+        "0x40385c8f"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c8f",
+      "bytes": 3,
+      "op": "bne",
+      "operands": "a10, a2, 40385c82 <__atomic_s32c1i_fetch_and_4+0xa>",
+      "edges": [
+        "0x40385c82",
+        "0x40385c92"
+      ],
+      "call": null
+    },
+    {
+      "address": "0x40385c92",
+      "bytes": 2,
+      "op": "retw.n",
+      "operands": "",
+      "edges": [],
+      "call": null
+    }
+  ]
+}
