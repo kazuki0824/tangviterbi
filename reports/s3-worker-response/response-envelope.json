@@ -1,0 +1,255 @@
+{
+  "scope": "Conditional per-bank worker response envelope; no measured WCET inputs.\n\nFIFO scan serves older sequence numbers first. The standalone packing API\nallows two older banks. The single-owner native adapter keeps the current RF\nwrite bank unowned, so successful native acceptance has at most one older bank. Charge their remaining work as full maximum banks, plus one\npartial ordinary iteration. Extraordinary work uses explicit arrival envelopes\nburst + floor(R/period); their bounds must cover carry-in and all interference.\n",
+  "rows": [
+    {
+      "standard": "T",
+      "worker": 0,
+      "older_banks": 0,
+      "native_success_path": true,
+      "standalone_API_stress": false,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "T",
+      "worker": 0,
+      "older_banks": 1,
+      "native_success_path": true,
+      "standalone_API_stress": false,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "T",
+      "worker": 0,
+      "older_banks": 2,
+      "native_success_path": false,
+      "standalone_API_stress": true,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "T",
+      "worker": 1,
+      "older_banks": 0,
+      "native_success_path": true,
+      "standalone_API_stress": false,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "T",
+      "worker": 1,
+      "older_banks": 1,
+      "native_success_path": true,
+      "standalone_API_stress": false,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "T",
+      "worker": 1,
+      "older_banks": 2,
+      "native_success_path": false,
+      "standalone_API_stress": true,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "S",
+      "worker": 0,
+      "older_banks": 0,
+      "native_success_path": true,
+      "standalone_API_stress": false,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "S",
+      "worker": 0,
+      "older_banks": 1,
+      "native_success_path": true,
+      "standalone_API_stress": false,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "S",
+      "worker": 0,
+      "older_banks": 2,
+      "native_success_path": false,
+      "standalone_API_stress": true,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "S",
+      "worker": 1,
+      "older_banks": 0,
+      "native_success_path": true,
+      "standalone_API_stress": false,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "S",
+      "worker": 1,
+      "older_banks": 1,
+      "native_success_path": true,
+      "standalone_API_stress": false,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    },
+    {
+      "standard": "S",
+      "worker": 1,
+      "older_banks": 2,
+      "native_success_path": false,
+      "standalone_API_stress": true,
+      "result": {
+        "status": "unproved",
+        "missing": [
+          "release_delay",
+          "clock_error",
+          "ordinary_iteration",
+          "sampled_slice",
+          "slice_bound",
+          "events"
+        ],
+        "receiver_adopted": false
+      }
+    }
+  ],
+  "required_evidence": [
+    "ordinary iteration elapsed upper bound, including usual poll/collect/SPI/feed work on core0",
+    "sampled slice bound and actual calibrated E for each worker",
+    "extra preparation/settlement/watchdog/IRQ arrival and elapsed envelopes, without omissions or double counting",
+    "release delay relative to switch_earliest, not relative to accept",
+    "upper bounds include cross-core/shared-memory/DMA effects",
+    "q<=1 assumes only the current native adapter publishes banks and the RF write bank stays unowned"
+  ],
+  "limitations": [
+    "bank_response requires an independently verified reclaim budget; worker DONE alone does not release a bank",
+    "does not prove 4-arena output capacity or SPI retirement throughput",
+    "positive local margin is not receiver adoption",
+    "failure to close a pessimistic envelope is not proof of physical impossibility"
+  ],
+  "source_sha256": {
+    "experiments/s3_raw_tasks.c": "472ddc05d761d1381773b5a756339d4da78a6064d863b5353fcfde200e38853c",
+    "experiments/s3_parallel_pack.c": "6851bef3ef1e066cfc95da904ed1864849752fcdad3ef697bbcc718728f21fa4",
+    "experiments/s3_native_capture.c": "c2ad0db240000d385bedd6562d0b08794bf4c307450b981327a55c3dc2d97ad3"
+  },
+  "actual_schedule_verified": false,
+  "WCET_proven": false,
+  "receiver_adopted": false
+}

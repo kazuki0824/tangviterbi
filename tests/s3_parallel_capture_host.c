@@ -57,6 +57,11 @@ int main(void) {
    tick(240);
    if(s3_pp_collect(&p,capture.now)!=S3_PP_OK){s3_native_stop(&capture);break;}
    if(!s3_native_poll(&capture))break;
+   // The native adapter never publishes the bank RF is currently writing.
+   // Thus at acceptance there is at most one older owned bank, even though
+   // the standalone packing API supports three simultaneously owned banks.
+   unsigned writing=capture.settling?(capture.active+1)%3:capture.active;
+   assert(!p.banks[writing].owned&&p.count<=2);
    unsigned n;
    for(unsigned w=0;w<(stall?1u:2u);++w) {
     int rc=common?s3_pp_step_clocked_quantized(&p,w,128,clock,contexts[w],errors[w],1000,&n):s3_pp_step(&p,w,128,capture.now,1000,&n);
