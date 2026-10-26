@@ -11,6 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 from experiments.s3_settling_limits import limits
+from experiments.s3_reclaim_limits import reclaim_limits
 ROOT=Path(__file__).resolve().parents[1]
 
 
@@ -64,11 +65,20 @@ def worker(rate,config):
     return result
 
 
-def bank_response(rate,configs,reclaim_budget=None):
+def bank_response(rate,configs,reclaim_budget=None,*,native_reclaim_model=False):
     if len(configs)!=2:raise ValueError('two worker configurations required')
+    if type(native_reclaim_model) is not bool:raise ValueError('native_reclaim_model')
+    if native_reclaim_model and reclaim_budget is not None:
+        raise ValueError('choose explicit budget or conditional native model')
+    if native_reclaim_model and any(c.get('older_banks',0)>1 for c in configs):
+        raise ValueError('native model excludes standalone three-owned-bank stress')
     workers=[worker(rate,c) for c in configs]
     result=dict(workers=workers,status='unproved',receiver_adopted=False,
                 actual_schedule_verified=False,WCET_proven=False)
+    if native_reclaim_model:
+        result['conditional_native_reclaim_model']=reclaim_limits(rate)
+        reclaim_budget=result['conditional_native_reclaim_model']['conservative_reclaim_strict_budget_cycles']
+    result['reclaim_strict_budget_cycles']=reclaim_budget
     if any(w['status']!='closed_within_declared_bounds' for w in workers):return result
     done=max(c['release_delay']+w['response_cycles'] for c,w in zip(configs,workers))
     result['both_DONE_from_switch_cycles']=done
@@ -119,6 +129,6 @@ if __name__=='__main__':
     if bool(a.config)!=bool(a.rate):p.error('--config and --rate must be supplied together')
     if a.config:
         config=json.loads(a.config.read_text())
-        r=bank_response(a.rate,config['workers'],config.get('reclaim_budget')) if 'workers' in config else worker(a.rate,config)
+        r=bank_response(a.rate,config['workers'],config.get('reclaim_budget'),native_reclaim_model=config.get('native_reclaim_model',False)) if 'workers' in config else worker(a.rate,config)
     else:r=report()
     a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(r,indent=2)+'\n')

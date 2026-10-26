@@ -72,6 +72,11 @@ int main(void){
   assert(s3_native_poll(&s)&&!s.prepared&&!s.fault);
   ++hw.index;hw.time+=s.cpp;
   assert(!s3_native_poll(&s)&&s.fault==7&&!hw.enabled);
+  // Releasing before the same busy-gate observation permits preparation.
+  // This tests the actual branch, not physical RF timing or worker WCET.
+  s=settled(rate);hw.bank_busy=false;hw.index=(s.expected+gate)&MASK;
+  hw.time=s.switch_earliest+(uint64_t)gate*s.cpp;
+  assert(s3_native_poll(&s)&&s.prepared&&!s.fault);s3_native_stop(&s);
   // The busy gate is not an unconditional limit: a free bank can be prepared
   // later, but never when the first unprepared observation is at THRESHOLD.
   s=settled(rate);hw.index=(s.expected+THRESHOLD-1)&MASK;

@@ -51,3 +51,5 @@ response-envelope.jsonはT/S、worker0/1、q=0/1/2の12条件を保存。未取�
 python -m experiments.s3_worker_response --output build/response-envelope.json
 PYTHONPATH=tests python -m unittest test_s3_worker_response test_s3_settling_limits test_s3_task_gap_limits test_s3_raw_schedule_limits test_s3_parallel_pack -v
 ```
+
+追補: [reclaim期限の導出](../s3-reclaim-deadline/README.md)で、明示的な条件付きnativeモデルを追加した。未指定時のunprovedは維持する。実RFモデルを検証済みとする変更ではない。

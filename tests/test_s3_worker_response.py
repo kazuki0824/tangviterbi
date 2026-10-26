@@ -67,4 +67,25 @@ class WorkerResponseTest(unittest.TestCase):
         self.assertEqual(r['reclaim_margin_cycles'],0)
         self.assertFalse(r['receiver_adopted'])
 
+    def test_native_reclaim_model_is_explicit_conditional_and_strict(self):
+        for rate,budget in ((16,303271),(40,109309)):
+            c=dict(release_delay=budget-1100,clock_error=0,ordinary_iteration=100,
+                   sampled_slice=90,slice_bound=100,older_banks=0,slice_pairs=512,events=[])
+            # DONE at budget-200 satisfies packing deadline, release at budget
+            # does not satisfy the conservative strict reclaim condition.
+            r=bank_response(rate,[c,c],native_reclaim_model=True)
+            self.assertTrue(all(w['status']=='closed_within_declared_bounds' for w in r['workers']))
+            self.assertEqual(r['both_DONE_from_switch_cycles'],budget-200)
+            self.assertEqual(r['status'],'not_closed_by_reclaim_budget')
+            early=dict(c,release_delay=c['release_delay']-1)
+            r=bank_response(rate,[early,early],native_reclaim_model=True)
+            self.assertEqual(r['reclaim_margin_cycles'],0)
+            self.assertFalse(r['conditional_native_reclaim_model']['hardware_RF_model_verified'])
+            self.assertFalse(r['receiver_adopted'])
+            self.assertEqual(bank_response(rate,[early,early])['status'],'unproved')
+            with self.assertRaises(ValueError):
+                bank_response(rate,[c,c],budget,native_reclaim_model=True)
+            with self.assertRaises(ValueError):
+                bank_response(rate,[dict(c,older_banks=2),c],native_reclaim_model=True)
+
 if __name__=='__main__':unittest.main()
