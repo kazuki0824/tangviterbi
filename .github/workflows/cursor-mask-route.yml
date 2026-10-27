@@ -1,0 +1,76 @@
+name: Cursor-mask fixed-source route trials
+on:
+  push:
+    branches: ['study/20k-partition-recheck-20261023']
+    paths:
+      - '.github/workflows/cursor-mask-route.yml'
+      - 'ci/cursor_mask_weighted_route.py'
+      - 'ci/patch_gowin_compatible_pairs.py'
+      - 'ci/patch_gowin_placement_targeted.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build pinned backend with unchanged legality checks
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build libboost-filesystem-dev libboost-program-options-dev libeigen3-dev
+          git clone --filter=blob:none https://github.com/YosysHQ/nextpnr.git build/nextpnr-source
+          git -C build/nextpnr-source checkout e2fe86b3ce6feaa3f09d8db5c0971c1cda3fc641
+          python3 ci/patch_gowin_placement_targeted.py build/nextpnr-source
+          python3 ci/patch_gowin_compatible_pairs.py build/nextpnr-source
+          cad=$(dirname "$(dirname "$(command -v yosys)")")
+          cmake -S build/nextpnr-source -B build/nextpnr-rebuilt -G Ninja -DARCH=himbaechel -DHIMBAECHEL_UARCH=gowin -DHIMBAECHEL_GOWIN_DEVICES= -DBUILD_GUI=OFF -DBUILD_PYTHON=OFF -DUSE_OPENMP=OFF -DCMAKE_BUILD_TYPE=Release -DEXTERNAL_CHIPDB=ON -DEXTERNAL_CHIPDB_ROOT="$cad/share/nextpnr"
+          cmake --build build/nextpnr-rebuilt -j2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cursor-mask-pinned-backend
+          path: |
+            build/nextpnr-rebuilt/nextpnr-himbaechel
+            build/nextpnr-rebuilt/CMakeCache.txt
+  route:
+    needs: build
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - weight: 20
+            seed: 1
+          - weight: 10
+            seed: 2
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: cursor-mask-pinned-backend
+          path: build/nextpnr-rebuilt
+      - name: Run complete pack place route and retain failing timing
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-filesystem-dev libboost-program-options-dev
+          git clone --filter=blob:none https://github.com/YosysHQ/nextpnr.git build/nextpnr-source
+          git -C build/nextpnr-source checkout e2fe86b3ce6feaa3f09d8db5c0971c1cda3fc641
+          python3 ci/patch_gowin_placement_targeted.py build/nextpnr-source
+          python3 ci/patch_gowin_compatible_pairs.py build/nextpnr-source
+          chmod +x build/nextpnr-rebuilt/nextpnr-himbaechel
+          cad=$(dirname "$(dirname "$(command -v yosys)")")
+          ln -s "$cad/share/nextpnr" build/nextpnr-rebuilt/share
+          python3 -m ci.cursor_mask_weighted_route --nextpnr build/nextpnr-rebuilt/nextpnr-himbaechel --source build/nextpnr-source --cad "$cad" --weight ${{ matrix.weight }} --seed ${{ matrix.seed }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cursor-mask-weight${{ matrix.weight }}-seed${{ matrix.seed }}
+          path: reports/cursor-mask-timingweight*/

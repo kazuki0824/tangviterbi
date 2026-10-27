@@ -41,6 +41,8 @@ packingも最新SDKからCFGを再計数した。block45/run118/slow_pair173は�
 
 **分割で連続fill量は減ったが、一定30µs scanを達成したとは認定しない。** 7反復の準備完了とbank解放・RF切替期限、SPI API/packing等を含む非一様なowner反復と有限bufferの整合が残る。1反復のfill単独10.38µsはowner全体の実時間上限ではない。
 
+[packing細分化の比較](../s3-owner-slice-tradeoff/README.md)では、256pairへ減らすと非空slice平均のケース上端は28.10→17.29µsになる一方、追加管理200cycle/反復込みのcore0上端は97.48→102.41%。64/128もCPU超過、1024は連続packingが長くなる。細分化だけで解決せず、512を維持して処理本体・SPI費用・スケジュールを改善する。平均slice時間を最悪時間とは扱わない。
+
 ### 同じS候補構成のSDKメモリ確認
 
 [SDK run 40518679493](https://github.com/kazuki0824/tangviterbi/actions/runs/40518679493)、commit `1d954f4`の共通・raw-only既定・S候補が成功。Sの実ELFが6/16・16384bytes・8word・1024word準備予算であることと新入口のIRAM配置を含む**59静的check**、fill命令列・literal・8 source identity等**12再確認**が成功。3構成の静的check合計は172。
@@ -75,7 +77,7 @@ raw＋高速localshiftはlogic689超過のため単純置換しない。slotaddr
 
 保存部分構成は152.091263MHz。最低152.626638MHzへ最長遅延0.023063ns、目標154.285714MHzへ0.093518nsの純短縮が必要。critical pathのRAM周辺routingは1.509ns＋1.344ns。この配線・近接配置を改善対象とする。単体Fmaxを全受信機へ流用しない。
 
-[固定配置からの再配線2試行](../cursor-mask-fixed-router2/README.md)はcheckpoint復元のassertion／ALU位置制約エラーで配線前に終了し、新しいFmaxは得られなかった。速度改善を計上しない。元のcompatible-pair packerと計数instrumentationは保存source hashと一致する状態へ復元し、通常pack/placeからtiming weightを10→20へ変える試行と、weight10・seed2の試行を実行中。合法性検査は緩和しない。
+[固定配置からの再配線2試行](../cursor-mask-fixed-router2/README.md)はcheckpoint復元のassertion／ALU位置制約エラーで配線前に終了し、新しいFmaxは得られなかった。速度改善を計上しない。元のcompatible-pair packerと計数instrumentationは保存source hashと一致する状態へ復元し、通常pack/placeからtiming weightを10→20へ変える試行と、weight10・seed2のローカル試行は途中ログを残し、セッション・プロセス・完了結果が取得できない状態になった。原因不明で、新Fmaxはない。途中ログは各 `*-incomplete-local` に保存し、GitHub Actionsの `Cursor-mask fixed-source route trials` で同じsource・chipdb・netlist hashを検査して再実行する。合法性検査は緩和しない。
 
 T FIR移管は752logic・1536FF・2BSRAM・8DSP18を空ける代替。ただし保存QACC kernel＋準備書込みのみ＋旧非FIR/API予算で370.964〜403.472 Mcycles/s。準備書込み約2.081GB/s、gather読込み・展開・競合・core偏在・同品質係数契約が未確認。rawよりCPUを軽くする案として選ばず、FPGA容量を空ける代替として保持する。
 

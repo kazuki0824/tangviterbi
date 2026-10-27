@@ -41,3 +41,5 @@ target計数は `python -m ci.s3_native_fill_target --toolchain build/rs-toolcha
 ### RF共存診断CIのコピー漏れ
 
 同じruntime commitの別workflow `40518680204` は `s3_raw_transfer_config.h` が診断用コピー集合にないためcompile段階で失敗した。転送長設定を分離したe2b9206以降のコピー漏れで、今回のraw-only候補SDKとは別経路。`83779f3` でヘッダーのコピーとworkflowの変更検知を追加した。未修正の赤を成功として数えない。RF診断だけの手動dispatchはHTTP403で受け付けられなかったため、通常PR CIで修正を再確認する。
+
+修正後のRF共存診断 [run 40521072906](https://github.com/kazuki0824/tangviterbi/actions/runs/40521072906) は成功。コピー漏れによるCI失敗は解消した。raw-only候補と異なる診断構成のため、この成功を全受信機の成立確認とは扱わない。
