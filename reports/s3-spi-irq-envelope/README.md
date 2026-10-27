@@ -2,6 +2,8 @@
 
 2026-10-27。形式手法の利用許可を受け、有限状態モデルの全到達遷移を検査し、任意長の実行列に適用できる帰納的不等式を作った。runtimeと①は変更しない。実装全体の形式検証ではない。
 
+下位経路の追補：[HAL/LLとIRQ allocatorの照合](../s3-spi-irq-hardware/README.md)。初期doneのsoftware set、開始前clear、設定反映待ち、IRQ matrix切替の共通spinlockを確認。hardwareの時間・原因対応の証明は残る。
+
 ## 証明したもの
 
 状態は outstanding / started / REQ published / DMA completed / pending IRQ cause / deferred enable の6変数。1 outstandingを維持し、REQ公開前のDMA開始・完了も許す。REQ公開とDMA完了は各転送1回、公開後の条件付きenable処理と完了の両方を経てからreapして次をenqueueする。IRQ原因は1 pending bitへ合流し、IRQ entryが消費する。開始・reapとISRの詳細な順序制約は緩めており、実機では到達しない列も含む。
