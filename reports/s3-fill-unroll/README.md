@@ -22,13 +22,13 @@ GCC14.2 esp-14.2.0_20241119、ESP32-S3、O2、実production C全体を最小SDK�
 
 | 構成 | core0 | core1 |
 |---|---:|---:|
-| T raw 8/16・32KiB | 41.92〜43.90% | 26.15〜28.01% |
-| S raw 5/16・16KiB | 83.16〜86.65% | 79.94〜87.74% |
-| **S raw 6/16・16KiB** | **90.09〜94.32%** | **73.15〜79.83%** |
+| T raw 8/16・32KiB | 41.96〜43.94% | 26.18〜28.05% |
+| S raw 5/16・16KiB | 83.22〜86.71% | 80.07〜87.86% |
+| **S raw 6/16・16KiB** | **90.17〜94.40%** | **73.27〜79.94%** |
 
-S6/16の追加scan費用の平均CPU予算は465.90→3135.11cycle/回に増える。3000cycleという感度点でもcore0上端99.53%。これは実測費用・信頼区間ではない。
+S6/16の追加scan費用の平均CPU予算は旧465.90→現在3113.63cycle/回に増える。3000cycleという感度点でもcore0上端99.61%。これは実測費用・信頼区間ではない。
 
-6/16のpacking-only平均service上端271.32µsは不変。fillの命令削減が、公開320µsまでの実スケジュール全体を自動的に保証するものではない。通信容量・有限buffer条件・FPGA全体資源の未確定差分も不変。実装改善は平均CPU予算の問題を緩和するが、受信機成立の確認はまだ終えていない。
+6/16のpacking-only平均service上端は現SDK係数で271.73µs。fillの命令削減が、公開320µsまでの実スケジュール全体を自動的に保証するものではない。通信容量・有限buffer条件・FPGA全体資源の未確定差分も不変。実装改善は平均CPU予算の問題を緩和するが、受信機成立の確認はまだ終えていない。
 
 ## 検証
 
@@ -39,3 +39,25 @@ host試験は実production fillを呼び、全16384開始位置×17長さと非�
 ## 同じS構成のSDK確認を追加
 
 raw-only SPI CIにS6/16・16KiB・8word fillのprofileを追加。CMake定義を全関連翻訳単位へ一括適用し、実ELFに残した3設定値を要求値と照合する。DMA descriptorの既知量も実転送長で計算する。既定T相当8/16・32KiB構成とのメモリ差を混同しない。これはlink診断であり受信task実行ではない。CI結果は取得後に別途記録する。
+
+### 既定構成のSDK結果
+
+[run 40507751547](https://github.com/kazuki0824/tangviterbi/actions/runs/40507751547)、commit `2ecb729`の共通/raw-only構成は成功。raw-only ELFを取得し、source identity・ELF hash・実生成命令（literal relocationのみ除外）・sentinel定数等9確認が成功。fillは165bytes・61命令でobjectと一致し、15362命令/bank包絡を適用できる。SDK配置監査54項目成功。IRAM末尾0x40388100、heap開始0x3fcacf60、既知driver控除後の内部空き**上限**16444bytes。未計上割当・断片化・実起動を含む保証値ではない。S6/16・16KiBのprofile結果とは区別する。証拠と再検算はsdk-defaultおよび `ci/s3_fill_unroll_sdk_audit.py`。
+
+### S候補構成もSDK link・配置確認が成功
+
+[run 40508948605](https://github.com/kazuki0824/tangviterbi/actions/runs/40508948605)、commit `ca8c06e`で共通・raw-only既定・S候補の3profileが成功。S候補はELF内の設定が6/16・16384bytes・8wordであることを含む57静的check成功。fillの実命令列・sentinel・source identity等9再確認も成功。
+
+同じcommitのraw-only既定との比較：pack構造体392→440bytes、heap開始0x3fcacf60→0x3fcacf90（+48bytes）。DMA descriptorの既知量は1port216→120bytes、2portでは192bytes減少。差引で既知driver控除後の内部空き上限16444→**16588bytes**（+144bytes）。IRAM末尾0x40388100は共通。メモリの実起動・断片化・未計上割当の解消を意味しない。
+
+### 残るスケジュール上の具体的な問題
+
+現在のownerは `poll_rf → s3_native_poll → fill(3072)＋fill(4096)` を同期実行し、その間は同じownerのSPI reap/submit・collectへ戻らない。今回の同じα=1.1模型でもfillは約70.41µs/bank（bodyだけ約69.81µs）を見込む。従って、平均CPU94.40%に下がったことから「scanが常に30µs間隔」を導けない。一定30µsの有限buffer検証を、現runtimeの成立根拠として昇格させない。
+
+次のSoC改善はfillを途中再開可能な小単位へ分割し、owner1反復当たりのfill仕事量を制限すること。その場合は次bankの全消去完了前にpreparedへ遷移しないこと、reclaim順序、RF切替期限、追加管理費用、非一様なSPI service間隔を同時に評価する必要がある。これは単なる測定不足ではなく、現runtimeと一定scan模型の対応が取れていないという残課題である。
+
+### packing係数も現SDKで再計数
+
+S候補と同じcommitのT相当profile双方を逆アセンブルし、到達可能CFGと4つのloop backedgeを検査した。regular118・bulk6・byte11・候補scan17は旧値と一致。量子化時計対応を含む現implは293nodes（旧285）、wrapper31（旧29）で、slice係数は213→**223**。block45/run118/slow_pair173は不変。`cfg-S`と`cfg-T`にELF hash・設定・4確認・CFGを保存。S5/16についてはshareがaccept時の分割位置だけに使われる同じpacking本体の係数を適用する比較模型で、5/16専用SDKを新規buildした結果ではない。
+
+統合見積もりをこの係数で再計算したため、直前のS6 core0上端94.32%は**94.40%**、core1上端79.83%は**79.94%**へ更新。clock callback本体・実メモリ待ちはこのCFG計数に含まず、既存の別費用・感度仮定を保持する。

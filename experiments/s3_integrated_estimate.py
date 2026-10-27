@@ -7,7 +7,10 @@ def read(path):
     p=ROOT/path
     return json.loads(gzip.decompress(p.read_bytes()) if p.suffix=='.gz' else p.read_text())
 def main():
-    coeff=read('reports/s3-pack-span/cfg/results.json')['coefficients'];cpu=[]
+    cfg=read('reports/s3-fill-unroll/cfg-S/results.json');other_cfg=read('reports/s3-fill-unroll/cfg-T/results.json')
+    assert all(c['passed'] for c in cfg['checks']+other_cfg['checks'])
+    assert cfg['coefficients']==other_cfg['coefficients']
+    coeff=cfg['coefficients'];cpu=[]
     fill_target=read('reports/s3-fill-unroll/u8/target.json')
     assert all(c['passed'] for c in fill_target['checks'])
     assert fill_target['source_sha256']==hashlib.sha256((ROOT/'experiments/s3_native_capture.c').read_bytes()).hexdigest()
@@ -33,6 +36,7 @@ def main():
         row['implemented_fill_and_scan1500_core_percent']=[[v-fill_saving_pct+scan_cost for v in core[0]],core[1]]
         row['implemented_fill_scan_budget_cycles']=(100-core[0][1]+fill_saving_pct)*288 if standard=='S' else None
         if standard=='S':
+            row['implemented_fill_scan_cost_sensitivity']=[dict(additional_cycles_per_scan=c,core0_percent=[v-fill_saving_pct+c/288 for v in core[0]]) for c in (0,500,1500,3000)]
             row['additional_scan_cost_sensitivity']=[dict(additional_cycles_per_scan=c,core0_percent=[v+c/288 for v in core[0]]) for c in (0,500,1500,3000)]
             row['additional_scan_budget_cycles']=(100-core[0][1])*288
             fill_pct=1.1*21574*rate/12288/2.4
@@ -57,11 +61,21 @@ def main():
         partial_timing=dict(MHz=actual,minimum_MHz=minimum,target_MHz=target,largest_routing_ns=routing[:2],minimum_path_reduction_ns=1000/actual-1000/minimum,target_path_reduction_ns=1000/actual-1000/target),
         T_FIR_optimistic_legacy_Mcycles_s=optimistic,T_FIR_optimistic_legacy_remaining=[480-v for v in optimistic],
         caveats=['Old whole-stage allocation plus replacement kernels, not a whole-top synthesis.',
-        'CPU instruction coefficients are archived estimates; alpha=1.1, API=20us, U=20/10 Mcycles/s are assumptions.',
+        'Packing coefficients are recounted from current S/T SDK CFGs; alpha=1.1, API=20us, U=20/10 Mcycles/s remain assumptions.',
         'Extra scan cycles 500/1500/3000 are sensitivity points, not measured percentiles.',
         'T FIR optimistic aggregate mixes retained legacy non-FIR budget with compiled kernel instruction and preparation-write floor; gather reads, unpack, contention and quality unverified.',
         'Formal performance pass, route assignment and receiver adoption remain zero.'],receiver_adopted=False)
-    result['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ['experiments/s3_integrated_estimate.py','ci/s3_pack_path_audit.py','experiments/s3_native_capture.c','reports/s3-fill-unroll/u8/target.json','reports/partition-recheck-20261023/recomputed-k7-resource-variants.json','reports/controller-cursor-mask/pnr.json.gz','reports/s3-preprocess-break-even/qacc/qacc-audit.json']}
+    sdk=read('reports/s3-fill-unroll/sdk-S/sdk-verification.json')
+    assert all(c['passed'] for c in sdk['checks'])
+    result['S_candidate_SDK']=dict(commit=sdk['commit'],checks=sdk['SDK_static_checks'],
+        driver=sdk['driver_lower_bound'],symbols=sdk['symbols'],sizes=sdk['sizes'],
+        actual_boot_verified=False)
+    result['owner_schedule']=dict(fill_envelope_us_at_alpha1_1=fill_bound*1.1/240,
+        requested_scan_period_us=30,constant_scan_schedule_verified=False,
+        reason='Owner calls both fills synchronously inside RF poll; average CPU alone does not establish a constant SPI scan period.')
+    trial=ROOT/'reports/cursor-mask-timingweight20/result.json'
+    if trial.exists():result['FPGA_timingweight20_trial']=json.loads(trial.read_text())
+    result['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ['experiments/s3_integrated_estimate.py','ci/s3_pack_path_audit.py','experiments/s3_native_capture.c','reports/s3-fill-unroll/u8/target.json','reports/s3-fill-unroll/cfg-S/results.json','reports/s3-fill-unroll/cfg-T/results.json','reports/s3-fill-unroll/sdk-S/sdk-verification.json','reports/partition-recheck-20261023/recomputed-k7-resource-variants.json','reports/controller-cursor-mask/pnr.json.gz','reports/s3-preprocess-break-even/qacc/qacc-audit.json']}
     (OUT/'estimate.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(cpu=[{k:v for k,v in r.items() if k!='cases'} for r in cpu],FIR_saved=saved,timing=result['partial_timing'],FIR_optimistic=optimistic),indent=2))
 if __name__=='__main__':main()
