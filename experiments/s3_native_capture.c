@@ -17,6 +17,12 @@
 enum { CTRL=0x60033d5c, INDEX=0x60033d60, CONFIG=0x60033d90, SELECT=0x600c101c,
  MASK=16383, THRESHOLD=12288, START=3072, END=4096, LATE=2000 };
 #define SENTINEL UINT32_C(0xa5c33c5a)
+#ifndef S3_NATIVE_FILL_UNROLL
+#define S3_NATIVE_FILL_UNROLL 8
+#endif
+#if S3_NATIVE_FILL_UNROLL != 1 && S3_NATIVE_FILL_UNROLL != 4 && S3_NATIVE_FILL_UNROLL != 8
+#error "S3_NATIVE_FILL_UNROLL must be 1, 4 or 8"
+#endif
 static bool HOT fail(s3_native_capture*,unsigned);
 static uint64_t HOT clock_now(s3_native_capture *s) {
  if(s->common_clock){
@@ -38,7 +44,19 @@ static void HOT fill(s3_native_capture*s,unsigned b,unsigned at,unsigned n) {
  while(n){
   unsigned span=MASK+1-at;if(span>n)span=n;
   volatile uint32_t *dst=p+at;
-  for(unsigned i=0;i<span;++i)*dst++=SENTINEL;
+  unsigned remaining=span;
+#if S3_NATIVE_FILL_UNROLL != 1
+  // Each volatile store retains its ordering/barrier; only pointer updates
+  // are shared. Never let an unrolled group cross the ring boundary.
+  while(remaining>=S3_NATIVE_FILL_UNROLL){
+   dst[0]=SENTINEL;dst[1]=SENTINEL;dst[2]=SENTINEL;dst[3]=SENTINEL;
+#if S3_NATIVE_FILL_UNROLL == 8
+   dst[4]=SENTINEL;dst[5]=SENTINEL;dst[6]=SENTINEL;dst[7]=SENTINEL;
+#endif
+   dst+=S3_NATIVE_FILL_UNROLL;remaining-=S3_NATIVE_FILL_UNROLL;
+  }
+#endif
+  for(unsigned i=0;i<remaining;++i)*dst++=SENTINEL;
   n-=span;at=0;
  }
 #ifdef ESP_PLATFORM
