@@ -37,3 +37,7 @@ core1上端79.94%は不変。追加管理費用予算は約381cycle/反復。ΔE
 target計数は `python -m ci.s3_native_fill_target --toolchain build/rs-toolchain/xtensa-esp-elf --unroll 8 --prepare-quantum 1024 --output reports/s3-budgeted-fill/u8`。
 
 [SDK run 40518679493](https://github.com/kazuki0824/tangviterbi/actions/runs/40518679493) が成功。S6/16・16KiB・8word・1024word予算と新入口のIRAM配置を含む59静的check、SDK fill命令列・literal・8 source identity等12再確認が成功。共通54＋既定59＋S59=172静的check。SDK成果物・hash・出所はsdk-S/T、packing CFG再計数はcfg-S/Tに保存。Sのcaptureは168bytes（+8）、IRAM末尾0x40388200、既知driver控除後の内部空き上限16324bytes（分割前から264bytes減）。実起動・実時間の確認ではない。
+
+### RF共存診断CIのコピー漏れ
+
+同じruntime commitの別workflow `40518680204` は `s3_raw_transfer_config.h` が診断用コピー集合にないためcompile段階で失敗した。転送長設定を分離したe2b9206以降のコピー漏れで、今回のraw-only候補SDKとは別経路。`83779f3` でヘッダーのコピーとworkflowの変更検知を追加した。未修正の赤を成功として数えない。RF診断だけの手動dispatchはHTTP403で受け付けられなかったため、通常PR CIで修正を再確認する。
