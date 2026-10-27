@@ -57,7 +57,7 @@ if NATIVE:
                  ' * Native PHY lower-bound LINK ONLY, no RF capture loop. */\n'+prefix+
                  '\nvoid app_main(void) {'+init+'    prepare_rx();\n}\n')
 extra=UP/'main/s3_probe';extra.mkdir(exist_ok=True)
-for p in ('s3_iq10_block.h','s3_transport.c','s3_transport.h','s3_spi_transport.c','s3_spi_transport.h',
+for p in ('s3_iq10_block.h','s3_raw_transfer_config.h','s3_transport.c','s3_transport.h','s3_spi_transport.c','s3_spi_transport.h',
           's3_capture_bridge.c','s3_capture_bridge.h','s3_fft_tiles.c','s3_fft_tiles.h',
           's3_native_capture.c','s3_native_capture.h'):
     shutil.copy2(ROOT/'experiments'/p,extra/p)
