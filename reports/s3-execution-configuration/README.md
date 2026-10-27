@@ -2,6 +2,8 @@
 
 2026-10-27。細分化した監査を成立判定へ戻すため、保存ELFの役割と実taskの設定責任を再確認した。runtimeと①は変更しない。
 
+**追補：以下は実構成について成立を確認するための条件であり、条件付き見積もりの着手条件ではない。** 完成アプリや保証WCETを待たずに、既知の命令量・資源予算と未測定費用の感度分析から設計判断はできる。[SoC時間・実効帯域・FPGA全体・確度を統合した見積もり](../receiver-estimate-20261027/README.md)を現在の見積もり入口とする。
+
 ## 保存ELFは受信アプリではない
 
 `experiments/s3_raw_probe/main/raw_probe.c` のapp_mainはprintfとvolatile anchorの読取りだけを実行する。PHY、SPI open、native RF start、task launcherの関数をリンクへ残すが呼ばない。ファイル冒頭と既存配置報告にもlink-onlyと明記されている。この点は今回新しく発生した制約ではない。
