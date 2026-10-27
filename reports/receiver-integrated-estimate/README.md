@@ -43,13 +43,13 @@ packingも最新SDKからCFGを再計数した。block45/run118/slow_pair173は�
 
 [packing細分化の比較](../s3-owner-slice-tradeoff/README.md)では、256pairへ減らすと非空slice平均のケース上端は28.10→17.29µsになる一方、追加管理200cycle/反復込みのcore0上端は97.48→102.41%。64/128もCPU超過、1024は連続packingが長くなる。細分化だけで解決せず、512を維持して処理本体・SPI費用・スケジュールを改善する。平均slice時間を最悪時間とは扱わない。256pair案を管理200cycleの感度条件で平均CPU100%以内へ戻すには、他条件固定ならSPI CPU使用時間20→16.05µs/転送以下が必要。達成値ではなく改善目標の逆算である。
 
-[SPI空振り確認の改善](../s3-spi-running-guard/README.md)：raw-onlyの転送中はSDK結果キュー確認を省くguardを実装。idleだけでは完了認定せず、従来のSDK完了結果でleaseを解放する。関連host試験は成功、変更後SDKは再確認中。削減時間は未測定で、上記CPU感度値を減額していない。
+[SPI空振り確認の改善](../s3-spi-running-guard/README.md)：raw-onlyの転送中はSDK結果キュー確認を省くguardを実装。idleだけでは完了認定せず、従来のSDK完了結果でleaseを解放する。関連host試験と変更後SDKのT/S各59静的check・各12ソース/生成命令照合が成功。実ELFでも動作中のSDK呼出し省略とidle時のSDK回収経路を確認。削減時間は未測定で、上記CPU感度値を減額していない。
 
 ### 同じS候補構成のSDKメモリ確認
 
-[SDK run 40518679493](https://github.com/kazuki0824/tangviterbi/actions/runs/40518679493)、commit `1d954f4`の共通・raw-only既定・S候補が成功。Sの実ELFが6/16・16384bytes・8word・1024word準備予算であることと新入口のIRAM配置を含む**59静的check**、fill命令列・literal・8 source identity等**12再確認**が成功。3構成の静的check合計は172。
+[SDK run 40535137322](https://github.com/kazuki0824/tangviterbi/actions/runs/40535137322)、commit `9da570f`の共通・raw-only既定・S候補が成功。Sの実ELFが6/16・16384bytes・8word・1024word準備予算であることと新入口のIRAM配置を含む**59静的check**、fill命令列・literal・8 source identity等**12再確認**が成功。3構成の静的check合計は172。SPI guard追加後もS/Tのpacking係数45/118/173/223は変わらず、各4項目のCFG照合が成功。
 
-Sのpack構造体440bytes、captureは160→168bytes。分割前と比べIRAM末尾は0x40388100→0x40388200、heap開始は0x3fcacf90→0x3fcad098。既知driver控除後の内部空き**上限**は16588→**16324bytes**（264bytes減）。準備管理の追加はメモリ上も無償ではない。未計上割当・断片化・実起動までの保証ではなく、128KiBの物理payload arenaを維持したlink結果である。
+SPI guard追加前後で下記メモリ値は不変。Sのpack構造体440bytes、captureは準備分割により160→168bytes。分割前と比べIRAM末尾は0x40388100→0x40388200、heap開始は0x3fcacf90→0x3fcad098。既知driver控除後の内部空き**上限**は16588→**16324bytes**（264bytes減）。準備管理の追加はメモリ上も無償ではない。未計上割当・断片化・実起動までの保証ではなく、128KiBの物理payload arenaを維持したlink結果である。
 
 ## 2. 通信と有限buffer
 

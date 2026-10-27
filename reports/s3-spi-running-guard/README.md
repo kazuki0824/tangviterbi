@@ -10,4 +10,14 @@
 
 これは命令経路の改善であり、実CPU時間の削減量は未測定。転送20µs、追加scan1500cycle、管理200cycleの仮定は今回減額しない。したがってS512上端97.48%、S256上端102.41%という前回感度値は維持し、16.05µs/転送という目標を達成したとは言わない。動作中の空振りはscan費用側であり、完了転送1件の費用と混同しない。
 
-SDKリンク・IRAM配置は変更後のCIで再確認する。既存1d954f4のELFをこのguardの検証済み成果物としては扱わない。
+[変更後SDK run 40535137322](https://github.com/kazuki0824/tangviterbi/actions/runs/40535137322)、commit `9da570f67607e1278c5e7089a40ff1d0902ea3fc` の成果物を取得・SHA256照合した。T/S各59静的check、各12項目のソース・fill生成命令照合が成功。`sdk-S/`・`sdk-T/` に実ELF・map・設定・provenance・照合結果を保存する。packing CFGも各4checkを通過し、係数45/118/173/223は不変。
+
+実ELFの `s3_spi_reap` は139bytes。`sdk-reap.dis` はbranch先から再開してpaddingを命令と誤読しない逆アセンブルである。Sは0x40378244、Tは0x40378240に配置。両方で相対+0x43のmemw、+0x46のCMD読出し、+0x4bのbit24分岐を確認。動作中なら+0x4eでTIMEOUT=0x107を設定し+0x89でreturn、SDKを呼ばない。idleは+0x56へ進み、+0x5cで `spi_device_get_trans_result` を呼び、SDK成功とdescriptor一致後にのみleaseを解放する。これは生成経路の確認であり、MMIO待ち・割込み・実時間上限の証明ではない。
+
+IRAM末尾0x40388200はT/S共通。Sのheap開始0x3fcad098・既知driver控除後内部空き上限16324bytes、Tは0x3fcad068・16180bytes。guard追加前と変わらない。未計上割当と断片化を除く上限なので実起動可能性の保証にはしない。
+
+再現（Tも同じ引数のSをTへ置換）：
+```
+python -m ci.s3_fill_unroll_sdk_audit --profile reports/s3-spi-running-guard/sdk-S/image --toolchain build/rs-toolchain/xtensa-esp-elf --commit 9da570f67607e1278c5e7089a40ff1d0902ea3fc --target-dir reports/s3-budgeted-fill/u8 --output reports/s3-spi-running-guard/sdk-S
+python -m ci.s3_current_pack_cfg_audit --profile reports/s3-spi-running-guard/sdk-S/image --toolchain build/rs-toolchain/xtensa-esp-elf --output reports/s3-spi-running-guard/cfg-S
+```

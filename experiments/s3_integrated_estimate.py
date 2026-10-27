@@ -7,7 +7,7 @@ def read(path):
     p=ROOT/path
     return json.loads(gzip.decompress(p.read_bytes()) if p.suffix=='.gz' else p.read_text())
 def main():
-    cfg=read('reports/s3-budgeted-fill/cfg-S/results.json');other_cfg=read('reports/s3-budgeted-fill/cfg-T/results.json')
+    cfg=read('reports/s3-spi-running-guard/cfg-S/results.json');other_cfg=read('reports/s3-spi-running-guard/cfg-T/results.json')
     assert all(c['passed'] for c in cfg['checks']+other_cfg['checks'])
     assert cfg['coefficients']==other_cfg['coefficients']
     coeff=cfg['coefficients'];cpu=[]
@@ -67,7 +67,7 @@ def main():
         'Extra scan cycles 500/1500/3000 are sensitivity points, not measured percentiles.',
         'T FIR optimistic aggregate mixes retained legacy non-FIR budget with compiled kernel instruction and preparation-write floor; gather reads, unpack, contention and quality unverified.',
         'Formal performance pass, route assignment and receiver adoption remain zero.'],receiver_adopted=False)
-    sdk=read('reports/s3-budgeted-fill/sdk-S/sdk-verification.json')
+    sdk=read('reports/s3-spi-running-guard/sdk-S/sdk-verification.json')
     assert all(c['passed'] for c in sdk['checks'])
     result['S_candidate_SDK']=dict(commit=sdk['commit'],checks=sdk['SDK_static_checks'],
         driver=sdk['driver_lower_bound'],symbols=sdk['symbols'],sizes=sdk['sizes'],
@@ -88,7 +88,7 @@ def main():
     result['partial_timing']['scope']='Archived baseline, not the current best route'
     result['current_partial_timing']=best
     result['current_partial_timing']['scope']='Same frozen partial circuit; not current transport plus whole receiver'
-    result['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ['experiments/s3_integrated_estimate.py','ci/s3_pack_path_audit.py','experiments/s3_native_capture.c','reports/s3-budgeted-fill/u8/target.json','reports/s3-budgeted-fill/cfg-S/results.json','reports/s3-budgeted-fill/cfg-T/results.json','reports/s3-budgeted-fill/sdk-S/sdk-verification.json','reports/partition-recheck-20261023/recomputed-k7-resource-variants.json','reports/controller-cursor-mask/pnr.json.gz','reports/cursor-mask-route-comparison/audit.json','reports/cursor-mask-timingweight20/result.json','reports/cursor-mask-timingweight10-seed2/result.json','reports/s3-preprocess-break-even/qacc/qacc-audit.json']}
+    result['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ['experiments/s3_integrated_estimate.py','ci/s3_pack_path_audit.py','experiments/s3_native_capture.c','reports/s3-budgeted-fill/u8/target.json','reports/s3-spi-running-guard/cfg-S/results.json','reports/s3-spi-running-guard/cfg-T/results.json','reports/s3-spi-running-guard/sdk-S/sdk-verification.json','reports/partition-recheck-20261023/recomputed-k7-resource-variants.json','reports/controller-cursor-mask/pnr.json.gz','reports/cursor-mask-route-comparison/audit.json','reports/cursor-mask-timingweight20/result.json','reports/cursor-mask-timingweight10-seed2/result.json','reports/s3-preprocess-break-even/qacc/qacc-audit.json']}
     (OUT/'estimate.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(cpu=[{k:v for k,v in r.items() if k!='cases'} for r in cpu],FIR_saved=saved,timing=result['partial_timing'],FIR_optimistic=optimistic),indent=2))
 if __name__=='__main__':main()

@@ -1,0 +1,82 @@
+
+build/guard-current.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.text:
+
+40378240 <s3_spi_reap>:
+40378240:	006136        	entry	a1, 48
+40378243:	027d      	mov.n	a7, a2
+40378245:	12ac      	beqz.n	a2, 4037826a <s3_spi_reap+0x2a>
+40378247:	02a8      	l32i.n	a10, a2, 0
+40378249:	da9c      	beqz.n	a10, 4037826a <s3_spi_reap+0x2a>
+4037824b:	150282        	l8ui	a8, a2, 21
+4037824e:	889c      	beqz.n	a8, 4037826a <s3_spi_reap+0x2a>
+40378250:	160282        	l8ui	a8, a2, 22
+40378253:	38dc      	bnez.n	a8, 4037826a <s3_spi_reap+0x2a>
+40378255:	180282        	l8ui	a8, a2, 24
+40378258:	988c      	beqz.n	a8, 40378265 <s3_spi_reap+0x25>
+4037825a:	5298      	l32i.n	a9, a2, 20
+4037825c:	f14081        	l32r	a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)
+4037825f:	10b980        	and	a11, a9, a8
+40378262:	0a0987        	bnone	a9, a8, 40378270 <s3_spi_reap+0x30>
+40378265:	180c      	movi.n	a8, 1
+40378267:	164782        	s8i	a8, a7, 22
+4037826a:	03a122        	movi	a2, 0x103
+4037826d:	001606        	j	403782c9 <s3_spi_reap+0x89>
+40378270:	1288      	l32i.n	a8, a2, 4
+40378272:	0a1826        	beqi	a8, 1, 40378280 <s3_spi_reap+0x40>
+40378275:	482866        	bnei	a8, 2, 403782c1 <s3_spi_reap+0x81>
+40378278:	f14081        	l32r	a8, 40374778 <_iram_text_start+0x374> (60025000 <GPSPI3>)
+4037827b:	000106        	j	40378283 <s3_spi_reap+0x43>
+
+
+build/guard-current.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.text:
+
+40378280 <s3_spi_reap+0x40>:
+40378280:	f13f81        	l32r	a8, 4037477c <_iram_text_start+0x378> (60024000 <GPSPI2>)
+40378283:	0020c0        	memw
+40378286:	0888      	l32i.n	a8, a8, 0
+40378288:	05c880        	extui	a12, a8, 24, 1
+4037828b:	077887        	bbci	a8, 24, 40378296 <s3_spi_reap+0x56>
+4037828e:	07a122        	movi	a2, 0x107
+40378291:	000d06        	j	403782c9 <s3_spi_reap+0x89>
+
+
+build/guard-current.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.text:
+
+40378296 <s3_spi_reap+0x56>:
+40378296:	20b110        	or	a11, a1, a1
+40378299:	0061c2        	s32i	a12, a1, 0
+4037829c:	00be65        	call8	40378e84 <spi_device_get_trans_result>
+4037829f:	07a182        	movi	a8, 0x107
+403782a2:	202aa0        	or	a2, a10, a10
+403782a5:	e51a87        	beq	a10, a8, 4037828e <s3_spi_reap+0x4e>
+403782a8:	6a8c      	beqz.n	a10, 403782b2 <s3_spi_reap+0x72>
+403782aa:	180c      	movi.n	a8, 1
+403782ac:	164782        	s8i	a8, a7, 22
+403782af:	000586        	j	403782c9 <s3_spi_reap+0x89>
+403782b2:	7798      	l32i.n	a9, a7, 28
+403782b4:	0188      	l32i.n	a8, a1, 0
+403782b6:	ab9987        	bne	a9, a8, 40378265 <s3_spi_reap+0x25>
+403782b9:	1547a2        	s8i	a10, a7, 21
+403782bc:	37a9      	s32i.n	a10, a7, 12
+403782be:	0001c6        	j	403782c9 <s3_spi_reap+0x89>
+403782c1:	0020c0        	memw
+403782c4:	0b88      	l32i.n	a8, a11, 0
+403782c6:	0041f0        	break	1, 15
+
+
+build/guard-current.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.text:
+
+403782c9 <s3_spi_reap+0x89>:
+403782c9:	f01d      	retw.n
