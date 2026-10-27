@@ -4,7 +4,8 @@ from pathlib import Path
 from ci.s3_pack_cfg_audit import ROW
 ROOT=Path(__file__).resolve().parents[1]
 def main():
- p=argparse.ArgumentParser();p.add_argument('--toolchain',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--unroll',type=int,choices=[1,4,8],default=8);a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--toolchain',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--unroll',type=int,choices=[1,4,8],default=8);p.add_argument('--prepare-quantum',type=int,default=0);a=p.parse_args()
+ if a.prepare_quantum<0:raise ValueError('negative quantum')
  out=a.output;out.mkdir(parents=True,exist_ok=True);build=ROOT/'build/native-fill-target';stubs=build/'stubs';(stubs/'soc').mkdir(parents=True,exist_ok=True)
  declarations={'esp_attr.h':'#define IRAM_ATTR __attribute__((section(".iram1")))\n','esp_cpu.h':'#include <stdint.h>\nstatic inline uint32_t esp_cpu_get_cycle_count(void){uint32_t t;__asm__ volatile("rsr.ccount %0":"=a"(t));return t;}\n','soc/soc.h':'#define REG_READ(a) (*(volatile uint32_t *)(a))\n#define REG_WRITE(a,v) (*(volatile uint32_t *)(a)=(v))\n'}
  for name,text in declarations.items():(stubs/name).write_text(text)
@@ -45,11 +46,19 @@ def main():
    total+=(2*a.unroll+1)*(span//a.unroll)+(len(loops[-1]) if a.unroll>1 else 3)*(span%a.unroll)+overhead
    n-=span;at=0
   return total
- costs=[cost(at,3072)+cost((at+12288)%16384,4096) for at in range(16384)]
+ single=[]
+ def scheduled(at,n):
+  total=0
+  while n:
+   take=min(n,a.prepare_quantum) if a.prepare_quantum else n
+   value=cost(at,take);single.append(value);total+=value
+   at=(at+take)%16384;n-=take
+  return total
+ costs=[scheduled(at,3072)+scheduled((at+12288)%16384,4096) for at in range(16384)]
  rows_out=[]
  for standard,rate in [('T',16),('S',40)]:
   rows_out.append(dict(standard=standard,fill_instruction_envelope_per_bank=max(costs),
    span_envelope_range=[min(costs),max(costs)],fill_envelope_Minstructions_s=rate*max(costs)/12288))
- report=dict(scope=__doc__,source_sha256=hashlib.sha256(src.read_bytes()).hexdigest(),compiler=subprocess.check_output([str(prefix)+'gcc','--version'],env=env,text=True).splitlines()[0],flags=flags[:4],unroll=a.unroll,nonbody_instructions_per_span_envelope=overhead,static_instructions=len(rows),loop_body_ops=[[r[1] for r in body] for body in loops],origin_cases=len(costs),instruction_envelope_not_WCET=True,declaration_stubs=declarations,checks=checks,rows=rows_out,bank_callback_body_included=False,caller_and_stalls_included=False,SDK_link_verified=False,WCET_proven=False)
+ report=dict(scope=__doc__,source_sha256=hashlib.sha256(src.read_bytes()).hexdigest(),compiler=subprocess.check_output([str(prefix)+'gcc','--version'],env=env,text=True).splitlines()[0],flags=flags[:4],unroll=a.unroll,prepare_quantum_words=a.prepare_quantum,maximum_fill_call_instruction_envelope=max(single),nonbody_instructions_per_span_envelope=overhead,static_instructions=len(rows),loop_body_ops=[[r[1] for r in body] for body in loops],origin_cases=len(costs),instruction_envelope_not_WCET=True,declaration_stubs=declarations,checks=checks,rows=rows_out,bank_callback_body_included=False,caller_and_stalls_included=False,SDK_link_verified=False,WCET_proven=False)
  (out/'target.json').write_text(json.dumps(report,indent=2)+'\n');(out/'fill.dis').write_text(match[0]);print(json.dumps(report,indent=2));return any(not c['passed'] for c in checks)
 if __name__=='__main__':raise SystemExit(main())

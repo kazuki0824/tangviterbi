@@ -33,7 +33,7 @@ def main():
         rc=subprocess.run(cmd,cwd=app,stdout=log,stderr=subprocess.STDOUT).returncode
     record=dict(IDF_commit=subprocess.check_output(['git','-C',str(idf),'rev-parse','HEAD'],text=True).strip(),
         source_sha256=before,source_unchanged_during_build=before==hashes(),
-        core0_sixteenths=a.core0_sixteenths,transfer_bytes=a.transfer_bytes,fill_unroll=8,flash_MB=a.flash_mb,late_task_stacks=a.late_stacks,heap_in_flash=a.heap_in_flash,no_phy_nvs=a.no_phy_nvs,spi_lock_iram=a.spi_lock_iram,raw_only_spi=a.raw_only_spi,exit_code=rc,link_succeeded=rc==0,hardware_boot_executed=False,
+        prepare_words_per_iteration=1024,core0_sixteenths=a.core0_sixteenths,transfer_bytes=a.transfer_bytes,fill_unroll=8,flash_MB=a.flash_mb,late_task_stacks=a.late_stacks,heap_in_flash=a.heap_in_flash,no_phy_nvs=a.no_phy_nvs,spi_lock_iram=a.spi_lock_iram,raw_only_spi=a.raw_only_spi,exit_code=rc,link_succeeded=rc==0,hardware_boot_executed=False,
         scope='link-only raw storage and dormant task reservations; no firmware scheduling or board validation')
     (out/'build-result.json').write_text(json.dumps(record,indent=2)+'\n')
     print(json.dumps(record,indent=2));print('\n'.join((out/'build.log').read_text().splitlines()[-18:]))

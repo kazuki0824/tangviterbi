@@ -101,6 +101,7 @@ def audit(elf_path, map_path, config_path, rom_path):
         target=struct.unpack('<I',app.read(app.address('raw_keep_runtime_entry'),4))[0]
         check('runtime_entry_known','s3_raw_task_entry' in app.symbols and target==app.address('s3_raw_task_entry'))
         hot+=['s3_raw_task_entry']
+    if 's3_native_poll_budget' in app.symbols:hot+=['s3_native_poll_budget']
     hot_symbols={name:hex(app.address(name)) if name in app.symbols else None for name in hot}
     for name in hot:check('IRAM_'+name,name in app.symbols and 0x40374000<=app.address(name)<0x403a0000)
     all_reserved=reserved+[(int(rom['ROM_reserved_start'],16),0x3fcf0000)]
@@ -137,12 +138,13 @@ def audit(elf_path, map_path, config_path, rom_path):
     # Old ten-word snapshots remain readable as the historical 32KiB baseline.
     config_size=app.symbols['raw_probe_sizes'][1]
     effective=struct.unpack('<3I',app.read(app.address('raw_probe_sizes')+40,12)) if config_size>=52 else (8,32768,None)
+    prepare_budget=struct.unpack('<I',app.read(app.address('raw_probe_sizes')+52,4))[0] if config_size>=56 else None
     desc=2*((effective[1]+4091)//4092)*sizes['DMA_descriptor']
     driver_lower=2*(per_port+queues+desc)
     # Reserve pool remains RAM capacity usable for DMA allocations, not a
     # separate payload charge. For headroom expose both pool-excluded free and
     # total-before-pool less known drivers, without subtracting drivers twice.
-    driver=dict(effective_core0_sixteenths=effective[0],effective_transfer_bytes=effective[1],effective_fill_unroll=effective[2],type_sizes=types,per_port_objects=per_port,per_port_queue_bytes=queues,
+    driver=dict(effective_prepare_words_per_iteration=prepare_budget,effective_core0_sixteenths=effective[0],effective_transfer_bytes=effective[1],effective_fill_unroll=effective[2],type_sizes=types,per_port_objects=per_port,per_port_queue_bytes=queues,
         per_port_descriptor_bytes=desc,two_port_known_allocation_lower_bound=driver_lower,
         total_internal_after_known_driver_upper_bound=refined_final['free_before_DMA_pool_upper_bound_bytes']-driver_lower,
         not_counted=['GDMA channels/groups/pairs','bus/device locks','interrupt handles','allocation headers/alignment',
@@ -174,7 +176,7 @@ def main():
     result=audit(a.build/'s3_raw_probe.elf',a.build/'s3_raw_probe.map',a.build/'config/sdkconfig.json',a.rom)
     build_record=json.loads((a.build.parent/'build-result.json').read_text())
     result['build']=build_record
-    for key in ('core0_sixteenths','transfer_bytes','fill_unroll'):
+    for key in ('core0_sixteenths','transfer_bytes','fill_unroll','prepare_words_per_iteration'):
         if key in build_record:
             result['checks'].append(dict(name='requested_'+key+'_effective',ok=result['driver_lower_bound']['effective_'+key]==build_record[key]))
     config=json.loads((a.build/'config/sdkconfig.json').read_text())

@@ -47,7 +47,8 @@ bool s3_pp_native_start_clocked(s3_native_capture*s,s3_parallel_pack*p,s3_native
  s->running=true;atomic_store(&rf_started,1);return true;
 }
 void s3_native_stop(s3_native_capture*s){assert(core==0&&s==&capture);s->running=false;atomic_store(&rf_stopped,1);}
-bool s3_native_poll(s3_native_capture*s){
+bool s3_native_poll_budget(s3_native_capture*s,unsigned *budget){
+ assert(*budget==(polls%7==0?1024u:0u));*budget=0;
  assert(core==0&&s==&capture&&s->running);if(++polls==100)s3_raw_tasks_request_stop(&r);return true;
 }
 int s3_pp_step_clocked_quantized(s3_parallel_pack*p,unsigned worker,unsigned max_pairs,s3_pp_clock clock,void*ctx,uint32_t error,uint64_t bound,unsigned*processed){

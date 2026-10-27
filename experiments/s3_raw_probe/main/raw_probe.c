@@ -47,7 +47,7 @@ StackType_t raw_task_stacks[2][RAW_STACK_BYTES/sizeof(StackType_t)];
 StaticTask_t raw_task_tcbs[2];
 const uint32_t raw_probe_sizes[]={sizeof(raw_pack),sizeof(raw_capture),sizeof(raw_ports),
  sizeof(raw_descriptors),sizeof(raw_transfers),2*RAW_STACK_BYTES,sizeof(raw_task_tcbs),
- sizeof(StaticTask_t),sizeof(dma_descriptor_align4_t),sizeof(StackType_t),S3_PP_CORE0_SIXTEENTHS,S3_RAW_TRANSFER_BYTES,S3_NATIVE_FILL_UNROLL};
+ sizeof(StaticTask_t),sizeof(dma_descriptor_align4_t),sizeof(StackType_t),S3_PP_CORE0_SIXTEENTHS,S3_RAW_TRANSFER_BYTES,S3_NATIVE_FILL_UNROLL,S3_RAW_PREPARE_WORDS_PER_ITERATION};
 
 // Retain the actual creation path, but do not invoke it. Board initialization,
 // measured stack bounds and priority selection remain caller prerequisites.

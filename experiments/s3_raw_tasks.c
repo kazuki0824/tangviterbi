@@ -66,9 +66,9 @@ static bool IRAM_ATTR feed(s3_raw_tasks*r,unsigned core,bool force) {
  }
  return true;
 }
-static bool IRAM_ATTR poll_rf(s3_raw_tasks*r) {
+static bool IRAM_ATTR poll_rf(s3_raw_tasks*r,unsigned *prepare_words) {
  if(stopping(r))return false;
- if(!s3_native_poll(r->config.capture)){fault(r,RAW_TASK_RF);return false;}
+ if(!s3_native_poll_budget(r->config.capture,prepare_words)){fault(r,RAW_TASK_RF);return false;}
  return true;
 }
 static bool IRAM_ATTR pack_slice(s3_raw_tasks*r,unsigned core) {
@@ -80,23 +80,25 @@ static bool IRAM_ATTR pack_slice(s3_raw_tasks*r,unsigned core) {
  return true;
 }
 static bool IRAM_ATTR owner_iteration(s3_raw_tasks*r) {
- if(!poll_rf(r)||!pack_slice(r,0)||!poll_rf(r))return false;
+ // One shared budget, not a fresh quantum at each of the seven RF polls.
+ unsigned prepare_words=S3_RAW_PREPARE_WORDS_PER_ITERATION;
+ if(!poll_rf(r,&prepare_words)||!pack_slice(r,0)||!poll_rf(r,&prepare_words))return false;
  uint64_t now=s3_cycle_clock_read(&r->clocks[0]);
  if(now==UINT64_MAX){fault(r,RAW_TASK_CLOCK);return false;}
  if(s3_pp_collect(r->config.pack,now)!=S3_PP_OK){fault(r,RAW_TASK_PACK);return false;}
- if(!poll_rf(r))return false;
+ if(!poll_rf(r,&prepare_words))return false;
  for(unsigned i=0;i<2;++i) {
   s3_pp_transfer*x=r->config.transfers[i];
   if(x->active) {
    esp_err_t rc=s3_pp_spi_reap(x);
    if(rc!=ESP_OK&&rc!=ESP_ERR_TIMEOUT){fault(r,RAW_TASK_SPI);return false;}
   }
-  if(!poll_rf(r))return false;
+  if(!poll_rf(r,&prepare_words))return false;
   if(!x->active) {
    esp_err_t rc=s3_pp_spi_submit(x,r->config.pack,r->config.ports[i],r->config.epoch);
    if(rc!=ESP_OK&&rc!=ESP_ERR_NOT_FINISHED){fault(r,RAW_TASK_SPI);return false;}
   }
-  if(!poll_rf(r))return false;
+  if(!poll_rf(r,&prepare_words))return false;
  }
  return feed(r,0,false);
 }

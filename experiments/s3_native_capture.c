@@ -117,8 +117,8 @@ bool s3_native_start_sink_clocked(s3_native_capture*s,s3_native_sink sink,s3_nat
  if(!clock)return false;
  return start_sink(s,sink,io,rate,clock,clock_ctx,clock_error);
 }
-bool HOT s3_native_poll(s3_native_capture*s){
- if(!s||!s->running||s->fault)return false;
+bool HOT s3_native_poll_budget(s3_native_capture*s,unsigned *prepare_words){
+ if(!s||!prepare_words||!s->running||s->fault)return false;
  uint64_t now=clock_now(s);if(s->fault)return false;unsigned b=s->active,next=(b+1)%3;
  if(!s->sink.healthy(s->sink.ctx))return fail(s,1);
  if(s->settling){
@@ -143,14 +143,28 @@ bool HOT s3_native_poll(s3_native_capture*s){
   s->write_index=w;wr(s,SELECT,(s->saved&~15u)|(1u<<next));s->switched=clock_now(s);if(s->fault)return false;if(!s->common_clock)s->switch_earliest=s->switched;s->settling=true;return true;
  }
  if(!s->prepared){
-  if(s->sink.available(s->sink.ctx,next)){
+  if(!s->preparing&&s->sink.available(s->sink.ctx,next)){
    // Reclaim BEFORE any sentinel write, even when the next bank seems idle.
    if(!s->sink.reclaim(s->sink.ctx,next))return fail(s,6);
    s->start[next]=(s->expected+THRESHOLD)&MASK;s->end[next]=(s->start[next]+THRESHOLD)&MASK;
-   fill(s,next,s->start[next],START);fill(s,next,s->end[next],END);s->prepared=true;
+   s->prepare_done=0;s->preparing=true;
+  }
+  if(s->preparing){
+   while(*prepare_words&&s->prepare_done<START+END){
+    unsigned done=s->prepare_done;
+    unsigned remain=done<START?START-done:START+END-done;
+    unsigned n=*prepare_words<remain?*prepare_words:remain;
+    unsigned at=done<START?s->start[next]+done:s->end[next]+done-START;
+    fill(s,next,at,n);s->prepare_done+=n;*prepare_words-=n;
+   }
+   if(s->prepare_done==START+END){s->prepared=true;s->preparing=false;}
   }else if(written+20000/s->cpp+1024+LATE>=THRESHOLD)return fail(s,7);
  }
  clock_now(s);return !s->fault;
+}
+bool HOT s3_native_poll(s3_native_capture*s){
+ unsigned budget=START+END;
+ return s3_native_poll_budget(s,&budget);
 }
 #ifdef ESP_PLATFORM
 static uint32_t HOT mmio_read(void*c,uint32_t a){(void)c;return REG_READ(a);}

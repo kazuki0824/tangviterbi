@@ -5,6 +5,7 @@
 #include "s3_cycle_clock.h"
 #ifdef ESP_PLATFORM
 #include "esp_task_wdt.h"
+enum { S3_RAW_PREPARE_WORDS_PER_ITERATION=1024 };
 /* Experimental task integration, not a measured schedule or board launcher.
  * Caller initializes PHY/SPI and fresh pack/storage before creating exactly
  * two pinned tasks above idle priority, one per entry argument. IRQ affinity is chosen at SPI init.
