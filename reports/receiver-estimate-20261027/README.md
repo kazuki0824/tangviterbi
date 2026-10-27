@@ -1,3 +1,5 @@
+> 現在の統合見積もり：[SoC追加費用・最大bank・FPGA改善候補・同一構成の総合判断](../receiver-integrated-estimate/README.md)。以下は各段階の記録であり、最新判断はリンク先を参照。
+
 # ② 全体見積もり：数値範囲・根拠の確かさ・成立条件
 
 2026-10-27。対象はTang Nano20K＋S3-WROOM-1U-N16R8×2、T/S同時。SoCでRF取得・可逆I10/Q10 packing・送信、FPGAで全復調・TS×2。追加softwareデシメート/再量子化、FPGA→SoCのpayload返送は使わない。①は変更しない。

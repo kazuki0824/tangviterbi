@@ -2,7 +2,7 @@
 import argparse,hashlib,json,subprocess,tempfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-def run(core0_sixteenths=8):
+def run(core0_sixteenths=8,bank_sizes=None):
  src=ROOT/'experiments/s3_parallel_pack.c';original=src.read_text();text=original
  edits=[('   const uint32_t *src=b->words+input;','   ++s3_audit_stats[s3_audit_owner][0];s3_audit_stats[s3_audit_owner][1]+=blocks;\n   const uint32_t *src=b->words+input;'),('   uint32_t a=word(b,logical),c=word(b,logical+1);','   ++s3_audit_stats[s3_audit_owner][2];\n   uint32_t a=word(b,logical),c=word(b,logical+1);')]
  for old,new in edits:
@@ -11,7 +11,12 @@ def run(core0_sixteenths=8):
  text='extern unsigned long long s3_audit_stats[2][5];\nextern unsigned s3_audit_owner;\n'+text
  with tempfile.TemporaryDirectory() as tmp:
   path=Path(tmp);(path/'instrumented.c').write_text(text)
-  subprocess.run(['cc','-std=c11','-O2','-Wall','-Wextra','-Werror','-fsanitize=undefined','-fno-sanitize-recover=all','-DS3_PP_CORE0_SIXTEENTHS='+str(core0_sixteenths),'-I'+str(ROOT/'experiments'),str(path/'instrumented.c'),str(ROOT/'experiments/s3_pack_path_probe.c'),'-o',str(path/'probe')],check=True)
+  probe=ROOT/'experiments/s3_pack_path_probe.c'
+  if bank_sizes is not None:
+   if not bank_sizes or any(type(n) is not int or not 1<=n<=16384 for n in bank_sizes):raise ValueError('bank_sizes')
+   probe_text=probe.read_text().replace('sizes[]={12288,12289,14288}', 'sizes[]={'+','.join(map(str,bank_sizes))+'}').replace('c<3;++c','c<'+str(len(bank_sizes))+';++c')
+   probe=path/'probe.c';probe.write_text(probe_text)
+  subprocess.run(['cc','-std=c11','-O2','-Wall','-Wextra','-Werror','-fsanitize=undefined','-fno-sanitize-recover=all','-DS3_PP_CORE0_SIXTEENTHS='+str(core0_sixteenths),'-I'+str(ROOT/'experiments'),str(path/'instrumented.c'),str(probe),'-o',str(path/'probe')],check=True)
   rows=json.loads(subprocess.check_output([str(path/'probe')],text=True))
  checks=[]
  for r in rows:

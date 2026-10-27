@@ -1,3 +1,5 @@
+> 現在の統合見積もり：[SoC追加費用・最大bank・FPGA改善候補・同一構成の総合判断](../receiver-integrated-estimate/README.md)。以下は各段階の記録であり、最新判断はリンク先を参照。
+
 > 前処理案との追加比較：[全16境界の正味CPU費用と転送API削減](../s3-preprocess-break-even/README.md)。既存模型では前処理案のCPU節約は見られないが、新kernel・同品質hardware前処理を事前排除した結論ではありません。
 
 > 最新の続行結果：[32 KiB raw SPI送受信の実装と機能試験](../s3-bulk-transport/README.md)。新API/RTLで通信形式を実装済み。以下は前回commit時点の記録で、2core分担・内部RAM・全体性能の未確認事項は継続します。
