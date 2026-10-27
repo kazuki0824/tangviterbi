@@ -2,6 +2,8 @@
 
 2026-10-27。保存済みlauncher SDK ELF（SHA-256はaudit.json）を公式Xtensa toolchain esp-14.2.0_20241119で再解析した。toolchain archive SHA-256はe3e6dcf3d275c3c9ab0e4c8a9d93fd10e7efc035d435460576c9d95b4140c676。runtimeと①は変更しない。
 
+追補：[owner側の検算](../s3-spi-owner-atomic/README.md)で、同じ正常経路条件下の失敗CASを保守的に最大4回とした。以下の「owner側未確定」は本監査時点の記録。elapsed上限は引き続き未確定。
+
 ## 実際に通る分岐
 
 REQ公開は `__atomic_fetch_or_4`、REQ→PEND移動はORとANDを呼ぶ。これらは引数アドレスに0xc4000000を加えた32 bit値を0x01ffffffとunsigned比較する。すなわち0x3c000000〜0x3dffffffならfallbackの共通s_atomic_lockを取得し、それ以外ではS32C1I helperへ進む。

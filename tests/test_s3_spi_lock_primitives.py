@@ -32,6 +32,8 @@ class SDKPrimitivesTest(unittest.TestCase):
 #define REQ_SHIFT 0
 #define PENDING_SHIFT 1
 #define DEV_BG_MASK(x) 3u
+#define DEV_PEND_MASK(x) 2u
+#define DEV_REQ_MASK(x) 1u
 typedef int BaseType_t;
 typedef struct spi_bus_lock_dev spi_bus_lock_dev_t;
 typedef struct {unsigned status;spi_bus_lock_dev_t* acquiring_dev;bool acq_dev_bg_active,in_isr;} spi_bus_lock_t;
@@ -40,16 +42,20 @@ static unsigned enables,resumes;
 static uint32_t lock_status_fetch(spi_bus_lock_t*l){return l->status;}
 static uint32_t lock_status_fetch_set(spi_bus_lock_t*l,unsigned v){unsigned old=l->status;l->status|=v;return old;}
 static uint32_t lock_status_fetch_clear(spi_bus_lock_t*l,unsigned v){unsigned old=l->status;l->status&=~v;return old;}
+static uint32_t lock_status_clear(spi_bus_lock_t*l,unsigned v){return lock_status_fetch_clear(l,v)&~v;}
 static void bg_enable(spi_bus_lock_t*l){(void)l;++enables;}
 static void resume_dev_in_isr(spi_bus_lock_dev_t*d,BaseType_t*y){(void)d;(void)y;++resumes;}
 '''
-        code+='\n'.join(function(text,n) for n in ('update_pend_core','bg_exit_core','spi_bus_lock_bg_check_dev_req'))
+        code+='\n'.join(function(text,n) for n in ('update_pend_core','clear_pend_core','bg_exit_core','spi_bus_lock_bg_check_dev_req'))
         code+=r'''
 int main(void){
  for(unsigned status=0;status<4;++status){
   spi_bus_lock_t l={.status=status,.in_isr=true};spi_bus_lock_dev_t d={&l,3};
   bool got=spi_bus_lock_bg_check_dev_req(&d);
   assert(got==(status!=0));assert(l.status==((status&1)?2:status));
+  l.status=status;
+  bool cleared=clear_pend_core(&d);
+  assert(l.status==(status&1));assert(cleared==((status&1)==0));
   for(unsigned wip=0;wip<2;++wip){
    l.status=status;l.in_isr=true;enables=resumes=0;int yield=0;
    bool exit=bg_exit_core(&l,wip,&yield);
