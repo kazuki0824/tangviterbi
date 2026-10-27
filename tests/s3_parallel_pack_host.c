@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifndef S3_PP_CORE0_SIXTEENTHS
+#define S3_PP_CORE0_SIXTEENTHS 8
+#endif
 static _Alignas(16) uint8_t data[4][S3_PP_CHUNK];
 static uint32_t source[3][S3_PP_WORDS];
 static s3_parallel_pack p;
@@ -126,15 +129,19 @@ static void variable_bank_slices(void) {
   fill(0,16380,count,carry);
   assert(s3_pp_accept(&p,0,source[0],16380,count,carry,0,100)==S3_PP_OK);
   for(unsigned w=0;w<2;++w){
+   unsigned pairs=(count+carry)/2,cut=pairs*S3_PP_CORE0_SIXTEENTHS/16;
+   unsigned expected=w?pairs-cut:cut;
+   assert(p.banks[0].jobs[w].begin==(w?cut:0));
+   assert(p.banks[0].jobs[w].end==(w?pairs:cut));
    unsigned calls=0,n;int rc;
    while((rc=s3_pp_step(&p,w,512,0,1,&n))==S3_PP_OK){assert(n&&n<=512);++calls;}
-   assert(rc==S3_PP_EMPTY&&calls==(large?8u:6u));
+   assert(rc==S3_PP_EMPTY&&calls==(expected+511)/512);
   }
   assert(s3_pp_collect(&p,0)==S3_PP_OK);
   for(uint64_t at=0;at<p.published;++at)
    assert(p.buffers[(at/S3_PP_CHUNK)%4][at%S3_PP_CHUNK]==byte(at));
  }
- puts("PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap");
+ puts("PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap");
 }
 static void oldest_bank_service(void) {
  init();const unsigned order[3]={2,0,1};
@@ -142,18 +149,22 @@ static void oldest_bank_service(void) {
   unsigned b=order[i];fill(b,16380,14352,(uint64_t)i*14352);
   assert(s3_pp_accept(&p,b,source[b],16380,14352,(uint64_t)i*14352,0,100)==S3_PP_OK);
  }
- for(unsigned w=0;w<2;++w)for(unsigned call=0;call<24;++call){
+ for(unsigned w=0;w<2;++w){
+ unsigned cut=7176*S3_PP_CORE0_SIXTEENTHS/16;
+ unsigned calls=((w?7176-cut:cut)+511)/512;
+ for(unsigned call=0;call<3*calls;++call){
   unsigned before[3],n;
   for(unsigned b=0;b<3;++b)before[b]=p.banks[b].jobs[w].cursor;
   assert(s3_pp_step(&p,w,512,0,1,&n)==S3_PP_OK&&n);
   for(unsigned b=0;b<3;++b)
-   assert(p.banks[b].jobs[w].cursor==before[b]+(b==order[call/8]?n:0));
+   assert(p.banks[b].jobs[w].cursor==before[b]+(b==order[call/calls]?n:0));
+ }
  }
  for(unsigned w=0;w<2;++w){unsigned n;assert(s3_pp_step(&p,w,512,0,1,&n)==S3_PP_EMPTY);}
  assert(s3_pp_collect(&p,0)==S3_PP_OK&&p.count==0&&p.published==107640);
  for(uint64_t at=0;at<p.published;++at)
   assert(p.buffers[(at/S3_PP_CHUNK)%4][at%S3_PP_CHUNK]==byte(at));
- puts("PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact");
+ puts("PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact");
 }
 static void native_size_output_retirement(void) {
  init();uint64_t total=0;

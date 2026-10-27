@@ -35,7 +35,11 @@ def fixed_point(base,events,horizon):
     return dict(status='not_closed_by_deadline',response_cycles=None,last_iterate_cycles=r,iterations=len(trace),trace=trace)
 
 
-def worker(rate,config):
+def worker(rate,config,*,core0_sixteenths=8,worker_id=None):
+    integer(core0_sixteenths,'core0_sixteenths',1)
+    if core0_sixteenths>15:raise ValueError('core0_sixteenths')
+    if worker_id not in (None,0,1):raise ValueError('worker_id')
+    if core0_sixteenths!=8 and worker_id is None:raise ValueError('unequal split requires worker_id')
     timing=limits(rate)
     required=('release_delay','clock_error','ordinary_iteration','sampled_slice',
               'slice_bound','older_banks','slice_pairs','events')
@@ -48,7 +52,8 @@ def worker(rate,config):
     if config['sampled_slice']+config['clock_error']>config['slice_bound'] or config['clock_error']>=config['slice_bound']:
         return dict(status='sampled_slice_not_certified',receiver_adopted=False)
     pairs=(timing['max_accepted_bank_samples']+1)//2
-    per_worker=(pairs+1)//2
+    cut=pairs*core0_sixteenths//16
+    per_worker=max(cut,pairs-cut) if worker_id is None else (cut if worker_id==0 else pairs-cut)
     slices=(per_worker+config['slice_pairs']-1)//config['slice_pairs']
     # max(..., slice_bound) also covers the admission test before the final
     # slice; passing execution duration alone does not guarantee admission.
@@ -65,14 +70,14 @@ def worker(rate,config):
     return result
 
 
-def bank_response(rate,configs,reclaim_budget=None,*,native_reclaim_model=False):
+def bank_response(rate,configs,reclaim_budget=None,*,native_reclaim_model=False,core0_sixteenths=8):
     if len(configs)!=2:raise ValueError('two worker configurations required')
     if type(native_reclaim_model) is not bool:raise ValueError('native_reclaim_model')
     if native_reclaim_model and reclaim_budget is not None:
         raise ValueError('choose explicit budget or conditional native model')
     if native_reclaim_model and any(c.get('older_banks',0)>1 for c in configs):
         raise ValueError('native model excludes standalone three-owned-bank stress')
-    workers=[worker(rate,c) for c in configs]
+    workers=[worker(rate,c,core0_sixteenths=core0_sixteenths,worker_id=w) for w,c in enumerate(configs)]
     result=dict(workers=workers,status='unproved',receiver_adopted=False,
                 actual_schedule_verified=False,WCET_proven=False)
     if native_reclaim_model:

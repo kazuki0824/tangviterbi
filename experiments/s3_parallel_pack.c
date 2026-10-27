@@ -9,6 +9,14 @@
 #endif
 #define S3_HOT HOT
 #include "s3_iq10_block.h"
+#ifndef S3_PP_CORE0_SIXTEENTHS
+#define S3_PP_CORE0_SIXTEENTHS 8
+#endif
+/* Build-time study option: keep both workers nonempty for normal RF banks.
+ * Default retains the established equal split and metadata ABI. A changed
+ * split requires fresh target timing/IRQ/response evidence before adoption. */
+_Static_assert(S3_PP_CORE0_SIXTEENTHS>=1 && S3_PP_CORE0_SIXTEENTHS<=15,
+               "core0 share must be between 1/16 and 15/16");
 _Static_assert(sizeof(atomic_uint)==4,"32-bit publication state required");
 enum { IDLE, READY, DONE };
 enum { DMA_FREE, DMA_ACTIVE, DMA_DONE };
@@ -54,7 +62,7 @@ int HOT s3_pp_accept(s3_parallel_pack *p,unsigned bank,const uint32_t *words,
  // of this bank, without any worker reading across into a later RF bank.
  p->have_carry=(total&1)!=0;
  if(p->have_carry)p->carry=words[(first+count-1)%S3_PP_WORDS]&0xfffff;
- unsigned cut=pairs/2;
+ unsigned cut=(pairs*S3_PP_CORE0_SIXTEENTHS)/16;
  for(unsigned w=0;w<2;++w) {
   s3_pp_job *j=&b->jobs[w];j->begin=w?cut:0;j->end=w?pairs:cut;j->cursor=j->begin;
  }
