@@ -43,7 +43,7 @@ packingも最新SDKからCFGを再計数した。block45/run118/slow_pair173は�
 
 [packing細分化の比較](../s3-owner-slice-tradeoff/README.md)では、256pairへ減らすと非空slice平均のケース上端は28.10→17.29µsになる一方、追加管理200cycle/反復込みのcore0上端は97.48→102.41%。64/128もCPU超過、1024は連続packingが長くなる。細分化だけで解決せず、512を維持して処理本体・SPI費用・スケジュールを改善する。平均slice時間を最悪時間とは扱わない。256pair案を管理200cycleの感度条件で平均CPU100%以内へ戻すには、他条件固定ならSPI CPU使用時間20→16.05µs/転送以下が必要。達成値ではなく改善目標の逆算である。
 
-[SPI空振り確認の改善](../s3-spi-running-guard/README.md)：raw-onlyの転送中はSDK結果キュー確認を省くguardを実装。idleだけでは完了認定せず、従来のSDK完了結果でleaseを解放する。関連host試験と変更後SDKのT/S各59静的check・各12ソース/生成命令照合が成功。実ELFでも動作中のSDK呼出し省略とidle時のSDK回収経路を確認。削減時間は未測定で、上記CPU感度値を減額していない。
+[SPI空振り確認の改善](../s3-spi-running-guard/README.md)：raw-onlyの転送中はSDK結果キュー確認を省くguardを実装。idleだけでは完了認定せず、従来のSDK完了結果でleaseを解放する。関連host試験と変更後SDKのT/S各59静的check・各12ソース/生成命令照合が成功。実ELFでも動作中のSDK呼出し省略とidle時のSDK回収経路を確認。削減時間は未測定で、上記CPU感度値を減額していない。 実命令比較ではwrapper込みで動作中49＋SDKキュー内部命令→38/40命令。idle未公開では逆に9/11命令増えるため、全経路の改善とはしない。256pair案は転送API20µs・管理200cycleを固定すると、追加scan費用805.544cycle/回以下が平均CPU100%境界。scan全体の達成値ではなく、残る改善目標である。
 
 ### 同じS候補構成のSDKメモリ確認
 

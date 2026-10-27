@@ -21,3 +21,19 @@ IRAM末尾0x40388200はT/S共通。Sのheap開始0x3fcad098・既知driver控除
 python -m ci.s3_fill_unroll_sdk_audit --profile reports/s3-spi-running-guard/sdk-S/image --toolchain build/rs-toolchain/xtensa-esp-elf --commit 9da570f67607e1278c5e7089a40ff1d0902ea3fc --target-dir reports/s3-budgeted-fill/u8 --output reports/s3-spi-running-guard/sdk-S
 python -m ci.s3_current_pack_cfg_audit --profile reports/s3-spi-running-guard/sdk-S/image --toolchain build/rs-toolchain/xtensa-esp-elf --output reports/s3-spi-running-guard/cfg-S
 ```
+
+
+## 動作中とidleの実命令数比較
+
+`ci/s3_spi_guard_path_audit.py` で、旧S ELFと変更後T/S ELFの宣言した経路を各命令の開始位置から逆アセンブルし、全隣接分岐・call先・returnを照合した。wrapper `s3_pp_spi_reap` を含む。各経路とELF hashはpath-cost/results.jsonに保存する。これは指定条件の命令経路照合であり、任意の状態についての形式証明ではない。
+
+| 経路 | 旧版 | 新版 SPI2 / SPI3 |
+|---|---:|---:|
+| hardware動作中、結果未公開 | 49＋Q命令 | 38 / 40命令 |
+| hardware idle、結果未公開 | 49＋Q命令 | 58＋Q / 60＋Q命令 |
+
+QはSDKの `xQueueReceive(...,0)` 内部で実行する命令数。未計数であり、0と見積もった値ではない。旧版に対し、動作中は11＋Q / 9＋Q命令を削減、idle未公開では9 / 11命令増える。新しいguardの検査費用を無視して、全経路で改善したとは言わない。
+
+上記2経路だけの混合に限り、動作中割合bに対する平均命令差（新版−旧版）はSPI2で `9-b*(20+Q)`、SPI3で `11-b*(20+Q)`。Q≥0だけを使う保守的な境界はb=45% / 55%で、それを上回れば命令数が減る。完了回収・submitや実際の経路頻度はこの比較に含まない。MMIO待ち、割込み、window spill/fill、memory競合があるため、命令削減を同率の実時間改善とは扱わない。
+
+再現：`python -m ci.s3_spi_guard_path_audit --toolchain build/rs-toolchain/xtensa-esp-elf`。
