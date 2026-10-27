@@ -1,6 +1,6 @@
 # ② Tang Nano20K＋N16R8×2：現在の統合見積もり
 
-2026-10-27。①は変更しない。**S側6/16 packing＋16KiB転送＋8word fillを進める。8word fillの実装・SDK確認に加え、準備を1反復1024wordへ分割した。平均CPUは追加管理費用を含む感度模型で評価する。一方、ownerの処理間隔とFPGAの速度・全段資源は未解決で、受信機の成立確認には至っていない。**
+2026-10-28 JST。①は変更しない。**S側6/16 packing＋16KiB転送＋8word fillを進める。8word fillの実装・SDK確認に加え、準備を1反復1024wordへ分割した。平均CPUは追加管理費用を含む感度模型で評価する。一方、ownerの処理間隔とFPGAの全段統合は未解決（保存部分構成の速度は目標達成）で、受信機の成立確認には至っていない。**
 
 SoCはRF取得・可逆I10/Q10 packing・FPGAへの送信、FPGAは全復調とT/S独立TS出力を担当。N16R8×2限定で検討する。追加software間引き・有効bit削減は行わず、FPGA→SoCは選局・電源等の指令のみ。
 
@@ -43,6 +43,8 @@ packingも最新SDKからCFGを再計数した。block45/run118/slow_pair173は�
 
 [packing細分化の比較](../s3-owner-slice-tradeoff/README.md)では、256pairへ減らすと非空slice平均のケース上端は28.10→17.29µsになる一方、追加管理200cycle/反復込みのcore0上端は97.48→102.41%。64/128もCPU超過、1024は連続packingが長くなる。細分化だけで解決せず、512を維持して処理本体・SPI費用・スケジュールを改善する。平均slice時間を最悪時間とは扱わない。256pair案を管理200cycleの感度条件で平均CPU100%以内へ戻すには、他条件固定ならSPI CPU使用時間20→16.05µs/転送以下が必要。達成値ではなく改善目標の逆算である。
 
+[SPI空振り確認の改善](../s3-spi-running-guard/README.md)：raw-onlyの転送中はSDK結果キュー確認を省くguardを実装。idleだけでは完了認定せず、従来のSDK完了結果でleaseを解放する。関連host試験は成功、変更後SDKは再確認中。削減時間は未測定で、上記CPU感度値を減額していない。
+
 ### 同じS候補構成のSDKメモリ確認
 
 [SDK run 40518679493](https://github.com/kazuki0824/tangviterbi/actions/runs/40518679493)、commit `1d954f4`の共通・raw-only既定・S候補が成功。Sの実ELFが6/16・16384bytes・8word・1024word準備予算であることと新入口のIRAM配置を含む**59静的check**、fill命令列・literal・8 source identity等**12再確認**が成功。3構成の静的check合計は172。
@@ -75,9 +77,11 @@ T raw40 MB/sはOctal、S raw100 MB/sはOctal＋Quad。T32KiB・S16KiBで、対�
 
 raw＋高速localshiftはlogic689超過のため単純置換しない。slotaddrの台帳上の純増許容量はlogic264・BSRAM0。pairedはslotaddrよりlogic7多く、単体151.378MHzで劣る。他の保存trialも資源と速度の組合せで上回らない。未知の実装まで排除した結論ではない。
 
-保存部分構成は152.091263MHz。最低152.626638MHzへ最長遅延0.023063ns、目標154.285714MHzへ0.093518nsの純短縮が必要。critical pathのRAM周辺routingは1.509ns＋1.344ns。この配線・近接配置を改善対象とする。単体Fmaxを全受信機へ流用しない。
+[配置配線の完了結果と検算](../cursor-mask-route-comparison/README.md)：保存部分構成は**166.2234MHz**へ改善し、最低152.6266MHz・目標154.2857MHzの両方を達成した。目標に対する周波数余裕は7.737%。logic site計数19658（基準比+31）、FF8673、BSRAM29。もう一方のweight20試行は152.9520MHzで、最低を超えたが目標には未達。入力netlist・backend source・chipdb一致と出力再計数等18checkが成功した。
 
-[固定配置からの再配線2試行](../cursor-mask-fixed-router2/README.md)はcheckpoint復元のassertion／ALU位置制約エラーで配線前に終了し、新しいFmaxは得られなかった。速度改善を計上しない。元のcompatible-pair packerと計数instrumentationは保存source hashと一致する状態へ復元し、通常pack/placeからtiming weightを10→20へ変える試行と、weight10・seed2のローカル試行は途中ログを残し、セッション・プロセス・完了結果が取得できない状態になった。原因不明で、新Fmaxはない。途中ログは各 `*-incomplete-local` に保存し、[GitHub Actions run 40524351929](https://github.com/kazuki0824/tangviterbi/actions/runs/40524351929) で同じsource・chipdb・netlist hashを検査して再実行する。固定版ツールのビルドは成功。合法性検査は緩和しない。
+この部分構成の速度不足は解消した。ただしRF endpoint・equalizer・interleaver・RS/TS・PHY等の全接続構成ではなく、scan/観測fixtureを含む。**166.22MHzを全受信機のFmaxとは扱わない。** 旧全段台帳の資源数・未接続段・現在のtransportとの差分を統合して再合成/配置配線する課題は残る。詳細成果物は [Actions run 40524351929](https://github.com/kazuki0824/tangviterbi/actions/runs/40524351929)。
+
+[固定配置からの再配線2試行](../cursor-mask-fixed-router2/README.md)はcheckpoint復元エラーで終了。続くローカル通常配置配線も完了結果を取得できなくなり、停止原因は不明。その途中ログを成果とせず、Actionsへ移した完了結果を今回採用した。合法性検査は緩和していない。
 
 T FIR移管は752logic・1536FF・2BSRAM・8DSP18を空ける代替。ただし保存QACC kernel＋準備書込みのみ＋旧非FIR/API予算で370.964〜403.472 Mcycles/s。準備書込み約2.081GB/s、gather読込み・展開・競合・core偏在・同品質係数契約が未確認。rawよりCPUを軽くする案として選ばず、FPGA容量を空ける代替として保持する。
 
@@ -92,6 +96,6 @@ T FIR移管は752logic・1536FF・2BSRAM・8DSP18を空ける代替。ただし�
 
 性能・資源・期限の評価→合格分担への通信路割当→経路が非空のものを採用、という順序を維持する。正式な性能合格・通信路割当・受信機採用は0。
 
-**現在の改善結果は「fillの命令数削減と準備の分割を実装し、平均CPU・連続処理量を条件付きで見積もった」。未完了はownerの時間配分と有限bufferの整合、FPGA速度と全段統合、実メモリ/RF連続取得・品質、T/S同時TSの確認。** 未測定項目を理由に条件付き数値を出さないことも、仮定を達成済みとすることもしない。
+**現在の改善結果は「fillの命令数削減と準備の分割を実装し、平均CPU・連続処理量を条件付きで見積もった」。未完了はownerの時間配分と有限bufferの整合、FPGAの全段統合、実メモリ/RF連続取得・品質、T/S同時TSの確認。** 未測定項目を理由に条件付き数値を出さないことも、仮定を達成済みとすることもしない。
 
 再現：`python -m experiments.s3_integrated_estimate`。現SDK CFG、実C経路計数、fill包絡、FPGA16候補、保存STA、FIR算術を再計算し、根拠hashをestimate.jsonに保存。値の幅は入力ケース・感度仮定によるもので、統計的信頼区間ではない。

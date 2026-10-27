@@ -991,7 +991,8 @@
       1.343999981880188
     ],
     "minimum_path_reduction_ns": 0.023063399061147294,
-    "target_path_reduction_ns": 0.09351816988381678
+    "target_path_reduction_ns": 0.09351816988381678,
+    "scope": "Archived baseline, not the current best route"
   },
   "T_FIR_optimistic_legacy_Mcycles_s": [
     370.96376643105157,
@@ -1071,8 +1072,140 @@
     "constant_scan_schedule_verified": false,
     "reason": "Owner shares a 1024-word preparation budget across seven RF polls; other owner work and preparation availability/deadline remain to be bounded."
   },
+  "FPGA_timingweight20_trial": {
+    "scope": "Normal pack/place/route with restored compatible pairs and higher timing weight.",
+    "mapped_sha256": "42492e77e6565ac4ecf60144bc8f748a25e76976bbbf7c6c0820e38286c30f39",
+    "backend_source_sha256": {
+      "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+      "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+    },
+    "binary_sha256": "a47805ccd8ed4271f93fb78bbf2696648c83e958b9d348f169706f9ef898a869",
+    "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+    "timing_weight": 20,
+    "seed": 1,
+    "baseline_timing_weight": 10,
+    "baseline_seed": 1,
+    "whole_receiver_verified": false,
+    "timeout_seconds": null,
+    "termination_policy": "No elapsed-time kill; retain complete result or explicit tool error",
+    "exit": 1,
+    "seconds": 733.362987873,
+    "route_completed": true,
+    "errors": [
+      "ERROR: Max frequency for clock 'dut.clk': 152.95 MHz (FAIL at 154.29 MHz)"
+    ],
+    "fmax": {
+      "dut.clk": {
+        "achieved": 152.95196533203125,
+        "constraint": 154.28570556640625
+      }
+    },
+    "routed_sha256": "75b9ba556a7550ba85d448d38d0df9e6dd7d9831c9bb9a12c4ffb55cf0fd631b",
+    "physical_sites": {
+      "FF": 8673,
+      "packed_logic_with_ram_blockers": 19666,
+      "minimum_extra_passthrough_LUTs": 0,
+      "optimistic_logic_site_lower_bound": 19666,
+      "capacity": 20736,
+      "excess": -1070,
+      "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+    },
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+  },
+  "FPGA_timingweight10_seed2_trial": {
+    "scope": "Normal pack/place/route with restored compatible pairs and higher timing weight.",
+    "mapped_sha256": "42492e77e6565ac4ecf60144bc8f748a25e76976bbbf7c6c0820e38286c30f39",
+    "backend_source_sha256": {
+      "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+      "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+    },
+    "binary_sha256": "a47805ccd8ed4271f93fb78bbf2696648c83e958b9d348f169706f9ef898a869",
+    "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+    "timing_weight": 10,
+    "seed": 2,
+    "baseline_timing_weight": 10,
+    "baseline_seed": 1,
+    "whole_receiver_verified": false,
+    "timeout_seconds": null,
+    "termination_policy": "No elapsed-time kill; retain complete result or explicit tool error",
+    "exit": 0,
+    "seconds": 1574.4729629360002,
+    "route_completed": true,
+    "errors": [],
+    "fmax": {
+      "dut.clk": {
+        "achieved": 166.22340393066406,
+        "constraint": 154.28570556640625
+      }
+    },
+    "routed_sha256": "a23ca6d791cf3e5b2fc574a83e1bca908039374049fdeca9e504ce3e707382ef",
+    "physical_sites": {
+      "FF": 8673,
+      "packed_logic_with_ram_blockers": 19658,
+      "minimum_extra_passthrough_LUTs": 0,
+      "optimistic_logic_site_lower_bound": 19658,
+      "capacity": 20736,
+      "excess": -1078,
+      "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+    },
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+  },
+  "current_partial_timing": {
+    "trial": "cursor-mask-timingweight10-seed2",
+    "checks": [
+      {
+        "name": "same_mapped_sha256",
+        "passed": true
+      },
+      {
+        "name": "same_backend_source_sha256",
+        "passed": true
+      },
+      {
+        "name": "same_chipdb_sha256",
+        "passed": true
+      },
+      {
+        "name": "routed_hash",
+        "passed": true
+      },
+      {
+        "name": "physical_site_recount",
+        "passed": true
+      },
+      {
+        "name": "same_STA_result",
+        "passed": true
+      },
+      {
+        "name": "complete_route_log",
+        "passed": true
+      },
+      {
+        "name": "exit_matches_target_STA",
+        "passed": true
+      },
+      {
+        "name": "scope_not_whole_receiver",
+        "passed": true
+      }
+    ],
+    "MHz": 166.22340393066406,
+    "minimum_MHz": 152.62663760629923,
+    "target_MHz": 154.28571428571428,
+    "minimum_pass": true,
+    "target_pass": true,
+    "target_margin_percent": 7.73739143654153,
+    "minimum_margin_percent": 8.908514619471418,
+    "logic_sites": 19658,
+    "logic_delta_from_baseline": 31,
+    "BSRAM": 29,
+    "FF": 8673,
+    "whole_receiver_verified": false,
+    "scope": "Same frozen partial circuit; not current transport plus whole receiver"
+  },
   "source_sha256": {
-    "experiments/s3_integrated_estimate.py": "fc6f3fe9fa0f5cf95dc3cec9a13f13384347cf6914024bd2874de34fd75820d6",
+    "experiments/s3_integrated_estimate.py": "45fdfd041053fd0b5a169b7e0a1523518d58a36c4fc6739ab743a9a9cb2ef8ce",
     "ci/s3_pack_path_audit.py": "53b53100f3cffbbfbabb1233d68fefc19295cb8defeaf12fea13104ab89b9f06",
     "experiments/s3_native_capture.c": "f2d188648a1c52b74a3be404c4f8520853a3353358c3bcaf825c2c62b8df2c72",
     "reports/s3-budgeted-fill/u8/target.json": "334b660eb163c9e3029734a3ae727e721792ac11dd1e6b64b67d78dee9869fe0",
@@ -1081,6 +1214,9 @@
     "reports/s3-budgeted-fill/sdk-S/sdk-verification.json": "e9fe5cd0bc838ee00c59e2ec5dfd093bc29880e3d11dd8f4d27c1071c7c93ac4",
     "reports/partition-recheck-20261023/recomputed-k7-resource-variants.json": "a08f9c29e07aa4e883d91b2ba1d114d73273b38e232a32bcd859276b5a1cd47f",
     "reports/controller-cursor-mask/pnr.json.gz": "7927f3bd89c97f5ef5ceb58d2aad01cb2d6ede5ae3dca29d1c227535f2c4fa5e",
+    "reports/cursor-mask-route-comparison/audit.json": "7c30a3d8cdda2057646b09d3af001ba1bfff535b25a8fa222da01da8fb9a6264",
+    "reports/cursor-mask-timingweight20/result.json": "9724d2d1ed3a653a85c04d5bc73be6889c374c09262d32b48c86993aadab372c",
+    "reports/cursor-mask-timingweight10-seed2/result.json": "63fbc157caeac619f168940d2fb31a117ab6e972cc77f5574ee74ba1217ec02c",
     "reports/s3-preprocess-break-even/qacc/qacc-audit.json": "7990e28768399e69ab3c47a18a7e3eea7c63805398fda20af56bd972bccc55f6"
   }
 }

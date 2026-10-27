@@ -59,3 +59,5 @@ int main(void) {
  puts("PASS bulk DMA descriptor and ownership on both hosts");
  return 0;
 }
+
+unsigned s3_test_spi_running(spi_host_device_t h){return !devices[h-2].complete;}

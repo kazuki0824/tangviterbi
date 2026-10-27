@@ -170,6 +170,11 @@ esp_err_t IRAM_ATTR s3_spi_reap(s3_spi_port *p)
     void *completed = NULL;
 #ifdef S3_RAW_ONLY_SPI
     if (!p->bulk || p->sct || p->polling) { p->poisoned = true; return ESP_ERR_INVALID_STATE; }
+    // Dedicated raw bus, one outstanding transaction. A running command cannot
+    // already be returned by the SDK. Avoid its empty result-queue path while
+    // hardware is active; idle is only permission to ask the SDK, not proof
+    // of completion. Do not use trans_done here: the ISR clears that flag.
+    if (spi_ll_get_running_cmd(SPI_LL_GET_HW(p->host))) return ESP_ERR_TIMEOUT;
     spi_transaction_t *done = NULL;
     err = spi_device_get_trans_result(p->device, &done, 0); completed = done;
 #else

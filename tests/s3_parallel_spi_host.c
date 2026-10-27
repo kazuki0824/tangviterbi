@@ -2,9 +2,10 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-struct fake_device {spi_multi_transaction_t *batch;unsigned n;bool busy,complete;int delay;};
+struct fake_device {spi_multi_transaction_t *batch;unsigned n;bool busy,complete,running;int delay;};
 static struct fake_device devices[2];
 static bool queue_fail;
+static unsigned result_calls;
 static unsigned random32(void){return 1;}
 esp_err_t spi_bus_initialize(spi_host_device_t h,const spi_bus_config_t*c,int d){(void)h;(void)d;assert(c->max_transfer_sz==S3_PP_TX_BYTES);return ESP_OK;}
 esp_err_t spi_bus_free(spi_host_device_t h){(void)h;return ESP_OK;}
@@ -13,17 +14,18 @@ esp_err_t spi_bus_remove_device(spi_device_handle_t d){(void)d;return ESP_OK;}
 esp_err_t spi_bus_multi_trans_mode_enable(spi_device_handle_t d,bool b){(void)d;(void)b;return ESP_OK;}
 esp_err_t spi_device_get_actual_freq(spi_device_handle_t d,int*f){(void)d;*f=80000;return ESP_OK;}
 esp_err_t spi_device_queue_multi_trans(spi_device_handle_t d,spi_multi_transaction_t*b,unsigned n,int t)
-{(void)t;if(queue_fail)return ESP_ERR_INVALID_STATE;assert(!d->busy);d->batch=b;d->n=n;d->busy=true;d->complete=false;d->delay=1+(random32()%6);return ESP_OK;}
+{(void)t;if(queue_fail)return ESP_ERR_INVALID_STATE;assert(!d->busy);d->batch=b;d->n=n;d->busy=true;d->complete=false;d->running=true;d->delay=1+(random32()%6);return ESP_OK;}
 esp_err_t spi_device_queue_trans(spi_device_handle_t d,spi_transaction_t*b,int t){return spi_device_queue_multi_trans(d,(spi_multi_transaction_t*)b,1,t);}
 esp_err_t spi_device_get_multi_trans_result(spi_device_handle_t d,spi_multi_transaction_t**p,int t)
 {(void)t;if(!d->complete)return ESP_ERR_TIMEOUT;*p=d->batch;d->busy=false;d->complete=false;return ESP_OK;}
 esp_err_t spi_device_get_trans_result(spi_device_handle_t d,spi_transaction_t**p,int t)
-{spi_multi_transaction_t*m=NULL;int rc=spi_device_get_multi_trans_result(d,&m,t);*p=m?&m->base:NULL;return rc;}
+{++result_calls;spi_multi_transaction_t*m=NULL;int rc=spi_device_get_multi_trans_result(d,&m,t);*p=m?&m->base:NULL;return rc;}
 esp_err_t spi_device_acquire_bus(spi_device_handle_t d,unsigned t){(void)d;(void)t;return ESP_OK;}
 void spi_device_release_bus(spi_device_handle_t d){(void)d;}
 esp_err_t spi_device_polling_start(spi_device_handle_t d,spi_transaction_t *s,unsigned t){return spi_device_queue_trans(d,s,t);}
 esp_err_t spi_device_polling_end(spi_device_handle_t d,unsigned t){spi_transaction_t *s=NULL;return spi_device_get_trans_result(d,&s,t);}
-bool s3_test_spi_done(spi_host_device_t h){return devices[h-2].complete;}
+bool s3_test_spi_done(spi_host_device_t h){(void)h;return false;} // ISR may have cleared trans_done.
+unsigned s3_test_spi_running(spi_host_device_t h){return devices[h-2].running;}
 
 int main(void) {
  static _Alignas(16) uint8_t data[4][S3_PP_CHUNK];
@@ -46,12 +48,23 @@ int main(void) {
   assert((uint32_t)(descriptors[i].base.addr>>16)==i*S3_PP_TX_BYTES);
   assert(descriptors[i].base.length==S3_PP_TX_BYTES*8);
   assert((descriptors[i].base.addr&65535)==S3_PP_TX_BYTES);
+  unsigned calls=result_calls;
   assert(s3_pp_spi_reap(&x[i])==ESP_ERR_TIMEOUT);
+#ifdef S3_RAW_ONLY_SPI
+  assert(result_calls==calls); // Running hardware bypasses the SDK queue.
+#else
+  assert(result_calls==calls+1);
+#endif
+  // Idle before ISR result publication (also covers queued but not started).
+  devices[i].running=false;calls=result_calls;
+  assert(s3_pp_spi_reap(&x[i])==ESP_ERR_TIMEOUT && x[i].active && ports[i].busy);
+  assert(result_calls==calls+1 && p.retired==0);
+  devices[i].running=true;
  }
  assert(s3_pp_spi_submit(&x[0],&p,&ports[0],17)==ESP_ERR_INVALID_STATE);
- ports[1].device->complete=true;
+ ports[1].device->running=false;ports[1].device->complete=true;
  assert(s3_pp_spi_reap(&x[1])==ESP_OK && p.retired==0);
- ports[0].device->complete=true;
+ ports[0].device->running=false;ports[0].device->complete=true;
  assert(s3_pp_spi_reap(&x[0])==ESP_OK && p.retired==2);
  assert(s3_pp_spi_reap(&x[0])==ESP_ERR_INVALID_STATE);
  // Fill a third payload; failed queue must NOT retire/drop the taken buffer.
