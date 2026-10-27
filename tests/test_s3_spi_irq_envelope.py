@@ -17,10 +17,20 @@ class IRQEnvelopeTest(unittest.TestCase):
         # Initial transfer already completed, but its queue API has not
         # published REQ yet. A window may contain both its publication and
         # the replacement's publication, with no completion inside the window.
-        state=(1,1,0,1,1)
-        for event in ('publish','reap','enqueue','publish'):
+        state=(1,1,0,1,1,0)
+        for event in ('publish','finish request','reap','enqueue','publish'):
             state=next(s for label,s,_,_ in successors(state) if label==event)
         self.assertEqual(state[2:4],(1,0))
+
+    def test_deferred_enable_survives_an_intervening_irq_entry(self):
+        state=(1,1,0,0,0,0)
+        for event in ('publish','complete','IRQ entry'):
+            state=next(s for label,s,_,_ in successors(state) if label==event)
+        self.assertEqual(state[-2:],(0,1))
+        self.assertFalse(any(label=='reap' for label,*_ in successors(state)))
+        wake=[s for label,s,_,_ in successors(state) if label=='finish request'][-1]
+        self.assertEqual(wake[-2:],(1,0))
+        self.assertTrue(any(label=='IRQ entry' for label,*_ in successors(wake)))
 
     def test_worker_event_exact_formula_and_fixed_point_interface(self):
         for lanes,L in ((8,98334),(4,196668)):

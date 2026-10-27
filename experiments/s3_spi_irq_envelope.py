@@ -10,34 +10,38 @@ import json
 from pathlib import Path
 from experiments.s3_native_spi_windows import wire_floor
 
-# State: outstanding, started, published, completed, pending IRQ cause.
-INITIAL = (0, 0, 0, 0, 0)
+# State: outstanding, started, published, completed, pending IRQ cause,
+#        owner has not yet finished the post-OR conditional bg_enable.
+INITIAL = (0, 0, 0, 0, 0, 0)
 
 
 def successors(state):
-    active, started, published, completed, pending = state
+    active, started, published, completed, pending, deferred = state
     if not active:
-        yield 'enqueue', (1, 0, 0, 0, pending), 0, 0
+        yield 'enqueue', (1, 0, 0, 0, pending, 0), 0, 0
     else:
         if not started:
             # Overapproximation: may start before owner publishes REQ.
-            yield 'start', (1, 1, published, 0, pending), 0, 0
+            yield 'start', (1, 1, published, 0, pending, deferred), 0, 0
         if not published:
-            # Publication may produce a wake or none; coalescing is allowed.
+            # req_core's atomic OR and later conditional bg_enable are
+            # distinct operations; IRQ/completion may intervene.
+            yield 'publish', (1, started, 1, completed, pending, 1), 0, 0
+        if deferred:
             for wake in (0, 1):
-                yield 'publish', (1, started, 1, completed, pending | wake), 0, 0
+                yield 'finish request', (1, started, published, completed, pending | wake, 0), 0, 0
         if started and not completed:
-            yield 'complete', (1, 1, published, 1, 1), 0, 1
-        if published and completed:
+            yield 'complete', (1, 1, published, 1, 1, deferred), 0, 1
+        if published and completed and not deferred:
             # Actual result publication/owner return constraints are relaxed.
-            yield 'reap', (0, 0, 0, 0, pending), 0, 0
+            yield 'reap', (0, 0, 0, 0, pending, 0), 0, 0
     if pending:
-        yield 'IRQ entry', (active, started, published, completed, 0), 1, 0
+        yield 'IRQ entry', (active, started, published, completed, 0, deferred), 1, 0
 
 
 def potential(state):
-    _, _, published, completed, pending = state
-    return pending - (published - completed)
+    _, _, published, completed, pending, deferred = state
+    return pending + deferred - (published - completed)
 
 
 def certificate():

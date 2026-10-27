@@ -4,15 +4,23 @@
 
 ## 証明したもの
 
-状態は outstanding / started / REQ published / DMA completed / pending IRQ cause の5変数。1 outstandingを維持し、REQ公開前のDMA開始・完了も許す。REQ公開とDMA完了は各転送1回、公開と完了の両方を経てからreapして次をenqueueする。IRQ原因は1 pending bitへ合流し、IRQ entryが消費する。開始・reapとISRの詳細な順序制約は緩めており、実機では到達しない列も含む。
+状態は outstanding / started / REQ published / DMA completed / pending IRQ cause / deferred enable の6変数。1 outstandingを維持し、REQ公開前のDMA開始・完了も許す。REQ公開とDMA完了は各転送1回、公開後の条件付きenable処理と完了の両方を経てからreapして次をenqueueする。IRQ原因は1 pending bitへ合流し、IRQ entryが消費する。開始・reapとISRの詳細な順序制約は緩めており、実機では到達しない列も含む。
 
-到達14状態・31遷移を全探索。`F = published − completed`、`Ψ = pending − F` として、各遷移で次を検査した。
+到達20状態・44遷移を全探索。`F = published − completed`、`Ψ = pending + deferred − F` として、各遷移で次を検査した。
 
 `IRQ entry数 − 2 × DMA完了数 + ΔΨ ≤ 0`
 
 全到達状態で `−1 ≤ Ψ ≤ 2`。任意個の遷移について加算すると中間のΨが消え、**任意の観測区間で IRQ entry数 ≤ 2 × DMA完了数 + 3** となる。探索深さや実行秒数による打切りはなく、有限グラフ全体の閉包と全edgeの証明書を `result.json` へ保存した。長さを決めたシミュレーションだけから無限継続へ一般化していない。
 
 区間中のREQ公開数を単純に完了数+1とはしない。区間開始前にDMA完了済み・REQ未公開なら、その遅れた公開と次転送の公開が同じ区間に入り、完了0回でも公開2回となる。試験にこの列を含めた。
+
+## 実装照合で訂正した点
+
+前版6b5f009ではREQ公開とwakeを同じ遷移にしていた。しかし固定SDKのreq_coreはatomic ORの戻り値を保存し、その古い値が0なら後でbg_enableする。ORとenableの間にISRが入り、さらにDMA完了/IRQ entryを経る可能性を、同一操作として畳み込んではいけない。
+
+このため公開時はdeferred=1とし、後続のfinish requestで必要ならpendingを立ててdeferred=0にする。途中のIRQ entryはpendingを消費してもdeferredは消費しない。単一ownerがAPI return前にreap/次submitをできない制約も加えた。前版モデルでの証明自体はそのモデルについて有効だったが、実装への適用根拠は不足していた。前版もrefinement未証明としており、実機成立判定は行っていない。
+
+新しいΨで全edgeを再検証すると、範囲は依然−1〜2なので上限式は変わらない。固定SDKのreq_core本体を抽出してhostコンパイルし、OR直後にstatusをISR相当の操作で変更するhookを入れた。初期REQ/PENDの4状態×hook有無の8条件で、現在値ではなくOR前の値によりenableが決まることを確認。これは実req_coreの分岐確認であり、hookの実機到達性や時間の証明ではない。
 
 ## 実装との対応と未証明の前提
 
@@ -50,7 +58,7 @@ raw task ownerはcore0。どの配置もここでは採用しない。Lのlane�
 
 ## 検証結果と残り
 
-全edge帰納式・遅延REQの例・応答モデルとの式一致と境界値・既存worker試験を含む9 unittest成功。試験内のC=7 cycleはインターフェース検証用の架空値で、実機の推定値ではない。
+全edge帰納式・遅延REQ/enableの例・固定SDK req_core本体・応答モデルとの式一致と境界値・既存worker試験を含む11 unittest成功。試験内のC=7 cycleはインターフェース検証用の架空値で、実機の推定値ではない。
 
 これまで未入力だったSPI eventの**発生数の式を条件付きで具体化**した。残るのは実装とのrefinement、各hostのC、他IRQ/criticalの干渉、H/S/W/R等の実時間上限。RF ABI、全受信機の資源・全FPGA fit/STAも未完了。性能合格・正式通信路割当・採用0。
 
@@ -58,5 +66,5 @@ raw task ownerはcore0。どの配置もここでは採用しない。Lのlane�
 
 ```sh
 python -m experiments.s3_spi_irq_envelope --output reports/s3-spi-irq-envelope/result.json
-PYTHONPATH=tests python -m unittest test_s3_spi_irq_envelope test_s3_worker_response -v
+PYTHONPATH=tests python -m unittest test_s3_spi_request_enable test_s3_spi_irq_envelope test_s3_worker_response -v
 ```
