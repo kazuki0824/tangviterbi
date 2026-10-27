@@ -32,7 +32,8 @@ def main():
    core0_max_by_management_cycles={str(e):max(c['core0_percent_by_management_cycles'][str(e)] for c in cases) for e in (0,100,200,300)},
    core1_max=max(c['core1_percent'] for c in cases),
    mean_packing_slice_us_max=[max(c['packing_only_mean_us_per_nonempty_slice'][w] for c in cases) for w in (0,1)],
-   owner_frequency_max=max(c['assumed_owner_iterations_s'] for c in cases)))
+   owner_frequency_max=max(c['assumed_owner_iterations_s'] for c in cases),
+   maximum_API_active_us_at_management200=min(20+(100-c['core0_percent_by_management_cycles']['200'])/(100e6/16384*100/1e6) for c in cases)))
  result=dict(scope=__doc__,rows=rows,receiver_adopted=False,
   assumptions=dict(alpha=1.1,API_active_us=20,U_Mcycles_s=[20,10],baseline_owner_iterations_s=25000,extra_owner_iteration_cycles=1500,requested_scan_period_us=30,prepare_quantum_words=1024),
   limitations=['Mean nonempty slice time is not maximum per-call or owner response time.',

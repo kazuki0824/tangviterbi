@@ -77,7 +77,7 @@ raw＋高速localshiftはlogic689超過のため単純置換しない。slotaddr
 
 保存部分構成は152.091263MHz。最低152.626638MHzへ最長遅延0.023063ns、目標154.285714MHzへ0.093518nsの純短縮が必要。critical pathのRAM周辺routingは1.509ns＋1.344ns。この配線・近接配置を改善対象とする。単体Fmaxを全受信機へ流用しない。
 
-[固定配置からの再配線2試行](../cursor-mask-fixed-router2/README.md)はcheckpoint復元のassertion／ALU位置制約エラーで配線前に終了し、新しいFmaxは得られなかった。速度改善を計上しない。元のcompatible-pair packerと計数instrumentationは保存source hashと一致する状態へ復元し、通常pack/placeからtiming weightを10→20へ変える試行と、weight10・seed2のローカル試行は途中ログを残し、セッション・プロセス・完了結果が取得できない状態になった。原因不明で、新Fmaxはない。途中ログは各 `*-incomplete-local` に保存し、GitHub Actionsの `Cursor-mask fixed-source route trials` で同じsource・chipdb・netlist hashを検査して再実行する。合法性検査は緩和しない。
+[固定配置からの再配線2試行](../cursor-mask-fixed-router2/README.md)はcheckpoint復元のassertion／ALU位置制約エラーで配線前に終了し、新しいFmaxは得られなかった。速度改善を計上しない。元のcompatible-pair packerと計数instrumentationは保存source hashと一致する状態へ復元し、通常pack/placeからtiming weightを10→20へ変える試行と、weight10・seed2のローカル試行は途中ログを残し、セッション・プロセス・完了結果が取得できない状態になった。原因不明で、新Fmaxはない。途中ログは各 `*-incomplete-local` に保存し、[GitHub Actions run 40524351929](https://github.com/kazuki0824/tangviterbi/actions/runs/40524351929) で同じsource・chipdb・netlist hashを検査して再実行する。固定版ツールのビルドは成功。合法性検査は緩和しない。
 
 T FIR移管は752logic・1536FF・2BSRAM・8DSP18を空ける代替。ただし保存QACC kernel＋準備書込みのみ＋旧非FIR/API予算で370.964〜403.472 Mcycles/s。準備書込み約2.081GB/s、gather読込み・展開・競合・core偏在・同品質係数契約が未確認。rawよりCPUを軽くする案として選ばず、FPGA容量を空ける代替として保持する。
 
