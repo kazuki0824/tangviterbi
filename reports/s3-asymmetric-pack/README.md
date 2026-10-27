@@ -2,6 +2,8 @@
 
 2026-10-27。前提・確度は[統合見積もり](../receiver-estimate-20261027/README.md)を継承。①は変更しない。
 
+追補：[16 KiB転送による有限buffer改善とCPU・期限条件](../s3-short-transfer/README.md)。以下は32 KiB転送時の比較。
+
 ## 結果
 
 S core0の101.58〜106.53%を改善する最初の具体策として、packing境界をビルド時に選択できるようにした。`S3_PP_CORE0_SIXTEENTHS=5`ならcore0が5/16、core1が残り11/16を担当する。pair単位で切り、端数はcore1へ渡す。各pairの出力位置は従来通りで、デシメート・再量子化・payloadコピーは増やさない。既定値8は従来の等分のまま。struct・公開API・bufferサイズを変えず、実機採用設定へ自動変更しない。

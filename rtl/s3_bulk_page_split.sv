@@ -1,9 +1,9 @@
-// Raw-only 32-KiB token frame -> eight existing 4-KiB page frames.
-// Place after s3_spi_rx(WRITE_BYTES=32768), before page_guard/store.
+// Raw-only 16/32-KiB token frame -> four/eight existing 4-KiB page frames.
+// Place after s3_spi_rx with matching WRITE_BYTES, before page_guard/store.
 // No payload buffer/copy; upstream CDC FIFO must cover synthetic-header stalls.
 // Downstream may commit earlier pages before a later frame fault: fault MUST
 // mute the whole epoch. This is framing validation, not CRC/integrity proof.
-module s3_bulk_page_split #(parameter MAX_FRAME_CYCLES=262144)(
+module s3_bulk_page_split #(parameter MAX_FRAME_CYCLES=262144, WRITE_BYTES=32768)(
  input wire clk, resetn, input wire [15:0] epoch,
  input wire valid, output wire ready, input wire [35:0] token,
  output wire out_valid, input wire out_ready, output wire [35:0] out_token,
@@ -12,12 +12,13 @@ module s3_bulk_page_split #(parameter MAX_FRAME_CYCLES=262144)(
  localparam HEADER=0, OFFSET=1, LENGTH=2, EMIT_H=3, EMIT_O=4, EMIT_L=5, BODY=6;
  reg [2:0] state;
  reg [31:0] header, offset;
- reg [12:0] word_index;
+ reg [$clog2(WRITE_BYTES/4)-1:0] word_index;
+ initial if(WRITE_BYTES!=16384 && WRITE_BYTES!=32768) $fatal(1,"unsupported bulk length");
  localparam TIMER_W=$clog2(MAX_FRAME_CYCLES+1);
  reg [TIMER_W-1:0] age;
  initial if(MAX_FRAME_CYCLES<2) $fatal(1,"frame watchdog too small");
  wire [3:0] tag=token[35:32];
- wire good_body=tag==(word_index==8191 ? 4'd8 : 4'd0);
+ wire good_body=tag==(word_index==WRITE_BYTES/4-1 ? 4'd8 : 4'd0);
  wire emitting=state==EMIT_H || state==EMIT_O || state==EMIT_L;
  assign ready=!fault && !emitting && (state!=BODY || !good_body || out_ready);
  assign out_valid=!fault && (emitting || (state==BODY && valid && good_body));
@@ -44,10 +45,10 @@ module s3_bulk_page_split #(parameter MAX_FRAME_CYCLES=262144)(
              else begin header<=token[31:0];state<=OFFSET;end
      OFFSET: if(tag!=2 || token[11:0]!=0) fault<=1;
              else begin offset<=token[31:0];state<=LENGTH;end
-     LENGTH: if(tag!=3 || token[31:0]!=32768) fault<=1;
+     LENGTH: if(tag!=3 || token[31:0]!=WRITE_BYTES) fault<=1;
              else begin word_index<=0;state<=EMIT_H;end
      BODY: if(!good_body) fault<=1;
-           else if(word_index==8191) state<=HEADER;
+           else if(word_index==WRITE_BYTES/4-1) state<=HEADER;
            else begin
             word_index<=word_index+1'b1;
             if(word_index[9:0]==1023) begin offset<=offset+4096;state<=EMIT_H;end

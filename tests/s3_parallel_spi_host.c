@@ -6,7 +6,7 @@ struct fake_device {spi_multi_transaction_t *batch;unsigned n;bool busy,complete
 static struct fake_device devices[2];
 static bool queue_fail;
 static unsigned random32(void){return 1;}
-esp_err_t spi_bus_initialize(spi_host_device_t h,const spi_bus_config_t*c,int d){(void)h;(void)d;assert(c->max_transfer_sz==32768);return ESP_OK;}
+esp_err_t spi_bus_initialize(spi_host_device_t h,const spi_bus_config_t*c,int d){(void)h;(void)d;assert(c->max_transfer_sz==S3_PP_TX_BYTES);return ESP_OK;}
 esp_err_t spi_bus_free(spi_host_device_t h){(void)h;return ESP_OK;}
 esp_err_t spi_bus_add_device(spi_host_device_t h,const spi_device_interface_config_t*c,spi_device_handle_t*p){(void)c;*p=&devices[h-2];return ESP_OK;}
 esp_err_t spi_bus_remove_device(spi_device_handle_t d){(void)d;return ESP_OK;}
@@ -42,8 +42,10 @@ int main(void) {
  for(unsigned i=0;i<2;++i) {
   assert(s3_spi_open_bulk(&ports[i],i?SPI3_HOST:SPI2_HOST,&pins,10,i?4:8,&descriptors[i])==ESP_OK);
   assert(s3_pp_spi_submit(&x[i],&p,&ports[i],17)==ESP_OK);
-  assert(x[i].active && descriptors[i].base.tx_buffer==data[i]);
-  assert((uint32_t)(descriptors[i].base.addr>>16)==i*S3_PP_CHUNK);
+  assert(x[i].active && descriptors[i].base.tx_buffer==data[(i*S3_PP_TX_BYTES)/S3_PP_CHUNK]+(i*S3_PP_TX_BYTES)%S3_PP_CHUNK);
+  assert((uint32_t)(descriptors[i].base.addr>>16)==i*S3_PP_TX_BYTES);
+  assert(descriptors[i].base.length==S3_PP_TX_BYTES*8);
+  assert((descriptors[i].base.addr&65535)==S3_PP_TX_BYTES);
   assert(s3_pp_spi_reap(&x[i])==ESP_ERR_TIMEOUT);
  }
  assert(s3_pp_spi_submit(&x[0],&p,&ports[0],17)==ESP_ERR_INVALID_STATE);

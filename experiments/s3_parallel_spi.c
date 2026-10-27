@@ -8,7 +8,7 @@ esp_err_t IRAM_ATTR s3_pp_spi_submit(s3_pp_transfer*x,s3_parallel_pack*p,s3_spi_
  if(rc==S3_PP_EMPTY)return ESP_ERR_NOT_FINISHED;
  if(rc!=S3_PP_OK)return ESP_ERR_INVALID_STATE;
  x->pack=p;x->port=port;x->sequence=seq;x->active=true;
- esp_err_t err=s3_spi_prepare_bulk(port,epoch,(uint32_t)(seq*S3_PP_CHUNK),(void*)payload);
+ esp_err_t err=s3_spi_prepare_bulk(port,epoch,(uint32_t)(seq*S3_PP_TX_BYTES),(void*)payload);
  if(err==ESP_OK)err=s3_spi_queue(port);
  if(err!=ESP_OK)atomic_store_explicit(&p->fault,S3_PP_FAULT,memory_order_relaxed);
  return err;

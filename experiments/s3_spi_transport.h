@@ -1,6 +1,7 @@
 #ifndef S3_SPI_TRANSPORT_H
 #define S3_SPI_TRANSPORT_H
 #include "s3_transport.h"
+#include "s3_raw_transfer_config.h"
 #include "driver/spi_master.h"
 #include "esp_private/spi_master_internal.h"
 
@@ -10,7 +11,7 @@
  * reap returns ESP_OK; on an unexpected SDK error the port stays poisoned.
  * Pin/electrical timing, FPGA ready/status and RF acquisition are not provided.
  */
-enum { S3_SPI_MAX_SEGMENTS = 8, S3_BULK_BYTES = 32768 };
+enum { S3_SPI_MAX_SEGMENTS = 8, S3_BULK_BYTES = S3_RAW_TRANSFER_BYTES };
 typedef struct {
     spi_device_handle_t device;
     spi_host_device_t host;
@@ -25,9 +26,9 @@ typedef struct {
 esp_err_t s3_spi_open(s3_spi_port *port, spi_host_device_t host,
                        const spi_bus_config_t *pins, int cs, unsigned lanes,
                        bool sct, spi_multi_transaction_t *storage, unsigned capacity);
-/* Opt-in raw-only single asynchronous 32-KiB transaction on SPI2 or SPI3.
+/* Opt-in raw-only single asynchronous 16/32-KiB transaction on SPI2 or SPI3.
  * Payload must be one contiguous internal DMA arena, leased until reap.
- * Uses D711/length=32768, requiring RX WRITE_BYTES=32768 and page splitter.
+ * Uses D711/length=S3_BULK_BYTES, requiring RX WRITE_BYTES=S3_BULK_BYTES and page splitter.
  * No IQ reads, SCT, polling or automatic ring ownership in this API.
  */
 esp_err_t s3_spi_open_bulk(s3_spi_port *port, spi_host_device_t host,

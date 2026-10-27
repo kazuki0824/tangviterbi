@@ -14,7 +14,7 @@ module s3_spi_rx #(parameter LANES=8, FIFO_AW=5, IGNORE_IQ_READ=0, IGNORE_CONTRO
  output wire overflow
 );
  initial if(LANES!=4 && LANES!=8) $fatal(1,"SPI width must be 4 or 8");
- initial if(WRITE_BYTES!=4096 && WRITE_BYTES!=32768) $fatal(1,"unsupported write length");
+ initial if(WRITE_BYTES!=4096 && WRITE_BYTES!=16384 && WRITE_BYTES!=32768) $fatal(1,"unsupported write length");
  localparam COUNT_W=$clog2(WRITE_BYTES+12);
  reg [COUNT_W-1:0] byte_count;
  reg nibble;

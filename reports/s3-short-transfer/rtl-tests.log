@@ -1,0 +1,54 @@
+test_C_descriptor_and_lease (test_s3_bulk_transport.BulkTransportTest.test_C_descriptor_and_lease) ... PASS bulk DMA descriptor and ownership on both hosts
+ok
+test_malformed_and_truncated_frames_poison_epoch (test_s3_bulk_transport.BulkTransportTest.test_malformed_and_truncated_frames_poison_epoch) ... ok
+test_octal_quad_lossless_wrap_and_page_commit (test_s3_bulk_transport.BulkTransportTest.test_octal_quad_lossless_wrap_and_page_commit) ... ok
+test_raw_only_C_descriptor_and_lease (test_s3_bulk_transport.BulkTransportTest.test_raw_only_C_descriptor_and_lease) ... PASS bulk DMA descriptor and ownership on both hosts
+ok
+test_short_frames_and_rejection (test_s3_bulk_transport.BulkTransportTest.test_short_frames_and_rejection) ... ok
+test_short_wire_to_ordered_payload (test_s3_bulk_page_pipeline.BulkPipelineTest.test_short_wire_to_ordered_payload) ... ok
+test_wire_to_ordered_payload (test_s3_bulk_page_pipeline.BulkPipelineTest.test_wire_to_ordered_payload) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 129.430s
+
+OK
+length PASS lanes=4 normal=0 tokens=0 commits=0 faults=110
+/tmp/tmph3a796cf/tb.sv:49: $finish called at 3619840000 (1ps)
+epoch PASS lanes=4 normal=0 tokens=0 commits=0 faults=110
+/tmp/tmp8y5crfbj/tb.sv:49: $finish called at 3619840000 (1ps)
+truncated PASS lanes=4 normal=0 tokens=0 commits=0 faults=011
+/tmp/tmp201jte0r/tb.sv:49: $finish called at 2803840000 (1ps)
+overrun PASS lanes=4 normal=0 tokens=0 commits=8 faults=100
+/tmp/tmpy3oujn13/tb.sv:49: $finish called at 3619865000 (1ps)
+length PASS lanes=8 normal=0 tokens=0 commits=0 faults=110
+/tmp/tmp0biajfue/tb.sv:49: $finish called at 3210115000 (1ps)
+epoch PASS lanes=8 normal=0 tokens=0 commits=0 faults=110
+/tmp/tmp9z2b2wzx/tb.sv:49: $finish called at 3210115000 (1ps)
+truncated PASS lanes=8 normal=0 tokens=0 commits=0 faults=011
+/tmp/tmpe5b7b8wl/tb.sv:49: $finish called at 2802115000 (1ps)
+overrun PASS lanes=8 normal=0 tokens=0 commits=8 faults=100
+/tmp/tmpl6i_ztd0/tb.sv:49: $finish called at 3210127500 (1ps)
+normal PASS lanes=4 normal=1 tokens=16432 commits=16 faults=000
+/tmp/tmpy4yb1jaq/tb.sv:49: $finish called at 1641540000 (1ps)
+normal PASS lanes=8 normal=1 tokens=16432 commits=16 faults=000
+/tmp/tmpc3hw4nhd/tb.sv:49: $finish called at 822090000 (1ps)
+normal PASS lanes=4 normal=1 tokens=8216 commits=8 faults=000
+/tmp/tmppkx244gj/tb.sv:49: $finish called at 822340000 (1ps)
+length PASS lanes=4 normal=0 tokens=0 commits=0 faults=110
+/tmp/tmpm70zzl76/tb.sv:49: $finish called at 3210240000 (1ps)
+epoch PASS lanes=4 normal=0 tokens=0 commits=0 faults=110
+/tmp/tmpy7gjup_y/tb.sv:49: $finish called at 3210240000 (1ps)
+truncated PASS lanes=4 normal=0 tokens=0 commits=0 faults=011
+/tmp/tmpn5_q7myy/tb.sv:49: $finish called at 2803840000 (1ps)
+overrun PASS lanes=4 normal=0 tokens=0 commits=4 faults=100
+/tmp/tmpbd53lfxv/tb.sv:49: $finish called at 3210265000 (1ps)
+normal PASS lanes=8 normal=1 tokens=8216 commits=8 faults=000
+/tmp/tmpdhfwy668/tb.sv:49: $finish called at 412490000 (1ps)
+length PASS lanes=8 normal=0 tokens=0 commits=0 faults=110
+/tmp/tmpxnl3ma_5/tb.sv:49: $finish called at 3005315000 (1ps)
+epoch PASS lanes=8 normal=0 tokens=0 commits=0 faults=110
+/tmp/tmpz2y6wdfm/tb.sv:49: $finish called at 3005315000 (1ps)
+truncated PASS lanes=8 normal=0 tokens=0 commits=0 faults=011
+/tmp/tmp4etdt8f7/tb.sv:49: $finish called at 2802115000 (1ps)
+overrun PASS lanes=8 normal=0 tokens=0 commits=4 faults=100
+/tmp/tmpn3wvolbh/tb.sv:49: $finish called at 3005327500 (1ps)

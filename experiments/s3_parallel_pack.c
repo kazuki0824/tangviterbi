@@ -53,7 +53,7 @@ int HOT s3_pp_accept(s3_parallel_pack *p,unsigned bank,const uint32_t *words,
  unsigned total=count+(unsigned)p->have_carry,pairs=total/2;
  uint64_t bytes=(uint64_t)pairs*5;
  if(p->reserved>UINT64_MAX-bytes)return fail(p,S3_PP_SEQUENCE);
- if(p->reserved-p->retired*S3_PP_CHUNK+bytes>4*S3_PP_CHUNK)return S3_PP_BUSY;
+ if(p->reserved-p->retired*S3_PP_TX_BYTES+bytes>4*S3_PP_CHUNK)return S3_PP_BUSY;
  s3_pp_bank *b=&p->banks[bank];
  b->words=words;b->sequence=p->bank_sequence++;b->deadline=deadline;
  b->output=p->reserved;b->first=first;b->pairs=pairs;
@@ -178,22 +178,23 @@ int HOT s3_pp_reclaim(s3_parallel_pack *p,unsigned bank) {
 int HOT s3_pp_take(s3_parallel_pack *p,uint64_t *sequence,const uint8_t **payload) {
  if(!p || !sequence || !payload)return S3_PP_INVALID;
  if(atomic_load_explicit(&p->fault,memory_order_relaxed))return S3_PP_FAULT;
- if(p->submitted>=p->published/S3_PP_CHUNK)return S3_PP_EMPTY;
- unsigned slot=(unsigned)(p->submitted%4);
+ if(p->submitted>=p->published/S3_PP_TX_BYTES)return S3_PP_EMPTY;
+ unsigned slot=(unsigned)(p->submitted%S3_PP_LEASES);
  if(p->dma_state[slot]!=DMA_FREE)return fail(p,S3_PP_INVALID);
- *sequence=p->submitted;*payload=p->buffers[slot];
+ uint64_t offset=p->submitted*S3_PP_TX_BYTES;
+ *sequence=p->submitted;*payload=p->buffers[(offset/S3_PP_CHUNK)%4]+offset%S3_PP_CHUNK;
  p->dma_sequence[slot]=p->submitted++;p->dma_state[slot]=DMA_ACTIVE;
  return S3_PP_OK;
 }
 int HOT s3_pp_complete(s3_parallel_pack *p,uint64_t sequence) {
  if(!p)return S3_PP_INVALID;
  // Even after a fault, reap can retire DMA; never let failure free active DMA.
- unsigned slot=(unsigned)(sequence%4);
+ unsigned slot=(unsigned)(sequence%S3_PP_LEASES);
  if(sequence<p->retired || sequence>=p->submitted || p->dma_sequence[slot]!=sequence ||
     p->dma_state[slot]!=DMA_ACTIVE)return S3_PP_STALE;
  p->dma_state[slot]=DMA_DONE;
- while(p->retired<p->submitted && p->dma_state[p->retired%4]==DMA_DONE) {
-  p->dma_state[p->retired%4]=DMA_FREE;++p->retired;
+ while(p->retired<p->submitted && p->dma_state[p->retired%S3_PP_LEASES]==DMA_DONE) {
+  p->dma_state[p->retired%S3_PP_LEASES]=DMA_FREE;++p->retired;
  }
  return S3_PP_OK;
 }

@@ -10,16 +10,22 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class BulkPipelineTest(unittest.TestCase):
     def test_wire_to_ordered_payload(self):
-        out = ROOT/'build/s3-bulk-page-pipeline'
+        self.check_wire_to_ordered_payload(32768)
+
+    def test_short_wire_to_ordered_payload(self):
+        self.check_wire_to_ordered_payload(16384)
+
+    def check_wire_to_ordered_payload(self,chunk):
+        out = ROOT/f'build/s3-bulk-page-pipeline-{chunk}'
         out.mkdir(parents=True, exist_ok=True)
         rng = random.Random(712906)
         wire = [bytearray(), bytearray()]
         expected = []
         for batch in range(3):
-            data = rng.randbytes(32768)
+            data = rng.randbytes(chunk)
             port = int(batch % 3 == 1)  # offset 32 KiB arrives on slower Quad
-            wire[port].extend(bytes.fromhex('d7110011') + (batch*32768).to_bytes(4, 'big') + b'\x80\x00' + data)
-            expected.extend(int.from_bytes(data[i:i+4], 'little') for i in range(0, 32768, 4))
+            wire[port].extend(bytes.fromhex('d7110011') + (batch*chunk).to_bytes(4, 'big') + chunk.to_bytes(2,'big') + data)
+            expected.extend(int.from_bytes(data[i:i+4], 'little') for i in range(0, chunk, 4))
         for port in range(2):
             (out/f'wire{port}.hex').write_text(''.join(f'{x:02x}\n' for x in wire[port]))
         (out/'expected.hex').write_text(''.join(f'{x:08x}\n' for x in expected))
@@ -30,8 +36,8 @@ reg rst=1,s0=0,s1=0,c0=0,c1=0;reg[7:0] d0=0;reg[3:0] d1=0;
 wire[35:0] t0,t1,raw0,raw1;wire[1:0] v,r,ov,rv,rr,sf;
 s3_spi_rx #(.LANES(8),.WRITE_BYTES(32768)) rx0(s0,c0,clk,rst,d0,rv[0],rr[0],raw0,ov[0]);
 s3_spi_rx #(.LANES(4),.WRITE_BYTES(32768)) rx1(s1,c1,clk,rst,d1,rv[1],rr[1],raw1,ov[1]);
-s3_bulk_page_split split0(clk,rst,16'd17,rv[0],rr[0],raw0,v[0],r[0],t0,sf[0]);
-s3_bulk_page_split split1(clk,rst,16'd17,rv[1],rr[1],raw1,v[1],r[1],t1,sf[1]);
+s3_bulk_page_split #(.WRITE_BYTES(32768)) split0(clk,rst,16'd17,rv[0],rr[0],raw0,v[0],r[0],t0,sf[0]);
+s3_bulk_page_split #(.WRITE_BYTES(32768)) split1(clk,rst,16'd17,rv[1],rr[1],raw1,v[1],r[1],t1,sf[1]);
 wire mv,mt,pv,fault;reg mr=0,av=0,at=0;wire[13:0] ma;wire[31:0] md,po;
 wire[3:0] ps;reg retire=0;
 s3_rx_page_store store(clk,rst,16'd17,v,r,t0,t1,(|ov)|(|sf),mv,mr,ma,md,mt,av,at,pv,po,ps,retire,fault);
@@ -89,16 +95,16 @@ initial begin
   end
  join
 end
-endmodule''')
+endmodule'''.replace('32768',str(chunk)).replace('32778',str(chunk+10)).replace('65555',str(2*(chunk+10)-1)).replace('32777',str(chunk+9)).replace('24575',str(3*chunk//4-1)).replace('24576',str(3*chunk//4)))
         sources = ['s3_async_fifo', 's3_spi_rx', 's3_bulk_page_split', 's3_page_guard', 's3_page_reorder', 's3_rx_page_store']
         c = subprocess.run(['iverilog', '-g2012', '-s', 'tb', '-o', str(out/'sim')] +
             [str(ROOT/f'rtl/{name}.sv') for name in sources] + [str(out/'tb.sv')], text=True, capture_output=True)
         self.assertEqual(c.returncode, 0, c.stderr)
         r = subprocess.run(['vvp', 'sim'], cwd=out, text=True, capture_output=True, timeout=60)
         self.assertEqual(r.returncode, 0, r.stdout+r.stderr)
-        (out/'result.json').write_text(json.dumps(dict(pages=24, payload_bytes=24*4096,
+        (out/'result.json').write_text(json.dumps(dict(pages=3*chunk//4096, payload_bytes=3*chunk,
             SPI_MHz=80, core_MHz=99, output=r.stdout.strip(),
-            scope='32-KiB two-wire RX/CDC/split/guard/store chain with behavioral acknowledged memory',
+            scope=f'{chunk}-byte two-wire RX/CDC/split/guard/store chain with behavioral acknowledged memory',
             physical_memory_included=False, receiver_adopted=False), indent=2)+'\n')
 
 

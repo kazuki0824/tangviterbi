@@ -3,10 +3,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdatomic.h>
+#include "s3_raw_transfer_config.h"
 
 enum { S3_PP_BANKS=3, S3_PP_WORDS=16384, S3_PP_CHUNK=32768, S3_PP_SLOTS=4 };
 enum { S3_PP_OK, S3_PP_BUSY, S3_PP_EMPTY, S3_PP_INVALID, S3_PP_STALE,
        S3_PP_FAULT, S3_PP_DEADLINE, S3_PP_SEQUENCE };
+enum { S3_PP_TX_BYTES=S3_RAW_TRANSFER_BYTES, S3_PP_LEASES=4*S3_PP_CHUNK/S3_PP_TX_BYTES };
 typedef struct { atomic_uint state; unsigned begin, end, cursor; } s3_pp_job;
 typedef struct {
  const uint32_t *words;
@@ -20,8 +22,8 @@ typedef struct {
  s3_pp_bank banks[S3_PP_BANKS];
  unsigned fifo[S3_PP_BANKS], head, count;
  uint64_t next_sample, bank_sequence, reserved, published, submitted, retired;
- uint64_t dma_sequence[S3_PP_SLOTS];
- unsigned dma_state[S3_PP_SLOTS];
+ uint64_t dma_sequence[S3_PP_LEASES];
+ unsigned dma_state[S3_PP_LEASES];
  uint32_t carry; bool have_carry;
  atomic_uint fault;
 } s3_parallel_pack;
@@ -58,7 +60,7 @@ int s3_pp_step_clocked_quantized(s3_parallel_pack*,unsigned worker,unsigned max_
  s3_pp_clock,void *clock_ctx,uint32_t clock_error,uint64_t bound,unsigned *processed);
 int s3_pp_collect(s3_parallel_pack*, uint64_t now);
 int s3_pp_reclaim(s3_parallel_pack*, unsigned bank);
-/* take leases one full contiguous 32-KiB payload. complete ONLY after SPI reap.
+/* take leases one full contiguous S3_PP_TX_BYTES payload (16 or 32 KiB). complete ONLY after SPI reap.
  * Complete may be out of order; physical storage is reused only after a
  * contiguous completed prefix. BUSY/EMPTY do not consume/drop input/output.
  */

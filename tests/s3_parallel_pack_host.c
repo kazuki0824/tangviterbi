@@ -68,8 +68,8 @@ static void negatives(void) {
  assert(s3_pp_complete(&p,seq[1])==S3_PP_STALE);
  assert(s3_pp_accept(&p,0,source[0],0,2,total,0,100)==S3_PP_BUSY);
  assert(p.next_sample==total);
- for(unsigned i=0;i<3;++i)for(unsigned k=0;k<S3_PP_CHUNK;++k)
-  assert(payload[i][k]==byte(seq[i]*S3_PP_CHUNK+k));
+ for(unsigned i=0;i<3;++i)for(unsigned k=0;k<S3_PP_TX_BYTES;++k)
+  assert(payload[i][k]==byte(seq[i]*S3_PP_TX_BYTES+k));
  assert(s3_pp_complete(&p,seq[0])==S3_PP_OK && p.retired==2);
  assert(s3_pp_complete(&p,seq[0])==S3_PP_STALE);
  fill(0,0,2,total);
@@ -85,13 +85,13 @@ static void concurrent(unsigned banks) {
  uint64_t total=0,checked=0,seq[2]={0};const uint8_t *payload[2]={0};
  unsigned delay[2]={0},done=0,pending=0,first=0,n=0;bool live[2]={false,false};
  uint32_t rng=777;unsigned loops=0;
- while(done<banks || p.count || live[0] || live[1] || p.submitted<p.published/S3_PP_CHUNK) {
+ while(done<banks || p.count || live[0] || live[1] || p.submitted<p.published/S3_PP_TX_BYTES) {
   assert(++loops<100000000);
   assert(s3_pp_collect(&p,0)==S3_PP_OK);
   for(unsigned port=0;port<2;++port) {
    if(live[port] && !delay[port]--) {
-    for(unsigned k=0;k<S3_PP_CHUNK;++k)assert(payload[port][k]==byte(seq[port]*S3_PP_CHUNK+k));
-    checked+=S3_PP_CHUNK;assert(s3_pp_complete(&p,seq[port])==S3_PP_OK);live[port]=false;
+    for(unsigned k=0;k<S3_PP_TX_BYTES;++k)assert(payload[port][k]==byte(seq[port]*S3_PP_TX_BYTES+k));
+    checked+=S3_PP_TX_BYTES;assert(s3_pp_complete(&p,seq[port])==S3_PP_OK);live[port]=false;
    }
    if(!live[port] && s3_pp_take(&p,&seq[port],&payload[port])==S3_PP_OK) {
     live[port]=true;delay[port]=port?2:23;
@@ -113,7 +113,7 @@ static void concurrent(unsigned banks) {
  }
  atomic_store_explicit(&stop_flag,1,memory_order_relaxed);
  for(unsigned w=0;w<2;++w)pthread_join(workers[w],NULL);
- assert(p.published==(total/2)*5 && checked==p.retired*S3_PP_CHUNK);
+ assert(p.published==(total/2)*5 && checked==p.retired*S3_PP_TX_BYTES);
  assert(p.have_carry==(bool)(total%2));
  if(p.have_carry)assert(p.carry==sample(total-1));
  for(uint64_t at=checked;at<p.published;++at)
@@ -181,11 +181,11 @@ static void native_size_output_retirement(void) {
  fill(0,0,14352,total);
  assert(s3_pp_accept(&p,0,source[0],0,14352,total,0,100)==S3_PP_BUSY);
  assert(p.count==0 && p.next_sample==total && !atomic_load(&p.fault));
- for(unsigned k=0;k<S3_PP_CHUNK;++k)assert(payload[0][k]==byte(k));
+ for(unsigned k=0;k<S3_PP_TX_BYTES;++k)assert(payload[0][k]==byte(k));
  assert(s3_pp_complete(&p,seq[0])==S3_PP_OK && p.retired==2);
  assert(s3_pp_accept(&p,0,source[0],0,14352,total,0,100)==S3_PP_OK);
  finish_jobs();assert(p.reserved==143520);
- for(uint64_t at=p.retired*S3_PP_CHUNK;at<p.published;++at)
+ for(uint64_t at=p.retired*S3_PP_TX_BYTES;at<p.published;++at)
   assert(p.buffers[(at/S3_PP_CHUNK)%4][at%S3_PP_CHUNK]==byte(at));
  puts("PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement");
 }

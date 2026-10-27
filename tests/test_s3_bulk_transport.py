@@ -23,21 +23,21 @@ class BulkTransportTest(unittest.TestCase):
                 'tests/s3_bulk_transport_host.c','-o',str(exe)],cwd=ROOT,check=True)
             subprocess.run([str(exe)],check=True)
 
-    def simulate(self, lanes, kind='normal'):
+    def simulate(self, lanes, kind='normal', chunk=32768):
         with tempfile.TemporaryDirectory() as temp:
             out=Path(temp);rng=random.Random(811+lanes)
             raw=bytearray();want=[];frames=2 if kind=='normal' else 1
-            size=32768 if kind!='truncated' else 128
+            size=chunk if kind!='truncated' else 128
             for frame in range(frames):
-                offset=(0xfffff000+frame*32768)&0xffffffff
+                offset=(0xfffff000+frame*chunk)&0xffffffff
                 epoch=17 if kind!='epoch' else 18
-                length=32768 if kind!='length' else 4096
+                length=chunk if kind!='length' else 4096
                 payload=rng.randbytes(size)
                 raw.extend(bytes.fromhex('d711')+epoch.to_bytes(2,'big')+
                            offset.to_bytes(4,'big')+length.to_bytes(2,'big')+payload)
                 if kind=='overrun':raw.extend(b'\x00')
                 if kind=='normal':
-                    for p in range(8):
+                    for p in range(chunk//4096):
                         want.extend([(1<<32)|0xd7110011,(2<<32)|((offset+p*4096)&0xffffffff),(3<<32)|4096])
                         for i in range(p*4096,(p+1)*4096,4):
                             want.append(((8<<32) if i%4096==4092 else 0)|int.from_bytes(payload[i:i+4],'little'))
@@ -50,8 +50,8 @@ localparam LANES=@LANES@, FRAME_BYTES=@FRAME_BYTES@, FRAMES=@FRAMES@, NORMAL=@NO
 reg clk=0;always #5.050505 clk=~clk;
 reg sck=0,cs=0,rst=1;reg[LANES-1:0]dq=0;
 wire rv,rr,ov,sv,sr,sf;wire[35:0]rt,st;
-s3_spi_rx #(.LANES(LANES),.WRITE_BYTES(32768)) rx(sck,cs,clk,rst,dq,rv,rr,rt,ov);
-s3_bulk_page_split split(clk,rst,16'd17,rv,rr,rt,sv,sr,st,sf);
+s3_spi_rx #(.LANES(LANES),.WRITE_BYTES(@CHUNK@)) rx(sck,cs,clk,rst,dq,rv,rr,rt,ov);
+s3_bulk_page_split #(.WRITE_BYTES(@CHUNK@)) split(clk,rst,16'd17,rv,rr,rt,sv,sr,st,sf);
 reg consume=1;
 wire gr,gs,gd,gc,gf,greq;wire[1:0]stream;wire[31:0]offset,data;
 s3_page_guard guard(clk,rst,16'd17,sv,gr,st,1'b1,gs,stream,offset,gd,consume,data,gc,gf,greq);
@@ -86,7 +86,7 @@ initial begin
  end
  if(NORMAL) begin
   #2000;
-  if(got!=@WANT_COUNT@ || commits!=16) $fatal(1,"missing output tokens=%0d commits=%0d",got,commits);
+  if(got!=@WANT_COUNT@ || commits!=@COMMITS@) $fatal(1,"missing output tokens=%0d commits=%0d",got,commits);
  end else begin
   #2800000;
   if(!(ov||sf||gf)) $fatal(1,"negative case escaped detection");
@@ -96,7 +96,7 @@ initial begin
 end
 endmodule
 '''
-            fields={'LANES':lanes,'FRAME_BYTES':len(raw)//frames,'FRAMES':frames,
+            fields={'CHUNK':chunk,'COMMITS':frames*chunk//4096,'LANES':lanes,'FRAME_BYTES':len(raw)//frames,'FRAMES':frames,
                     'NORMAL':int(kind=='normal'),'RAW_LAST':len(raw)-1,
                     'WANT_LAST':len(want)-1,'WANT_COUNT':len(want)}
             for key,value in fields.items():tb=tb.replace('@'+key+'@',str(value))
@@ -110,6 +110,11 @@ endmodule
     def test_octal_quad_lossless_wrap_and_page_commit(self):
         for lanes in (4,8):
             with self.subTest(lanes=lanes):self.simulate(lanes)
+
+    def test_short_frames_and_rejection(self):
+        for lanes in (4,8):
+            for kind in ("normal","length","epoch","truncated","overrun"):
+                with self.subTest(lanes=lanes,kind=kind):self.simulate(lanes,kind,16384)
 
     def test_malformed_and_truncated_frames_poison_epoch(self):
         for lanes in (4,8):
