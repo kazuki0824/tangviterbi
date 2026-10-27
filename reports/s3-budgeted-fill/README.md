@@ -28,7 +28,7 @@ fill helper自体の61命令とbarrier/store順序はSDK確認済みの8word版�
 
 core1上端79.94%は不変。追加管理費用予算は約381cycle/反復。ΔE=0を実装の無償性とはしない。稀な回だけに課金せず全反復へ置いた感度模型であり、実測費用・発生頻度ではない。
 
-7回の1024word準備が必要で、仮に1反復30µsなら約210µsの準備区間を見込む。これは実際のRF切替期限・旧bankの解放時刻と両立することを確認した値ではない。SPI API/packing等による非一様なservice間隔と公開時間を含めた有限buffer評価が残る。平均CPU・fill単独時間から受信機成立を認定しない。
+7回の1024word準備が必要で、仮に1反復30µsなら約210µsの準備区間を見込む。これは実際のRF切替期限・旧bankの解放時刻と両立することを確認した値ではない。たとえばSの公称12288 sample/bankでは、A→BからC→Aまで614.4µs。A解放320µs、C開始307.2µs、準備へ進める機会の完了間隔が30µs以下なら、max(320,307.2)+7×30=530µsとなり84.4µsを残す。解放455.45µsなら同じ十分条件は49.05µs不足する。これは公称時系列の設計予算であり、RF位相・settling・実反復上限を証明した値ではない。従来のreclaim条件だけを新しい分割準備の期限保証に流用しない。SPI API/packing等による非一様なservice間隔と公開時間を含めた有限buffer評価が残る。平均CPU・fill単独時間から受信機成立を認定しない。
 
 ## 検証
 
@@ -36,4 +36,4 @@ core1上端79.94%は不変。追加管理費用予算は約381cycle/反復。ΔE
 
 target計数は `python -m ci.s3_native_fill_target --toolchain build/rs-toolchain/xtensa-esp-elf --unroll 8 --prepare-quantum 1024 --output reports/s3-budgeted-fill/u8`。
 
-SDK CIは同じS6/16・16KiB profileで再実行する。新入口のIRAM配置とELF内の1024word予算も確認対象に追加した。前回ca8c06eのSDKメモリ結果を変更後へ無条件に流用しない。
+[SDK run 40518679493](https://github.com/kazuki0824/tangviterbi/actions/runs/40518679493) が成功。S6/16・16KiB・8word・1024word予算と新入口のIRAM配置を含む59静的check、SDK fill命令列・literal・8 source identity等12再確認が成功。共通54＋既定59＋S59=172静的check。SDK成果物・hash・出所はsdk-S/T、packing CFG再計数はcfg-S/Tに保存。Sのcaptureは168bytes（+8）、IRAM末尾0x40388200、既知driver控除後の内部空き上限16324bytes（分割前から264bytes減）。実起動・実時間の確認ではない。

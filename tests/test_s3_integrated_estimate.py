@@ -19,3 +19,16 @@ class IntegratedEstimateTest(unittest.TestCase):
         self.assertGreater(s['additional_scan_cost_sensitivity'][2]['core0_percent'][1],100)
         self.assertLess(s['fill_reduction_25pct_and_scan_1500_cycles_core0'][1],100)
         self.assertFalse(r['receiver_adopted'])
+
+    def test_budgeted_fill_cost_and_management_are_not_free(self):
+        r=json.loads((ROOT/'reports/receiver-integrated-estimate/estimate.json').read_text())
+        s=next(x for x in r['cpu'] if x['standard']=='S' and x['share']==6)
+        self.assertEqual(s['implemented_fill_envelope_instructions'],15567)
+        points=s['prepare_management_sensitivity']
+        self.assertAlmostEqual(points[2]['core0_percent'][1]-points[0]['core0_percent'][1],200/72)
+        self.assertGreater(s['prepare_management_budget_cycles_per_iteration'],300)
+        self.assertLess(s['prepare_management_budget_cycles_per_iteration'],400)
+        owner=r['owner_schedule']
+        self.assertEqual(owner['maximum_prepare_words_per_owner_iteration'],1024)
+        self.assertEqual(owner['maximum_fill_call_instructions'],2265)
+        self.assertFalse(owner['constant_scan_schedule_verified'])

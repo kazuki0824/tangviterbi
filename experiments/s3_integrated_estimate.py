@@ -7,11 +7,11 @@ def read(path):
     p=ROOT/path
     return json.loads(gzip.decompress(p.read_bytes()) if p.suffix=='.gz' else p.read_text())
 def main():
-    cfg=read('reports/s3-fill-unroll/cfg-S/results.json');other_cfg=read('reports/s3-fill-unroll/cfg-T/results.json')
+    cfg=read('reports/s3-budgeted-fill/cfg-S/results.json');other_cfg=read('reports/s3-budgeted-fill/cfg-T/results.json')
     assert all(c['passed'] for c in cfg['checks']+other_cfg['checks'])
     assert cfg['coefficients']==other_cfg['coefficients']
     coeff=cfg['coefficients'];cpu=[]
-    fill_target=read('reports/s3-fill-unroll/u8/target.json')
+    fill_target=read('reports/s3-budgeted-fill/u8/target.json')
     assert all(c['passed'] for c in fill_target['checks'])
     assert fill_target['source_sha256']==hashlib.sha256((ROOT/'experiments/s3_native_capture.c').read_bytes()).hexdigest()
     fill_bound=fill_target['rows'][0]['fill_instruction_envelope_per_bank']
@@ -34,6 +34,8 @@ def main():
         scan_cost=1500/288 if standard=='S' else 0
         row['implemented_fill_envelope_instructions']=fill_bound
         row['implemented_fill_and_scan1500_core_percent']=[[v-fill_saving_pct+scan_cost for v in core[0]],core[1]]
+        row['prepare_management_sensitivity']=[dict(additional_cycles_per_owner_iteration=e,assumed_owner_period_us=30,core0_percent=[v+e/72 for v in row['implemented_fill_and_scan1500_core_percent'][0]]) for e in (0,100,200,300)]
+        row['prepare_management_budget_cycles_per_iteration']=(100-row['implemented_fill_and_scan1500_core_percent'][0][1])*72
         row['implemented_fill_scan_budget_cycles']=(100-core[0][1]+fill_saving_pct)*288 if standard=='S' else None
         if standard=='S':
             row['implemented_fill_scan_cost_sensitivity']=[dict(additional_cycles_per_scan=c,core0_percent=[v-fill_saving_pct+c/288 for v in core[0]]) for c in (0,500,1500,3000)]
@@ -65,17 +67,22 @@ def main():
         'Extra scan cycles 500/1500/3000 are sensitivity points, not measured percentiles.',
         'T FIR optimistic aggregate mixes retained legacy non-FIR budget with compiled kernel instruction and preparation-write floor; gather reads, unpack, contention and quality unverified.',
         'Formal performance pass, route assignment and receiver adoption remain zero.'],receiver_adopted=False)
-    sdk=read('reports/s3-fill-unroll/sdk-S/sdk-verification.json')
+    sdk=read('reports/s3-budgeted-fill/sdk-S/sdk-verification.json')
     assert all(c['passed'] for c in sdk['checks'])
     result['S_candidate_SDK']=dict(commit=sdk['commit'],checks=sdk['SDK_static_checks'],
         driver=sdk['driver_lower_bound'],symbols=sdk['symbols'],sizes=sdk['sizes'],
         actual_boot_verified=False)
     result['owner_schedule']=dict(fill_envelope_us_at_alpha1_1=fill_bound*1.1/240,
+        maximum_prepare_words_per_owner_iteration=fill_target['prepare_quantum_words'],
+        maximum_fill_call_instructions=fill_target['maximum_fill_call_instruction_envelope'],
+        maximum_fill_call_us_at_alpha1_1=fill_target['maximum_fill_call_instruction_envelope']*1.1/240,
         requested_scan_period_us=30,constant_scan_schedule_verified=False,
-        reason='Owner calls both fills synchronously inside RF poll; average CPU alone does not establish a constant SPI scan period.')
+        reason='Owner shares a 1024-word preparation budget across seven RF polls; other owner work and preparation availability/deadline remain to be bounded.')
     trial=ROOT/'reports/cursor-mask-timingweight20/result.json'
     if trial.exists():result['FPGA_timingweight20_trial']=json.loads(trial.read_text())
-    result['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ['experiments/s3_integrated_estimate.py','ci/s3_pack_path_audit.py','experiments/s3_native_capture.c','reports/s3-fill-unroll/u8/target.json','reports/s3-fill-unroll/cfg-S/results.json','reports/s3-fill-unroll/cfg-T/results.json','reports/s3-fill-unroll/sdk-S/sdk-verification.json','reports/partition-recheck-20261023/recomputed-k7-resource-variants.json','reports/controller-cursor-mask/pnr.json.gz','reports/s3-preprocess-break-even/qacc/qacc-audit.json']}
+    trial=ROOT/'reports/cursor-mask-timingweight10-seed2/result.json'
+    if trial.exists():result['FPGA_timingweight10_seed2_trial']=json.loads(trial.read_text())
+    result['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ['experiments/s3_integrated_estimate.py','ci/s3_pack_path_audit.py','experiments/s3_native_capture.c','reports/s3-budgeted-fill/u8/target.json','reports/s3-budgeted-fill/cfg-S/results.json','reports/s3-budgeted-fill/cfg-T/results.json','reports/s3-budgeted-fill/sdk-S/sdk-verification.json','reports/partition-recheck-20261023/recomputed-k7-resource-variants.json','reports/controller-cursor-mask/pnr.json.gz','reports/s3-preprocess-break-even/qacc/qacc-audit.json']}
     (OUT/'estimate.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(cpu=[{k:v for k,v in r.items() if k!='cases'} for r in cpu],FIR_saved=saved,timing=result['partial_timing'],FIR_optimistic=optimistic),indent=2))
 if __name__=='__main__':main()
