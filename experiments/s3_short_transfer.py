@@ -64,7 +64,16 @@ def main():
                     else:hi=mid-1
                 limits.append(dict(publication_us=publication,older_banks=older,core0_iteration_us=c0_us,
                     maximum_core1_iteration_cycles=lo,maximum_core1_iteration_us=lo/240))
+    def bandwidth(gap):
+        return sum(16384/((16384*8+80)/(80*lanes)+gap) for lanes in (8,4))
+    low,high=0.,100.
+    for _ in range(80):
+        middle=(low+high)/2
+        if bandwidth(middle)>100:low=middle
+        else:high=middle
     result=dict(scope=__doc__,rows=rows,conditional_iteration_limits=limits,
+        link_sensitivity=[dict(equal_gap_us=g,capacity_MBps=bandwidth(g),spare_MBps=bandwidth(g)-100) for g in (0,20,40,80)],
+        payload_only_equal_gap_threshold_us=low,
         caveats=['Artificial accept/publication times, deterministic wire duration and periodic scans.',
                  'Finite 128-bank traces, not all RF arrival sequences or indefinite operation.',
                  'Scan period is elapsed time; CPU active/API time is separately budgeted.',
