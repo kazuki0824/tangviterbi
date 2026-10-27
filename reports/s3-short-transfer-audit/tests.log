@@ -1,0 +1,19 @@
+test_real_c_subarena_leases_and_SPI_wire_length (test_s3_short_transfer.ShortTransferTest.test_real_c_subarena_leases_and_SPI_wire_length) ... ok
+test_serialization_and_ordered_reclaim (test_s3_short_transfer.ShortTransferTest.test_serialization_and_ordered_reclaim) ... ok
+test_small_hand_computed_schedule (test_s3_short_transfer.ShortTransferTest.test_small_hand_computed_schedule) ... ok
+test_phase_changes_capacity_in_actual_C (test_s3_short_transfer_replay.ReplayTest.test_phase_changes_capacity_in_actual_C) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 55.288s
+
+OK
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=456
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+16384 0 40 PASS complete finite trace, exact payload and ordered leases
+16384 2400 40 PASS expected BUSY at 4869210 cycles
+32768 0 40 PASS expected BUSY at 233676 cycles
+16384 2400 30 PASS complete finite trace, exact payload and ordered leases

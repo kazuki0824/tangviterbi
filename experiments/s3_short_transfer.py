@@ -3,18 +3,19 @@ import heapq,json,hashlib
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 
-def simulate(chunk,publication_us,scan_us,counts,budget=131072):
+def simulate(chunk,publication_us,scan_us,counts,budget=131072,*,scan_phase_cycles=0):
     # One physical cycle = 1/240 us. Accept at switch+16 sample periods.
     # Both ports visited on each poll, fast first, mirroring owner order.
     period=round(scan_us*240);delay=round(publication_us*240)
     assert period>0 and delay>=96 and chunk in (16384,32768)
+    if type(scan_phase_cycles) is not int or not 0<=scan_phase_cycles<period:raise ValueError("scan phase outside one period")
     events=[];switch=0;total=0
     for k,n in enumerate(counts):
         total+=n;reserved=5*(total//2)
         heapq.heappush(events,(switch+96,0,reserved))
         heapq.heappush(events,(switch+delay,1,reserved))
         switch+=n*6
-    published=0;submitted=0;retired=0;active=[None,None];done=set();peak=0;first_failure=None;poll=0;trace=[]
+    published=0;submitted=0;retired=0;active=[None,None];done=set();peak=0;first_failure=None;poll=scan_phase_cycles;trace=[]
     while events or active[0] or active[1] or submitted<published//chunk:
         at=events[0][0] if events else None
         if at is not None and at<=poll:
@@ -32,7 +33,7 @@ def simulate(chunk,publication_us,scan_us,counts,budget=131072):
                 duration=(chunk*8+80)*3//(8 if port==0 else 4)
                 active[port]=(submitted,poll+duration);trace.append([submitted,port,poll,poll+duration]);submitted+=1
         poll+=period
-    return dict(chunk_bytes=chunk,publication_us=publication_us,scan_us=scan_us,banks=len(counts),
+    return dict(chunk_bytes=chunk,publication_us=publication_us,scan_us=scan_us,scan_phase_cycles=scan_phase_cycles,banks=len(counts),
                 peak_reserved_unretired_bytes=peak,free_bytes_at_peak=budget-peak,
                 first_capacity_failure=first_failure,transfers=submitted,retired=retired,
                 schedule=trace,receiver_adopted=False)
