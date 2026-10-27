@@ -35,3 +35,7 @@ S6/16の追加scan費用の平均CPU予算は465.90→3135.11cycle/回に増え�
 host試験は実production fillを呼び、全16384開始位置×17長さと非正規化開始位置を1/4/8word全てで確認する。長さはunroll境界、ring全周、複数周回を含む。独立した距離式で全wordとguard、callback回数を検査、UBSan有効。native capture・共通時計・parallel deadline・raw task試験も併せて実行し、結果をtests.logに保存する。テストの時刻は実write時間ではない。
 
 再現：`python -m ci.s3_native_fill_target --toolchain build/rs-toolchain/xtensa-esp-elf --unroll 8 --output reports/s3-fill-unroll/u8`、`python -m experiments.s3_integrated_estimate`。
+
+## 同じS構成のSDK確認を追加
+
+raw-only SPI CIにS6/16・16KiB・8word fillのprofileを追加。CMake定義を全関連翻訳単位へ一括適用し、実ELFに残した3設定値を要求値と照合する。DMA descriptorの既知量も実転送長で計算する。既定T相当8/16・32KiB構成とのメモリ差を混同しない。これはlink診断であり受信task実行ではない。CI結果は取得後に別途記録する。

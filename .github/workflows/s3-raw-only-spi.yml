@@ -47,12 +47,16 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           status=0
-          for mode in common raw-only; do
+          for mode in common raw-only S-candidate; do
             extra=()
             profile=n16r8-late-stacks-no-phy-nvs
-            if [[ "$mode" == raw-only ]]; then
+            if [[ "$mode" != common ]]; then
               extra+=(--raw-only-spi)
               profile+=-raw-only-spi
+            fi
+            if [[ "$mode" == S-candidate ]]; then
+              extra+=(--core0-sixteenths 6 --transfer-bytes 16384)
+              profile+=-share6-tx16384
             fi
             python ci/s3_raw_probe_build.py --flash-mb 16 --late-stacks --no-phy-nvs "${extra[@]}" || status=1
             rom=$(find "$IDF_TOOLS_PATH/tools/esp-rom-elfs" -name esp32s3_rev0_rom.elf -print -quit)

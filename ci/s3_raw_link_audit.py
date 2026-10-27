@@ -133,12 +133,16 @@ def audit(elf_path, map_path, config_path, rom_path):
         early_dma_regions=early_lengths[1:]+late_lengths)
     per_port=types['spi_host_t']+types['spicommon_bus_context_t']+types['spi_dma_ctx_t']+types['spi_device_t']
     queues=2*(types['Queue_t']+types['spi_trans_priv_t'])
-    desc=2*((32768+4091)//4092)*sizes['DMA_descriptor']
+    # New probes retain effective compile-time configuration in the ELF.
+    # Old ten-word snapshots remain readable as the historical 32KiB baseline.
+    config_size=app.symbols['raw_probe_sizes'][1]
+    effective=struct.unpack('<3I',app.read(app.address('raw_probe_sizes')+40,12)) if config_size>=52 else (8,32768,None)
+    desc=2*((effective[1]+4091)//4092)*sizes['DMA_descriptor']
     driver_lower=2*(per_port+queues+desc)
     # Reserve pool remains RAM capacity usable for DMA allocations, not a
     # separate payload charge. For headroom expose both pool-excluded free and
     # total-before-pool less known drivers, without subtracting drivers twice.
-    driver=dict(type_sizes=types,per_port_objects=per_port,per_port_queue_bytes=queues,
+    driver=dict(effective_core0_sixteenths=effective[0],effective_transfer_bytes=effective[1],effective_fill_unroll=effective[2],type_sizes=types,per_port_objects=per_port,per_port_queue_bytes=queues,
         per_port_descriptor_bytes=desc,two_port_known_allocation_lower_bound=driver_lower,
         total_internal_after_known_driver_upper_bound=refined_final['free_before_DMA_pool_upper_bound_bytes']-driver_lower,
         not_counted=['GDMA channels/groups/pairs','bus/device locks','interrupt handles','allocation headers/alignment',
@@ -170,6 +174,9 @@ def main():
     result=audit(a.build/'s3_raw_probe.elf',a.build/'s3_raw_probe.map',a.build/'config/sdkconfig.json',a.rom)
     build_record=json.loads((a.build.parent/'build-result.json').read_text())
     result['build']=build_record
+    for key in ('core0_sixteenths','transfer_bytes','fill_unroll'):
+        if key in build_record:
+            result['checks'].append(dict(name='requested_'+key+'_effective',ok=result['driver_lower_bound']['effective_'+key]==build_record[key]))
     config=json.loads((a.build/'config/sdkconfig.json').read_text())
     result['checks'].append(dict(name='requested_flash_effective',ok=config.get(f"ESPTOOLPY_FLASHSIZE_{build_record['flash_MB']}MB")==True))
     result['checks'].append(dict(name='source_unchanged_during_build',ok=build_record['source_unchanged_during_build']))

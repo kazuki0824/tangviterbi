@@ -13,3 +13,10 @@ endif()
 if(RAW_ONLY_SPI)
  target_compile_definitions(${COMPONENT_LIB} PRIVATE S3_RAW_ONLY_SPI=1)
 endif()
+
+set(RAW_CORE0_SHARE 8 CACHE STRING "Core0 packing sixteenths")
+set(RAW_TRANSFER_BYTES 32768 CACHE STRING "Raw transfer bytes")
+target_compile_definitions(${COMPONENT_LIB} PRIVATE
+ S3_PP_CORE0_SIXTEENTHS=${RAW_CORE0_SHARE}
+ S3_RAW_TRANSFER_BYTES=${RAW_TRANSFER_BYTES}
+ S3_NATIVE_FILL_UNROLL=8)

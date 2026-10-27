@@ -6,6 +6,8 @@
 
 [実装・生成命令の比較](../s3-fill-unroll/README.md)。旧21574→15362命令/bankという包絡を取得し、単なる「25%削減目標」を実装根拠に置き換えた。α=1.1等を保持したS6/16＋追加scan1500cycleのcore0は**90.09〜94.32%**、core1は**73.15〜79.83%**。T core0は41.92〜43.90%。実機cycle・公開320µsの保証ではない。estimate.jsonの `implemented_fill_and_scan1500_core_percent` が更新後の値で、`core_percent_base` は旧fill比較基準を保持する。
 
+FPGAの[固定配置再配線試行](../cursor-mask-fixed-router2/README.md)はcheckpoint復元・位置制約のツールエラーで配線に到達しなかった。新しい速度改善を計上せず、保存STAと全段資源の課題を据え置く。SDK CIにはS6/16・16KiB・8word fillを明示した構成を追加し、実ELFの設定値を照合する。
+
 下の25%目標・103.59%等は改善前の比較を説明する履歴。現在のfillは実装済みであり、残るのはSDK配置・実時間費用・公開期限との整合、FPGA改善と全段統合である。
 
 **結論：現実装を「成立見込みが高い案」とはまだ推奨しない。進める構成は、Sの6/16 packing＋8word fill＋16 KiB転送と、FPGAのslotaddr K7を維持した配置・配線改善。** 5/16案を平均CPU占有率だけで第一案へ昇格させない。T FIR移管はFPGA資源を増やす代替であるが、SoC側の入力準備と同品質条件が未確認のため、現時点の第一案にはしない。
