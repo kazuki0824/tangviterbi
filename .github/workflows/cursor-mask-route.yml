@@ -22,7 +22,7 @@ jobs:
       - name: Build pinned backend with unchanged legality checks
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake ninja-build libboost-filesystem-dev libboost-program-options-dev libeigen3-dev
+          sudo apt-get install -y cmake ninja-build libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev libeigen3-dev
           git clone --filter=blob:none https://github.com/YosysHQ/nextpnr.git build/nextpnr-source
           git -C build/nextpnr-source checkout e2fe86b3ce6feaa3f09d8db5c0971c1cda3fc641
           python3 ci/patch_gowin_placement_targeted.py build/nextpnr-source
@@ -60,7 +60,7 @@ jobs:
       - name: Run complete pack place route and retain failing timing
         run: |
           sudo apt-get update
-          sudo apt-get install -y libboost-filesystem-dev libboost-program-options-dev
+          sudo apt-get install -y libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-thread-dev
           git clone --filter=blob:none https://github.com/YosysHQ/nextpnr.git build/nextpnr-source
           git -C build/nextpnr-source checkout e2fe86b3ce6feaa3f09d8db5c0971c1cda3fc641
           python3 ci/patch_gowin_placement_targeted.py build/nextpnr-source
