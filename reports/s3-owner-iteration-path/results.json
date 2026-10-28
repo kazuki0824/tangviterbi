@@ -1,0 +1,1212 @@
+{
+  "scope": "Declared owner iteration paths from SDK ELF, excluding packing; not WCET.",
+  "ELF_sha256": "8f9ae85bbff671dc19840fbe980303b7c5ba63d2da64860c10f97f6c63161e74",
+  "paths": {
+    "owner_loop": [
+      {
+        "offset": 563,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 566,
+        "op": "l32i",
+        "operands": "a9, a6, 0"
+      },
+      {
+        "offset": 569,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 572,
+        "op": "bnez",
+        "operands": "a9, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 575,
+        "op": "movi",
+        "operands": "a9, 0x400"
+      },
+      {
+        "offset": 578,
+        "op": "s32i",
+        "operands": "a9, a1, 60"
+      },
+      {
+        "offset": 581,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 584,
+        "op": "l32i.n",
+        "operands": "a9, a6, 0"
+      },
+      {
+        "offset": 586,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 589,
+        "op": "bnez",
+        "operands": "a9, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 592,
+        "op": "l32i.n",
+        "operands": "a10, a3, 4"
+      },
+      {
+        "offset": 594,
+        "op": "addi",
+        "operands": "a11, a1, 60"
+      },
+      {
+        "offset": 597,
+        "op": "call8",
+        "operands": "40377c2c <s3_native_poll_budget>"
+      },
+      {
+        "offset": 600,
+        "op": "bnez.n",
+        "operands": "a10, 40377795 <s3_raw_task_entry+0x25d>"
+      },
+      {
+        "offset": 605,
+        "op": "movi",
+        "operands": "a11, 0"
+      },
+      {
+        "offset": 608,
+        "op": "or",
+        "operands": "a10, a3, a3"
+      },
+      {
+        "offset": 611,
+        "op": "call8",
+        "operands": "403773fc <pack_slice>"
+      },
+      {
+        "offset": 614,
+        "op": "beqz",
+        "operands": "a10, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 617,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 620,
+        "op": "l32i.n",
+        "operands": "a9, a6, 0"
+      },
+      {
+        "offset": 622,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 625,
+        "op": "bnez",
+        "operands": "a9, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 628,
+        "op": "l32i.n",
+        "operands": "a10, a3, 4"
+      },
+      {
+        "offset": 630,
+        "op": "addi",
+        "operands": "a11, a1, 60"
+      },
+      {
+        "offset": 633,
+        "op": "call8",
+        "operands": "40377c2c <s3_native_poll_budget>"
+      },
+      {
+        "offset": 636,
+        "op": "beqz.n",
+        "operands": "a10, 403777c9 <s3_raw_task_entry+0x291>"
+      },
+      {
+        "offset": 638,
+        "op": "l32i",
+        "operands": "a10, a1, 72"
+      },
+      {
+        "offset": 641,
+        "op": "call8",
+        "operands": "4037b760 <s3_cycle_clock_read>"
+      },
+      {
+        "offset": 644,
+        "op": "mov.n",
+        "operands": "a12, a10"
+      },
+      {
+        "offset": 646,
+        "op": "mov.n",
+        "operands": "a13, a11"
+      },
+      {
+        "offset": 648,
+        "op": "bnei",
+        "operands": "a10, -1, 403777f4 <s3_raw_task_entry+0x2bc>"
+      },
+      {
+        "offset": 700,
+        "op": "l32i",
+        "operands": "a10, a3, 0"
+      },
+      {
+        "offset": 703,
+        "op": "call8",
+        "operands": "403771d8 <s3_pp_collect>"
+      },
+      {
+        "offset": 706,
+        "op": "beqz",
+        "operands": "a10, 40377815 <s3_raw_task_entry+0x2dd>"
+      },
+      {
+        "offset": 733,
+        "op": "addi",
+        "operands": "a11, a1, 60"
+      },
+      {
+        "offset": 736,
+        "op": "mov.n",
+        "operands": "a10, a3"
+      },
+      {
+        "offset": 738,
+        "op": "call8",
+        "operands": "40377450 <poll_rf>"
+      },
+      {
+        "offset": 741,
+        "op": "beqz",
+        "operands": "a10, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 744,
+        "op": "addi.n",
+        "operands": "a8, a3, 8"
+      },
+      {
+        "offset": 746,
+        "op": "s32i",
+        "operands": "a8, a1, 64"
+      },
+      {
+        "offset": 749,
+        "op": "l32i",
+        "operands": "a8, a1, 64"
+      },
+      {
+        "offset": 752,
+        "op": "l32i.n",
+        "operands": "a9, a8, 8"
+      },
+      {
+        "offset": 754,
+        "op": "l8ui",
+        "operands": "a11, a9, 16"
+      },
+      {
+        "offset": 757,
+        "op": "or",
+        "operands": "a10, a9, a9"
+      },
+      {
+        "offset": 760,
+        "op": "beqz",
+        "operands": "a11, 40377849 <s3_raw_task_entry+0x311>"
+      },
+      {
+        "offset": 763,
+        "op": "s32i",
+        "operands": "a9, a1, 68"
+      },
+      {
+        "offset": 766,
+        "op": "call8",
+        "operands": "403773b8 <s3_pp_spi_reap>"
+      },
+      {
+        "offset": 769,
+        "op": "movi",
+        "operands": "a11, 0xfffffef9"
+      },
+      {
+        "offset": 772,
+        "op": "l32i",
+        "operands": "a9, a1, 68"
+      },
+      {
+        "offset": 775,
+        "op": "add.n",
+        "operands": "a11, a10, a11"
+      },
+      {
+        "offset": 777,
+        "op": "beqz.n",
+        "operands": "a10, 40377849 <s3_raw_task_entry+0x311>"
+      },
+      {
+        "offset": 779,
+        "op": "beqz.n",
+        "operands": "a11, 40377849 <s3_raw_task_entry+0x311>"
+      },
+      {
+        "offset": 785,
+        "op": "addi",
+        "operands": "a11, a1, 60"
+      },
+      {
+        "offset": 788,
+        "op": "or",
+        "operands": "a10, a3, a3"
+      },
+      {
+        "offset": 791,
+        "op": "s32i",
+        "operands": "a9, a1, 68"
+      },
+      {
+        "offset": 794,
+        "op": "call8",
+        "operands": "40377450 <poll_rf>"
+      },
+      {
+        "offset": 797,
+        "op": "l32i",
+        "operands": "a9, a1, 68"
+      },
+      {
+        "offset": 800,
+        "op": "or",
+        "operands": "a11, a10, a10"
+      },
+      {
+        "offset": 803,
+        "op": "mov.n",
+        "operands": "a10, a9"
+      },
+      {
+        "offset": 805,
+        "op": "beqz",
+        "operands": "a11, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 808,
+        "op": "l8ui",
+        "operands": "a14, a9, 16"
+      },
+      {
+        "offset": 811,
+        "op": "s32i",
+        "operands": "a14, a1, 68"
+      },
+      {
+        "offset": 814,
+        "op": "bnez.n",
+        "operands": "a14, 40377895 <s3_raw_task_entry+0x35d>"
+      },
+      {
+        "offset": 861,
+        "op": "addi",
+        "operands": "a11, a1, 60"
+      },
+      {
+        "offset": 864,
+        "op": "or",
+        "operands": "a10, a3, a3"
+      },
+      {
+        "offset": 867,
+        "op": "call8",
+        "operands": "40377450 <poll_rf>"
+      },
+      {
+        "offset": 870,
+        "op": "l32i",
+        "operands": "a8, a1, 64"
+      },
+      {
+        "offset": 873,
+        "op": "addi",
+        "operands": "a8, a8, 4"
+      },
+      {
+        "offset": 876,
+        "op": "s32i",
+        "operands": "a8, a1, 64"
+      },
+      {
+        "offset": 879,
+        "op": "beqz.n",
+        "operands": "a10, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 881,
+        "op": "beq",
+        "operands": "a4, a8, 403778af <s3_raw_task_entry+0x377>"
+      },
+      {
+        "offset": 884,
+        "op": "j",
+        "operands": "40377825 <s3_raw_task_entry+0x2ed>"
+      },
+      {
+        "offset": 749,
+        "op": "l32i",
+        "operands": "a8, a1, 64"
+      },
+      {
+        "offset": 752,
+        "op": "l32i.n",
+        "operands": "a9, a8, 8"
+      },
+      {
+        "offset": 754,
+        "op": "l8ui",
+        "operands": "a11, a9, 16"
+      },
+      {
+        "offset": 757,
+        "op": "or",
+        "operands": "a10, a9, a9"
+      },
+      {
+        "offset": 760,
+        "op": "beqz",
+        "operands": "a11, 40377849 <s3_raw_task_entry+0x311>"
+      },
+      {
+        "offset": 763,
+        "op": "s32i",
+        "operands": "a9, a1, 68"
+      },
+      {
+        "offset": 766,
+        "op": "call8",
+        "operands": "403773b8 <s3_pp_spi_reap>"
+      },
+      {
+        "offset": 769,
+        "op": "movi",
+        "operands": "a11, 0xfffffef9"
+      },
+      {
+        "offset": 772,
+        "op": "l32i",
+        "operands": "a9, a1, 68"
+      },
+      {
+        "offset": 775,
+        "op": "add.n",
+        "operands": "a11, a10, a11"
+      },
+      {
+        "offset": 777,
+        "op": "beqz.n",
+        "operands": "a10, 40377849 <s3_raw_task_entry+0x311>"
+      },
+      {
+        "offset": 779,
+        "op": "beqz.n",
+        "operands": "a11, 40377849 <s3_raw_task_entry+0x311>"
+      },
+      {
+        "offset": 785,
+        "op": "addi",
+        "operands": "a11, a1, 60"
+      },
+      {
+        "offset": 788,
+        "op": "or",
+        "operands": "a10, a3, a3"
+      },
+      {
+        "offset": 791,
+        "op": "s32i",
+        "operands": "a9, a1, 68"
+      },
+      {
+        "offset": 794,
+        "op": "call8",
+        "operands": "40377450 <poll_rf>"
+      },
+      {
+        "offset": 797,
+        "op": "l32i",
+        "operands": "a9, a1, 68"
+      },
+      {
+        "offset": 800,
+        "op": "or",
+        "operands": "a11, a10, a10"
+      },
+      {
+        "offset": 803,
+        "op": "mov.n",
+        "operands": "a10, a9"
+      },
+      {
+        "offset": 805,
+        "op": "beqz",
+        "operands": "a11, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 808,
+        "op": "l8ui",
+        "operands": "a14, a9, 16"
+      },
+      {
+        "offset": 811,
+        "op": "s32i",
+        "operands": "a14, a1, 68"
+      },
+      {
+        "offset": 814,
+        "op": "bnez.n",
+        "operands": "a14, 40377895 <s3_raw_task_entry+0x35d>"
+      },
+      {
+        "offset": 861,
+        "op": "addi",
+        "operands": "a11, a1, 60"
+      },
+      {
+        "offset": 864,
+        "op": "or",
+        "operands": "a10, a3, a3"
+      },
+      {
+        "offset": 867,
+        "op": "call8",
+        "operands": "40377450 <poll_rf>"
+      },
+      {
+        "offset": 870,
+        "op": "l32i",
+        "operands": "a8, a1, 64"
+      },
+      {
+        "offset": 873,
+        "op": "addi",
+        "operands": "a8, a8, 4"
+      },
+      {
+        "offset": 876,
+        "op": "s32i",
+        "operands": "a8, a1, 64"
+      },
+      {
+        "offset": 879,
+        "op": "beqz.n",
+        "operands": "a10, 403778bc <s3_raw_task_entry+0x384>"
+      },
+      {
+        "offset": 881,
+        "op": "beq",
+        "operands": "a4, a8, 403778af <s3_raw_task_entry+0x377>"
+      },
+      {
+        "offset": 887,
+        "op": "movi.n",
+        "operands": "a12, 0"
+      },
+      {
+        "offset": 889,
+        "op": "movi.n",
+        "operands": "a11, 0"
+      },
+      {
+        "offset": 891,
+        "op": "or",
+        "operands": "a10, a3, a3"
+      },
+      {
+        "offset": 894,
+        "op": "call8",
+        "operands": "40377488 <feed>"
+      },
+      {
+        "offset": 897,
+        "op": "bnez",
+        "operands": "a10, 4037776b <s3_raw_task_entry+0x233>"
+      }
+    ],
+    "feed_not_due": [
+      {
+        "offset": 0,
+        "op": "entry",
+        "operands": "a1, 32"
+      },
+      {
+        "offset": 3,
+        "op": "extui",
+        "operands": "a10, a3, 0, 16"
+      },
+      {
+        "offset": 6,
+        "op": "addx2",
+        "operands": "a10, a10, a10"
+      },
+      {
+        "offset": 9,
+        "op": "addx8",
+        "operands": "a10, a10, a2"
+      },
+      {
+        "offset": 12,
+        "op": "addi",
+        "operands": "a10, a10, 88"
+      },
+      {
+        "offset": 15,
+        "op": "call8",
+        "operands": "4037b760 <s3_cycle_clock_read>"
+      },
+      {
+        "offset": 18,
+        "op": "mov.n",
+        "operands": "a6, a10"
+      },
+      {
+        "offset": 20,
+        "op": "mov.n",
+        "operands": "a7, a11"
+      },
+      {
+        "offset": 22,
+        "op": "bnei",
+        "operands": "a10, -1, 403774ba <feed+0x32>"
+      },
+      {
+        "offset": 50,
+        "op": "bnez.n",
+        "operands": "a4, 403774d5 <feed+0x4d>"
+      },
+      {
+        "offset": 52,
+        "op": "addi",
+        "operands": "a8, a3, 20"
+      },
+      {
+        "offset": 55,
+        "op": "addx8",
+        "operands": "a8, a8, a2"
+      },
+      {
+        "offset": 58,
+        "op": "l32i.n",
+        "operands": "a9, a8, 12"
+      },
+      {
+        "offset": 60,
+        "op": "bltu",
+        "operands": "a7, a9, 403774d0 <feed+0x48>"
+      },
+      {
+        "offset": 63,
+        "op": "bne",
+        "operands": "a9, a7, 403774d5 <feed+0x4d>"
+      },
+      {
+        "offset": 66,
+        "op": "l32i",
+        "operands": "a8, a8, 8"
+      },
+      {
+        "offset": 69,
+        "op": "bgeu",
+        "operands": "a6, a8, 403774d5 <feed+0x4d>"
+      },
+      {
+        "offset": 72,
+        "op": "movi.n",
+        "operands": "a2, 1"
+      },
+      {
+        "offset": 74,
+        "op": "j",
+        "operands": "40377533 <feed+0xab>"
+      },
+      {
+        "offset": 171,
+        "op": "retw.n",
+        "operands": ""
+      }
+    ],
+    "collect_empty": [
+      {
+        "offset": 0,
+        "op": "entry",
+        "operands": "a1, 32"
+      },
+      {
+        "offset": 3,
+        "op": "mov.n",
+        "operands": "a9, a2"
+      },
+      {
+        "offset": 5,
+        "op": "beqz",
+        "operands": "a2, 403772cc <s3_pp_collect+0xf4>"
+      },
+      {
+        "offset": 8,
+        "op": "movi",
+        "operands": "a12, 0x1b0"
+      },
+      {
+        "offset": 11,
+        "op": "add.n",
+        "operands": "a12, a2, a12"
+      },
+      {
+        "offset": 13,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 16,
+        "op": "l32i.n",
+        "operands": "a8, a12, 0"
+      },
+      {
+        "offset": 18,
+        "op": "movi.n",
+        "operands": "a2, 5"
+      },
+      {
+        "offset": 20,
+        "op": "bnez",
+        "operands": "a8, 403772ce <s3_pp_collect+0xf6>"
+      },
+      {
+        "offset": 23,
+        "op": "addi",
+        "operands": "a8, a9, 32"
+      },
+      {
+        "offset": 26,
+        "op": "movi",
+        "operands": "a10, 1"
+      },
+      {
+        "offset": 29,
+        "op": "l8ui",
+        "operands": "a11, a8, 29"
+      },
+      {
+        "offset": 32,
+        "op": "addi.n",
+        "operands": "a10, a10, 1"
+      },
+      {
+        "offset": 34,
+        "op": "beqz.n",
+        "operands": "a11, 40377239 <s3_pp_collect+0x61>"
+      },
+      {
+        "offset": 97,
+        "op": "addi",
+        "operands": "a8, a8, 80"
+      },
+      {
+        "offset": 100,
+        "op": "bnei",
+        "operands": "a10, 4, 403771f5 <s3_pp_collect+0x1d>"
+      },
+      {
+        "offset": 29,
+        "op": "l8ui",
+        "operands": "a11, a8, 29"
+      },
+      {
+        "offset": 32,
+        "op": "addi.n",
+        "operands": "a10, a10, 1"
+      },
+      {
+        "offset": 34,
+        "op": "beqz.n",
+        "operands": "a11, 40377239 <s3_pp_collect+0x61>"
+      },
+      {
+        "offset": 97,
+        "op": "addi",
+        "operands": "a8, a8, 80"
+      },
+      {
+        "offset": 100,
+        "op": "bnei",
+        "operands": "a10, 4, 403771f5 <s3_pp_collect+0x1d>"
+      },
+      {
+        "offset": 29,
+        "op": "l8ui",
+        "operands": "a11, a8, 29"
+      },
+      {
+        "offset": 32,
+        "op": "addi.n",
+        "operands": "a10, a10, 1"
+      },
+      {
+        "offset": 34,
+        "op": "beqz.n",
+        "operands": "a11, 40377239 <s3_pp_collect+0x61>"
+      },
+      {
+        "offset": 97,
+        "op": "addi",
+        "operands": "a8, a8, 80"
+      },
+      {
+        "offset": 100,
+        "op": "bnei",
+        "operands": "a10, 4, 403771f5 <s3_pp_collect+0x1d>"
+      },
+      {
+        "offset": 103,
+        "op": "l32i",
+        "operands": "a8, a9, 0x110"
+      },
+      {
+        "offset": 106,
+        "op": "bnez.n",
+        "operands": "a8, 40377249 <s3_pp_collect+0x71>"
+      },
+      {
+        "offset": 108,
+        "op": "movi.n",
+        "operands": "a2, 0"
+      },
+      {
+        "offset": 110,
+        "op": "j",
+        "operands": "403772ce <s3_pp_collect+0xf6>"
+      },
+      {
+        "offset": 246,
+        "op": "retw.n",
+        "operands": ""
+      }
+    ],
+    "collect_one_pending": [
+      {
+        "offset": 0,
+        "op": "entry",
+        "operands": "a1, 32"
+      },
+      {
+        "offset": 3,
+        "op": "mov.n",
+        "operands": "a9, a2"
+      },
+      {
+        "offset": 5,
+        "op": "beqz",
+        "operands": "a2, 403772cc <s3_pp_collect+0xf4>"
+      },
+      {
+        "offset": 8,
+        "op": "movi",
+        "operands": "a12, 0x1b0"
+      },
+      {
+        "offset": 11,
+        "op": "add.n",
+        "operands": "a12, a2, a12"
+      },
+      {
+        "offset": 13,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 16,
+        "op": "l32i.n",
+        "operands": "a8, a12, 0"
+      },
+      {
+        "offset": 18,
+        "op": "movi.n",
+        "operands": "a2, 5"
+      },
+      {
+        "offset": 20,
+        "op": "bnez",
+        "operands": "a8, 403772ce <s3_pp_collect+0xf6>"
+      },
+      {
+        "offset": 23,
+        "op": "addi",
+        "operands": "a8, a9, 32"
+      },
+      {
+        "offset": 26,
+        "op": "movi",
+        "operands": "a10, 1"
+      },
+      {
+        "offset": 29,
+        "op": "l8ui",
+        "operands": "a11, a8, 29"
+      },
+      {
+        "offset": 32,
+        "op": "addi.n",
+        "operands": "a10, a10, 1"
+      },
+      {
+        "offset": 34,
+        "op": "beqz.n",
+        "operands": "a11, 40377239 <s3_pp_collect+0x61>"
+      },
+      {
+        "offset": 36,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 39,
+        "op": "l32i.n",
+        "operands": "a11, a8, 32"
+      },
+      {
+        "offset": 41,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 44,
+        "op": "beqi",
+        "operands": "a11, 2, 40377221 <s3_pp_collect+0x49>"
+      },
+      {
+        "offset": 47,
+        "op": "l32i.n",
+        "operands": "a11, a8, 4"
+      },
+      {
+        "offset": 49,
+        "op": "bltu",
+        "operands": "a5, a11, 40377221 <s3_pp_collect+0x49>"
+      },
+      {
+        "offset": 52,
+        "op": "bne",
+        "operands": "a11, a5, 40377214 <s3_pp_collect+0x3c>"
+      },
+      {
+        "offset": 55,
+        "op": "l32i.n",
+        "operands": "a11, a8, 0"
+      },
+      {
+        "offset": 57,
+        "op": "bltu",
+        "operands": "a4, a11, 40377221 <s3_pp_collect+0x49>"
+      },
+      {
+        "offset": 73,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 76,
+        "op": "l32i.n",
+        "operands": "a11, a8, 48"
+      },
+      {
+        "offset": 78,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 81,
+        "op": "beqi",
+        "operands": "a11, 2, 40377239 <s3_pp_collect+0x61>"
+      },
+      {
+        "offset": 84,
+        "op": "l32i.n",
+        "operands": "a11, a8, 4"
+      },
+      {
+        "offset": 86,
+        "op": "bltu",
+        "operands": "a5, a11, 40377239 <s3_pp_collect+0x61>"
+      },
+      {
+        "offset": 89,
+        "op": "bne",
+        "operands": "a11, a5, 40377214 <s3_pp_collect+0x3c>"
+      },
+      {
+        "offset": 92,
+        "op": "l32i.n",
+        "operands": "a11, a8, 0"
+      },
+      {
+        "offset": 94,
+        "op": "bgeu",
+        "operands": "a4, a11, 40377214 <s3_pp_collect+0x3c>"
+      },
+      {
+        "offset": 97,
+        "op": "addi",
+        "operands": "a8, a8, 80"
+      },
+      {
+        "offset": 100,
+        "op": "bnei",
+        "operands": "a10, 4, 403771f5 <s3_pp_collect+0x1d>"
+      },
+      {
+        "offset": 29,
+        "op": "l8ui",
+        "operands": "a11, a8, 29"
+      },
+      {
+        "offset": 32,
+        "op": "addi.n",
+        "operands": "a10, a10, 1"
+      },
+      {
+        "offset": 34,
+        "op": "beqz.n",
+        "operands": "a11, 40377239 <s3_pp_collect+0x61>"
+      },
+      {
+        "offset": 97,
+        "op": "addi",
+        "operands": "a8, a8, 80"
+      },
+      {
+        "offset": 100,
+        "op": "bnei",
+        "operands": "a10, 4, 403771f5 <s3_pp_collect+0x1d>"
+      },
+      {
+        "offset": 29,
+        "op": "l8ui",
+        "operands": "a11, a8, 29"
+      },
+      {
+        "offset": 32,
+        "op": "addi.n",
+        "operands": "a10, a10, 1"
+      },
+      {
+        "offset": 34,
+        "op": "beqz.n",
+        "operands": "a11, 40377239 <s3_pp_collect+0x61>"
+      },
+      {
+        "offset": 97,
+        "op": "addi",
+        "operands": "a8, a8, 80"
+      },
+      {
+        "offset": 100,
+        "op": "bnei",
+        "operands": "a10, 4, 403771f5 <s3_pp_collect+0x1d>"
+      },
+      {
+        "offset": 103,
+        "op": "l32i",
+        "operands": "a8, a9, 0x110"
+      },
+      {
+        "offset": 106,
+        "op": "bnez.n",
+        "operands": "a8, 40377249 <s3_pp_collect+0x71>"
+      },
+      {
+        "offset": 113,
+        "op": "l32i",
+        "operands": "a8, a9, 0x10c"
+      },
+      {
+        "offset": 116,
+        "op": "l32r",
+        "operands": "a13, 403746d8 <_iram_text_start+0x2d4> (aaaaaaab <_rtc_reserved_end+0x4a9aaaab>)"
+      },
+      {
+        "offset": 119,
+        "op": "movi.n",
+        "operands": "a12, 5"
+      },
+      {
+        "offset": 121,
+        "op": "movi",
+        "operands": "a11, 0"
+      },
+      {
+        "offset": 124,
+        "op": "addx4",
+        "operands": "a8, a8, a9"
+      },
+      {
+        "offset": 127,
+        "op": "l32i",
+        "operands": "a8, a8, 0x100"
+      },
+      {
+        "offset": 130,
+        "op": "addx4",
+        "operands": "a8, a8, a8"
+      },
+      {
+        "offset": 133,
+        "op": "slli",
+        "operands": "a8, a8, 4"
+      },
+      {
+        "offset": 136,
+        "op": "addi",
+        "operands": "a14, a8, 64"
+      },
+      {
+        "offset": 139,
+        "op": "add.n",
+        "operands": "a14, a9, a14"
+      },
+      {
+        "offset": 141,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 144,
+        "op": "l32i.n",
+        "operands": "a10, a14, 0"
+      },
+      {
+        "offset": 146,
+        "op": "add.n",
+        "operands": "a15, a9, a8"
+      },
+      {
+        "offset": 148,
+        "op": "memw",
+        "operands": ""
+      },
+      {
+        "offset": 151,
+        "op": "addi",
+        "operands": "a8, a8, 80"
+      },
+      {
+        "offset": 154,
+        "op": "add.n",
+        "operands": "a8, a9, a8"
+      },
+      {
+        "offset": 156,
+        "op": "bnei",
+        "operands": "a10, 2, 40377244 <s3_pp_collect+0x6c>"
+      },
+      {
+        "offset": 108,
+        "op": "movi.n",
+        "operands": "a2, 0"
+      },
+      {
+        "offset": 110,
+        "op": "j",
+        "operands": "403772ce <s3_pp_collect+0xf6>"
+      },
+      {
+        "offset": 246,
+        "op": "retw.n",
+        "operands": ""
+      }
+    ]
+  },
+  "rows": [
+    {
+      "case": "collect_empty",
+      "parts": {
+        "owner_loop": 108,
+        "RF": 1295,
+        "SPI": 78,
+        "collect_clock": 20,
+        "feed": 40,
+        "collect": 31
+      },
+      "instructions": 1572,
+      "cycles_at_alpha1_1": 1729.2,
+      "us_at_240MHz_alpha1_1": 7.205,
+      "remaining_from_scan2225_54564486_cycles": 496.34564486024533,
+      "if_assumed_average_extra_scan_cost": {
+        "256": 103.20713882851207,
+        "512": 98.27657762201304
+      }
+    },
+    {
+      "case": "collect_one_pending",
+      "parts": {
+        "owner_loop": 108,
+        "RF": 1295,
+        "SPI": 78,
+        "collect_clock": 20,
+        "feed": 40,
+        "collect": 66
+      },
+      "instructions": 1607,
+      "cycles_at_alpha1_1": 1767.7,
+      "us_at_240MHz_alpha1_1": 7.3654166666666665,
+      "remaining_from_scan2225_54564486_cycles": 457.84564486024533,
+      "if_assumed_average_extra_scan_cost": {
+        "256": 103.34081938406763,
+        "512": 98.4102581775686
+      }
+    }
+  ],
+  "owner_calls": {
+    "s3_native_poll_budget": 2,
+    "pack_slice": 1,
+    "s3_cycle_clock_read": 1,
+    "s3_pp_collect": 1,
+    "poll_rf": 5,
+    "s3_pp_spi_reap": 2,
+    "feed": 1
+  },
+  "conditions": [
+    "Valid capture, prepared=true, settling=false, written<12288, within age deadline.",
+    "Clock upper high word zero, no wrap during clock_now; no clock fault.",
+    "Raw callbacks: healthy, mmio_read, s3_cycle_clock_read; both SPI commands running.",
+    "Seven calls describe one such owner iteration, not every iteration or a steady-state average.",
+    "Owner stop=false, pack_slice returns success, SPI reaps return TIMEOUT, no submit.",
+    "Clock low word is not UINT32_MAX; watchdog not due and next_feed has same high word.",
+    "collect_empty: no banks owned/count=0. collect_one_pending: bank0 owned, both jobs not DONE, deadline same high word and later; FIFO front bank0.",
+    "No concurrent state transitions during declared trace; examples, not all interleavings."
+  ],
+  "exclusions": [
+    "Entire pack_slice body (including wrapper/clock), fill, switch/settling/accept, SPI complete/submit, watchdog reset.",
+    "Other collect states and concurrent worker transitions; average path frequencies.",
+    "Stalls, interrupts, window exceptions and measured elapsed time.",
+    "Sensitivity substitutes each example for average additional scan cost, not a measured/derived path mixture."
+  ],
+  "inline_wrapper_correction_instructions": -28,
+  "CPU_estimate_reduced": false,
+  "source_sha256": {
+    "experiments/s3_raw_tasks.c": "c841905c2a5b8ed23906fc597b7200df4052b1a63f97248e960ef4fe895d367f",
+    "experiments/s3_parallel_pack.c": "407883873963af85454a48a82cd1c13b1c519663a2792dbbfa015bd5091a5d3c",
+    "experiments/s3_cycle_clock.c": "7d913ead195d18114a9cb6fff6aaa17167d992df72ffc940c01763a05e33a379",
+    "ci/s3_owner_iteration_path_audit.py": "73b608694f45b04b7af3e52d0361f909d28dfe213204045354c1660f9018093f"
+  }
+}

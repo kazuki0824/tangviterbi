@@ -65,6 +65,8 @@ packingも最新SDKからCFGを再計数した。block45/run118/slow_pair173は�
 
 [通常RF監視の費用内訳](../s3-owner-quiet-path/README.md)：準備済み・非settlingの指定経路はRF監視1回189命令。7回＋2本の転送中SPI確認で1401命令、α=1.1なら1541.1cycle相当。collect・feed・owner制御等は別なので、追加scan1500cycleを保証上限とは扱えない。これは特定反復の部分費用であり、平均費用への置換には状態頻度と既存Uの重複整理が必要。CPU数値は今回据え置く。
 
+[通常owner反復の追加集計](../s3-owner-iteration-path/README.md)：collect・feed・時計・制御を加え、inline化した2pollのwrapper重複28命令を除くと、指定2経路はpacking本体を除いて1572/1607命令。α=1.1では1729.2/1767.7cycle相当。この値を平均追加scan費用と**仮定**した感度計算ではS512 core0上端は**98.28/98.41%**、S256は**103.21/103.34%**。実平均の確認ではなく、上表の1500cycle条件を置換した成立認定もしない。その他経路・待ちと状態頻度の確認が残る。
+
 ### 同じS候補構成のSDKメモリ確認
 
 [SDK run 40535137322](https://github.com/kazuki0824/tangviterbi/actions/runs/40535137322)、commit `9da570f`の共通・raw-only既定・S候補が成功。Sの実ELFが6/16・16384bytes・8word・1024word準備予算であることと新入口のIRAM配置を含む**59静的check**、fill命令列・literal・8 source identity等**12再確認**が成功。3構成の静的check合計は172。SPI guard追加後もS/Tのpacking係数45/118/173/223は変わらず、各4項目のCFG照合が成功。

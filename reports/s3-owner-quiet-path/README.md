@@ -28,3 +28,6 @@
 次の対象はcollect・feed・owner制御を含む同経路の残費用と、切替/settling/準備経路の頻度。RF監視回数を減らす実装変更は監視gapとreclaim期限を再検証してから判断する。
 
 再現：`python -m ci.s3_owner_quiet_path_audit --toolchain build/rs-toolchain/xtensa-esp-elf`。全命令経路・分岐選択・ELF/source hashはresults.json。
+
+
+追補：実ownerループへの接続とcollect/feedを加えた結果は[通常反復の集計](../s3-owner-iteration-path/README.md)。最初の2pollのinline化によりwrapper28命令を除いて接続するため、本資料の1401命令をowner制御へ無調整で加算しない。

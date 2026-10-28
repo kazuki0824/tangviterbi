@@ -1222,9 +1222,70 @@
     ],
     "CPU_estimate_reduced": false
   },
+  "owner_iteration_examples": {
+    "rows": [
+      {
+        "case": "collect_empty",
+        "parts": {
+          "owner_loop": 108,
+          "RF": 1295,
+          "SPI": 78,
+          "collect_clock": 20,
+          "feed": 40,
+          "collect": 31
+        },
+        "instructions": 1572,
+        "cycles_at_alpha1_1": 1729.2,
+        "us_at_240MHz_alpha1_1": 7.205,
+        "remaining_from_scan2225_54564486_cycles": 496.34564486024533,
+        "if_assumed_average_extra_scan_cost": {
+          "256": 103.20713882851207,
+          "512": 98.27657762201304
+        }
+      },
+      {
+        "case": "collect_one_pending",
+        "parts": {
+          "owner_loop": 108,
+          "RF": 1295,
+          "SPI": 78,
+          "collect_clock": 20,
+          "feed": 40,
+          "collect": 66
+        },
+        "instructions": 1607,
+        "cycles_at_alpha1_1": 1767.7,
+        "us_at_240MHz_alpha1_1": 7.3654166666666665,
+        "remaining_from_scan2225_54564486_cycles": 457.84564486024533,
+        "if_assumed_average_extra_scan_cost": {
+          "256": 103.34081938406763,
+          "512": 98.4102581775686
+        }
+      }
+    ],
+    "conditions": [
+      "Valid capture, prepared=true, settling=false, written<12288, within age deadline.",
+      "Clock upper high word zero, no wrap during clock_now; no clock fault.",
+      "Raw callbacks: healthy, mmio_read, s3_cycle_clock_read; both SPI commands running.",
+      "Seven calls describe one such owner iteration, not every iteration or a steady-state average.",
+      "Owner stop=false, pack_slice returns success, SPI reaps return TIMEOUT, no submit.",
+      "Clock low word is not UINT32_MAX; watchdog not due and next_feed has same high word.",
+      "collect_empty: no banks owned/count=0. collect_one_pending: bank0 owned, both jobs not DONE, deadline same high word and later; FIFO front bank0.",
+      "No concurrent state transitions during declared trace; examples, not all interleavings."
+    ],
+    "exclusions": [
+      "Entire pack_slice body (including wrapper/clock), fill, switch/settling/accept, SPI complete/submit, watchdog reset.",
+      "Other collect states and concurrent worker transitions; average path frequencies.",
+      "Stalls, interrupts, window exceptions and measured elapsed time.",
+      "Sensitivity substitutes each example for average additional scan cost, not a measured/derived path mixture."
+    ],
+    "inline_wrapper_correction_instructions": -28,
+    "CPU_estimate_reduced": false
+  },
   "source_sha256": {
+    "reports/s3-owner-iteration-path/results.json": "c91fa216bb35c32b4bc42173fbf48db02494817623d2aff4b35d9c4eb52be5cd",
     "reports/s3-owner-quiet-path/results.json": "2ff3147e8527d67c275a0c8722335ba87eda0835d5b9daf2a5ad7af639af659b",
-    "experiments/s3_integrated_estimate.py": "d036bf580c37c0b02d88dae5132e71caf768b36d99852684bdcf5b100df970d4",
+    "experiments/s3_integrated_estimate.py": "c30d9a2f359adfaa20c20bac137b035b570cba46a7fa9240cef21fa02fac1248",
     "ci/s3_pack_path_audit.py": "53b53100f3cffbbfbabb1233d68fefc19295cb8defeaf12fea13104ab89b9f06",
     "experiments/s3_native_capture.c": "f2d188648a1c52b74a3be404c4f8520853a3353358c3bcaf825c2c62b8df2c72",
     "reports/s3-budgeted-fill/u8/target.json": "334b660eb163c9e3029734a3ae727e721792ac11dd1e6b64b67d78dee9869fe0",
