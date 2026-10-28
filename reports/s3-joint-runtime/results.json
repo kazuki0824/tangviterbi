@@ -1,0 +1,7053 @@
+{
+  "scope": "Cost-driven actual C state transitions; numerical scenarios, not target WCET.",
+  "rows": [
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        6350,
+        6350
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        12052,
+        0
+      ],
+      "accounted_until_cycles": [
+        18463265,
+        18463349
+      ],
+      "rate": 16,
+      "share": 8,
+      "slice_pairs": 256,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 18463265,
+      "banks": 100,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        5082,
+        50599
+      ],
+      "polls": 35574,
+      "peak_arena_bytes": 94060,
+      "max_rf_poll_gap": 8369,
+      "max_owner_iteration": 13076,
+      "min_observed_job_deadline_margin": 192636,
+      "max_publication_latency": 109525,
+      "checked_bytes": 3014656,
+      "retired_bytes": 3014656,
+      "transfers_done": [
+        92,
+        0
+      ],
+      "max_submit_gap": [
+        369824,
+        0
+      ],
+      "charged_cycles": [
+        18463265,
+        18463349
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 5082,
+            "cycles": 782628,
+            "events_s": 66059.82203039387,
+            "cpu_percent": 4.238838580283606
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 3796,
+            "cycles": 683280,
+            "events_s": 49343.38536548113,
+            "cpu_percent": 3.700753902411085
+          },
+          "PACK_SLICE": {
+            "events": 1286,
+            "cycles": 393516,
+            "events_s": 16716.436664912733,
+            "cpu_percent": 2.1313456747763735
+          },
+          "PACK_RUN": {
+            "events": 1294,
+            "cycles": 168220,
+            "events_s": 16820.42693965558,
+            "cpu_percent": 0.9111064592313439
+          },
+          "PACK_BLOCK": {
+            "events": 75178,
+            "cycles": 3758900,
+            "events_s": 977222.6093272235,
+            "cpu_percent": 20.358804360983825
+          },
+          "PACK_SLOW": {
+            "events": 3812,
+            "cycles": 728092,
+            "events_s": 49551.365914966824,
+            "cpu_percent": 3.943462870732777
+          },
+          "RF_BASE": {
+            "events": 35574,
+            "cycles": 7399392,
+            "events_s": 462418.75421275705,
+            "cpu_percent": 40.076292031772276
+          },
+          "RF_PREPARE": {
+            "events": 4069,
+            "cycles": 895180,
+            "events_s": 52892.053491080806,
+            "cpu_percent": 4.848438236682407
+          },
+          "RF_SWITCH": {
+            "events": 100,
+            "cycles": 14200,
+            "events_s": 1299.8784342855936,
+            "cpu_percent": 0.07690947402856428
+          },
+          "RF_ACCEPT": {
+            "events": 100,
+            "cycles": 99200,
+            "events_s": 1299.8784342855936,
+            "cpu_percent": 0.5372830861713787
+          },
+          "FILL": {
+            "events": 701,
+            "cycles": 1715347,
+            "events_s": 9112.147824342012,
+            "cpu_percent": 9.290594052568709
+          },
+          "COLLECT": {
+            "events": 5082,
+            "cycles": 386670,
+            "events_s": 66059.82203039387,
+            "cpu_percent": 2.094266642438377
+          },
+          "SUBMIT_EMPTY": {
+            "events": 6472,
+            "cycles": 776640,
+            "events_s": 84128.13226696361,
+            "cpu_percent": 4.206406613348181
+          },
+          "SUBMIT_DONE": {
+            "events": 92,
+            "cycles": 368000,
+            "events_s": 1195.888159542746,
+            "cpu_percent": 1.9931469325712434
+          },
+          "REAP_RUNNING": {
+            "events": 3600,
+            "cycles": 151200,
+            "events_s": 46795.62363428137,
+            "cpu_percent": 0.8189234135999239
+          },
+          "REAP_DONE": {
+            "events": 92,
+            "cycles": 73600,
+            "events_s": 1195.888159542746,
+            "cpu_percent": 0.3986293865142487
+          },
+          "SPI_IRQ": {
+            "events": 184,
+            "cycles": 55200,
+            "events_s": 2391.776319085492,
+            "cpu_percent": 0.29897203988568655
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.99149039999155,
+            "cpu_percent": 0.07582624199999295
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 50599,
+            "cycles": 4452712,
+            "events_s": 657725.4889641675,
+            "cpu_percent": 24.116601262019476
+          },
+          "PACK_EMPTY": {
+            "events": 49312,
+            "cycles": 8876160,
+            "events_s": 640996.0535149119,
+            "cpu_percent": 48.074704013618394
+          },
+          "PACK_SLICE": {
+            "events": 1287,
+            "cycles": 393822,
+            "events_s": 16729.43544925559,
+            "cpu_percent": 2.1330030197800878
+          },
+          "PACK_RUN": {
+            "events": 1316,
+            "cycles": 171080,
+            "events_s": 17106.40019519841,
+            "cpu_percent": 0.926596677239914
+          },
+          "PACK_BLOCK": {
+            "events": 75163,
+            "cycles": 3758150,
+            "events_s": 977027.6275620807,
+            "cpu_percent": 20.354742240876682
+          },
+          "PACK_SLOW": {
+            "events": 4175,
+            "cycles": 797425,
+            "events_s": 54269.924631423535,
+            "cpu_percent": 4.318981501917456
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.99149039999155,
+            "cpu_percent": 0.07582624199999295
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        84
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        6350,
+        6480
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        10621,
+        0
+      ],
+      "accounted_until_cycles": [
+        18464243,
+        18464260
+      ],
+      "rate": 16,
+      "share": 8,
+      "slice_pairs": 256,
+      "irq_cycles": 1000,
+      "stall_percent": 0,
+      "cycles": 18464243,
+      "banks": 100,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        5028,
+        50599
+      ],
+      "polls": 35196,
+      "peak_arena_bytes": 94205,
+      "max_rf_poll_gap": 9225,
+      "max_owner_iteration": 13076,
+      "min_observed_job_deadline_margin": 191283,
+      "max_publication_latency": 110878,
+      "checked_bytes": 3014656,
+      "retired_bytes": 3014656,
+      "transfers_done": [
+        92,
+        0
+      ],
+      "max_submit_gap": [
+        377846,
+        0
+      ],
+      "charged_cycles": [
+        18464243,
+        18464260
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 5028,
+            "cycles": 774312,
+            "events_s": 65354.42584892324,
+            "cpu_percent": 4.193575658639241
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 3742,
+            "cycles": 673560,
+            "events_s": 48638.87460753197,
+            "cpu_percent": 3.647915595564898
+          },
+          "PACK_SLICE": {
+            "events": 1286,
+            "cycles": 393516,
+            "events_s": 16715.551241391266,
+            "cpu_percent": 2.1312327832773863
+          },
+          "PACK_RUN": {
+            "events": 1292,
+            "cycles": 167960,
+            "events_s": 16793.53981638998,
+            "cpu_percent": 0.9096500733877907
+          },
+          "PACK_BLOCK": {
+            "events": 75202,
+            "cycles": 3760100,
+            "events_s": 977482.8028422287,
+            "cpu_percent": 20.364225059213098
+          },
+          "PACK_SLOW": {
+            "events": 3728,
+            "cycles": 712048,
+            "events_s": 48456.901265868306,
+            "cpu_percent": 3.8563617257420195
+          },
+          "RF_BASE": {
+            "events": 35196,
+            "cycles": 7320768,
+            "events_s": 457480.9809424627,
+            "cpu_percent": 39.6483516816801
+          },
+          "RF_PREPARE": {
+            "events": 4048,
+            "cycles": 890560,
+            "events_s": 52616.29193246644,
+            "cpu_percent": 4.823160093809424
+          },
+          "RF_SWITCH": {
+            "events": 100,
+            "cycles": 14200,
+            "events_s": 1299.809583311918,
+            "cpu_percent": 0.07690540034595515
+          },
+          "RF_ACCEPT": {
+            "events": 100,
+            "cycles": 99200,
+            "events_s": 1299.809583311918,
+            "cpu_percent": 0.5372546277689262
+          },
+          "FILL": {
+            "events": 701,
+            "cycles": 1715347,
+            "events_s": 9111.665179016545,
+            "cpu_percent": 9.290101955438953
+          },
+          "COLLECT": {
+            "events": 5028,
+            "cycles": 383980,
+            "events_s": 65354.42584892324,
+            "cpu_percent": 2.079587015833793
+          },
+          "SUBMIT_EMPTY": {
+            "events": 6418,
+            "cycles": 770160,
+            "events_s": 83421.7790569589,
+            "cpu_percent": 4.171088952847945
+          },
+          "SUBMIT_DONE": {
+            "events": 92,
+            "cycles": 368000,
+            "events_s": 1195.8248166469646,
+            "cpu_percent": 1.9930413610782745
+          },
+          "REAP_RUNNING": {
+            "events": 3546,
+            "cycles": 148932,
+            "events_s": 46091.247824240614,
+            "cpu_percent": 0.8065968369242108
+          },
+          "REAP_DONE": {
+            "events": 92,
+            "cycles": 73600,
+            "events_s": 1195.8248166469646,
+            "cpu_percent": 0.39860827221565487
+          },
+          "SPI_IRQ": {
+            "events": 184,
+            "cycles": 184000,
+            "events_s": 2391.649633293929,
+            "cpu_percent": 0.9965206805391372
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.98667083183426,
+            "cpu_percent": 0.07582222569319522
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 50599,
+            "cycles": 4452712,
+            "events_s": 657690.6510599974,
+            "cpu_percent": 24.115323872199905
+          },
+          "PACK_EMPTY": {
+            "events": 49312,
+            "cycles": 8876160,
+            "events_s": 640962.101722773,
+            "cpu_percent": 48.07215762920798
+          },
+          "PACK_SLICE": {
+            "events": 1287,
+            "cycles": 393822,
+            "events_s": 16728.549337224387,
+            "cpu_percent": 2.1328900404961093
+          },
+          "PACK_RUN": {
+            "events": 1320,
+            "cycles": 171600,
+            "events_s": 17157.486499717317,
+            "cpu_percent": 0.9293638520680214
+          },
+          "PACK_BLOCK": {
+            "events": 75167,
+            "cycles": 3758350,
+            "events_s": 977027.8694880694,
+            "cpu_percent": 20.354747281001448
+          },
+          "PACK_SLOW": {
+            "events": 4176,
+            "cycles": 797616,
+            "events_s": 54280.048199105695,
+            "cpu_percent": 4.319787169178828
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.98667083183426,
+            "cpu_percent": 0.07582222569319522
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        17
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        5721,
+        6789
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        11552,
+        0
+      ],
+      "accounted_until_cycles": [
+        18471563,
+        18471576
+      ],
+      "rate": 16,
+      "share": 8,
+      "slice_pairs": 256,
+      "irq_cycles": 300,
+      "stall_percent": 10,
+      "cycles": 18471563,
+      "banks": 100,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        4225,
+        44301
+      ],
+      "polls": 29575,
+      "peak_arena_bytes": 94045,
+      "max_rf_poll_gap": 9952,
+      "max_owner_iteration": 13539,
+      "min_observed_job_deadline_margin": 182428,
+      "max_publication_latency": 119620,
+      "checked_bytes": 3014656,
+      "retired_bytes": 3014656,
+      "transfers_done": [
+        92,
+        0
+      ],
+      "max_submit_gap": [
+        369214,
+        0
+      ],
+      "charged_cycles": [
+        16780359,
+        16781676
+      ],
+      "stall_cycles": [
+        1691204,
+        1689900
+      ],
+      "requested_banks": 100,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 4225,
+            "cycles": 650650,
+            "events_s": 54895.19213939828,
+            "cpu_percent": 3.5224414956113894
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 2938,
+            "cycles": 528840,
+            "events_s": 38173.27207232003,
+            "cpu_percent": 2.862995405424002
+          },
+          "PACK_SLICE": {
+            "events": 1287,
+            "cycles": 393822,
+            "events_s": 16721.920067078245,
+            "cpu_percent": 2.132044808552476
+          },
+          "PACK_RUN": {
+            "events": 1298,
+            "cycles": 168740,
+            "events_s": 16864.842460813954,
+            "cpu_percent": 0.9135122999607559
+          },
+          "PACK_BLOCK": {
+            "events": 75207,
+            "cycles": 3760350,
+            "events_s": 977160.4059710595,
+            "cpu_percent": 20.357508457730404
+          },
+          "PACK_SLOW": {
+            "events": 3981,
+            "cycles": 760371,
+            "events_s": 51724.91358744249,
+            "cpu_percent": 4.116441039667298
+          },
+          "RF_BASE": {
+            "events": 29575,
+            "cycles": 6151600,
+            "events_s": 384266.3449757879,
+            "cpu_percent": 33.30308323123495
+          },
+          "RF_PREPARE": {
+            "events": 4055,
+            "cycles": 892100,
+            "events_s": 52686.391508937275,
+            "cpu_percent": 4.829585888319251
+          },
+          "RF_SWITCH": {
+            "events": 100,
+            "cycles": 14200,
+            "events_s": 1299.294488506468,
+            "cpu_percent": 0.07687492390329936
+          },
+          "RF_ACCEPT": {
+            "events": 100,
+            "cycles": 99200,
+            "events_s": 1299.294488506468,
+            "cpu_percent": 0.5370417219160067
+          },
+          "FILL": {
+            "events": 701,
+            "cycles": 1715347,
+            "events_s": 9108.054364430342,
+            "cpu_percent": 9.286420429067102
+          },
+          "COLLECT": {
+            "events": 4225,
+            "cycles": 355395,
+            "events_s": 54895.19213939828,
+            "cpu_percent": 1.9240115197614842
+          },
+          "SUBMIT_EMPTY": {
+            "events": 5486,
+            "cycles": 658320,
+            "events_s": 71279.29563946484,
+            "cpu_percent": 3.5639647819732416
+          },
+          "SUBMIT_DONE": {
+            "events": 92,
+            "cycles": 368000,
+            "events_s": 1195.3509294259507,
+            "cpu_percent": 1.992251549043251
+          },
+          "REAP_RUNNING": {
+            "events": 2872,
+            "cycles": 120624,
+            "events_s": 37315.73770990576,
+            "cpu_percent": 0.6530254099233508
+          },
+          "REAP_DONE": {
+            "events": 92,
+            "cycles": 73600,
+            "events_s": 1195.3509294259507,
+            "cpu_percent": 0.3984503098086502
+          },
+          "SPI_IRQ": {
+            "events": 184,
+            "cycles": 55200,
+            "events_s": 2390.7018588519013,
+            "cpu_percent": 0.29883773235648764
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.95061419545276,
+            "cpu_percent": 0.07579217849621063
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 44301,
+            "cycles": 3898488,
+            "events_s": 575600.4513532504,
+            "cpu_percent": 21.105349882952513
+          },
+          "PACK_EMPTY": {
+            "events": 43012,
+            "cycles": 7742160,
+            "events_s": 558852.545396402,
+            "cpu_percent": 41.913940904730154
+          },
+          "PACK_SLICE": {
+            "events": 1289,
+            "cycles": 394434,
+            "events_s": 16747.90595684837,
+            "cpu_percent": 2.1353580094981677
+          },
+          "PACK_RUN": {
+            "events": 1322,
+            "cycles": 171860,
+            "events_s": 17176.673138055507,
+            "cpu_percent": 0.93040312831134
+          },
+          "PACK_BLOCK": {
+            "events": 75270,
+            "cycles": 3763500,
+            "events_s": 977978.9614988185,
+            "cpu_percent": 20.37456169789205
+          },
+          "PACK_SLOW": {
+            "events": 4174,
+            "cycles": 797234,
+            "events_s": 54232.55195025998,
+            "cpu_percent": 4.316007259374857
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.95061419545276,
+            "cpu_percent": 0.07579217849621063
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        13
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        9850,
+        9680
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        15407,
+        0
+      ],
+      "accounted_until_cycles": [
+        18457913,
+        18457986
+      ],
+      "rate": 16,
+      "share": 8,
+      "slice_pairs": 512,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 18457913,
+      "banks": 100,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        5382,
+        52386
+      ],
+      "polls": 37674,
+      "peak_arena_bytes": 94207,
+      "max_rf_poll_gap": 12725,
+      "max_owner_iteration": 17454,
+      "min_observed_job_deadline_margin": 212158,
+      "max_publication_latency": 89848,
+      "checked_bytes": 2981888,
+      "retired_bytes": 2981888,
+      "transfers_done": [
+        91,
+        0
+      ],
+      "max_submit_gap": [
+        373054,
+        0
+      ],
+      "charged_cycles": [
+        18457913,
+        18457986
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 5382,
+            "cycles": 828828,
+            "events_s": 69979.74256352817,
+            "cpu_percent": 4.490366814493058
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 4690,
+            "cycles": 844200,
+            "events_s": 60981.97558954796,
+            "cpu_percent": 4.5736481692160975
+          },
+          "PACK_SLICE": {
+            "events": 692,
+            "cycles": 211752,
+            "events_s": 8997.766973980211,
+            "cpu_percent": 1.147215289182477
+          },
+          "PACK_RUN": {
+            "events": 699,
+            "cycles": 90870,
+            "events_s": 9088.784847994462,
+            "cpu_percent": 0.4923091792663667
+          },
+          "PACK_BLOCK": {
+            "events": 75619,
+            "cycles": 3780950,
+            "events_s": 983240.087869089,
+            "cpu_percent": 20.484168497272687
+          },
+          "PACK_SLOW": {
+            "events": 2033,
+            "cycles": 388303,
+            "events_s": 26434.19112442452,
+            "cpu_percent": 2.103721043652118
+          },
+          "RF_BASE": {
+            "events": 37674,
+            "cycles": 7836192,
+            "events_s": 489858.1979446972,
+            "cpu_percent": 42.45437715520709
+          },
+          "RF_PREPARE": {
+            "events": 4057,
+            "cycles": 892540,
+            "events_s": 52751.35926797358,
+            "cpu_percent": 4.835541266230911
+          },
+          "RF_SWITCH": {
+            "events": 100,
+            "cycles": 14200,
+            "events_s": 1300.255343060724,
+            "cpu_percent": 0.07693177446442617
+          },
+          "RF_ACCEPT": {
+            "events": 100,
+            "cycles": 99200,
+            "events_s": 1300.255343060724,
+            "cpu_percent": 0.537438875131766
+          },
+          "FILL": {
+            "events": 700,
+            "cycles": 1712900,
+            "events_s": 9101.787401425068,
+            "cpu_percent": 9.28003073803631
+          },
+          "COLLECT": {
+            "events": 5382,
+            "cycles": 301010,
+            "events_s": 69979.74256352817,
+            "cpu_percent": 1.6307910867279525
+          },
+          "SUBMIT_EMPTY": {
+            "events": 6398,
+            "cycles": 767760,
+            "events_s": 83190.33684902513,
+            "cpu_percent": 4.159516842451256
+          },
+          "SUBMIT_DONE": {
+            "events": 92,
+            "cycles": 368000,
+            "events_s": 1196.2349156158662,
+            "cpu_percent": 1.993724859359777
+          },
+          "REAP_RUNNING": {
+            "events": 4274,
+            "cycles": 179508,
+            "events_s": 55572.91336241535,
+            "cpu_percent": 0.9725259838422686
+          },
+          "REAP_DONE": {
+            "events": 91,
+            "cycles": 72800,
+            "events_s": 1183.232362185259,
+            "cpu_percent": 0.39441078739508634
+          },
+          "SPI_IRQ": {
+            "events": 183,
+            "cycles": 54900,
+            "events_s": 2379.467277801125,
+            "cpu_percent": 0.29743340972514065
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 91.0178740142507,
+            "cpu_percent": 0.0758482283452089
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 52386,
+            "cycles": 4609968,
+            "events_s": 681151.764015791,
+            "cpu_percent": 24.975564680579
+          },
+          "PACK_EMPTY": {
+            "events": 51693,
+            "cycles": 9304740,
+            "events_s": 672140.9944883802,
+            "cpu_percent": 50.41057458662851
+          },
+          "PACK_SLICE": {
+            "events": 692,
+            "cycles": 211752,
+            "events_s": 8997.766973980211,
+            "cpu_percent": 1.147215289182477
+          },
+          "PACK_RUN": {
+            "events": 720,
+            "cycles": 93600,
+            "events_s": 9361.838470037213,
+            "cpu_percent": 0.5070995837936824
+          },
+          "PACK_BLOCK": {
+            "events": 75555,
+            "cycles": 3777750,
+            "events_s": 982407.9244495301,
+            "cpu_percent": 20.46683175936521
+          },
+          "PACK_SLOW": {
+            "events": 2336,
+            "cycles": 446176,
+            "events_s": 30373.964813898518,
+            "cpu_percent": 2.4172613664394236
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 91.0178740142507,
+            "cpu_percent": 0.0758482283452089
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        73
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        10550,
+        9680
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        16457,
+        0
+      ],
+      "accounted_until_cycles": [
+        18462820,
+        18462832
+      ],
+      "rate": 16,
+      "share": 8,
+      "slice_pairs": 512,
+      "irq_cycles": 1000,
+      "stall_percent": 0,
+      "cycles": 18462820,
+      "banks": 100,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        5299,
+        52411
+      ],
+      "polls": 37093,
+      "peak_arena_bytes": 93980,
+      "max_rf_poll_gap": 13425,
+      "max_owner_iteration": 18154,
+      "min_observed_job_deadline_margin": 211666,
+      "max_publication_latency": 90640,
+      "checked_bytes": 3014656,
+      "retired_bytes": 3014656,
+      "transfers_done": [
+        92,
+        0
+      ],
+      "max_submit_gap": [
+        372356,
+        0
+      ],
+      "charged_cycles": [
+        18462820,
+        18462832
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 5299,
+            "cycles": 816046,
+            "events_s": 68882.21842600426,
+            "cpu_percent": 4.41994234900194
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 4607,
+            "cycles": 829260,
+            "events_s": 59886.84285499182,
+            "cpu_percent": 4.491513214124386
+          },
+          "PACK_SLICE": {
+            "events": 692,
+            "cycles": 211752,
+            "events_s": 8995.375571012446,
+            "cpu_percent": 1.1469103853040867
+          },
+          "PACK_RUN": {
+            "events": 698,
+            "cycles": 90740,
+            "events_s": 9073.370156888275,
+            "cpu_percent": 0.49147421683144826
+          },
+          "PACK_BLOCK": {
+            "events": 75578,
+            "cycles": 3778900,
+            "events_s": 982445.8018872524,
+            "cpu_percent": 20.46762087265109
+          },
+          "PACK_SLOW": {
+            "events": 2208,
+            "cycles": 421728,
+            "events_s": 28702.007602305606,
+            "cpu_percent": 2.2842014383501543
+          },
+          "RF_BASE": {
+            "events": 37093,
+            "cycles": 7715344,
+            "events_s": 482175.5289820298,
+            "cpu_percent": 41.788545845109255
+          },
+          "RF_PREPARE": {
+            "events": 4086,
+            "cycles": 898920,
+            "events_s": 53114.31298144054,
+            "cpu_percent": 4.868812023298716
+          },
+          "RF_SWITCH": {
+            "events": 100,
+            "cycles": 14200,
+            "events_s": 1299.9097645971742,
+            "cpu_percent": 0.07691132773866614
+          },
+          "RF_ACCEPT": {
+            "events": 100,
+            "cycles": 99200,
+            "events_s": 1299.9097645971742,
+            "cpu_percent": 0.5372960360334986
+          },
+          "FILL": {
+            "events": 701,
+            "cycles": 1715347,
+            "events_s": 9112.367449826192,
+            "cpu_percent": 9.290817979051955
+          },
+          "COLLECT": {
+            "events": 5299,
+            "cycles": 298585,
+            "events_s": 68882.21842600426,
+            "cpu_percent": 1.6172231544260303
+          },
+          "SUBMIT_EMPTY": {
+            "events": 6307,
+            "cycles": 756840,
+            "events_s": 81985.30885314378,
+            "cpu_percent": 4.099265442657189
+          },
+          "SUBMIT_DONE": {
+            "events": 92,
+            "cycles": 368000,
+            "events_s": 1195.9169834294003,
+            "cpu_percent": 1.993194972382334
+          },
+          "REAP_RUNNING": {
+            "events": 4199,
+            "cycles": 176358,
+            "events_s": 54583.21101543534,
+            "cpu_percent": 0.9552061927701185
+          },
+          "REAP_DONE": {
+            "events": 92,
+            "cycles": 73600,
+            "events_s": 1195.9169834294003,
+            "cpu_percent": 0.3986389944764668
+          },
+          "SPI_IRQ": {
+            "events": 184,
+            "cycles": 184000,
+            "events_s": 2391.8339668588005,
+            "cpu_percent": 0.996597486191167
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.9936835218022,
+            "cpu_percent": 0.07582806960150183
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 52411,
+            "cycles": 4612168,
+            "events_s": 681295.706723025,
+            "cpu_percent": 24.98084257984425
+          },
+          "PACK_EMPTY": {
+            "events": 51718,
+            "cycles": 9309240,
+            "events_s": 672287.3320543666,
+            "cpu_percent": 50.421549904077494
+          },
+          "PACK_SLICE": {
+            "events": 693,
+            "cycles": 212058,
+            "events_s": 9008.374668658418,
+            "cpu_percent": 1.1485677702539483
+          },
+          "PACK_RUN": {
+            "events": 714,
+            "cycles": 92820,
+            "events_s": 9281.355719223824,
+            "cpu_percent": 0.5027401014579571
+          },
+          "PACK_BLOCK": {
+            "events": 75642,
+            "cycles": 3782100,
+            "events_s": 983277.7441365945,
+            "cpu_percent": 20.484953002845717
+          },
+          "PACK_SLOW": {
+            "events": 2306,
+            "cycles": 440446,
+            "events_s": 29975.919171610836,
+            "cpu_percent": 2.3855835674073624
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.9936835218022,
+            "cpu_percent": 0.07582806960150183
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        12
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        10309,
+        11241
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        16588,
+        0
+      ],
+      "accounted_until_cycles": [
+        18474297,
+        18474335
+      ],
+      "rate": 16,
+      "share": 8,
+      "slice_pairs": 512,
+      "irq_cycles": 300,
+      "stall_percent": 10,
+      "cycles": 18474297,
+      "banks": 100,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        4509,
+        46235
+      ],
+      "polls": 31563,
+      "peak_arena_bytes": 94130,
+      "max_rf_poll_gap": 12704,
+      "max_owner_iteration": 18012,
+      "min_observed_job_deadline_margin": 201832,
+      "max_publication_latency": 100216,
+      "checked_bytes": 3014656,
+      "retired_bytes": 3014656,
+      "transfers_done": [
+        92,
+        0
+      ],
+      "max_submit_gap": [
+        371209,
+        0
+      ],
+      "charged_cycles": [
+        16783295,
+        16785718
+      ],
+      "stall_cycles": [
+        1691002,
+        1688617
+      ],
+      "requested_banks": 100,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 4509,
+            "cycles": 694386,
+            "events_s": 58576.51850027094,
+            "cpu_percent": 3.758659937100719
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 3816,
+            "cycles": 686880,
+            "events_s": 49573.74020781413,
+            "cpu_percent": 3.71803051558606
+          },
+          "PACK_SLICE": {
+            "events": 693,
+            "cycles": 212058,
+            "events_s": 9002.778292456811,
+            "cpu_percent": 1.1478542322882435
+          },
+          "PACK_RUN": {
+            "events": 708,
+            "cycles": 92040,
+            "events_s": 9197.64362346237,
+            "cpu_percent": 0.4982056962708784
+          },
+          "PACK_BLOCK": {
+            "events": 75672,
+            "cycles": 3783600,
+            "events_s": 983056.6218568425,
+            "cpu_percent": 20.48034628868422
+          },
+          "PACK_SLOW": {
+            "events": 2357,
+            "cycles": 450187,
+            "events_s": 30619.83901200679,
+            "cpu_percent": 2.4368288547055403
+          },
+          "RF_BASE": {
+            "events": 31563,
+            "cycles": 6565104,
+            "events_s": 410035.6295018966,
+            "cpu_percent": 35.536421223497705
+          },
+          "RF_PREPARE": {
+            "events": 4037,
+            "cycles": 888140,
+            "events_s": 52444.75608462936,
+            "cpu_percent": 4.807435974424358
+          },
+          "RF_SWITCH": {
+            "events": 100,
+            "cycles": 14200,
+            "events_s": 1299.1022067037247,
+            "cpu_percent": 0.07686354722997038
+          },
+          "RF_ACCEPT": {
+            "events": 100,
+            "cycles": 99200,
+            "events_s": 1299.1022067037247,
+            "cpu_percent": 0.5369622454375396
+          },
+          "FILL": {
+            "events": 701,
+            "cycles": 1715347,
+            "events_s": 9106.70646899311,
+            "cpu_percent": 9.285046137344224
+          },
+          "COLLECT": {
+            "events": 4509,
+            "cycles": 272375,
+            "events_s": 58576.51850027094,
+            "cpu_percent": 1.4743456814621958
+          },
+          "SUBMIT_EMPTY": {
+            "events": 5437,
+            "cycles": 652440,
+            "events_s": 70632.1869784815,
+            "cpu_percent": 3.5316093489240754
+          },
+          "SUBMIT_DONE": {
+            "events": 92,
+            "cycles": 368000,
+            "events_s": 1195.1740301674267,
+            "cpu_percent": 1.991956716945711
+          },
+          "REAP_RUNNING": {
+            "events": 3489,
+            "cycles": 146538,
+            "events_s": 45325.67599189295,
+            "cpu_percent": 0.7931993298581267
+          },
+          "REAP_DONE": {
+            "events": 92,
+            "cycles": 73600,
+            "events_s": 1195.1740301674267,
+            "cpu_percent": 0.3983913433891422
+          },
+          "SPI_IRQ": {
+            "events": 184,
+            "cycles": 55200,
+            "events_s": 2390.3480603348535,
+            "cpu_percent": 0.2987935075418567
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.93715446926072,
+            "cpu_percent": 0.07578096205771727
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 46235,
+            "cycles": 4068680,
+            "events_s": 600639.905269467,
+            "cpu_percent": 22.023463193213793
+          },
+          "PACK_EMPTY": {
+            "events": 45541,
+            "cycles": 8197380,
+            "events_s": 591624.1359549433,
+            "cpu_percent": 44.37181019662074
+          },
+          "PACK_SLICE": {
+            "events": 694,
+            "cycles": 212364,
+            "events_s": 9015.769314523848,
+            "cpu_percent": 1.1495105876017908
+          },
+          "PACK_RUN": {
+            "events": 725,
+            "cycles": 94250,
+            "events_s": 9418.490998602003,
+            "cpu_percent": 0.5101682624242752
+          },
+          "PACK_BLOCK": {
+            "events": 75829,
+            "cycles": 3791450,
+            "events_s": 985096.2123213673,
+            "cpu_percent": 20.522837756695154
+          },
+          "PACK_SLOW": {
+            "events": 2134,
+            "cycles": 407594,
+            "events_s": 27722.841091057482,
+            "cpu_percent": 2.2062761034966583
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 7,
+            "cycles": 14000,
+            "events_s": 90.93715446926072,
+            "cpu_percent": 0.07578096205771727
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        38
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        10394,
+        10394
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        17277,
+        0
+      ],
+      "accounted_until_cycles": [
+        738410315,
+        738410351
+      ],
+      "rate": 16,
+      "share": 8,
+      "slice_pairs": 512,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 738410315,
+      "banks": 4000,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        213406,
+        2090406
+      ],
+      "polls": 1493842,
+      "peak_arena_bytes": 94319,
+      "max_rf_poll_gap": 13269,
+      "max_owner_iteration": 17454,
+      "min_observed_job_deadline_margin": 210806,
+      "max_publication_latency": 91355,
+      "checked_bytes": 123011072,
+      "retired_bytes": 123011072,
+      "transfers_done": [
+        3754,
+        0
+      ],
+      "max_submit_gap": [
+        374545,
+        0
+      ],
+      "charged_cycles": [
+        738410315,
+        738410351
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 4000,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 213406,
+            "cycles": 32864524,
+            "events_s": 69361.76128579678,
+            "cpu_percent": 4.450713015838626
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 185413,
+            "cycles": 33374340,
+            "events_s": 60263.405177377565,
+            "cpu_percent": 4.5197553883033175
+          },
+          "PACK_SLICE": {
+            "events": 27993,
+            "cycles": 8565858,
+            "events_s": 9098.356108419206,
+            "cpu_percent": 1.1600404038234489
+          },
+          "PACK_RUN": {
+            "events": 28363,
+            "cycles": 3687190,
+            "events_s": 9218.614450151606,
+            "cpu_percent": 0.4993416160498787
+          },
+          "PACK_BLOCK": {
+            "events": 3052679,
+            "cycles": 152633950,
+            "events_s": 992189.4983279046,
+            "cpu_percent": 20.670614548498012
+          },
+          "PACK_SLOW": {
+            "events": 92302,
+            "cycles": 17629682,
+            "events_s": 30000.2309691462,
+            "cpu_percent": 2.3875183812945515
+          },
+          "RF_BASE": {
+            "events": 1493842,
+            "cycles": 310719136,
+            "events_s": 485532.3290005774,
+            "cpu_percent": 42.079468513383375
+          },
+          "RF_PREPARE": {
+            "events": 162409,
+            "cycles": 35729980,
+            "events_s": 52786.58654707444,
+            "cpu_percent": 4.838770433481824
+          },
+          "RF_SWITCH": {
+            "events": 4000,
+            "cycles": 568000,
+            "events_s": 1300.0901808908236,
+            "cpu_percent": 0.07692200236937373
+          },
+          "RF_ACCEPT": {
+            "events": 4000,
+            "cycles": 3968000,
+            "events_s": 1300.0901808908236,
+            "cpu_percent": 0.5373706081015404
+          },
+          "FILL": {
+            "events": 28001,
+            "cycles": 68518447,
+            "events_s": 9100.956288780988,
+            "cpu_percent": 9.279183349436282
+          },
+          "COLLECT": {
+            "events": 213406,
+            "cycles": 12047930,
+            "events_s": 69361.76128579678,
+            "cpu_percent": 1.631603697193748
+          },
+          "SUBMIT_EMPTY": {
+            "events": 249339,
+            "cycles": 29920680,
+            "events_s": 81040.79640328426,
+            "cpu_percent": 4.052039820164214
+          },
+          "SUBMIT_DONE": {
+            "events": 3754,
+            "cycles": 15016000,
+            "events_s": 1220.1346347660378,
+            "cpu_percent": 2.033557724610063
+          },
+          "REAP_RUNNING": {
+            "events": 173719,
+            "cycles": 7296198,
+            "events_s": 56462.591533543244,
+            "cpu_percent": 0.9880953518370068
+          },
+          "REAP_DONE": {
+            "events": 3754,
+            "cycles": 3003200,
+            "events_s": 1220.1346347660378,
+            "cpu_percent": 0.4067115449220126
+          },
+          "SPI_IRQ": {
+            "events": 7508,
+            "cycles": 2252400,
+            "events_s": 2440.2692695320757,
+            "cpu_percent": 0.3050336586915095
+          },
+          "TICK_IRQ": {
+            "events": 307,
+            "cycles": 614000,
+            "events_s": 99.7819213833707,
+            "cpu_percent": 0.08315160115280892
+          },
+          "WDT": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 0.3250225452227059,
+            "cpu_percent": 0.00010834084840756863
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 2090406,
+            "cycles": 183955728,
+            "events_s": 679429.0786688158,
+            "cpu_percent": 24.91239955118991
+          },
+          "PACK_EMPTY": {
+            "events": 2062412,
+            "cycles": 371234160,
+            "events_s": 670330.3975378512,
+            "cpu_percent": 50.274779815338846
+          },
+          "PACK_SLICE": {
+            "events": 27994,
+            "cycles": 8566164,
+            "events_s": 9098.681130964429,
+            "cpu_percent": 1.1600818441979646
+          },
+          "PACK_RUN": {
+            "events": 28731,
+            "cycles": 3735030,
+            "events_s": 9338.222746793563,
+            "cpu_percent": 0.5058203987846513
+          },
+          "PACK_BLOCK": {
+            "events": 3053278,
+            "cycles": 152663900,
+            "events_s": 992384.1868324929,
+            "cpu_percent": 20.67467055901027
+          },
+          "PACK_SLOW": {
+            "events": 92359,
+            "cycles": 17640569,
+            "events_s": 30018.757254223892,
+            "cpu_percent": 2.388992764815318
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 307,
+            "cycles": 614000,
+            "events_s": 99.7819213833707,
+            "cpu_percent": 0.08315160115280892
+          },
+          "WDT": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 0.3250225452227059,
+            "cpu_percent": 0.00010834084840756863
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        36
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        37550,
+        7680
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        0,
+        0
+      ],
+      "accounted_until_cycles": [
+        588765,
+        588767
+      ],
+      "rate": 16,
+      "share": 8,
+      "slice_pairs": 512,
+      "irq_cycles": 30000,
+      "stall_percent": 0,
+      "cycles": 588765,
+      "banks": 3,
+      "native_fault": 0,
+      "pack_fault": 6,
+      "task_fault": 2,
+      "outcome": 0,
+      "iterations": [
+        173,
+        1748
+      ],
+      "polls": 1205,
+      "peak_arena_bytes": 91640,
+      "max_rf_poll_gap": 34208,
+      "max_owner_iteration": 36613,
+      "min_observed_job_deadline_margin": 219769,
+      "max_publication_latency": 82452,
+      "checked_bytes": 0,
+      "retired_bytes": 0,
+      "transfers_done": [
+        0,
+        0
+      ],
+      "max_submit_gap": [
+        0,
+        0
+      ],
+      "charged_cycles": [
+        588765,
+        588767
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 173,
+            "cycles": 26642,
+            "events_s": 70520.49629308807,
+            "cpu_percent": 4.525065178806485
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 159,
+            "cycles": 28620,
+            "events_s": 64813.635321393085,
+            "cpu_percent": 4.8610226491044815
+          },
+          "PACK_SLICE": {
+            "events": 14,
+            "cycles": 4284,
+            "events_s": 5706.860971694989,
+            "cpu_percent": 0.727624773891111
+          },
+          "PACK_RUN": {
+            "events": 15,
+            "cycles": 1950,
+            "events_s": 6114.493898244631,
+            "cpu_percent": 0.33120175282158415
+          },
+          "PACK_BLOCK": {
+            "events": 1646,
+            "cycles": 82300,
+            "events_s": 670963.7971007108,
+            "cpu_percent": 13.978412439598142
+          },
+          "PACK_SLOW": {
+            "events": 14,
+            "cycles": 2674,
+            "events_s": 5706.860971694989,
+            "cpu_percent": 0.4541710189973929
+          },
+          "RF_BASE": {
+            "events": 1205,
+            "cycles": 250640,
+            "events_s": 491197.6764923187,
+            "cpu_percent": 42.570465296000954
+          },
+          "RF_PREPARE": {
+            "events": 119,
+            "cycles": 26180,
+            "events_s": 48508.3182594074,
+            "cpu_percent": 4.446595840445679
+          },
+          "RF_SWITCH": {
+            "events": 3,
+            "cycles": 426,
+            "events_s": 1222.8987796489262,
+            "cpu_percent": 0.07235484446256146
+          },
+          "RF_ACCEPT": {
+            "events": 3,
+            "cycles": 2976,
+            "events_s": 1222.8987796489262,
+            "cpu_percent": 0.5054648289215561
+          },
+          "FILL": {
+            "events": 21,
+            "cycles": 51387,
+            "events_s": 8560.291457542484,
+            "cpu_percent": 8.727930498586023
+          },
+          "COLLECT": {
+            "events": 172,
+            "cycles": 8100,
+            "events_s": 70112.86336653843,
+            "cpu_percent": 1.3757611271050418
+          },
+          "SUBMIT_EMPTY": {
+            "events": 310,
+            "cycles": 37200,
+            "events_s": 126366.20723038903,
+            "cpu_percent": 6.318310361519452
+          },
+          "SUBMIT_DONE": {
+            "events": 1,
+            "cycles": 4000,
+            "events_s": 407.63292654964204,
+            "cpu_percent": 0.67938821091607
+          },
+          "REAP_RUNNING": {
+            "events": 33,
+            "cycles": 1386,
+            "events_s": 13451.886576138188,
+            "cpu_percent": 0.2354080150824183
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 2,
+            "cycles": 60000,
+            "events_s": 815.2658530992841,
+            "cpu_percent": 10.190823163741051
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 1748,
+            "cycles": 153824,
+            "events_s": 712542.3556087743,
+            "cpu_percent": 26.12655303898839
+          },
+          "PACK_EMPTY": {
+            "events": 1730,
+            "cycles": 311400,
+            "events_s": 705204.9629308807,
+            "cpu_percent": 52.89037221981606
+          },
+          "PACK_SLICE": {
+            "events": 18,
+            "cycles": 5508,
+            "events_s": 7337.3926778935565,
+            "cpu_percent": 0.9355175664314285
+          },
+          "PACK_RUN": {
+            "events": 18,
+            "cycles": 2340,
+            "events_s": 7337.3926778935565,
+            "cpu_percent": 0.39744210338590097
+          },
+          "PACK_BLOCK": {
+            "events": 2142,
+            "cycles": 107100,
+            "events_s": 873149.7286693333,
+            "cpu_percent": 18.190619347277778
+          },
+          "PACK_SLOW": {
+            "events": 45,
+            "cycles": 8595,
+            "events_s": 18343.48169473389,
+            "cpu_percent": 1.4598354182059057
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        2
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        5194,
+        4480
+      ],
+      "failure_written": 12324,
+      "failure_prepared": 0,
+      "failure_prepare_done": 6144,
+      "completion_to_reap_cycles": [
+        9088,
+        2490
+      ],
+      "accounted_until_cycles": [
+        375872,
+        376027
+      ],
+      "rate": 40,
+      "share": 5,
+      "slice_pairs": 256,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 375872,
+      "banks": 4,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        52,
+        477
+      ],
+      "polls": 362,
+      "peak_arena_bytes": 93032,
+      "max_rf_poll_gap": 8069,
+      "max_owner_iteration": 17893,
+      "min_observed_job_deadline_margin": 25260,
+      "max_publication_latency": 83298,
+      "checked_bytes": 65536,
+      "retired_bytes": 65536,
+      "transfers_done": [
+        3,
+        1
+      ],
+      "max_submit_gap": [
+        85009,
+        105282
+      ],
+      "charged_cycles": [
+        375872,
+        376027
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 52,
+            "cycles": 8008,
+            "events_s": 33202.79243997957,
+            "cpu_percent": 2.130512514898689
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 23,
+            "cycles": 4140,
+            "events_s": 14685.850502298656,
+            "cpu_percent": 1.1014387876723992
+          },
+          "PACK_SLICE": {
+            "events": 29,
+            "cycles": 8874,
+            "events_s": 18516.941937680913,
+            "cpu_percent": 2.360910097054316
+          },
+          "PACK_RUN": {
+            "events": 31,
+            "cycles": 4030,
+            "events_s": 19793.972416141667,
+            "cpu_percent": 1.0721735058743402
+          },
+          "PACK_BLOCK": {
+            "events": 1768,
+            "cycles": 88400,
+            "events_s": 1128894.9429593054,
+            "cpu_percent": 23.518644644985528
+          },
+          "PACK_SLOW": {
+            "events": 62,
+            "cycles": 11842,
+            "events_s": 39587.944832283334,
+            "cpu_percent": 3.150540609569215
+          },
+          "RF_BASE": {
+            "events": 362,
+            "cycles": 75296,
+            "events_s": 231142.51660139623,
+            "cpu_percent": 20.03235143878767
+          },
+          "RF_PREPARE": {
+            "events": 204,
+            "cycles": 44880,
+            "events_s": 130257.10880299677,
+            "cpu_percent": 11.940234973608037
+          },
+          "RF_SWITCH": {
+            "events": 4,
+            "cycles": 568,
+            "events_s": 2554.0609569215053,
+            "cpu_percent": 0.1511152732845224
+          },
+          "RF_ACCEPT": {
+            "events": 4,
+            "cycles": 3968,
+            "events_s": 2554.0609569215053,
+            "cpu_percent": 1.0556785288608888
+          },
+          "FILL": {
+            "events": 34,
+            "cycles": 83198,
+            "events_s": 21709.518133832793,
+            "cpu_percent": 22.134662863953686
+          },
+          "COLLECT": {
+            "events": 52,
+            "cycles": 6780,
+            "events_s": 33202.79243997957,
+            "cpu_percent": 1.803805550825813
+          },
+          "SUBMIT_EMPTY": {
+            "events": 75,
+            "cycles": 9000,
+            "events_s": 47888.642942278224,
+            "cpu_percent": 2.394432147113911
+          },
+          "SUBMIT_DONE": {
+            "events": 5,
+            "cycles": 20000,
+            "events_s": 3192.5761961518815,
+            "cpu_percent": 5.320960326919803
+          },
+          "REAP_RUNNING": {
+            "events": 23,
+            "cycles": 988,
+            "events_s": 14685.850502298656,
+            "cpu_percent": 0.26285544014983825
+          },
+          "REAP_DONE": {
+            "events": 4,
+            "cycles": 3200,
+            "events_s": 2554.0609569215053,
+            "cpu_percent": 0.8513536523071684
+          },
+          "SPI_IRQ": {
+            "events": 9,
+            "cycles": 2700,
+            "events_s": 5746.637153073387,
+            "cpu_percent": 0.7183296441341733
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 477,
+            "cycles": 41976,
+            "events_s": 304571.7691128895,
+            "cpu_percent": 11.167631534139282
+          },
+          "PACK_EMPTY": {
+            "events": 406,
+            "cycles": 73080,
+            "events_s": 259237.1871275328,
+            "cpu_percent": 19.442789034564957
+          },
+          "PACK_SLICE": {
+            "events": 71,
+            "cycles": 21726,
+            "events_s": 45334.581985356715,
+            "cpu_percent": 5.780159203132982
+          },
+          "PACK_RUN": {
+            "events": 74,
+            "cycles": 9620,
+            "events_s": 47250.127703047845,
+            "cpu_percent": 2.559381917248425
+          },
+          "PACK_BLOCK": {
+            "events": 4306,
+            "cycles": 215300,
+            "events_s": 2749446.620126,
+            "cpu_percent": 57.280137919291676
+          },
+          "PACK_SLOW": {
+            "events": 75,
+            "cycles": 14325,
+            "events_s": 47888.642942278224,
+            "cpu_percent": 3.8111378341563085
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        155
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        5194,
+        4480
+      ],
+      "failure_written": 12332,
+      "failure_prepared": 0,
+      "failure_prepare_done": 6144,
+      "completion_to_reap_cycles": [
+        7809,
+        0
+      ],
+      "accounted_until_cycles": [
+        300824,
+        300865
+      ],
+      "rate": 40,
+      "share": 5,
+      "slice_pairs": 256,
+      "irq_cycles": 1000,
+      "stall_percent": 0,
+      "cycles": 300824,
+      "banks": 3,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        45,
+        385
+      ],
+      "polls": 310,
+      "peak_arena_bytes": 78126,
+      "max_rf_poll_gap": 8225,
+      "max_owner_iteration": 20302,
+      "min_observed_job_deadline_margin": 30301,
+      "max_publication_latency": 85233,
+      "checked_bytes": 16384,
+      "retired_bytes": 16384,
+      "transfers_done": [
+        1,
+        0
+      ],
+      "max_submit_gap": [
+        95086,
+        0
+      ],
+      "charged_cycles": [
+        300824,
+        300865
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 45,
+            "cycles": 6930,
+            "events_s": 35901.39084647501,
+            "cpu_percent": 2.30367257931548
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 23,
+            "cycles": 4140,
+            "events_s": 18349.59976597612,
+            "cpu_percent": 1.3762199824482089
+          },
+          "PACK_SLICE": {
+            "events": 22,
+            "cycles": 6732,
+            "events_s": 17551.791080498897,
+            "cpu_percent": 2.2378533627636092
+          },
+          "PACK_RUN": {
+            "events": 23,
+            "cycles": 2990,
+            "events_s": 18349.59976597612,
+            "cpu_percent": 0.9939366539903731
+          },
+          "PACK_BLOCK": {
+            "events": 1342,
+            "cycles": 67100,
+            "events_s": 1070659.2559104327,
+            "cpu_percent": 22.30540116480068
+          },
+          "PACK_SLOW": {
+            "events": 59,
+            "cycles": 11269,
+            "events_s": 47070.71244315613,
+            "cpu_percent": 3.7460441986011754
+          },
+          "RF_BASE": {
+            "events": 310,
+            "cycles": 64480,
+            "events_s": 247320.692497939,
+            "cpu_percent": 21.434460016488046
+          },
+          "RF_PREPARE": {
+            "events": 161,
+            "cycles": 35420,
+            "events_s": 128447.19836183284,
+            "cpu_percent": 11.774326516501343
+          },
+          "RF_SWITCH": {
+            "events": 3,
+            "cycles": 426,
+            "events_s": 2393.426056431668,
+            "cpu_percent": 0.141611041672207
+          },
+          "RF_ACCEPT": {
+            "events": 3,
+            "cycles": 2976,
+            "events_s": 2393.426056431668,
+            "cpu_percent": 0.989282769991756
+          },
+          "FILL": {
+            "events": 27,
+            "cycles": 66069,
+            "events_s": 21540.83450788501,
+            "cpu_percent": 21.96267585033109
+          },
+          "COLLECT": {
+            "events": 44,
+            "cycles": 5220,
+            "events_s": 35103.582160997794,
+            "cpu_percent": 1.735233890912959
+          },
+          "SUBMIT_EMPTY": {
+            "events": 73,
+            "cycles": 8760,
+            "events_s": 58240.03403983725,
+            "cpu_percent": 2.9120017019918625
+          },
+          "SUBMIT_DONE": {
+            "events": 3,
+            "cycles": 12000,
+            "events_s": 2393.426056431668,
+            "cpu_percent": 3.989043427386113
+          },
+          "REAP_RUNNING": {
+            "events": 12,
+            "cycles": 512,
+            "events_s": 9573.704225726671,
+            "cpu_percent": 0.17019918623514083
+          },
+          "REAP_DONE": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 797.8086854772225,
+            "cpu_percent": 0.2659362284924075
+          },
+          "SPI_IRQ": {
+            "events": 5,
+            "cycles": 5000,
+            "events_s": 3989.043427386113,
+            "cpu_percent": 1.662101428077547
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 385,
+            "cycles": 33880,
+            "events_s": 307156.34390873066,
+            "cpu_percent": 11.262399276653458
+          },
+          "PACK_EMPTY": {
+            "events": 333,
+            "cycles": 59940,
+            "events_s": 265670.2922639151,
+            "cpu_percent": 19.925271919793634
+          },
+          "PACK_SLICE": {
+            "events": 52,
+            "cycles": 15912,
+            "events_s": 41486.051644815576,
+            "cpu_percent": 5.2894715847139855
+          },
+          "PACK_RUN": {
+            "events": 54,
+            "cycles": 7020,
+            "events_s": 43081.66901577002,
+            "cpu_percent": 2.333590405020876
+          },
+          "PACK_BLOCK": {
+            "events": 3136,
+            "cycles": 156800,
+            "events_s": 2501928.03765657,
+            "cpu_percent": 52.123500784511876
+          },
+          "PACK_SLOW": {
+            "events": 143,
+            "cycles": 27313,
+            "events_s": 114086.64202324282,
+            "cpu_percent": 9.079395261016408
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        41
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        5721,
+        4932
+      ],
+      "failure_written": 13057,
+      "failure_prepared": 0,
+      "failure_prepare_done": 6144,
+      "completion_to_reap_cycles": [
+        0,
+        0
+      ],
+      "accounted_until_cycles": [
+        224980,
+        224994
+      ],
+      "rate": 40,
+      "share": 5,
+      "slice_pairs": 256,
+      "irq_cycles": 300,
+      "stall_percent": 10,
+      "cycles": 224980,
+      "banks": 2,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        33,
+        283
+      ],
+      "polls": 226,
+      "peak_arena_bytes": 61095,
+      "max_rf_poll_gap": 8884,
+      "max_owner_iteration": 16201,
+      "min_observed_job_deadline_margin": 27090,
+      "max_publication_latency": 86016,
+      "checked_bytes": 0,
+      "retired_bytes": 0,
+      "transfers_done": [
+        0,
+        0
+      ],
+      "max_submit_gap": [
+        0,
+        0
+      ],
+      "charged_cycles": [
+        204440,
+        204373
+      ],
+      "stall_cycles": [
+        20540,
+        20621
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 33,
+            "cycles": 5082,
+            "events_s": 35203.12916703707,
+            "cpu_percent": 2.2588674548848786
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 19,
+            "cycles": 3420,
+            "events_s": 20268.468308294072,
+            "cpu_percent": 1.5201351231220552
+          },
+          "PACK_SLICE": {
+            "events": 14,
+            "cycles": 4284,
+            "events_s": 14934.660858743,
+            "cpu_percent": 1.9041692594897324
+          },
+          "PACK_RUN": {
+            "events": 15,
+            "cycles": 1950,
+            "events_s": 16001.422348653214,
+            "cpu_percent": 0.866743710552049
+          },
+          "PACK_BLOCK": {
+            "events": 849,
+            "cycles": 42450,
+            "events_s": 905680.5049337719,
+            "cpu_percent": 18.868343852786914
+          },
+          "PACK_SLOW": {
+            "events": 30,
+            "cycles": 5730,
+            "events_s": 32002.844697306427,
+            "cpu_percent": 2.5468930571606365
+          },
+          "RF_BASE": {
+            "events": 226,
+            "cycles": 47008,
+            "events_s": 241088.0967197084,
+            "cpu_percent": 20.894301715708064
+          },
+          "RF_PREPARE": {
+            "events": 127,
+            "cycles": 27940,
+            "events_s": 135478.7092185972,
+            "cpu_percent": 12.418881678371411
+          },
+          "RF_SWITCH": {
+            "events": 2,
+            "cycles": 284,
+            "events_s": 2133.5229798204286,
+            "cpu_percent": 0.1262334429727087
+          },
+          "RF_ACCEPT": {
+            "events": 2,
+            "cycles": 1984,
+            "events_s": 2133.5229798204286,
+            "cpu_percent": 0.8818561649924438
+          },
+          "FILL": {
+            "events": 20,
+            "cycles": 48940,
+            "events_s": 21335.229798204284,
+            "cpu_percent": 21.753044715085785
+          },
+          "COLLECT": {
+            "events": 32,
+            "cycles": 3520,
+            "events_s": 34136.36767712686,
+            "cpu_percent": 1.5645835185349808
+          },
+          "SUBMIT_EMPTY": {
+            "events": 59,
+            "cycles": 7080,
+            "events_s": 62938.92790470264,
+            "cpu_percent": 3.146946395235132
+          },
+          "SUBMIT_DONE": {
+            "events": 1,
+            "cycles": 4000,
+            "events_s": 1066.7614899102143,
+            "cpu_percent": 1.7779358165170238
+          },
+          "REAP_RUNNING": {
+            "events": 4,
+            "cycles": 168,
+            "events_s": 4267.045959640857,
+            "cpu_percent": 0.07467330429371499
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 2,
+            "cycles": 600,
+            "events_s": 2133.5229798204286,
+            "cpu_percent": 0.26669037247755356
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 283,
+            "cycles": 24904,
+            "events_s": 301893.50164459064,
+            "cpu_percent": 11.06942839363499
+          },
+          "PACK_EMPTY": {
+            "events": 251,
+            "cycles": 45180,
+            "events_s": 267757.1339674638,
+            "cpu_percent": 20.081785047559784
+          },
+          "PACK_SLICE": {
+            "events": 32,
+            "cycles": 9792,
+            "events_s": 34136.36767712686,
+            "cpu_percent": 4.352386878833674
+          },
+          "PACK_RUN": {
+            "events": 33,
+            "cycles": 4290,
+            "events_s": 35203.12916703707,
+            "cpu_percent": 1.9068361632145079
+          },
+          "PACK_BLOCK": {
+            "events": 1919,
+            "cycles": 95950,
+            "events_s": 2047115.299137701,
+            "cpu_percent": 42.648235398702106
+          },
+          "PACK_SLOW": {
+            "events": 127,
+            "cycles": 24257,
+            "events_s": 135478.7092185972,
+            "cpu_percent": 10.78184727531336
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        14
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        8394,
+        7680
+      ],
+      "failure_written": 12567,
+      "failure_prepared": 0,
+      "failure_prepare_done": 6144,
+      "completion_to_reap_cycles": [
+        9866,
+        0
+      ],
+      "accounted_until_cycles": [
+        295926,
+        295971
+      ],
+      "rate": 40,
+      "share": 5,
+      "slice_pairs": 512,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 295926,
+      "banks": 3,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        43,
+        441
+      ],
+      "polls": 299,
+      "peak_arena_bytes": 75501,
+      "max_rf_poll_gap": 11269,
+      "max_owner_iteration": 14682,
+      "min_observed_job_deadline_margin": 39623,
+      "max_publication_latency": 67447,
+      "checked_bytes": 32768,
+      "retired_bytes": 32768,
+      "transfers_done": [
+        2,
+        0
+      ],
+      "max_submit_gap": [
+        82585,
+        0
+      ],
+      "charged_cycles": [
+        295926,
+        295971
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 43,
+            "cycles": 6622,
+            "events_s": 34873.58326068003,
+            "cpu_percent": 2.2377215925603022
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 31,
+            "cycles": 5580,
+            "events_s": 25141.4204902577,
+            "cpu_percent": 1.8856065367693275
+          },
+          "PACK_SLICE": {
+            "events": 12,
+            "cycles": 3672,
+            "events_s": 9732.162770422336,
+            "cpu_percent": 1.2408507532288477
+          },
+          "PACK_RUN": {
+            "events": 13,
+            "cycles": 1690,
+            "events_s": 10543.176334624197,
+            "cpu_percent": 0.5710887181254773
+          },
+          "PACK_BLOCK": {
+            "events": 1426,
+            "cycles": 71300,
+            "events_s": 1156505.3425518542,
+            "cpu_percent": 24.093861303163628
+          },
+          "PACK_SLOW": {
+            "events": 38,
+            "cycles": 7258,
+            "events_s": 30818.51543967073,
+            "cpu_percent": 2.4526401870737953
+          },
+          "RF_BASE": {
+            "events": 299,
+            "cycles": 62192,
+            "events_s": 242493.05569635652,
+            "cpu_percent": 21.016064827017566
+          },
+          "RF_PREPARE": {
+            "events": 162,
+            "cycles": 35640,
+            "events_s": 131384.19740070152,
+            "cpu_percent": 12.04355142839764
+          },
+          "RF_SWITCH": {
+            "events": 3,
+            "cycles": 426,
+            "events_s": 2433.040692605584,
+            "cpu_percent": 0.14395490764583038
+          },
+          "RF_ACCEPT": {
+            "events": 3,
+            "cycles": 2976,
+            "events_s": 2433.040692605584,
+            "cpu_percent": 1.005656819610308
+          },
+          "FILL": {
+            "events": 27,
+            "cycles": 66069,
+            "events_s": 21897.366233450255,
+            "cpu_percent": 22.32618965552199
+          },
+          "COLLECT": {
+            "events": 43,
+            "cycles": 4385,
+            "events_s": 34873.58326068003,
+            "cpu_percent": 1.481789366260484
+          },
+          "SUBMIT_EMPTY": {
+            "events": 68,
+            "cycles": 8160,
+            "events_s": 55148.92236572657,
+            "cpu_percent": 2.757446118286328
+          },
+          "SUBMIT_DONE": {
+            "events": 4,
+            "cycles": 16000,
+            "events_s": 3244.054256807445,
+            "cpu_percent": 5.406757094679075
+          },
+          "REAP_RUNNING": {
+            "events": 13,
+            "cycles": 556,
+            "events_s": 10543.176334624197,
+            "cpu_percent": 0.18788480904009786
+          },
+          "REAP_DONE": {
+            "events": 2,
+            "cycles": 1600,
+            "events_s": 1622.0271284037226,
+            "cpu_percent": 0.5406757094679076
+          },
+          "SPI_IRQ": {
+            "events": 6,
+            "cycles": 1800,
+            "events_s": 4866.081385211168,
+            "cpu_percent": 0.6082601731513959
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 441,
+            "cycles": 38808,
+            "events_s": 357656.98181302083,
+            "cpu_percent": 13.114089333144097
+          },
+          "PACK_EMPTY": {
+            "events": 414,
+            "cycles": 74520,
+            "events_s": 335759.6155795706,
+            "cpu_percent": 25.181971168467793
+          },
+          "PACK_SLICE": {
+            "events": 27,
+            "cycles": 8262,
+            "events_s": 21897.366233450255,
+            "cpu_percent": 2.7919141947649075
+          },
+          "PACK_RUN": {
+            "events": 29,
+            "cycles": 3770,
+            "events_s": 23519.393361853978,
+            "cpu_percent": 1.2739671404337571
+          },
+          "PACK_BLOCK": {
+            "events": 3141,
+            "cycles": 157050,
+            "events_s": 2547393.6051580464,
+            "cpu_percent": 53.070700107459295
+          },
+          "PACK_SLOW": {
+            "events": 71,
+            "cycles": 13561,
+            "events_s": 57581.96305833215,
+            "cpu_percent": 4.582564560058934
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        45
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        8550,
+        7680
+      ],
+      "failure_written": 13041,
+      "failure_prepared": 0,
+      "failure_prepare_done": 6144,
+      "completion_to_reap_cycles": [
+        12504,
+        0
+      ],
+      "accounted_until_cycles": [
+        300932,
+        301003
+      ],
+      "rate": 40,
+      "share": 5,
+      "slice_pairs": 512,
+      "irq_cycles": 1000,
+      "stall_percent": 0,
+      "cycles": 300932,
+      "banks": 3,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        43,
+        452
+      ],
+      "polls": 299,
+      "peak_arena_bytes": 76401,
+      "max_rf_poll_gap": 11425,
+      "max_owner_iteration": 16006,
+      "min_observed_job_deadline_margin": 42467,
+      "max_publication_latency": 70980,
+      "checked_bytes": 32768,
+      "retired_bytes": 32768,
+      "transfers_done": [
+        2,
+        0
+      ],
+      "max_submit_gap": [
+        84253,
+        0
+      ],
+      "charged_cycles": [
+        300932,
+        301003
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 43,
+            "cycles": 6622,
+            "events_s": 34293.461645820316,
+            "cpu_percent": 2.2004971222734704
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 31,
+            "cycles": 5580,
+            "events_s": 24723.19327954488,
+            "cpu_percent": 1.8542394959658661
+          },
+          "PACK_SLICE": {
+            "events": 12,
+            "cycles": 3672,
+            "events_s": 9570.268366275437,
+            "cpu_percent": 1.2202092167001184
+          },
+          "PACK_RUN": {
+            "events": 13,
+            "cycles": 1690,
+            "events_s": 10367.790730131725,
+            "cpu_percent": 0.5615886645488017
+          },
+          "PACK_BLOCK": {
+            "events": 1441,
+            "cycles": 72050,
+            "events_s": 1149229.7263169088,
+            "cpu_percent": 23.9422859649356
+          },
+          "PACK_SLOW": {
+            "events": 34,
+            "cycles": 6494,
+            "events_s": 27115.76037111374,
+            "cpu_percent": 2.157962596201135
+          },
+          "RF_BASE": {
+            "events": 299,
+            "cycles": 62192,
+            "events_s": 238459.18679302966,
+            "cpu_percent": 20.666462855395903
+          },
+          "RF_PREPARE": {
+            "events": 165,
+            "cycles": 36300,
+            "events_s": 131591.19003628727,
+            "cpu_percent": 12.062525753326334
+          },
+          "RF_SWITCH": {
+            "events": 3,
+            "cycles": 426,
+            "events_s": 2392.5670915688593,
+            "cpu_percent": 0.14156021958449086
+          },
+          "RF_ACCEPT": {
+            "events": 3,
+            "cycles": 2976,
+            "events_s": 2392.5670915688593,
+            "cpu_percent": 0.9889277311817952
+          },
+          "FILL": {
+            "events": 27,
+            "cycles": 66069,
+            "events_s": 21533.103824119735,
+            "cpu_percent": 21.954793774008746
+          },
+          "COLLECT": {
+            "events": 43,
+            "cycles": 4545,
+            "events_s": 34293.461645820316,
+            "cpu_percent": 1.5103079765528424
+          },
+          "SUBMIT_EMPTY": {
+            "events": 68,
+            "cycles": 8160,
+            "events_s": 54231.52074222748,
+            "cpu_percent": 2.711576037111374
+          },
+          "SUBMIT_DONE": {
+            "events": 4,
+            "cycles": 16000,
+            "events_s": 3190.089455425146,
+            "cpu_percent": 5.316815759041909
+          },
+          "REAP_RUNNING": {
+            "events": 13,
+            "cycles": 556,
+            "events_s": 10367.790730131725,
+            "cpu_percent": 0.18475934762670637
+          },
+          "REAP_DONE": {
+            "events": 2,
+            "cycles": 1600,
+            "events_s": 1595.044727712573,
+            "cpu_percent": 0.531681575904191
+          },
+          "SPI_IRQ": {
+            "events": 6,
+            "cycles": 6000,
+            "events_s": 4785.1341831377185,
+            "cpu_percent": 1.9938059096407161
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 452,
+            "cycles": 39776,
+            "events_s": 360480.1084630415,
+            "cpu_percent": 13.217603976978188
+          },
+          "PACK_EMPTY": {
+            "events": 424,
+            "cycles": 76320,
+            "events_s": 338149.48227506544,
+            "cpu_percent": 25.36121117062991
+          },
+          "PACK_SLICE": {
+            "events": 27,
+            "cycles": 8262,
+            "events_s": 21533.103824119735,
+            "cpu_percent": 2.7454707375752663
+          },
+          "PACK_RUN": {
+            "events": 29,
+            "cycles": 3770,
+            "events_s": 23128.148551832306,
+            "cpu_percent": 1.25277471322425
+          },
+          "PACK_BLOCK": {
+            "events": 3171,
+            "cycles": 158550,
+            "events_s": 2528943.4157882845,
+            "cpu_percent": 52.68632116225592
+          },
+          "PACK_SLOW": {
+            "events": 75,
+            "cycles": 14325,
+            "events_s": 59814.17728922149,
+            "cpu_percent": 4.76021160926721
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        71
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        9241,
+        8309
+      ],
+      "failure_written": 12768,
+      "failure_prepared": 0,
+      "failure_prepare_done": 5120,
+      "completion_to_reap_cycles": [
+        10757,
+        0
+      ],
+      "accounted_until_cycles": [
+        223184,
+        223190
+      ],
+      "rate": 40,
+      "share": 5,
+      "slice_pairs": 512,
+      "irq_cycles": 300,
+      "stall_percent": 10,
+      "cycles": 223184,
+      "banks": 2,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        31,
+        322
+      ],
+      "polls": 215,
+      "peak_arena_bytes": 61070,
+      "max_rf_poll_gap": 12404,
+      "max_owner_iteration": 15794,
+      "min_observed_job_deadline_margin": 38018,
+      "max_publication_latency": 71860,
+      "checked_bytes": 16384,
+      "retired_bytes": 16384,
+      "transfers_done": [
+        1,
+        0
+      ],
+      "max_submit_gap": [
+        71646,
+        0
+      ],
+      "charged_cycles": [
+        202823,
+        202803
+      ],
+      "stall_cycles": [
+        20361,
+        20387
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 31,
+            "cycles": 4774,
+            "events_s": 33335.7229908954,
+            "cpu_percent": 2.139042225249122
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 23,
+            "cycles": 4140,
+            "events_s": 24732.955767438525,
+            "cpu_percent": 1.8549716825578895
+          },
+          "PACK_SLICE": {
+            "events": 8,
+            "cycles": 2448,
+            "events_s": 8602.767223456878,
+            "cpu_percent": 1.096852820990752
+          },
+          "PACK_RUN": {
+            "events": 9,
+            "cycles": 1170,
+            "events_s": 9678.11312638899,
+            "cpu_percent": 0.5242311276794035
+          },
+          "PACK_BLOCK": {
+            "events": 949,
+            "cycles": 47450,
+            "events_s": 1020503.2618825722,
+            "cpu_percent": 21.260484622553587
+          },
+          "PACK_SLOW": {
+            "events": 19,
+            "cycles": 3629,
+            "events_s": 20431.572155710088,
+            "cpu_percent": 1.6260126173919278
+          },
+          "RF_BASE": {
+            "events": 215,
+            "cycles": 44720,
+            "events_s": 231199.36913040362,
+            "cpu_percent": 20.03727865796831
+          },
+          "RF_PREPARE": {
+            "events": 119,
+            "cycles": 26180,
+            "events_s": 127966.16244892107,
+            "cpu_percent": 11.730231557817765
+          },
+          "RF_SWITCH": {
+            "events": 2,
+            "cycles": 284,
+            "events_s": 2150.6918058642195,
+            "cpu_percent": 0.12724926518029966
+          },
+          "RF_ACCEPT": {
+            "events": 2,
+            "cycles": 1984,
+            "events_s": 2150.6918058642195,
+            "cpu_percent": 0.8889526130905441
+          },
+          "FILL": {
+            "events": 19,
+            "cycles": 46493,
+            "events_s": 20431.572155710088,
+            "cpu_percent": 20.83169044375941
+          },
+          "COLLECT": {
+            "events": 31,
+            "cycles": 3005,
+            "events_s": 33335.7229908954,
+            "cpu_percent": 1.346422682629579
+          },
+          "SUBMIT_EMPTY": {
+            "events": 56,
+            "cycles": 6720,
+            "events_s": 60219.37056419815,
+            "cpu_percent": 3.0109685282099075
+          },
+          "SUBMIT_DONE": {
+            "events": 2,
+            "cycles": 8000,
+            "events_s": 2150.6918058642195,
+            "cpu_percent": 3.5844863431070326
+          },
+          "REAP_RUNNING": {
+            "events": 3,
+            "cycles": 126,
+            "events_s": 3226.0377087963293,
+            "cpu_percent": 0.056455659903935765
+          },
+          "REAP_DONE": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 1075.3459029321098,
+            "cpu_percent": 0.3584486343107033
+          },
+          "SPI_IRQ": {
+            "events": 3,
+            "cycles": 900,
+            "events_s": 3226.0377087963293,
+            "cpu_percent": 0.4032547135995412
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 322,
+            "cycles": 28336,
+            "events_s": 346261.3807441394,
+            "cpu_percent": 12.69625062728511
+          },
+          "PACK_EMPTY": {
+            "events": 303,
+            "cycles": 54540,
+            "events_s": 325829.8085884293,
+            "cpu_percent": 24.437235644132198
+          },
+          "PACK_SLICE": {
+            "events": 18,
+            "cycles": 5508,
+            "events_s": 19356.22625277798,
+            "cpu_percent": 2.467918847229192
+          },
+          "PACK_RUN": {
+            "events": 19,
+            "cycles": 2470,
+            "events_s": 20431.572155710088,
+            "cpu_percent": 1.1067101584342964
+          },
+          "PACK_BLOCK": {
+            "events": 2090,
+            "cycles": 104500,
+            "events_s": 2247472.9371281094,
+            "cpu_percent": 46.822352856835614
+          },
+          "PACK_SLOW": {
+            "events": 39,
+            "cycles": 7449,
+            "events_s": 41938.490214352285,
+            "cpu_percent": 3.3376048462255357
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        6
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 12986,
+      "max_sampled_pack_cycles": [
+        4650,
+        4350
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        3268,
+        0
+      ],
+      "accounted_until_cycles": [
+        243071,
+        243098
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 256,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 243071,
+      "banks": 3,
+      "native_fault": 0,
+      "pack_fault": 6,
+      "task_fault": 2,
+      "outcome": 0,
+      "iterations": [
+        41,
+        371
+      ],
+      "polls": 281,
+      "peak_arena_bytes": 76381,
+      "max_rf_poll_gap": 7525,
+      "max_owner_iteration": 13890,
+      "min_observed_job_deadline_margin": 16731,
+      "max_publication_latency": 79309,
+      "checked_bytes": 16384,
+      "retired_bytes": 16384,
+      "transfers_done": [
+        1,
+        0
+      ],
+      "max_submit_gap": [
+        0,
+        0
+      ],
+      "charged_cycles": [
+        243071,
+        243098
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 41,
+            "cycles": 6314,
+            "events_s": 40481.99908668661,
+            "cpu_percent": 2.597594941395724
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 23,
+            "cycles": 4140,
+            "events_s": 22709.414121799804,
+            "cpu_percent": 1.7032060591349854
+          },
+          "PACK_SLICE": {
+            "events": 18,
+            "cycles": 5508,
+            "events_s": 17772.584964886802,
+            "cpu_percent": 2.2660045830230673
+          },
+          "PACK_RUN": {
+            "events": 17,
+            "cycles": 2210,
+            "events_s": 16785.2191335042,
+            "cpu_percent": 0.9091993697314776
+          },
+          "PACK_BLOCK": {
+            "events": 1070,
+            "cycles": 53500,
+            "events_s": 1056481.439579382,
+            "cpu_percent": 22.01002999123713
+          },
+          "PACK_SLOW": {
+            "events": 34,
+            "cycles": 6494,
+            "events_s": 33570.4382670084,
+            "cpu_percent": 2.671647378749419
+          },
+          "RF_BASE": {
+            "events": 281,
+            "cycles": 58448,
+            "events_s": 277449.79861851066,
+            "cpu_percent": 24.045649213604257
+          },
+          "RF_PREPARE": {
+            "events": 147,
+            "cycles": 32340,
+            "events_s": 145142.77721324223,
+            "cpu_percent": 13.304754577880537
+          },
+          "RF_SWITCH": {
+            "events": 3,
+            "cycles": 426,
+            "events_s": 2962.0974941478003,
+            "cpu_percent": 0.17525743507041153
+          },
+          "RF_ACCEPT": {
+            "events": 3,
+            "cycles": 2976,
+            "events_s": 2962.0974941478003,
+            "cpu_percent": 1.2243336309144242
+          },
+          "FILL": {
+            "events": 21,
+            "cycles": 51387,
+            "events_s": 20734.682459034604,
+            "cpu_percent": 21.140736657190697
+          },
+          "COLLECT": {
+            "events": 40,
+            "cycles": 4760,
+            "events_s": 39494.633255304005,
+            "cpu_percent": 1.9582755655754902
+          },
+          "SUBMIT_EMPTY": {
+            "events": 75,
+            "cycles": 9000,
+            "events_s": 74052.43735369502,
+            "cpu_percent": 3.7026218676847504
+          },
+          "SUBMIT_DONE": {
+            "events": 1,
+            "cycles": 4000,
+            "events_s": 987.3658313826002,
+            "cpu_percent": 1.6456097189710002
+          },
+          "REAP_RUNNING": {
+            "events": 4,
+            "cycles": 168,
+            "events_s": 3949.4633255304007,
+            "cpu_percent": 0.06911560819678202
+          },
+          "REAP_DONE": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 987.3658313826002,
+            "cpu_percent": 0.32912194379420007
+          },
+          "SPI_IRQ": {
+            "events": 2,
+            "cycles": 600,
+            "events_s": 1974.7316627652003,
+            "cpu_percent": 0.24684145784565004
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 371,
+            "cycles": 32648,
+            "events_s": 366312.72344294464,
+            "cpu_percent": 13.431466526241303
+          },
+          "PACK_EMPTY": {
+            "events": 335,
+            "cycles": 60300,
+            "events_s": 330767.55351317103,
+            "cpu_percent": 24.807566513487828
+          },
+          "PACK_SLICE": {
+            "events": 36,
+            "cycles": 11016,
+            "events_s": 35545.169929773605,
+            "cpu_percent": 4.532009166046135
+          },
+          "PACK_RUN": {
+            "events": 36,
+            "cycles": 4680,
+            "events_s": 35545.169929773605,
+            "cpu_percent": 1.9253633711960703
+          },
+          "PACK_BLOCK": {
+            "events": 2139,
+            "cycles": 106950,
+            "events_s": 2111975.5133273816,
+            "cpu_percent": 43.99948986098712
+          },
+          "PACK_SLOW": {
+            "events": 144,
+            "cycles": 27504,
+            "events_s": 142180.67971909442,
+            "cpu_percent": 11.315212427644598
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        27
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 19681,
+      "max_sampled_pack_cycles": [
+        5350,
+        4350
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        4668,
+        0
+      ],
+      "accounted_until_cycles": [
+        236376,
+        236412
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 256,
+      "irq_cycles": 1000,
+      "stall_percent": 0,
+      "cycles": 236376,
+      "banks": 3,
+      "native_fault": 0,
+      "pack_fault": 6,
+      "task_fault": 2,
+      "outcome": 0,
+      "iterations": [
+        40,
+        374
+      ],
+      "polls": 274,
+      "peak_arena_bytes": 76966,
+      "max_rf_poll_gap": 8225,
+      "max_owner_iteration": 14590,
+      "min_observed_job_deadline_margin": 23426,
+      "max_publication_latency": 79309,
+      "checked_bytes": 16384,
+      "retired_bytes": 16384,
+      "transfers_done": [
+        1,
+        0
+      ],
+      "max_submit_gap": [
+        0,
+        0
+      ],
+      "charged_cycles": [
+        236376,
+        236412
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 40,
+            "cycles": 6160,
+            "events_s": 40613.26022946492,
+            "cpu_percent": 2.6060175313906657
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 23,
+            "cycles": 4140,
+            "events_s": 23352.62463194233,
+            "cpu_percent": 1.7514468473956746
+          },
+          "PACK_SLICE": {
+            "events": 17,
+            "cycles": 5202,
+            "events_s": 17260.635597522592,
+            "cpu_percent": 2.2007310386841303
+          },
+          "PACK_RUN": {
+            "events": 16,
+            "cycles": 2080,
+            "events_s": 16245.304091785969,
+            "cpu_percent": 0.8799539716384066
+          },
+          "PACK_BLOCK": {
+            "events": 1007,
+            "cycles": 50350,
+            "events_s": 1022438.8262767794,
+            "cpu_percent": 21.300808880766237
+          },
+          "PACK_SLOW": {
+            "events": 30,
+            "cycles": 5730,
+            "events_s": 30459.94517209869,
+            "cpu_percent": 2.4241039699461875
+          },
+          "RF_BASE": {
+            "events": 274,
+            "cycles": 56992,
+            "events_s": 278200.8325718347,
+            "cpu_percent": 24.11073882289234
+          },
+          "RF_PREPARE": {
+            "events": 140,
+            "cycles": 30800,
+            "events_s": 142146.41080312722,
+            "cpu_percent": 13.030087656953329
+          },
+          "RF_SWITCH": {
+            "events": 3,
+            "cycles": 426,
+            "events_s": 3045.994517209869,
+            "cpu_percent": 0.1802213422682506
+          },
+          "RF_ACCEPT": {
+            "events": 3,
+            "cycles": 2976,
+            "events_s": 3045.994517209869,
+            "cpu_percent": 1.2590110671134125
+          },
+          "FILL": {
+            "events": 21,
+            "cycles": 51387,
+            "events_s": 21321.961620469083,
+            "cpu_percent": 21.739516702203268
+          },
+          "COLLECT": {
+            "events": 39,
+            "cycles": 4405,
+            "events_s": 39597.9287237283,
+            "cpu_percent": 1.86355636782076
+          },
+          "SUBMIT_EMPTY": {
+            "events": 73,
+            "cycles": 8760,
+            "events_s": 74119.19991877348,
+            "cpu_percent": 3.7059599959386738
+          },
+          "SUBMIT_DONE": {
+            "events": 1,
+            "cycles": 4000,
+            "events_s": 1015.3315057366231,
+            "cpu_percent": 1.692219176227705
+          },
+          "REAP_RUNNING": {
+            "events": 4,
+            "cycles": 168,
+            "events_s": 4061.3260229464922,
+            "cpu_percent": 0.07107320540156362
+          },
+          "REAP_DONE": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 1015.3315057366231,
+            "cpu_percent": 0.338443835245541
+          },
+          "SPI_IRQ": {
+            "events": 2,
+            "cycles": 2000,
+            "events_s": 2030.6630114732461,
+            "cpu_percent": 0.8461095881138525
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 374,
+            "cycles": 32912,
+            "events_s": 379733.983145497,
+            "cpu_percent": 13.923579382001558
+          },
+          "PACK_EMPTY": {
+            "events": 340,
+            "cycles": 61200,
+            "events_s": 345212.71195045183,
+            "cpu_percent": 25.890953396283887
+          },
+          "PACK_SLICE": {
+            "events": 34,
+            "cycles": 10404,
+            "events_s": 34521.271195045185,
+            "cpu_percent": 4.401462077368261
+          },
+          "PACK_RUN": {
+            "events": 34,
+            "cycles": 4420,
+            "events_s": 34521.271195045185,
+            "cpu_percent": 1.869902189731614
+          },
+          "PACK_BLOCK": {
+            "events": 2030,
+            "cycles": 101500,
+            "events_s": 2061122.9566453446,
+            "cpu_percent": 42.940061596778015
+          },
+          "PACK_SLOW": {
+            "events": 136,
+            "cycles": 25976,
+            "events_s": 138085.08478018074,
+            "cpu_percent": 10.989271330422717
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        36
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        5721,
+        4789
+      ],
+      "failure_written": 13175,
+      "failure_prepared": 0,
+      "failure_prepare_done": 6144,
+      "completion_to_reap_cycles": [
+        0,
+        0
+      ],
+      "accounted_until_cycles": [
+        225685,
+        225692
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 256,
+      "irq_cycles": 300,
+      "stall_percent": 10,
+      "cycles": 225685,
+      "banks": 2,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        33,
+        336
+      ],
+      "polls": 226,
+      "peak_arena_bytes": 61095,
+      "max_rf_poll_gap": 8884,
+      "max_owner_iteration": 15128,
+      "min_observed_job_deadline_margin": 21805,
+      "max_publication_latency": 86721,
+      "checked_bytes": 0,
+      "retired_bytes": 0,
+      "transfers_done": [
+        0,
+        0
+      ],
+      "max_submit_gap": [
+        0,
+        0
+      ],
+      "charged_cycles": [
+        205085,
+        205049
+      ],
+      "stall_cycles": [
+        20600,
+        20643
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 33,
+            "cycles": 5082,
+            "events_s": 35093.16082149899,
+            "cpu_percent": 2.251811152712852
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 19,
+            "cycles": 3420,
+            "events_s": 20205.153200256995,
+            "cpu_percent": 1.5153864900192746
+          },
+          "PACK_SLICE": {
+            "events": 14,
+            "cycles": 4284,
+            "events_s": 14888.007621241997,
+            "cpu_percent": 1.8982209717083545
+          },
+          "PACK_RUN": {
+            "events": 15,
+            "cycles": 1950,
+            "events_s": 15951.436737044996,
+            "cpu_percent": 0.8640361565899373
+          },
+          "PACK_BLOCK": {
+            "events": 881,
+            "cycles": 44050,
+            "events_s": 936881.0510224428,
+            "cpu_percent": 19.518355229634224
+          },
+          "PACK_SLOW": {
+            "events": 25,
+            "cycles": 4775,
+            "events_s": 26585.727895074993,
+            "cpu_percent": 2.1157808449830515
+          },
+          "RF_BASE": {
+            "events": 226,
+            "cycles": 47008,
+            "events_s": 240334.98017147795,
+            "cpu_percent": 20.82903161486142
+          },
+          "RF_PREPARE": {
+            "events": 127,
+            "cycles": 27940,
+            "events_s": 135055.49770698097,
+            "cpu_percent": 12.380087289806589
+          },
+          "RF_SWITCH": {
+            "events": 2,
+            "cycles": 284,
+            "events_s": 2126.8582316059997,
+            "cpu_percent": 0.1258391120366883
+          },
+          "RF_ACCEPT": {
+            "events": 2,
+            "cycles": 1984,
+            "events_s": 2126.8582316059997,
+            "cpu_percent": 0.8791014023971465
+          },
+          "FILL": {
+            "events": 20,
+            "cycles": 48940,
+            "events_s": 21268.582316059994,
+            "cpu_percent": 21.685092053082837
+          },
+          "COLLECT": {
+            "events": 32,
+            "cycles": 3520,
+            "events_s": 34029.731705695995,
+            "cpu_percent": 1.5596960365110664
+          },
+          "SUBMIT_EMPTY": {
+            "events": 59,
+            "cycles": 7080,
+            "events_s": 62742.31783237698,
+            "cpu_percent": 3.137115891618849
+          },
+          "SUBMIT_DONE": {
+            "events": 1,
+            "cycles": 4000,
+            "events_s": 1063.4291158029998,
+            "cpu_percent": 1.7723818596716663
+          },
+          "REAP_RUNNING": {
+            "events": 4,
+            "cycles": 168,
+            "events_s": 4253.716463211999,
+            "cpu_percent": 0.07444003810620999
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 2,
+            "cycles": 600,
+            "events_s": 2126.8582316059997,
+            "cpu_percent": 0.26585727895074995
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 336,
+            "cycles": 29568,
+            "events_s": 357312.18290980795,
+            "cpu_percent": 13.101446706692958
+          },
+          "PACK_EMPTY": {
+            "events": 305,
+            "cycles": 54900,
+            "events_s": 324345.8803199149,
+            "cpu_percent": 24.325941023993618
+          },
+          "PACK_SLICE": {
+            "events": 31,
+            "cycles": 9486,
+            "events_s": 32966.30258989299,
+            "cpu_percent": 4.2032035802113565
+          },
+          "PACK_RUN": {
+            "events": 31,
+            "cycles": 4030,
+            "events_s": 32966.30258989299,
+            "cpu_percent": 1.7856747236192037
+          },
+          "PACK_BLOCK": {
+            "events": 1893,
+            "cycles": 94650,
+            "events_s": 2013071.3162150786,
+            "cpu_percent": 41.938985754480804
+          },
+          "PACK_SLOW": {
+            "events": 65,
+            "cycles": 12415,
+            "events_s": 69122.89252719498,
+            "cpu_percent": 5.501030196955934
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        7
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        7550,
+        7550
+      ],
+      "failure_written": 12830,
+      "failure_prepared": 0,
+      "failure_prepare_done": 5120,
+      "completion_to_reap_cycles": [
+        12432,
+        0
+      ],
+      "accounted_until_cycles": [
+        224668,
+        224680
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 224668,
+      "banks": 2,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        34,
+        441
+      ],
+      "polls": 238,
+      "peak_arena_bytes": 61535,
+      "max_rf_poll_gap": 10725,
+      "max_owner_iteration": 14682,
+      "min_observed_job_deadline_margin": 43331,
+      "max_publication_latency": 65227,
+      "checked_bytes": 16384,
+      "retired_bytes": 16384,
+      "transfers_done": [
+        1,
+        0
+      ],
+      "max_submit_gap": [
+        76581,
+        0
+      ],
+      "charged_cycles": [
+        224668,
+        224680
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 34,
+            "cycles": 5236,
+            "events_s": 36320.259226948205,
+            "cpu_percent": 2.33054996706251
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 24,
+            "cycles": 4320,
+            "events_s": 25637.830042551675,
+            "cpu_percent": 1.9228372531913758
+          },
+          "PACK_SLICE": {
+            "events": 10,
+            "cycles": 3060,
+            "events_s": 10682.429184396531,
+            "cpu_percent": 1.3620097210105577
+          },
+          "PACK_RUN": {
+            "events": 11,
+            "cycles": 1430,
+            "events_s": 11750.672102836184,
+            "cpu_percent": 0.6364947389036267
+          },
+          "PACK_BLOCK": {
+            "events": 1149,
+            "cycles": 57450,
+            "events_s": 1227411.1132871616,
+            "cpu_percent": 25.5710648601492
+          },
+          "PACK_SLOW": {
+            "events": 19,
+            "cycles": 3629,
+            "events_s": 20296.61545035341,
+            "cpu_percent": 1.615272312923959
+          },
+          "RF_BASE": {
+            "events": 238,
+            "cycles": 49504,
+            "events_s": 254241.81458863747,
+            "cpu_percent": 22.034290597681913
+          },
+          "RF_PREPARE": {
+            "events": 122,
+            "cycles": 26840,
+            "events_s": 130325.63604963769,
+            "cpu_percent": 11.946516637883455
+          },
+          "RF_SWITCH": {
+            "events": 2,
+            "cycles": 284,
+            "events_s": 2136.485836879306,
+            "cpu_percent": 0.1264087453486923
+          },
+          "RF_ACCEPT": {
+            "events": 2,
+            "cycles": 1984,
+            "events_s": 2136.485836879306,
+            "cpu_percent": 0.88308081257678
+          },
+          "FILL": {
+            "events": 19,
+            "cycles": 46493,
+            "events_s": 20296.61545035341,
+            "cpu_percent": 20.694090836256166
+          },
+          "COLLECT": {
+            "events": 34,
+            "cycles": 2950,
+            "events_s": 36320.259226948205,
+            "cpu_percent": 1.3130485872487403
+          },
+          "SUBMIT_EMPTY": {
+            "events": 61,
+            "cycles": 7320,
+            "events_s": 65162.818024818844,
+            "cpu_percent": 3.2581409012409424
+          },
+          "SUBMIT_DONE": {
+            "events": 3,
+            "cycles": 12000,
+            "events_s": 3204.7287553189594,
+            "cpu_percent": 5.341214592198265
+          },
+          "REAP_RUNNING": {
+            "events": 4,
+            "cycles": 168,
+            "events_s": 4272.971673758612,
+            "cpu_percent": 0.07477700429077572
+          },
+          "REAP_DONE": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 1068.242918439653,
+            "cpu_percent": 0.3560809728132177
+          },
+          "SPI_IRQ": {
+            "events": 4,
+            "cycles": 1200,
+            "events_s": 4272.971673758612,
+            "cpu_percent": 0.5341214592198266
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 441,
+            "cycles": 38808,
+            "events_s": 471095.12703188707,
+            "cpu_percent": 17.27348799116919
+          },
+          "PACK_EMPTY": {
+            "events": 424,
+            "cycles": 76320,
+            "events_s": 452934.99741841294,
+            "cpu_percent": 33.97012480638097
+          },
+          "PACK_SLICE": {
+            "events": 16,
+            "cycles": 4896,
+            "events_s": 17091.88669503445,
+            "cpu_percent": 2.1792155536168925
+          },
+          "PACK_RUN": {
+            "events": 16,
+            "cycles": 2080,
+            "events_s": 17091.88669503445,
+            "cpu_percent": 0.9258105293143661
+          },
+          "PACK_BLOCK": {
+            "events": 1914,
+            "cycles": 95700,
+            "events_s": 2044616.9458934963,
+            "cpu_percent": 42.59618637278117
+          },
+          "PACK_SLOW": {
+            "events": 36,
+            "cycles": 6876,
+            "events_s": 38456.74506382751,
+            "cpu_percent": 3.0605159613296062
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        12
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        7550,
+        7550
+      ],
+      "failure_written": 12349,
+      "failure_prepared": 0,
+      "failure_prepare_done": 5120,
+      "completion_to_reap_cycles": [
+        13832,
+        0
+      ],
+      "accounted_until_cycles": [
+        222481,
+        222547
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1000,
+      "stall_percent": 0,
+      "cycles": 222481,
+      "banks": 2,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        34,
+        412
+      ],
+      "polls": 237,
+      "peak_arena_bytes": 61825,
+      "max_rf_poll_gap": 10425,
+      "max_owner_iteration": 14504,
+      "min_observed_job_deadline_margin": 42190,
+      "max_publication_latency": 66368,
+      "checked_bytes": 16384,
+      "retired_bytes": 16384,
+      "transfers_done": [
+        1,
+        0
+      ],
+      "max_submit_gap": [
+        78422,
+        0
+      ],
+      "charged_cycles": [
+        222481,
+        222547
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 34,
+            "cycles": 5236,
+            "events_s": 36677.28929661409,
+            "cpu_percent": 2.3534593965327377
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 24,
+            "cycles": 4320,
+            "events_s": 25889.851268198185,
+            "cpu_percent": 1.9417388451148638
+          },
+          "PACK_SLICE": {
+            "events": 10,
+            "cycles": 3060,
+            "events_s": 10787.438028415909,
+            "cpu_percent": 1.3753983486230286
+          },
+          "PACK_RUN": {
+            "events": 11,
+            "cycles": 1430,
+            "events_s": 11866.181831257501,
+            "cpu_percent": 0.6427515158597813
+          },
+          "PACK_BLOCK": {
+            "events": 1154,
+            "cycles": 57700,
+            "events_s": 1244870.348479196,
+            "cpu_percent": 25.934798926649915
+          },
+          "PACK_SLOW": {
+            "events": 20,
+            "cycles": 3820,
+            "events_s": 21574.876056831818,
+            "cpu_percent": 1.717000552856199
+          },
+          "RF_BASE": {
+            "events": 237,
+            "cycles": 49296,
+            "events_s": 255662.28127345705,
+            "cpu_percent": 22.15739771036628
+          },
+          "RF_PREPARE": {
+            "events": 121,
+            "cycles": 26620,
+            "events_s": 130528.00014383251,
+            "cpu_percent": 11.965066679851313
+          },
+          "RF_SWITCH": {
+            "events": 2,
+            "cycles": 284,
+            "events_s": 2157.4876056831818,
+            "cpu_percent": 0.1276513500029216
+          },
+          "RF_ACCEPT": {
+            "events": 2,
+            "cycles": 1984,
+            "events_s": 2157.4876056831818,
+            "cpu_percent": 0.8917615436823819
+          },
+          "FILL": {
+            "events": 19,
+            "cycles": 46493,
+            "events_s": 20496.13225399023,
+            "cpu_percent": 20.897514843964203
+          },
+          "COLLECT": {
+            "events": 34,
+            "cycles": 2950,
+            "events_s": 36677.28929661409,
+            "cpu_percent": 1.3259559243261223
+          },
+          "SUBMIT_EMPTY": {
+            "events": 61,
+            "cycles": 7320,
+            "events_s": 65803.37197333705,
+            "cpu_percent": 3.2901685986668525
+          },
+          "SUBMIT_DONE": {
+            "events": 2,
+            "cycles": 8000,
+            "events_s": 2157.4876056831818,
+            "cpu_percent": 3.5958126761386366
+          },
+          "REAP_RUNNING": {
+            "events": 4,
+            "cycles": 168,
+            "events_s": 4314.9752113663635,
+            "cpu_percent": 0.07551206619891136
+          },
+          "REAP_DONE": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 1078.7438028415909,
+            "cpu_percent": 0.35958126761386366
+          },
+          "SPI_IRQ": {
+            "events": 3,
+            "cycles": 3000,
+            "events_s": 3236.231408524773,
+            "cpu_percent": 1.3484297535519887
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 412,
+            "cycles": 36256,
+            "events_s": 444442.4467707355,
+            "cpu_percent": 16.296223048260302
+          },
+          "PACK_EMPTY": {
+            "events": 395,
+            "cycles": 71100,
+            "events_s": 426103.80212242843,
+            "cpu_percent": 31.957785159182134
+          },
+          "PACK_SLICE": {
+            "events": 16,
+            "cycles": 4896,
+            "events_s": 17259.900845465454,
+            "cpu_percent": 2.2006373577968454
+          },
+          "PACK_RUN": {
+            "events": 16,
+            "cycles": 2080,
+            "events_s": 17259.900845465454,
+            "cpu_percent": 0.9349112957960455
+          },
+          "PACK_BLOCK": {
+            "events": 1916,
+            "cycles": 95800,
+            "events_s": 2066873.1262444884,
+            "cpu_percent": 43.05985679676017
+          },
+          "PACK_SLOW": {
+            "events": 65,
+            "cycles": 12415,
+            "events_s": 70118.34718470341,
+            "cpu_percent": 5.580251796782647
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        66
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        7520,
+        8309
+      ],
+      "failure_written": 12699,
+      "failure_prepared": 0,
+      "failure_prepare_done": 6144,
+      "completion_to_reap_cycles": [
+        0,
+        0
+      ],
+      "accounted_until_cycles": [
+        148807,
+        148875
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 300,
+      "stall_percent": 10,
+      "cycles": 148807,
+      "banks": 1,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        25,
+        298
+      ],
+      "polls": 170,
+      "peak_arena_bytes": 30255,
+      "max_rf_poll_gap": 10683,
+      "max_owner_iteration": 15008,
+      "min_observed_job_deadline_margin": 44398,
+      "max_publication_latency": 63726,
+      "checked_bytes": 0,
+      "retired_bytes": 0,
+      "transfers_done": [
+        0,
+        0
+      ],
+      "max_submit_gap": [
+        0,
+        0
+      ],
+      "charged_cycles": [
+        135216,
+        135256
+      ],
+      "stall_cycles": [
+        13591,
+        13619
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 25,
+            "cycles": 3850,
+            "events_s": 40320.68383879791,
+            "cpu_percent": 2.587243879656199
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 20,
+            "cycles": 3600,
+            "events_s": 32256.547071038323,
+            "cpu_percent": 2.4192410303278744
+          },
+          "PACK_SLICE": {
+            "events": 5,
+            "cycles": 1530,
+            "events_s": 8064.136767759581,
+            "cpu_percent": 1.0281774378893467
+          },
+          "PACK_RUN": {
+            "events": 5,
+            "cycles": 650,
+            "events_s": 8064.136767759581,
+            "cpu_percent": 0.436807408253644
+          },
+          "PACK_BLOCK": {
+            "events": 567,
+            "cycles": 28350,
+            "events_s": 914473.1094639365,
+            "cpu_percent": 19.051523113832012
+          },
+          "PACK_SLOW": {
+            "events": 1,
+            "cycles": 191,
+            "events_s": 1612.8273535519163,
+            "cpu_percent": 0.12835417688684
+          },
+          "RF_BASE": {
+            "events": 170,
+            "cycles": 35360,
+            "events_s": 274180.6501038258,
+            "cpu_percent": 23.762323008998234
+          },
+          "RF_PREPARE": {
+            "events": 78,
+            "cycles": 17160,
+            "events_s": 125800.53357704947,
+            "cpu_percent": 11.5317155778962
+          },
+          "RF_SWITCH": {
+            "events": 1,
+            "cycles": 142,
+            "events_s": 1612.8273535519163,
+            "cpu_percent": 0.09542561841848837
+          },
+          "RF_ACCEPT": {
+            "events": 1,
+            "cycles": 992,
+            "events_s": 1612.8273535519163,
+            "cpu_percent": 0.666635306134792
+          },
+          "FILL": {
+            "events": 13,
+            "cycles": 31811,
+            "events_s": 20966.75559617491,
+            "cpu_percent": 21.377354559933337
+          },
+          "COLLECT": {
+            "events": 24,
+            "cycles": 1640,
+            "events_s": 38707.85648524599,
+            "cpu_percent": 1.1020986915938094
+          },
+          "SUBMIT_EMPTY": {
+            "events": 47,
+            "cycles": 5640,
+            "events_s": 75802.88561694007,
+            "cpu_percent": 3.790144280847003
+          },
+          "SUBMIT_DONE": {
+            "events": 1,
+            "cycles": 4000,
+            "events_s": 1612.8273535519163,
+            "cpu_percent": 2.6880455892531936
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 1,
+            "cycles": 300,
+            "events_s": 1612.8273535519163,
+            "cpu_percent": 0.20160341919398952
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 298,
+            "cycles": 26224,
+            "events_s": 480622.55135847104,
+            "cpu_percent": 17.622826883143937
+          },
+          "PACK_EMPTY": {
+            "events": 290,
+            "cycles": 52200,
+            "events_s": 467719.9325300557,
+            "cpu_percent": 35.078994939754175
+          },
+          "PACK_SLICE": {
+            "events": 8,
+            "cycles": 2448,
+            "events_s": 12902.61882841533,
+            "cpu_percent": 1.6450839006229545
+          },
+          "PACK_RUN": {
+            "events": 8,
+            "cycles": 1040,
+            "events_s": 12902.61882841533,
+            "cpu_percent": 0.6988918532058304
+          },
+          "PACK_BLOCK": {
+            "events": 937,
+            "cycles": 46850,
+            "events_s": 1511219.2302781455,
+            "cpu_percent": 31.48373396412803
+          },
+          "PACK_SLOW": {
+            "events": 34,
+            "cycles": 6494,
+            "events_s": 54836.13002076515,
+            "cpu_percent": 4.36404201415256
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        68
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 10000,
+      "failed_admission_remaining": 4761,
+      "max_sampled_pack_cycles": [
+        4650,
+        4350
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        3268,
+        0
+      ],
+      "accounted_until_cycles": [
+        251296,
+        251344
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 256,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 251296,
+      "banks": 3,
+      "native_fault": 0,
+      "pack_fault": 6,
+      "task_fault": 2,
+      "outcome": 0,
+      "iterations": [
+        42,
+        373
+      ],
+      "polls": 288,
+      "peak_arena_bytes": 76381,
+      "max_rf_poll_gap": 7525,
+      "max_owner_iteration": 13890,
+      "min_observed_job_deadline_margin": 8506,
+      "max_publication_latency": 79309,
+      "checked_bytes": 16384,
+      "retired_bytes": 16384,
+      "transfers_done": [
+        1,
+        0
+      ],
+      "max_submit_gap": [
+        0,
+        0
+      ],
+      "charged_cycles": [
+        251296,
+        251344
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 42,
+            "cycles": 6468,
+            "events_s": 40112.05908569973,
+            "cpu_percent": 2.5738571246657327
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 23,
+            "cycles": 4140,
+            "events_s": 21966.127594549853,
+            "cpu_percent": 1.647459569591239
+          },
+          "PACK_SLICE": {
+            "events": 19,
+            "cycles": 5814,
+            "events_s": 18145.93149114988,
+            "cpu_percent": 2.3136062651216096
+          },
+          "PACK_RUN": {
+            "events": 19,
+            "cycles": 2470,
+            "events_s": 18145.93149114988,
+            "cpu_percent": 0.9829046224372852
+          },
+          "PACK_BLOCK": {
+            "events": 1133,
+            "cycles": 56650,
+            "events_s": 1082070.5462880428,
+            "cpu_percent": 22.543136381000892
+          },
+          "PACK_SLOW": {
+            "events": 38,
+            "cycles": 7258,
+            "events_s": 36291.86298229976,
+            "cpu_percent": 2.8882274290080225
+          },
+          "RF_BASE": {
+            "events": 288,
+            "cycles": 59904,
+            "events_s": 275054.11944479815,
+            "cpu_percent": 23.83802368521584
+          },
+          "RF_PREPARE": {
+            "events": 154,
+            "cycles": 33880,
+            "events_s": 147077.54998089903,
+            "cpu_percent": 13.482108748249077
+          },
+          "RF_SWITCH": {
+            "events": 3,
+            "cycles": 426,
+            "events_s": 2865.147077549981,
+            "cpu_percent": 0.16952120208837387
+          },
+          "RF_ACCEPT": {
+            "events": 3,
+            "cycles": 2976,
+            "events_s": 2865.147077549981,
+            "cpu_percent": 1.184260792053992
+          },
+          "FILL": {
+            "events": 21,
+            "cycles": 51387,
+            "events_s": 20056.029542849865,
+            "cpu_percent": 20.448793454730676
+          },
+          "COLLECT": {
+            "events": 41,
+            "cycles": 5115,
+            "events_s": 39157.01005984974,
+            "cpu_percent": 2.035448236342799
+          },
+          "SUBMIT_EMPTY": {
+            "events": 77,
+            "cycles": 9240,
+            "events_s": 73538.77499044951,
+            "cpu_percent": 3.6769387495224755
+          },
+          "SUBMIT_DONE": {
+            "events": 1,
+            "cycles": 4000,
+            "events_s": 955.0490258499937,
+            "cpu_percent": 1.591748376416656
+          },
+          "REAP_RUNNING": {
+            "events": 4,
+            "cycles": 168,
+            "events_s": 3820.1961033999746,
+            "cpu_percent": 0.06685343180949956
+          },
+          "REAP_DONE": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 955.0490258499937,
+            "cpu_percent": 0.3183496752833312
+          },
+          "SPI_IRQ": {
+            "events": 2,
+            "cycles": 600,
+            "events_s": 1910.0980516999873,
+            "cpu_percent": 0.2387622564624984
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 373,
+            "cycles": 32824,
+            "events_s": 356233.28664204763,
+            "cpu_percent": 13.06188717687508
+          },
+          "PACK_EMPTY": {
+            "events": 335,
+            "cycles": 60300,
+            "events_s": 319941.4236597479,
+            "cpu_percent": 23.99560677448109
+          },
+          "PACK_SLICE": {
+            "events": 38,
+            "cycles": 11628,
+            "events_s": 36291.86298229976,
+            "cpu_percent": 4.627212530243219
+          },
+          "PACK_RUN": {
+            "events": 37,
+            "cycles": 4810,
+            "events_s": 35336.81395644976,
+            "cpu_percent": 1.9140774226410289
+          },
+          "PACK_BLOCK": {
+            "events": 2255,
+            "cycles": 112750,
+            "events_s": 2153635.5532917357,
+            "cpu_percent": 44.86740736024449
+          },
+          "PACK_SLOW": {
+            "events": 152,
+            "cycles": 29032,
+            "events_s": 145167.45192919904,
+            "cpu_percent": 11.55290971603209
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        48
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    },
+    {
+      "slice_admission_bound": 10000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        7550,
+        7550
+      ],
+      "failure_written": 12830,
+      "failure_prepared": 0,
+      "failure_prepare_done": 5120,
+      "completion_to_reap_cycles": [
+        12432,
+        0
+      ],
+      "accounted_until_cycles": [
+        224668,
+        224680
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 300,
+      "stall_percent": 0,
+      "cycles": 224668,
+      "banks": 2,
+      "native_fault": 5,
+      "pack_fault": 0,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        34,
+        441
+      ],
+      "polls": 238,
+      "peak_arena_bytes": 61535,
+      "max_rf_poll_gap": 10725,
+      "max_owner_iteration": 14682,
+      "min_observed_job_deadline_margin": 43331,
+      "max_publication_latency": 65227,
+      "checked_bytes": 16384,
+      "retired_bytes": 16384,
+      "transfers_done": [
+        1,
+        0
+      ],
+      "max_submit_gap": [
+        76581,
+        0
+      ],
+      "charged_cycles": [
+        224668,
+        224680
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 100,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 34,
+            "cycles": 5236,
+            "events_s": 36320.259226948205,
+            "cpu_percent": 2.33054996706251
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "PACK_EMPTY": {
+            "events": 24,
+            "cycles": 4320,
+            "events_s": 25637.830042551675,
+            "cpu_percent": 1.9228372531913758
+          },
+          "PACK_SLICE": {
+            "events": 10,
+            "cycles": 3060,
+            "events_s": 10682.429184396531,
+            "cpu_percent": 1.3620097210105577
+          },
+          "PACK_RUN": {
+            "events": 11,
+            "cycles": 1430,
+            "events_s": 11750.672102836184,
+            "cpu_percent": 0.6364947389036267
+          },
+          "PACK_BLOCK": {
+            "events": 1149,
+            "cycles": 57450,
+            "events_s": 1227411.1132871616,
+            "cpu_percent": 25.5710648601492
+          },
+          "PACK_SLOW": {
+            "events": 19,
+            "cycles": 3629,
+            "events_s": 20296.61545035341,
+            "cpu_percent": 1.615272312923959
+          },
+          "RF_BASE": {
+            "events": 238,
+            "cycles": 49504,
+            "events_s": 254241.81458863747,
+            "cpu_percent": 22.034290597681913
+          },
+          "RF_PREPARE": {
+            "events": 122,
+            "cycles": 26840,
+            "events_s": 130325.63604963769,
+            "cpu_percent": 11.946516637883455
+          },
+          "RF_SWITCH": {
+            "events": 2,
+            "cycles": 284,
+            "events_s": 2136.485836879306,
+            "cpu_percent": 0.1264087453486923
+          },
+          "RF_ACCEPT": {
+            "events": 2,
+            "cycles": 1984,
+            "events_s": 2136.485836879306,
+            "cpu_percent": 0.88308081257678
+          },
+          "FILL": {
+            "events": 19,
+            "cycles": 46493,
+            "events_s": 20296.61545035341,
+            "cpu_percent": 20.694090836256166
+          },
+          "COLLECT": {
+            "events": 34,
+            "cycles": 2950,
+            "events_s": 36320.259226948205,
+            "cpu_percent": 1.3130485872487403
+          },
+          "SUBMIT_EMPTY": {
+            "events": 61,
+            "cycles": 7320,
+            "events_s": 65162.818024818844,
+            "cpu_percent": 3.2581409012409424
+          },
+          "SUBMIT_DONE": {
+            "events": 3,
+            "cycles": 12000,
+            "events_s": 3204.7287553189594,
+            "cpu_percent": 5.341214592198265
+          },
+          "REAP_RUNNING": {
+            "events": 4,
+            "cycles": 168,
+            "events_s": 4272.971673758612,
+            "cpu_percent": 0.07477700429077572
+          },
+          "REAP_DONE": {
+            "events": 1,
+            "cycles": 800,
+            "events_s": 1068.242918439653,
+            "cpu_percent": 0.3560809728132177
+          },
+          "SPI_IRQ": {
+            "events": 4,
+            "cycles": 1200,
+            "events_s": 4272.971673758612,
+            "cpu_percent": 0.5341214592198266
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WORKER_SHELL": {
+            "events": 441,
+            "cycles": 38808,
+            "events_s": 471095.12703188707,
+            "cpu_percent": 17.27348799116919
+          },
+          "PACK_EMPTY": {
+            "events": 424,
+            "cycles": 76320,
+            "events_s": 452934.99741841294,
+            "cpu_percent": 33.97012480638097
+          },
+          "PACK_SLICE": {
+            "events": 16,
+            "cycles": 4896,
+            "events_s": 17091.88669503445,
+            "cpu_percent": 2.1792155536168925
+          },
+          "PACK_RUN": {
+            "events": 16,
+            "cycles": 2080,
+            "events_s": 17091.88669503445,
+            "cpu_percent": 0.9258105293143661
+          },
+          "PACK_BLOCK": {
+            "events": 1914,
+            "cycles": 95700,
+            "events_s": 2044616.9458934963,
+            "cpu_percent": 42.59618637278117
+          },
+          "PACK_SLOW": {
+            "events": 36,
+            "cycles": 6876,
+            "events_s": 38456.74506382751,
+            "cpu_percent": 3.0605159613296062
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "TICK_IRQ": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0,
+            "events_s": 0.0,
+            "cpu_percent": 0.0
+          }
+        }
+      ],
+      "elapsed_accounting_identity": [
+        true,
+        true
+      ],
+      "pending_cycles": [
+        0,
+        12
+      ],
+      "accounting_identity": [
+        true,
+        true
+      ]
+    }
+  ],
+  "source_sha256": {
+    "experiments/s3_joint_runtime.c": "0fe13b2ed639b240a4e951e398af071539232167ca70420d8a22921665d3e2c6",
+    "experiments/s3_joint_runtime.py": "73302e4ffbaac242eb4939c17c5a5d10077c30649741fc327e63bb42b4350ef3",
+    "experiments/s3_raw_tasks.c": "c841905c2a5b8ed23906fc597b7200df4052b1a63f97248e960ef4fe895d367f",
+    "experiments/s3_native_capture.c": "f2d188648a1c52b74a3be404c4f8520853a3353358c3bcaf825c2c62b8df2c72",
+    "experiments/s3_parallel_pack.c": "407883873963af85454a48a82cd1c13b1c519663a2792dbbfa015bd5091a5d3c",
+    "experiments/s3_parallel_capture.c": "f122d355bb1ecd736d4b7053a5b689838e9c9bc1457bef440aca118bda0bf4f3"
+  },
+  "generated_sha256": {
+    "pack.c": "2249af3d2f7e3ece6d1f41715c9a4ccebedf4308a8d551e454a56b68f8443961",
+    "native.c": "11b5fb366ad2cbc28ce2eadef1e273be4cadc55814038b4cd8229050aff17620",
+    "joint_owner.inc": "25f4b3aa4c5a6841e11de3c394427dfb009b5a8b78e81afa0625ebbc9536f721",
+    "joint_costs.h": "7ad9246b339b6d3bd57f05f706bf8e53ebe6b7297fa8f91aec9fe3c8451bc46e"
+  },
+  "hardware_proven": false,
+  "receiver_adopted": false,
+  "fixed_cost_cycles": {
+    "OWNER_SHELL": 154,
+    "WORKER_SHELL": 88,
+    "PACK_EMPTY": 180,
+    "PACK_SLICE": 306,
+    "PACK_RUN": 130,
+    "PACK_BLOCK": 50,
+    "PACK_SLOW": 191,
+    "RF_BASE": 208,
+    "RF_PREPARE": 220,
+    "RF_SWITCH": 142,
+    "RF_ACCEPT": 992,
+    "SUBMIT_EMPTY": 120,
+    "SUBMIT_DONE": 4000,
+    "REAP_DONE": 800,
+    "WDT": 800
+  },
+  "dynamic_costs": {
+    "FILL": "ceil(17124*words/7168)",
+    "COLLECT": "35+160*owned_banks",
+    "REAP_RUNNING": [
+      42,
+      44
+    ],
+    "SPI_IRQ": "irq_cycles, two entries/transfer in this scenario",
+    "TICK_IRQ": "2000 each core, 100Hz",
+    "stall": "ceil(base_operation_cycles*stall_percent/100), excludes asynchronous IRQ extensions"
+  },
+  "scope_limits": [
+    "Fixed costs mix alpha=1.1 instruction envelopes and unmeasured allocated budgets; none are target WCET.",
+    "Only reception loop is timed; startup/shutdown/fault handling and other application/PHY tasks are outside the model.",
+    "10,000/20,000 cycle slice admission bounds are assumptions, not measured bounds.",
+    "Ideal RF ABI and exact common clock; 80MHz SPI with immediate SDK publication after completion IRQ.",
+    "Operation cost placement is a discretization, not instruction-level interleaving; fixed core0 priority for simultaneous events.",
+    "No inherited U, differential scans, or separate API20us term is added. Costs are charged once at the named boundary."
+  ]
+}

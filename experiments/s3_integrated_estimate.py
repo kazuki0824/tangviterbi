@@ -93,8 +93,16 @@ def main():
     iteration=read('reports/s3-owner-iteration-path/results.json')
     result['owner_iteration_examples']={k:iteration[k] for k in ('rows','conditions','exclusions','inline_wrapper_correction_instructions','CPU_estimate_reduced')}
     result['full_scan_reconciliation']=read('reports/s3-cost-reconciliation/results.json')
+    joint=read('reports/s3-joint-runtime/results.json')
+    result['joint_runtime_cost_scenarios']={
+        'report':'../s3-joint-runtime/results.json', 'conditions':len(joint['rows']),
+        'cost_ledger_and_virtual_elapsed_reconciled':all(all(r['elapsed_accounting_identity']) for r in joint['rows']),
+        'actual_owner_order_used':True,
+        'T_reference_4000_banks_pass':next(r['scenario_pass'] for r in joint['rows'] if r['requested_banks']==4000),
+        'S_declared_scenarios_pass':all(r['scenario_pass'] for r in joint['rows'] if r['rate']==40),
+        'all_SoC_costs_finalized':False, 'receiver_adopted':False}
     result['legacy_cpu_accounting_validated']=False
-    result['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ['reports/s3-cost-reconciliation/results.json','reports/s3-owner-iteration-path/results.json','reports/s3-owner-quiet-path/results.json','experiments/s3_integrated_estimate.py','ci/s3_pack_path_audit.py','experiments/s3_native_capture.c','reports/s3-budgeted-fill/u8/target.json','reports/s3-spi-running-guard/cfg-S/results.json','reports/s3-spi-running-guard/cfg-T/results.json','reports/s3-spi-running-guard/sdk-S/sdk-verification.json','reports/partition-recheck-20261023/recomputed-k7-resource-variants.json','reports/controller-cursor-mask/pnr.json.gz','reports/cursor-mask-route-comparison/audit.json','reports/cursor-mask-timingweight20/result.json','reports/cursor-mask-timingweight10-seed2/result.json','reports/s3-preprocess-break-even/qacc/qacc-audit.json']}
+    result['source_sha256']={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ['reports/s3-joint-runtime/results.json','reports/s3-cost-reconciliation/results.json','reports/s3-owner-iteration-path/results.json','reports/s3-owner-quiet-path/results.json','experiments/s3_integrated_estimate.py','ci/s3_pack_path_audit.py','experiments/s3_native_capture.c','reports/s3-budgeted-fill/u8/target.json','reports/s3-spi-running-guard/cfg-S/results.json','reports/s3-spi-running-guard/cfg-T/results.json','reports/s3-spi-running-guard/sdk-S/sdk-verification.json','reports/partition-recheck-20261023/recomputed-k7-resource-variants.json','reports/controller-cursor-mask/pnr.json.gz','reports/cursor-mask-route-comparison/audit.json','reports/cursor-mask-timingweight20/result.json','reports/cursor-mask-timingweight10-seed2/result.json','reports/s3-preprocess-break-even/qacc/qacc-audit.json']}
     (OUT/'estimate.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(dict(cpu=[{k:v for k,v in r.items() if k!='cases'} for r in cpu],FIR_saved=saved,timing=result['partial_timing'],FIR_optimistic=optimistic),indent=2))
 if __name__=='__main__':main()
