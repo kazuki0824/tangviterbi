@@ -1204,8 +1204,27 @@
     "whole_receiver_verified": false,
     "scope": "Same frozen partial circuit; not current transport plus whole receiver"
   },
+  "owner_quiet_partial": {
+    "ELF_sha256": "8f9ae85bbff671dc19840fbe980303b7c5ba63d2da64860c10f97f6c63161e74",
+    "RF_poll_including_callbacks_instructions": 189,
+    "partial_iteration_instructions": 1401,
+    "partial_iteration_cycles_at_alpha1_1": 1541.1000000000001,
+    "conditions": [
+      "Valid capture, prepared=true, settling=false, written<12288, within age deadline.",
+      "Clock upper high word zero, no wrap during clock_now; no clock fault.",
+      "Raw callbacks: healthy, mmio_read, s3_cycle_clock_read; both SPI commands running.",
+      "Seven calls describe one such owner iteration, not every iteration or a steady-state average."
+    ],
+    "exclusions": [
+      "Packing, fill, collect, owner glue, feed and its clock read, separate collect clock.",
+      "Switch/settling/accept/prepare paths, completed SPI and submit.",
+      "MMIO stalls, IRQ, bus contention, window exceptions, measured cycles."
+    ],
+    "CPU_estimate_reduced": false
+  },
   "source_sha256": {
-    "experiments/s3_integrated_estimate.py": "46c16beb3e394f7d6b690ef74a15ad2e91f782980f72dfa58edd6ff056a01196",
+    "reports/s3-owner-quiet-path/results.json": "2ff3147e8527d67c275a0c8722335ba87eda0835d5b9daf2a5ad7af639af659b",
+    "experiments/s3_integrated_estimate.py": "d036bf580c37c0b02d88dae5132e71caf768b36d99852684bdcf5b100df970d4",
     "ci/s3_pack_path_audit.py": "53b53100f3cffbbfbabb1233d68fefc19295cb8defeaf12fea13104ab89b9f06",
     "experiments/s3_native_capture.c": "f2d188648a1c52b74a3be404c4f8520853a3353358c3bcaf825c2c62b8df2c72",
     "reports/s3-budgeted-fill/u8/target.json": "334b660eb163c9e3029734a3ae727e721792ac11dd1e6b64b67d78dee9869fe0",
