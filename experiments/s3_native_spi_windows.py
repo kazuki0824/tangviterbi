@@ -46,33 +46,35 @@ def windows(rate, counts, publication_offsets=None):
     return rows
 
 
-def wire_floor():
+def wire_floor(transfer_bytes=CHUNK):
+    if type(transfer_bytes) is not int or transfer_bytes not in (16384,32768):
+        raise ValueError("supported transfer size required")
     text=(ROOT/'experiments/s3_spi_transport.c').read_text()
     command=int(re.search(r'\.command_bits = (\d+)',text)[1])
     address=int(re.search(r'\.address_bits = (\d+)',text)[1])
     frequency=int(re.search(r'\.clock_speed_hz = (\d+)',text)[1])
     assert 'SPI_TRANS_MULTILINE_CMD | SPI_TRANS_MULTILINE_ADDR' in text
     assert '.dummy_bits = 0' in text
-    bits=CHUNK*8+command+address
-    return [dict(lanes=lanes,header_bits=command+address,clock_hz=frequency,
+    bits=transfer_bytes*8+command+address
+    return [dict(transfer_bytes=transfer_bytes,lanes=lanes,header_bits=command+address,clock_hz=frequency,
                  serial_clock_count=bits//lanes,
                  wire_floor_cycles=(bits*240000000+lanes*frequency-1)//(lanes*frequency),
                  completion_upper_cycles=None,
                  is_lower_bound_from_queue_return=False) for lanes in (8,4)]
 
 
-def evaluate(rate,counts,publication_offsets=None,scan_bound=None,completion_bounds=None,reap_bound=None):
+def evaluate(rate,counts,publication_offsets=None,scan_bound=None,completion_bounds=None,reap_bound=None,*,transfer_bytes=CHUNK):
     rows=windows(rate,counts,publication_offsets)
     if completion_bounds is not None:
         if len(completion_bounds)!=2:raise ValueError('8lane/4lane bounds required')
         for value in completion_bounds:integer(value,'completion bound')
         # queue_trans can start DMA before returning. Wire duration is not
         # automatically a lower bound on the remaining post-return W.
-    result=dict(windows=rows,wire=wire_floor(),receiver_adopted=False,hardware_RF_model_verified=False)
+    result=dict(windows=rows,wire=wire_floor(transfer_bytes),receiver_adopted=False,hardware_RF_model_verified=False)
     if any(r['publish_latest'] is None for r in rows):
         return dict(result,status='unproved',missing=['verified physical publication offsets from switch_earliest'])
     banks=[{k:r[k] for k in ('samples','accept_earliest','publish_latest')} for r in rows]
-    return dict(result,spi_response=connect(banks,scan_bound=scan_bound,completion_bounds=completion_bounds,reap_bound=reap_bound))
+    return dict(result,spi_response=connect(banks,transfer_bytes=transfer_bytes,scan_bound=scan_bound,completion_bounds=completion_bounds,reap_bound=reap_bound))
 
 
 def report():

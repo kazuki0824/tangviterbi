@@ -11,16 +11,18 @@ HEADER=(ROOT/'experiments/s3_parallel_pack.h').read_text()
 CHUNK=int(re.search(r'S3_PP_CHUNK=(\d+)',HEADER)[1])
 ARENAS=int(re.search(r'S3_PP_SLOTS=(\d+)',HEADER)[1])
 
-def capacity(samples, retired_chunks):
+def capacity(samples, retired_chunks, *, transfer_bytes=CHUNK):
+    if type(transfer_bytes) is not int or transfer_bytes not in (16384,32768):
+        raise ValueError("supported transfer size required")
     if any(type(v) is not int or v<0 for v in (samples,retired_chunks)):
         raise ValueError('nonnegative integer counts required')
     reserved=5*(samples//2)
-    if retired_chunks*CHUNK>reserved:raise ValueError('cannot retire unreserved bytes')
-    required=max(0,(reserved-ARENAS*CHUNK+CHUNK-1)//CHUNK)
-    return dict(samples=samples,reserved_bytes=reserved,carry_samples=samples%2,
+    if retired_chunks*transfer_bytes>reserved:raise ValueError('cannot retire unreserved bytes')
+    required=max(0,(reserved-ARENAS*CHUNK+transfer_bytes-1)//transfer_bytes)
+    return dict(transfer_bytes=transfer_bytes,physical_capacity_bytes=ARENAS*CHUNK,samples=samples,reserved_bytes=reserved,carry_samples=samples%2,
                 ordered_retired_chunks=retired_chunks,minimum_ordered_retired_chunks=required,
-                occupied_bytes=reserved-retired_chunks*CHUNK,
-                free_bytes=ARENAS*CHUNK-reserved+retired_chunks*CHUNK,
+                occupied_bytes=reserved-retired_chunks*transfer_bytes,
+                free_bytes=ARENAS*CHUNK-reserved+retired_chunks*transfer_bytes,
                 capacity_condition_met=retired_chunks>=required,
                 SPI_service_verified=False,receiver_adopted=False)
 

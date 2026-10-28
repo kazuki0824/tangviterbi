@@ -63,7 +63,7 @@ def prefix_response(published_upper, scan_bound=None, completion_bounds=None, re
                 pair_only_upper_cycles=pair_only)
 
 
-def connect(banks, **service):
+def connect(banks, *, transfer_bytes=CHUNK, **service):
     """Each bank supplies count, earliest accept, and latest collect/publication.
 
     Arrival/publication windows are supplied assumptions, not inferred WCET.
@@ -77,11 +77,11 @@ def connect(banks, **service):
         a=integer(b['accept_earliest'],'accept earliest')
         p=integer(b['publish_latest'],'publish latest')
         if a<last_accept or p<max(a,last_publish):raise ValueError('invalid chronological bounds')
-        total+=count;c=capacity(total,0)
-        pub.extend([p]*(c['reserved_bytes']//CHUNK-len(pub)))
+        total+=count;c=capacity(total,0,transfer_bytes=transfer_bytes)
+        pub.extend([p]*(c['reserved_bytes']//transfer_bytes-len(pub)))
         obligations.append(dict(accept_earliest=a,samples=total,required=c['minimum_ordered_retired_chunks']))
         last_accept=a;last_publish=p
-    result=prefix_response(pub,**service);result['obligations']=obligations
+    result=prefix_response(pub,**service);result['obligations']=obligations;result['transfer_bytes']=transfer_bytes
     if result['status']=='unproved':return result
     upper=result['ordered_retired_upper_cycles']
     for o in obligations:

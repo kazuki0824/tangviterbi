@@ -68,10 +68,10 @@ def certificate():
                 irq_entry_burst=high-low)
 
 
-def worker_event(lanes, isr_cost):
+def worker_event(lanes, isr_cost, *, transfer_bytes=32768):
     if type(isr_cost) is not int or isr_cost <= 0:
         raise ValueError('verified positive per-ISR execution cost required')
-    rows = {row['lanes']:row for row in wire_floor()}
+    rows = {row['lanes']:row for row in wire_floor(transfer_bytes)}
     if lanes not in rows:
         raise ValueError('lanes')
     # completions <= 1 + floor(R/L); plus 1 ISR carry-in:

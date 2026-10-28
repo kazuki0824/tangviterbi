@@ -1,0 +1,307 @@
+{
+  "scope": "One accounting boundary and transfer configuration; incomplete evidence is explicit.",
+  "components": [
+    {
+      "id": "owner_shell",
+      "core": "core0",
+      "event_count": "N0",
+      "inclusive_scope": "task-loop instructions, poll_rf wrappers, direct collect clock and feed checks; excludes all charged callees and WDT reset",
+      "evidence": "declared quiet examples only"
+    },
+    {
+      "id": "worker_shell",
+      "core": "core1",
+      "event_count": "N1",
+      "inclusive_scope": "task-loop instructions and feed checks; excludes packing and WDT reset",
+      "evidence": "not fully counted"
+    },
+    {
+      "id": "packing",
+      "core": "both",
+      "event_count": "N0 on core0; N1 on core1",
+      "inclusive_scope": "whole pack_slice, packing body and its clock callbacks; EMPTY and successful paths distinguished",
+      "evidence": "body CFG coefficients available; wrapper/empty/state mixture incomplete"
+    },
+    {
+      "id": "rf_poll",
+      "core": "core0",
+      "event_count": "Nquiet+Nwait+Nswitch+Naccept+Nprepare=7*N0",
+      "inclusive_scope": "native_poll body with clocks/MMIO/sink callbacks; excludes fill body",
+      "evidence": "quiet path only; other paths and mixture incomplete"
+    },
+    {
+      "id": "fill",
+      "core": "core0",
+      "event_count": "7168 words per completed next-bank preparation; partial boundary counted separately",
+      "inclusive_scope": "fill body with bank callback; excludes caller management and startup fill",
+      "evidence": "per-bank instruction envelope15567 available; no cycle bound"
+    },
+    {
+      "id": "collect",
+      "core": "core0",
+      "event_count": "N0",
+      "inclusive_scope": "s3_pp_collect body and all publication/release work",
+      "evidence": "two examples counted; other states/concurrent transitions incomplete"
+    },
+    {
+      "id": "spi_submit",
+      "core": "core0",
+      "event_count": "attempts <=2*N0; successful transfers Q0+Q1",
+      "inclusive_scope": "s3_pp_spi_submit, take, prepare, queue API; ISR excluded",
+      "evidence": "20us is a scenario only; empty, success and lock paths incomplete"
+    },
+    {
+      "id": "spi_reap",
+      "core": "core0",
+      "event_count": "attempts <=2*N0; successful reaps D0+D1",
+      "inclusive_scope": "s3_pp_spi_reap, driver result retrieval, complete; ISR excluded",
+      "evidence": "running path38/40 instructions; other path coverage incomplete"
+    },
+    {
+      "id": "spi_irq",
+      "core": "configured core",
+      "event_count": "per host interval: <=6+2*floor(R/L) including carry-in",
+      "inclusive_scope": "ISR entry/exit and handler CPU; excludes other interrupts",
+      "evidence": "conditional arrival certificate; finite execution cost/refinement missing"
+    },
+    {
+      "id": "wdt_reset",
+      "core": "each core",
+      "event_count": "<=1+floor(R/600000000) in 240MHz cycles, if configured timeout5000ms",
+      "inclusive_scope": "actual esp_task_wdt_reset call only; caller checks in shell",
+      "evidence": "bounded frequency from source; execution/lock cost missing"
+    },
+    {
+      "id": "other_irq",
+      "core": "configured core",
+      "event_count": "tick100Hz from pinned config; other IRQ/IPC envelopes required",
+      "inclusive_scope": "non-SPI interrupts; not counted again in CPU-active API or shell",
+      "evidence": "cost and other event arrival bounds missing"
+    },
+    {
+      "id": "stall_and_block",
+      "core": "affected core",
+      "event_count": "per charged operation/lock; correlated DMA contention must be covered",
+      "inclusive_scope": "memory/MMIO/window/lock elapsed additions not already included above",
+      "evidence": "bounds missing; cannot set to zero"
+    },
+    {
+      "id": "startup_shutdown_fault",
+      "core": "both",
+      "event_count": "once per lifecycle, plus fault occurrence",
+      "inclusive_scope": "RF-off init/calibration, teardown and fault paths; excluded from uninterrupted reception demand",
+      "evidence": "functional lifecycle tested; elapsed costs not fully counted"
+    }
+  ],
+  "total_cpu_demand": "sum(exclusive component CPU costs * event counts); no inherited U0/U1 bucket",
+  "timing_rule": "Same component elapsed costs plus once-counted interference must drive worker/owner/port events; average demand is not an elapsed upper bound.",
+  "rows": [
+    {
+      "standard": "T",
+      "rate_samples_s": 16000000.0,
+      "transfer_bytes": 32768,
+      "physical_arena_bytes": 131072,
+      "nominal_bank_rate_s": 1302.0833333333333,
+      "steady_successful_transfer_rate_s": 1220.703125,
+      "steady_bank_rate_interval_s": [
+        1114.8272017837235,
+        1302.0833333333333
+      ],
+      "wire": [
+        {
+          "transfer_bytes": 32768,
+          "lanes": 8,
+          "header_bits": 80,
+          "clock_hz": 80000000,
+          "serial_clock_count": 32778,
+          "wire_floor_cycles": 98334,
+          "completion_upper_cycles": null,
+          "is_lower_bound_from_queue_return": false
+        },
+        {
+          "transfer_bytes": 32768,
+          "lanes": 4,
+          "header_bits": 80,
+          "clock_hz": 80000000,
+          "serial_clock_count": 65556,
+          "wire_floor_cycles": 196668,
+          "completion_upper_cycles": null,
+          "is_lower_bound_from_queue_return": false
+        }
+      ],
+      "RF": {
+        "rate_Msample_s": 16,
+        "cpp": 15,
+        "max_accepted_bank_samples": 14352,
+        "reference_slice_pairs": 512,
+        "nominal_slices_per_worker": 6,
+        "max_slices_per_worker": 8,
+        "residual_deadline_at_busy_blackout_budget_cycles": 184330,
+        "residual_deadline_at_busy_blackout_budget_us": 768.0416666666666,
+        "residual_deadline_at_declared_blackout_cycles": null,
+        "busy_first_observation_max_written": 7930,
+        "busy_blackout_upper_budget_cycles": 118950,
+        "busy_blackout_upper_budget_us": 495.625,
+        "available_first_observation_max_written": 12287,
+        "available_blackout_upper_budget_cycles": 184305,
+        "available_blackout_upper_budget_us": 767.9375,
+        "blackout_upper_cycles": null,
+        "written_upper": null,
+        "busy_case_bound_within_budget": null,
+        "available_prepare_entry_bound_within_budget": null,
+        "post_preparation_written_upper": null,
+        "prepared_next_observation_bound_within_budget": null,
+        "ordinary_gap_cycles": 30000,
+        "switch_limit_written": 14288,
+        "packing_deadline_from_switch_earliest_cycles": 303280,
+        "actual_schedule_verified": false,
+        "receiver_adopted": false
+      },
+      "reclaim": {
+        "rate_Msample_s": 16,
+        "cpp": 15,
+        "busy_gate_samples": 7931,
+        "minimum_sample_advance": 20219,
+        "conservative_reclaim_strict_budget_cycles": 303271,
+        "latest_certified_release_offset_cycles": 303270,
+        "latest_certified_release_offset_us": 1263.625,
+        "packing_strict_deadline_cycles": 303280,
+        "packing_minus_reclaim_strict_cycles": 9,
+        "collect_delay_included_in_reclaim": true,
+        "hardware_RF_model_verified": false,
+        "receiver_adopted": false
+      },
+      "capacity_at_four_max_banks": {
+        "transfer_bytes": 32768,
+        "physical_capacity_bytes": 131072,
+        "samples": 57408,
+        "reserved_bytes": 143520,
+        "carry_samples": 0,
+        "ordered_retired_chunks": 0,
+        "minimum_ordered_retired_chunks": 1,
+        "occupied_bytes": 143520,
+        "free_bytes": -12448,
+        "capacity_condition_met": false,
+        "SPI_service_verified": false,
+        "receiver_adopted": false
+      },
+      "accounting_complete": false,
+      "joint_schedule_evaluated": false
+    },
+    {
+      "standard": "S",
+      "rate_samples_s": 40000000.0,
+      "transfer_bytes": 16384,
+      "physical_arena_bytes": 131072,
+      "nominal_bank_rate_s": 3255.2083333333335,
+      "steady_successful_transfer_rate_s": 6103.515625,
+      "steady_bank_rate_interval_s": [
+        2787.0680044593087,
+        3255.2083333333335
+      ],
+      "wire": [
+        {
+          "transfer_bytes": 16384,
+          "lanes": 8,
+          "header_bits": 80,
+          "clock_hz": 80000000,
+          "serial_clock_count": 16394,
+          "wire_floor_cycles": 49182,
+          "completion_upper_cycles": null,
+          "is_lower_bound_from_queue_return": false
+        },
+        {
+          "transfer_bytes": 16384,
+          "lanes": 4,
+          "header_bits": 80,
+          "clock_hz": 80000000,
+          "serial_clock_count": 32788,
+          "wire_floor_cycles": 98364,
+          "completion_upper_cycles": null,
+          "is_lower_bound_from_queue_return": false
+        }
+      ],
+      "RF": {
+        "rate_Msample_s": 40,
+        "cpp": 6,
+        "max_accepted_bank_samples": 14352,
+        "reference_slice_pairs": 512,
+        "nominal_slices_per_worker": 6,
+        "max_slices_per_worker": 8,
+        "residual_deadline_at_busy_blackout_budget_cycles": 73732,
+        "residual_deadline_at_busy_blackout_budget_us": 307.21666666666664,
+        "residual_deadline_at_declared_blackout_cycles": null,
+        "busy_first_observation_max_written": 5930,
+        "busy_blackout_upper_budget_cycles": 35580,
+        "busy_blackout_upper_budget_us": 148.25,
+        "available_first_observation_max_written": 12287,
+        "available_blackout_upper_budget_cycles": 73722,
+        "available_blackout_upper_budget_us": 307.175,
+        "blackout_upper_cycles": null,
+        "written_upper": null,
+        "busy_case_bound_within_budget": null,
+        "available_prepare_entry_bound_within_budget": null,
+        "post_preparation_written_upper": null,
+        "prepared_next_observation_bound_within_budget": null,
+        "ordinary_gap_cycles": 12000,
+        "switch_limit_written": 14288,
+        "packing_deadline_from_switch_earliest_cycles": 109312,
+        "actual_schedule_verified": false,
+        "receiver_adopted": false
+      },
+      "reclaim": {
+        "rate_Msample_s": 40,
+        "cpp": 6,
+        "busy_gate_samples": 5931,
+        "minimum_sample_advance": 18219,
+        "conservative_reclaim_strict_budget_cycles": 109309,
+        "latest_certified_release_offset_cycles": 109308,
+        "latest_certified_release_offset_us": 455.45,
+        "packing_strict_deadline_cycles": 109312,
+        "packing_minus_reclaim_strict_cycles": 3,
+        "collect_delay_included_in_reclaim": true,
+        "hardware_RF_model_verified": false,
+        "receiver_adopted": false
+      },
+      "capacity_at_four_max_banks": {
+        "transfer_bytes": 16384,
+        "physical_capacity_bytes": 131072,
+        "samples": 57408,
+        "reserved_bytes": 143520,
+        "carry_samples": 0,
+        "ordered_retired_chunks": 0,
+        "minimum_ordered_retired_chunks": 1,
+        "occupied_bytes": 143520,
+        "free_bytes": -12448,
+        "capacity_condition_met": false,
+        "SPI_service_verified": false,
+        "receiver_adopted": false
+      },
+      "accounting_complete": false,
+      "joint_schedule_evaluated": false
+    }
+  ],
+  "remaining_for_step1": [
+    "Full state-dependent costs and owner/worker state frequencies, including failed polls.",
+    "Define finite contention/IRQ budgets or sensitivity ranges with sourcing; no uncounted residual silently set to zero."
+  ],
+  "remaining_for_step2": [
+    "A nonuniform schedule connected to the same complete cost inputs and actual ordering.",
+    "Joint RF switch/preparation/reclaim, ordered DMA retirement and 128KiB obligations; existing periodic-scan results are not substituted."
+  ],
+  "step1_complete": false,
+  "step2_complete": false,
+  "receiver_adopted": false,
+  "source_sha256": {
+    "experiments/s3_joint_accounting.py": "f89aff7679288086f806baacf0072e285f52326c30191f0e1c2b40ad4cef24f6",
+    "experiments/s3_raw_tasks.c": "c841905c2a5b8ed23906fc597b7200df4052b1a63f97248e960ef4fe895d367f",
+    "experiments/s3_native_capture.c": "f2d188648a1c52b74a3be404c4f8520853a3353358c3bcaf825c2c62b8df2c72",
+    "experiments/s3_parallel_pack.c": "407883873963af85454a48a82cd1c13b1c519663a2792dbbfa015bd5091a5d3c",
+    "experiments/s3_parallel_spi.c": "0e80573922f9bb3f78831f5ed2b732f4d52471a0d318eaf6d8870cc6691b52f5",
+    "experiments/s3_spi_transport.c": "5fbe1a502ab0900340b6c7984ad15d5aa99f77309818724de1b3199ac1f68b15",
+    "experiments/s3_arena_limits.py": "ad707b572472e7fbbb0c37e6c6473d6933cbab6025b6bc701bd12f7c65f1cfd7",
+    "experiments/s3_native_spi_windows.py": "0a7173e383ffea15b9a4e0ff8ee13f3e033c5913ff4f52599ed9ceff3b3ed0b0",
+    "experiments/s3_spi_prefix_response.py": "bf6abfb3c2e79747163a2b91c1844805d75b916a555cf6bbe2d9ea4902a23b4c",
+    "experiments/s3_spi_irq_envelope.py": "a726fe30f6c651b2c2a08be779f667cd9f8522a5b1f4f713ed591d58f255a072"
+  }
+}
