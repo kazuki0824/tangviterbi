@@ -18,6 +18,8 @@ def function(text,name):
 def generated():
  pack=(ROOT/'experiments/s3_parallel_pack.c').read_text()
  edits=[
+ (' if(p->banks[bank].owned || p->count==3)return S3_PP_BUSY;', ' if(p->banks[bank].owned || p->count==3){joint_accept_reject(1,0);return S3_PP_BUSY;}'),
+ (' if(p->reserved-p->retired*S3_PP_TX_BYTES+bytes>4*S3_PP_CHUNK)return S3_PP_BUSY;', ' if(p->reserved-p->retired*S3_PP_TX_BYTES+bytes>4*S3_PP_CHUNK){joint_accept_reject(2,p->reserved-p->retired*S3_PP_TX_BYTES+bytes);return S3_PP_BUSY;}'),
  (' if(now>=b->deadline || bound>=b->deadline-now)return fail(p,S3_PP_DEADLINE);', ' if(now>=b->deadline || bound>=b->deadline-now){joint_failed_admission(b->deadline,now);return fail(p,S3_PP_DEADLINE); }'),
  ('  uint64_t finished=clock(clock_ctx);','  uint64_t finished=clock(clock_ctx);joint_pack_interval(finished-now);'),
  (' if(!b)return S3_PP_EMPTY;', ' if(!b){joint_charge(PACK_EMPTY,180);return S3_PP_EMPTY;}\n joint_charge(PACK_SLICE,306);'),
@@ -41,9 +43,9 @@ def generated():
   native=native.replace(f'joint_charge({category},{cost})',f'joint_charge({category},COST_{category})')
  return {'pack.c':'#include "joint_costs.h"\n'+pack,'native.c':'#include "joint_costs.h"\n'+native,
  'joint_owner.inc':function((ROOT/'experiments/s3_raw_tasks.c').read_text(),'owner_iteration'),
- 'joint_costs.h':'#include <stdint.h>\n'+''.join(f'#define COST_{k} {v}\n' for k,v in FIXED_COSTS.items())+'enum {'+','.join(CATEGORIES)+',CATEGORIES};\nvoid joint_charge(unsigned,uint64_t);\nvoid joint_accept(unsigned);\nvoid joint_publish(unsigned);\nvoid joint_deadline(uint64_t);\nvoid joint_failed_admission(uint64_t,uint64_t);\nvoid joint_pack_interval(uint64_t);\n'}
+ 'joint_costs.h':'#include <stdint.h>\n'+''.join(f'#define COST_{k} {v}\n' for k,v in FIXED_COSTS.items())+'enum {'+','.join(CATEGORIES)+',CATEGORIES};\nvoid joint_charge(unsigned,uint64_t);\nvoid joint_accept(unsigned);\nvoid joint_publish(unsigned);\nvoid joint_deadline(uint64_t);\nvoid joint_failed_admission(uint64_t,uint64_t);\nvoid joint_pack_interval(uint64_t);\nvoid joint_accept_reject(unsigned,uint64_t);\n'}
 def run(cases):
- cases=[tuple(c)+(20000,) if len(c)==6 else tuple(c) for c in cases]
+ cases=[tuple(c)+(20000,1024,1024) if len(c)==6 else tuple(c)+(1024,1024) if len(c)==7 else tuple(c) for c in cases]
  generated_files=generated();rows=[]
  with tempfile.TemporaryDirectory() as tmp:
   tmp=Path(tmp)
@@ -51,9 +53,9 @@ def run(cases):
   for rate,share,chunk in sorted(set((c[0],c[1],32768 if c[0]==16 else 16384) for c in cases)):
    binary=tmp/f'probe-{rate}-{share}'
    subprocess.run(['cc','-std=c11','-O2','-g','-Wall','-Wextra','-Wno-misleading-indentation','-fsanitize=undefined','-fno-sanitize-recover=all','-ffunction-sections','-Wl,--gc-sections',f'-DS3_PP_CORE0_SIXTEENTHS={share}',f'-DS3_RAW_TRANSFER_BYTES={chunk}',f'-I{tmp}',f'-I{ROOT / "experiments"}',str(ROOT/'experiments/s3_joint_runtime.c'),str(tmp/'pack.c'),str(tmp/'native.c'),str(ROOT/'experiments/s3_parallel_capture.c'),'-o',str(binary)],check=True)
-   for r,sh,sl,n,irq,stall,bound in cases:
+   for r,sh,sl,n,irq,stall,bound,prep,poll in cases:
     if (r,sh)!=(rate,share):continue
-    row=json.loads(subprocess.check_output([str(binary),str(r),str(sl),str(n),str(irq),str(stall),str(bound)],text=True))
+    row=json.loads(subprocess.check_output([str(binary),str(r),str(sl),str(n),str(irq),str(stall),str(bound),str(prep),str(poll)],text=True))
     row['requested_banks']=n;row['scenario_pass']=row['banks']==n and not any(row[k] for k in ('native_fault','pack_fault','task_fault','outcome'))
     row['cost_ledger']=[{key:{'events':v[0],'cycles':v[1],'events_s':v[0]*240e6/row['cycles'],'cpu_percent':v[1]*100/row['cycles']} for key,v in zip(CATEGORIES,core)} for core in row.pop('costs')]
     # Pending operations can extend beyond the stopped observation window.
@@ -61,10 +63,12 @@ def run(cases):
     row['pending_cycles']=[row['accounted_until_cycles'][c]-row['cycles'] for c in (0,1)]
     row['accounting_identity']=[sum(x['cycles'] for x in row['cost_ledger'][c].values())==row['charged_cycles'][c] for c in (0,1)]
     rows.append(row)
- return {'scope':__doc__,'rows':rows,'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT/'experiments'/n for n in ('s3_joint_runtime.c','s3_joint_runtime.py','s3_raw_tasks.c','s3_native_capture.c','s3_parallel_pack.c','s3_parallel_capture.c')]},'generated_sha256':{n:hashlib.sha256(t.encode()).hexdigest() for n,t in generated_files.items()},'hardware_proven':False,'receiver_adopted':False,'fixed_cost_cycles':FIXED_COSTS,'dynamic_costs':{'FILL':'ceil(17124*words/7168)', 'COLLECT':'35+160*owned_banks', 'REAP_RUNNING':[42,44], 'SPI_IRQ':'irq_cycles, two entries/transfer in this scenario', 'TICK_IRQ':'2000 each core, 100Hz', 'stall':'ceil(base_operation_cycles*stall_percent/100), excludes asynchronous IRQ extensions'},'scope_limits':['Fixed costs mix alpha=1.1 instruction envelopes and unmeasured allocated budgets; none are target WCET.', 'Only reception loop is timed; startup/shutdown/fault handling and other application/PHY tasks are outside the model.', '10,000/20,000 cycle slice admission bounds are assumptions, not measured bounds.', 'Ideal RF ABI and exact common clock; 80MHz SPI with immediate SDK publication after completion IRQ.', 'Operation cost placement is a discretization, not instruction-level interleaving; fixed core0 priority for simultaneous events.', 'No inherited U, differential scans, or separate API20us term is added. Costs are charged once at the named boundary.']}
+ return {'scope':__doc__,'rows':rows,'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT/'experiments'/n for n in ('s3_joint_runtime.c','s3_joint_runtime.py','s3_raw_tasks.c','s3_native_capture.c','s3_parallel_pack.c','s3_parallel_capture.c')]},'generated_sha256':{n:hashlib.sha256(t.encode()).hexdigest() for n,t in generated_files.items()},'hardware_proven':False,'receiver_adopted':False,'fixed_cost_cycles':FIXED_COSTS,'dynamic_costs':{'FILL':'ceil(17124*words/7168)', 'COLLECT':'35+160*owned_banks', 'REAP_RUNNING':[42,44], 'SPI_IRQ':'irq_cycles, two entries/transfer in this scenario', 'TICK_IRQ':'2000 each core, 100Hz', 'stall':'ceil(base_operation_cycles*stall_percent/100), excludes asynchronous IRQ extensions'},'scope_limits':['Fixed costs mix alpha=1.1 instruction envelopes and unmeasured allocated budgets; none are target WCET.', 'Only reception loop is timed; startup/shutdown/fault handling and other application/PHY tasks are outside the model.', '10,000/20,000 cycle slice admission bounds are assumptions, not measured bounds.', 'Ideal RF ABI and exact common clock; 80MHz SPI with immediate SDK publication after completion IRQ.', '1024/2048/3072 preparation budgets are model variants; production remains 1024. Per-poll cap wrapper is modeled inside RF budgets, not independently instruction-counted.', 'Operation cost placement is a discretization, not instruction-level interleaving; fixed core0 priority for simultaneous events.', 'No inherited U, differential scans, or separate API20us term is added. Costs are charged once at the named boundary.']}
 if __name__=='__main__':
  ap=argparse.ArgumentParser();ap.add_argument('--banks',type=int,default=100);ap.add_argument('--output',type=Path,default=ROOT/'reports/s3-joint-runtime/results.json');args=ap.parse_args()
  cases=[(r,sh,sl,args.banks,irq,st) for r,sh in [(16,8),(40,6),(40,5)] for sl in (256,512) for irq,st in [(300,0),(1000,0),(300,10)]]
  cases += [(40,6,256,100,300,0,10000),(40,6,512,100,300,0,10000),(16,8,512,4000,300,0),(16,8,512,100,30000,0)]
+ cases += [(40,sh,sl,args.banks,300,st,20000,prep,1024) for sh in (5,6) for sl in (256,512) for prep in (2048,3072) for st in (0,10)]
+ cases += [(40,sh,512,args.banks,300,0,10000,prep,1024) for sh in (5,6) for prep in (2048,3072)]
  result=run(cases);args.output.parent.mkdir(exist_ok=True,parents=True);args.output.write_text(json.dumps(result,indent=2)+'\n')
  for row in result['rows']:print({k:row[k] for k in ('rate','share','slice_pairs','irq_cycles','stall_percent','banks','scenario_pass','native_fault','pack_fault','outcome','max_rf_poll_gap','peak_arena_bytes')})

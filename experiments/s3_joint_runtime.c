@@ -21,7 +21,9 @@ static uint64_t charged[2][CATEGORIES],counts[2][CATEGORIES],interrupts[2],stall
 static uint64_t iterations[2],polls,last_poll,max_poll_gap,max_owner_gap,peak_bytes,checked_bytes;
 static uint64_t min_deadline=UINT64_MAX,transfers_done[2],last_submit[2],max_submit_gap[2];
 static uint64_t accepted[3],max_publish_latency;
-static unsigned outcome;
+static unsigned outcome,prepare_per_iteration,prepare_per_poll,accept_reject_reason;
+static uint64_t attempted_arena_bytes;
+void joint_accept_reject(unsigned reason,uint64_t bytes){accept_reject_reason=reason;attempted_arena_bytes=bytes;}
 static unsigned failure_written,failure_prepared,failure_prepare_done;
 static uint64_t max_wire_to_reap[2],failed_admission_remaining,max_sampled_pack[2];
 void joint_failed_admission(uint64_t d,uint64_t t){failed_admission_remaining=d>t?d-t:0;}
@@ -66,7 +68,7 @@ typedef struct {
 static s3_raw_tasks runtime;
 static s3_spi_port ports[2]={{0},{1}};static s3_pp_transfer tx[2];
 #define IRAM_ATTR
-#define S3_RAW_PREPARE_WORDS_PER_ITERATION 1024
+#define S3_RAW_PREPARE_WORDS_PER_ITERATION prepare_per_iteration
 #define RAW_TASK_RF 1
 #define RAW_TASK_PACK 2
 #define RAW_TASK_SPI 3
@@ -80,7 +82,9 @@ static bool feed(s3_raw_tasks*r,unsigned c,bool force){
 static bool poll_rf(s3_raw_tasks*r,unsigned*budget){
  if(stopping(r))return false;
  if(last_poll&&now-last_poll>max_poll_gap)max_poll_gap=now-last_poll;last_poll=now;++polls;
- if(!s3_native_poll_budget(r->config.capture,budget)){failure_written=(index_rf-capture.expected)&16383;failure_prepared=capture.prepared;failure_prepare_done=capture.prepare_done;fault(r,RAW_TASK_RF);return false;}return true;
+ unsigned available=*budget<prepare_per_poll?*budget:prepare_per_poll;
+ unsigned local=available;bool ok=s3_native_poll_budget(r->config.capture,&local);*budget-=available-local;
+ if(!ok){failure_written=(index_rf-capture.expected)&16383;failure_prepared=capture.prepared;failure_prepare_done=capture.prepare_done;fault(r,RAW_TASK_RF);return false;}return true;
 }
 static bool pack_slice(s3_raw_tasks*r,unsigned c){
  unsigned n;int rc=s3_pp_step_clocked_quantized(&pack,c,slice,joint_now,0,0,r->config.slice_bound[c],&n);
@@ -130,7 +134,7 @@ void joint_publish(unsigned b){
 }
 void joint_deadline(uint64_t d){if(d>now&&d-now<min_deadline)min_deadline=d-now;}
 int main(int argc,char**argv){
- assert(argc==7);unsigned rate=atoi(argv[1]);slice=atoi(argv[2]);limit=strtoull(argv[3],0,10);irq_cycles=atoi(argv[4]);stall_percent=atoi(argv[5]);
+ assert(argc==9);prepare_per_iteration=atoi(argv[7]);prepare_per_poll=atoi(argv[8]);assert(prepare_per_iteration>=prepare_per_poll&&prepare_per_poll==1024);unsigned rate=atoi(argv[1]);slice=atoi(argv[2]);limit=strtoull(argv[3],0,10);irq_cycles=atoi(argv[4]);stall_percent=atoi(argv[5]);
  assert((rate==16||rate==40)&&slice&&limit&&irq_cycles);cpp=240/rate;share=S3_PP_CORE0_SIXTEENTHS;
  uint8_t*buffers[4]={payload[0],payload[1],payload[2],payload[3]};assert(s3_pp_init(&pack,buffers)==S3_PP_OK);
  s3_native_io io={rd,wr,0,bank,0};
@@ -141,7 +145,7 @@ int main(int argc,char**argv){
  for(unsigned c=0;c<2;c++){getcontext(&contexts[c]);contexts[c].uc_stack.ss_sp=stacks[c];contexts[c].uc_stack.ss_size=sizeof(stacks[c]);contexts[c].uc_link=&scheduler;makecontext(&contexts[c],c?task1:task0,0);}
  started=1;next_tick=2400000;irq_at[0]=irq_at[1]=UINT64_MAX;
  while(!stopped[0]&&!outcome){
-  unsigned c=ready[0]<=ready[1]?0:1;uint64_t t=ready[c];
+  unsigned c=stopped[1]||ready[0]<=ready[1]?0:1;uint64_t t=ready[c];
   uint64_t event=next_tick;if(irq_at[0]<event)event=irq_at[0];if(irq_at[1]<event)event=irq_at[1];
   if(event<=t){advance(event);
    if(event==next_tick){for(unsigned k=0;k<2;k++){ready[k]+=2000;charged[k][TICK_IRQ]+=2000;counts[k][TICK_IRQ]++;interrupts[k]+=2000;}next_tick+=2400000;}
@@ -151,7 +155,9 @@ int main(int argc,char**argv){
   advance(t);core=c;swapcontext(&scheduler,&contexts[c]);
   if(now>2400000000ULL){outcome=91;break;}
  }
- printf("{\"slice_admission_bound\":%llu,\"failed_admission_remaining\":%llu,\"max_sampled_pack_cycles\":[%llu,%llu],",(unsigned long long)runtime.config.slice_bound[0],(unsigned long long)failed_admission_remaining,(unsigned long long)max_sampled_pack[0],(unsigned long long)max_sampled_pack[1]);
+ printf("{\"accept_reject_reason\":%u,\"attempted_arena_bytes\":%llu,",accept_reject_reason,(unsigned long long)attempted_arena_bytes);
+ printf("\"prepare_per_iteration\":%u,\"prepare_per_poll\":%u,",prepare_per_iteration,prepare_per_poll);
+ printf("\"slice_admission_bound\":%llu,\"failed_admission_remaining\":%llu,\"max_sampled_pack_cycles\":[%llu,%llu],",(unsigned long long)runtime.config.slice_bound[0],(unsigned long long)failed_admission_remaining,(unsigned long long)max_sampled_pack[0],(unsigned long long)max_sampled_pack[1]);
  printf("\"failure_written\":%u,\"failure_prepared\":%u,\"failure_prepare_done\":%u,\"completion_to_reap_cycles\":[%llu,%llu],\"accounted_until_cycles\":[%llu,%llu],",failure_written,failure_prepared,failure_prepare_done,(unsigned long long)max_wire_to_reap[0],(unsigned long long)max_wire_to_reap[1],(unsigned long long)ready[0],(unsigned long long)ready[1]);
  uint64_t demand[2]={0,0};for(unsigned c=0;c<2;c++)for(unsigned k=0;k<CATEGORIES;k++)demand[c]+=charged[c][k];
  printf("\"rate\":%u,\"share\":%u,\"slice_pairs\":%u,\"irq_cycles\":%u,\"stall_percent\":%u,\"cycles\":%llu,\"banks\":%u,\"native_fault\":%u,\"pack_fault\":%u,\"task_fault\":%u,\"outcome\":%u,\"iterations\":[%llu,%llu],\"polls\":%llu,\"peak_arena_bytes\":%llu,\"max_rf_poll_gap\":%llu,\"max_owner_iteration\":%llu,\"min_observed_job_deadline_margin\":%llu,\"max_publication_latency\":%llu,\"checked_bytes\":%llu,\"retired_bytes\":%llu,\"transfers_done\":[%llu,%llu],\"max_submit_gap\":[%llu,%llu],\"charged_cycles\":[%llu,%llu],\"stall_cycles\":[%llu,%llu],\"costs\":[",

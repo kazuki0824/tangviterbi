@@ -33,18 +33,20 @@ lines=['# ② 同じ費用で実コードの順序・期限を評価した結果
 '',
 '費用の係数は `results.json.fixed_cost_cycles/dynamic_costs`、状態別の回数・cycle合計・観測頻度は各rowの`cost_ledger[core]`にある。単価を変えると実行順序・回数も変わる。Sは停止までの短い過渡区間なので、events_sを定常発生頻度と解釈してはいけない。',
 '', '## 全評価条件と結果','',
+'本番の準備予算は1反復1024語のまま。2048/3072語・1poll最大1024語は比較用の模型だけに加えた。単価は変更しない。追加のpoll予算管理を独立に命令計数しておらず、RF費用割当内という仮定である。',
+'',
 '初期RF index=0、理想20bit連番入力、3 RF bank、4×32KiB payload、T32KiB/S16KiB転送、SPI2 Octal＋SPI3 Quadを80MHz・header80bitで評価。slice admission boundは別欄の10000/20000cycleという仮定。これはpacking最大時間の測定値ではない。',
-'', '| 系統/owner分担 | slice | IRQ / stall | admission | 到達bank | 結果 | RF poll最大間隔 µs | arena最大bytes |','|---|---:|---|---:|---:|---|---:|---:|']
+'', '| 系統/owner分担 | slice | 準備語/反復 | IRQ / stall | admission | 到達bank | 結果 | RF poll最大間隔 µs | arena最大bytes |','|---|---:|---:|---|---:|---:|---|---:|---:|']
 for x in r['rows']:
- status='有限実行通過' if x['scenario_pass'] else '準備未完で切替不可' if x['native_fault']==5 else 'packing期限条件で拒否' if x['pack_fault']==6 else 'その他停止'
- lines.append(f"| {'T' if x['rate']==16 else 'S'} / {x['share']}/16 | {x['slice_pairs']} | {x['irq_cycles']} / {x['stall_percent']}% | {x['slice_admission_bound']} | {x['banks']}/{x['requested_banks']} | {status} | {x['max_rf_poll_gap']/240:.3f} | {x['peak_arena_bytes']} |")
+ status='有限実行通過' if x['scenario_pass'] else '準備未完で切替不可' if x['native_fault']==5 else 'packing期限条件で拒否' if x['pack_fault']==6 else '128KiB受入容量超過' if x['accept_reject_reason']==2 else 'その他停止'
+ lines.append(f"| {'T' if x['rate']==16 else 'S'} / {x['share']}/16 | {x['slice_pairs']} | {x['prepare_per_iteration']} | {x['irq_cycles']} / {x['stall_percent']}% | {x['slice_admission_bound']} | {x['banks']}/{x['requested_banks']} | {status} | {x['max_rf_poll_gap']/240:.3f} | {x['peak_arena_bytes']} |")
 lines += ['', '## 期限と転送・バッファをどう判定したか','',
 '- RF switch/prepare/reclaim：実nativeコードの閾値・age・reclaim判定を使用。Sのfault5ケースではwritten≥12288かつprepared=false、準備量は5120または6144/7168語。一定poll間隔の帯域計算だけではこの失敗を見落とす。',
 '- packing：実コードの開始時admissionと終了時clock/deadline判定を使用。admission拒否は「このboundを予約できない」であり、そのsliceが必ず実期限を超過する証明ではない。S6/16・256pair・bound10000では残り4761cycleで拒否した。',
 '- 転送：queue後にOctal/Quadそれぞれの線上時間で完了イベントを出す。完了後にownerがreapするまでleaseを保持する。`completion_to_reap_cycles`はその遅れ、`max_submit_gap`は開始間隔。データ不足による空きも含み、毎回の固定送信gapとは異なる。',
-'- buffer：実acceptの128KiB容量チェックと、実completeの順序付きprefix解放を使用。送信順序が逆転しても未完了prefixは退役しない。今回は容量より先にSの準備/期限条件で停止した。停止時に空きがあることは、継続受信なら溢れないという証明ではない。',
+'- buffer：実acceptの128KiB容量チェックと、実completeの順序付きprefix解放を使用。送信順序が逆転しても未完了prefixは退役しない。本番と同じ1024語条件は容量より先にSの準備/期限条件で停止した。2048/3072語の比較では実acceptが容量超過を拒否するケースもある。停止時に空きがあることは、継続受信なら溢れないという証明ではない。',
 '- IRQ：仮定した発生時刻でコアの完了時刻を延長し、CPU台帳にも同額を一度加える。SPI IRQ30000cycleの負例ではTもpacking期限条件で停止した。',
-'', '## 計上した発生頻度の例：T、4000bank','',
+'', '## 同じ費用で準備配分を変えた比較', '', 'S5/16・512pair・2048語/反復は42bank後、次の受入れに135378bytes（容量を4306bytes超過）が必要となり拒否した。3072語では21bank後に138398bytes（7326bytes超過）。S6/16・3072語では18bank後に134878bytes（3806bytes超過）。いずれもIRQ300cycle・stall0%の仮定。admission boundを20000から10000へ変えてもこれらの容量拒否は同じだった。準備だけ増やして成立とする根拠にはならない。', '', '## 計上した発生頻度の例：T、4000bank','',
 '約3.077秒を実行し、watchdog更新まで含めた。以下は観測区間の回数/sとCPU%。2コアともbusy loopなので、空振りまで足したCPU時間はほぼ100%になる。それ自体を処理能力不足と判断しない。余裕は期限・bufferで判定する。core1には観測終了後まで予約した処理が残るため、`pending_cycles`を別記し全額を実行済みとは扱わない。',
 '', '| 処理 | core0 回/s | core0 CPU% | core1 回/s | core1 CPU% |','|---|---:|---:|---:|---:|']
 x=next(x for x in r['rows'] if x['requested_banks']==4000)
@@ -63,7 +65,7 @@ lines += ['',f"この条件でRF poll最大間隔{x['max_rf_poll_gap']/240:.3f}�
 '',
 '保存SDKの `reports/s3-raw-tasks/sources/task_wdt.c` のresetはcritical sectionを含み、`reports/s3-spi-wait-audit/sources/spi_master.c` のqueue/get-resultはRTOS queueへ入る。今回の800/4000cycleがそれらの待ちを必ず含むという根拠はない。測定のない割当を最大費用へ昇格させない。',
 '', '## 検算と再現','',
-'22条件を実行。各条件で「全カテゴリーの計上cycle＋stall＝コアの予約完了時刻」を確認し、観測末尾の未完了処理も別記。T4000bankではtickとWDTを実際に発生させ、回収したpayloadは全byteを連番I10/Q10の独立oracleと照合した。ソースhash・生成コードhashにより評価後の変更を検出する。新規8件と既存16件、合計24検算成功。',
+'42条件を実行。各条件で「全カテゴリーの計上cycle＋stall＝コアの予約完了時刻」を確認し、観測末尾の未完了処理も別記。T4000bankではtickとWDTを実際に発生させ、回収したpayloadは全byteを連番I10/Q10の独立oracleと照合した。ソースhash・生成コードhashにより評価後の変更を検出する。新規9件と既存16件、合計25検算成功。',
 '', '```sh','python -m experiments.s3_joint_runtime','python -m experiments.s3_joint_runtime_report','python -m unittest tests.test_s3_joint_runtime tests.test_s3_schedule_transfer_size tests.test_s3_arena_limits tests.test_s3_spi_prefix_response tests.test_s3_native_spi_windows tests.test_s3_spi_irq_envelope','```',
 '', '実行データ：[results.json](results.json)。検算ログ：[tests.log](tests.log)。本結果は実機有限費用の証明、全初期位相の網羅、全段FPGAの成立を含まない。正式採用は0のまま。','']
 (ROOT/'reports/s3-joint-runtime/README.md').write_text('\n'.join(lines))

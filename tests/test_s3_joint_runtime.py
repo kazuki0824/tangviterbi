@@ -31,7 +31,7 @@ class JointRuntime(unittest.TestCase):
    ledger=row['cost_ledger'][0]
    self.assertEqual(ledger['RF_BASE']['events'],row['polls'])
    self.assertLessEqual(row['polls'],7*row['iterations'][0])
-   self.assertLessEqual(ledger['FILL']['events'],row['iterations'][0])
+   self.assertLessEqual(ledger['FILL']['events'],row['iterations'][0]*(row['prepare_per_iteration']//1024))
    if row['scenario_pass']:
     self.assertEqual(row['polls'],7*row['iterations'][0])
     self.assertEqual(ledger['COLLECT']['events'],row['iterations'][0])
@@ -60,6 +60,13 @@ class JointRuntime(unittest.TestCase):
   row=next(r for r in self.rows if r['irq_cycles']==30000)
   self.assertFalse(row['scenario_pass'])
   self.assertEqual(row['pack_fault'],6)
+ def test_arena_rejection_is_an_actual_capacity_check(self):
+  rows=[r for r in self.rows if r['accept_reject_reason']==2]
+  self.assertTrue(rows)
+  for row in rows:
+   self.assertEqual(row['native_fault'],3)
+   self.assertGreater(row['attempted_arena_bytes'],131072)
+   self.assertLessEqual(row['peak_arena_bytes'],131072)
  def test_no_hardware_adoption_from_synthetic_costs(self):
   self.assertFalse(self.report['hardware_proven'])
   self.assertFalse(self.report['receiver_adopted'])
