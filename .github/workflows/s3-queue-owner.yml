@@ -4,6 +4,7 @@ on:
     paths:
       - 'experiments/s3_queue_tasks_source.py'
       - 'experiments/s3_queue_owner_probe/**'
+      - 'experiments/s3_queue_memory_probe/**'
       - '.github/workflows/s3-queue-owner.yml'
   workflow_dispatch:
 permissions:
@@ -18,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Verify queue task lifecycle and depth-two shutdown
-        run: python -m unittest tests.test_s3_queue_tasks -v
+        run: python -m unittest tests.test_s3_queue_tasks.QueueTasks.test_generated_task_lifecycle_and_depth_two_drain -v
       - name: Generate queue-connected task lifecycle
         run: python -m experiments.s3_queue_tasks_source --output experiments/s3_queue_owner_probe/main/generated
       - name: Link N16R8 owner and worker
@@ -26,6 +27,12 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           idf.py -C experiments/s3_queue_owner_probe -B "$GITHUB_WORKSPACE/build/s3-queue-owner" build
+      - name: Link queue receiver storage and PHY together
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          python -m experiments.s3_queue_tasks_source --output experiments/s3_queue_memory_probe/main/generated
+          idf.py -C experiments/s3_queue_memory_probe -B "$GITHUB_WORKSPACE/build/s3-queue-memory" build
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -36,4 +43,8 @@ jobs:
             build/s3-queue-owner/config/sdkconfig.json
             build/s3-queue-owner/log/
             experiments/s3_queue_owner_probe/main/generated/
+            build/s3-queue-memory/s3_queue_memory_probe.elf
+            build/s3-queue-memory/s3_queue_memory_probe.map
+            build/s3-queue-memory/config/sdkconfig.json
+            build/s3-queue-memory/log/
           retention-days: 30
