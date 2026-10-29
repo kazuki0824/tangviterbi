@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RTL_NAMES = ("three_context_k7.sv", "three_context_k7_window.sv",
-             "three_context_k7_coole_scheduled.sv", "three_context_k7_bm_staged.sv")
+             "three_context_k7_coole_scheduled.sv", "three_context_k7_bm_staged.sv", "three_context_k7_bm_delta.sv")
 TRACER = "three_context_k7_coole_scheduled.sv"
 
 
