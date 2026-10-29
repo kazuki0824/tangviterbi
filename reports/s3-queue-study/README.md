@@ -1,6 +1,37 @@
 # ② 深さ2の送信queue候補と同費用の期限評価
 
-**候補実装を追加し、条件付き模型ではS5/16・準備2048語で20000bankを通過した。実機成立や全SoC費用確定ではない。**
+**候補実装とN16R8 SDK費用を照合し、S5/16・準備2048語で20000bankを通過した。inline併用の最新比較は [packing全費用比較](../s3-inline-packing/README.md)。実機成立や全SoC費用確定ではない。**
+
+## 2026-10-30：N16R8設定のSDK経路費用へ置換
+
+前回のAPI/link probeはPSRAM未設定で、N16R8のatomic workaroundと生成コードが異なっていた。前回のリンク成功はAPI確認として維持するが、そのELFをN16R8のSDK費用として使用しない。PSRAM Octal/80MHz・内部予約4096byte・外部task stack許可を合わせた [Actions 40903267320](https://github.com/kazuki0824/tangviterbi/actions/runs/40903267320) が成功した。[入力commit・成果物hash](sdk-n16r8/provenance.json)、[SDK経路監査](sdk-n16r8/costs.json)。
+
+既存SDKの56経路について、実行命令・literal・分岐先・calleeを新ELFと照合した。ROM費用は固定ROM入口アドレスを照合して既存の検算結果を再利用。新adapterは全分岐包絡、take/completeは64bit桁上がりを許容する包絡を使用する。待ちtaskなし、内部DMA整列buffer、単一device/port、callbackなし、競合なしの指定経路であり、全ハードウェアWCETではない。
+
+|処理|旧queue模型 cycle|新SDK経路模型 cycle|計上単位|
+|---|---:|---:|---|
+|データなし投入|63|53|未公開データへの投入試行|
+|投入成功|939＋追加0/100/300|822|1 transaction|
+|空の完了照会|230|200|1照会|
+|完了回収|479＋追加0/100/300|458|1 transaction（照会中の完了は差額のみ追加）|
+|初回開始IRQ|2550|2550|1 IRQ|
+|開始のみIRQ|2287|2287|1 IRQ|
+|完了のみIRQ|1037|1037|1 IRQ|
+|完了＋次転送開始IRQ|1037＋2287＝3324|2511|同一IRQとして入口・復帰を1回|
+
+命令数×1.1を切り上げる模型。新SDK投入時のbus requestは、active/idleの両経路を含む包絡へ置換し、特定旧経路に対して7命令を追加した。owner制御の未確定差分だけは0/100/300cycle/反復の感度を残す。inline packingの削減はまだ使わない。
+
+[再評価58条件](audited-runtime.json)：S5/16のPCAB/BCPA、準備2048/3072語、owner追加0/100/300cycleの12条件はすべて4000bank通過。S6/16は不成立条件が残り、準備1024語も不成立。
+
+S5/16・PCAB・準備2048語・owner追加300cycleでは20000bank、**6.176秒**を通過。arena最大**124312/131072byte（残6760byte）**、RF監視最大**71.754µs**、観測job期限余裕最小**159.488µs**。出力617545728byteをoracleと照合。tick各617回、WDT各2回。これらは有限模型の観測値で、最悪値の保証や成立確率ではない。
+
+同じ単価を実行順序と台帳の双方へ一度だけ適用し、IRQは初回開始・開始・完了・連続の4経路別の回数も保存する。回収台帳のeventsは費用加算の回数であり、照会途中で完了した場合の差額加算を含む。論理完了件数はtransfers_doneで確認する。
+
+新ELFのQueueDefinition=84byte、spi_trans_priv_t=20byteをDWARFで確認。2port×送信/完了の4queueについて確保要求は416→496byte（**+80byte**）、adapter静的増分+32byteと合わせて**+112byte**。allocatorの管理領域・丸め・断片化と全受信機のfitは別。従来の+32byteだけを全メモリ増分としない。
+
+再現：`python -m ci.s3_queue_cost_audit --toolchain <xtensa-esp-elf>`、`python -m experiments.s3_queue_audited_runtime`。検査：`python -m unittest tests.test_s3_queue_costs`。SDK費用と頻度の未計上範囲は、owner最終実装、window例外、MMIO/メモリ待ち・競合、指令/supervisor等の最終受信アプリ。全SoC費用確定・全FPGA統合・実機成立は未完了。
+
+以下は前回の感度模型と実装の説明。
 
 ## 実装
 

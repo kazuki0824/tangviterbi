@@ -1,0 +1,856 @@
+{
+  "roots": {
+    "sdk_queue": {
+      "own_instructions": 38,
+      "inclusive_instructions": 596,
+      "calls": [
+        {
+          "target": "check_trans_valid",
+          "path": "validate",
+          "instructions": 76
+        },
+        {
+          "target": "spi_bus_lock_get_acquiring_dev",
+          "path": "bus_get_acquirer",
+          "instructions": 4
+        },
+        {
+          "target": "setup_priv_desc$isra$0",
+          "path": "setup_raw",
+          "instructions": 29
+        },
+        {
+          "target": "xQueueGenericSend",
+          "path": "queue_send",
+          "instructions": 224
+        },
+        {
+          "target": "spi_bus_lock_bg_request",
+          "path": "bus_request",
+          "instructions": 218
+        }
+      ],
+      "request_envelope_adjustment": 7
+    },
+    "sdk_result_False": {
+      "own_instructions": 14,
+      "inclusive_instructions": 163,
+      "calls": [
+        {
+          "target": "xQueueReceive",
+          "path": "queue_receive_empty",
+          "instructions": 149
+        }
+      ]
+    },
+    "sdk_result_True": {
+      "own_instructions": 20,
+      "inclusive_instructions": 224,
+      "calls": [
+        {
+          "target": "xQueueReceive",
+          "path": "queue_receive",
+          "instructions": 196
+        },
+        {
+          "target": "uninstall_priv_desc",
+          "path": "uninstall_raw",
+          "instructions": 8
+        }
+      ]
+    },
+    "spi_irq_start": {
+      "own_instructions": 58,
+      "inclusive_instructions": 1830,
+      "calls": [
+        {
+          "target": "spi_hal_usr_is_done",
+          "path": "hal_done",
+          "instructions": 6
+        },
+        {
+          "target": "spi_bus_lock_bg_entry",
+          "path": "bus_entry_start",
+          "instructions": 194
+        },
+        {
+          "target": "spi_bus_lock_get_acquiring_dev",
+          "path": "bus_get_acquirer",
+          "instructions": 4
+        },
+        {
+          "target": "spi_bus_lock_bg_check_dev_acq",
+          "path": "bus_check_acq",
+          "instructions": 31
+        },
+        {
+          "target": "spi_bus_lock_bg_check_dev_req",
+          "path": "bus_check_req_start",
+          "instructions": 71
+        },
+        {
+          "target": "spi_bus_lock_get_dev_id",
+          "path": "bus_dev_id",
+          "instructions": 10
+        },
+        {
+          "target": "xQueueReceiveFromISR",
+          "path": "queue_receive_isr",
+          "instructions": 158
+        },
+        {
+          "target": "spi_new_trans",
+          "path": "spi_new_False",
+          "instructions": 1110
+        },
+        {
+          "target": "spi_bus_lock_bg_exit",
+          "path": "bus_exit_start",
+          "instructions": 188
+        }
+      ]
+    },
+    "spi_irq_complete": {
+      "own_instructions": 83,
+      "inclusive_instructions": 693,
+      "calls": [
+        {
+          "target": "spi_hal_usr_is_done",
+          "path": "hal_done",
+          "instructions": 6
+        },
+        {
+          "target": "spi_bus_lock_bg_entry",
+          "path": "bus_entry_complete",
+          "instructions": 190
+        },
+        {
+          "target": "xQueueGenericSendFromISR",
+          "path": "queue_send_isr",
+          "instructions": 182
+        },
+        {
+          "target": "spi_bus_lock_get_acquiring_dev",
+          "path": "bus_get_acquirer",
+          "instructions": 4
+        },
+        {
+          "target": "spi_bus_lock_bg_check_dev_acq",
+          "path": "bus_check_acq",
+          "instructions": 31
+        },
+        {
+          "target": "spi_bus_lock_bg_check_dev_req",
+          "path": "bus_check_req_complete",
+          "instructions": 15
+        },
+        {
+          "target": "spi_bus_lock_get_dev_id",
+          "path": "bus_dev_id",
+          "instructions": 10
+        },
+        {
+          "target": "xQueueReceiveFromISR",
+          "path": "queue_receive_isr_empty",
+          "instructions": 110
+        },
+        {
+          "target": "spi_bus_lock_bg_clear_req",
+          "path": "bus_clear_req",
+          "instructions": 43
+        },
+        {
+          "target": "spi_bus_lock_bg_exit",
+          "path": "bus_exit_complete",
+          "instructions": 19
+        }
+      ]
+    },
+    "spi_irq_chain": {
+      "own_instructions": 83,
+      "inclusive_instructions": 2033,
+      "calls": [
+        {
+          "target": "spi_hal_usr_is_done",
+          "path": "hal_done",
+          "instructions": 6
+        },
+        {
+          "target": "spi_bus_lock_bg_entry",
+          "path": "bus_entry_complete",
+          "instructions": 190
+        },
+        {
+          "target": "xQueueGenericSendFromISR",
+          "path": "queue_send_isr",
+          "instructions": 182
+        },
+        {
+          "target": "spi_bus_lock_get_acquiring_dev",
+          "path": "bus_get_acquirer",
+          "instructions": 4
+        },
+        {
+          "target": "spi_bus_lock_bg_check_dev_acq",
+          "path": "bus_check_acq",
+          "instructions": 31
+        },
+        {
+          "target": "spi_bus_lock_bg_check_dev_req",
+          "path": "bus_check_req_start",
+          "instructions": 71
+        },
+        {
+          "target": "spi_bus_lock_get_dev_id",
+          "path": "bus_dev_id",
+          "instructions": 10
+        },
+        {
+          "target": "xQueueReceiveFromISR",
+          "path": "queue_receive_isr",
+          "instructions": 158
+        },
+        {
+          "target": "spi_new_trans",
+          "path": "spi_new_False",
+          "instructions": 1110
+        },
+        {
+          "target": "spi_bus_lock_bg_exit",
+          "path": "bus_exit_start",
+          "instructions": 188
+        }
+      ]
+    },
+    "spi_irq_first": {
+      "own_instructions": 58,
+      "inclusive_instructions": 2069,
+      "calls": [
+        {
+          "target": "spi_hal_usr_is_done",
+          "path": "hal_done",
+          "instructions": 6
+        },
+        {
+          "target": "spi_bus_lock_bg_entry",
+          "path": "bus_entry_start",
+          "instructions": 194
+        },
+        {
+          "target": "spi_bus_lock_get_acquiring_dev",
+          "path": "bus_get_acquirer",
+          "instructions": 4
+        },
+        {
+          "target": "spi_bus_lock_bg_check_dev_acq",
+          "path": "bus_check_acq",
+          "instructions": 31
+        },
+        {
+          "target": "spi_bus_lock_bg_check_dev_req",
+          "path": "bus_check_req_start",
+          "instructions": 71
+        },
+        {
+          "target": "spi_bus_lock_get_dev_id",
+          "path": "bus_dev_id",
+          "instructions": 10
+        },
+        {
+          "target": "xQueueReceiveFromISR",
+          "path": "queue_receive_isr",
+          "instructions": 158
+        },
+        {
+          "target": "spi_new_trans",
+          "path": "spi_new_True",
+          "instructions": 1349
+        },
+        {
+          "target": "spi_bus_lock_bg_exit",
+          "path": "bus_exit_start",
+          "instructions": 188
+        }
+      ]
+    }
+  },
+  "wrappers": {
+    "submit_done": {
+      "function": "s3_raw_queue_submit",
+      "entry": 0,
+      "terminal_edge": null,
+      "instructions": 747,
+      "own_instructions": 96,
+      "witness": [
+        0,
+        3,
+        5,
+        14,
+        16,
+        19,
+        21,
+        24,
+        27,
+        30,
+        33,
+        42,
+        45,
+        48,
+        51,
+        54,
+        57,
+        60,
+        63,
+        66,
+        68,
+        70,
+        73,
+        76,
+        78,
+        80,
+        83,
+        86,
+        89,
+        92,
+        95,
+        98,
+        101,
+        104,
+        107,
+        109,
+        111,
+        114,
+        117,
+        119,
+        121,
+        124,
+        127,
+        130,
+        133,
+        136,
+        142,
+        144,
+        147,
+        149,
+        152,
+        155,
+        158,
+        161,
+        164,
+        166,
+        168,
+        170,
+        173,
+        175,
+        178,
+        180,
+        182,
+        185,
+        188,
+        191,
+        193,
+        196,
+        199,
+        202,
+        204,
+        207,
+        210,
+        213,
+        216,
+        218,
+        221,
+        245,
+        248,
+        251,
+        253,
+        256,
+        259,
+        262,
+        265,
+        268,
+        270,
+        273,
+        275,
+        278,
+        280,
+        282,
+        285,
+        288,
+        290,
+        305
+      ],
+      "forced": {
+        "0x33": "0x36",
+        "0x36": "0x39"
+      },
+      "blocked": [
+        "0x8",
+        "0x24",
+        "0xe0",
+        "0x124"
+      ],
+      "backedge_caps": {},
+      "callee_instructions": {
+        "0x30": 55,
+        "0x11d": 596
+      },
+      "states": 101
+    },
+    "submit_empty": {
+      "function": "s3_raw_queue_submit",
+      "entry": 0,
+      "terminal_edge": null,
+      "instructions": 48,
+      "own_instructions": 18,
+      "witness": [
+        0,
+        3,
+        5,
+        14,
+        16,
+        19,
+        21,
+        24,
+        27,
+        30,
+        33,
+        42,
+        45,
+        48,
+        51,
+        36,
+        39,
+        305
+      ],
+      "forced": {
+        "0x21": "0x2a",
+        "0x33": "0x24"
+      },
+      "blocked": [
+        "0x8"
+      ],
+      "backedge_caps": {},
+      "callee_instructions": {
+        "0x30": 30
+      },
+      "states": 19
+    },
+    "reap_empty": {
+      "function": "s3_raw_queue_reap",
+      "entry": 0,
+      "terminal_edge": null,
+      "instructions": 181,
+      "own_instructions": 18,
+      "witness": [
+        0,
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27,
+        30,
+        33,
+        35,
+        37,
+        40,
+        43,
+        45,
+        148
+      ],
+      "forced": {
+        "0x2d": "0x94"
+      },
+      "blocked": [
+        "0x78"
+      ],
+      "backedge_caps": {},
+      "callee_instructions": {
+        "0x25": 163
+      },
+      "states": 19
+    },
+    "reap_done": {
+      "function": "s3_raw_queue_reap",
+      "entry": 0,
+      "terminal_edge": null,
+      "instructions": 416,
+      "own_instructions": 39,
+      "witness": [
+        0,
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27,
+        30,
+        33,
+        35,
+        37,
+        40,
+        43,
+        45,
+        48,
+        50,
+        52,
+        55,
+        57,
+        60,
+        63,
+        66,
+        88,
+        91,
+        94,
+        97,
+        100,
+        102,
+        129,
+        132,
+        135,
+        137,
+        140,
+        142,
+        145,
+        148
+      ],
+      "forced": {
+        "0x2d": "0x30",
+        "0x32": "0x34",
+        "0x42": "0x58",
+        "0x66": "0x81"
+      },
+      "blocked": [
+        "0x78"
+      ],
+      "backedge_caps": {},
+      "callee_instructions": {
+        "0x25": 224,
+        "0x61": 153
+      },
+      "states": 40
+    }
+  },
+  "bus_request_envelope": {
+    "function": "spi_bus_lock_bg_request",
+    "entry": 0,
+    "terminal_edge": null,
+    "instructions": 225,
+    "own_instructions": 23,
+    "witness": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      23,
+      26,
+      29,
+      31,
+      33,
+      36,
+      38,
+      41,
+      44,
+      46,
+      62,
+      64,
+      66,
+      69,
+      71
+    ],
+    "forced": {},
+    "blocked": [],
+    "backedge_caps": {},
+    "callee_instructions": {
+      "0x21": 24,
+      "0x38": 24,
+      "0x42": 178
+    },
+    "states": 27
+  },
+  "fees_cycles": {
+    "submit_done": 822,
+    "submit_empty": 53,
+    "reap_empty": 200,
+    "reap_done": 458,
+    "spi_irq_start": 2287,
+    "spi_irq_complete": 1037,
+    "spi_irq_chain": 2511,
+    "spi_irq_first": 2550
+  },
+  "alpha": 1.1,
+  "irq_entry_exit_instructions": 249,
+  "verified_paths": {
+    "sdk_queue": {
+      "function": "spi_device_queue_trans",
+      "instructions": 38
+    },
+    "validate": {
+      "function": "check_trans_valid",
+      "instructions": 76
+    },
+    "bus_get_acquirer": {
+      "function": "spi_bus_lock_get_acquiring_dev",
+      "instructions": 4
+    },
+    "setup_raw": {
+      "function": "setup_priv_desc$isra$0",
+      "instructions": 29
+    },
+    "queue_send": {
+      "function": "xQueueGenericSend",
+      "instructions": 44
+    },
+    "scheduler_state": {
+      "function": "xTaskGetSchedulerState",
+      "instructions": 19
+    },
+    "critical_enter": {
+      "function": "xPortEnterCriticalTimeout",
+      "instructions": 41
+    },
+    "cas_internal": {
+      "function": "esp_cpu_compare_and_set",
+      "instructions": 12
+    },
+    "queue_copy20": {
+      "function": "prvCopyDataToQueue",
+      "instructions": 26
+    },
+    "critical_exit": {
+      "function": "vPortExitCritical",
+      "instructions": 31
+    },
+    "bus_request": {
+      "function": "spi_bus_lock_bg_request",
+      "instructions": 16
+    },
+    "atomic_or": {
+      "function": "__atomic_fetch_or_4",
+      "instructions": 13
+    },
+    "atomic_or_helper": {
+      "function": "__atomic_s32c1i_fetch_or_4",
+      "instructions": 11
+    },
+    "bus_intr_enable": {
+      "function": "spi_bus_intr_enable",
+      "instructions": 4
+    },
+    "intr_enable": {
+      "function": "esp_intr_enable",
+      "instructions": 23
+    },
+    "in_isr": {
+      "function": "xPortInIsrContext",
+      "instructions": 12
+    },
+    "sdk_result_False": {
+      "function": "spi_device_get_trans_result",
+      "instructions": 14
+    },
+    "queue_receive_empty": {
+      "function": "xQueueReceive",
+      "instructions": 24
+    },
+    "sdk_result_True": {
+      "function": "spi_device_get_trans_result",
+      "instructions": 20
+    },
+    "queue_receive": {
+      "function": "xQueueReceive",
+      "instructions": 42
+    },
+    "uninstall_raw": {
+      "function": "uninstall_priv_desc",
+      "instructions": 8
+    },
+    "spi_irq_start": {
+      "function": "spi_intr",
+      "instructions": 58
+    },
+    "hal_done": {
+      "function": "spi_hal_usr_is_done",
+      "instructions": 6
+    },
+    "bus_entry_start": {
+      "function": "spi_bus_lock_bg_entry",
+      "instructions": 15
+    },
+    "bus_intr_disable": {
+      "function": "spi_bus_intr_disable",
+      "instructions": 4
+    },
+    "intr_disable": {
+      "function": "esp_intr_disable",
+      "instructions": 24
+    },
+    "bus_check_acq": {
+      "function": "spi_bus_lock_bg_check_dev_acq",
+      "instructions": 31
+    },
+    "bus_check_req_start": {
+      "function": "spi_bus_lock_bg_check_dev_req",
+      "instructions": 23
+    },
+    "atomic_and": {
+      "function": "__atomic_fetch_and_4",
+      "instructions": 13
+    },
+    "atomic_and_helper": {
+      "function": "__atomic_s32c1i_fetch_and_4",
+      "instructions": 11
+    },
+    "bus_dev_id": {
+      "function": "spi_bus_lock_get_dev_id",
+      "instructions": 10
+    },
+    "queue_receive_isr": {
+      "function": "xQueueReceiveFromISR",
+      "instructions": 34
+    },
+    "spi_new_False": {
+      "function": "spi_new_trans",
+      "instructions": 93
+    },
+    "bus_touch": {
+      "function": "spi_bus_lock_touch",
+      "instructions": 8
+    },
+    "format": {
+      "function": "spi_format_hal_trans_struct$isra$0",
+      "instructions": 46
+    },
+    "hal_trans": {
+      "function": "spi_hal_setup_trans",
+      "instructions": 322
+    },
+    "dma_descriptors_5": {
+      "function": "spicommon_dma_desc_setup_link",
+      "instructions": 150
+    },
+    "gdma_reset": {
+      "function": "gdma_reset",
+      "instructions": 20
+    },
+    "hal_reset": {
+      "function": "gdma_hal_reset",
+      "instructions": 7
+    },
+    "hal_ahb_reset": {
+      "function": "gdma_ahb_hal_reset",
+      "instructions": 19
+    },
+    "hal_prepare_tx": {
+      "function": "spi_hal_hw_prepare_tx",
+      "instructions": 26
+    },
+    "gdma_start": {
+      "function": "gdma_start",
+      "instructions": 23
+    },
+    "hal_start_desc": {
+      "function": "gdma_hal_start_with_desc",
+      "instructions": 8
+    },
+    "hal_ahb_start": {
+      "function": "gdma_ahb_hal_start_with_desc",
+      "instructions": 23
+    },
+    "hal_lines": {
+      "function": "spi_hal_enable_data_line",
+      "instructions": 20
+    },
+    "hal_user_start_no_wait": {
+      "function": "spi_hal_user_start",
+      "instructions": 18
+    },
+    "bus_exit_start": {
+      "function": "spi_bus_lock_bg_exit",
+      "instructions": 10
+    },
+    "spi_irq_complete": {
+      "function": "spi_intr",
+      "instructions": 83
+    },
+    "bus_entry_complete": {
+      "function": "spi_bus_lock_bg_entry",
+      "instructions": 11
+    },
+    "queue_send_isr": {
+      "function": "xQueueGenericSendFromISR",
+      "instructions": 32
+    },
+    "bus_check_req_complete": {
+      "function": "spi_bus_lock_bg_check_dev_req",
+      "instructions": 15
+    },
+    "queue_receive_isr_empty": {
+      "function": "xQueueReceiveFromISR",
+      "instructions": 15
+    },
+    "bus_clear_req": {
+      "function": "spi_bus_lock_bg_clear_req",
+      "instructions": 19
+    },
+    "bus_exit_complete": {
+      "function": "spi_bus_lock_bg_exit",
+      "instructions": 19
+    },
+    "spi_new_True": {
+      "function": "spi_new_trans",
+      "instructions": 107
+    },
+    "device": {
+      "function": "spi_hal_setup_device",
+      "instructions": 225
+    }
+  },
+  "memory": {
+    "target_layouts": {
+      "QueueDefinition": 84,
+      "spi_trans_priv_t": 20
+    },
+    "queue_count": 4,
+    "old_queue_requested_bytes": 416,
+    "new_queue_requested_bytes": 496,
+    "queue_requested_increment_bytes": 80,
+    "adapter_static_increment_bytes": 32,
+    "combined_requested_increment_bytes": 112,
+    "allocator_rounding_and_metadata_included": false,
+    "whole_receiver_fit": false
+  },
+  "sdk_elf_sha256": "8431f17061dc49318a2b6f65d6fe48864c5d9285b9f57252262cdfbc8e86ea56",
+  "hardware_wcet": false,
+  "all_SoC_costs_finalized": false,
+  "conditions": [
+    "Single device per port, no waiting tasks, aligned internal DMA payload, no receive data or callbacks.",
+    "Saved ROM fees reused after fixed ROM thunk address verification.",
+    "Branch envelopes admit infeasible combinations; instructions times 1.1 are a cost model, not elapsed-cycle measurement.",
+    "Owner shell, register-window traps, stalls and final application controls remain separately unresolved."
+  ],
+  "source_sha256": {
+    "ci/s3_queue_cost_audit.py": "0f95b1853e1365c0a0d173a93c593e59475992784a4cedc511fe1ba5107eb607",
+    "ci/s3_sdk_cost_audit.py": "411ede06ed5516e3079391bfad380616437c20f05e6d3a9984743f77a647e9b6",
+    "ci/s3_sdk_cost_paths.py": "8d386b269438eef33bcc4bf6b621d951899dff90d7c002d8af48b2619d42c486",
+    "ci/s3_receiver_cost_audit.py": "823dc78b3b2bcbb9bfb5dbfa9c50358211cb337570fbbb8ec839505f6570c948",
+    "reports/s3-sdk-cost-ledger/results.json": "d832fb9654983927e138b3b02d3c2784747bee50a953bdb10e6d907843b25dca",
+    "reports/s3-queue-study/sdk-n16r8/s3_queue_probe.elf.gz": "bf8d8ca57d0c6040648f54c6fdc19a5a875ab41fc8d260071286f8a73a2832f8",
+    "reports/s3-queue-study/sdk-n16r8/sdkconfig.json.gz": "c18dd73fbb22dc9e87b9d8c8e5fd75d9aa4594a4a7508786a29d70a7b1e1f4bd",
+    "reports/s3-queue-study/sdk-n16r8/provenance.json": "dc2130fe9ca97998a999adf6e7ad56f8d7cd8f111b235a80d6438d7cbe984b8a",
+    "experiments/s3_raw_queue.c": "89da1621e953379279fa258e2a5684be8efbf28320f796461878e72949eaf3fa",
+    "experiments/s3_raw_queue.h": "d74803783a51c5cbb5e9e5f69f007e33e7185b89faeb49b4607d04cd08503052",
+    "reports/s3-spi-wait-audit/sources/spi_master.c": "1634611334180a80e0643d0f32a0af73447b6bbfbe381c0e5799f93de5af64f6",
+    "reports/s3-spi-wait-audit/sources/queue.c": "6794db86ab086372ea2789d043d83e0b1efd0534a0c0deb5d28cffb342feaa0e"
+  }
+}

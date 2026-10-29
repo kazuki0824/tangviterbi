@@ -1,0 +1,39 @@
+....depth2, in-flight descriptor retention, reap while next active, cross-port prefix, queue failure and wrong completion checked
+depth2, in-flight descriptor retention, reap while next active, cross-port prefix, queue failure and wrong completion checked
+..................................................................
+----------------------------------------------------------------------
+Ran 70 tests in 7.712s
+
+OK
+5 16384 -O2 PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=456
+5 16384 -Os PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=456
+6 16384 -O2 PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=456
+6 16384 -Os PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=456
+8 32768 -O2 PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+8 32768 -Os PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+{'transfer_bytes': 16384, 'leases': 8, 'start_values': 8, 'completion_orders': 369864}
+{'transfer_bytes': 32768, 'leases': 4, 'start_values': 8, 'completion_orders': 264}

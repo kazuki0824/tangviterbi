@@ -1748,6 +1748,42 @@
     "SDK_API_link_verified": true,
     "SDK_costs_audited": false,
     "all_SoC_costs_finalized": false,
+    "receiver_adopted": false,
+    "scope": "Historical pre-SDK-cost sensitivity"
+  },
+  "depth_two_queue_audited_candidate": {
+    "report": "../s3-queue-study/README.md",
+    "scenarios": 58,
+    "long_banks": 20000,
+    "long_pass": true,
+    "arena_peak_bytes": 124312,
+    "RF_poll_gap_cycles": 17221,
+    "fees_cycles": {
+      "submit_done": 822,
+      "submit_empty": 53,
+      "reap_empty": 200,
+      "reap_done": 458,
+      "spi_irq_start": 2287,
+      "spi_irq_complete": 1037,
+      "spi_irq_chain": 2511,
+      "spi_irq_first": 2550
+    },
+    "memory": {
+      "target_layouts": {
+        "QueueDefinition": 84,
+        "spi_trans_priv_t": 20
+      },
+      "queue_count": 4,
+      "old_queue_requested_bytes": 416,
+      "new_queue_requested_bytes": 496,
+      "queue_requested_increment_bytes": 80,
+      "adapter_static_increment_bytes": 32,
+      "combined_requested_increment_bytes": 112,
+      "allocator_rounding_and_metadata_included": false,
+      "whole_receiver_fit": false
+    },
+    "SDK_declared_paths_audited": true,
+    "all_SoC_costs_finalized": false,
     "receiver_adopted": false
   },
   "inline_packing_candidate": {
@@ -1782,10 +1818,32 @@
         "step_stack_entry": "a1, 96"
       }
     ],
-    "full_slice_cost_audited": false
+    "full_slice_cost_audited": true,
+    "scope": "Instruction envelope with inherited clock/wrapper costs, not hardware WCET",
+    "coefficients": {
+      "block": 39,
+      "run": 127,
+      "slow_pair": 182,
+      "slice": 226
+    },
+    "fees_cycles": {
+      "PACK_BLOCK": 43,
+      "PACK_RUN": 140,
+      "PACK_SLOW": 201,
+      "PACK_SLICE": 323,
+      "PACK_EMPTY": 148
+    },
+    "long_pass": true,
+    "long_banks": 20000,
+    "arena_peak_bytes": 123348,
+    "RF_poll_gap_cycles": 16386
   },
   "legacy_cpu_accounting_validated": false,
   "source_sha256": {
+    "reports/s3-queue-study/inline-runtime.json": "df1e28edb1d321611f589e2575d988a95a756f35510f6ce529d9e9ce5cb5e117",
+    "reports/s3-inline-packing/slice-costs.json": "f7c7b9ce07593496c90312219d232ed9a3e4943357193426f34a092f18dfc66f",
+    "reports/s3-queue-study/audited-runtime.json": "d95a22f326886001e3cc4e92835c7241544718647b8f5077c8e70f39f59a279f",
+    "reports/s3-queue-study/sdk-n16r8/costs.json": "f61d83a6e7890efa30e9faa053d0641ecece70138f4a6ea4cdc518b35c333096",
     "reports/s3-queue-study/sdk/audit.json": "6916aa2283594b60d7eb9d90c06cc13ebd587bb800a26ca23541704b8f10a154",
     "reports/s3-queue-study/runtime.json": "345f707e37d96461382a9eeaeb737b9164244cf6d8add9705922f49bea392b3c",
     "reports/s3-queue-study/extended.json": "e86d33502a718eee6332c7f35c60904838c57b41e74e0dc8a4d2047cb36416cc",
@@ -1807,7 +1865,7 @@
     "reports/s3-cost-reconciliation/results.json": "f05f8e74ec4dda8d894b430af4175111cae3149ec905cec8ab7bfbc2e3443a1d",
     "reports/s3-owner-iteration-path/results.json": "c91fa216bb35c32b4bc42173fbf48db02494817623d2aff4b35d9c4eb52be5cd",
     "reports/s3-owner-quiet-path/results.json": "2ff3147e8527d67c275a0c8722335ba87eda0835d5b9daf2a5ad7af639af659b",
-    "experiments/s3_integrated_estimate.py": "a504d10f2aceec41222013bd8701aecb475c985909fcd407a765b4cb87181f7e",
+    "experiments/s3_integrated_estimate.py": "72bc35f28529354d7bc8ad6e1975f55027f565228ecc2bdb3bce18c9c8af9776",
     "ci/s3_pack_path_audit.py": "53b53100f3cffbbfbabb1233d68fefc19295cb8defeaf12fea13104ab89b9f06",
     "experiments/s3_native_capture.c": "f2d188648a1c52b74a3be404c4f8520853a3353358c3bcaf825c2c62b8df2c72",
     "reports/s3-budgeted-fill/u8/target.json": "334b660eb163c9e3029734a3ae727e721792ac11dd1e6b64b67d78dee9869fe0",
