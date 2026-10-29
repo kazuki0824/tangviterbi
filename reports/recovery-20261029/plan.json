@@ -1,0 +1,70 @@
+{
+  "scope": "②のみ。全SoC費用・頻度と、その同じ費用によるRF監視・送信・buffer期限評価",
+  "completion_claim_allowed": false,
+  "items": [
+    {
+      "id": "counter",
+      "status": "done",
+      "criterion": "上位word一致の制限を外してtake/complete費用と実Cの桁上がりを検算し、同費用で順序評価を再実行",
+      "evidence": [
+        "reports/s3-counter-envelope/instructions.json",
+        "reports/s3-counter-envelope/runtime.json",
+        "reports/recovery-20261029/tests.log"
+      ],
+      "next_action": "この項目は完了。window/競合/アプリ差分を進める。"
+    },
+    {
+      "id": "hardware_wait",
+      "status": "in_progress",
+      "criterion": "SPI UPDATE・counter ready・snapshot retryの単価、発生条件、回数範囲を台帳と期限模型へ接続",
+      "evidence": [
+        "reports/s3-wait-cost/instructions.json",
+        "reports/s3-wait-cost/runtime.json",
+        "reports/recovery-20261029/tests.log"
+      ],
+      "next_action": "単価と感度評価は完了。追加反復数の推定範囲をハードウェア仕様または測定に照合する。単価不明と回数上限不明を分ける。"
+    },
+    {
+      "id": "window",
+      "status": "ready",
+      "criterion": "window例外handler単価だけでなく発生数の根拠または明示した推定範囲を費用に接続",
+      "evidence": [
+        "reports/s3-receiver-cost-ledger/irq-entry.json"
+      ],
+      "next_action": "Xtensa window状態遷移とcall/entry/ret、IRQ context saveを対応させる"
+    },
+    {
+      "id": "memory_lock",
+      "status": "ready",
+      "criterion": "既計上のpeer待ちと重複しない追加競合・メモリ待ちの推定条件を決め、同じ条件で期限評価",
+      "evidence": [
+        "reports/s3-receiver-cost-ledger/runtime.json"
+      ],
+      "next_action": "実行コードとデータの配置・共有lock利用者を照合し、追加遅延を分類する"
+    },
+    {
+      "id": "application",
+      "status": "ready",
+      "criterion": "指令受信・supervisor・SDK task/IRQの処理仕様、費用と到来条件を明示。未実装を無償としない",
+      "evidence": [
+        "reports/s3-receiver-application-inventory/README.md"
+      ],
+      "next_action": "許可された指令専用の通信路、処理順序、起動/受信/停止phaseの構成案を定める"
+    },
+    {
+      "id": "integrated_deadlines",
+      "status": "ready",
+      "criterion": "上の費用を同じ版の時刻模型へ接続し、RF監視・送信・buffer期限と成立条件/不成立条件を記録",
+      "evidence": [
+        "reports/s3-owner-order-estimate/results.json"
+      ],
+      "next_action": "費用更新ごとに元順序と候補順序の保存則・byte oracle・期限判定を検算する"
+    }
+  ],
+  "stop_policy": {
+    "tests_or_push_are_completion": false,
+    "unmeasured_item_blocks_other_ready_work": false,
+    "progress_reporting": "commentaryで報告。説明への質問だけで継続指示を解除しない",
+    "if_interrupted": "未完了範囲、中断の目的、合理的根拠、実行可能なのに残す項目を別々に明示する。説明を理由の代用にしない"
+  }
+}
