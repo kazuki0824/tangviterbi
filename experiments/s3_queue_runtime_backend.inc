@@ -5,6 +5,8 @@ struct fake_device {
  uint64_t finished[2];
 };
 static struct fake_device devices[2];
+static uint64_t irq_service_until;
+static void queue_tick(unsigned cycles){irq_service_until=(irq_service_until>now?irq_service_until:now)+cycles;}
 esp_err_t spi_bus_initialize(spi_host_device_t h,const spi_bus_config_t*c,int d){(void)h;(void)c;(void)d;return ESP_OK;}
 esp_err_t spi_bus_free(spi_host_device_t h){(void)h;return ESP_OK;}
 esp_err_t spi_bus_add_device(spi_host_device_t h,const spi_device_interface_config_t*c,spi_device_handle_t*d){assert(c->queue_size==2);*d=&devices[h-2];(*d)->host=h-2;return ESP_OK;}
@@ -20,7 +22,7 @@ esp_err_t spi_device_queue_trans(spi_device_handle_t d,spi_transaction_t*t,int w
  assert(!wait&&d->count<2);unsigned slot=(d->head+d->count)&1;
  bool active=false;for(unsigned i=0;i<d->count;i++)active|=d->state[(d->head+i)&1]==2;
  d->items[slot]=t;d->state[slot]=1;d->count++;
- if(!active){unsigned h=d->host;joint_charge(SPI_IRQ,launches[h]++?COST_IRQ_START:COST_IRQ_FIRST);start_wire(d,slot,now);}
+ if(!active){unsigned h=d->host;unsigned fee=launches[h]++?COST_IRQ_START:COST_IRQ_FIRST;queue_tick(fee);joint_charge(SPI_IRQ,fee);start_wire(d,slot,now);}
  return ESP_OK;
 }
 esp_err_t spi_device_get_trans_result(spi_device_handle_t d,spi_transaction_t**t,int wait){
@@ -31,8 +33,9 @@ esp_err_t spi_device_get_trans_result(spi_device_handle_t d,spi_transaction_t**t
 static void queue_irq(unsigned h){
  struct fake_device*d=&devices[h];bool found=false;
  for(unsigned i=0;i<d->count;i++){unsigned k=(d->head+i)&1;if(d->state[k]==2){d->state[k]=3;d->finished[k]=now;found=true;break;}}
- assert(found);uint64_t charge=COST_IRQ_COMPLETE;unsigned events=1;irq_at[h]=UINT64_MAX;
- for(unsigned i=0;i<d->count;i++){unsigned k=(d->head+i)&1;if(d->state[k]==1){charge+=COST_IRQ_START;events++;launches[h]++;start_wire(d,k,now+charge);break;}}
+ assert(found);uint64_t start=irq_service_until>now?irq_service_until:now;uint64_t charge=COST_IRQ_COMPLETE;unsigned events=1;irq_at[h]=UINT64_MAX;
+ for(unsigned i=0;i<d->count;i++){unsigned k=(d->head+i)&1;if(d->state[k]==1){charge+=COST_IRQ_START;events++;launches[h]++;start_wire(d,k,start+charge);break;}}
+ irq_service_until=start+charge;
  ready[0]+=charge;charged[0][SPI_IRQ]+=charge;counts[0][SPI_IRQ]+=events;interrupts[0]+=charge;
 }
 static esp_err_t s3_pp_spi_reap(s3_pp_transfer*x){

@@ -15,7 +15,8 @@ def queue_source():
  spi_bus_config_t pins={0};for(unsigned h=0;h<2;h++)assert(s3_raw_queue_open(&tx[h],&pack,h+2,&pins,1,h?4:8,1)==ESP_OK);''')
  old='for(unsigned h=0;h<2;h++)if(irq_at[h]==event){ready[0]+=COST_IRQ_COMPLETE;charged[0][SPI_IRQ]+=COST_IRQ_COMPLETE;counts[0][SPI_IRQ]++;interrupts[0]+=COST_IRQ_COMPLETE;irq_at[h]=UINT64_MAX;}'
  new='for(unsigned h=0;h<2;h++)if(irq_at[h]==event){queue_irq(h);}'
- return replace(s,old,new)
+ s=replace(s,old,new)
+ return replace(s,'if(event==next_tick){for(unsigned k=0;k<2;k++)','if(event==next_tick){queue_tick(COST_TICK0);for(unsigned k=0;k<2;k++)')
 
 def main(extended=False):
  out=ROOT/'reports/s3-queue-study';out.mkdir(exist_ok=True);source=ROOT/'reports/s3-counter-envelope/runtime.json';baseline=json.loads(source.read_text());rows=[]

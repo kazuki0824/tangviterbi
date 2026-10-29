@@ -23,6 +23,13 @@ class QueueStudy(unittest.TestCase):
     self.assertEqual(r['checked_bytes'],sum(r['transfers_done'])*(32768 if r['rate']==16 else 16384))
     self.assertLessEqual(r['peak_arena_bytes'],131072)
    self.assertFalse(d['hardware_proven']);self.assertFalse(d['all_SoC_costs_finalized'])
+ def test_pinned_sdk_linkage_and_inline_code(self):
+  d=json.loads((ROOT/'reports/s3-queue-study/sdk/audit.json').read_text())
+  for p,h in d['source_sha256'].items():self.assertEqual(hashlib.sha256((ROOT/p).read_bytes()).hexdigest(),h,p)
+  for symbol in d['symbols'].values():self.assertEqual(symbol['section'],'.iram0.text')
+  self.assertEqual(d['symbols']['s3_pp_step_impl']['instructions_per_eight_samples'],39)
+  self.assertEqual(d['additional_static_adapter_metadata_bytes'],32)
+  self.assertFalse(d['complete_receiver_fit_proven'])
  def test_long_case_exercises_watchdog_and_tick(self):
   r=json.loads((ROOT/'reports/s3-queue-study/extended.json').read_text())['rows'][0]
   self.assertTrue(r['scenario_pass']);self.assertEqual(r['banks'],20000)

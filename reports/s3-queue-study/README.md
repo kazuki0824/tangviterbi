@@ -12,14 +12,14 @@
 
 ## 同じ費用での評価
 
-host模型は新queue adapter本体と既存packing/native Cを実行する。SDKの次転送自動開始はモデル化し、旧SDK開始/完了費用を各転送へ課す。完了IRQ内の次転送開始費用が終わるまで線上時間を開始しない。空の結果queue照会は従来のrunning guard42/44cycleではなく230cycleを課す。照会費用の進行中に完了した場合は成功単価との差分も加える。
+host模型は新queue adapter本体と既存packing/native Cを実行する。SDKの次転送自動開始はモデル化し、旧SDK開始/完了費用を各転送へ課す。完了IRQ内の次転送開始費用が終わるまで線上時間を開始しない。両SPIのIRQとcore0 tickのservice期間も直列化し、同一core上で同時に開始処理できるとは仮定しない。空の結果queue照会は従来のrunning guard42/44cycleではなく230cycleを課す。照会費用の進行中に完了した場合は成功単価との差分も加える。
 
 旧単価を新queueの実SDK監査済み費用とは扱わない。新しい管理費用の感度として、owner反復・成功submit・成功reapへ、それぞれ0/100/300cycleを追加した。追加0は費用増がないという仮定である。通常IRQ・tick・WDTの旧費用は保持。inline packingの削減はまだ加えない。
 
 - S5/16、現行順序PCABとBCPA、準備2048/3072語は、追加0/100/300cycleの12条件すべて4000bank通過。
 - S6/16では不成立条件が残る。S5/16へCPU分担を寄せる候補を優先する。
 - 本番準備1024語のままでは不成立。2048/3072語は候補条件であり、既定値を無検証で変更していない。
-- S5/16・PCAB・準備2048語・各追加300cycleは20000bank、6.187秒を通過。arena最大124600/131072byte（残6472byte）、RF監視最大78.717µs、両coreでWDT更新各2回を含む。
+- S5/16・PCAB・準備2048語・各追加300cycleは20000bank、6.187秒を通過。arena最大124412/131072byte（残6660byte）、RF監視最大79.071µs、両coreでWDT更新各2回を含む。
 
 有限通過は無期限保証ではない。追加window例外、ハード/メモリ待ち、指令受信、最終アプリ差分は残る。queueを増やした場合の実SDK全経路・queueメモリ・割込み競合と全受信機のfitを別途確認する。API/link確認用のSDK probeも追加したが、RF起動・128KiB arena・受信taskを含む完成アプリではない。
 
@@ -28,3 +28,9 @@ host模型は新queue adapter本体と既存packing/native Cを実行する。SD
 ## 改善案の扱い
 
 優先度1の先行queue投入と優先度2のinline packingを候補実装・検算まで進めた。優先度3以降（sentinel削減、動的スケジュール、転送単位変更、arena増量、復調分担変更）は未実施。現時点では、先行queueの実SDK費用と全体メモリを確かめる前に、境界検出や通信仕様まで同時に変えると改善要因を切り分けられないため、先行queueを先に検証する。
+
+## SDKでの追加確認
+
+[Actions 40894324461](https://github.com/kazuki0824/tangviterbi/actions/runs/40894324461)のESP-IDF v5.5.1 API/link probeが成功した。成果物のSHAと入力commitを [provenance.json](sdk/provenance.json) に保存。実ELFでsubmit/reap/packing本体のIRAM配置を確認し、inline定常ループ39命令（8load/5store）も一致した。submit/reapのcalleeを除く命令包絡は101/40命令で、SDK込みの費用ではない。
+
+新queue metadataは2port合計256byte。旧port＋descriptor＋transferの224byteに対し+32byte。ただしSDKが動的確保する送受信queue等の増分は含まず、全受信機のメモリ収容を証明した値ではない。[ELF監査](sdk/audit.json)。

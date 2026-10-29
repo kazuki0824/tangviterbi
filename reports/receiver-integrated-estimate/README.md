@@ -1,8 +1,23 @@
 # ② Tang Nano20K＋N16R8×2：現在の統合見積もり
 
-2026-10-29 JST。①は変更しない。**S側6/16 packing＋16KiB転送＋8word fillを進める。8word fillの実装・SDK確認に加え、準備を1反復1024wordへ分割した。平均CPUは追加管理費用を含む感度模型で評価する。一方、ownerの処理間隔とFPGAの全段統合は未解決（保存部分構成の速度は目標達成）で、受信機の成立確認には至っていない。**
+2026-10-29 JST。①は変更しない。**現在はS側5/16 packing＋16KiB転送＋深さ2の送信queue・準備2048語を候補として推進する。旧単一転送模型の容量超過に対し、新候補は条件付き模型で20000bankを通過した。ただし新SDK全経路の費用と全受信機の資源・期限は未確定で、受信機の成立認定には至っていない。**
 
 SoCはRF取得・可逆I10/Q10 packing・FPGAへの送信、FPGAは全復調とT/S独立TS出力を担当。N16R8×2限定で検討する。追加software間引き・有効bit削減は行わず、FPGA→SoCは選局・電源等の指令のみ。
+
+## 2026-10-29：改善案1・2を実装した結果
+
+[送信停止原因の計測](../s3-tx-idle-study/README.md)、[深さ2のqueue候補](../s3-queue-study/README.md)、[可逆packingのinline候補](../s3-inline-packing/README.md)を追加した。旧S6/16・609bank条件で、公開データがあるのに未送信の時間はSPI2で11.645%、SPI3で9.366%だったため、先行投入を優先した。
+
+|改善|実施内容|確認できた結果|未確定部分|
+|---|---|---|---|
+|先行queue投入|専用queue_size=2、固定descriptor、後続転送中の先行結果回収、失敗時lease保持|S5/16・準備2048語・各管理費用+300cycleの模型で20000bank（6.187秒）通過。arena最大124412/131072byte、RF監視最大79.071µs、WDT各2回を含む|SDKの新経路費用、追加queueメモリ、最終受信task接続、実機競合|
+|可逆packing inline化|品質・境界・所有権を維持した代替translation unit|O2定常ループ45→39命令/8sample。3分担/転送長×O2/Os・各2000bankの実C並行検算成功|step text+120byte、O2 stack枠+16byte。slice全費用の再計上が必要（SDKのIRAM配置は確認済み）|
+
+queue模型は新adapterの実Cを使うが、SDK自動開始は模型で、旧SDK費用へowner/submit/reap各0/100/300cycleを足した感度評価である。**実測性能や、未計上費用も含めた成立保証ではない。** inline化の削減はqueue通過の計算へ加えていない。既定受信実装の準備1024語・単一転送APIも変更せず、比較可能な候補として保持する。
+
+ESP-IDF v5.5.1での [API/link確認](https://github.com/kazuki0824/tangviterbi/actions/runs/40894324461)も成功した。実ELFでqueue/packingのIRAM配置と39命令を確認。adapter静的metadataは2portで224→256byte（+32byte）だが、SDK queue動的割当と全受信機fitは別途確認が必要。
+
+本番1024語のままの条件は不成立。2048語への変更とqueue接続の両方を確認する必要がある。改善案3〜7は未実施で、まず今回のqueue候補をSDKへ照合する。以下は、単一転送APIを用いた旧模型の履歴として読む。
 
 ## 2026-10-29：カウンタ・ハードウェア待ち費用の追加監査
 
@@ -46,7 +61,7 @@ owner制御単価190cycleを共通に置いた順序比較であり、並べ替�
 
 ## 見積もり結果の要約
 
-以下は旧U0=20Mcycle/sを維持した従来模型の数値で、全費用の整合確認前である。現在の推進案はT raw 8/16・32KiBとS raw 6/16・16KiB、N16R8を各1枚。下表のSoCは管理200cycle/反復も含めた同一感度条件で示す。実測値や成立確率ではない。
+以下は旧U0=20Mcycle/sを維持した従来模型の数値で、全費用の整合確認前である。当時の推進案はT raw 8/16・32KiBとS raw 6/16・16KiB、N16R8を各1枚。現在のS候補は冒頭の5/16・深さ2 queueである。下表のSoCは管理200cycle/反復も含めた同一感度条件で示す。実測値や成立確率ではない。
 
 | 項目 | T側 | S側 | 判定・条件 |
 |---|---:|---:|---|
@@ -162,4 +177,4 @@ T FIR移管は752logic・1536FF・2BSRAM・8DSP18を空ける代替。ただし�
 
 再現：`python -m experiments.s3_integrated_estimate`。現SDK CFG、実C経路計数、fill包絡、FPGA16候補、保存STA、FIR算術を再計算し、根拠hashをestimate.jsonに保存。値の幅は入力ケース・感度仮定によるもので、統計的信頼区間ではない。
 
-検算：既存54件＋カウンタ2件＋費用・期限模型2件、合計58件。結果は [技術検算ログ](../s3-counter-envelope/combined-tests.log) に保存。
+検算：既存58件＋今回8件、合計66件。結果は [技術検算ログ](../s3-queue-study/combined-tests.log) に保存。

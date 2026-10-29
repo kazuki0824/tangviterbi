@@ -14,3 +14,5 @@ O2の定常ループは13.33%の命令削減。これは実時間削減率では
 3分担/転送長×O2/Osの6条件で、実Cを2workerで実行。各2000bank・全出力の一致、carry、source/arena折返し、順不同DMA完了、stale lease、期限・backpressureを確認した。8wordのビット対応式はbaselineと同一であることも検査した。
 
 [命令計数](instructions.json)、[検算](tests.log)。再現：`python -m ci.s3_inline_pack_audit --toolchain ../toolchain/xtensa-esp-elf`、`python -m unittest tests.test_s3_inline_pack`。
+
+ESP-IDF v5.5.1のlink probe実ELFでも、定常ループ39命令・8load/5store、IRAM配置、step text890byte・stack枠112byteを確認した。[SDK監査](../s3-queue-study/sdk/audit.json)。全slice費用の監査は別であり、queue期限模型へpacking削減を加えてはいない。
