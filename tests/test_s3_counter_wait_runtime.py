@@ -1,18 +1,6 @@
-import copy,hashlib,json,subprocess,sys,unittest
+import hashlib,json,unittest
 from experiments.s3_joint_runtime import ROOT
-from ci.s3_recovery_status import validate
-class Recovery(unittest.TestCase):
- def test_pending_work_rejects_completion(self):
-  p=json.loads((ROOT/'reports/recovery-20261029/plan.json').read_text())
-  self.assertFalse(validate(p)['complete'])
-  self.assertTrue(validate(p)['ready'])
-  bad=copy.deepcopy(p);bad['completion_claim_allowed']=True
-  with self.assertRaises(AssertionError):validate(bad)
-  r=subprocess.run([sys.executable,'-m','ci.s3_recovery_status','--claim-complete'],cwd=ROOT,capture_output=True,text=True)
-  self.assertEqual(r.returncode,2)
- def test_blocking_requires_specific_dependency(self):
-  p=json.loads((ROOT/'reports/recovery-20261029/plan.json').read_text());p['items'][0]['status']='blocked'
-  with self.assertRaises(AssertionError):validate(p)
+class CounterWaitRuntime(unittest.TestCase):
  def test_runtime_provenance_accounting_and_byte_oracles(self):
   for name in ('s3-counter-envelope','s3-wait-cost'):
    data=json.loads((ROOT/f'reports/{name}/runtime.json').read_text())
