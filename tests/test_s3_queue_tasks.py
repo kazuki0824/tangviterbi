@@ -19,7 +19,7 @@ esp_err_t s3_raw_queue_submit(s3_raw_queue*x){
  return mode==4?ESP_ERR_INVALID_STATE:ESP_OK;
 }
 '''+s[b:]
- s=s.replace('1024u:0u','2048u:0u')
+ s=s.replace('polls%7==0?1024u:0u','polls%7<2?1024u:0u')
  s=replace(s,'memset(ports,0,sizeof(ports));memset(transfers,0,sizeof(transfers));','memset(queues,0,sizeof(queues));depth_two_seen=0;')
  s=replace(s,'ports[i].bulk=true;','queues[i].device=(void*)(uintptr_t)(i+1);queues[i].host=i?SPI3_HOST:SPI2_HOST;queues[i].pack=&pack;')
  s=replace(s,'.ports={&ports[0],&ports[1]},.transfers={&transfers[0],&transfers[1]},','.queues={&queues[0],&queues[1]},')

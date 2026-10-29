@@ -14,6 +14,13 @@ def sources():
  h=replace(h,' s3_spi_port *ports[2]; s3_pp_transfer *transfers[2];',' s3_raw_queue *queues[2];')
  s=(ROOT/'experiments/s3_raw_tasks.c').read_text()
  s=replace(s,'#include "s3_raw_tasks.h"','#include "s3_queue_tasks.h"')
+ s=replace(s,''' if(!s3_native_poll_budget(r->config.capture,prepare_words)){fault(r,RAW_TASK_RF);return false;}
+ return true;''', ''' unsigned available=*prepare_words<1024?*prepare_words:1024;
+ unsigned local=available;
+ bool ok=s3_native_poll_budget(r->config.capture,&local);
+ *prepare_words-=available-local;
+ if(!ok){fault(r,RAW_TASK_RF);return false;}
+ return true;''')
  s=replace(s,'''  if(!c->ports[i]||!c->transfers[i]||c->transfers[i]->active||
      !c->ports[i]->bulk||c->ports[i]->busy||c->ports[i]->poisoned)return false;
  if(c->ports[0]==c->ports[1]||c->transfers[0]==c->transfers[1])return false;''', '''  if(!c->queues[i]||!c->queues[i]->device||c->queues[i]->pack!=c->pack||
