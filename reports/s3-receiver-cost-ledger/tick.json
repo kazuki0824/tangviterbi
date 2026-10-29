@@ -1309,7 +1309,7 @@
   "hardware_wcet": false,
   "conditions": [
     "No delayed-task unblock, no scheduler suspension, no tick counter rollover. Both no-switch and switch-request paths are counted.",
-    "Scheduler bound: two same-priority pinned receiving tasks, no other runnable task above that priority, current core candidate found within two visits; valid stack canary. The current same-priority launcher can request a switch even with different core affinities.",
+    "Scheduler bound: two same-priority pinned receiving tasks, no other runnable task above that priority, current core candidate found within two visits; valid stack canary. The launcher accepts caller-selected priorities; same priority is an estimate assumption, not an implemented fixed configuration. Under this assumption a switch can be requested even with different core affinities.",
     "One elapsed tick and one alarm processing round per IRQ; source permits catch-up.",
     "IWDT callback on both cores; USB SOF callback at most once on core0; no application tick callbacks. Registration is a receiving-configuration assumption, not proven by this link-only probe.",
     "Critical locks uncontended. Counter capture ready on first check; high/low snapshot stable."
@@ -1321,7 +1321,7 @@
     "Additional runnable-task/wake-up paths and callback registrations"
   ],
   "source_sha256": {
-    "ci/s3_tick_cost_audit.py": "80822c0ba3feb6705b6aad9e44ab137ef26dd1226bb512e762d3bd9529cb8c4e",
+    "ci/s3_tick_cost_audit.py": "5ff11109b8125907fe26e62513f57b84c48f55c053c68c99f89476730d6dd91e",
     "ci/s3_receiver_cost_audit.py": "823dc78b3b2bcbb9bfb5dbfa9c50358211cb337570fbbb8ec839505f6570c948",
     "ci/s3_irq_entry_audit.py": "6bc02b2e778818349ab59b2900674a3894fbb619f38364775e63439d21121b8d",
     "reports/s3-sdk-cost-ledger/results.json": "d832fb9654983927e138b3b02d3c2784747bee50a953bdb10e6d907843b25dca"

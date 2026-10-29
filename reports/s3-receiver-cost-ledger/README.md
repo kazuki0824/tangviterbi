@@ -53,7 +53,7 @@ settling中の待機だけの経路は120命令であり、quiet 179命令のBAS
 
 ## 割込み条件と残額を明示した全費用式
 
-level-1のnonnested・1pending sourceの入口/復帰を、vector→user exception→lowint→context save/restore→user exitまで計数した。再選択なし249命令、同優先度の2受信taskから同じtaskを再選択するscheduler経路込み642命令。現在のlauncherは2taskを同優先度で生成するため、異なるcoreに固定していてもtickが再選択を要求しうる。今回は各tickに再選択側を課した。SPI IRQには249命令を課す。Cハンドラ本体は別。tickは1経過tick、1alarm処理round、delayed taskの起床なし、scheduler非suspend、tick counter非wrapを条件とする。IWDT callbackは両core、USB SOF callbackはcore0に最大1、追加application callbackなしを構成仮定とした。link-only ELFの存在だけから実登録を認定しない。
+level-1のnonnested・1pending sourceの入口/復帰を、vector→user exception→lowint→context save/restore→user exitまで計数した。再選択なし249命令、同優先度の2受信taskから同じtaskを再選択するscheduler経路込み642命令。launcherは呼出し側のpriority[2]を受け取る。ここでは2taskを同優先度と仮定したため、異なるcoreに固定していてもtickが再選択を要求しうる。固定実装の事実ではない。今回は各tickに再選択側を課した。SPI IRQには249命令を課す。Cハンドラ本体は別。tickは1経過tick、1alarm処理round、delayed taskの起床なし、scheduler非suspend、tick counter非wrapを条件とする。IWDT callbackは両core、USB SOF callbackはcore0に最大1、追加application callbackなしを構成仮定とした。link-only ELFの存在だけから実登録を認定しない。
 
 観測区間HのCPU費用は `C_total(H) = Σイベント数×上表単価 + C_window(H) + C_lock(H) + C_hw_wait(H) + C_memory(H) + C_other_app(H)`。後半は下表の残額であり、0と認定していない。今回の0/10%追加stallは感度点で、残額の上限保証ではない。通常のkernel/WDT共有lock待ちは既に上表へ含めた。固定2task構成でpeerのkernel incrementとscheduler各1回の全関数費用をhold時間の包絡として用いる。core0はpeer 131＋340命令から519cycle、core1は193＋340から587cycle。WDTはpeer reset全体221命令から244cycle。10ms/2.5s期間内に複数回到来しないという同じ費用模型の条件であり、window/cache/高位IRQ延長はこの待ち包絡にも別途加わる。
 

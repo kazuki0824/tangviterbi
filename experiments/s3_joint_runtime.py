@@ -52,9 +52,10 @@ def generated(costs=None):
  return {'pack.c':'#include "joint_costs.h"\n'+pack,'native.c':'#include "joint_costs.h"\n'+native,
  'joint_owner.inc':function((ROOT/'experiments/s3_raw_tasks.c').read_text(),'owner_iteration'),
  'joint_costs.h':'#include <stdint.h>\n'+''.join(f'#define COST_{k} {v}\n' for k,v in costs.items())+fill_helper+'enum {'+','.join(CATEGORIES)+',CATEGORIES};\nvoid joint_charge(unsigned,uint64_t);\nvoid joint_accept(unsigned);\nvoid joint_publish(unsigned);\nvoid joint_deadline(uint64_t);\nvoid joint_failed_admission(uint64_t,uint64_t);\nvoid joint_pack_interval(uint64_t);\nvoid joint_accept_reject(unsigned,uint64_t);\n'}
-def run(cases,costs=None):
+def run(cases,costs=None,owner_body=None):
  cases=[tuple(c)+(20000,1024,1024) if len(c)==6 else tuple(c)+(1024,1024) if len(c)==7 else tuple(c) for c in cases]
  generated_files=generated(costs);rows=[]
+ if owner_body is not None:generated_files["joint_owner.inc"]=owner_body
  with tempfile.TemporaryDirectory() as tmp:
   tmp=Path(tmp)
   for name,text in generated_files.items():(tmp/name).write_text(text)

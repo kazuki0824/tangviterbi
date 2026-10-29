@@ -4,13 +4,23 @@
 
 SoCはRF取得・可逆I10/Q10 packing・FPGAへの送信、FPGAは全復調とT/S独立TS出力を担当。N16R8×2限定で検討する。追加software間引き・有効bit削減は行わず、FPGA→SoCは選局・電源等の指令のみ。
 
+## 2026-10-29：同じ費用で処理順序24通りを比較
+
+[順序比較の結果](../s3-owner-order-estimate/README.md)、[全イベント台帳](../s3-owner-order-estimate/results.json)、[全SoC処理と未計上範囲の対応表](../s3-receiver-application-inventory/README.md)を追加した。packing、collect、SPI2処理、SPI3処理の24順序×3分担×3準備予算＝216条件を、同じ単価・反復7回のRF監視で比較した。各100bankを要求し、S側で通過した4条件は4000bankでも評価した。
+
+**比較したS側の順序変更だけでは継続受信は成立しない。** S5/16・準備2048語の最長到達はSPI3→collect→SPI2→packingの348bankで、次の受入れ132214byteが128KiBを1142byte超過。S6/16ではSPI3→collect→packing→SPI2の121bankで、5432byte超過した。両条件のRF監視最大間隔は51.779µs。T側は全72条件が100bank通過し、並べ替えたT側の4000bank評価は今回未実施。
+
+owner制御単価190cycleを共通に置いた順序比較であり、並べ替え後のXtensa命令列の再計数ではない。全スケジュールの不可能性証明でもない。現行順序の元台帳との完全一致、単価一致、費用保存則、byte oracleを検算する。実装の処理順序は変更していない。
+
+全SoC対応表では、RF停止中の起動・peer待ち・停止処理も列挙した。peer待ちのforce feedを「起動時1回」と省略せず、受信中の通常feedとも混同しない。未実装の指令経路／supervisorとSDK活動の未固定部分が残るため、指定2点の全SoCとしての完了はまだ報告しない。
+
 ## 2026-10-29：受信ループ・tick・IRQを命令計数へ置換した結果
 
 [最新の費用・発生頻度・期限評価](../s3-receiver-cost-ledger/README.md)、[全45条件](../s3-receiver-cost-ledger/runtime.json)。RF準備・切替・受渡し、collect、空packing、owner/worker、tick本体、level-1 IRQ入口復帰をSDKバイナリから追加計数した。前回のSDK/ROM監査に接続し、同じ単価を台帳と仮想時刻へ一度ずつ使用する。
 
 **今回の条件でもS側の継続受信は成立していない。** S5/16・512pair・準備2048語・追加stall0%は49bank後、次の受入れ132666bytesが必要となり128KiBを1594bytes超過。S6/16・同条件は58bank後に9741bytes超過。本番1024語では準備未完で停止。T側8/16・512pair・1024語は4000bankを通過し、RF監視最大間隔54.346µs、arena最大94455/131072bytes。いずれも実機上限ではない。
 
-監査した通常IRQ入口復帰は249命令、同優先度taskの再選択を含む場合は642命令。現在のlauncherではcoreを分けてもtickで再選択を要求しうるため、その経路を加算した。peer kernel lock待ち包絡も含めたtick費用1846/1696cycle、WDT更新＋peer待ち516cycle、S開始ISR2287cycle、完了ISR1037cycleという命令数×1.1模型で評価した。WDT更新時刻も実ソースと同じ更新前の時計読取値から計算するよう模型を訂正した。準備予算2048/3072語は模型比較であり、本番1024語を変更していない。
+監査した通常IRQ入口復帰は249命令、同優先度taskの再選択を含む場合は642命令。launcherの優先度は呼出し側が選ぶ。今回の同優先度という構成仮定ではcoreを分けてもtickで再選択を要求しうるため、その経路を加算した。peer kernel lock待ち包絡も含めたtick費用1846/1696cycle、WDT更新＋peer待ち516cycle、S開始ISR2287cycle、完了ISR1037cycleという命令数×1.1模型で評価した。WDT更新時刻も実ソースと同じ更新前の時計読取値から計算するよう模型を訂正した。準備予算2048/3072語は模型比較であり、本番1024語を変更していない。
 
 **指定2点の全SoCとしての完了には未到達。** 受信ループ＋宣言した通常SDK/IRQ構成は数値台帳と実行順序を接続した。残るwindow例外、lock競合、ハードウェア反映待ち、cache/メモリ待ち、最終アプリ差分は明示した費用式へ置き、0とは認定していない。保存ELFはapp_mainが受信を開始しないlink-only probeであり、最終アプリの全task/IRQ/制御指令頻度を証明しない。詳細な確定／未確定の境界は最新結果に記載。正式採用0。
 
@@ -142,4 +152,4 @@ T FIR移管は752logic・1536FF・2BSRAM・8DSP18を空ける代替。ただし�
 
 再現：`python -m experiments.s3_integrated_estimate`。現SDK CFG、実C経路計数、fill包絡、FPGA16候補、保存STA、FIR算術を再計算し、根拠hashをestimate.jsonに保存。値の幅は入力ケース・感度仮定によるもので、統計的信頼区間ではない。
 
-検算：今回の受信費用台帳13件＋既存36件、合計49件成功。
+検算：受信費用台帳13件＋既存36件＋順序比較5件、合計54件。結果は順序比較のtests.logに保存。
