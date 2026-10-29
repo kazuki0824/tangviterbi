@@ -13,6 +13,8 @@ on:
       - 'tests/test_three_context_k7_coole_scheduled.py'
       - 'ci/compare_traceback_pnr.py'
       - 'rtl/three_context_k7_bm_staged.sv'
+      - 'rtl/three_context_k7_bm_delta.sv'
+      - 'tests/test_three_context_k7_bm_delta.py'
       - 'tests/test_three_context_k7_bm_staged.py'
       - 'tests/test_k7_static_guards.py'
   workflow_dispatch:
@@ -35,6 +37,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_three_context_k7_window.py' -v
           python3 -m unittest discover -s tests -p 'test_three_context_k7_coole_scheduled.py' -v
           python3 -m unittest discover -s tests -p 'test_three_context_k7_bm_staged.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_bm_delta.py' -v
           python3 -m unittest discover -s tests -p 'test_k7_static_guards.py' -v
       - name: Explicitly record missing paired external-IP experiment
         run: |
@@ -46,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        variant: [baseline, window, coole-scheduled, bm-staged]
+        variant: [baseline, window, coole-scheduled, bm-staged, bm-delta]
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
