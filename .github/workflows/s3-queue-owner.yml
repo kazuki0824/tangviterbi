@@ -1,0 +1,39 @@
+name: S3 queued receiver owner
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_queue_tasks_source.py'
+      - 'experiments/s3_queue_owner_probe/**'
+      - '.github/workflows/s3-queue-owner.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: s3-queue-owner-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  link:
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.5.1
+    steps:
+      - uses: actions/checkout@v5
+      - name: Verify queue task lifecycle and depth-two shutdown
+        run: python -m unittest tests.test_s3_queue_tasks -v
+      - name: Generate queue-connected task lifecycle
+        run: python -m experiments.s3_queue_tasks_source --output experiments/s3_queue_owner_probe/main/generated
+      - name: Link N16R8 owner and worker
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py -C experiments/s3_queue_owner_probe -B "$GITHUB_WORKSPACE/build/s3-queue-owner" build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-queue-owner
+          path: |
+            build/s3-queue-owner/s3_queue_owner_probe.elf
+            build/s3-queue-owner/s3_queue_owner_probe.map
+            build/s3-queue-owner/config/sdkconfig.json
+            build/s3-queue-owner/log/
+            experiments/s3_queue_owner_probe/main/generated/
+          retention-days: 30
