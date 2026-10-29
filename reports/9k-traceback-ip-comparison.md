@@ -127,3 +127,19 @@ The corrected alternating-read experiment saves 412 positions (12.42%), 147 FF a
 The real `coole198669` 64-ACS **single-context** IP RTL (pinned 5412b61), including its BMU/ACS/normalizer/traceback, was evaluated separately. Original upstream multi-driven traceback produces an invalid optimized-away netlist. Correcting that multiple-driver fault retains 8567 mapped LUT4+ALU and 1863 FF, but placement on 9K fails; no valid routed Fmax. This upstream original is neither an equivalent 3-context design nor an observed lower-area alternative. Do not compute direct equivalence ratios between mapped original and post-route adapted designs.
 
 **Comparison conclusion:** among controlled same-semantics adaptations, the original #8 and the coole-style traceback schedule both fail 9K timing/area constraints; the coole-style schedule trades speed for area rather than solving either acceptance gate. A viable redesign has not been established. This **closes the specifically requested side-by-side comparison** of this external traceback approach, not the ISDB receiver or a search over every possible K7 design and not the entire open-source IP catalog. The PR remains Draft as evidence, not a mergeable decoder. No rebase/Resolve/merge.
+
+## 2026-10-30 BM staging versus branch-delta experiment
+
+[CI run 40903217765](https://github.com/kazuki0824/tangviterbi/actions/runs/40903217765): all independent functional tests, including staged-BM, BM-delta and static mutation guards, succeeded. All candidate P&R jobs completed; all timing outcomes remain below requirement.
+
+| Candidate | Routed Fmax (MHz) | LUT4+ALU | FF | BSRAM | RAM16SDP4 | Oracle |
+|---|---:|---:|---:|---:|---:|---|
+| Existing #8 | 51.926476 | 3317 | 757 | 4 | 160 | PASS |
+| BM-staged | 64.846642 | 3347 | 793 | 4 | 160 | PASS |
+| BM-delta | 64.796219 | 3493 | 793 | 4 | 160 | PASS |
+
+BM-delta changes the signed modulo comparison algebraically from (src1+branch1)-(src0+branch0) to (src1-src0)+(branch1-branch0), keeping 13-bit metrics and 4 clocks/step. It worsens Fmax by 0.050423 MHz and increases logic by 146 versus BM-staged; reject BM-delta. BM-staged improves Fmax but is still <100.848485 MHz and exceeds the K7 allowance 2096-I. No receiver acceptance claim.
+
+Static mutation guard tests detect the earlier start_trace state/walk reset comment-out bug and preserve interfaces. These are technical safeguards; they are **not a substitute** for explicit continuation-versus-interruption decisions.
+
+Next design questions are ahead-of-step branch-metric overlap without added cycles, per-lane ACS routing, metric/survivor bank reassignment and full receiver resources/deadlines. The present benchmark does not qualify any complete design.
