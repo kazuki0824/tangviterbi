@@ -15,7 +15,8 @@ def function(text,name):
  while depth:
   depth+=(text[i]=='{')-(text[i]=='}');i+=1
  return text[start:i]
-def generated():
+def generated(costs=None):
+ costs=FIXED_COSTS if costs is None else dict(FIXED_COSTS,**costs)
  pack=(ROOT/'experiments/s3_parallel_pack.c').read_text()
  edits=[
  (' if(p->banks[bank].owned || p->count==3)return S3_PP_BUSY;', ' if(p->banks[bank].owned || p->count==3){joint_accept_reject(1,0);return S3_PP_BUSY;}'),
@@ -43,10 +44,10 @@ def generated():
   native=native.replace(f'joint_charge({category},{cost})',f'joint_charge({category},COST_{category})')
  return {'pack.c':'#include "joint_costs.h"\n'+pack,'native.c':'#include "joint_costs.h"\n'+native,
  'joint_owner.inc':function((ROOT/'experiments/s3_raw_tasks.c').read_text(),'owner_iteration'),
- 'joint_costs.h':'#include <stdint.h>\n'+''.join(f'#define COST_{k} {v}\n' for k,v in FIXED_COSTS.items())+'enum {'+','.join(CATEGORIES)+',CATEGORIES};\nvoid joint_charge(unsigned,uint64_t);\nvoid joint_accept(unsigned);\nvoid joint_publish(unsigned);\nvoid joint_deadline(uint64_t);\nvoid joint_failed_admission(uint64_t,uint64_t);\nvoid joint_pack_interval(uint64_t);\nvoid joint_accept_reject(unsigned,uint64_t);\n'}
-def run(cases):
+ 'joint_costs.h':'#include <stdint.h>\n'+''.join(f'#define COST_{k} {v}\n' for k,v in costs.items())+'enum {'+','.join(CATEGORIES)+',CATEGORIES};\nvoid joint_charge(unsigned,uint64_t);\nvoid joint_accept(unsigned);\nvoid joint_publish(unsigned);\nvoid joint_deadline(uint64_t);\nvoid joint_failed_admission(uint64_t,uint64_t);\nvoid joint_pack_interval(uint64_t);\nvoid joint_accept_reject(unsigned,uint64_t);\n'}
+def run(cases,costs=None):
  cases=[tuple(c)+(20000,1024,1024) if len(c)==6 else tuple(c)+(1024,1024) if len(c)==7 else tuple(c) for c in cases]
- generated_files=generated();rows=[]
+ generated_files=generated(costs);rows=[]
  with tempfile.TemporaryDirectory() as tmp:
   tmp=Path(tmp)
   for name,text in generated_files.items():(tmp/name).write_text(text)
@@ -63,7 +64,7 @@ def run(cases):
     row['pending_cycles']=[row['accounted_until_cycles'][c]-row['cycles'] for c in (0,1)]
     row['accounting_identity']=[sum(x['cycles'] for x in row['cost_ledger'][c].values())==row['charged_cycles'][c] for c in (0,1)]
     rows.append(row)
- return {'scope':__doc__,'rows':rows,'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT/'experiments'/n for n in ('s3_joint_runtime.c','s3_joint_runtime.py','s3_raw_tasks.c','s3_native_capture.c','s3_parallel_pack.c','s3_parallel_capture.c')]},'generated_sha256':{n:hashlib.sha256(t.encode()).hexdigest() for n,t in generated_files.items()},'hardware_proven':False,'receiver_adopted':False,'fixed_cost_cycles':FIXED_COSTS,'dynamic_costs':{'FILL':'ceil(17124*words/7168)', 'COLLECT':'35+160*owned_banks', 'REAP_RUNNING':[42,44], 'SPI_IRQ':'irq_cycles, two entries/transfer in this scenario', 'TICK_IRQ':'2000 each core, 100Hz', 'stall':'ceil(base_operation_cycles*stall_percent/100), excludes asynchronous IRQ extensions'},'scope_limits':['Fixed costs mix alpha=1.1 instruction envelopes and unmeasured allocated budgets; none are target WCET.', 'Only reception loop is timed; startup/shutdown/fault handling and other application/PHY tasks are outside the model.', '10,000/20,000 cycle slice admission bounds are assumptions, not measured bounds.', 'Ideal RF ABI and exact common clock; 80MHz SPI with immediate SDK publication after completion IRQ.', '1024/2048/3072 preparation budgets are model variants; production remains 1024. Per-poll cap wrapper is modeled inside RF budgets, not independently instruction-counted.', 'Operation cost placement is a discretization, not instruction-level interleaving; fixed core0 priority for simultaneous events.', 'No inherited U, differential scans, or separate API20us term is added. Costs are charged once at the named boundary.']}
+ return {'scope':__doc__,'rows':rows,'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT/'experiments'/n for n in ('s3_joint_runtime.c','s3_joint_runtime.py','s3_raw_tasks.c','s3_native_capture.c','s3_parallel_pack.c','s3_parallel_capture.c')]},'generated_sha256':{n:hashlib.sha256(t.encode()).hexdigest() for n,t in generated_files.items()},'hardware_proven':False,'receiver_adopted':False,'fixed_cost_cycles':dict(FIXED_COSTS,**(costs or {})),'dynamic_costs':{'FILL':'ceil(17124*words/7168)', 'COLLECT':'35+160*owned_banks', 'REAP_RUNNING':[42,44], 'SPI_IRQ':'irq_cycles, two entries/transfer in this scenario', 'TICK_IRQ':'2000 each core, 100Hz', 'stall':'ceil(base_operation_cycles*stall_percent/100), excludes asynchronous IRQ extensions'},'scope_limits':['Fixed costs mix alpha=1.1 instruction envelopes and unmeasured allocated budgets; none are target WCET.', 'Only reception loop is timed; startup/shutdown/fault handling and other application/PHY tasks are outside the model.', '10,000/20,000 cycle slice admission bounds are assumptions, not measured bounds.', 'Ideal RF ABI and exact common clock; 80MHz SPI with immediate SDK publication after completion IRQ.', '1024/2048/3072 preparation budgets are model variants; production remains 1024. Per-poll cap wrapper is modeled inside RF budgets, not independently instruction-counted.', 'Operation cost placement is a discretization, not instruction-level interleaving; fixed core0 priority for simultaneous events.', 'No inherited U, differential scans, or separate API20us term is added. Costs are charged once at the named boundary.']}
 if __name__=='__main__':
  ap=argparse.ArgumentParser();ap.add_argument('--banks',type=int,default=100);ap.add_argument('--output',type=Path,default=ROOT/'reports/s3-joint-runtime/results.json');args=ap.parse_args()
  cases=[(r,sh,sl,args.banks,irq,st) for r,sh in [(16,8),(40,6),(40,5)] for sl in (256,512) for irq,st in [(300,0),(1000,0),(300,10)]]

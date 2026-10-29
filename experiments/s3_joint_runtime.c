@@ -15,6 +15,12 @@ static _Alignas(16) uint8_t payload[4][32768];
 static s3_parallel_pack pack;
 static s3_native_capture capture;
 static uint64_t now,ready[2],samples,phase,limit,wire_done[2],irq_at[2],next_tick;
+static unsigned launches[2];
+#ifndef COST_IRQ_START
+#define COST_IRQ_START irq_cycles
+#define COST_IRQ_FIRST irq_cycles
+#define COST_IRQ_COMPLETE irq_cycles
+#endif
 static unsigned mask,index_rf,cpp,core,rf_on,started,stopped[2],share,slice,irq_cycles,stall_percent;
 static ucontext_t scheduler,contexts[2];static char stacks[2][262144];
 static uint64_t charged[2][CATEGORIES],counts[2][CATEGORIES],interrupts[2],stall[2];
@@ -105,10 +111,13 @@ static esp_err_t s3_pp_spi_submit(s3_pp_transfer*x,s3_parallel_pack*p,s3_spi_por
  joint_charge(SUBMIT_DONE,COST_SUBMIT_DONE);
  assert(s3_pp_take(p,&seq,&data)==S3_PP_OK);x->sequence=seq;x->data=data;x->host=h;x->active=true;
  uint64_t wire=((uint64_t)S3_PP_TX_BYTES*8+80)*3/(h?4:8);
+ /* Start charging before launch: the old model overlapped the entire launch
+  * handler with wire time. Conservatively launch after the full handler. */
+ joint_charge(SPI_IRQ,launches[h]++?COST_IRQ_START:COST_IRQ_FIRST);
  wire_done[h]=now+wire;irq_at[h]=wire_done[h];
  if(last_submit[h]&&now-last_submit[h]>max_submit_gap[h])max_submit_gap[h]=now-last_submit[h];last_submit[h]=now;
  /* One launch IRQ in addition to completion IRQ, inclusive handler budget. */
- joint_charge(SPI_IRQ,irq_cycles);return ESP_OK;
+ return ESP_OK;
 }
 #include "joint_owner.inc"
 static void task0(void){
@@ -149,7 +158,7 @@ int main(int argc,char**argv){
   uint64_t event=next_tick;if(irq_at[0]<event)event=irq_at[0];if(irq_at[1]<event)event=irq_at[1];
   if(event<=t){advance(event);
    if(event==next_tick){for(unsigned k=0;k<2;k++){ready[k]+=2000;charged[k][TICK_IRQ]+=2000;counts[k][TICK_IRQ]++;interrupts[k]+=2000;}next_tick+=2400000;}
-   for(unsigned h=0;h<2;h++)if(irq_at[h]==event){ready[0]+=irq_cycles;charged[0][SPI_IRQ]+=irq_cycles;counts[0][SPI_IRQ]++;interrupts[0]+=irq_cycles;irq_at[h]=UINT64_MAX;}
+   for(unsigned h=0;h<2;h++)if(irq_at[h]==event){ready[0]+=COST_IRQ_COMPLETE;charged[0][SPI_IRQ]+=COST_IRQ_COMPLETE;counts[0][SPI_IRQ]++;interrupts[0]+=COST_IRQ_COMPLETE;irq_at[h]=UINT64_MAX;}
    continue;
   }
   advance(t);core=c;swapcontext(&scheduler,&contexts[c]);
