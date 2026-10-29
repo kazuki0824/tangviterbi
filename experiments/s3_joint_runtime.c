@@ -15,6 +15,10 @@ static _Alignas(16) uint8_t payload[4][32768];
 static s3_parallel_pack pack;
 static s3_native_capture capture;
 static uint64_t now,ready[2],samples,phase,limit,wire_done[2],irq_at[2],next_tick;
+#ifndef COST_TICK0
+#define COST_TICK0 2000
+#define COST_TICK1 2000
+#endif
 static unsigned launches[2];
 #ifndef COST_IRQ_START
 #define COST_IRQ_START irq_cycles
@@ -83,7 +87,7 @@ static bool stopping(s3_raw_tasks*r){return r->stop||outcome;}
 static void fault(s3_raw_tasks*r,unsigned code){r->fault=code;r->stop=1;}
 static uint64_t s3_cycle_clock_read(void*x){return joint_now(x);}
 static bool feed(s3_raw_tasks*r,unsigned c,bool force){
- if(force||now>=r->next_feed[c]){joint_charge(WDT,COST_WDT);r->next_feed[c]=now+600000000;}return true;
+ if(force||now>=r->next_feed[c]){uint64_t sampled=now;joint_charge(WDT,COST_WDT);r->next_feed[c]=sampled+600000000;}return true;
 }
 static bool poll_rf(s3_raw_tasks*r,unsigned*budget){
  if(stopping(r))return false;
@@ -157,7 +161,7 @@ int main(int argc,char**argv){
   unsigned c=stopped[1]||ready[0]<=ready[1]?0:1;uint64_t t=ready[c];
   uint64_t event=next_tick;if(irq_at[0]<event)event=irq_at[0];if(irq_at[1]<event)event=irq_at[1];
   if(event<=t){advance(event);
-   if(event==next_tick){for(unsigned k=0;k<2;k++){ready[k]+=2000;charged[k][TICK_IRQ]+=2000;counts[k][TICK_IRQ]++;interrupts[k]+=2000;}next_tick+=2400000;}
+   if(event==next_tick){for(unsigned k=0;k<2;k++){unsigned tick_cost=k?COST_TICK1:COST_TICK0;ready[k]+=tick_cost;charged[k][TICK_IRQ]+=tick_cost;counts[k][TICK_IRQ]++;interrupts[k]+=tick_cost;}next_tick+=2400000;}
    for(unsigned h=0;h<2;h++)if(irq_at[h]==event){ready[0]+=COST_IRQ_COMPLETE;charged[0][SPI_IRQ]+=COST_IRQ_COMPLETE;counts[0][SPI_IRQ]++;interrupts[0]+=COST_IRQ_COMPLETE;irq_at[h]=UINT64_MAX;}
    continue;
   }

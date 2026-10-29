@@ -42,9 +42,16 @@ def generated(costs=None):
  for category,cost in FIXED_COSTS.items():
   pack=pack.replace(f'joint_charge({category},{cost})',f'joint_charge({category},COST_{category})')
   native=native.replace(f'joint_charge({category},{cost})',f'joint_charge({category},COST_{category})')
+ if 'COLLECT_0' in costs:
+  pack=pack.replace('joint_charge(COLLECT,35+160*p->count)', 'joint_charge(COLLECT,((const unsigned[]){COST_COLLECT_0,COST_COLLECT_1,COST_COLLECT_2,COST_COLLECT_3})[p->count])')
+ if 'FILL_OVERHEAD' in costs:
+  native=native.replace('joint_charge(FILL,(17124ULL*n+7167)/7168)', 'joint_charge(FILL,joint_fill_cost(at,n))')
+ fill_helper=''
+ if 'FILL_OVERHEAD' in costs:
+  fill_helper='static inline uint64_t joint_fill_cost(unsigned at,unsigned n){uint64_t v=5;at&=16383;while(n){unsigned span=16384-at;if(span>n)span=n;v+=COST_FILL_OVERHEAD+17*(span/8)+3*(span%8);n-=span;at=0;}return (v*11+9)/10;}\n'
  return {'pack.c':'#include "joint_costs.h"\n'+pack,'native.c':'#include "joint_costs.h"\n'+native,
  'joint_owner.inc':function((ROOT/'experiments/s3_raw_tasks.c').read_text(),'owner_iteration'),
- 'joint_costs.h':'#include <stdint.h>\n'+''.join(f'#define COST_{k} {v}\n' for k,v in costs.items())+'enum {'+','.join(CATEGORIES)+',CATEGORIES};\nvoid joint_charge(unsigned,uint64_t);\nvoid joint_accept(unsigned);\nvoid joint_publish(unsigned);\nvoid joint_deadline(uint64_t);\nvoid joint_failed_admission(uint64_t,uint64_t);\nvoid joint_pack_interval(uint64_t);\nvoid joint_accept_reject(unsigned,uint64_t);\n'}
+ 'joint_costs.h':'#include <stdint.h>\n'+''.join(f'#define COST_{k} {v}\n' for k,v in costs.items())+fill_helper+'enum {'+','.join(CATEGORIES)+',CATEGORIES};\nvoid joint_charge(unsigned,uint64_t);\nvoid joint_accept(unsigned);\nvoid joint_publish(unsigned);\nvoid joint_deadline(uint64_t);\nvoid joint_failed_admission(uint64_t,uint64_t);\nvoid joint_pack_interval(uint64_t);\nvoid joint_accept_reject(unsigned,uint64_t);\n'}
 def run(cases,costs=None):
  cases=[tuple(c)+(20000,1024,1024) if len(c)==6 else tuple(c)+(1024,1024) if len(c)==7 else tuple(c) for c in cases]
  generated_files=generated(costs);rows=[]

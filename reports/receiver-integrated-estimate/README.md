@@ -4,15 +4,17 @@
 
 SoCはRF取得・可逆I10/Q10 packing・FPGAへの送信、FPGAは全復調とT/S独立TS出力を担当。N16R8×2限定で検討する。追加software間引き・有効bit削減は行わず、FPGA→SoCは選局・電源等の指令のみ。
 
-## 2026-10-29：SDK費用と同じ費用での期限評価
+## 2026-10-29：受信ループ・tick・IRQを命令計数へ置換した結果
 
-[最新の見積もり結果・費用境界](../s3-sdk-cost-ledger/README.md)、[命令台帳](../s3-sdk-cost-ledger/results.json)、[全45条件の費用・頻度・期限](../s3-sdk-cost-ledger/runtime.json)。保存SDK ELFのAPI・ISR・WDTをROM呼出し先まで追跡し、旧API20µs・IRQ一律300cycleという配分を置き換えた。命令数×1.1は仮定であり、実測時間ではない。
+[最新の費用・発生頻度・期限評価](../s3-receiver-cost-ledger/README.md)、[全45条件](../s3-receiver-cost-ledger/runtime.json)。RF準備・切替・受渡し、collect、空packing、owner/worker、tick本体、level-1 IRQ入口復帰をSDKバイナリから追加計数した。前回のSDK/ROM監査に接続し、同じ単価を台帳と仮想時刻へ一度ずつ使用する。
 
-**更新した費用模型でもS側は通過していない。** S5/16・512pair・準備2048語・stall0%は93bank後に次の受入れ133824bytesが必要となり128KiBを2752bytes超過。S6/16・同条件は40bank後に1808bytes超過。本番1024語では準備またはpacking期限条件で停止する。準備予算の実装は変更していない。
+**今回の条件でもS側の継続受信は成立していない。** S5/16・512pair・準備2048語・追加stall0%は49bank後、次の受入れ132666bytesが必要となり128KiBを1594bytes超過。S6/16・同条件は58bank後に9741bytes超過。本番1024語では準備未完で停止。T側8/16・512pair・1024語は4000bankを通過し、RF監視最大間隔54.346µs、arena最大94455/131072bytes。いずれも実機上限ではない。
 
-T側は4000bankを通過。開始ISRとwire全体を重ねていた模型の誤りを修正し、開始ISRを課した後にwireを開始する保守的な配置で再評価した。費用・回数と経過時間の保存則、回収payloadのbyte照合を検算した。[旧費用42条件](../s3-joint-runtime/README.md)も同じ修正で再実行した。
+監査した通常IRQ入口復帰は249命令、同優先度taskの再選択を含む場合は642命令。現在のlauncherではcoreを分けてもtickで再選択を要求しうるため、その経路を加算した。peer kernel lock待ち包絡も含めたtick費用1846/1696cycle、WDT更新＋peer待ち516cycle、S開始ISR2287cycle、完了ISR1037cycleという命令数×1.1模型で評価した。WDT更新時刻も実ソースと同じ更新前の時計読取値から計算するよう模型を訂正した。準備予算2048/3072語は模型比較であり、本番1024語を変更していない。
 
-**全SoC費用の数値確定は未完了。** SPI_UPDATE待ち、割込みentry/exit、競合・cache待ち、RF/collect等の全状態費用、最終アプリの他task/IRQ/制御処理は未確定。これらを0とは認定しない。更新した45条件は全アプリの期限保証ではなく、正式採用は0。未確定項目と発生頻度の境界は最新結果の表に列挙した。
+**指定2点の全SoCとしての完了には未到達。** 受信ループ＋宣言した通常SDK/IRQ構成は数値台帳と実行順序を接続した。残るwindow例外、lock競合、ハードウェア反映待ち、cache/メモリ待ち、最終アプリ差分は明示した費用式へ置き、0とは認定していない。保存ELFはapp_mainが受信を開始しないlink-only probeであり、最終アプリの全task/IRQ/制御指令頻度を証明しない。詳細な確定／未確定の境界は最新結果に記載。正式採用0。
+
+前回の[SDK費用台帳](../s3-sdk-cost-ledger/README.md)と[旧費用模型](../s3-joint-runtime/README.md)は比較履歴として保持する。最新判定には上の受信ループ台帳を用いる。
 
 ## 2026-10-28：費用収支の訂正と確定条件
 
@@ -140,4 +142,4 @@ T FIR移管は752logic・1536FF・2BSRAM・8DSP18を空ける代替。ただし�
 
 再現：`python -m experiments.s3_integrated_estimate`。現SDK CFG、実C経路計数、fill包絡、FPGA16候補、保存STA、FIR算術を再計算し、根拠hashをestimate.jsonに保存。値の幅は入力ケース・感度仮定によるもので、統計的信頼区間ではない。
 
-検算：SDK費用台帳11件＋既存25件、合計36件成功。
+検算：今回の受信費用台帳13件＋既存36件、合計49件成功。

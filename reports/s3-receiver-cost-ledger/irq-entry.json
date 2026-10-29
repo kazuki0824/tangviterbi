@@ -1,0 +1,2134 @@
+{
+  "switch_instructions_excluding_handler_and_window_traps": 642,
+  "scheduler_instructions": 340,
+  "paths": {
+    "xthal_save_extra_nw": {
+      "function": "xthal_save_extra_nw",
+      "own_instructions": 19,
+      "path": [
+        {
+          "offset": 0,
+          "op": "rur.threadptr",
+          "args": "a3"
+        },
+        {
+          "offset": 3,
+          "op": "s32i.n",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 5,
+          "op": "rsr.acclo",
+          "args": "a3"
+        },
+        {
+          "offset": 8,
+          "op": "s32i.n",
+          "args": "a3, a2, 4"
+        },
+        {
+          "offset": 10,
+          "op": "rsr.acchi",
+          "args": "a3"
+        },
+        {
+          "offset": 13,
+          "op": "s32i.n",
+          "args": "a3, a2, 8"
+        },
+        {
+          "offset": 15,
+          "op": "rsr.br",
+          "args": "a3"
+        },
+        {
+          "offset": 18,
+          "op": "s32i.n",
+          "args": "a3, a2, 12"
+        },
+        {
+          "offset": 20,
+          "op": "rsr.scompare1",
+          "args": "a3"
+        },
+        {
+          "offset": 23,
+          "op": "s32i.n",
+          "args": "a3, a2, 16"
+        },
+        {
+          "offset": 25,
+          "op": "rsr.m0",
+          "args": "a3"
+        },
+        {
+          "offset": 28,
+          "op": "s32i.n",
+          "args": "a3, a2, 20"
+        },
+        {
+          "offset": 30,
+          "op": "rsr.m1",
+          "args": "a3"
+        },
+        {
+          "offset": 33,
+          "op": "s32i.n",
+          "args": "a3, a2, 24"
+        },
+        {
+          "offset": 35,
+          "op": "rsr.m2",
+          "args": "a3"
+        },
+        {
+          "offset": 38,
+          "op": "s32i.n",
+          "args": "a3, a2, 28"
+        },
+        {
+          "offset": 40,
+          "op": "rsr.m3",
+          "args": "a3"
+        },
+        {
+          "offset": 43,
+          "op": "s32i.n",
+          "args": "a3, a2, 32"
+        },
+        {
+          "offset": 45,
+          "op": "ret.n",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "xthal_restore_extra_nw": {
+      "function": "xthal_restore_extra_nw",
+      "own_instructions": 19,
+      "path": [
+        {
+          "offset": 0,
+          "op": "l32i.n",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 2,
+          "op": "wur.threadptr",
+          "args": "a3"
+        },
+        {
+          "offset": 5,
+          "op": "l32i.n",
+          "args": "a3, a2, 4"
+        },
+        {
+          "offset": 7,
+          "op": "wsr.acclo",
+          "args": "a3"
+        },
+        {
+          "offset": 10,
+          "op": "l32i.n",
+          "args": "a3, a2, 8"
+        },
+        {
+          "offset": 12,
+          "op": "wsr.acchi",
+          "args": "a3"
+        },
+        {
+          "offset": 15,
+          "op": "l32i.n",
+          "args": "a3, a2, 12"
+        },
+        {
+          "offset": 17,
+          "op": "wsr.br",
+          "args": "a3"
+        },
+        {
+          "offset": 20,
+          "op": "l32i.n",
+          "args": "a3, a2, 16"
+        },
+        {
+          "offset": 22,
+          "op": "wsr.scompare1",
+          "args": "a3"
+        },
+        {
+          "offset": 25,
+          "op": "l32i.n",
+          "args": "a3, a2, 20"
+        },
+        {
+          "offset": 27,
+          "op": "wsr.m0",
+          "args": "a3"
+        },
+        {
+          "offset": 30,
+          "op": "l32i.n",
+          "args": "a3, a2, 24"
+        },
+        {
+          "offset": 32,
+          "op": "wsr.m1",
+          "args": "a3"
+        },
+        {
+          "offset": 35,
+          "op": "l32i.n",
+          "args": "a3, a2, 28"
+        },
+        {
+          "offset": 37,
+          "op": "wsr.m2",
+          "args": "a3"
+        },
+        {
+          "offset": 40,
+          "op": "l32i.n",
+          "args": "a3, a2, 32"
+        },
+        {
+          "offset": 42,
+          "op": "wsr.m3",
+          "args": "a3"
+        },
+        {
+          "offset": 45,
+          "op": "ret.n",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "_xt_context_restore": {
+      "function": "_xt_context_restore",
+      "own_instructions": 27,
+      "path": [
+        {
+          "offset": 0,
+          "op": "mov.n",
+          "args": "a13, a0"
+        },
+        {
+          "offset": 2,
+          "op": "addi",
+          "args": "a2, a1, 112"
+        },
+        {
+          "offset": 5,
+          "op": "call0",
+          "args": "40387f18 <xthal_restore_extra_nw>"
+        },
+        {
+          "offset": 8,
+          "op": "mov.n",
+          "args": "a0, a13"
+        },
+        {
+          "offset": 10,
+          "op": "l32i",
+          "args": "a2, a1, 88"
+        },
+        {
+          "offset": 13,
+          "op": "l32i",
+          "args": "a3, a1, 92"
+        },
+        {
+          "offset": 16,
+          "op": "wsr.lbeg",
+          "args": "a2"
+        },
+        {
+          "offset": 19,
+          "op": "l32i",
+          "args": "a2, a1, 96"
+        },
+        {
+          "offset": 22,
+          "op": "wsr.lend",
+          "args": "a3"
+        },
+        {
+          "offset": 25,
+          "op": "wsr.lcount",
+          "args": "a2"
+        },
+        {
+          "offset": 28,
+          "op": "l32i",
+          "args": "a3, a1, 76"
+        },
+        {
+          "offset": 31,
+          "op": "l32i.n",
+          "args": "a2, a1, 20"
+        },
+        {
+          "offset": 33,
+          "op": "wsr.sar",
+          "args": "a3"
+        },
+        {
+          "offset": 36,
+          "op": "l32i.n",
+          "args": "a3, a1, 24"
+        },
+        {
+          "offset": 38,
+          "op": "l32i.n",
+          "args": "a4, a1, 28"
+        },
+        {
+          "offset": 40,
+          "op": "l32i.n",
+          "args": "a5, a1, 32"
+        },
+        {
+          "offset": 42,
+          "op": "l32i.n",
+          "args": "a6, a1, 36"
+        },
+        {
+          "offset": 44,
+          "op": "l32i.n",
+          "args": "a7, a1, 40"
+        },
+        {
+          "offset": 46,
+          "op": "l32i.n",
+          "args": "a8, a1, 44"
+        },
+        {
+          "offset": 48,
+          "op": "l32i.n",
+          "args": "a9, a1, 48"
+        },
+        {
+          "offset": 50,
+          "op": "l32i.n",
+          "args": "a10, a1, 52"
+        },
+        {
+          "offset": 52,
+          "op": "l32i.n",
+          "args": "a11, a1, 56"
+        },
+        {
+          "offset": 54,
+          "op": "l32i.n",
+          "args": "a12, a1, 60"
+        },
+        {
+          "offset": 56,
+          "op": "l32i",
+          "args": "a13, a1, 64"
+        },
+        {
+          "offset": 59,
+          "op": "l32i",
+          "args": "a14, a1, 68"
+        },
+        {
+          "offset": 62,
+          "op": "l32i",
+          "args": "a15, a1, 72"
+        },
+        {
+          "offset": 65,
+          "op": "ret.n",
+          "args": ""
+        }
+      ],
+      "calls": [
+        {
+          "offset": 5,
+          "target": "xthal_restore_extra_nw"
+        }
+      ]
+    },
+    "_xt_user_exit": {
+      "function": "_xt_user_exit",
+      "own_instructions": 8,
+      "path": [
+        {
+          "offset": 0,
+          "op": "l32i.n",
+          "args": "a0, a1, 8"
+        },
+        {
+          "offset": 2,
+          "op": "wsr.ps",
+          "args": "a0"
+        },
+        {
+          "offset": 5,
+          "op": "l32i.n",
+          "args": "a0, a1, 4"
+        },
+        {
+          "offset": 7,
+          "op": "wsr.epc1",
+          "args": "a0"
+        },
+        {
+          "offset": 10,
+          "op": "l32i.n",
+          "args": "a0, a1, 12"
+        },
+        {
+          "offset": 12,
+          "op": "l32i.n",
+          "args": "a1, a1, 16"
+        },
+        {
+          "offset": 14,
+          "op": "rsync",
+          "args": ""
+        },
+        {
+          "offset": 17,
+          "op": "rfe",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "_xt_context_save": {
+      "function": "_xt_context_save",
+      "own_instructions": 60,
+      "path": [
+        {
+          "offset": 0,
+          "op": "s32i.n",
+          "args": "a2, a1, 20"
+        },
+        {
+          "offset": 2,
+          "op": "s32i.n",
+          "args": "a3, a1, 24"
+        },
+        {
+          "offset": 4,
+          "op": "s32i.n",
+          "args": "a4, a1, 28"
+        },
+        {
+          "offset": 6,
+          "op": "s32i.n",
+          "args": "a5, a1, 32"
+        },
+        {
+          "offset": 8,
+          "op": "s32i.n",
+          "args": "a6, a1, 36"
+        },
+        {
+          "offset": 10,
+          "op": "s32i.n",
+          "args": "a7, a1, 40"
+        },
+        {
+          "offset": 12,
+          "op": "s32i.n",
+          "args": "a8, a1, 44"
+        },
+        {
+          "offset": 14,
+          "op": "s32i.n",
+          "args": "a9, a1, 48"
+        },
+        {
+          "offset": 16,
+          "op": "s32i.n",
+          "args": "a10, a1, 52"
+        },
+        {
+          "offset": 18,
+          "op": "s32i.n",
+          "args": "a11, a1, 56"
+        },
+        {
+          "offset": 20,
+          "op": "s32i",
+          "args": "a14, a1, 68"
+        },
+        {
+          "offset": 23,
+          "op": "s32i",
+          "args": "a15, a1, 72"
+        },
+        {
+          "offset": 26,
+          "op": "rsr.sar",
+          "args": "a3"
+        },
+        {
+          "offset": 29,
+          "op": "s32i",
+          "args": "a3, a1, 76"
+        },
+        {
+          "offset": 32,
+          "op": "rsr.lbeg",
+          "args": "a3"
+        },
+        {
+          "offset": 35,
+          "op": "s32i",
+          "args": "a3, a1, 88"
+        },
+        {
+          "offset": 38,
+          "op": "rsr.lend",
+          "args": "a3"
+        },
+        {
+          "offset": 41,
+          "op": "s32i",
+          "args": "a3, a1, 92"
+        },
+        {
+          "offset": 44,
+          "op": "rsr.lcount",
+          "args": "a3"
+        },
+        {
+          "offset": 47,
+          "op": "s32i",
+          "args": "a3, a1, 96"
+        },
+        {
+          "offset": 50,
+          "op": "mov.n",
+          "args": "a9, a0"
+        },
+        {
+          "offset": 52,
+          "op": "s32i",
+          "args": "a12, a1, 100"
+        },
+        {
+          "offset": 55,
+          "op": "s32i",
+          "args": "a13, a1, 104"
+        },
+        {
+          "offset": 58,
+          "op": "s32i",
+          "args": "a9, a1, 108"
+        },
+        {
+          "offset": 61,
+          "op": "l32i.n",
+          "args": "a12, a1, 60"
+        },
+        {
+          "offset": 63,
+          "op": "l32i",
+          "args": "a13, a1, 64"
+        },
+        {
+          "offset": 66,
+          "op": "l32i.n",
+          "args": "a9, a1, 48"
+        },
+        {
+          "offset": 68,
+          "op": "addi",
+          "args": "a2, a1, 112"
+        },
+        {
+          "offset": 71,
+          "op": "call0",
+          "args": "40387f48 <xthal_save_extra_nw>"
+        },
+        {
+          "offset": 74,
+          "op": "rsr.ps",
+          "args": "a2"
+        },
+        {
+          "offset": 77,
+          "op": "movi.n",
+          "args": "a0, 15"
+        },
+        {
+          "offset": 79,
+          "op": "and",
+          "args": "a3, a2, a0"
+        },
+        {
+          "offset": 82,
+          "op": "bgeui",
+          "args": "a3, 3, 40387fd0 <_xt_context_save+0x58>"
+        },
+        {
+          "offset": 85,
+          "op": "movi",
+          "args": "a3, 3"
+        },
+        {
+          "offset": 88,
+          "op": "l32r",
+          "args": "a0, 40375598 <_iram_text_start+0x1194> (40020 <UserFrameTotalSize+0x3ff20>)"
+        },
+        {
+          "offset": 91,
+          "op": "or",
+          "args": "a3, a3, a0"
+        },
+        {
+          "offset": 94,
+          "op": "wsr.ps",
+          "args": "a3"
+        },
+        {
+          "offset": 97,
+          "op": "rsr.epc1",
+          "args": "a0"
+        },
+        {
+          "offset": 100,
+          "op": "addmi",
+          "args": "a1, a1, 0x100"
+        },
+        {
+          "offset": 103,
+          "op": "addi",
+          "args": "a1, a1, -64"
+        },
+        {
+          "offset": 106,
+          "op": "and",
+          "args": "a12, a12, a12"
+        },
+        {
+          "offset": 109,
+          "op": "rotw",
+          "args": "3"
+        },
+        {
+          "offset": 112,
+          "op": "and",
+          "args": "a12, a12, a12"
+        },
+        {
+          "offset": 115,
+          "op": "rotw",
+          "args": "3"
+        },
+        {
+          "offset": 118,
+          "op": "and",
+          "args": "a12, a12, a12"
+        },
+        {
+          "offset": 121,
+          "op": "rotw",
+          "args": "3"
+        },
+        {
+          "offset": 124,
+          "op": "and",
+          "args": "a12, a12, a12"
+        },
+        {
+          "offset": 127,
+          "op": "rotw",
+          "args": "3"
+        },
+        {
+          "offset": 130,
+          "op": "and",
+          "args": "a12, a12, a12"
+        },
+        {
+          "offset": 133,
+          "op": "rotw",
+          "args": "4"
+        },
+        {
+          "offset": 136,
+          "op": "addmi",
+          "args": "a1, a1, 0xffffff00"
+        },
+        {
+          "offset": 139,
+          "op": "addi",
+          "args": "a1, a1, 64"
+        },
+        {
+          "offset": 142,
+          "op": "wsr.ps",
+          "args": "a2"
+        },
+        {
+          "offset": 145,
+          "op": "rsync",
+          "args": ""
+        },
+        {
+          "offset": 148,
+          "op": "wsr.epc1",
+          "args": "a0"
+        },
+        {
+          "offset": 151,
+          "op": "l32i",
+          "args": "a12, a1, 100"
+        },
+        {
+          "offset": 154,
+          "op": "l32i",
+          "args": "a13, a1, 104"
+        },
+        {
+          "offset": 157,
+          "op": "l32i",
+          "args": "a9, a1, 108"
+        },
+        {
+          "offset": 160,
+          "op": "mov.n",
+          "args": "a0, a9"
+        },
+        {
+          "offset": 162,
+          "op": "ret.n",
+          "args": ""
+        }
+      ],
+      "calls": [
+        {
+          "offset": 71,
+          "target": "xthal_save_extra_nw"
+        }
+      ]
+    },
+    "_frxt_int_enter": {
+      "function": "_frxt_int_enter",
+      "own_instructions": 27,
+      "path": [
+        {
+          "offset": 0,
+          "op": "s32i.n",
+          "args": "a12, a1, 60"
+        },
+        {
+          "offset": 2,
+          "op": "s32i",
+          "args": "a13, a1, 64"
+        },
+        {
+          "offset": 5,
+          "op": "mov.n",
+          "args": "a12, a0"
+        },
+        {
+          "offset": 7,
+          "op": "call0",
+          "args": "40387f78 <_xt_context_save>"
+        },
+        {
+          "offset": 10,
+          "op": "rsr.prid",
+          "args": "a4"
+        },
+        {
+          "offset": 13,
+          "op": "extui",
+          "args": "a4, a4, 13, 1"
+        },
+        {
+          "offset": 16,
+          "op": "l32r",
+          "args": "a2, 40374f3c <_iram_text_start+0xb38> (3fcac578 <port_xSchedulerRunning>)"
+        },
+        {
+          "offset": 19,
+          "op": "addx4",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 22,
+          "op": "l32r",
+          "args": "a3, 40374670 <_iram_text_start+0x26c> (3fcac570 <port_interruptNesting>)"
+        },
+        {
+          "offset": 25,
+          "op": "addx4",
+          "args": "a3, a4, a3"
+        },
+        {
+          "offset": 28,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 30,
+          "op": "beqz.n",
+          "args": "a2, 4037f9d4 <_frxt_int_enter+0x40>"
+        },
+        {
+          "offset": 32,
+          "op": "l32i.n",
+          "args": "a2, a3, 0"
+        },
+        {
+          "offset": 34,
+          "op": "addi.n",
+          "args": "a2, a2, 1"
+        },
+        {
+          "offset": 36,
+          "op": "s32i.n",
+          "args": "a2, a3, 0"
+        },
+        {
+          "offset": 38,
+          "op": "bnei",
+          "args": "a2, 1, 4037f9d4 <_frxt_int_enter+0x40>"
+        },
+        {
+          "offset": 41,
+          "op": "l32r",
+          "args": "a2, 40374fbc <_iram_text_start+0xbb8> (3fcac550 <pxCurrentTCBs>)"
+        },
+        {
+          "offset": 44,
+          "op": "addx4",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 47,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 49,
+          "op": "beqz.n",
+          "args": "a2, 4037f9d4 <_frxt_int_enter+0x40>"
+        },
+        {
+          "offset": 51,
+          "op": "s32i.n",
+          "args": "a1, a2, 0"
+        },
+        {
+          "offset": 53,
+          "op": "l32r",
+          "args": "a1, 40374fc0 <_iram_text_start+0xbbc> (3fc997b0 <port_IntStack+0x600>)"
+        },
+        {
+          "offset": 56,
+          "op": "movi",
+          "args": "a2, 0x600"
+        },
+        {
+          "offset": 59,
+          "op": "mull",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 62,
+          "op": "add.n",
+          "args": "a1, a1, a2"
+        },
+        {
+          "offset": 64,
+          "op": "mov.n",
+          "args": "a0, a12"
+        },
+        {
+          "offset": 66,
+          "op": "ret.n",
+          "args": ""
+        }
+      ],
+      "calls": [
+        {
+          "offset": 7,
+          "target": "_xt_context_save"
+        }
+      ]
+    },
+    "_frxt_int_exit": {
+      "function": "_frxt_int_exit",
+      "own_instructions": 25,
+      "path": [
+        {
+          "offset": 0,
+          "op": "rsr.prid",
+          "args": "a4"
+        },
+        {
+          "offset": 3,
+          "op": "extui",
+          "args": "a4, a4, 13, 1"
+        },
+        {
+          "offset": 6,
+          "op": "l32r",
+          "args": "a2, 40374f3c <_iram_text_start+0xb38> (3fcac578 <port_xSchedulerRunning>)"
+        },
+        {
+          "offset": 9,
+          "op": "addx4",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 12,
+          "op": "l32r",
+          "args": "a3, 40374670 <_iram_text_start+0x26c> (3fcac570 <port_interruptNesting>)"
+        },
+        {
+          "offset": 15,
+          "op": "addx4",
+          "args": "a3, a4, a3"
+        },
+        {
+          "offset": 18,
+          "op": "rsil",
+          "args": "a0, 3"
+        },
+        {
+          "offset": 21,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 23,
+          "op": "beqz.n",
+          "args": "a2, 4037fa21 <_frxt_int_exit+0x49>"
+        },
+        {
+          "offset": 25,
+          "op": "l32i.n",
+          "args": "a2, a3, 0"
+        },
+        {
+          "offset": 27,
+          "op": "addi.n",
+          "args": "a2, a2, -1"
+        },
+        {
+          "offset": 29,
+          "op": "s32i.n",
+          "args": "a2, a3, 0"
+        },
+        {
+          "offset": 31,
+          "op": "bnez.n",
+          "args": "a2, 4037fa21 <_frxt_int_exit+0x49>"
+        },
+        {
+          "offset": 33,
+          "op": "l32r",
+          "args": "a2, 40374fbc <_iram_text_start+0xbb8> (3fcac550 <pxCurrentTCBs>)"
+        },
+        {
+          "offset": 36,
+          "op": "addx4",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 39,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 41,
+          "op": "beqz.n",
+          "args": "a2, 4037fa15 <_frxt_int_exit+0x3d>"
+        },
+        {
+          "offset": 43,
+          "op": "l32i.n",
+          "args": "a1, a2, 0"
+        },
+        {
+          "offset": 45,
+          "op": "l32r",
+          "args": "a2, 40374fb8 <_iram_text_start+0xbb4> (3fcac558 <port_switch_flag>)"
+        },
+        {
+          "offset": 48,
+          "op": "addx4",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 51,
+          "op": "l32i.n",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 53,
+          "op": "beqz.n",
+          "args": "a3, 4037fa21 <_frxt_int_exit+0x49>"
+        },
+        {
+          "offset": 73,
+          "op": "call0",
+          "args": "4038801c <_xt_context_restore>"
+        },
+        {
+          "offset": 76,
+          "op": "l32i.n",
+          "args": "a0, a1, 0"
+        },
+        {
+          "offset": 78,
+          "op": "ret.n",
+          "args": ""
+        }
+      ],
+      "calls": [
+        {
+          "offset": 73,
+          "target": "_xt_context_restore"
+        }
+      ]
+    },
+    "_xt_lowint1": {
+      "function": "_xt_lowint1",
+      "own_instructions": 59,
+      "path": [
+        {
+          "offset": 0,
+          "op": "or",
+          "args": "a0, a1, a1"
+        },
+        {
+          "offset": 3,
+          "op": "addmi",
+          "args": "a1, a1, 0xffffff00"
+        },
+        {
+          "offset": 6,
+          "op": "addi",
+          "args": "a1, a1, 64"
+        },
+        {
+          "offset": 9,
+          "op": "s32i",
+          "args": "a0, a1, 16"
+        },
+        {
+          "offset": 12,
+          "op": "rsr.ps",
+          "args": "a0"
+        },
+        {
+          "offset": 15,
+          "op": "s32i",
+          "args": "a0, a1, 8"
+        },
+        {
+          "offset": 18,
+          "op": "rsr.epc1",
+          "args": "a0"
+        },
+        {
+          "offset": 21,
+          "op": "s32i.n",
+          "args": "a0, a1, 4"
+        },
+        {
+          "offset": 23,
+          "op": "rsr.excsave1",
+          "args": "a0"
+        },
+        {
+          "offset": 26,
+          "op": "s32i.n",
+          "args": "a0, a1, 12"
+        },
+        {
+          "offset": 28,
+          "op": "l32r",
+          "args": "a0, 40374820 <_iram_text_start+0x41c> (40378ff8 <_xt_user_exit>)"
+        },
+        {
+          "offset": 31,
+          "op": "s32i.n",
+          "args": "a0, a1, 0"
+        },
+        {
+          "offset": 33,
+          "op": "mov.n",
+          "args": "a0, a1"
+        },
+        {
+          "offset": 35,
+          "op": "wsr.excsave1",
+          "args": "a0"
+        },
+        {
+          "offset": 38,
+          "op": "call0",
+          "args": "4037f994 <_frxt_int_enter>"
+        },
+        {
+          "offset": 41,
+          "op": "l32r",
+          "args": "a0, 40374834 <_iram_text_start+0x430> (40021 <UserFrameTotalSize+0x3ff21>)"
+        },
+        {
+          "offset": 44,
+          "op": "wsr.ps",
+          "args": "a0"
+        },
+        {
+          "offset": 47,
+          "op": "rsync",
+          "args": ""
+        },
+        {
+          "offset": 50,
+          "op": "rsr.intenable",
+          "args": "a2"
+        },
+        {
+          "offset": 53,
+          "op": "rsr.interrupt",
+          "args": "a3"
+        },
+        {
+          "offset": 56,
+          "op": "l32r",
+          "args": "a4, 40374838 <_iram_text_start+0x434> (637ff <UserFrameTotalSize+0x636ff>)"
+        },
+        {
+          "offset": 59,
+          "op": "and",
+          "args": "a2, a2, a3"
+        },
+        {
+          "offset": 62,
+          "op": "and",
+          "args": "a2, a2, a4"
+        },
+        {
+          "offset": 65,
+          "op": "beqz",
+          "args": "a2, 40379388 <_xt_lowint1+0x94>"
+        },
+        {
+          "offset": 68,
+          "op": "rsr.excsave1",
+          "args": "a0"
+        },
+        {
+          "offset": 71,
+          "op": "l32i.n",
+          "args": "a3, a0, 12"
+        },
+        {
+          "offset": 73,
+          "op": "s32e",
+          "args": "a3, a1, -16"
+        },
+        {
+          "offset": 76,
+          "op": "l32i.n",
+          "args": "a3, a0, 16"
+        },
+        {
+          "offset": 78,
+          "op": "s32e",
+          "args": "a3, a1, -12"
+        },
+        {
+          "offset": 81,
+          "op": "rsr.epc1",
+          "args": "a0"
+        },
+        {
+          "offset": 84,
+          "op": "l32r",
+          "args": "a4, 40374818 <_iram_text_start+0x414> (c0000000 <_rtc_reserved_end+0x5ff00000>)"
+        },
+        {
+          "offset": 87,
+          "op": "or",
+          "args": "a0, a0, a4"
+        },
+        {
+          "offset": 90,
+          "op": "addx2",
+          "args": "a0, a4, a0"
+        },
+        {
+          "offset": 93,
+          "op": "addi.n",
+          "args": "a4, a2, -1"
+        },
+        {
+          "offset": 95,
+          "op": "and",
+          "args": "a2, a2, a4"
+        },
+        {
+          "offset": 98,
+          "op": "bnez",
+          "args": "a2, 40379351 <_xt_lowint1+0x5d>"
+        },
+        {
+          "offset": 101,
+          "op": "addi.n",
+          "args": "a4, a4, 1"
+        },
+        {
+          "offset": 103,
+          "op": "wsr.intclear",
+          "args": "a4"
+        },
+        {
+          "offset": 106,
+          "op": "movi.n",
+          "args": "a3, 31"
+        },
+        {
+          "offset": 108,
+          "op": "nsau",
+          "args": "a4, a4"
+        },
+        {
+          "offset": 111,
+          "op": "sub",
+          "args": "a3, a3, a4"
+        },
+        {
+          "offset": 114,
+          "op": "rsr.prid",
+          "args": "a12"
+        },
+        {
+          "offset": 117,
+          "op": "extui",
+          "args": "a12, a12, 13, 1"
+        },
+        {
+          "offset": 120,
+          "op": "addx2",
+          "args": "a3, a3, a12"
+        },
+        {
+          "offset": 123,
+          "op": "l32r",
+          "args": "a4, 4037483c <_iram_text_start+0x438> (3fc986c8 <_xt_interrupt_table>)"
+        },
+        {
+          "offset": 126,
+          "op": "addx8",
+          "args": "a3, a3, a4"
+        },
+        {
+          "offset": 129,
+          "op": "l32i.n",
+          "args": "a4, a3, 0"
+        },
+        {
+          "offset": 131,
+          "op": "or",
+          "args": "a2, a6, a6"
+        },
+        {
+          "offset": 134,
+          "op": "l32i",
+          "args": "a6, a3, 4"
+        },
+        {
+          "offset": 137,
+          "op": "callx4",
+          "args": "a4"
+        },
+        {
+          "offset": 140,
+          "op": "j",
+          "args": "40379326 <_xt_lowint1+0x32>"
+        },
+        {
+          "offset": 50,
+          "op": "rsr.intenable",
+          "args": "a2"
+        },
+        {
+          "offset": 53,
+          "op": "rsr.interrupt",
+          "args": "a3"
+        },
+        {
+          "offset": 56,
+          "op": "l32r",
+          "args": "a4, 40374838 <_iram_text_start+0x434> (637ff <UserFrameTotalSize+0x636ff>)"
+        },
+        {
+          "offset": 59,
+          "op": "and",
+          "args": "a2, a2, a3"
+        },
+        {
+          "offset": 62,
+          "op": "and",
+          "args": "a2, a2, a4"
+        },
+        {
+          "offset": 65,
+          "op": "beqz",
+          "args": "a2, 40379388 <_xt_lowint1+0x94>"
+        },
+        {
+          "offset": 148,
+          "op": "or",
+          "args": "a1, a1, a1"
+        },
+        {
+          "offset": 151,
+          "op": "call0",
+          "args": "4037f9d8 <_frxt_int_exit>"
+        }
+      ],
+      "calls": [
+        {
+          "offset": 38,
+          "target": "_frxt_int_enter"
+        },
+        {
+          "offset": 137,
+          "target": "handler"
+        },
+        {
+          "offset": 151,
+          "target": "_frxt_int_exit"
+        }
+      ]
+    },
+    "_xt_user_exc": {
+      "function": "_xt_user_exc",
+      "own_instructions": 3,
+      "path": [
+        {
+          "offset": 0,
+          "op": "rsr.exccause",
+          "args": "a0"
+        },
+        {
+          "offset": 3,
+          "op": "bnei",
+          "args": "a0, 4, 40378f65 <_xt_handle_exc>"
+        },
+        {
+          "offset": 6,
+          "op": "j",
+          "args": "403792f4 <_xt_lowint1>"
+        }
+      ],
+      "calls": []
+    },
+    "_UserExceptionVector": {
+      "function": "_UserExceptionVector",
+      "own_instructions": 2,
+      "path": [
+        {
+          "offset": 0,
+          "op": "wsr.excsave1",
+          "args": "a0"
+        },
+        {
+          "offset": 3,
+          "op": "call0",
+          "args": "40378f5c <_xt_user_exc>"
+        }
+      ],
+      "calls": [
+        {
+          "offset": 3,
+          "target": "_xt_user_exc"
+        }
+      ]
+    },
+    "vPortYieldFromInt": {
+      "function": "vPortYieldFromInt",
+      "own_instructions": 20,
+      "path": [
+        {
+          "offset": 0,
+          "op": "entry",
+          "args": "a1, 16"
+        },
+        {
+          "offset": 3,
+          "op": "l32r",
+          "args": "a2, 40374fbc <_iram_text_start+0xbb8> (3fcac550 <pxCurrentTCBs>)"
+        },
+        {
+          "offset": 6,
+          "op": "rsr.prid",
+          "args": "a3"
+        },
+        {
+          "offset": 9,
+          "op": "extui",
+          "args": "a3, a3, 13, 1"
+        },
+        {
+          "offset": 12,
+          "op": "addx4",
+          "args": "a2, a3, a2"
+        },
+        {
+          "offset": 15,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 17,
+          "op": "l32r",
+          "args": "a3, 40374fc4 <_iram_text_start+0xbc0> (3fc99db8 <offset_pxEndOfStack>)"
+        },
+        {
+          "offset": 20,
+          "op": "l32i.n",
+          "args": "a3, a3, 0"
+        },
+        {
+          "offset": 22,
+          "op": "add.n",
+          "args": "a2, a2, a3"
+        },
+        {
+          "offset": 24,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 26,
+          "op": "l32r",
+          "args": "a3, 40374fc8 <_iram_text_start+0xbc4> (3fc99db4 <offset_cpsa>)"
+        },
+        {
+          "offset": 29,
+          "op": "l32i.n",
+          "args": "a3, a3, 0"
+        },
+        {
+          "offset": 31,
+          "op": "sub",
+          "args": "a2, a2, a3"
+        },
+        {
+          "offset": 34,
+          "op": "movi.n",
+          "args": "a3, -16"
+        },
+        {
+          "offset": 36,
+          "op": "and",
+          "args": "a2, a2, a3"
+        },
+        {
+          "offset": 39,
+          "op": "rsr.cpenable",
+          "args": "a3"
+        },
+        {
+          "offset": 42,
+          "op": "s16i",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 45,
+          "op": "movi.n",
+          "args": "a3, 0"
+        },
+        {
+          "offset": 47,
+          "op": "wsr.cpenable",
+          "args": "a3"
+        },
+        {
+          "offset": 50,
+          "op": "retw.n",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "_frxt_dispatch": {
+      "function": "_frxt_dispatch",
+      "own_instructions": 30,
+      "path": [
+        {
+          "offset": 0,
+          "op": "call4",
+          "args": "40380d18 <vTaskSwitchContext>"
+        },
+        {
+          "offset": 3,
+          "op": "l32r",
+          "args": "a2, 40374fbc <_iram_text_start+0xbb8> (3fcac550 <pxCurrentTCBs>)"
+        },
+        {
+          "offset": 6,
+          "op": "rsr.prid",
+          "args": "a3"
+        },
+        {
+          "offset": 9,
+          "op": "extui",
+          "args": "a3, a3, 13, 1"
+        },
+        {
+          "offset": 12,
+          "op": "addx4",
+          "args": "a2, a3, a2"
+        },
+        {
+          "offset": 15,
+          "op": "l32i",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 18,
+          "op": "l32i",
+          "args": "a1, a3, 0"
+        },
+        {
+          "offset": 21,
+          "op": "s32i",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 24,
+          "op": "l32i.n",
+          "args": "a2, a1, 0"
+        },
+        {
+          "offset": 26,
+          "op": "bnez.n",
+          "args": "a2, 4037fa55 <_frxt_dispatch+0x2d>"
+        },
+        {
+          "offset": 45,
+          "op": "l32r",
+          "args": "a2, 40374fbc <_iram_text_start+0xbb8> (3fcac550 <pxCurrentTCBs>)"
+        },
+        {
+          "offset": 48,
+          "op": "rsr.prid",
+          "args": "a3"
+        },
+        {
+          "offset": 51,
+          "op": "extui",
+          "args": "a3, a3, 13, 1"
+        },
+        {
+          "offset": 54,
+          "op": "addx4",
+          "args": "a2, a3, a2"
+        },
+        {
+          "offset": 57,
+          "op": "l32i",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 60,
+          "op": "l32r",
+          "args": "a3, 40374fc4 <_iram_text_start+0xbc0> (3fc99db8 <offset_pxEndOfStack>)"
+        },
+        {
+          "offset": 63,
+          "op": "l32i",
+          "args": "a3, a3, 0"
+        },
+        {
+          "offset": 66,
+          "op": "add",
+          "args": "a2, a2, a3"
+        },
+        {
+          "offset": 69,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 71,
+          "op": "l32r",
+          "args": "a3, 40374fc8 <_iram_text_start+0xbc4> (3fc99db4 <offset_cpsa>)"
+        },
+        {
+          "offset": 74,
+          "op": "l32i.n",
+          "args": "a3, a3, 0"
+        },
+        {
+          "offset": 76,
+          "op": "sub",
+          "args": "a2, a2, a3"
+        },
+        {
+          "offset": 79,
+          "op": "movi.n",
+          "args": "a3, -16"
+        },
+        {
+          "offset": 81,
+          "op": "and",
+          "args": "a2, a2, a3"
+        },
+        {
+          "offset": 84,
+          "op": "l16ui",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 87,
+          "op": "wsr.cpenable",
+          "args": "a3"
+        },
+        {
+          "offset": 90,
+          "op": "call0",
+          "args": "4038801c <_xt_context_restore>"
+        },
+        {
+          "offset": 93,
+          "op": "rsync",
+          "args": ""
+        },
+        {
+          "offset": 96,
+          "op": "l32i.n",
+          "args": "a0, a1, 0"
+        },
+        {
+          "offset": 98,
+          "op": "ret.n",
+          "args": ""
+        }
+      ],
+      "calls": [
+        {
+          "offset": 0,
+          "target": "vTaskSwitchContext"
+        },
+        {
+          "offset": 90,
+          "target": "_xt_context_restore"
+        }
+      ]
+    },
+    "_frxt_int_exit_switch": {
+      "function": "_frxt_int_exit",
+      "own_instructions": 28,
+      "path": [
+        {
+          "offset": 0,
+          "op": "rsr.prid",
+          "args": "a4"
+        },
+        {
+          "offset": 3,
+          "op": "extui",
+          "args": "a4, a4, 13, 1"
+        },
+        {
+          "offset": 6,
+          "op": "l32r",
+          "args": "a2, 40374f3c <_iram_text_start+0xb38> (3fcac578 <port_xSchedulerRunning>)"
+        },
+        {
+          "offset": 9,
+          "op": "addx4",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 12,
+          "op": "l32r",
+          "args": "a3, 40374670 <_iram_text_start+0x26c> (3fcac570 <port_interruptNesting>)"
+        },
+        {
+          "offset": 15,
+          "op": "addx4",
+          "args": "a3, a4, a3"
+        },
+        {
+          "offset": 18,
+          "op": "rsil",
+          "args": "a0, 3"
+        },
+        {
+          "offset": 21,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 23,
+          "op": "beqz.n",
+          "args": "a2, 4037fa21 <_frxt_int_exit+0x49>"
+        },
+        {
+          "offset": 25,
+          "op": "l32i.n",
+          "args": "a2, a3, 0"
+        },
+        {
+          "offset": 27,
+          "op": "addi.n",
+          "args": "a2, a2, -1"
+        },
+        {
+          "offset": 29,
+          "op": "s32i.n",
+          "args": "a2, a3, 0"
+        },
+        {
+          "offset": 31,
+          "op": "bnez.n",
+          "args": "a2, 4037fa21 <_frxt_int_exit+0x49>"
+        },
+        {
+          "offset": 33,
+          "op": "l32r",
+          "args": "a2, 40374fbc <_iram_text_start+0xbb8> (3fcac550 <pxCurrentTCBs>)"
+        },
+        {
+          "offset": 36,
+          "op": "addx4",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 39,
+          "op": "l32i.n",
+          "args": "a2, a2, 0"
+        },
+        {
+          "offset": 41,
+          "op": "beqz.n",
+          "args": "a2, 4037fa15 <_frxt_int_exit+0x3d>"
+        },
+        {
+          "offset": 43,
+          "op": "l32i.n",
+          "args": "a1, a2, 0"
+        },
+        {
+          "offset": 45,
+          "op": "l32r",
+          "args": "a2, 40374fb8 <_iram_text_start+0xbb4> (3fcac558 <port_switch_flag>)"
+        },
+        {
+          "offset": 48,
+          "op": "addx4",
+          "args": "a2, a4, a2"
+        },
+        {
+          "offset": 51,
+          "op": "l32i.n",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 53,
+          "op": "beqz.n",
+          "args": "a3, 4037fa21 <_frxt_int_exit+0x49>"
+        },
+        {
+          "offset": 55,
+          "op": "movi",
+          "args": "a3, 0"
+        },
+        {
+          "offset": 58,
+          "op": "s32i",
+          "args": "a3, a2, 0"
+        },
+        {
+          "offset": 61,
+          "op": "or",
+          "args": "a1, a1, a1"
+        },
+        {
+          "offset": 64,
+          "op": "call4",
+          "args": "4037faf0 <vPortYieldFromInt>"
+        },
+        {
+          "offset": 67,
+          "op": "or",
+          "args": "a1, a1, a1"
+        },
+        {
+          "offset": 70,
+          "op": "call0",
+          "args": "4037fa28 <_frxt_dispatch>"
+        }
+      ],
+      "calls": [
+        {
+          "offset": 64,
+          "target": "vPortYieldFromInt"
+        },
+        {
+          "offset": 70,
+          "target": "_frxt_dispatch"
+        }
+      ]
+    }
+  },
+  "window_trap_paths": {
+    "_WindowOverflow4": {
+      "function": "_WindowOverflow4",
+      "own_instructions": 5,
+      "path": [
+        {
+          "offset": 0,
+          "op": "s32e",
+          "args": "a0, a5, -16"
+        },
+        {
+          "offset": 3,
+          "op": "s32e",
+          "args": "a1, a5, -12"
+        },
+        {
+          "offset": 6,
+          "op": "s32e",
+          "args": "a2, a5, -8"
+        },
+        {
+          "offset": 9,
+          "op": "s32e",
+          "args": "a3, a5, -4"
+        },
+        {
+          "offset": 12,
+          "op": "rfwo",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "_WindowOverflow8": {
+      "function": "_WindowOverflow8",
+      "own_instructions": 10,
+      "path": [
+        {
+          "offset": 0,
+          "op": "s32e",
+          "args": "a0, a9, -16"
+        },
+        {
+          "offset": 3,
+          "op": "l32e",
+          "args": "a0, a1, -12"
+        },
+        {
+          "offset": 6,
+          "op": "s32e",
+          "args": "a1, a9, -12"
+        },
+        {
+          "offset": 9,
+          "op": "s32e",
+          "args": "a2, a9, -8"
+        },
+        {
+          "offset": 12,
+          "op": "s32e",
+          "args": "a3, a9, -4"
+        },
+        {
+          "offset": 15,
+          "op": "s32e",
+          "args": "a4, a0, -32"
+        },
+        {
+          "offset": 18,
+          "op": "s32e",
+          "args": "a5, a0, -28"
+        },
+        {
+          "offset": 21,
+          "op": "s32e",
+          "args": "a6, a0, -24"
+        },
+        {
+          "offset": 24,
+          "op": "s32e",
+          "args": "a7, a0, -20"
+        },
+        {
+          "offset": 27,
+          "op": "rfwo",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "_WindowOverflow12": {
+      "function": "_WindowOverflow12",
+      "own_instructions": 14,
+      "path": [
+        {
+          "offset": 0,
+          "op": "s32e",
+          "args": "a0, a13, -16"
+        },
+        {
+          "offset": 3,
+          "op": "l32e",
+          "args": "a0, a1, -12"
+        },
+        {
+          "offset": 6,
+          "op": "s32e",
+          "args": "a1, a13, -12"
+        },
+        {
+          "offset": 9,
+          "op": "s32e",
+          "args": "a2, a13, -8"
+        },
+        {
+          "offset": 12,
+          "op": "s32e",
+          "args": "a3, a13, -4"
+        },
+        {
+          "offset": 15,
+          "op": "s32e",
+          "args": "a4, a0, -48"
+        },
+        {
+          "offset": 18,
+          "op": "s32e",
+          "args": "a5, a0, -44"
+        },
+        {
+          "offset": 21,
+          "op": "s32e",
+          "args": "a6, a0, -40"
+        },
+        {
+          "offset": 24,
+          "op": "s32e",
+          "args": "a7, a0, -36"
+        },
+        {
+          "offset": 27,
+          "op": "s32e",
+          "args": "a8, a0, -32"
+        },
+        {
+          "offset": 30,
+          "op": "s32e",
+          "args": "a9, a0, -28"
+        },
+        {
+          "offset": 33,
+          "op": "s32e",
+          "args": "a10, a0, -24"
+        },
+        {
+          "offset": 36,
+          "op": "s32e",
+          "args": "a11, a0, -20"
+        },
+        {
+          "offset": 39,
+          "op": "rfwo",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "_WindowUnderflow4": {
+      "function": "_WindowUnderflow4",
+      "own_instructions": 5,
+      "path": [
+        {
+          "offset": 0,
+          "op": "l32e",
+          "args": "a0, a5, -16"
+        },
+        {
+          "offset": 3,
+          "op": "l32e",
+          "args": "a1, a5, -12"
+        },
+        {
+          "offset": 6,
+          "op": "l32e",
+          "args": "a2, a5, -8"
+        },
+        {
+          "offset": 9,
+          "op": "l32e",
+          "args": "a3, a5, -4"
+        },
+        {
+          "offset": 12,
+          "op": "rfwu",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "_WindowUnderflow8": {
+      "function": "_WindowUnderflow8",
+      "own_instructions": 10,
+      "path": [
+        {
+          "offset": 0,
+          "op": "l32e",
+          "args": "a0, a9, -16"
+        },
+        {
+          "offset": 3,
+          "op": "l32e",
+          "args": "a1, a9, -12"
+        },
+        {
+          "offset": 6,
+          "op": "l32e",
+          "args": "a2, a9, -8"
+        },
+        {
+          "offset": 9,
+          "op": "l32e",
+          "args": "a7, a1, -12"
+        },
+        {
+          "offset": 12,
+          "op": "l32e",
+          "args": "a3, a9, -4"
+        },
+        {
+          "offset": 15,
+          "op": "l32e",
+          "args": "a4, a7, -32"
+        },
+        {
+          "offset": 18,
+          "op": "l32e",
+          "args": "a5, a7, -28"
+        },
+        {
+          "offset": 21,
+          "op": "l32e",
+          "args": "a6, a7, -24"
+        },
+        {
+          "offset": 24,
+          "op": "l32e",
+          "args": "a7, a7, -20"
+        },
+        {
+          "offset": 27,
+          "op": "rfwu",
+          "args": ""
+        }
+      ],
+      "calls": []
+    },
+    "_WindowUnderflow12": {
+      "function": "_WindowUnderflow12",
+      "own_instructions": 14,
+      "path": [
+        {
+          "offset": 0,
+          "op": "l32e",
+          "args": "a0, a13, -16"
+        },
+        {
+          "offset": 3,
+          "op": "l32e",
+          "args": "a1, a13, -12"
+        },
+        {
+          "offset": 6,
+          "op": "l32e",
+          "args": "a2, a13, -8"
+        },
+        {
+          "offset": 9,
+          "op": "l32e",
+          "args": "a11, a1, -12"
+        },
+        {
+          "offset": 12,
+          "op": "l32e",
+          "args": "a3, a13, -4"
+        },
+        {
+          "offset": 15,
+          "op": "l32e",
+          "args": "a4, a11, -48"
+        },
+        {
+          "offset": 18,
+          "op": "l32e",
+          "args": "a5, a11, -44"
+        },
+        {
+          "offset": 21,
+          "op": "l32e",
+          "args": "a6, a11, -40"
+        },
+        {
+          "offset": 24,
+          "op": "l32e",
+          "args": "a7, a11, -36"
+        },
+        {
+          "offset": 27,
+          "op": "l32e",
+          "args": "a8, a11, -32"
+        },
+        {
+          "offset": 30,
+          "op": "l32e",
+          "args": "a9, a11, -28"
+        },
+        {
+          "offset": 33,
+          "op": "l32e",
+          "args": "a10, a11, -24"
+        },
+        {
+          "offset": 36,
+          "op": "l32e",
+          "args": "a11, a11, -20"
+        },
+        {
+          "offset": 39,
+          "op": "rfwu",
+          "args": ""
+        }
+      ],
+      "calls": []
+    }
+  },
+  "instructions_excluding_handler_and_window_traps": 249,
+  "conditions": [
+    "One pending level-1 source, nonnested, scheduler running, current task exists, no requested context switch.",
+    "C handler body is charged separately; exception frame returns through _xt_user_exit.",
+    "Window overflow/underflow traps during context save or C calls are not folded into this count."
+  ],
+  "source_sha256": {
+    "ci/s3_irq_entry_audit.py": "6bc02b2e778818349ab59b2900674a3894fbb619f38364775e63439d21121b8d",
+    "ci/s3_sdk_cost_audit.py": "411ede06ed5516e3079391bfad380616437c20f05e6d3a9984743f77a647e9b6",
+    "reports/s3-receiver-cost-ledger/tick.json": "1ebdc0caa398b606c6e2c90ed8e3817578234336256abe9fc31c902582a7f2ff"
+  },
+  "hardware_wcet": false
+}
