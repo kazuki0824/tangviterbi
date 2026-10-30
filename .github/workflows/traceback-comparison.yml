@@ -1,0 +1,76 @@
+name: 9K traceback comparative evidence
+on:
+  pull_request:
+    paths:
+      - 'reports/9k-traceback-ip-comparison.md'
+      - '.github/workflows/traceback-comparison.yml'
+      - 'rtl/three_context_k7.sv'
+      - 'experiments/three_context_k7.py'
+      - 'tests/test_three_context_k7.py'
+      - 'tests/test_three_context_k7_window.py'
+      - 'rtl/three_context_k7_window.sv'
+      - 'rtl/three_context_k7_coole_scheduled.sv'
+      - 'tests/test_three_context_k7_coole_scheduled.py'
+      - 'ci/compare_traceback_pnr.py'
+      - 'rtl/three_context_k7_bm_staged.sv'
+      - 'rtl/three_context_k7_bm_delta.sv'
+      - 'rtl/three_context_k7_32acs.sv'
+      - 'rtl/three_context_k7_32acs_ff.sv'
+      - 'tests/test_three_context_k7_32acs_ff.py'
+      - 'tests/test_three_context_k7_32acs.py'
+      - 'tests/test_three_context_k7_bm_delta.py'
+      - 'tests/test_three_context_k7_bm_staged.py'
+      - 'tests/test_k7_static_guards.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  baseline-functional:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Icarus Verilog
+        run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Run independent three-context baseline oracle
+        run: |
+          python3 -m unittest discover -s tests -p 'test_three_context_k7.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_window.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_coole_scheduled.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_bm_staged.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_bm_delta.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_32acs.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_32acs_ff.py' -v
+          python3 -m unittest discover -s tests -p 'test_k7_static_guards.py' -v
+      - name: Explicitly record missing paired external-IP experiment
+        run: |
+          echo 'Both baseline and experimental 64+64 sliding-window variant are checked against independent oracle. Any functional regression fails this job.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Paired P&R Fmax/resource improvement and whole-receiver feasibility remain unverified.' >> "$GITHUB_STEP_SUMMARY"
+  paired-pnr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [baseline, window, coole-scheduled, bm-staged, bm-delta, 32acs, 32acs-ff]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: "2026-10-04"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run 9K same constraints and seed
+        run: python3 -m ci.compare_traceback_pnr --variant "${{ matrix.variant }}" --output "build/traceback-${{ matrix.variant }}"
+      - name: Upload paired evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: traceback-${{ matrix.variant }}
+          path: build/traceback-${{ matrix.variant }}/
+          if-no-files-found: error
