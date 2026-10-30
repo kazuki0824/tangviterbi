@@ -15,6 +15,8 @@ on:
       - 'rtl/three_context_k7_bm_staged.sv'
       - 'rtl/three_context_k7_bm_delta.sv'
       - 'rtl/three_context_k7_32acs.sv'
+      - 'rtl/three_context_k7_32acs_ff.sv'
+      - 'tests/test_three_context_k7_32acs_ff.py'
       - 'tests/test_three_context_k7_32acs.py'
       - 'tests/test_three_context_k7_bm_delta.py'
       - 'tests/test_three_context_k7_bm_staged.py'
@@ -41,6 +43,7 @@ jobs:
           python3 -m unittest discover -s tests -p 'test_three_context_k7_bm_staged.py' -v
           python3 -m unittest discover -s tests -p 'test_three_context_k7_bm_delta.py' -v
           python3 -m unittest discover -s tests -p 'test_three_context_k7_32acs.py' -v
+          python3 -m unittest discover -s tests -p 'test_three_context_k7_32acs_ff.py' -v
           python3 -m unittest discover -s tests -p 'test_k7_static_guards.py' -v
       - name: Explicitly record missing paired external-IP experiment
         run: |
@@ -52,7 +55,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        variant: [baseline, window, coole-scheduled, bm-staged, bm-delta, 32acs]
+        variant: [baseline, window, coole-scheduled, bm-staged, bm-delta, 32acs, 32acs-ff]
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
