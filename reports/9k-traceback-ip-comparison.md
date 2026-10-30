@@ -143,3 +143,15 @@ BM-delta changes the signed modulo comparison algebraically from (src1+branch1)-
 Static mutation guard tests detect the earlier start_trace state/walk reset comment-out bug and preserve interfaces. These are technical safeguards; they are **not a substitute** for explicit continuation-versus-interruption decisions.
 
 Next design questions are ahead-of-step branch-metric overlap without added cycles, per-lane ACS routing, metric/survivor bank reassignment and full receiver resources/deadlines. The present benchmark does not qualify any complete design.
+
+## 2026-10-30: 3-context 32-ACS / 2 clocks-per-step redesign
+
+This follow-on to the completed external-IP traceback comparison examines a newly implemented **32-ACS, 2-clock K7** with the existing 3 contexts, full 8-bit soft inputs, two erasure bits, modulo-13-bit path metrics, 64 survivor decisions, and unchanged output framing. Sources:
+- `rtl/three_context_k7_32acs.sv`: 32 lanes with 2 generations of old/new path metrics, independent low/high banks
+- `rtl/three_context_k7_32acs_ff.sv`: same functional design with attempted register-based metric implementation
+- `tests/test_three_context_k7_32acs.py` and `tests/test_three_context_k7_32acs_ff.py`: full oracle checks (6 epochs x 3 contexts x 1024 trellis steps per candidate) including randomized soft/erasure and context interleaving
+- `ci/compare_traceback_pnr.py` and `.github/workflows/traceback-comparison.yml`: same GW1NR-9, 108 MHz constraint, seed 1
+
+[CI run 41016660410](https://github.com/kazuki0824/tangviterbi/actions/runs/41016660410) verified both 32-ACS functional variants **PASS** the independent oracle. The 32-ACS distributed-RAM P&R variant **FAILS before routing**, with `ERROR: Unable to place cell ... high_bank ... no BELs remaining to implement cell type 'RAM16SDP4'`. Prior combined-bank version also failed due to RAM16SDP4 capacity. A green measurement job indicates it uploaded the failure and **must not** be interpreted as physical fit. FF variant routing/utilization status requires an explicit P&R job check; no guessed Fmax is allowed.
+
+Lowering clock requirements mathematically to **50.424242 MHz** (25.212121 Mstep/s x 2 clocks/step) is insufficient by itself. The 9K physical read ports, distributed RAM BEL availability, routing, and system-level K7 resource allocation `2096-I` must all be met. This experiment changes the throughput architecture but does not prove adoption. All existing 16-ACS and original-IP negative findings remain intact.
