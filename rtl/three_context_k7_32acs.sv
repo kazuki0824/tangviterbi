@@ -189,18 +189,23 @@ module three_context_k7_32acs #(
     // store 32 x 3 x 2 x 2 x METRIC_W = 4992 bits when METRIC_W=13.
     // Old generation is never overwritten until both phases have completed.
     generate for(genvar lane=0;lane<32;lane=lane+1)begin : g_metric
-        (* ram_style = "distributed" *) reg [METRIC_W-1:0] bank [0:15];
-        assign selected_metrics[lane] = bank[{context_id,generation[context_id],1'b0}];
-        assign selected_metrics[32+lane] = bank[{context_id,generation[context_id],1'b1}];
+        // Two physically independent 32-state halves: one read per bank.
+        (* ram_style = "distributed" *) reg [METRIC_W-1:0] low_bank [0:7];
+        (* ram_style = "distributed" *) reg [METRIC_W-1:0] high_bank [0:7];
+        assign selected_metrics[lane] = low_bank[{context_id,generation[context_id]}];
+        assign selected_metrics[32+lane] = high_bank[{context_id,generation[context_id]}];
         for(genvar ct=0;ct<3;ct=ct+1)begin : g_context
-            assign metrics[64*ct+lane] = bank[4*ct+2*generation[ct]];
-            assign metrics[64*ct+32+lane] = bank[4*ct+2*generation[ct]+1];
+            assign metrics[64*ct+lane] = low_bank[2*ct+generation[ct]];
+            assign metrics[64*ct+32+lane] = high_bank[2*ct+generation[ct]];
         end
         always @(posedge clk) if(tick) begin
-            if(!initialized[context_id])
-                bank[{context_id,1'b0,phase[0]}] <= 0;
-            else if(step_enable)
-                bank[{context_id,~generation[context_id],phase[0]}] <= lane_metric[lane];
+            if(!initialized[context_id]) begin
+                if(!phase[0]) low_bank[{context_id,1'b0}] <= 0;
+                else high_bank[{context_id,1'b0}] <= 0;
+            end else if(step_enable) begin
+                if(!phase[0]) low_bank[{context_id,~generation[context_id]}] <= lane_metric[lane];
+                else high_bank[{context_id,~generation[context_id]}] <= lane_metric[lane];
+            end
         end
     end endgenerate
 
