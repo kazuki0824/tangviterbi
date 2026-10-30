@@ -1,8 +1,32 @@
 # ② Tang Nano20K＋N16R8×2：現在の統合見積もり
 
-2026-10-30 JST。①は変更しない。**現在はS側5/16 packing＋16KiB転送＋深さ2の送信queue・準備2048語を候補として推進する。旧単一転送模型の容量超過に対し、新候補は条件付き模型で20000bankを通過した。正常受信ownerと指定SDK経路は計上したが、制御・例外・競合を含む全SoC費用と全受信機の資源・期限は未確定で、受信機の成立認定には至っていない。**
+2026-10-30 JST。①は変更しない。**S5/16の正常受信だけの模型は通過したが、未計上だった1HzのPHY追従処理を追加すると50µsの中断条件で失敗した。S6/16＋周期処理core1の比較候補は50µsの条件で通過。実際のPHY処理時間とRFへの影響は未確定で、全受信機の成立認定には至っていない。**
 
 SoCはRF取得・可逆I10/Q10 packing・FPGAへの送信、FPGAは全復調とT/S独立TS出力を担当。N16R8×2限定で検討する。追加software間引き・有効bit削減は行わず、FPGA→SoCは選局・電源等の指令のみ。
+
+## 最新：周期PHY処理の追加と分担の再比較
+
+[設定・実バイナリ](../s3-queue-owner/phy-periodic.json)で、PLL追従timerが1秒周期・core0で有効なことを確認。条件付きでbusy-bit待ちループと、その解除後50µs待ちを通る。ソフトウェアの待ち回数上限はないため、この処理のWCETを命令数だけで確定できない。PLL追従を無効化する変更は行っていない。
+
+[core0の35条件](../s3-queue-owner/periodic-runtime.json)では、追加サービス時間10µs/秒は5位相とも20000bank通過、50µs以上の評価点は5位相とも失敗。0µsは前回の出力・費用・期限結果と一致する。[core1移動だけの40条件](../s3-queue-owner/timer-core1-runtime.json)も、S5/16では5位相すべてを通過する条件なし。
+
+そこで[18設定の比較](../s3-queue-owner/periodic-candidates.json)を実施。S6/16、512sample/slice、準備2048/3072/4096語、slice許容40000cycleで、core1追加50µs/秒の5位相4000bankと代表位相20000bankを通過した。準備2048語の代表結果はarena残6848byte、RF監視最大68.208µs、job余裕最小154.929µs。100µsは失敗条件が出る。未通過の設定は最初の失敗で棄却し、残り位相を通過扱いにしない。
+
+[追加の余裕評価](../s3-queue-owner/periodic-headroom.json)では、S6/16・準備2048語が62.5µsでも5位相4000bank＋代表位相20000bank通過、75/87.5µsは最初の位相で失敗。全位相の許容上限を確定した結果ではない。
+
+**追加時間は実測費用でなく感度条件。** 実際のtimer IRQ/task配置・優先度、PHYのbusy解除とRF影響、変更分担のtarget命令再計数が残る。これに加えて指令/supervisor、window例外・メモリ競合も未確定。以前の正常受信20000bank通過を全SoC成立とは扱わない。
+
+追加後の[回帰検査78件](../s3-queue-owner/allocations-tests.log)は成功。
+
+受信専用のSPI初期化関数はcore0・level1・非共有・IRAMを固定するよう実装し、[SDK CI](https://github.com/kazuki0824/tangviterbi/actions/runs/40979624053)成功。最終board launcherの完成や、timerのcore1移動を実装済みとするものではない。
+
+メモリは[寿命別に再計算](../s3-queue-owner/lifetime-memory.json)。PHY・最小allocator管理費・既知TWDTを内部RAMへ配置する条件で、校正中残量上限13436byte、定常15308byte。TWDTのPSRAM fallbackを許し、強制internal分だけを差し引く定常上限は15368byte。未計上のPHY内部・断片化等を含む実際の空き容量ではない。以下の16820/16052byteは控除項目の少ない旧段階の上限。
+
+## 最新：未計上だった常駐割当を追加
+
+[GDMA・lock・IRQの内訳](../s3-queue-owner/README.md)、[再計算JSON](../s3-queue-owner/allocations.json)。SDKソースの割当箇所と同じN16R8 ELFの型サイズから、2portで**768byte**を追加計上した。既知割当下限は**2352byte**、内部メモリ容量上限は**16052byte**へ訂正。受信中のバッファ期限結果は変更なし。GDMA共有groupの二重計上を避け、一時確保と常駐量を分離した。これは見積もり漏れの是正で、使用メモリを増やす実装変更ではない。
+
+これらは初期化時の割当であり、毎転送の費用ではない。MANUAL alignmentを使う正常送信では一時DMA payload割当0回/transferを確認した。初期化CPU費用、PHY/calibration、allocator overhead、制御・supervisorは未確定。IRQの非共有設定とcore割当は最終launcherで固定する必要があり、現adapterが強制しているとは扱わない。
 
 ## 最新：実owner接続後の費用・期限とメモリ
 

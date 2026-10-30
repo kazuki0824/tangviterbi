@@ -1,0 +1,39 @@
+{
+  "scope": "Locate periodic PHY work and its unresolved hardware-wait bound.",
+  "ELF_sha256": "8fd984541fc6211156ae38a53aafeca522f8dfa3c5aaec31b737133cebae2f9b",
+  "period_us": 1000000,
+  "nominal_releases_per_second": 1,
+  "dispatch_core": 0,
+  "callback": "phy_track_pll_timer_callback",
+  "call_chain": [
+    "phy_track_pll_timer_callback",
+    "phy_param_track_tot",
+    "rfpll_cap_track",
+    "wait_hw_freq_busy"
+  ],
+  "conditional_path": true,
+  "hardware_wait": {
+    "register": "0x6000e168",
+    "continue_when": "bit31 remains set",
+    "loop_target": "0x4200f130",
+    "software_iteration_limit": null,
+    "delay_after_observed_busy_us": 50
+  },
+  "costs_not_finalized": [
+    "Reachability and frequency of conditional PLL correction for raw RF configuration",
+    "busy-bit clearance bound",
+    "ROM function-table callees and PHY data state",
+    "timer IRQ/dispatch/context-switch and PHY mutex wait",
+    "interaction of PLL work with captured I/Q"
+  ],
+  "release_note": "One nominal release per second; actual dispatch can be delayed/batched. No maximum callback burst inferred without a backlog bound.",
+  "all_SoC_costs_finalized": false,
+  "PLL_tracking_disabled": false,
+  "source_sha256": {
+    "ci/s3_queue_phy_periodic_audit.py": "eeb8b3362dad037f5818c0a4a805c036411d33700d8a0772b6704f46e35368f2",
+    "reports/s3-queue-owner/memory-sdk/s3_queue_memory_probe.elf.gz": "a407589d4a78079e6aad35ebdedcfe597e631e5dfdc4187433da5ca82e19fb80",
+    "reports/s3-queue-owner/memory-sdk/sdkconfig.json.gz": "8f5d9b9d5acdbf8a63e09e74a12b7999ace65552d67b1279e2c9ff6c4451b5b2",
+    "reports/s3-queue-owner/allocation-sdk/sources.json": "7eeaf607e7e32858ec22cd65da267fdf8228bde956b1618961ca1d61ef6e0742",
+    "reports/s3-queue-owner/phy-periodic.dis": "7dd6a6ebd2337f00871000e90cb20a85401554fc494adc9e82358f4555055449"
+  }
+}

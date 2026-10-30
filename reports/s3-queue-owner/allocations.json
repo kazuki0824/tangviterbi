@@ -1,0 +1,134 @@
+{
+  "scope": "Refine retained SPI/GDMA allocations; not an allocator or boot simulation.",
+  "target_type_bytes": {
+    "gdma_tx_channel_t": 52,
+    "gdma_rx_channel_t": 56,
+    "gdma_pair_t": 28,
+    "gdma_group_t": 136,
+    "spi_bus_lock_t": 64,
+    "spi_bus_lock_dev_t": 12,
+    "StaticSemaphore_t": 84,
+    "intr_handle_data_t": 8,
+    "vector_desc_t": 12
+  },
+  "retained_objects": [
+    {
+      "type": "gdma_tx_channel_t",
+      "bytes_each": 52,
+      "retained_count": 2,
+      "retained_bytes": 104
+    },
+    {
+      "type": "gdma_rx_channel_t",
+      "bytes_each": 56,
+      "retained_count": 2,
+      "retained_bytes": 112
+    },
+    {
+      "type": "gdma_pair_t",
+      "bytes_each": 28,
+      "retained_count": 2,
+      "retained_bytes": 56
+    },
+    {
+      "type": "gdma_group_t",
+      "bytes_each": 136,
+      "retained_count": 1,
+      "retained_bytes": 136
+    },
+    {
+      "type": "spi_bus_lock_t",
+      "bytes_each": 64,
+      "retained_count": 2,
+      "retained_bytes": 128
+    },
+    {
+      "type": "spi_bus_lock_dev_t",
+      "bytes_each": 12,
+      "retained_count": 2,
+      "retained_bytes": 24
+    },
+    {
+      "type": "StaticSemaphore_t",
+      "bytes_each": 84,
+      "retained_count": 2,
+      "retained_bytes": 168
+    },
+    {
+      "type": "intr_handle_data_t",
+      "bytes_each": 8,
+      "retained_count": 2,
+      "retained_bytes": 16
+    },
+    {
+      "type": "vector_desc_t",
+      "bytes_each": 12,
+      "retained_count": 2,
+      "retained_bytes": 24
+    }
+  ],
+  "additional_retained_lower_bound_bytes": 768,
+  "allocation_phase": "RF-off initialization; retained through receive and freed at teardown, not per bank or transfer",
+  "fresh_two_port_gdma_allocation_calls": {
+    "tx": 2,
+    "rx": 2,
+    "group": 2,
+    "pair": 3,
+    "group_temporary_frees": 1,
+    "pair_temporary_frees": 1,
+    "condition": "Initially empty GDMA group, sequential two-port setup, no concurrent clients"
+  },
+  "transfer_bounce_allocation_calls": 0,
+  "previous_known_driver_lower_bound_bytes": 1584,
+  "known_driver_lower_bound_bytes": 2352,
+  "previous_internal_remaining_upper_bound_bytes": 16820,
+  "internal_remaining_upper_bound_bytes": 16052,
+  "initialization_temporary_requests": [
+    {
+      "type": "gdma_group_t",
+      "bytes": 136,
+      "reason": "Preallocated before checking existing shared object; freed if object already exists. Group and pair preallocations are sequential, not summed as simultaneous."
+    },
+    {
+      "type": "gdma_pair_t",
+      "bytes": 28,
+      "reason": "Preallocated before checking existing shared object; freed if object already exists. Group and pair preallocations are sequential, not summed as simultaneous."
+    }
+  ],
+  "assumptions": [
+    "Two successful bus initializations and one device per bus; distinct non-shared SPI IRQs, no tracing wrapper.",
+    "One shared GDMA group counted once; two pairs each retain TX and RX even for TX-only payload.",
+    "System-wide retained objects counted even if an earlier subsystem created shared group/vector; do not charge them again to that subsystem.",
+    "No DMA callbacks registered by this SPI setup; SPI interrupt metadata counted, not four hypothetical GDMA interrupts.",
+    "Same retained-memory baseline as memory.json; no claim about initialization peak, allocation order or capability fit."
+  ],
+  "not_counted": [
+    "Allocation headers/alignment/fragmentation",
+    "PHY/calibration and other runtime allocations",
+    "Extra IRQ sharing or other GDMA clients",
+    "Initialization CPU cost and elapsed time",
+    "Control/supervisor resources"
+  ],
+  "hardware_boot_executed": false,
+  "all_SoC_costs_finalized": false,
+  "source_sha256": {
+    "ci/s3_queue_allocation_audit.py": "21d92ea16db60ff67ab8d24b43bc113d8b3e9cee2bc3d2a9797e5513a7af6d2c",
+    "experiments/s3_raw_queue.c": "89da1621e953379279fa258e2a5684be8efbf28320f796461878e72949eaf3fa",
+    "reports/s3-queue-owner/memory.json": "e2084fb56576bcc25d9532e2530730b6f231aed5cf83da604af4bbe3e0ae89d5",
+    "reports/s3-queue-owner/memory-sdk/s3_queue_memory_probe.elf.gz": "a407589d4a78079e6aad35ebdedcfe597e631e5dfdc4187433da5ca82e19fb80",
+    "reports/s3-queue-owner/memory-sdk/sdkconfig.json.gz": "8f5d9b9d5acdbf8a63e09e74a12b7999ace65552d67b1279e2c9ff6c4451b5b2",
+    "reports/s3-queue-owner/allocation-sdk/sources.json": "7eeaf607e7e32858ec22cd65da267fdf8228bde956b1618961ca1d61ef6e0742",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_driver_spi__src__gpspi__spi_common.c.gz": "71619e853ade7c896e0c4f1eedefebba88b518ad41b6c1eb08de238be0d76363",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_driver_spi__src__gpspi__spi_master.c.gz": "87109e2f305d6a6e6ba85fd8f97b30ca1d8e311f1355b591bf20f2085db233b3",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_hw_support__dma__gdma.c.gz": "7203f5d748a9e580140da793148e190fd397bc4108341e7f9495c5f539fe7776",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_hw_support__dma__gdma_priv.h.gz": "2de482b978a6c356cdaf7be17d0b60fb04983c6072bdd71003020ea64b912281",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_hw_support__dma__include__esp_private__gdma.h.gz": "36499f9fddfb411701effb12dd030f61d6d40a84533c6cb1793caa32d64ce76e",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_hw_support__intr_alloc.c.gz": "b06e8c2959757e9d3ed4d81bad76ac6194856f6db768439f0896f1179171103c",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_hw_support__spi_bus_lock.c.gz": "754bf2883cb40c8e25b5d925db6127339800d62ba647131ce61ac3caec1c9867",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_phy__src__phy_common.c.gz": "08d1f097edac220c22ce03a5094250b4acb172700dae9637e8810d742c039e3c",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_phy__src__phy_init.c.gz": "6b9be9e9f3132e6b6b9556ab6bf065a13a0e4dfe2e5d6df6d37afcd7f5cdc1f8",
+    "reports/s3-queue-owner/allocation-sdk/components__esp_psram__system_layer__esp_psram.c.gz": "17f0b137e999b96853365cbb2185e1358616c1198a1dd59a10eaa368a50dc4ae",
+    "reports/s3-queue-owner/allocation-sdk/components__freertos__esp_additions__idf_additions.c.gz": "84b2047fe85b1b728477c3c83179f211e84233d547777cdc053a961263720036",
+    "reports/s3-queue-owner/allocation-sdk/components__newlib__src__locks.c.gz": "f0f7a9676212445f4705d401ae099af638dbc0dfb634e8f7817ac72d1d7deb48"
+  }
+}

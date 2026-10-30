@@ -1,0 +1,2004 @@
+{
+  "scope": "Search declared packing/preparation settings against periodic service; no measured WCET.",
+  "rows": [
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "irq_path_counts": [
+        2,
+        2968,
+        2968,
+        4566
+      ],
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 40000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        11986,
+        23424
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        26092,
+        22538
+      ],
+      "accounted_until_cycles": [
+        296448974,
+        296449092
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 296448974,
+      "banks": 4000,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        27461,
+        476660
+      ],
+      "polls": 192227,
+      "peak_arena_bytes": 124005,
+      "max_rf_poll_gap": 16370,
+      "max_owner_iteration": 22338,
+      "min_observed_job_deadline_margin": 37801,
+      "max_publication_latency": 70680,
+      "checked_bytes": 123437056,
+      "retired_bytes": 123437056,
+      "transfers_done": [
+        4666,
+        2868
+      ],
+      "max_submit_gap": [
+        82925,
+        154049
+      ],
+      "charged_cycles": [
+        296448974,
+        296449092
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 4000,
+      "periodic_service_cycles": 15000,
+      "first_release_cycles": 1,
+      "period_cycles": 240000000,
+      "service_core": 1,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 27461,
+            "cycles": 10078187
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 7465,
+            "cycles": 1104820
+          },
+          "PACK_SLICE": {
+            "events": 19996,
+            "cycles": 6458708
+          },
+          "PACK_RUN": {
+            "events": 22199,
+            "cycles": 3107860
+          },
+          "PACK_BLOCK": {
+            "events": 2298401,
+            "cycles": 98831243
+          },
+          "PACK_SLOW": {
+            "events": 66406,
+            "cycles": 13347606
+          },
+          "RF_BASE": {
+            "events": 192227,
+            "cycles": 37868719
+          },
+          "RF_PREPARE": {
+            "events": 77525,
+            "cycles": 10233300
+          },
+          "RF_SWITCH": {
+            "events": 4000,
+            "cycles": 144000
+          },
+          "RF_ACCEPT": {
+            "events": 4000,
+            "cycles": 3020000
+          },
+          "FILL": {
+            "events": 28002,
+            "cycles": 68553692
+          },
+          "COLLECT": {
+            "events": 27461,
+            "cycles": 2492602
+          },
+          "SUBMIT_EMPTY": {
+            "events": 28669,
+            "cycles": 1519457
+          },
+          "SUBMIT_DONE": {
+            "events": 7536,
+            "cycles": 6194592
+          },
+          "REAP_RUNNING": {
+            "events": 42557,
+            "cycles": 8511400
+          },
+          "REAP_DONE": {
+            "events": 7534,
+            "cycles": 3419772
+          },
+          "SPI_IRQ": {
+            "events": 10504,
+            "cycles": 21335958
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 227058
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 0,
+            "cycles": 0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 476660,
+            "cycles": 29552920
+          },
+          "PACK_EMPTY": {
+            "events": 444665,
+            "cycles": 65810420
+          },
+          "PACK_SLICE": {
+            "events": 31995,
+            "cycles": 10334385
+          },
+          "PACK_RUN": {
+            "events": 35693,
+            "cycles": 4997020
+          },
+          "PACK_BLOCK": {
+            "events": 3833822,
+            "cycles": 164854346
+          },
+          "PACK_SLOW": {
+            "events": 102793,
+            "cycles": 20661393
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 208608
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 2,
+            "cycles": 30000
+          }
+        }
+      ]
+    },
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "irq_path_counts": [
+        2,
+        2952,
+        2952,
+        4582
+      ],
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 40000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        12122,
+        20887
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        23900,
+        22117
+      ],
+      "accounted_until_cycles": [
+        296449825,
+        296449891
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 296449825,
+      "banks": 4000,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        27418,
+        476715
+      ],
+      "polls": 191926,
+      "peak_arena_bytes": 124005,
+      "max_rf_poll_gap": 15609,
+      "max_owner_iteration": 22286,
+      "min_observed_job_deadline_margin": 37285,
+      "max_publication_latency": 71196,
+      "checked_bytes": 123437056,
+      "retired_bytes": 123437056,
+      "transfers_done": [
+        4664,
+        2870
+      ],
+      "max_submit_gap": [
+        82723,
+        153271
+      ],
+      "charged_cycles": [
+        296449825,
+        296449891
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 4000,
+      "periodic_service_cycles": 15000,
+      "first_release_cycles": 60000000,
+      "period_cycles": 240000000,
+      "service_core": 1,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 27418,
+            "cycles": 10062406
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 7422,
+            "cycles": 1098456
+          },
+          "PACK_SLICE": {
+            "events": 19996,
+            "cycles": 6458708
+          },
+          "PACK_RUN": {
+            "events": 22192,
+            "cycles": 3106880
+          },
+          "PACK_BLOCK": {
+            "events": 2298246,
+            "cycles": 98824578
+          },
+          "PACK_SLOW": {
+            "events": 67066,
+            "cycles": 13480266
+          },
+          "RF_BASE": {
+            "events": 191926,
+            "cycles": 37809422
+          },
+          "RF_PREPARE": {
+            "events": 77469,
+            "cycles": 10225908
+          },
+          "RF_SWITCH": {
+            "events": 4000,
+            "cycles": 144000
+          },
+          "RF_ACCEPT": {
+            "events": 4000,
+            "cycles": 3020000
+          },
+          "FILL": {
+            "events": 28002,
+            "cycles": 68554018
+          },
+          "COLLECT": {
+            "events": 27418,
+            "cycles": 2488688
+          },
+          "SUBMIT_EMPTY": {
+            "events": 28591,
+            "cycles": 1515323
+          },
+          "SUBMIT_DONE": {
+            "events": 7536,
+            "cycles": 6194592
+          },
+          "REAP_RUNNING": {
+            "events": 42498,
+            "cycles": 8499600
+          },
+          "REAP_DONE": {
+            "events": 7534,
+            "cycles": 3416972
+          },
+          "SPI_IRQ": {
+            "events": 10488,
+            "cycles": 21322950
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 227058
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 0,
+            "cycles": 0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 476715,
+            "cycles": 29556330
+          },
+          "PACK_EMPTY": {
+            "events": 444720,
+            "cycles": 65818560
+          },
+          "PACK_SLICE": {
+            "events": 31995,
+            "cycles": 10334385
+          },
+          "PACK_RUN": {
+            "events": 35689,
+            "cycles": 4996460
+          },
+          "PACK_BLOCK": {
+            "events": 3833831,
+            "cycles": 164854733
+          },
+          "PACK_SLOW": {
+            "events": 102815,
+            "cycles": 20665815
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 208608
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 1,
+            "cycles": 15000
+          }
+        }
+      ]
+    },
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "irq_path_counts": [
+        2,
+        2970,
+        2970,
+        4564
+      ],
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 40000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        12262,
+        22663
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        26092,
+        22538
+      ],
+      "accounted_until_cycles": [
+        296453695,
+        296453856
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 296453695,
+      "banks": 4000,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        27469,
+        476844
+      ],
+      "polls": 192283,
+      "peak_arena_bytes": 124005,
+      "max_rf_poll_gap": 16370,
+      "max_owner_iteration": 22338,
+      "min_observed_job_deadline_margin": 37874,
+      "max_publication_latency": 70607,
+      "checked_bytes": 123437056,
+      "retired_bytes": 123437056,
+      "transfers_done": [
+        4666,
+        2868
+      ],
+      "max_submit_gap": [
+        82417,
+        154049
+      ],
+      "charged_cycles": [
+        296453695,
+        296453856
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 4000,
+      "periodic_service_cycles": 15000,
+      "first_release_cycles": 120000000,
+      "period_cycles": 240000000,
+      "service_core": 1,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 27469,
+            "cycles": 10081123
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 7474,
+            "cycles": 1106152
+          },
+          "PACK_SLICE": {
+            "events": 19995,
+            "cycles": 6458385
+          },
+          "PACK_RUN": {
+            "events": 22196,
+            "cycles": 3107440
+          },
+          "PACK_BLOCK": {
+            "events": 2298382,
+            "cycles": 98830426
+          },
+          "PACK_SLOW": {
+            "events": 66371,
+            "cycles": 13340571
+          },
+          "RF_BASE": {
+            "events": 192283,
+            "cycles": 37879751
+          },
+          "RF_PREPARE": {
+            "events": 77487,
+            "cycles": 10228284
+          },
+          "RF_SWITCH": {
+            "events": 4000,
+            "cycles": 144000
+          },
+          "RF_ACCEPT": {
+            "events": 4000,
+            "cycles": 3020000
+          },
+          "FILL": {
+            "events": 28002,
+            "cycles": 68553271
+          },
+          "COLLECT": {
+            "events": 27469,
+            "cycles": 2491568
+          },
+          "SUBMIT_EMPTY": {
+            "events": 28632,
+            "cycles": 1517496
+          },
+          "SUBMIT_DONE": {
+            "events": 7537,
+            "cycles": 6195414
+          },
+          "REAP_RUNNING": {
+            "events": 42579,
+            "cycles": 8515800
+          },
+          "REAP_DONE": {
+            "events": 7534,
+            "cycles": 3419372
+          },
+          "SPI_IRQ": {
+            "events": 10506,
+            "cycles": 21337584
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 227058
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 0,
+            "cycles": 0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 476844,
+            "cycles": 29564328
+          },
+          "PACK_EMPTY": {
+            "events": 444850,
+            "cycles": 65837800
+          },
+          "PACK_SLICE": {
+            "events": 31994,
+            "cycles": 10334062
+          },
+          "PACK_RUN": {
+            "events": 35698,
+            "cycles": 4997720
+          },
+          "PACK_BLOCK": {
+            "events": 3833885,
+            "cycles": 164857055
+          },
+          "PACK_SLOW": {
+            "events": 102683,
+            "cycles": 20639283
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 208608
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 1,
+            "cycles": 15000
+          }
+        }
+      ]
+    },
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "irq_path_counts": [
+        2,
+        2970,
+        2970,
+        4564
+      ],
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 40000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        12262,
+        9325
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        26092,
+        22538
+      ],
+      "accounted_until_cycles": [
+        296453695,
+        296453856
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 296453695,
+      "banks": 4000,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        27469,
+        476844
+      ],
+      "polls": 192283,
+      "peak_arena_bytes": 124005,
+      "max_rf_poll_gap": 16370,
+      "max_owner_iteration": 22338,
+      "min_observed_job_deadline_margin": 37874,
+      "max_publication_latency": 70607,
+      "checked_bytes": 123437056,
+      "retired_bytes": 123437056,
+      "transfers_done": [
+        4666,
+        2868
+      ],
+      "max_submit_gap": [
+        82417,
+        154049
+      ],
+      "charged_cycles": [
+        296453695,
+        296453856
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 4000,
+      "periodic_service_cycles": 15000,
+      "first_release_cycles": 180000000,
+      "period_cycles": 240000000,
+      "service_core": 1,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 27469,
+            "cycles": 10081123
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 7474,
+            "cycles": 1106152
+          },
+          "PACK_SLICE": {
+            "events": 19995,
+            "cycles": 6458385
+          },
+          "PACK_RUN": {
+            "events": 22196,
+            "cycles": 3107440
+          },
+          "PACK_BLOCK": {
+            "events": 2298382,
+            "cycles": 98830426
+          },
+          "PACK_SLOW": {
+            "events": 66371,
+            "cycles": 13340571
+          },
+          "RF_BASE": {
+            "events": 192283,
+            "cycles": 37879751
+          },
+          "RF_PREPARE": {
+            "events": 77487,
+            "cycles": 10228284
+          },
+          "RF_SWITCH": {
+            "events": 4000,
+            "cycles": 144000
+          },
+          "RF_ACCEPT": {
+            "events": 4000,
+            "cycles": 3020000
+          },
+          "FILL": {
+            "events": 28002,
+            "cycles": 68553271
+          },
+          "COLLECT": {
+            "events": 27469,
+            "cycles": 2491568
+          },
+          "SUBMIT_EMPTY": {
+            "events": 28632,
+            "cycles": 1517496
+          },
+          "SUBMIT_DONE": {
+            "events": 7537,
+            "cycles": 6195414
+          },
+          "REAP_RUNNING": {
+            "events": 42579,
+            "cycles": 8515800
+          },
+          "REAP_DONE": {
+            "events": 7534,
+            "cycles": 3419372
+          },
+          "SPI_IRQ": {
+            "events": 10506,
+            "cycles": 21337584
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 227058
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 0,
+            "cycles": 0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 476844,
+            "cycles": 29564328
+          },
+          "PACK_EMPTY": {
+            "events": 444850,
+            "cycles": 65837800
+          },
+          "PACK_SLICE": {
+            "events": 31994,
+            "cycles": 10334062
+          },
+          "PACK_RUN": {
+            "events": 35698,
+            "cycles": 4997720
+          },
+          "PACK_BLOCK": {
+            "events": 3833885,
+            "cycles": 164857055
+          },
+          "PACK_SLOW": {
+            "events": 102683,
+            "cycles": 20639283
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 208608
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 1,
+            "cycles": 15000
+          }
+        }
+      ]
+    },
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "irq_path_counts": [
+        2,
+        2968,
+        2968,
+        4566
+      ],
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 40000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        11986,
+        23424
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        26092,
+        22538
+      ],
+      "accounted_until_cycles": [
+        296448974,
+        296449011
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 296448974,
+      "banks": 4000,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        27461,
+        476732
+      ],
+      "polls": 192227,
+      "peak_arena_bytes": 124005,
+      "max_rf_poll_gap": 16370,
+      "max_owner_iteration": 22338,
+      "min_observed_job_deadline_margin": 37801,
+      "max_publication_latency": 70680,
+      "checked_bytes": 123437056,
+      "retired_bytes": 123437056,
+      "transfers_done": [
+        4666,
+        2868
+      ],
+      "max_submit_gap": [
+        82925,
+        154049
+      ],
+      "charged_cycles": [
+        296448974,
+        296449011
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 4000,
+      "periodic_service_cycles": 15000,
+      "first_release_cycles": 240000000,
+      "period_cycles": 240000000,
+      "service_core": 1,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 27461,
+            "cycles": 10078187
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 7465,
+            "cycles": 1104820
+          },
+          "PACK_SLICE": {
+            "events": 19996,
+            "cycles": 6458708
+          },
+          "PACK_RUN": {
+            "events": 22199,
+            "cycles": 3107860
+          },
+          "PACK_BLOCK": {
+            "events": 2298401,
+            "cycles": 98831243
+          },
+          "PACK_SLOW": {
+            "events": 66406,
+            "cycles": 13347606
+          },
+          "RF_BASE": {
+            "events": 192227,
+            "cycles": 37868719
+          },
+          "RF_PREPARE": {
+            "events": 77525,
+            "cycles": 10233300
+          },
+          "RF_SWITCH": {
+            "events": 4000,
+            "cycles": 144000
+          },
+          "RF_ACCEPT": {
+            "events": 4000,
+            "cycles": 3020000
+          },
+          "FILL": {
+            "events": 28002,
+            "cycles": 68553692
+          },
+          "COLLECT": {
+            "events": 27461,
+            "cycles": 2492602
+          },
+          "SUBMIT_EMPTY": {
+            "events": 28669,
+            "cycles": 1519457
+          },
+          "SUBMIT_DONE": {
+            "events": 7536,
+            "cycles": 6194592
+          },
+          "REAP_RUNNING": {
+            "events": 42557,
+            "cycles": 8511400
+          },
+          "REAP_DONE": {
+            "events": 7534,
+            "cycles": 3419772
+          },
+          "SPI_IRQ": {
+            "events": 10504,
+            "cycles": 21335958
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 227058
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 0,
+            "cycles": 0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 476732,
+            "cycles": 29557384
+          },
+          "PACK_EMPTY": {
+            "events": 444737,
+            "cycles": 65821076
+          },
+          "PACK_SLICE": {
+            "events": 31995,
+            "cycles": 10334385
+          },
+          "PACK_RUN": {
+            "events": 35693,
+            "cycles": 4997020
+          },
+          "PACK_BLOCK": {
+            "events": 3833822,
+            "cycles": 164854346
+          },
+          "PACK_SLOW": {
+            "events": 102792,
+            "cycles": 20661192
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 123,
+            "cycles": 208608
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 1,
+            "cycles": 15000
+          }
+        }
+      ]
+    },
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "irq_path_counts": [
+        2,
+        14801,
+        14801,
+        22887
+      ],
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 40000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        13023,
+        23424
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        26092,
+        24254
+      ],
+      "accounted_until_cycles": [
+        1482174691,
+        1482174781
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 1482174691,
+      "banks": 20000,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        137058,
+        2377125
+      ],
+      "polls": 959406,
+      "peak_arena_bytes": 124221,
+      "max_rf_poll_gap": 16370,
+      "max_owner_iteration": 22338,
+      "min_observed_job_deadline_margin": 37137,
+      "max_publication_latency": 71344,
+      "checked_bytes": 617480192,
+      "retired_bytes": 617480192,
+      "transfers_done": [
+        23328,
+        14360
+      ],
+      "max_submit_gap": [
+        85227,
+        154777
+      ],
+      "charged_cycles": [
+        1482174691,
+        1482174781
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 20000,
+      "periodic_service_cycles": 15000,
+      "first_release_cycles": 120000000,
+      "period_cycles": 240000000,
+      "service_core": 1,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 137058,
+            "cycles": 50300286
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 37063,
+            "cycles": 5485324
+          },
+          "PACK_SLICE": {
+            "events": 99995,
+            "cycles": 32298385
+          },
+          "PACK_RUN": {
+            "events": 111029,
+            "cycles": 15544060
+          },
+          "PACK_BLOCK": {
+            "events": 11493125,
+            "cycles": 494204375
+          },
+          "PACK_SLOW": {
+            "events": 334437,
+            "cycles": 67221837
+          },
+          "RF_BASE": {
+            "events": 959406,
+            "cycles": 189002982
+          },
+          "RF_PREPARE": {
+            "events": 387013,
+            "cycles": 51085716
+          },
+          "RF_SWITCH": {
+            "events": 20000,
+            "cycles": 720000
+          },
+          "RF_ACCEPT": {
+            "events": 20000,
+            "cycles": 15100000
+          },
+          "FILL": {
+            "events": 140000,
+            "cycles": 342746253
+          },
+          "COLLECT": {
+            "events": 137058,
+            "cycles": 12446408
+          },
+          "SUBMIT_EMPTY": {
+            "events": 142888,
+            "cycles": 7573064
+          },
+          "SUBMIT_DONE": {
+            "events": 37691,
+            "cycles": 30982002
+          },
+          "REAP_RUNNING": {
+            "events": 212747,
+            "cycles": 42549400
+          },
+          "REAP_DONE": {
+            "events": 37688,
+            "cycles": 17101704
+          },
+          "SPI_IRQ": {
+            "events": 52491,
+            "cycles": 106672881
+          },
+          "TICK_IRQ": {
+            "events": 617,
+            "cycles": 1138982
+          },
+          "WDT": {
+            "events": 2,
+            "cycles": 1032
+          },
+          "PHY_TIMER": {
+            "events": 0,
+            "cycles": 0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 2377125,
+            "cycles": 147381750
+          },
+          "PACK_EMPTY": {
+            "events": 2217133,
+            "cycles": 328135684
+          },
+          "PACK_SLICE": {
+            "events": 159992,
+            "cycles": 51677416
+          },
+          "PACK_RUN": {
+            "events": 178574,
+            "cycles": 25000360
+          },
+          "PACK_BLOCK": {
+            "events": 19170347,
+            "cycles": 824324921
+          },
+          "PACK_SLOW": {
+            "events": 519986,
+            "cycles": 104517186
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 617,
+            "cycles": 1046432
+          },
+          "WDT": {
+            "events": 2,
+            "cycles": 1032
+          },
+          "PHY_TIMER": {
+            "events": 6,
+            "cycles": 90000
+          }
+        }
+      ]
+    },
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "irq_path_counts": [
+        2,
+        2402,
+        2403,
+        3696
+      ],
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 40000,
+      "failed_admission_remaining": 39581,
+      "max_sampled_pack_cycles": [
+        11986,
+        26424
+      ],
+      "failure_written": 11700,
+      "failure_prepared": 1,
+      "failure_prepare_done": 7168,
+      "completion_to_reap_cycles": [
+        26092,
+        22538
+      ],
+      "accounted_until_cycles": [
+        240050045,
+        240049860
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 240050045,
+      "banks": 3238,
+      "native_fault": 1,
+      "pack_fault": 6,
+      "task_fault": 1,
+      "outcome": 0,
+      "iterations": [
+        22222,
+        385702
+      ],
+      "polls": 155554,
+      "peak_arena_bytes": 124005,
+      "max_rf_poll_gap": 16370,
+      "max_owner_iteration": 22338,
+      "min_observed_job_deadline_margin": 37874,
+      "max_publication_latency": 70607,
+      "checked_bytes": 99926016,
+      "retired_bytes": 99909632,
+      "transfers_done": [
+        3778,
+        2321
+      ],
+      "max_submit_gap": [
+        82417,
+        154049
+      ],
+      "charged_cycles": [
+        240050045,
+        240049860
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 4000,
+      "periodic_service_cycles": 18000,
+      "first_release_cycles": 1,
+      "period_cycles": 240000000,
+      "service_core": 1,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 22222,
+            "cycles": 8155474
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 6032,
+            "cycles": 892736
+          },
+          "PACK_SLICE": {
+            "events": 16190,
+            "cycles": 5229370
+          },
+          "PACK_RUN": {
+            "events": 17968,
+            "cycles": 2515520
+          },
+          "PACK_BLOCK": {
+            "events": 1860990,
+            "cycles": 80022570
+          },
+          "PACK_SLOW": {
+            "events": 54020,
+            "cycles": 10858020
+          },
+          "RF_BASE": {
+            "events": 155554,
+            "cycles": 30644138
+          },
+          "RF_PREPARE": {
+            "events": 62832,
+            "cycles": 8293824
+          },
+          "RF_SWITCH": {
+            "events": 3238,
+            "cycles": 116568
+          },
+          "RF_ACCEPT": {
+            "events": 3238,
+            "cycles": 2444690
+          },
+          "FILL": {
+            "events": 22673,
+            "cycles": 55507053
+          },
+          "COLLECT": {
+            "events": 22222,
+            "cycles": 2017602
+          },
+          "SUBMIT_EMPTY": {
+            "events": 23175,
+            "cycles": 1228275
+          },
+          "SUBMIT_DONE": {
+            "events": 6101,
+            "cycles": 5015022
+          },
+          "REAP_RUNNING": {
+            "events": 34420,
+            "cycles": 6884000
+          },
+          "REAP_DONE": {
+            "events": 6099,
+            "cycles": 2769542
+          },
+          "SPI_IRQ": {
+            "events": 8503,
+            "cycles": 17271041
+          },
+          "TICK_IRQ": {
+            "events": 100,
+            "cycles": 184600
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 0,
+            "cycles": 0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 385702,
+            "cycles": 23913524
+          },
+          "PACK_EMPTY": {
+            "events": 359798,
+            "cycles": 53250104
+          },
+          "PACK_SLICE": {
+            "events": 25904,
+            "cycles": 8366992
+          },
+          "PACK_RUN": {
+            "events": 28903,
+            "cycles": 4046420
+          },
+          "PACK_BLOCK": {
+            "events": 3104137,
+            "cycles": 133477891
+          },
+          "PACK_SLOW": {
+            "events": 83529,
+            "cycles": 16789329
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 100,
+            "cycles": 169600
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 2,
+            "cycles": 36000
+          }
+        }
+      ]
+    },
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "irq_path_counts": [
+        2,
+        2402,
+        2403,
+        3696
+      ],
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 40000,
+      "failed_admission_remaining": 36521,
+      "max_sampled_pack_cycles": [
+        11986,
+        29424
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        26092,
+        22538
+      ],
+      "accounted_until_cycles": [
+        240053012,
+        240052920
+      ],
+      "rate": 40,
+      "share": 6,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 240053012,
+      "banks": 3238,
+      "native_fault": 0,
+      "pack_fault": 6,
+      "task_fault": 2,
+      "outcome": 0,
+      "iterations": [
+        22224,
+        385688
+      ],
+      "polls": 155562,
+      "peak_arena_bytes": 124005,
+      "max_rf_poll_gap": 16370,
+      "max_owner_iteration": 22338,
+      "min_observed_job_deadline_margin": 36583,
+      "max_publication_latency": 70607,
+      "checked_bytes": 99926016,
+      "retired_bytes": 99909632,
+      "transfers_done": [
+        3778,
+        2321
+      ],
+      "max_submit_gap": [
+        82417,
+        154049
+      ],
+      "charged_cycles": [
+        240053012,
+        240052920
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "requested_banks": 4000,
+      "periodic_service_cycles": 21000,
+      "first_release_cycles": 1,
+      "period_cycles": 240000000,
+      "service_core": 1,
+      "scenario_pass": false,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 22224,
+            "cycles": 8156208
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 6034,
+            "cycles": 893032
+          },
+          "PACK_SLICE": {
+            "events": 16190,
+            "cycles": 5229370
+          },
+          "PACK_RUN": {
+            "events": 17968,
+            "cycles": 2515520
+          },
+          "PACK_BLOCK": {
+            "events": 1860990,
+            "cycles": 80022570
+          },
+          "PACK_SLOW": {
+            "events": 54020,
+            "cycles": 10858020
+          },
+          "RF_BASE": {
+            "events": 155562,
+            "cycles": 30645714
+          },
+          "RF_PREPARE": {
+            "events": 62832,
+            "cycles": 8293824
+          },
+          "RF_SWITCH": {
+            "events": 3238,
+            "cycles": 116568
+          },
+          "RF_ACCEPT": {
+            "events": 3238,
+            "cycles": 2444690
+          },
+          "FILL": {
+            "events": 22673,
+            "cycles": 55507053
+          },
+          "COLLECT": {
+            "events": 22223,
+            "cycles": 2017710
+          },
+          "SUBMIT_EMPTY": {
+            "events": 23176,
+            "cycles": 1228328
+          },
+          "SUBMIT_DONE": {
+            "events": 6101,
+            "cycles": 5015022
+          },
+          "REAP_RUNNING": {
+            "events": 34421,
+            "cycles": 6884200
+          },
+          "REAP_DONE": {
+            "events": 6099,
+            "cycles": 2769542
+          },
+          "SPI_IRQ": {
+            "events": 8503,
+            "cycles": 17271041
+          },
+          "TICK_IRQ": {
+            "events": 100,
+            "cycles": 184600
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 0,
+            "cycles": 0
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 385688,
+            "cycles": 23912656
+          },
+          "PACK_EMPTY": {
+            "events": 359784,
+            "cycles": 53248032
+          },
+          "PACK_SLICE": {
+            "events": 25904,
+            "cycles": 8366992
+          },
+          "PACK_RUN": {
+            "events": 28903,
+            "cycles": 4046420
+          },
+          "PACK_BLOCK": {
+            "events": 3104137,
+            "cycles": 133477891
+          },
+          "PACK_SLOW": {
+            "events": 83529,
+            "cycles": 16789329
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 100,
+            "cycles": 169600
+          },
+          "WDT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PHY_TIMER": {
+            "events": 2,
+            "cycles": 42000
+          }
+        }
+      ]
+    }
+  ],
+  "all_SoC_costs_finalized": false,
+  "SDK_candidate_settings_built": false,
+  "service_budget_measured": false,
+  "search_rule": "Refine share6/slice512/preparation2048 on core1 at service62.5/75/87.5us. Reject on first sampled failure. Each surviving setting tested at five phases/4000 banks then half-period/20000 banks. Slice bound40000 is conditional, not measured.",
+  "limitations": [
+    "Whole timer service placed on core1; actual timer IRQ/task split, other timer activity and PHY RF effects unresolved.",
+    "Compiled owner control fees inherited from 2048-word/512-sample candidate; target recount required before adopting changed settings.",
+    "Early rejection avoids spending time testing further phases of a setting already known to fail; no all-phase proof."
+  ],
+  "source_sha256": {
+    "experiments/s3_queue_periodic_headroom.py": "7dd2615e30ac529ae06316a10951def1091f86e330ca9b102fcff202e6060e95",
+    "experiments/s3_queue_timer_core1_runtime.py": "a8ff717bc1a930ed9ef8420e98a5daade73a156178f3cdd88a684e75cd0d08a6",
+    "experiments/s3_queue_periodic_runtime.py": "f67b2f392a9a1ed3ca24d375d86dfadc4759d03600e2a061776618410c02185e",
+    "reports/s3-queue-owner/runtime.json": "025f3f308afb2a38b0a59af5464956db59a7137b8341bce31bb2c132c194d895"
+  }
+}

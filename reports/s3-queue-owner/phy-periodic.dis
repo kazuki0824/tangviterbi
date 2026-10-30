@@ -1,0 +1,281 @@
+
+queue-memory.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+Disassembly of section .flash.text:
+
+4200cca8 <phy_track_pll_timer_callback>:
+4200cca8:	006136        	entry	a1, 48
+4200ccab:	ffff25        	call8	4200cc9c <phy_get_lock>
+4200ccae:	208aa0        	or	a8, a10, a10
+4200ccb1:	20a110        	or	a10, a1, a1
+4200ccb4:	0189      	s32i.n	a8, a1, 0
+4200ccb6:	cea681        	l32r	a8, 42000750 <_stext+0x730> (4037683c <_lock_acquire>)
+4200ccb9:	0008e0        	callx8	a8
+4200ccbc:	d09481        	l32r	a8, 42000f0c <_stext+0xeec> (3fcacc84 <s_phy_modem_flag>)
+4200ccbf:	0020c0        	memw
+4200ccc2:	001882        	l16ui	a8, a8, 0
+4200ccc5:	1d6807        	bbci	a8, 0, 4200cce6 <phy_track_pll_timer_callback+0x3e>
+4200ccc8:	ceb881        	l32r	a8, 420007a8 <_stext+0x788> (40376a98 <esp_timer_get_time>)
+4200cccb:	0008e0        	callx8	a8
+4200ccce:	d09081        	l32r	a8, 42000f10 <_stext+0xef0> (3fcacc78 <s_wifi_prev_timestamp>)
+4200ccd1:	0a6d      	mov.n	a6, a10
+4200ccd3:	0b7d      	mov.n	a7, a11
+4200ccd5:	0020c0        	memw
+4200ccd8:	0869      	s32i.n	a6, a8, 0
+4200ccda:	0b0c      	movi.n	a11, 0
+4200ccdc:	1a0c      	movi.n	a10, 1
+4200ccde:	0020c0        	memw
+4200cce1:	1879      	s32i.n	a7, a8, 4
+4200cce3:	027b25        	call8	4200f494 <phy_param_track_tot>
+4200cce6:	01ad      	mov.n	a10, a1
+4200cce8:	ce9b81        	l32r	a8, 42000754 <_stext+0x734> (4037685c <_lock_release>)
+4200cceb:	0008e0        	callx8	a8
+4200ccee:	f01d      	retw.n
+
+
+queue-memory.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+Disassembly of section .flash.text:
+
+4200f494 <phy_param_track_tot>:
+4200f494:	004136        	entry	a1, 32
+4200f497:	ff2d51        	l32r	a5, 4200f14c <wait_hw_freq_busy+0x28> (3fcaccbc <g_phyFuns>)
+4200f49a:	742020        	extui	a2, a2, 0, 8
+4200f49d:	002542        	l32i	a4, a5, 0
+4200f4a0:	743030        	extui	a3, a3, 0, 8
+4200f4a3:	5824a2        	l32i	a10, a4, 0x160
+4200f4a6:	000ae0        	callx8	a10
+4200f4a9:	ff2741        	l32r	a4, 4200f148 <wait_hw_freq_busy+0x24> (3fc989c0 <phy_param>)
+4200f4ac:	fff981        	l32r	a8, 4200f490 <txpwr_offset+0x68> (ffff0000 <_rtc_reserved_end+0x9fef0000>)
+4200f4af:	a82492        	l32i	a9, a4, 0x2a0
+4200f4b2:	206aa0        	or	a6, a10, a10
+4200f4b5:	378987        	bany	a9, a8, 4200f4f0 <phy_param_track_tot+0x5c>
+4200f4b8:	9c0482        	l8ui	a8, a4, 156
+4200f4bb:	005816        	beqz	a8, 4200f4c4 <phy_param_track_tot+0x30>
+4200f4be:	9b04a2        	l8ui	a10, a4, 155
+4200f4c1:	ffebe5        	call8	4200f380 <rfpll_cap_track>
+4200f4c4:	139c      	beqz.n	a3, 4200f4d9 <phy_param_track_tot+0x45>
+4200f4c6:	9d0432        	l8ui	a3, a4, 157
+4200f4c9:	c38c      	beqz.n	a3, 4200f4d9 <phy_param_track_tot+0x45>
+4200f4cb:	0538      	l32i.n	a3, a5, 0
+4200f4cd:	9b04b2        	l8ui	a11, a4, 155
+4200f4d0:	a22332        	l32i	a3, a3, 0x288
+4200f4d3:	01a0a2        	movi	a10, 1
+4200f4d6:	0003e0        	callx8	a3
+4200f4d9:	b28c      	beqz.n	a2, 4200f4e8 <phy_param_track_tot+0x54>
+4200f4db:	0528      	l32i.n	a2, a5, 0
+4200f4dd:	9b04b2        	l8ui	a11, a4, 155
+4200f4e0:	a32222        	l32i	a2, a2, 0x28c
+4200f4e3:	1a0c      	movi.n	a10, 1
+4200f4e5:	0002e0        	callx8	a2
+4200f4e8:	0528      	l32i.n	a2, a5, 0
+4200f4ea:	9622a2        	l32i	a10, a2, 0x258
+4200f4ed:	000ae0        	callx8	a10
+4200f4f0:	0528      	l32i.n	a2, a5, 0
+4200f4f2:	06ad      	mov.n	a10, a6
+4200f4f4:	592222        	l32i	a2, a2, 0x164
+4200f4f7:	0002e0        	callx8	a2
+4200f4fa:	f01d      	retw.n
+
+
+queue-memory.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+Disassembly of section .flash.text:
+
+4200f380 <rfpll_cap_track>:
+4200f380:	006136        	entry	a1, 48
+4200f383:	ff7261        	l32r	a6, 4200f14c <wait_hw_freq_busy+0x28> (3fcaccbc <g_phyFuns>)
+4200f386:	ff7031        	l32r	a3, 4200f148 <wait_hw_freq_busy+0x24> (3fc989c0 <phy_param>)
+4200f389:	0648      	l32i.n	a4, a6, 0
+4200f38b:	4993a2        	l16si	a10, a3, 146
+4200f38e:	4a9352        	l16si	a5, a3, 148
+4200f391:	3b2442        	l32i	a4, a4, 236
+4200f394:	c0aa50        	sub	a10, a10, a5
+4200f397:	0004e0        	callx8	a4
+4200f39a:	940c      	movi.n	a4, 9
+4200f39c:	742020        	extui	a2, a2, 0, 8
+4200f39f:	0224a7        	blt	a4, a10, 4200f3a5 <rfpll_cap_track+0x25>
+4200f3a2:	001cc6        	j	4200f419 <rfpll_cap_track+0x99>
+4200f3a5:	02d352        	addmi	a5, a3, 0x200
+4200f3a8:	a40542        	l8ui	a4, a5, 164
+4200f3ab:	06a456        	bnez	a4, 4200f419 <rfpll_cap_track+0x99>
+4200f3ae:	170c      	movi.n	a7, 1
+4200f3b0:	a44572        	s8i	a7, a5, 164
+4200f3b3:	0678      	l32i.n	a7, a6, 0
+4200f3b5:	a84542        	s8i	a4, a5, 168
+4200f3b8:	812772        	l32i	a7, a7, 0x204
+4200f3bb:	0007e0        	callx8	a7
+4200f3be:	ffd665        	call8	4200f124 <wait_hw_freq_busy>
+4200f3c1:	9b03a2        	l8ui	a10, a3, 155
+4200f3c4:	1b0c      	movi.n	a11, 1
+4200f3c6:	021c65        	call8	4201158c <rfpll_cap_correct>
+4200f3c9:	0a9d      	mov.n	a9, a10
+4200f3cb:	d2ac      	beqz.n	a2, 4200f3fc <rfpll_cap_track+0x7c>
+4200f3cd:	06a8      	l32i.n	a10, a6, 0
+4200f3cf:	4a9382        	l16si	a8, a3, 148
+4200f3d2:	652af2        	l32i	a15, a10, 0x194
+4200f3d5:	4e0c      	movi.n	a14, 4
+4200f3d7:	499372        	l16si	a7, a3, 146
+4200f3da:	0ecd      	mov.n	a12, a14
+4200f3dc:	7d0c      	movi.n	a13, 7
+4200f3de:	04bd      	mov.n	a11, a4
+4200f3e0:	0189      	s32i.n	a8, a1, 0
+4200f3e2:	1199      	s32i.n	a9, a1, 4
+4200f3e4:	6ba0a2        	movi	a10, 107
+4200f3e7:	000fe0        	callx8	a15
+4200f3ea:	1198      	l32i.n	a9, a1, 4
+4200f3ec:	0188      	l32i.n	a8, a1, 0
+4200f3ee:	0aed      	mov.n	a14, a10
+4200f3f0:	ffe3a1        	l32r	a10, 4200f37c <ulp_code_track+0x68> (3fcaad55 <__func__$0+0x51>)
+4200f3f3:	09dd      	mov.n	a13, a9
+4200f3f5:	08cd      	mov.n	a12, a8
+4200f3f7:	07bd      	mov.n	a11, a7
+4200f3f9:	0642e5        	call8	42015828 <phy_printf>
+4200f3fc:	491342        	l16ui	a4, a3, 146
+4200f3ff:	4a5342        	s16i	a4, a3, 148
+4200f402:	9f0332        	l8ui	a3, a3, 159
+4200f405:	338c      	beqz.n	a3, 4200f40c <rfpll_cap_track+0x8c>
+4200f407:	02ad      	mov.n	a10, a2
+4200f409:	fff0a5        	call8	4200f314 <ulp_code_track>
+4200f40c:	0628      	l32i.n	a2, a6, 0
+4200f40e:	802222        	l32i	a2, a2, 0x200
+4200f411:	0002e0        	callx8	a2
+4200f414:	020c      	movi.n	a2, 0
+4200f416:	a44522        	s8i	a2, a5, 164
+4200f419:	f01d      	retw.n
+
+
+queue-memory.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+Disassembly of section .flash.text:
+
+4200f124 <wait_hw_freq_busy>:
+4200f124:	004136        	entry	a1, 32
+4200f127:	080c      	movi.n	a8, 0
+4200f129:	fffca1        	l32r	a10, 4200f11c <__wrap___gxx_personality_v0+0xc> (6000e168 <SENS+0x5968>)
+4200f12c:	000086        	j	4200f132 <wait_hw_freq_busy+0xe>
+4200f12f:	180c00        	lsxp	f0, a12, a0
+4200f132:	0020c0        	memw
+4200f135:	0a98      	l32i.n	a9, a10, 0
+4200f137:	ff5996        	bltz	a9, 4200f130 <wait_hw_freq_busy+0xc>
+4200f13a:	688c      	beqz.n	a8, 4200f144 <wait_hw_freq_busy+0x20>
+4200f13c:	2a3c      	movi.n	a10, 50
+4200f13e:	fff881        	l32r	a8, 4200f120 <__wrap___gxx_personality_v0+0x10> (40000600 <esp_rom_delay_us>)
+4200f141:	0008e0        	callx8	a8
+4200f144:	f01d      	retw.n
+
+
+queue-memory.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+Disassembly of section .flash.text:
+
+4200f5fc <phy_get_romfunc_addr>:
+4200f5fc:	004136        	entry	a1, 32
+4200f5ff:	fffd81        	l32r	a8, 4200f5f4 <phy_set_tx_seed+0x94> (40005c58 <phy_get_romfuncs>)
+4200f602:	0008e0        	callx8	a8
+4200f605:	fed181        	l32r	a8, 4200f14c <wait_hw_freq_busy+0x28> (3fcaccbc <g_phyFuns>)
+4200f608:	08a9      	s32i.n	a10, a8, 0
+4200f60a:	ffdd81        	l32r	a8, 4200f580 <phy_set_tx_seed+0x20> (42011b24 <ram_temp_to_power>)
+4200f60d:	516a82        	s32i	a8, a10, 0x144
+4200f610:	ffdd81        	l32r	a8, 4200f584 <phy_set_tx_seed+0x24> (42022e08 <ram_pll_vol_cal>)
+4200f613:	826a82        	s32i	a8, a10, 0x208
+4200f616:	ffdc81        	l32r	a8, 4200f588 <phy_set_tx_seed+0x28> (42012ad8 <ram_wifi_set_tx_gain>)
+4200f619:	996a82        	s32i	a8, a10, 0x264
+4200f61c:	ffdc81        	l32r	a8, 4200f58c <phy_set_tx_seed+0x2c> (420129bc <ram_wifi_get_tx_gain>)
+4200f61f:	8a6a82        	s32i	a8, a10, 0x228
+4200f622:	ffdb81        	l32r	a8, 4200f590 <phy_set_tx_seed+0x30> (420128d0 <ram_bt_get_tx_gain>)
+4200f625:	866a82        	s32i	a8, a10, 0x218
+4200f628:	ffdb81        	l32r	a8, 4200f594 <phy_set_tx_seed+0x34> (4037b2c0 <ram_get_i2c_hostid>)
+4200f62b:	576a82        	s32i	a8, a10, 0x15c
+4200f62e:	ffda81        	l32r	a8, 4200f598 <phy_set_tx_seed+0x38> (4200f15c <ram_txpwr_cal_track>)
+4200f631:	9a6a82        	s32i	a8, a10, 0x268
+4200f634:	ffda81        	l32r	a8, 4200f59c <phy_set_tx_seed+0x3c> (4037a4d8 <ram_wifi_tx_dig_gain>)
+4200f637:	896a82        	s32i	a8, a10, 0x224
+4200f63a:	ffd981        	l32r	a8, 4200f5a0 <phy_set_tx_seed+0x40> (4037aea0 <ram_disable_wifi_agc>)
+4200f63d:	2a89      	s32i.n	a8, a10, 8
+4200f63f:	ffd981        	l32r	a8, 4200f5a4 <phy_set_tx_seed+0x44> (4037aee4 <ram_enable_wifi_agc>)
+4200f642:	036a82        	s32i	a8, a10, 12
+4200f645:	ffd881        	l32r	a8, 4200f5a8 <phy_set_tx_seed+0x48> (42012034 <ram_read_sar2_code>)
+4200f648:	4a6a82        	s32i	a8, a10, 0x128
+4200f64b:	ffd881        	l32r	a8, 4200f5ac <phy_set_tx_seed+0x4c> (4037af60 <ram_fe_i2c_reg_renew>)
+4200f64e:	8b6a82        	s32i	a8, a10, 0x22c
+4200f651:	ffd781        	l32r	a8, 4200f5b0 <phy_set_tx_seed+0x50> (4201151c <ram_write_pll_cap>)
+4200f654:	836a82        	s32i	a8, a10, 0x20c
+4200f657:	ffd781        	l32r	a8, 4200f5b4 <phy_set_tx_seed+0x54> (4200f278 <ram_bt_track_tx_power>)
+4200f65a:	a26a82        	s32i	a8, a10, 0x288
+4200f65d:	ffd681        	l32r	a8, 4200f5b8 <phy_set_tx_seed+0x58> (4200f290 <ram_wifi_track_tx_power>)
+4200f660:	a36a82        	s32i	a8, a10, 0x28c
+4200f663:	ffd681        	l32r	a8, 4200f5bc <phy_set_tx_seed+0x5c> (42011adc <ram_tsens_code_read>)
+4200f666:	796a82        	s32i	a8, a10, 0x1e4
+4200f669:	ffd581        	l32r	a8, 4200f5c0 <phy_set_tx_seed+0x60> (42011b10 <ram_tsens_temp_read>)
+4200f66c:	966a82        	s32i	a8, a10, 0x258
+4200f66f:	ffd581        	l32r	a8, 4200f5c4 <phy_set_tx_seed+0x64> (4037a7c8 <ram_set_pbus_reg>)
+4200f672:	326a82        	s32i	a8, a10, 200
+4200f675:	ffd481        	l32r	a8, 4200f5c8 <phy_set_tx_seed+0x68> (4037a3b0 <ram_phy_dis_hw_set_freq>)
+4200f678:	816a82        	s32i	a8, a10, 0x204
+4200f67b:	ffd481        	l32r	a8, 4200f5cc <phy_set_tx_seed+0x6c> (4037a394 <ram_phy_en_hw_set_freq>)
+4200f67e:	806a82        	s32i	a8, a10, 0x200
+4200f681:	ffd381        	l32r	a8, 4200f5d0 <phy_set_tx_seed+0x70> (42022efc <ram_set_noise_floor>)
+4200f684:	206a82        	s32i	a8, a10, 128
+4200f687:	ffd381        	l32r	a8, 4200f5d4 <phy_set_tx_seed+0x74> (4037a544 <ram_bt_set_tx_gain>)
+4200f68a:	9c6a82        	s32i	a8, a10, 0x270
+4200f68d:	ffd281        	l32r	a8, 4200f5d8 <phy_set_tx_seed+0x78> (4037b358 <ram_chip_i2c_writeReg>)
+4200f690:	636a82        	s32i	a8, a10, 0x18c
+4200f693:	ffd281        	l32r	a8, 4200f5dc <phy_set_tx_seed+0x7c> (4037b300 <ram_chip_i2c_readReg>)
+4200f696:	5b6a82        	s32i	a8, a10, 0x16c
+4200f699:	ffd181        	l32r	a8, 4200f5e0 <phy_set_tx_seed+0x80> (4037b100 <ram_phy_i2c_init1>)
+4200f69c:	956a82        	s32i	a8, a10, 0x254
+4200f69f:	ffd181        	l32r	a8, 4200f5e4 <phy_set_tx_seed+0x84> (4037a404 <ram_i2c_master_reset>)
+4200f6a2:	8d6a82        	s32i	a8, a10, 0x234
+4200f6a5:	ffd081        	l32r	a8, 4200f5e8 <phy_set_tx_seed+0x88> (42011ba0 <ram_set_chan_cal_interp>)
+4200f6a8:	3f6a82        	s32i	a8, a10, 252
+4200f6ab:	ffd081        	l32r	a8, 4200f5ec <phy_set_tx_seed+0x8c> (42014288 <spur_coef_cfg_new>)
+4200f6ae:	156a82        	s32i	a8, a10, 84
+4200f6b1:	ffcf81        	l32r	a8, 4200f5f0 <phy_set_tx_seed+0x90> (4037b044 <ram_set_txcap_reg>)
+4200f6b4:	406a82        	s32i	a8, a10, 0x100
+4200f6b7:	fea4a1        	l32r	a10, 4200f148 <wait_hw_freq_busy+0x24> (3fc989c0 <phy_param>)
+4200f6ba:	ffcf81        	l32r	a8, 4200f5f8 <phy_set_tx_seed+0x98> (40006324 <rom_phy_param_addr>)
+4200f6bd:	0008e0        	callx8	a8
+4200f6c0:	f01d      	retw.n
+
+BRANCH-TARGET REDECODE
+
+queue-memory.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .flash.text:
+
+4200f130 <wait_hw_freq_busy+0xc>:
+4200f130:	180c      	movi.n	a8, 1
+4200f132:	0020c0        	memw
+4200f135:	0a98      	l32i.n	a9, a10, 0
+4200f137:	ff5996        	bltz	a9, 4200f130 <wait_hw_freq_busy+0xc>
+4200f13a:	688c      	beqz.n	a8, 4200f144 <wait_hw_freq_busy+0x20>
+4200f13c:	2a3c      	movi.n	a10, 50
+4200f13e:	fff881        	l32r	a8, 4200f120 <__wrap___gxx_personality_v0+0x10> (40000600 <esp_rom_delay_us>)
+4200f141:	0008e0        	callx8	a8
