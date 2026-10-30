@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'experiments/s3_queue_tasks_source.py'
+      - 'experiments/s3_queue_receiver_open.*'
+      - 'tests/test_s3_queue_receiver_open.py'
       - 'experiments/s3_queue_owner_probe/**'
       - 'experiments/s3_queue_memory_probe/**'
       - '.github/workflows/s3-queue-owner.yml'
@@ -19,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Verify queue task lifecycle and depth-two shutdown
-        run: python -m unittest tests.test_s3_queue_tasks.QueueTasks.test_generated_task_lifecycle_and_depth_two_drain -v
+        run: python -m unittest tests.test_s3_queue_tasks.QueueTasks.test_generated_task_lifecycle_and_depth_two_drain tests.test_s3_queue_receiver_open -v
       - name: Generate queue-connected task lifecycle
         run: python -m experiments.s3_queue_tasks_source --output experiments/s3_queue_owner_probe/main/generated
       - name: Link N16R8 owner and worker
@@ -42,6 +44,7 @@ jobs:
             build/s3-queue-owner/s3_queue_owner_probe.map
             build/s3-queue-owner/config/sdkconfig.json
             build/s3-queue-owner/log/
+            build/s3-queue-owner/esp-idf/main/CMakeFiles/__idf_main.dir/__/__/s3_queue_receiver_open.c.obj
             experiments/s3_queue_owner_probe/main/generated/
             build/s3-queue-memory/s3_queue_memory_probe.elf
             build/s3-queue-memory/s3_queue_memory_probe.map
