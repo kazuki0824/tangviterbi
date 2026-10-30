@@ -155,3 +155,16 @@ This follow-on to the completed external-IP traceback comparison examines a newl
 [CI run 41016660410](https://github.com/kazuki0824/tangviterbi/actions/runs/41016660410) verified both 32-ACS functional variants **PASS** the independent oracle. The 32-ACS distributed-RAM P&R variant **FAILS before routing**, with `ERROR: Unable to place cell ... high_bank ... no BELs remaining to implement cell type 'RAM16SDP4'`. Prior combined-bank version also failed due to RAM16SDP4 capacity. A green measurement job indicates it uploaded the failure and **must not** be interpreted as physical fit. FF variant routing/utilization status requires an explicit P&R job check; no guessed Fmax is allowed.
 
 Lowering clock requirements mathematically to **50.424242 MHz** (25.212121 Mstep/s x 2 clocks/step) is insufficient by itself. The 9K physical read ports, distributed RAM BEL availability, routing, and system-level K7 resource allocation `2096-I` must all be met. This experiment changes the throughput architecture but does not prove adoption. All existing 16-ACS and original-IP negative findings remain intact.
+
+### 32-ACS metric banking physical verdict (run 41016660410)
+
+All three-context 32-ACS functional variants (distributed and register-hint metric storage) passed the same independent Oracle, without relaxing the 8-bit soft / erasure / 13-bit modulo metric contracts. Both retain two clocks/trellis step. However **neither physically fits in the tested Gowin 9K arrangement**:
+
+| Candidate | Yosys synthesis | 9K P&R | Routed Fmax |
+|---|---|---|---|
+| 32-ACS divided low/high distributed metric banks | PASS | FAIL: no RAM16SDP4 BELs remaining | N/A |
+| 32-ACS register-hint metric banks | PASS | FAIL: unable to find legal placement for all cells, probably at utilization limit | N/A |
+
+The register-based variant is a synthesis hint and not a verified specific technology map; this outcome cannot establish exactly which registers/logic were too numerous without mapped utilization analysis. The effective 2-cycle requirement is 50.424242MHz, but no route exists for either 32-ACS candidate, so the lower frequency bound does **not** imply a working implementation. The alternative 16-ACS BM-stage design routes at 64.846642MHz but needs 100.848485MHz, hence it also fails. This establishes failure of *tested designs*, not impossibility of all other 32-ACS architectures.
+
+[Hosted CI run 41016660410](https://github.com/kazuki0824/tangviterbi/actions/runs/41016660410). All model+physical evidence is kept on the PR branch; do not treat green P&R measurement jobs as placement/timing PASS. Further re-architecting must either reduce physical read-port cost in RAM or reduce total metric/multiplexer logic cost while keeping exact soft metrics/trellis throughput, or revisit FPGA/SoC partitioning.
