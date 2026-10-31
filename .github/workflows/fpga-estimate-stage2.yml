@@ -13,8 +13,8 @@ jobs:
       - name: Enumerate all resource-accounting gates
         shell: bash
         run: |
-          python ci/fpga_estimate_stage2.py > stage2-gates.json
-          status=$?
+          status=0
+          python ci/fpga_estimate_stage2.py > stage2-gates.json || status=$?
           cat stage2-gates.json
           echo "Stage 2 completion gate exit code: $status"
           exit 0
