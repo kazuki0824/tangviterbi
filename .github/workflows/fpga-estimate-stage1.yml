@@ -1,0 +1,20 @@
+name: FPGA estimate stage 1 scope gate
+on:
+  pull_request:
+    paths:
+      - 'reports/fpga-estimate-closure/**'
+      - 'ci/fpga_estimate_stage1.py'
+      - '.github/workflows/fpga-estimate-stage1.yml'
+  workflow_dispatch:
+jobs:
+  scope:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit all scope conditions, no fail-fast
+        run: python ci/fpga_estimate_stage1.py | tee stage1-checks.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-stage1-scope-audit
+          path: stage1-checks.json
