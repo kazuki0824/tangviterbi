@@ -4,6 +4,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/"build/dual-ingress-joint-fft"
 OUT.mkdir(parents=True,exist_ok=True)
+sys.path.insert(0,str(ROOT))
 from ci.shared_receiver_fft_metadata_refresh_evidence import FILES
 files=list(dict.fromkeys([*FILES,*[str(f.relative_to(ROOT)) for f in sorted((ROOT/"rtl").glob("s3_*.sv"))],"experiments/dual_s3_spi_ingress_only_area_top.sv","experiments/dual_s3_ingress_joint_fft_area_top.sv"]))
 top="dual_s3_ingress_joint_fft_area_top"
