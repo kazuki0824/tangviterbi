@@ -4,12 +4,15 @@ on:
     paths:
       - 'reports/fpga-estimate-closure/**'
       - 'ci/fpga_estimate_stage2.py'
+      - 'tests/test_fpga_estimate_stage2_gate.py'
       - '.github/workflows/fpga-estimate-stage2.yml'
 jobs:
   inventory:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify incomplete gate cannot pass
+        run: python3 -m unittest tests.test_fpga_estimate_stage2_gate -v
       - name: Enumerate all resource-accounting gates
         shell: bash
         run: |
