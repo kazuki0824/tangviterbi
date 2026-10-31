@@ -1,0 +1,25 @@
+name: FPGA estimate stage 2 resource inventory
+on:
+  pull_request:
+    paths:
+      - 'reports/fpga-estimate-closure/**'
+      - 'ci/fpga_estimate_stage2.py'
+      - '.github/workflows/fpga-estimate-stage2.yml'
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enumerate all resource-accounting gates
+        shell: bash
+        run: |
+          python ci/fpga_estimate_stage2.py > stage2-gates.json
+          status=$?
+          cat stage2-gates.json
+          echo "Stage 2 completion gate exit code: $status"
+          exit 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-incomplete-resource-gates
+          path: stage2-gates.json
