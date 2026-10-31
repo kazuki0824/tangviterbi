@@ -36,6 +36,11 @@ def audit(m):
     ck("not claiming hardware validation",not m["hardware_verified"] and not m["receiver_adopted"])
     ck("strict stage ordering",not any(m.get("stage"+str(i)+"_complete",False) for i in (2,3,4,5)))
     ck("source references listed",len(m["evidence_paths"])>=10)
+    root=P.parents[2]
+    for item in t+s+sup:
+        ck("source file exists:"+item["id"],(root / item["source"]).is_file(),item["source"])
+    for source in m["evidence_paths"]:
+        ck("evidence file exists:"+source,(root / source).is_file(),source)
     return checks
 
 def main():
