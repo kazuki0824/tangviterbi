@@ -9,7 +9,7 @@ from ci.shared_receiver_fft_metadata_refresh_evidence import FILES
 files=list(dict.fromkeys([*FILES,*[str(f.relative_to(ROOT)) for f in sorted((ROOT/"rtl").glob("s3_*.sv"))],"experiments/dual_s3_spi_ingress_only_area_top.sv","experiments/dual_s3_ingress_joint_fft_area_top.sv"]))
 top="dual_s3_ingress_joint_fft_area_top"
 script="read_verilog -sv "+" ".join(str(ROOT/f) for f in files)+"; hierarchy -check -top "+top+"; synth_gowin -family gw2a -top "+top+" -nowidelut -json "+str(OUT/"mapped.json")+"; check -assert"
-p=subprocess.run(["yosys","-Q","-p",script],capture_output=True,text=True)
+p=subprocess.run(["yosys","-Q","-p",script],cwd=ROOT/"reports/pr7-fft-archive",capture_output=True,text=True)
 (OUT/"yosys.log").write_text(p.stdout+"\n"+p.stderr)
 if p.returncode:
     print("Yosys failure tail:",(p.stdout+"\n"+p.stderr)[-6000:],flush=True)
