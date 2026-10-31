@@ -1,0 +1,29 @@
+{
+  "scope": "Read actual saved ELF DWARF; layout/config evidence, not a WCET audit.",
+  "elf_sha256": "7ee25471a6dc96c056c2afd883cf4f70282fd186be920cced7dddefa40554fc7",
+  "sdkconfig_sha256": "6310613609ecb8cb528af0fbde102f6272b5b708dfd63c2cdb8c1340a3ed5886",
+  "config": {
+    "FREERTOS_NUMBER_OF_CORES": 2,
+    "FREERTOS_UNICORE": false,
+    "SOC_SPI_SCT_SUPPORTED": true
+  },
+  "descriptor_layouts": [
+    {
+      "size": 20,
+      "members": {
+        "trans": 0,
+        "buffer_to_send": 4,
+        "buffer_to_rcv": 8,
+        "reserved": 12
+      }
+    }
+  ],
+  "source_sha256": {
+    "reports/s3-spi-wait-audit/sources/queue.c": "6794db86ab086372ea2789d043d83e0b1efd0534a0c0deb5d28cffb342feaa0e",
+    "reports/s3-spi-wait-audit/sources/spi_master.c": "1634611334180a80e0643d0f32a0af73447b6bbfbe381c0e5799f93de5af64f6",
+    "experiments/s3_spi_transport.c": "231ee522e51a70c6e3e4e3574c1ac806a7905d33d1fc439a96c5c7a473949416",
+    "experiments/s3_parallel_spi.c": "79c36beb259d723b3ea812d3428a89d58c13b87a001fabc05e0105fcc4de2983"
+  },
+  "elapsed_upper_cycles": null,
+  "receiver_adopted": false
+}

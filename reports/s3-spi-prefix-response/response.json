@@ -1,0 +1,32 @@
+{
+  "scope": "Conditional two-port ordered retirement bound, in integer physical cycles.\n\nAt U[i-2] all chunks before i-1 have retired. By max(U[i-2], P[i]),\nchunks i-1 and i are published. At most these two can prevent their own\nsubmission: later chunks cannot be taken first. If either remains unsubmitted,\nthere is a free port. Within a complete fair two-port scan bound S both have\nbeen submitted (or completed). Wire/driver completion takes <=max(W0,W1),\nand successful reap takes <=R more. Thus U[i]=max(U[i-2],P[i])+S+max(W)+R.\nThe bound allows unequal ports and out-of-order completions but deliberately\ncharges the slowest port. Exceeding it is not physical infeasibility.\n",
+  "result": {
+    "status": "unproved",
+    "receiver_adopted": false,
+    "actual_schedule_verified": false,
+    "missing": [
+      "scan_bound",
+      "completion_bounds",
+      "reap_bound"
+    ]
+  },
+  "source_sha256": {
+    "experiments/s3_raw_tasks.c": "472ddc05d761d1381773b5a756339d4da78a6064d863b5353fcfde200e38853c",
+    "experiments/s3_parallel_pack.c": "6851bef3ef1e066cfc95da904ed1864849752fcdad3ef697bbcc718728f21fa4",
+    "experiments/s3_parallel_spi.c": "79c36beb259d723b3ea812d3428a89d58c13b87a001fabc05e0105fcc4de2983"
+  },
+  "assumptions": [
+    "two active ports, one outstanding transfer per port, FIFO s3_pp_take",
+    "scan bound covers a fair visit to both free ports and successful queueing, not one API call",
+    "completion bounds include queue/driver, header, payload, memory contention and completion notification",
+    "reap bound includes interrupts, owner scheduling and successful reap/complete",
+    "all bounds use the same physical cycle origin and include exceptional work",
+    "published prefix and earliest acceptance envelopes cover every actual execution"
+  ],
+  "limitations": [
+    "finite bank windows do not prove indefinite operation",
+    "RF reclaim/deadline and all other receiver conditions remain separate",
+    "both envelopes are sufficient bounds and can reject feasible schedules; no impossibility inference"
+  ],
+  "receiver_adopted": false
+}

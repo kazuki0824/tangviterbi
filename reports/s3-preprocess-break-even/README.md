@@ -1,0 +1,220 @@
+# ②：IQを処理してから送る案はCPUを節約できるか
+
+**現在の区切り：[列挙済み候補の比較結果・残作業・次工程](COMPARISON-STATUS.md)。2026-10-25に一巡を確定し、raw案のcore別期限確認へ戻った。以下は検証履歴。**
+
+**その可能性を事前に排除しない。現在の既存kernel費用模型では、全14前処理prefixがraw IQ案よりCPUを使うことを再検算した。** 前処理で送信量やpacking費用を減らせる場合はあるため、処理費用との正味差で判断する。信号品質を下げるための追加software間引き・再量子化は引き続き除外する。同品質の受信処理をFPGAからSoCへ移管する候補は比較対象である。
+
+対象はT9境界＋S7境界（raw各1を含む）。[全16境界表](all-prefixes.md)、[型・資源・計算結果](results.json)、[再現スクリプト](../../experiments/s3_preprocess_break_even.py)。元の全320所有者表から指令以外のFPGA→SoC通信を要しない境界を抽出し、保存元入力から転送前費用を再計算した。既存の63同時組と全通信候補は[元の見積もり](../partition-recheck-20261023/README.md)を保持する。今回の補助比較だけで性能ゲートや正式経路割当を通過させない。
+
+## 同じ費用条件で比較する
+
+32 KiB/API、20 µs CPU-active、240 MHzの条件を全候補へ適用し、API費用は `(payload MB/s + 0.01) × 4800 / 32768` Mcycles/s。平均回数の模型であり、部分batch、追加framing、割込み、メモリ競合、実通信endpointの費用を保証しない。0.01 MB/sは従来の設定指令予約を継承した。SoCでTSまで生成する2境界は、現在のFPGA独立TS端子と異なる出口を必要とするため、その点も明記した。
+
+`正味CPU増加 = 前処理案の転送前費用 − raw案の転送前費用 − API削減費用`
+
+前処理案には既存模型の転送前費用を使う。raw packingをその上にもう一度加算しない。低条件同士・高条件同士を比較し、これらを測定WCETの上下限とは呼ばない。
+
+| 例 | 送信量 MB/s | API削減 Mcycles/s | 転送前CPU増加 低/高 Mcycles/s | 正味CPU増加 低/高 Mcycles/s |
+|---|---:|---:|---:|---:|
+| T FIRをSoCへ | 40→32.508 | 1.097 | 277.079 / 407.111 | 275.982 / 406.014 |
+| S FIRをSoCへ | 100→115.440 | −2.262 | 745.800 / 1149.840 | 748.062 / 1152.102 |
+
+S FIR境界はQ15複素表現なので、sample数を減らしてもbit幅の増加で転送量が増える。「処理すれば送信量が必ず減る」とは限らない。
+
+さらに前処理案だけAPI費用をゼロとする楽観比較も行った。その条件でも全14前処理prefixの転送前CPU費用が、対応するraw案のAPI込み費用を上回った。したがって**この既存模型では、転送APIを減らすだけで優劣は逆転しない**。CPUで比較した結果であって、FPGA資源削減の価値を否定するものではない。全受信機の実現性はSoC/FPGA双方の資源・期限と通信路で判断する。
+
+## 排除していない範囲と目的
+
+新SIMD kernel、処理融合によるpacking・中間copy削除、同品質を保つhardware前処理、段内部の新たな切断は、この既存模型だけでは排除できない。保持する目的は、CPU・通信・FPGA資源を合わせると有利な分担を見落とさないこと。これらの未評価実装を実現可能として数えたり、必ず有望と主張したりはしない。
+
+新実装を比較へ入れるには、同じ受信品質での出力型・rate、raw側と置き換わる処理を控除した正味CPU費用、各core期限、メモリ、FPGA残資源を示し、その性能条件を満たす候補へ通信路を割り当てる。今回のraw優先は**既存模型内の検証順**であり、最良案の確定ではない。
+
+今回68算術・被覆チェックと3 unittestが合格。①の変更、受信機成立判定、実機WCET測定は行っていない。次に必要なのは新kernel又は実測に基づく費用更新と、raw案自体のcore別期限・全FPGA性能の確認である。
+
+再現：
+
+```sh
+python experiments/s3_preprocess_break_even.py --output build/preprocess-break-even
+python -m unittest discover -s tests -p test_s3_preprocess_break_even.py -v
+```
+
+## 事前確認の未完了を明示し、FIR置換の必要性能を定量化
+
+「前処理で必要性能が減ることは起こり得ない」と事前確認した事実はない。前処理候補を比較集合に残す理由と、その比較を未完了にしている理由は異なる。未完了自体に設計上の目的があるわけではなく、raw具体化を先行した結果、未解決として残っている。したがってrawの要求性能を、このハードウェア目標に不可避の最低性能とは説明しない。
+
+実現する分担を1つ示すには全代替実装の不可能性証明は不要だが、rawが成立未確認である現在、代替の検証を省略して実現不可とも結論しない。
+
+[置換予算の計算](../../experiments/s3_fir_replacement_budget.py)・[結果](fir-replacement-budget.json)では、既存FIR段費用だけを未知値Xに置き換え、rawのAPI込み費用を下回るXを求めた。FIR以外の費用・Q15出力・API条件は固定。Xには既存台帳と同じくFIRとraw IQ展開の両方を含む。
+
+| 対象 | Xの閾値 低/高 Mcycles/s（未満） | 既存段模型から必要な高速化 低/高 | 出力複素sample当たり合計cyclesの閾値 低/高 |
+|---|---:|---:|---:|
+| T FIR | 64.590 / 64.082 | 5.273倍超 / 7.336倍超 | 7.948 / 7.885 |
+| S FIR | 122.298 / 86.858 | 7.117倍超 / 14.264倍超 | 4.238 / 3.010 |
+
+これは実装の到達可能速度ではなく、改善案が超えるべき比較基準。処理融合でFIR以外の費用も変わる場合は、その分を再計算する。全CPU条件の改善がFPGA/通信/メモリを含む成立を保証するわけでもない。6件の閾値・rate検算に合格。
+
+### 公式ESP-DSPの置換可否も確認
+
+EspressifのESP-DSP commit `3c8ac0fdfec83740b783e200862c8d0c056de0ad` を確認し、[source URLとSHA256](esp-dsp-source-audit.json)を保存した。`dsps_fir.h` ではS3最適化時の整数間引きFIRは `dsps_fird_s16_aes3`、多レートFIRは `dsps_firmr_s16_ansi` に対応する。前者のassemblyはSIMD積和を使うが、後者はscalar Cの位相・係数参照ループである。
+
+既存出力型から再計算したoutput/input比はTが32/63、Sが1443/2000。整数間引きのaes3関数への単純置換でこの比率を保つことはできない。整数間引きの係数を変えたり追加でsampleを捨てたりして帯域を合わせる案は採用しない。公式の[benchmark表](https://docs.espressif.com/projects/esp-dsp/en/latest/esp32/esp-dsp-benchmarks.html)も、今回の複素・分数比・係数・精度と一致するWCET証拠ではない。
+
+今回確認できたのは、既存模型の不利と、公式関数への単純置換で解決したとは言えないことまで。専用の位相別SIMD／処理融合が上記閾値に届かないという命令・メモリ下限の証明は未了である。また到達する実装も示していない。次の具体的作業は、同品質の係数・位相・丸め契約を固定した専用kernelと、IQ展開・bank処理を含むtarget費用の比較。これを未確認のまま「前処理が有利になることはない」とは記載しない。
+
+## 元資料を回収し、直接FIRの単純SIMD化を絞り込み
+
+元資料 `isdb-9k-four-soc-reestimate.html` version 24を回収し、SHA256が既存provenanceの `ce9a0b99692dfff79e5627b4337ebeab284b12d879a3eb5f00cbf38281fd4f67` と一致することを確認した。HTML内添付の `partition_ledger.py` から該当関数を抽出し、[式とsource hash](original-fir-model.json)を保存した。
+
+Tは32tap、Sは16tapの想定。FIR＋展開の費用は、Tが `(36又は48) × 512/63 + (3又は5) × 16`、Sが `(26又は36) × 28.86 + (3又は5) × 40` Mcycles/sで再現できる。これは実測kernelの費用ではなく、仮定したcycles/outputとcycles/inputを足したもの。したがって過去の「既存kernel費用」は**既存の演算費用模型**として読む必要がある。係数列・位相ごとの精度・同品質の合否条件を、この式から復元することはできない。
+
+Espressif [ESP32-S3 TRM](https://documentation.espressif.com/esp32-s3_technical_reference_manual_en.pdf)のPIE pipeline節と `EE.VMULAS.S16.ACCX` の仕様に基づき、8個のsigned16積を1命令、理想1命令/cycleとして数えた。I/Q各成分でN個の積をそのまま計算する直接FIRなら、積和だけの楽観費用は `2 × N × output_Msample_s / 8` Mcycles/s。2coreへ分けても合計命令数は減らない。SIMDのload併用命令があっても積和命令数そのものは減らない。
+
+| 直接FIR | 積和だけの楽観費用 Mcycles/s | rawを下回るFIR＋展開の閾値 低/高 | 判定（他の費用固定） |
+|---|---:|---:|---|
+| T32tap | 65.016 | 64.590 / 64.082未満 | 低/高とも積和だけで超える。単純SIMD置換ではrawよりCPUを減らせない |
+| S16tap | 115.440 | 122.298 / 86.858未満 | 高条件は超える。低条件は残6.858 Mcycles/sなので積和数だけでは除外できない |
+
+S低条件の残予算は入力複素sample当たり0.17146 cycles。展開・load・位相制御・積和結果の取出し・保存等をすべて賄う値であり、達成を意味しない。旧展開費用3/5 cycles/inputをそのまま残すなら、積和＋展開はT113.016/145.016、S235.440/315.440 Mcycles/sとなり、どちらも低/高とも逆転条件を満たさない。
+
+[再現スクリプト](../../experiments/s3_fir_direct_floor.py)、[結果](direct-fir-floor.json)。元式再現4件＋整数個outputでの独立積和数確認2件に合格。2 unittestも合格し、S低条件を誤って除外しないことを確認した。
+
+この判定は**指定tap数の積を省かない直接s16 FIRで、FIR以外の費用を固定した場合**に限る。係数の零・対称性による積の削減、位相間再利用、FFT convolution、RF管理まで変える融合処理は対象外。同じtap数だけでは品質一致も保証されない。従って「すべての前処理がrawより不利」は未確定だが、係数特性を使わずMACだけ高速化する案を、根拠なく次の有望候補とする必要はなくなった。CPU費用の比較であり、FPGA資源不足を緩和する目的でFIR移管を検討する余地は残る。
+
+## 2026-10-25：対称係数と独立IQ展開passの比較
+
+「prototypeが対称なら全位相の積和が半分になる」という仮定を使わず、Tの32/63、Sの1443/2000を全位相で検査した。[計算](../../experiments/s3_fir_phase_symmetry.py)、[全6条件](phase-symmetry.json)、[機能試験](phase-symmetry-tests.log)。
+
+ここでの有限候補は、対称prototype長 `N=L×K+δ`、L＝補間数、K＝旧想定のT32/S16tap、δ＝−1,0,+1。δ違いは一部の位相長も変える候補であり、同品質と確認された変更ではない。係数の零や特殊な値は仮定しない。
+
+位相pの係数は `h[p+kL]`。prototypeの対称性から対応する反転位相は `q=(N−1−p) mod L` となる。p≠qの場合は係数格納を共有できるが、異なる時刻の入力に対する二つのdot productを一つにできるわけではない。通常の対称FIRの前加算で積数を半減できるのはp=qの位相だけ。Lと間引き数が互いに素なので、全L位相が出力周期に一度ずつ現れる。
+
+| 対象・prototype長 | 自己対称な位相数 | 積和だけの楽観費用 Mcycles/s | 別passのIQ展開書込みを加えた下限模型 Mcycles/s |
+|---|---:|---:|---:|
+| T 1023 | 2/32 | 62.984 | 66.984 |
+| T 1024 | 0/32 | 65.016 | 69.016 |
+| T 1025 | 2/32 | 63.048 | 67.048 |
+| S 23087 | 1/1443 | 115.400 | 125.400 |
+| S 23088 | 1/1443 | 115.400 | 125.400 |
+| S 23089 | 1/1443 | 115.405 | 125.405 |
+
+表の積和は8個のs16積/issue・理想1issue/cycleで、前加算・位相・load・結果取出し・保存を無料とした楽観値。前加算後のbit幅に伴う費用も含めない。10bit入力をそのまま符号拡張する場合の前加算は11bitで収まるが、Q15全scaleへ変換する実装では17bitを要し得る。いずれも測定WCETではない。
+
+最後の列は、CPUがI16/Q16の中間配列を**別pass**で作り、最大16 B/store issueで書く設計に限る。書込み量4 B/複素sampleから、Tは16M×4/16＝4 Mcycles/s、Sは40M×4/16＝10 Mcycles/s以上のstore issueが必要になる。別passなので後続FIRのMAC issueと同じ命令に数えない。読出しや符号展開を無料としてもこの費用は残る。
+
+前回のFIR＋展開の逆転閾値はT64.590/64.082、S122.298/86.858 Mcycles/s。**この全6条件は、独立したCPU展開passを残す限り低/高ともraw模型より安くならない。** 旧展開3/5 cycles/inputという仮定を使わなくても同じ方向の結論になった。一方、Tのδ±1とS低条件はMACだけでは除外できない。中間配列をなくす融合、ハードウェア変換、別の演算削減を含む実装まで除外しない。
+
+Q15係数の全表はT2046～2050 B、S46174～46178 B。prototypeの反転対称性で共有するとT1024～1026 B、S23088～23090 Bまで減らせる。ただし実アクセス用の並べ替え・整列padding・cache・履歴・DMA領域は別であり、現raw firmwareの空き上限を新FIR firmwareの余裕として転用しない。
+
+18件の位相被覆・係数反転関係・自己対称位相数のチェックと3 unittestに合格。機能試験では全4425位相について合成した対称係数と10bit入力で元dot product／反転格納を比較し、自己対称位相では前加算版との整数一致を確認。非対称な位相を誤って折り畳む反例も確認した。これは演算変換の一致であり、合成係数の受信品質試験ではない。
+
+比較の未完了部分は、具体的な同品質係数を使う融合kernel、係数の零・特殊値・位相間再利用等による演算削減、FFT convolution等の別方式である。今回の成果は、単なる「SIMD＋対称係数＋独立展開pass」ではCPU削減に届かない範囲を示したこと。FPGA資源削減のための移管候補としての価値や、全前処理方式の優劣を確定したものではない。
+
+## 2026-10-25：中間配列なしの実C比較kernel
+
+[実装](../../experiments/s3_fir_fused_reference.c)はnative配置の32bit語からI/Q各signed10を取り出し、その場で係数との積和を行う。I16/Q16中間配列は作らない。入力契約はI＝bits0..9、Q＝bits10..19、上位12bitを無視する従来packingと整合する比較形式。実RFハードウェアのbit対応を新たに測定したものではない。callerが位相・履歴窓・係数を選び、1～33tapの整数積和結果をint64で返す。
+
+これは高速実装と称したコードではなく、融合変換の比較基準。出力丸め・飽和・Q15への変換は行わず、その手前の値を比較するため、CPUでIQの量子化bitを削っていない。int64結果をそのままFPGAへ送る設計でもない。既存32.508/115.440 MB/sを使うには、同じ出力契約の丸め・飽和処理と費用を接続する必要がある。
+
+[3 unittest](fused-reference-tests.log)でホスト上の実Cを実行した。全signed10 code、上位metadataの有無、33tap極値、全4425位相の合成係数・入力について、独立した「先にI/Qを展開する」Python整数基準と一致。無効count/null/同一出力pointerでは出力を更新しない。合成係数の試験は受信品質保証ではない。
+
+[演算・アクセス量](fused-reference-budget.json)は[スクリプト](../../experiments/s3_fir_fused_budget.py)で再現する。旧32/16tap条件では：
+
+| 項目 | T | S |
+|---|---:|---:|
+| 出力ごとのtapループ M回/s | 260.063 | 461.760 |
+| scalar実数積和 M回/s | 520.127 | 923.520 |
+| C上のraw語読出し MB/s | 1040.254 | 1847.040 |
+| C上の係数読出し MB/s | 520.127 | 923.520 |
+| 二段処理から省いた初回raw読出し＋中間配列書込み MB/s | 128 | 320 |
+
+読出し量はソース上の論理アクセス数であり、cache/register再利用やコンパイラ変換を考慮した物理bus trafficではない。CPUが二重に数えた中間配列費用を残していない一方、同じraw sampleの展開が窓ごとに繰り返される。scalarの実数積和1個/cycleという楽観scenarioでも積和だけで2core合計の108.360%/192.400%となる。target命令列やWCETは未測定のため、これはそのscalar scenarioの不適合であって全融合実装の下限証明ではない。
+
+今回、中間配列削除の整数結果一致までは実装で確認できた。しかしこのscalar比較kernelを性能合格候補にはしない。次の高速化対象は、raw値を各入力窓で再展開する費用と、展開済みの値をregister内で再利用するSIMD配置。これは別の具体的命令列を要する。同品質係数の受信品質条件、target性能、bank境界の履歴保持、最終出力変換、全SoC/FPGA構成の成立は未完了。
+
+## 2026-10-25：入力ごとに一度だけ展開する履歴再利用
+
+[streaming C実装](../../experiments/s3_fir_stream_reference.c)を追加した。各入力を一度だけsigned10→signed16へ展開し、T32/S16複素sampleの循環履歴を維持する。出力mの入力位置は `floor(m*M/L)`、位相は `m*M mod L`。係数はphase-majorで `coeff[p*K+k]` を `x[newest-k]` に掛ける。初期履歴は零。入力バンクが切れても状態を保持する。これは固定Kの基準実装であり、前節のN=L*K±1全候補への実装ではない。
+
+展開回数は前回のT520.127/S923.520 M成分/sからT32/S80 M成分/sへ減少（16.254倍/11.544倍）。raw語の論理読出しはT64/S160 MB/sとなる。一方、履歴へT64/S160 MB/sを書き、各窓からT1040.254/S1847.040 MB/sを論理的に読む。したがって「raw読出しを減らした分だけ全メモリ負荷も減った」とは言えない。係数読出しと積和回数も前回から変わらない。これらはCソース上のアクセス数であって実bus帯域ではない。[計算と6チェック](../../experiments/s3_fir_stream_budget.py)、[結果](stream-reference-budget.json)。
+
+10bit入力とsigned16係数の最大絶対積は512×32768。最大33tapでも全部分和の絶対値は553,648,128以下なのでsigned32で正確に積和できる。新実装はint32を使用した。これは入力をQ15全scaleへ左shiftする実装へそのまま適用できない。出力の丸め・飽和は依然未実装で、送信形式の変更を意味しない。
+
+[6 unittest](stream-reference-tests.log)に合格（既存融合基準3件、新streaming3件）。T/Sの全位相を3周期以上、可変長の入力bank境界、出力のない入力時の出力保持、33tap極値、無効初期化を確認した。Python側は整数時刻から各dot productを直接計算し、C側の循環履歴・skip/phase更新とは独立に比較する。合成係数での演算一致であり、同品質の受信確認ではない。
+
+**この変更は再利用可能な履歴と正確な出力時刻の実装であり、register常駐SIMDの実装ではない。** 最小履歴はT128/S64 Bだが、C基準構造体は最大33tap配列と管理情報込み156 B。係数全表はT2048/S46176 Bで、他のRF・DMA・RTOSメモリは別。履歴のregister割当、係数load、I/Qの個別accumulator、位相更新、最終出力変換を含むtarget命令列と測定が必要。scalar実数MAC1個/cycleの仮定でも積和だけで2coreの108.360%/192.400%なので、このC基準を性能合格にはしない。SIMD化後の費用をこの比率から推定しない。
+
+今回の前進は、重複展開を実コードから除去し、64bit積和が必須という想定も不要にしたこと。未確認の高速化を性能合格扱いせず、候補→通信路→採用の順序を保つ。新たな通信路割当・採用候補は増えていない。①は変更していない。
+
+## 2026-10-25：ESP32-S3実SIMD命令列のcompileと費用
+
+[ACCX版assembly](../../experiments/s3_fir_accx.S)を実装し、ESP32-S3構成のGCC14.2.0_20241119でassemble・逆assembleした。[命令列](accx/accx.dis)、[監査結果](accx/accx-audit.json)、[再現用script](../../ci/s3_fir_accx_audit.py)。toolchain archiveは過去記録のSHA256と一致。これまでのホストCだけの比較から、実targetが受理するSIMD命令列の比較へ進んだ。実機での実行・cycle測定は未実施。
+
+16/32tapの連続したplanar I/Q履歴を受け、I/Q別の32bit積和を返す。係数はq4～q5（16tap）／q4～q7（32tap）へ一度読み、I/Qで共有。q0～q3を履歴の読出し・整列に使用する。32tapでは積和・次のload・次の整列を一命令へまとめた `EE.VMULAS.S16.ACCX.LD.IP.QUP` を使った。係数をI/Qそれぞれで読み直す設計にはしていない。一方、履歴を次の出力までregisterに保持する実装ではない。
+
+通常のPIE loadは非整列addressを切り捨てるため、そのままでは履歴位置によって別sampleを読んでしまう。USAR/SRC命令で2byte刻みの位置を復元する。各成分の履歴では `floor(ptr/16)*16` から `(K/8+1)*16` bytesを読むので、窓の外側にも読出し可能領域が必要。従来の単一循環配列をpointerだけ渡して使えるAPIではない。実receiverへ接続するには、例えば新しい順に連続する二重履歴を設ける必要があり、その書込み・追加メモリを無料扱いしない。
+
+| 固定kernel | T32tap | S16tap |
+|---|---:|---:|
+| 1複素出力当たり命令数 | 29 | 23 |
+| うち8並列MAC命令 | 8 | 4 |
+| 全命令を理想1cycleと置いた費用 Mcycles/s | 235.683 | 663.780 |
+| 240MHz×2coreに対する比率 | 49.101% | 138.288% |
+| entry・shift=0設定・returnをすべて除いた費用 Mcycles/s | 211.302 | 577.200 |
+| 履歴load bytes/複素出力 | 160 | 96 |
+| 係数load bytes/複素出力 | 64 | 32 |
+
+この費用は命令数からの楽観模型であり測定WCETではない。callerのcall、IQ展開、履歴更新、位相管理、出力Q15変換、RF/DMA/RTOS、stall/cache競合を含まない。2coreの分担・同期費用も含まない。8byte出力は比較用accumulatorで、FPGAへ8byteを送る案ではない。
+
+**この具体的ACCX実装は、T/Sとも「rawより少ないCPU性能で済む案」にならない。** 前節の逆転閾値T64.590/64.082、S122.298/86.858 Mcycles/sをkernelだけで超える。Sは理想模型でも2core合計を超え、上記3命令の削除でも解消しない。Tの49.101%はFIR単体であり、受信機全体が成立したという意味ではない。性能合格として通信路を割り当てる対象には追加しない。
+
+[4 unittest](accx/tests.log)では、逆assembleされた命令列を小さな[TRM意味モデル](../../experiments/s3_fir_accx_model.py)で評価した。I/Q独立の全64通りのhalfword整列、固定Kの全1475位相、極値を独立dot productと比較し、非整列処理を故意に壊すと不一致になることも確認。source/disassembly hashを照合する。このモデルは手書きで、target machine codeの実行、命令decoder、ABI window spill、interrupt、cycleを検証していない。実Cや実機でassemblyを実行した試験と混同しない。[TRM節・版・hash](accx/sources.json)。
+
+未確認範囲は、複数出力をまとめるQACC配置、出力間のregister再利用、特殊係数等による演算削減など。今回の結果を全SIMD方式の不可能証明へ拡張しない。先にSIMD化を期待してこのACCX案の配線・通信実装へ進む必要はなくなった。①には変更なし。
+
+再現例（toolchain展開先を指定）：
+
+```sh
+python ci/s3_fir_accx_audit.py --toolchain build/fir-target/xtensa-esp-elf --output reports/s3-preprocess-break-even/accx
+python -m unittest discover -s tests -p 'test_s3_fir_*.py' -v
+```
+
+## 2026-10-25：4複素出力をまとめるQACC配置
+
+[QACC assembly](../../experiments/s3_fir_qacc.S)では8本のsigned40 laneを `I0,Q0,I1,Q1,I2,Q2,I3,Q3` に割り当て、4出力を同時に計算する。各tapの係数vectorは `c0,c0,c1,c1,c2,c2,c3,c3`。MACと次入力loadを一命令へ融合し、最後だけ余計なloadをしない。結果はQACC全40bitを保存するため、比較の都合で丸め・再量子化を追加していない。出力64 B領域のうち40 Bを書き、残りはpadding。これは試験用の整数結果保存形式で、SoC→FPGAの送信形式ではない。
+
+ESP32-S3 GCC14.2でassemble/逆assembleし、[実命令列](qacc/qacc.dis)を保存。[準備用C](../../experiments/s3_fir_qacc_prepare.c)もtarget compileに成功。Cは既に展開されたIQ履歴とphase-major係数表からtap-majorの二つの配列を作る基準実装で、高速kernelと称していない。初期履歴は零、4出力の時刻・位相は各mについて `floor(m*M/L), m*M mod L` から求める。
+
+| 4出力QACC | T32tap | S16tap |
+|---|---:|---:|
+| 4複素出力当たり実命令数 | 72 | 40 |
+| 理想1命令/cycleのkernel費用 Mcycles/s | 146.286 | 288.600 |
+| 2core合計480 Mcycles/sに対する比率 | 30.476% | 60.125% |
+| entry/zero/保存/returnをすべて無料にしたload＋MAC費用 Mcycles/s | 132.063 | 238.095 |
+| 準備配列：IQ / 係数 bytes | 512 / 512 | 256 / 256 |
+| 準備Cの論理書込み MB/s | 2080.508 | 3694.080 |
+| 全位相順序を事前展開した係数表 bytes | 4096 | 369408 |
+| 元のphase-major係数表 bytes | 2048 | 46176 |
+
+[監査script](../../ci/s3_fir_qacc_audit.py)、[数値と6チェック](qacc/qacc-audit.json)。命令数費用にIQ展開・並べ替え・履歴更新・位相管理・Q15出力変換・RF/DMA/RTOS・stallは含まない。並べ替えが別CPU passなら、その書込みだけを最大16 B/store・理想1cycleと仮定しても、T130.032/S230.880 Mcycles/sをさらに要する。Cの論理アクセス数を実bus trafficとは扱わない。これらの配列を作らずregister上で並べ替える方式は別候補。
+
+係数を事前展開する場合、4出力ずつ進む開始位相の周期は `L/gcd(L,4)`。Tは8組、Sは1443組となる。1組16K bytesなので表は元のT2倍/S8倍。N16R8のPSRAMへ表を置く可能性はあるが、存在する容量だけを理由にcache/bandwidth/実行期限が成立するとはしない。小さなscratchを使ってその都度並べ替える方式は表容量を減らす代わりに準備費用を払う。
+
+4出力を待つ追加の入力時刻差（最初と最後の出力が必要とする最新sample間）は、位相によりT0.3125～0.375 µs、S0.100～0.125 µs。これはバッチ待ちだけであり、FIR群遅延・演算時間・bank待ちを含む最終deadlineではない。平均出力間隔の3倍と実入力到着時刻を区別した。
+
+**rawよりCPUを軽くする目的では、この具体的なtap-major QACC案も不適合。** 並べ替えも最終保存も無料にしても、T64.590/64.082、S122.298/86.858 Mcycles/sという逆転閾値を超える。前回ACCX実装よりkernel費用は減るが、それだけではrawより安くならない。係数表事前展開によってこのkernelのload数が消えるわけでもない。
+
+一方、「rawよりCPU費用が大きい」と「FPGA資源を減らすためのFIR移管が成立しない」は別の判定である。旧模型のFIR以外とAPI費用を固定し、新kernelだけを置換すると、並べ替え等を無料にした全SoC費用はT240.932～273.440、S549.389～664.829 Mcycles/s。Sはこの固定条件で既に480を超える。Tは超えないため、今回の結果だけでFIR移管全体を不可能とはしない。ただしTも未算入処理・各core期限・メモリ・通信路・FPGA資源の確認前なので性能合格候補には追加しない。以前の「採用対象から外す」は、性能合格として採用しないという意味で、Tの全FIR移管を否定する根拠にはならない。
+
+[5 unittest](qacc/tests.log)で実Cによる準備と逆assemblyのTRM意味モデルを接続し、T8/S1443個の全バッチ位相組と周期境界、零初期履歴、40bit符号・極値、padding非更新、誤ったlane配置の検出を確認した。ホストで実行したのは準備Cと意味モデルであり、assemblyの実機実行ではない。[一次資料の節・hash](qacc/sources.json)。未知の係数の受信品質や全QACC方式の優劣を確定した試験でもない。
+
+次に残る直接FIRの比較対象は、並べ替え中間配列を作らず履歴をregister内で組み替える配置と、複数batch間の再利用。その評価でも必要なload/並べ替えを無料にせず、同じ入力・係数・出力契約で比べる。①は変更していない。
+
+## 中間IQ配列を使わないregister履歴配置
+
+[生成器](../../experiments/s3_fir_register_schedule.py)から、T2種類/S4種類の実際のバッチ位相pattern向けassemblyを生成し、ESP32-S3 toolchainでassemble・逆assembleした。[生成assembly](register/register.S)、[命令列](register/register.dis)、[結果](register/register-audit.json)。4出力の最初をm=4b、phase初期値0とする固定batch配置の全patternであり、任意の開始phase配置を網羅する主張ではない。
+
+展開済みのI16/Q16を1複素sample=32bit語として連続履歴に持つ。q0～q5に16tap＋4出力の時刻差をcacheし、各laneに必要な32bit語をAR経由でq6へ組み、q7の係数でQACCへ積和する。Tは16tapごとの2tileで履歴loadの一部が重複する。tap-major IQ中間配列は作らず、同じ履歴registerを複数tap/出力で使う。係数はoldest-firstに反転したtap-major表が必要で、その準備費用は無料扱いの楽観比較に留まる。
+
+4出力当たりT309命令、Sはpatternにより157/158命令。全位相で平均するとT627.810/S1133.895 Mcycles/s（理想1命令/cycle）。history load・setup・保存をすべて無料にし、batch間で履歴を完全再利用できると仮定しても、4lane×2move＋1MACというこの配置の9命令/tapは残り、T585.143/S1038.960 Mcycles/s。したがって、このAR経由gather配置を高速化候補として追い続けない。異なるvector shuffle配置の下限証明ではない。
+
+[T8/S1443バッチ位相組の整数一致などを含む23 unittest](register/tests.log)が合格。実行したのはassemblyのTRM意味モデルで、実機実行ではない。命令監査ではreturn後のalignment NOPを実行命令へ誤算入しないよう修正し、回帰試験も追加した。既存ACCX/QACCの数値は変更なし。

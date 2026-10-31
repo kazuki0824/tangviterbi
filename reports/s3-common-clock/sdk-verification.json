@@ -1,0 +1,121 @@
+{
+  "commit": "d454dbd642c30a26b4cda0e381200a180269fb51",
+  "ELF_sha256": "c278d278d4d96e7351fa6138b252376822ba4d0a0e5b3bd927e90dd9ad1a2c25",
+  "checks": [
+    {
+      "name": "ELF_hash",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_timer_clock.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_timer_clock.h",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_native_capture.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_native_capture.h",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_parallel_pack.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_parallel_pack.h",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_parallel_capture.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_raw_probe/main/raw_probe.c",
+      "passed": true
+    },
+    {
+      "name": "IRAM_s3_timer_clock",
+      "passed": true
+    },
+    {
+      "name": "IRAM_s3_pp_step_timer",
+      "passed": true
+    },
+    {
+      "name": "IRAM_s3_pp_step_clocked_quantized",
+      "passed": true
+    },
+    {
+      "name": "IRAM_s3_native_poll",
+      "passed": true
+    },
+    {
+      "name": "IRAM_esp_timer_get_time",
+      "passed": true
+    },
+    {
+      "name": "IRAM_systimer_hal_get_counter_value",
+      "passed": true
+    }
+  ],
+  "SDK_static_check_count": 50,
+  "SDK_all_static_checks_pass": true,
+  "sizes": {
+    "pack": 392,
+    "capture": 160,
+    "ports": 64,
+    "descriptors": 112,
+    "transfers": 48,
+    "task_stacks": 8192,
+    "task_TCBs": 680,
+    "StaticTask_t": 340,
+    "DMA_descriptor": 12,
+    "StackType_t": 1
+  },
+  "symbols": {
+    "_iram_end": "0x40387900",
+    "_data_start": "0x3fc97900",
+    "_heap_start": "0x3fcac650",
+    "raw_task_stacks": "0x3c03a4a4",
+    "raw_task_tcbs": "0x3fcabe10"
+  },
+  "hot": {
+    "s3_timer_clock": {
+      "address": "0x403773d0",
+      "bytes": 54,
+      "section": ".iram0.text"
+    },
+    "s3_pp_step_timer": {
+      "address": "0x40377408",
+      "bytes": 32,
+      "section": ".iram0.text"
+    },
+    "s3_pp_step_clocked_quantized": {
+      "address": "0x403772a4",
+      "bytes": 78,
+      "section": ".iram0.text"
+    },
+    "s3_native_poll": {
+      "address": "0x4037752c",
+      "bytes": 996,
+      "section": ".iram0.text"
+    },
+    "esp_timer_get_time": {
+      "address": "0x403755b8",
+      "bytes": 22,
+      "section": ".iram0.text"
+    },
+    "systimer_hal_get_counter_value": {
+      "address": "0x40383a94",
+      "bytes": 72,
+      "section": ".iram0.text"
+    }
+  },
+  "hardware_boot_executed": false,
+  "clock_WCET_bound_proven": false
+}

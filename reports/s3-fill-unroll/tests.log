@@ -1,0 +1,23 @@
+test_all_origins_and_wraps (test_s3_native_fill.NativeFillTest.test_all_origins_and_wraps) ... ok
+test_mmio_bank_handoff_and_forced_stop (test_s3_native_capture.NativeCaptureTest.test_mmio_bank_handoff_and_forced_stop) ... ok
+test_faults_stop_RF_before_handoff (test_s3_native_clock.NativeClockTest.test_faults_stop_RF_before_handoff) ... ok
+test_clock_checked_before_final_publication_and_bank_reuse (test_s3_parallel_deadline.ParallelDeadlineTest.test_clock_checked_before_final_publication_and_bank_reuse) ... PASS final/partial late completion, bound overrun, clock regression, late collect, precheck, null clock
+ok
+test_task_start_stop_and_watchdog_ownership (test_s3_raw_tasks.RawTasksTest.test_task_start_stop_and_watchdog_ownership) ... PASS actual task lifecycle: startup sleeping-peer race, calibration/WDT failure, owner calls, stop/join, watchdog restoration, retained failed DMA lease; pre-cancel, calibration-bound rejection, idle-priority rejection, pre-existing subscription cleanup
+PASS actual static launcher: peer-first, first/second creation failure, partial cleanup, successful launch, priority validation and duplicate rejection
+ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 226.557s
+
+OK
+unroll 1 PASS actual fill: 278529 cases, all ring origins, unchanged words and guard words checked
+
+unroll 4 PASS actual fill: 278529 cases, all ring origins, unchanged words and guard words checked
+
+unroll 8 PASS actual fill: 278529 cases, all ring origins, unchanged words and guard words checked
+
+PASS observation distinction: ordinary poll reads INDEX; settling wait and settlement/accept do not
+PASS first post-settlement INDEX: T/S busy gate-1/gate and available THRESHOLD-1/THRESHOLD
+PASS common clock: startup/poll/switch/preaccept/postaccept failed reads, regression, deadline arithmetic boundary, RF stop and SELECT restore
+

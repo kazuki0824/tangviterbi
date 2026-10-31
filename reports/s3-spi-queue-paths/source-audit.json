@@ -1,0 +1,64 @@
+{
+  "checks": [
+    {
+      "name": "source hash esp_driver_spi/src/gpspi/spi_master.c",
+      "passed": true
+    },
+    {
+      "name": "source hash esp_hw_support/spi_bus_lock.c",
+      "passed": true
+    },
+    {
+      "name": "source hash freertos/FreeRTOS-Kernel/queue.c",
+      "passed": true
+    },
+    {
+      "name": "previous SDK identity esp_driver_spi/src/gpspi/spi_master.c",
+      "passed": true
+    },
+    {
+      "name": "previous SDK identity esp_hw_support/spi_bus_lock.c",
+      "passed": true
+    },
+    {
+      "name": "xQueueGenericSend critical before zero timeout",
+      "passed": true
+    },
+    {
+      "name": "xQueueReceive critical before zero timeout",
+      "passed": true
+    },
+    {
+      "name": "descriptor setup then queue then background request",
+      "passed": true
+    },
+    {
+      "name": "normal completion sends descriptor from ISR",
+      "passed": true
+    },
+    {
+      "name": "ISR repeats if bus lock exit asks retry",
+      "passed": true
+    },
+    {
+      "name": "raw enqueue zero tick",
+      "passed": true
+    },
+    {
+      "name": "raw reap zero tick",
+      "passed": true
+    },
+    {
+      "name": "manual DMA alignment flag",
+      "passed": true
+    },
+    {
+      "name": "SDK rejects manual misalignment before allocation",
+      "passed": true
+    }
+  ],
+  "scope": "Pinned source-path checks, deliberately not a WCET or binary CFG audit.",
+  "elapsed_upper_cycles": null,
+  "WCET_proven": false,
+  "receiver_adopted": false
+}

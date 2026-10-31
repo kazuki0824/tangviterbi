@@ -1,0 +1,32 @@
+
+/workspace/scratch/7d8a2827859b/tangviterbi/build/native-fill-target/new-sdk.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.text:
+
+40377408 <fill$isra$0>:
+40377408:	004136        	entry	a1, 32
+4037740b:	20a330        	or	a10, a3, a3
+4037740e:	20b440        	or	a11, a4, a4
+40377411:	0002e0        	callx8	a2
+40377414:	f4b4c1        	l32r	a12, 403746e4 <_iram_text_start+0x2e0> (a5c33c5a <_rtc_reserved_end+0x45b33c5a>)
+40377417:	d49050        	extui	a9, a5, 0, 14
+4037741a:	0e0c      	movi.n	a14, 0
+4037741c:	c0d982        	addmi	a8, a9, 0xffffc000
+4037741f:	608080        	neg	a8, a8
+40377422:	63d860        	minu	a13, a8, a6
+40377425:	f480d0        	extui	a8, a13, 0, 16
+40377428:	1188e0        	slli	a8, a8, 2
+4037742b:	fcc882        	addi	a8, a8, -4
+4037742e:	418280        	srli	a8, a8, 2
+40377431:	a099a0        	addx4	a9, a9, a10
+40377434:	881b      	addi.n	a8, a8, 1
+40377436:	068876        	loop	a8, 40377440 <fill$isra$0+0x38>
+40377439:	0020c0        	memw
+4037743c:	09c9      	s32i.n	a12, a9, 0
+4037743e:	994b      	addi.n	a9, a9, 4
+40377440:	c066d0        	sub	a6, a6, a13
+40377443:	0e9d      	mov.n	a9, a14
+40377445:	fd3656        	bnez	a6, 4037741c <fill$isra$0+0x14>
+40377448:	0020c0        	memw
+4037744b:	f01d      	retw.n

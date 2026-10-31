@@ -1,0 +1,92 @@
+{
+  "commit": "992f49702205d491bc8332e0085fc72ae3576fbd",
+  "ELF_sha256": "7ee25471a6dc96c056c2afd883cf4f70282fd186be920cced7dddefa40554fc7",
+  "checks": [
+    {
+      "name": "ELF_hash",
+      "passed": true
+    },
+    {
+      "name": "SDK_static_checks",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_raw_tasks.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_raw_tasks.h",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_cycle_clock.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_native_capture.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_parallel_pack.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_parallel_spi.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_raw_probe/main/raw_probe.c",
+      "passed": true
+    },
+    {
+      "name": "internal_raw_runtime",
+      "passed": true
+    },
+    {
+      "name": "internal_raw_launch",
+      "passed": true
+    },
+    {
+      "name": "task_entry_IRAM",
+      "passed": true
+    },
+    {
+      "name": "TWDT_ABI_unambiguous",
+      "passed": true
+    }
+  ],
+  "allocations": {
+    "raw_runtime": {
+      "address": "0x3fcac8c0",
+      "bytes": 184
+    },
+    "raw_launch": {
+      "address": "0x3fcac8a0",
+      "bytes": 28
+    }
+  },
+  "task_entry_code_bytes": 1298,
+  "SDK_static_check_count": 54,
+  "symbols": {
+    "_iram_end": "0x40388000",
+    "_data_start": "0x3fc98000",
+    "_heap_start": "0x3fcace60",
+    "raw_task_stacks": "0x3c03a580",
+    "raw_task_tcbs": "0x3fcac518"
+  },
+  "watchdog": {
+    "types": {
+      "twdt_entry": 16,
+      "twdt_obj": 16
+    },
+    "steady_two_task_entries_min_bytes": 40,
+    "two_idle_plus_two_task_transition_min_bytes": 80,
+    "watchdog_object_min_bytes": 20,
+    "inherited_TWDT_interrupt_handle_and_vector_not_included": true,
+    "all_calloc_internal_proven": false,
+    "complete_heap_proven": false
+  },
+  "runtime_executed_on_target": false,
+  "WCET_proven": false,
+  "receiver_adopted": false
+}

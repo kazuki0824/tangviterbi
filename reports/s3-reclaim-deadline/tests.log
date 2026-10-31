@@ -1,0 +1,60 @@
+test_all_sample_phases_and_later_switch_boundaries (test_s3_reclaim_limits.ReclaimLimitsTest.test_all_sample_phases_and_later_switch_boundaries) ... ok
+test_packing_deadline_is_later_than_earliest_reclaim_budget (test_s3_reclaim_limits.ReclaimLimitsTest.test_packing_deadline_is_later_than_earliest_reclaim_budget) ... ok
+test_backlog_and_admission_reserve_are_both_charged (test_s3_worker_response.WorkerResponseTest.test_backlog_and_admission_reserve_are_both_charged) ... ok
+test_envelope_dominates_all_periodic_phases_with_carry (test_s3_worker_response.WorkerResponseTest.test_envelope_dominates_all_periodic_phases_with_carry) ... ok
+test_native_reclaim_model_is_explicit_conditional_and_strict (test_s3_worker_response.WorkerResponseTest.test_native_reclaim_model_is_explicit_conditional_and_strict) ... ok
+test_no_arbitrary_iteration_cap_and_no_false_impossibility (test_s3_worker_response.WorkerResponseTest.test_no_arbitrary_iteration_cap_and_no_false_impossibility) ... ok
+test_peer_done_can_miss_collect_and_reclaim_budget (test_s3_worker_response.WorkerResponseTest.test_peer_done_can_miss_collect_and_reclaim_budget) ... ok
+test_unknowns_cannot_become_zero_cost_evidence (test_s3_worker_response.WorkerResponseTest.test_unknowns_cannot_become_zero_cost_evidence) ... ok
+test_preparation_and_blackout_share_the_same_window (test_s3_settling_limits.SettlingLimitsTest.test_preparation_and_blackout_share_the_same_window) ... ok
+test_rounding_at_first_busy_and_available_boundaries (test_s3_settling_limits.SettlingLimitsTest.test_rounding_at_first_busy_and_available_boundaries) ... ok
+test_unknown_and_local_pass_never_certify_receiver (test_s3_settling_limits.SettlingLimitsTest.test_unknown_and_local_pass_never_certify_receiver) ... ok
+test_exact_limit_includes_poll_tails_and_does_not_prove_receiver (test_s3_task_gap_limits.TaskGapTest.test_exact_limit_includes_poll_tails_and_does_not_prove_receiver) ... ok
+test_single_reset_bound_exceeds_S_budget_even_if_rare (test_s3_task_gap_limits.TaskGapTest.test_single_reset_bound_exceeds_S_budget_even_if_rare) ... ok
+test_unknown_is_not_free_or_passed (test_s3_task_gap_limits.TaskGapTest.test_unknown_is_not_free_or_passed) ... ok
+test_current_native_constants_and_utilization_limits (test_s3_raw_schedule_limits.RawScheduleLimitsTest.test_current_native_constants_and_utilization_limits) ... ok
+test_preparation_phase_bound_including_rounding (test_s3_raw_schedule_limits.RawScheduleLimitsTest.test_preparation_phase_bound_including_rounding) ... ok
+test_unknown_costs_never_become_a_pass (test_s3_raw_schedule_limits.RawScheduleLimitsTest.test_unknown_costs_never_become_a_pass) ... ok
+test_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_bulk_SPI_lease_adapter_and_queue_failure) ... ok
+test_concurrent_lossless_ownership_and_negative_boundaries (test_s3_parallel_pack.ParallelPackTest.test_concurrent_lossless_ownership_and_negative_boundaries) ... ok
+test_native_bank_handoff_and_stalled_worker_stop (test_s3_parallel_pack.ParallelPackTest.test_native_bank_handoff_and_stalled_worker_stop) ... ok
+test_raw_only_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_raw_only_bulk_SPI_lease_adapter_and_queue_failure) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 3.580s
+
+OK
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact
+PASS concurrent banks=1 samples=1 checked_DMA_bytes=0 tail_bytes=0 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact
+PASS concurrent banks=2 samples=12292 checked_DMA_bytes=0 tail_bytes=30730 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact
+PASS concurrent banks=17 samples=184760 checked_DMA_bytes=458752 tail_bytes=3148 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload

@@ -1,0 +1,47 @@
+{
+  "scope": "Conditional reclaim budget from continuous, unwrapped RF sample positions.\n\nLet t0 be the INDEX observation at A->B, and s0=switch_earliest<=t0.\nEnd(A)>=INDEX(t0), the following B contains >=THRESHOLD samples, and a\nbusy fault for reuse of A while C is active requires written(C)>=gate.\nThus that fault observes >=THRESHOLD+gate new samples since INDEX(t0).\nAt cpp integer cycles/sample with arbitrary phase, that observation cannot\noccur before (THRESHOLD+gate-1)*cpp+1 cycles after t0. Releasing before this\nstrict budget relative to s0 is sufficient for this busy-gate condition only.\n",
+  "rows": [
+    {
+      "rate_Msample_s": 16,
+      "cpp": 15,
+      "busy_gate_samples": 7931,
+      "minimum_sample_advance": 20219,
+      "conservative_reclaim_strict_budget_cycles": 303271,
+      "latest_certified_release_offset_cycles": 303270,
+      "latest_certified_release_offset_us": 1263.625,
+      "packing_strict_deadline_cycles": 303280,
+      "packing_minus_reclaim_strict_cycles": 9,
+      "collect_delay_included_in_reclaim": true,
+      "hardware_RF_model_verified": false,
+      "receiver_adopted": false
+    },
+    {
+      "rate_Msample_s": 40,
+      "cpp": 6,
+      "busy_gate_samples": 5931,
+      "minimum_sample_advance": 18219,
+      "conservative_reclaim_strict_budget_cycles": 109309,
+      "latest_certified_release_offset_cycles": 109308,
+      "latest_certified_release_offset_us": 455.45,
+      "packing_strict_deadline_cycles": 109312,
+      "packing_minus_reclaim_strict_cycles": 3,
+      "collect_delay_included_in_reclaim": true,
+      "hardware_RF_model_verified": false,
+      "receiver_adopted": false
+    }
+  ],
+  "assumptions": [
+    "continuous integer-cycle sample progression at declared rate",
+    "unwrapped accepted end(A) is at/after switch INDEX(A)",
+    "next accepted bank B contains at least THRESHOLD samples",
+    "only the single-owner native adapter publishes/reclaims banks",
+    "ordinary INDEX-gap, settling and preparation conditions are separately satisfied"
+  ],
+  "limitations": [
+    "bound guarantees release before the earliest busy-gate observation under this model only",
+    "actual gate observation can be later; exceeding this bound is not universal infeasibility",
+    "does not remove worker admission, clock-error, output-arena or SPI obligations"
+  ],
+  "source_sha256": "c2ad0db240000d385bedd6562d0b08794bf4c307450b981327a55c3dc2d97ad3",
+  "receiver_adopted": false
+}

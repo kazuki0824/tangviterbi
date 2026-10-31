@@ -1,0 +1,51 @@
+{
+  "scope": "Compile the actual native source with minimal SDK declaration stubs; not an SDK link.",
+  "source_sha256": "dbfb756a858d3a3da2ba4068af8929da415ac0afd2000271052534329d44ead5",
+  "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "flags": [
+    "-O2",
+    "-std=c11",
+    "-DESP_PLATFORM"
+  ],
+  "declaration_stubs": {
+    "esp_attr.h": "#define IRAM_ATTR __attribute__((section(\".iram1\")))\n",
+    "esp_cpu.h": "#include <stdint.h>\nstatic inline uint32_t esp_cpu_get_cycle_count(void){uint32_t t;__asm__ volatile(\"rsr.ccount %0\":\"=a\"(t));return t;}\n",
+    "soc/soc.h": "#define REG_READ(a) (*(volatile uint32_t *)(a))\n#define REG_WRITE(a,v) (*(volatile uint32_t *)(a)=(v))\n"
+  },
+  "checks": [
+    {
+      "name": "three_instruction_body",
+      "passed": true
+    },
+    {
+      "name": "fill_shape_25_instructions",
+      "passed": true
+    }
+  ],
+  "rows": [
+    {
+      "standard": "T",
+      "body_instructions_per_bank": 21504,
+      "fill_instructions_per_bank_range": [
+        21548,
+        21574
+      ],
+      "body_ideal_us": 89.6,
+      "nominal_body_Minstructions_s": 28.0
+    },
+    {
+      "standard": "S",
+      "body_instructions_per_bank": 21504,
+      "fill_instructions_per_bank_range": [
+        21548,
+        21574
+      ],
+      "body_ideal_us": 89.6,
+      "nominal_body_Minstructions_s": 70.0
+    }
+  ],
+  "bank_callback_body_included": false,
+  "caller_and_stalls_included": false,
+  "SDK_link_verified": false,
+  "WCET_proven": false
+}

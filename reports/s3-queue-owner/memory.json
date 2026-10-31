@@ -1,0 +1,492 @@
+{
+  "checks": [
+    {
+      "name": "ROM_nonoverlap",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "config_SPIRAM",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_SPIRAM_MODE_OCT",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_ESP32S3_DATA_CACHE_32KB",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_SPI_MASTER_IN_IRAM",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_SPI_MASTER_ISR_IN_IRAM",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "config_FREERTOS_NUMBER_OF_CORES",
+      "ok": true,
+      "detail": 2
+    },
+    {
+      "name": "iram_before_RF_alias",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "static_data_before_RF",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "reserved_0x3fcb0000",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "reserved_0x3fce0000",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "reserved_0x3fcf0000",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lower_two_chunks_size",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "payload_alignment",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "payload_sum_128KiB",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "payload_before_RF_or_upper",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "payload_pairwise_disjoint",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "two_static_task_stacks",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "two_static_TCBs",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "late_stack_pointers",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "late_stacks_reserved",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_step_impl",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_step_clocked_quantized",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_accept",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_collect",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_reclaim",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_take",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_pp_complete",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_native_poll_budget",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_raw_queue_submit",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_raw_queue_reap",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_raw_task_entry",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_cycle_clock_read",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "IRAM_s3_native_poll_budget",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "timer_constructor_known",
+      "ok": true,
+      "detail": null
+    }
+  ],
+  "all_static_checks_pass": true,
+  "sizes": {
+    "pack": 440,
+    "capture": 168,
+    "ports": 256,
+    "descriptors": 0,
+    "transfers": 0,
+    "task_stacks": 8192,
+    "task_TCBs": 680,
+    "StaticTask_t": 340,
+    "DMA_descriptor": 12,
+    "StackType_t": 1
+  },
+  "payload_regions": [
+    [
+      "0x3fc99b98",
+      "0x3fca9b98"
+    ],
+    [
+      "0x3fce0000",
+      "0x3fce8000"
+    ],
+    [
+      "0x3fcf0000",
+      "0x3fcf8000"
+    ]
+  ],
+  "hot_symbols": {
+    "s3_pp_step_impl": "0x403773e8",
+    "s3_pp_step_clocked_quantized": "0x40377aac",
+    "s3_pp_accept": "0x40377764",
+    "s3_pp_collect": "0x403779b4",
+    "s3_pp_reclaim": "0x4037b41c",
+    "s3_pp_take": "0x4037b444",
+    "s3_pp_complete": "0x4037b4e8",
+    "s3_native_poll_budget": "0x40377cb4",
+    "s3_raw_queue_submit": "0x4037721c",
+    "s3_raw_queue_reap": "0x40377350",
+    "s3_raw_task_entry": "0x40376d1c",
+    "s3_cycle_clock_read": "0x4037b588"
+  },
+  "symbols": {
+    "_iram_end": "0x40388000",
+    "_data_start": "0x3fc98000",
+    "_heap_start": "0x3fcace58",
+    "create_tasks": "0x42009364",
+    "queue_task_tcbs": "0x3fcac504"
+  },
+  "late_task_stacks": true,
+  "startup": {
+    "early_internal_bytes": 18616,
+    "late_internal_bytes": 14116,
+    "RTC_generous_bytes": 8168,
+    "early_regions": [
+      [
+        "0x3fcace58",
+        "0x3fcb0000"
+      ],
+      [
+        "0x3fce8000",
+        "0x3fce9710"
+      ]
+    ],
+    "late_regions": [
+      [
+        "0x3fce9710",
+        "0x3fcea000"
+      ],
+      [
+        "0x3fcec000",
+        "0x3fceee34"
+      ]
+    ],
+    "stack_lower_bound": {
+      "main": 8704,
+      "esp_timer": 4096,
+      "IPC_two_cores": 2560,
+      "idle_two_cores": 3072
+    },
+    "startup_task_count": 6,
+    "TCB_lower_bound": 2040,
+    "early_headroom_upper_bound": 6312,
+    "post_late_headroom_upper_bound": 20428,
+    "main_stack_bytes": 8704,
+    "main_stack_raw_size_candidates": [
+      [
+        "0x3fcace58",
+        "0x3fcb0000"
+      ]
+    ],
+    "allocation_order_and_contiguous_fit_verified": false,
+    "reserve_DMA_pool": 4096,
+    "early_necessary_capacity_pass": true,
+    "pool_necessary_capacity_pass": true,
+    "allocator_early": {
+      "target_layout": {
+        "multi_heap_info": 20,
+        "control_t": 36,
+        "pointer_bytes": 4
+      },
+      "heaps": [
+        {
+          "name": "DIRAM",
+          "region_bytes": 12712,
+          "tlsf_control_bytes": 396,
+          "metadata_lower_bound_bytes": 424
+        },
+        {
+          "name": "RTC_fast",
+          "region_bytes": 8168,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        },
+        {
+          "name": "early_DIRAM_0",
+          "region_bytes": 5904,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        }
+      ],
+      "live_task_allocation_headers_lower_bound_bytes": 48,
+      "allocator_overhead_lower_bound_bytes": 1248,
+      "free_before_DMA_pool_upper_bound_bytes": 5064,
+      "DMA_pool_target_bytes": 0,
+      "pool_necessary_capacity_pass": true,
+      "pool_shortage_lower_bound_bytes": 0,
+      "scope": "Necessary capacity only; ignores allocation ordering, other constructors, heap_caps records, Wi-Fi, event, drivers, fragmentation and additional pool metadata",
+      "sources": [
+        "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/multi_heap.c",
+        "https://github.com/espressif/tlsf/blob/2867f6883a12920b1969ff9624c0ab0e4185c2ce/tlsf.c"
+      ]
+    },
+    "allocator_final": {
+      "target_layout": {
+        "multi_heap_info": 20,
+        "control_t": 36,
+        "pointer_bytes": 4
+      },
+      "heaps": [
+        {
+          "name": "DIRAM",
+          "region_bytes": 12712,
+          "tlsf_control_bytes": 396,
+          "metadata_lower_bound_bytes": 424
+        },
+        {
+          "name": "RTC_fast",
+          "region_bytes": 8168,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        },
+        {
+          "name": "early_DIRAM_0",
+          "region_bytes": 5904,
+          "tlsf_control_bytes": 360,
+          "metadata_lower_bound_bytes": 388
+        },
+        {
+          "name": "early_DIRAM_1",
+          "region_bytes": 2288,
+          "tlsf_control_bytes": 324,
+          "metadata_lower_bound_bytes": 352
+        },
+        {
+          "name": "early_DIRAM_2",
+          "region_bytes": 11828,
+          "tlsf_control_bytes": 396,
+          "metadata_lower_bound_bytes": 424
+        }
+      ],
+      "live_task_allocation_headers_lower_bound_bytes": 48,
+      "allocator_overhead_lower_bound_bytes": 2024,
+      "free_before_DMA_pool_upper_bound_bytes": 18404,
+      "DMA_pool_target_bytes": 4096,
+      "pool_necessary_capacity_pass": true,
+      "pool_shortage_lower_bound_bytes": 0,
+      "scope": "Necessary capacity only; ignores allocation ordering, other constructors, heap_caps records, Wi-Fi, event, drivers, fragmentation and additional pool metadata",
+      "sources": [
+        "https://github.com/espressif/esp-idf/blob/v5.5.1/components/heap/multi_heap.c",
+        "https://github.com/espressif/tlsf/blob/2867f6883a12920b1969ff9624c0ab0e4185c2ce/tlsf.c"
+      ]
+    },
+    "physical_boot_verified": false,
+    "excluded": [
+      "heap metadata/fragmentation",
+      "driver/PHY allocations",
+      "idle task extra stack overhead",
+      "other startup allocations"
+    ]
+  },
+  "driver_lower_bound": {
+    "effective_prepare_words_per_iteration": 2048,
+    "effective_core0_sixteenths": 5,
+    "effective_transfer_bytes": 16384,
+    "effective_fill_unroll": 8,
+    "type_sizes": {
+      "spi_device_t": 124,
+      "spi_host_t": 184,
+      "spi_trans_priv_t": 20,
+      "spicommon_bus_context_t": 96,
+      "spi_dma_ctx_t": 20,
+      "Queue_t": 84,
+      "multi_heap_info": 20,
+      "control_t": 36,
+      "StaticTask_t": 340,
+      "dma_descriptor_align4_t": 12,
+      "StackType_t": 1
+    },
+    "per_port_objects": 424,
+    "per_port_queue_bytes": 248,
+    "per_port_descriptor_bytes": 120,
+    "two_port_known_allocation_lower_bound": 1584,
+    "total_internal_after_known_driver_upper_bound": 16820,
+    "not_counted": [
+      "GDMA channels/groups/pairs",
+      "bus/device locks",
+      "interrupt handles",
+      "allocation headers/alignment",
+      "PHY/calibration allocations",
+      "other runtime allocations"
+    ]
+  },
+  "ROM_audit": {
+    "scope": "Audit reservations against the actual ESP32-S3 ROM layout, not heap totals.\n\nThe SDK appends the ROM reservation at runtime, hence ld cannot detect this\ncollision. The supplied ROM ELF is revision-specific; runtime hardware still\nmust match its layout. No ELF is executed by this tool.\n",
+    "ELF_sha256": "8fd984541fc6211156ae38a53aafeca522f8dfa3c5aaec31b737133cebae2f9b",
+    "ROM_ELF_sha256": "c0ce0f338d1de1bdc6efbef1591779a2a42c1ab7d759d3c6ae8ae63a7dd34cfd",
+    "ROM_shared_buffer_start": "0x3fce9704",
+    "ROM_reserved_start": "0x3fceee34",
+    "ROM_reserved_end": "0x3fcf0000",
+    "static_reservations": [
+      {
+        "start": "0x600fffe8",
+        "end": "0x60100000"
+      },
+      {
+        "start": "0x600fe000",
+        "end": "0x600fe000"
+      },
+      {
+        "start": "0x3c000000",
+        "end": "0x3e000000"
+      },
+      {
+        "start": "0x40374000",
+        "end": "0x40388000"
+      },
+      {
+        "start": "0x3fc84000",
+        "end": "0x3fc98000"
+      },
+      {
+        "start": "0x3fc98000",
+        "end": "0x3fcace58"
+      },
+      {
+        "start": "0x3fcea000",
+        "end": "0x3fcec000"
+      },
+      {
+        "start": "0x3fcf0000",
+        "end": "0x3fcf8000"
+      },
+      {
+        "start": "0x3fce0000",
+        "end": "0x3fce8000"
+      },
+      {
+        "start": "0x3fcb0000",
+        "end": "0x3fce0000"
+      }
+    ],
+    "conflicts": [],
+    "ROM_reservation_nonoverlap_pass": true,
+    "SDK_behavior_on_overlap": "s_prepare_reserved_regions logs conflict then aborts before app_main",
+    "hardware_revision_layout_verified": false,
+    "receiver_adopted": false
+  },
+  "memory_necessary_pass": true,
+  "ELF_sha256": "8fd984541fc6211156ae38a53aafeca522f8dfa3c5aaec31b737133cebae2f9b",
+  "map_sha256": "7bb847a57c4cd6ce3e7cdbeeb418c8d7b31ad6e0f5d28273fb06ef46d1ea7629",
+  "receiver_adopted": false,
+  "formal_routes": 0,
+  "hardware_boot_executed": false,
+  "WCET_measured": false,
+  "control_and_packing_CFGs_match_cost_probe": {
+    "s3_raw_task_entry": 463,
+    "poll_rf": 31,
+    "feed": 64,
+    "pack_slice": 32,
+    "s3_cycle_clock_read": 26,
+    "s3_raw_queue_submit": 114,
+    "s3_raw_queue_reap": 54,
+    "s3_pp_step_impl": 336
+  },
+  "stack_pointer_evidence": "create_tasks literal loads, stores at sp+8/+12, argument a12=sp+8, a14=4096, call to s3_raw_tasks_launch; const array optimized out",
+  "scope": "Reuse the ROM/allocator audit for the queue-connected storage probe.\n\nOnly symbol mapping, ABI size inputs, hot entrypoints and queue depth change.\nMemory capacity is a necessary condition, not allocator success or RF boot.\n",
+  "effective_compile_configuration_source": "Pinned memory-probe CMakeLists.txt and generated task header; these 4 constants are not extracted from an ELF size table.",
+  "adapted_audit_sha256": "cd4b62db59a6a094b5d0281faba9696a737324c9ce3d1bd2c4044d6e266e4e05",
+  "source_sha256": {
+    "ci/s3_queue_memory_audit.py": "6ce0f215ef98ad559dae767c66c59396275f07aec12eaf83fd47452f1190c5b2",
+    "ci/s3_raw_link_audit.py": "005fec101fd9acf2b722bcd828f99ba5a4ef9a8f837cd09bbec1f1461e527927",
+    "ci/s3_queue_owner_audit.py": "7b946afdfbbe6a883ca6fbbd0040e10e9802050f7e52b7d516833688d1f5fb85",
+    "reports/s3-queue-owner/sdk/s3_queue_owner_probe.elf.gz": "f62dfe12c92507e3ee727d420378962999bfb3b0592125e4111139f2f971a7ae",
+    "ci/s3_rom_layout_audit.py": "08df1756e6467334919e610901d767c08da5becb0bea5ee564cd27335dc65ae3",
+    "ci/s3_startup_memory_bound.py": "2c18c28607060f272edba2a3e94f71d5da16e06bda936e1745d39c4cb74aee8a",
+    "experiments/s3_queue_memory_probe/main/CMakeLists.txt": "7975038e30ce782e7e8465b8b2bcdb0a7da07136ea866d184c99ca6ad0362c75",
+    "experiments/s3_queue_memory_probe/main/queue_memory_probe.c": "cffb310f2ca740781919a7261fadb2632990a5cc0b0f1b3e66684623b4ca5588",
+    "experiments/s3_queue_tasks_source.py": "04beeec002fa5d692b96e801822591db3270e7b632932e0e8718affe5b3637e0",
+    "reports/s3-queue-owner/memory-sdk/s3_queue_memory_probe.elf.gz": "a407589d4a78079e6aad35ebdedcfe597e631e5dfdc4187433da5ca82e19fb80",
+    "reports/s3-queue-owner/memory-sdk/s3_queue_memory_probe.map.gz": "ab596f0c0bb8d2c186ba0363bb9f972c970920267f7164682dce6e406e20a2cb",
+    "reports/s3-queue-owner/memory-sdk/sdkconfig.json.gz": "8f5d9b9d5acdbf8a63e09e74a12b7999ace65552d67b1279e2c9ff6c4451b5b2",
+    "reports/s3-queue-owner/memory-sdk/provenance.json": "bee426df3fd2dfdd374cb0a3d8014182f1d22fd719c48b350534ec0a4c7b5c32"
+  }
+}

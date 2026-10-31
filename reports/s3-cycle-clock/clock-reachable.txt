@@ -1,0 +1,26 @@
+4037af50: entry a1, 32
+4037af53: mov.n a8, a2
+4037af55: rsr.ccount a10
+4037af58: beqz.n a2, 4037af78 <s3_cycle_clock_read+0x28>
+4037af5a: l8ui a9, a2, 16
+4037af5d: beqz.n a9, 4037af78 <s3_cycle_clock_read+0x28>
+4037af5f: l32i.n a9, a2, 8
+4037af61: l32i.n a3, a2, 4
+4037af63: sub a9, a10, a9
+4037af66: movi.n a11, -1
+4037af68: l32i.n a2, a2, 0
+4037af6a: xor a11, a9, a11
+4037af6d: bnei a3, -1, 4037af80 <s3_cycle_clock_read+0x30>
+4037af70: bgeu a11, a2, 4037af80 <s3_cycle_clock_read+0x30>
+4037af73: movi.n a9, 0
+4037af75: s8i a9, a8, 16
+4037af78: movi.n a2, -1
+4037af7a: mov.n a3, a2
+4037af7c: j 4037af8d <s3_cycle_clock_read+0x3d>
+4037af80: add.n a2, a2, a9
+4037af82: saltu a9, a2, a9
+4037af85: add.n a3, a3, a9
+4037af87: s32i.n a10, a8, 8
+4037af89: s32i.n a2, a8, 0
+4037af8b: s32i.n a3, a8, 4
+4037af8d: retw.n 

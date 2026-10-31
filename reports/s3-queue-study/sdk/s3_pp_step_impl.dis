@@ -1,0 +1,352 @@
+
+queue-sdk.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+40376864 <s3_pp_step_impl>:
+40376864:	00e136        	entry	a1, 112
+40376867:	40f2a0        	nsau	a10, a2
+4037686a:	075d      	mov.n	a5, a7
+4037686c:	1c2182        	l32i	a8, a1, 112
+4037686f:	1d2172        	l32i	a7, a1, 116
+40376872:	029d      	mov.n	a9, a2
+40376874:	06ed      	mov.n	a14, a6
+40376876:	04bd      	mov.n	a11, a4
+40376878:	1c0c      	movi.n	a12, 1
+4037687a:	41a5a0        	srli	a10, a10, 5
+4037687d:	320216        	beqz	a2, 40376ba1 <s3_pp_step_impl+0x33d>
+40376880:	1e21d2        	l32i	a13, a1, 120
+40376883:	83acd0        	moveqz	a10, a12, a13
+40376886:	317a56        	bnez	a10, 40376ba1 <s3_pp_step_impl+0x33d>
+40376889:	0da9      	s32i.n	a10, a13, 0
+4037688b:	b0a1a2        	movi	a10, 0x1b0
+4037688e:	42aa      	add.n	a4, a2, a10
+40376890:	0020c0        	memw
+40376893:	04d8      	l32i.n	a13, a4, 0
+40376895:	520c      	movi.n	a2, 5
+40376897:	341d56        	bnez	a13, 40376bdc <s3_pp_step_impl+0x378>
+4037689a:	20a870        	or	a10, a8, a7
+4037689d:	0dfd      	mov.n	a15, a13
+4037689f:	83fca0        	moveqz	a15, a12, a10
+403768a2:	0dad      	mov.n	a10, a13
+403768a4:	83acb0        	moveqz	a10, a12, a11
+403768a7:	20aaf0        	or	a10, a10, a15
+403768aa:	74a0a0        	extui	a10, a10, 0, 8
+403768ad:	9acc      	bnez.n	a10, 403768ba <s3_pp_step_impl+0x56>
+403768af:	073c37        	bltu	a12, a3, 403768ba <s3_pp_step_impl+0x56>
+403768b2:	e7cc      	bnez.n	a7, 403768c4 <s3_pp_step_impl+0x60>
+403768b4:	2121a2        	l32i	a10, a1, 132
+403768b7:	093a87        	bltu	a10, a8, 403768c4 <s3_pp_step_impl+0x60>
+403768ba:	380c      	movi.n	a8, 3
+403768bc:	0020c0        	memw
+403768bf:	0489      	s32i.n	a8, a4, 0
+403768c1:	00b706        	j	40376ba1 <s3_pp_step_impl+0x33d>
+403768c4:	1133c0        	slli	a3, a3, 4
+403768c7:	30c3f2        	addi	a15, a3, 48
+403768ca:	10c9a2        	addi	a10, a9, 16
+403768cd:	01d9c2        	addmi	a12, a9, 0x100
+403768d0:	060c      	movi.n	a6, 0
+403768d2:	51f9      	s32i.n	a15, a1, 20
+403768d4:	51f8      	l32i.n	a15, a1, 20
+403768d6:	ffaa      	add.n	a15, a15, a10
+403768d8:	0020c0        	memw
+403768db:	0ff8      	l32i.n	a15, a15, 0
+403768dd:	0020c0        	memw
+403768e0:	181f66        	bnei	a15, 1, 403768fc <s3_pp_step_impl+0x98>
+403768e3:	369c      	beqz.n	a6, 403768fa <s3_pp_step_impl+0x96>
+403768e5:	3628      	l32i.n	a2, a6, 12
+403768e7:	3af8      	l32i.n	a15, a10, 12
+403768e9:	0d3f27        	bltu	a15, a2, 403768fa <s3_pp_step_impl+0x96>
+403768ec:	0c92f7        	bne	a2, a15, 403768fc <s3_pp_step_impl+0x98>
+403768ef:	26f8      	l32i.n	a15, a6, 8
+403768f1:	2a28      	l32i.n	a2, a10, 8
+403768f3:	0332f7        	bltu	a2, a15, 403768fa <s3_pp_step_impl+0x96>
+403768f6:	000086        	j	403768fc <s3_pp_step_impl+0x98>
+403768f9:	0a6d00        	add.s	f6, f13, f0
+403768fc:	50caa2        	addi	a10, a10, 80
+403768ff:	d19ac7        	bne	a10, a12, 403768d4 <s3_pp_step_impl+0x70>
+40376902:	2a0616        	beqz	a6, 40376ba6 <s3_pp_step_impl+0x342>
+40376905:	56a8      	l32i.n	a10, a6, 20
+40376907:	46c8      	l32i.n	a12, a6, 16
+40376909:	0b35a7        	bltu	a5, a10, 40376918 <s3_pp_step_impl+0xb4>
+4037690c:	021a57        	beq	a10, a5, 40376912 <s3_pp_step_impl+0xae>
+4037690f:	009886        	j	40376b75 <s3_pp_step_impl+0x311>
+40376912:	023ec7        	bltu	a14, a12, 40376918 <s3_pp_step_impl+0xb4>
+40376915:	009706        	j	40376b75 <s3_pp_step_impl+0x311>
+40376918:	62fce0        	saltu	a15, a12, a14
+4037691b:	c0aa50        	sub	a10, a10, a5
+4037691e:	c0aaf0        	sub	a10, a10, a15
+40376921:	c0cce0        	sub	a12, a12, a14
+40376924:	0c37a7        	bltu	a7, a10, 40376934 <s3_pp_step_impl+0xd0>
+40376927:	021a77        	beq	a10, a7, 4037692d <s3_pp_step_impl+0xc9>
+4037692a:	0091c6        	j	40376b75 <s3_pp_step_impl+0x311>
+4037692d:	0338c7        	bltu	a8, a12, 40376934 <s3_pp_step_impl+0xd0>
+40376930:	009046        	j	40376b75 <s3_pp_step_impl+0x311>
+40376933:	363a00        	ee.ldf.64.xp	f3, f3, a0, a10
+40376936:	f3a8      	l32i.n	a10, a3, 60
+40376938:	e3c8      	l32i.n	a12, a3, 56
+4037693a:	b139      	s32i.n	a3, a1, 44
+4037693c:	c0cca0        	sub	a12, a12, a10
+4037693f:	63ccb0        	minu	a12, a12, a11
+40376942:	1d4c16        	beqz	a12, 40376b1a <s3_pp_step_impl+0x2b6>
+40376945:	0dfd      	mov.n	a15, a13
+40376947:	c1d9      	s32i.n	a13, a1, 48
+40376949:	d149      	s32i.n	a4, a1, 52
+4037694b:	e1e9      	s32i.n	a14, a1, 56
+4037694d:	215b      	addi.n	a2, a1, 5
+4037694f:	064d      	mov.n	a4, a6
+40376951:	03dd      	mov.n	a13, a3
+40376953:	0ced      	mov.n	a14, a12
+40376955:	f159      	s32i.n	a5, a1, 60
+40376957:	106182        	s32i	a8, a1, 64
+4037695a:	116172        	s32i	a7, a1, 68
+4037695d:	afaa      	add.n	a10, a15, a10
+4037695f:	5b0c      	movi.n	a11, 5
+40376961:	82bba0        	mull	a11, a11, a10
+40376964:	6488      	l32i.n	a8, a4, 24
+40376966:	c05ef0        	sub	a5, a14, a15
+40376969:	8468      	l32i.n	a6, a4, 32
+4037696b:	2c04c2        	l8ui	a12, a4, 44
+4037696e:	bb8a      	add.n	a11, a11, a8
+40376970:	aaaa      	add.n	a10, a10, a10
+40376972:	0245f6        	bgeui	a5, 4, 40376978 <s3_pp_step_impl+0x114>
+40376975:	0047c6        	j	40376a98 <s3_pp_step_impl+0x234>
+40376978:	c086c0        	sub	a8, a6, a12
+4037697b:	88aa      	add.n	a8, a8, a10
+4037697d:	d48080        	extui	a8, a8, 0, 14
+40376980:	4189      	s32i.n	a8, a1, 16
+40376982:	e470b0        	extui	a7, a11, 0, 15
+40376985:	cc9c      	beqz.n	a12, 403769a5 <s3_pp_step_impl+0x141>
+40376987:	119a16        	beqz	a10, 40376aa4 <s3_pp_step_impl+0x240>
+4037698a:	f741c1        	l32r	a12, 40374690 <_iram_text_start+0x28c> (3ff8 <UserFrameTotalSize+0x3ef8>)
+4037698d:	02bc87        	bgeu	a12, a8, 40376993 <s3_pp_step_impl+0x12f>
+40376990:	008c06        	j	40376bc4 <s3_pp_step_impl+0x360>
+40376993:	14c0b0        	extui	a12, a11, 0, 2
+40376996:	22ac56        	bnez	a12, 40376bc4 <s3_pp_step_impl+0x360>
+40376999:	f73ec1        	l32r	a12, 40374694 <_iram_text_start+0x290> (7fec <UserFrameTotalSize+0x7eec>)
+4037699c:	2dbc77        	bgeu	a12, a7, 403769cd <s3_pp_step_impl+0x169>
+4037699f:	008846        	j	40376bc4 <s3_pp_step_impl+0x360>
+403769a2:	000000        	ill
+403769a5:	f73a31        	l32r	a3, 40374690 <_iram_text_start+0x28c> (3ff8 <UserFrameTotalSize+0x3ef8>)
+403769a8:	4188      	l32i.n	a8, a1, 16
+403769aa:	02b387        	bgeu	a3, a8, 403769b0 <s3_pp_step_impl+0x14c>
+403769ad:	007ec6        	j	40376bac <s3_pp_step_impl+0x348>
+403769b0:	1430b0        	extui	a3, a11, 0, 2
+403769b3:	180c      	movi.n	a8, 1
+403769b5:	83c830        	moveqz	a12, a8, a3
+403769b8:	1f0c16        	beqz	a12, 40376bac <s3_pp_step_impl+0x348>
+403769bb:	f736c1        	l32r	a12, 40374694 <_iram_text_start+0x290> (7fec <UserFrameTotalSize+0x7eec>)
+403769be:	62cc70        	saltu	a12, a12, a7
+403769c1:	ffccc2        	addi	a12, a12, -1
+403769c4:	60c0c0        	neg	a12, a12
+403769c7:	74c0c0        	extui	a12, a12, 0, 8
+403769ca:	1dec16        	beqz	a12, 40376bac <s3_pp_step_impl+0x348>
+403769cd:	4138      	l32i.n	a3, a1, 16
+403769cf:	f73281        	l32r	a8, 40374698 <_iram_text_start+0x294> (cccccccd <_rtc_reserved_end+0x6cbccccd>)
+403769d2:	80d7a2        	addmi	a10, a7, 0xffff8000
+403769d5:	c0d3c2        	addmi	a12, a3, 0xffffc000
+403769d8:	60a0a0        	neg	a10, a10
+403769db:	a2aa80        	muluh	a10, a10, a8
+403769de:	60c0c0        	neg	a12, a12
+403769e1:	41c3c0        	srli	a12, a12, 3
+403769e4:	415250        	srli	a5, a5, 2
+403769e7:	635c50        	minu	a5, a12, a5
+403769ea:	41a4a0        	srli	a10, a10, 4
+403769ed:	63a5a0        	minu	a10, a5, a10
+403769f0:	f4c0a0        	extui	a12, a10, 0, 16
+403769f3:	14bfb0        	extui	a11, a11, 15, 2
+403769f6:	a0bb90        	addx4	a11, a11, a9
+403769f9:	115cb0        	slli	a5, a12, 5
+403769fc:	0468      	l32i.n	a6, a4, 0
+403769fe:	0ba8      	l32i.n	a10, a11, 0
+40376a00:	e0c552        	addi	a5, a5, -32
+40376a03:	415550        	srli	a5, a5, 5
+40376a06:	a08360        	addx4	a8, a3, a6
+40376a09:	aa7a      	add.n	a10, a10, a7
+40376a0b:	551b      	addi.n	a5, a5, 1
+40376a0d:	4149      	s32i.n	a4, a1, 16
+40376a0f:	61e9      	s32i.n	a14, a1, 24
+40376a11:	71f9      	s32i.n	a15, a1, 28
+40376a13:	81d9      	s32i.n	a13, a1, 32
+40376a15:	9199      	s32i.n	a9, a1, 36
+40376a17:	a1c9      	s32i.n	a12, a1, 40
+40376a19:	678576        	loop	a5, 40376a84 <s3_pp_step_impl+0x220>
+40376a1c:	2848      	l32i.n	a4, a8, 8
+40376a1e:	5868      	l32i.n	a6, a8, 20
+40376a20:	48f8      	l32i.n	a15, a8, 16
+40376a22:	f71ed1        	l32r	a13, 4037469c <_iram_text_start+0x298> (fffff00 <UserFrameTotalSize+0xffffe00>)
+40376a25:	f71e31        	l32r	a3, 403746a0 <_iram_text_start+0x29c> (fffff0 <UserFrameTotalSize+0xfffef0>)
+40376a28:	114480        	slli	a4, a4, 8
+40376a2b:	1166c0        	slli	a6, a6, 4
+40376a2e:	1878      	l32i.n	a7, a8, 4
+40376a30:	0898      	l32i.n	a9, a8, 0
+40376a32:	1044d0        	and	a4, a4, a13
+40376a35:	106630        	and	a6, a6, a3
+40376a38:	35d0f0        	extui	a13, a15, 16, 4
+40376a3b:	38c8      	l32i.n	a12, a8, 12
+40376a3d:	68b8      	l32i.n	a11, a8, 24
+40376a3f:	20dd60        	or	a13, a13, a6
+40376a42:	7868      	l32i.n	a6, a8, 28
+40376a44:	74ec70        	extui	a14, a7, 12, 8
+40376a47:	119940        	slli	a9, a9, 12
+40376a4a:	20ee40        	or	a14, a14, a4
+40376a4d:	013c40        	slli	a3, a12, 28
+40376a50:	014b80        	slli	a4, a11, 24
+40376a53:	419c90        	srli	a9, a9, 12
+40376a56:	0177c0        	slli	a7, a7, 20
+40376a59:	f4c4c0        	extui	a12, a12, 4, 16
+40376a5c:	11ff00        	slli	a15, a15, 16
+40376a5f:	b4b8b0        	extui	a11, a11, 8, 12
+40376a62:	116640        	slli	a6, a6, 12
+40376a65:	209970        	or	a9, a9, a7
+40376a68:	20ee30        	or	a14, a14, a3
+40376a6b:	20ccf0        	or	a12, a12, a15
+40376a6e:	20dd40        	or	a13, a13, a4
+40376a71:	20bb60        	or	a11, a11, a6
+40376a74:	0a99      	s32i.n	a9, a10, 0
+40376a76:	1ae9      	s32i.n	a14, a10, 4
+40376a78:	2ac9      	s32i.n	a12, a10, 8
+40376a7a:	3ad9      	s32i.n	a13, a10, 12
+40376a7c:	4ab9      	s32i.n	a11, a10, 16
+40376a7e:	20c882        	addi	a8, a8, 32
+40376a81:	14caa2        	addi	a10, a10, 20
+40376a84:	71f8      	l32i.n	a15, a1, 28
+40376a86:	a1c8      	l32i.n	a12, a1, 40
+40376a88:	4148      	l32i.n	a4, a1, 16
+40376a8a:	61e8      	l32i.n	a14, a1, 24
+40376a8c:	81d8      	l32i.n	a13, a1, 32
+40376a8e:	9198      	l32i.n	a9, a1, 36
+40376a90:	a0fcf0        	addx4	a15, a12, a15
+40376a93:	001ac6        	j	40376b02 <s3_pp_step_impl+0x29e>
+40376a96:	b00000        	addx8	a0, a0, a0
+40376a99:	70          	.byte	0x70
+40376a9a:	e4          	.byte	0xe4
+40376a9b:	2ccc      	bnez.n	a12, 40376aa1 <s3_pp_step_impl+0x23d>
+40376a9d:	0042c6        	j	40376bac <s3_pp_step_impl+0x348>
+40376aa0:	fa5600        	mov.s	f5, f6
+40376aa3:	a48811        	l32r	a1, 4035fcc4 <rom_rx_gain_force+0x359898>
+40376aa6:	04c8      	l32i.n	a12, a4, 0
+40376aa8:	c1a8      	l32i.n	a10, a1, 48
+40376aaa:	a6aa      	add.n	a10, a6, a10
+40376aac:	d4a0a0        	extui	a10, a10, 0, 14
+40376aaf:	a0aac0        	addx4	a10, a10, a12
+40376ab2:	0aa8      	l32i.n	a10, a10, 0
+40376ab4:	f5c080        	extui	a12, a8, 16, 16
+40376ab7:	11aa40        	slli	a10, a10, 12
+40376aba:	41aca0        	srli	a10, a10, 12
+40376abd:	116ac0        	slli	a6, a10, 4
+40376ac0:	20cc60        	or	a12, a12, a6
+40376ac3:	74c0c0        	extui	a12, a12, 0, 8
+40376ac6:	7464a0        	extui	a6, a10, 4, 8
+40376ac9:	f48080        	extui	a8, a8, 0, 16
+40376acc:	11cc00        	slli	a12, a12, 16
+40376acf:	016680        	slli	a6, a6, 24
+40376ad2:	2088c0        	or	a8, a8, a12
+40376ad5:	208860        	or	a8, a8, a6
+40376ad8:	41aca0        	srli	a10, a10, 12
+40376adb:	0189      	s32i.n	a8, a1, 0
+40376add:	0441a2        	s8i	a10, a1, 4
+40376ae0:	018d      	mov.n	a8, a1
+40376ae2:	14afb0        	extui	a10, a11, 15, 2
+40376ae5:	a0aa90        	addx4	a10, a10, a9
+40376ae8:	0aa8      	l32i.n	a10, a10, 0
+40376aea:	0008c2        	l8ui	a12, a8, 0
+40376aed:	7a7a      	add.n	a7, a10, a7
+40376aef:	0047c2        	s8i	a12, a7, 0
+40376af2:	881b      	addi.n	a8, a8, 1
+40376af4:	bb1b      	addi.n	a11, a11, 1
+40376af6:	061287        	beq	a2, a8, 40376b00 <s3_pp_step_impl+0x29c>
+40376af9:	e470b0        	extui	a7, a11, 0, 15
+40376afc:	fff886        	j	40376ae2 <s3_pp_step_impl+0x27e>
+40376aff:	00          	.byte	00
+40376b00:	ff1b      	addi.n	a15, a15, 1
+40376b02:	fda8      	l32i.n	a10, a13, 60
+40376b04:	02bfe7        	bgeu	a15, a14, 40376b0a <s3_pp_step_impl+0x2a6>
+40376b07:	ff9486        	j	4037695d <s3_pp_step_impl+0xf9>
+40376b0a:	046d      	mov.n	a6, a4
+40376b0c:	0ecd      	mov.n	a12, a14
+40376b0e:	d148      	l32i.n	a4, a1, 52
+40376b10:	e1e8      	l32i.n	a14, a1, 56
+40376b12:	f158      	l32i.n	a5, a1, 60
+40376b14:	102182        	l32i	a8, a1, 64
+40376b17:	112172        	l32i	a7, a1, 68
+40376b1a:	6189      	s32i.n	a8, a1, 24
+40376b1c:	b188      	l32i.n	a8, a1, 44
+40376b1e:	acaa      	add.n	a10, a12, a10
+40376b20:	f8a9      	s32i.n	a10, a8, 60
+40376b22:	1e2182        	l32i	a8, a1, 120
+40376b25:	41e9      	s32i.n	a14, a1, 16
+40376b27:	08c9      	s32i.n	a12, a8, 0
+40376b29:	1f2182        	l32i	a8, a1, 124
+40376b2c:	051816        	beqz	a8, 40376b81 <s3_pp_step_impl+0x31d>
+40376b2f:	2021a2        	l32i	a10, a1, 128
+40376b32:	0008e0        	callx8	a8
+40376b35:	3c3b57        	bltu	a11, a5, 40376b75 <s3_pp_step_impl+0x311>
+40376b38:	0421e2        	l32i	a14, a1, 16
+40376b3b:	062182        	l32i	a8, a1, 24
+40376b3e:	0295b7        	bne	a5, a11, 40376b44 <s3_pp_step_impl+0x2e0>
+40376b41:	303ae7        	bltu	a10, a14, 40376b75 <s3_pp_step_impl+0x311>
+40376b44:	2121c2        	l32i	a12, a1, 132
+40376b47:	62dae0        	saltu	a13, a10, a14
+40376b4a:	62c8c0        	saltu	a12, a8, a12
+40376b4d:	c09b50        	sub	a9, a11, a5
+40376b50:	c077c0        	sub	a7, a7, a12
+40376b53:	2121c2        	l32i	a12, a1, 132
+40376b56:	c099d0        	sub	a9, a9, a13
+40376b59:	c0eae0        	sub	a14, a10, a14
+40376b5c:	c088c0        	sub	a8, a8, a12
+40376b5f:	123797        	bltu	a7, a9, 40376b75 <s3_pp_step_impl+0x311>
+40376b62:	029977        	bne	a9, a7, 40376b68 <s3_pp_step_impl+0x304>
+40376b65:	0c38e7        	bltu	a8, a14, 40376b75 <s3_pp_step_impl+0x311>
+40376b68:	5688      	l32i.n	a8, a6, 20
+40376b6a:	133b87        	bltu	a11, a8, 40376b81 <s3_pp_step_impl+0x31d>
+40376b6d:	0498b7        	bne	a8, a11, 40376b75 <s3_pp_step_impl+0x311>
+40376b70:	4688      	l32i.n	a8, a6, 16
+40376b72:	0b3a87        	bltu	a10, a8, 40376b81 <s3_pp_step_impl+0x31d>
+40376b75:	680c      	movi.n	a8, 6
+40376b77:	0020c0        	memw
+40376b7a:	0489      	s32i.n	a8, a4, 0
+40376b7c:	620c      	movi.n	a2, 6
+40376b7e:	001686        	j	40376bdc <s3_pp_step_impl+0x378>
+40376b81:	b188      	l32i.n	a8, a1, 44
+40376b83:	f898      	l32i.n	a9, a8, 60
+40376b85:	e888      	l32i.n	a8, a8, 56
+40376b87:	051987        	beq	a9, a8, 40376b90 <s3_pp_step_impl+0x32c>
+40376b8a:	020c      	movi.n	a2, 0
+40376b8c:	001306        	j	40376bdc <s3_pp_step_impl+0x378>
+40376b8f:	00          	.byte	00
+40376b90:	5188      	l32i.n	a8, a1, 20
+40376b92:	0020c0        	memw
+40376b95:	668a      	add.n	a6, a6, a8
+40376b97:	280c      	movi.n	a8, 2
+40376b99:	0020c0        	memw
+40376b9c:	0689      	s32i.n	a8, a6, 0
+40376b9e:	fffa06        	j	40376b8a <s3_pp_step_impl+0x326>
+40376ba1:	320c      	movi.n	a2, 3
+40376ba3:	000d46        	j	40376bdc <s3_pp_step_impl+0x378>
+40376ba6:	220c      	movi.n	a2, 2
+40376ba8:	000c06        	j	40376bdc <s3_pp_step_impl+0x378>
+40376bab:	86aa00        	ee.ldf.64.xp	f10, f8, a0, a10
+40376bae:	04c8      	l32i.n	a12, a4, 0
+40376bb0:	d48080        	extui	a8, a8, 0, 14
+40376bb3:	a088c0        	addx4	a8, a8, a12
+40376bb6:	0888      	l32i.n	a8, a8, 0
+40376bb8:	aa1b      	addi.n	a10, a10, 1
+40376bba:	118840        	slli	a8, a8, 12
+40376bbd:	418c80        	srli	a8, a8, 12
+40376bc0:	ffb986        	j	40376aaa <s3_pp_step_impl+0x246>
+40376bc3:	860b00        	ee.ldf.64.xp	f0, f8, a0, a11
+40376bc6:	04c8      	l32i.n	a12, a4, 0
+40376bc8:	88aa      	add.n	a8, a8, a10
+40376bca:	d48080        	extui	a8, a8, 0, 14
+40376bcd:	a088c0        	addx4	a8, a8, a12
+40376bd0:	0888      	l32i.n	a8, a8, 0
+40376bd2:	118840        	slli	a8, a8, 12
+40376bd5:	418c80        	srli	a8, a8, 12
+40376bd8:	ffb386        	j	40376aaa <s3_pp_step_impl+0x246>
+40376bdb:	f01d00        	subx8	a1, a13, a0
+
+Disassembly of section .flash.text:

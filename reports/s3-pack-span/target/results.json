@@ -1,0 +1,126 @@
+{
+  "scope": "Compile current caller and audit the contiguous-loop instructions, not WCET.",
+  "rows": [
+    {
+      "optimization": "O2",
+      "loop": [
+        {
+          "address": "0x1fa",
+          "op": "mov.n",
+          "operands": "a11, a7"
+        },
+        {
+          "address": "0x1fc",
+          "op": "mov.n",
+          "operands": "a10, a6"
+        },
+        {
+          "address": "0x1fe",
+          "op": "addi",
+          "operands": "a7, a7, 32"
+        },
+        {
+          "address": "0x201",
+          "op": "call8",
+          "operands": "0 <pack_eight>"
+        },
+        {
+          "address": "0x204",
+          "op": "addi",
+          "operands": "a6, a6, 20"
+        },
+        {
+          "address": "0x207",
+          "op": "bne",
+          "operands": "a7, a2, 1fa <s3_pp_step_impl+0x192>"
+        }
+      ],
+      "caller_instructions": 6,
+      "pack_instructions": 39,
+      "total_per_eight_samples": 45,
+      "ideal_cycles_per_sample": 5.625,
+      "ideal_Mcycles_s_T": 90.0,
+      "ideal_Mcycles_s_S": 225.0,
+      "boundary_setup_clock_stalls_included": false
+    },
+    {
+      "optimization": "Os",
+      "loop": [
+        {
+          "address": "0x1e9",
+          "op": "mov.n",
+          "operands": "a11, a2"
+        },
+        {
+          "address": "0x1eb",
+          "op": "s32i.n",
+          "operands": "a9, a1, 48"
+        },
+        {
+          "address": "0x1ed",
+          "op": "s32i.n",
+          "operands": "a8, a1, 44"
+        },
+        {
+          "address": "0x1ef",
+          "op": "s32i.n",
+          "operands": "a10, a1, 40"
+        },
+        {
+          "address": "0x1f1",
+          "op": "call8",
+          "operands": "0 <pack_eight>"
+        },
+        {
+          "address": "0x1f4",
+          "op": "l32i.n",
+          "operands": "a10, a1, 40"
+        },
+        {
+          "address": "0x1f6",
+          "op": "l32i.n",
+          "operands": "a8, a1, 44"
+        },
+        {
+          "address": "0x1f8",
+          "op": "addi",
+          "operands": "a2, a2, 32"
+        },
+        {
+          "address": "0x1fb",
+          "op": "l32i.n",
+          "operands": "a9, a1, 48"
+        },
+        {
+          "address": "0x1fd",
+          "op": "addi",
+          "operands": "a10, a10, 20"
+        },
+        {
+          "address": "0x200",
+          "op": "bne",
+          "operands": "a2, a8, 1e9 <s3_pp_step_impl+0x181>"
+        }
+      ],
+      "caller_instructions": 11,
+      "pack_instructions": 39,
+      "total_per_eight_samples": 50,
+      "ideal_cycles_per_sample": 6.25,
+      "ideal_Mcycles_s_T": 100.0,
+      "ideal_Mcycles_s_S": 250.0,
+      "boundary_setup_clock_stalls_included": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "O2_no_repeated_boundary_arithmetic",
+      "passed": true
+    },
+    {
+      "name": "Os_no_repeated_boundary_arithmetic",
+      "passed": true
+    }
+  ],
+  "source_sha256": "f259cb44f2509d18957a960c7a5a349519fa87af2a593a72a083acbdcb61aa6d",
+  "eight_cycles_per_sample_WCET_proven": false
+}

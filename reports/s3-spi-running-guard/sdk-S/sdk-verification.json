@@ -1,0 +1,108 @@
+{
+  "commit": "9da570f67607e1278c5e7089a40ff1d0902ea3fc",
+  "checks": [
+    {
+      "name": "ELF_hash",
+      "passed": true
+    },
+    {
+      "name": "all_SDK_static_checks",
+      "passed": true
+    },
+    {
+      "name": "same_machine_instructions_except_literal_relocation",
+      "passed": true
+    },
+    {
+      "name": "sentinel_literal",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_native_capture.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_native_capture.h",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_raw_tasks.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_raw_tasks.h",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_parallel_pack.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_spi_transport.c",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_raw_probe/main/CMakeLists.txt",
+      "passed": true
+    },
+    {
+      "name": "source_experiments/s3_raw_probe/main/raw_probe.c",
+      "passed": true
+    }
+  ],
+  "fill_bytes": 165,
+  "static_instructions": 61,
+  "fill_instruction_envelope_per_bank": 15567,
+  "ELF_sha256": "8f9ae85bbff671dc19840fbe980303b7c5ba63d2da64860c10f97f6c63161e74",
+  "symbols": {
+    "_iram_end": "0x40388200",
+    "_data_start": "0x3fc98200",
+    "_heap_start": "0x3fcad098",
+    "raw_task_stacks": "0x3c03a590",
+    "raw_task_tcbs": "0x3fcac718"
+  },
+  "sizes": {
+    "pack": 440,
+    "capture": 168,
+    "ports": 64,
+    "descriptors": 112,
+    "transfers": 48,
+    "task_stacks": 8192,
+    "task_TCBs": 680,
+    "StaticTask_t": 340,
+    "DMA_descriptor": 12,
+    "StackType_t": 1
+  },
+  "driver_lower_bound": {
+    "effective_prepare_words_per_iteration": 1024,
+    "effective_core0_sixteenths": 6,
+    "effective_transfer_bytes": 16384,
+    "effective_fill_unroll": 8,
+    "type_sizes": {
+      "spi_device_t": 124,
+      "spi_host_t": 184,
+      "spi_trans_priv_t": 20,
+      "spicommon_bus_context_t": 96,
+      "spi_dma_ctx_t": 20,
+      "Queue_t": 84,
+      "multi_heap_info": 20,
+      "control_t": 36
+    },
+    "per_port_objects": 424,
+    "per_port_queue_bytes": 208,
+    "per_port_descriptor_bytes": 120,
+    "two_port_known_allocation_lower_bound": 1504,
+    "total_internal_after_known_driver_upper_bound": 16324,
+    "not_counted": [
+      "GDMA channels/groups/pairs",
+      "bus/device locks",
+      "interrupt handles",
+      "allocation headers/alignment",
+      "PHY/calibration allocations",
+      "other runtime allocations"
+    ]
+  },
+  "SDK_static_checks": 59,
+  "hardware_boot_executed": false,
+  "WCET_measured": false
+}

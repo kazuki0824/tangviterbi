@@ -1,0 +1,73 @@
+{
+  "source_sha256": "9159d5c5588552596d4c1c420fba670af4673144e99454df119e39f43ceab704",
+  "elf_sha256": "7ee25471a6dc96c056c2afd883cf4f70282fd186be920cced7dddefa40554fc7",
+  "lock_users": [
+    {
+      "function": "esp_intr_mark_shared",
+      "line": 216,
+      "critical_entries": 1
+    },
+    {
+      "function": "esp_intr_reserve",
+      "line": 240,
+      "critical_entries": 1
+    },
+    {
+      "function": "shared_intr_isr",
+      "line": 462,
+      "critical_entries": 1
+    },
+    {
+      "function": "non_shared_intr_isr",
+      "line": 485,
+      "critical_entries": 1
+    },
+    {
+      "function": "esp_intr_alloc_intrstatus_bind",
+      "line": 509,
+      "critical_entries": 1
+    },
+    {
+      "function": "esp_intr_set_in_iram",
+      "line": 738,
+      "critical_entries": 1
+    },
+    {
+      "function": "intr_free_for_current_cpu",
+      "line": 796,
+      "critical_entries": 1
+    },
+    {
+      "function": "esp_intr_enable",
+      "line": 888,
+      "critical_entries": 1
+    },
+    {
+      "function": "esp_intr_disable",
+      "line": 916,
+      "critical_entries": 1
+    },
+    {
+      "function": "esp_intr_noniram_disable",
+      "line": 959,
+      "critical_entries": 1
+    },
+    {
+      "function": "esp_intr_noniram_enable",
+      "line": 978,
+      "critical_entries": 1
+    }
+  ],
+  "wrapper_symbols": {
+    "shared_intr_isr": [
+      {
+        "address": "0x403763c0",
+        "size": 57
+      }
+    ],
+    "non_shared_intr_isr": []
+  },
+  "actual_runtime_shared_irqs_known": false,
+  "lock_wait_upper_cycles": null,
+  "receiver_adopted": false
+}

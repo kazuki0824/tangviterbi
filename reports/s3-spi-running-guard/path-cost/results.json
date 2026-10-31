@@ -1,0 +1,2197 @@
+{
+  "scope": "Count declared SPI paths in pinned SDK ELFs; instruction counts, not cycles.",
+  "images": {
+    "old-S": {
+      "ELF_sha256": "09917375f9d59b45484c0f0601b0940a5ee6673e2b857148d42ecc0442367d72",
+      "traces": {
+        "wrapper_timeout": {
+          "instructions": 13,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "004136",
+              "op": "entry",
+              "operands": "a1, 32"
+            },
+            {
+              "offset": 3,
+              "bytes": "207220",
+              "op": "or",
+              "operands": "a7, a2, a2"
+            },
+            {
+              "offset": 6,
+              "bytes": "02a216",
+              "op": "beqz",
+              "operands": "a2, 403773ec <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 9,
+              "bytes": "100282",
+              "op": "l8ui",
+              "operands": "a8, a2, 16"
+            },
+            {
+              "offset": 12,
+              "bytes": "48ac",
+              "op": "beqz.n",
+              "operands": "a8, 403773ec <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 14,
+              "bytes": "0288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 0"
+            },
+            {
+              "offset": 16,
+              "bytes": "08ac",
+              "op": "beqz.n",
+              "operands": "a8, 403773ec <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 18,
+              "bytes": "12a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 4"
+            },
+            {
+              "offset": 20,
+              "bytes": "ca9c",
+              "op": "beqz.n",
+              "operands": "a10, 403773ec <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 22,
+              "bytes": "00e765",
+              "op": "call8",
+              "operands": "40378244 <s3_spi_reap>"
+            },
+            {
+              "offset": 25,
+              "bytes": "0a2d",
+              "op": "mov.n",
+              "operands": "a2, a10"
+            },
+            {
+              "offset": 27,
+              "bytes": "1aec",
+              "op": "bnez.n",
+              "operands": "a10, 403773f8 <s3_pp_spi_reap+0x40>"
+            },
+            {
+              "offset": 64,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "s3_spi_reap"
+          ]
+        },
+        "sdk_empty_excluding_queue": {
+          "instructions": 14,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "008136",
+              "op": "entry",
+              "operands": "a1, 64"
+            },
+            {
+              "offset": 3,
+              "bytes": "04cd",
+              "op": "mov.n",
+              "operands": "a12, a4"
+            },
+            {
+              "offset": 5,
+              "bytes": "82ec",
+              "op": "bnez.n",
+              "operands": "a2, 40378e89 <spi_device_get_trans_result+0x31>"
+            },
+            {
+              "offset": 49,
+              "bytes": "1d2292",
+              "op": "l32i",
+              "operands": "a9, a2, 116"
+            },
+            {
+              "offset": 52,
+              "bytes": "b288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 44"
+            },
+            {
+              "offset": 54,
+              "bytes": "272992",
+              "op": "l32i",
+              "operands": "a9, a9, 156"
+            },
+            {
+              "offset": 57,
+              "bytes": "400942",
+              "op": "l8ui",
+              "operands": "a4, a9, 64"
+            },
+            {
+              "offset": 60,
+              "bytes": "266887",
+              "op": "bbci",
+              "operands": "a8, 8, 40378ebe <spi_device_get_trans_result+0x66>"
+            },
+            {
+              "offset": 102,
+              "bytes": "0222a2",
+              "op": "l32i",
+              "operands": "a10, a2, 8"
+            },
+            {
+              "offset": 105,
+              "bytes": "20b110",
+              "op": "or",
+              "operands": "a11, a1, a1"
+            },
+            {
+              "offset": 108,
+              "bytes": "0640a5",
+              "op": "call8",
+              "operands": "4037f2d0 <xQueueReceive>"
+            },
+            {
+              "offset": 111,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 114,
+              "bytes": "00ca16",
+              "op": "beqz",
+              "operands": "a10, 40378eda <spi_device_get_trans_result+0x82>"
+            },
+            {
+              "offset": 130,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "xQueueReceive"
+          ]
+        },
+        "empty": {
+          "instructions": 22,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378269 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f13f81",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10c980",
+              "op": "and",
+              "operands": "a12, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378274 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "20b110",
+              "op": "or",
+              "operands": "a11, a1, a1"
+            },
+            {
+              "offset": 51,
+              "bytes": "0061c2",
+              "op": "s32i",
+              "operands": "a12, a1, 0"
+            },
+            {
+              "offset": 54,
+              "bytes": "00bde5",
+              "op": "call8",
+              "operands": "40378e58 <spi_device_get_trans_result>"
+            },
+            {
+              "offset": 57,
+              "bytes": "07a182",
+              "op": "movi",
+              "operands": "a8, 0x107"
+            },
+            {
+              "offset": 60,
+              "bytes": "202aa0",
+              "op": "or",
+              "operands": "a2, a10, a10"
+            },
+            {
+              "offset": 63,
+              "bytes": "151a87",
+              "op": "beq",
+              "operands": "a10, a8, 4037829c <s3_spi_reap+0x58>"
+            },
+            {
+              "offset": 88,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "spi_device_get_trans_result"
+          ]
+        }
+      }
+    },
+    "new-S": {
+      "ELF_sha256": "8f9ae85bbff671dc19840fbe980303b7c5ba63d2da64860c10f97f6c63161e74",
+      "traces": {
+        "wrapper_timeout": {
+          "instructions": 13,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "004136",
+              "op": "entry",
+              "operands": "a1, 32"
+            },
+            {
+              "offset": 3,
+              "bytes": "207220",
+              "op": "or",
+              "operands": "a7, a2, a2"
+            },
+            {
+              "offset": 6,
+              "bytes": "02a216",
+              "op": "beqz",
+              "operands": "a2, 403773ec <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 9,
+              "bytes": "100282",
+              "op": "l8ui",
+              "operands": "a8, a2, 16"
+            },
+            {
+              "offset": 12,
+              "bytes": "48ac",
+              "op": "beqz.n",
+              "operands": "a8, 403773ec <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 14,
+              "bytes": "0288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 0"
+            },
+            {
+              "offset": 16,
+              "bytes": "08ac",
+              "op": "beqz.n",
+              "operands": "a8, 403773ec <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 18,
+              "bytes": "12a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 4"
+            },
+            {
+              "offset": 20,
+              "bytes": "ca9c",
+              "op": "beqz.n",
+              "operands": "a10, 403773ec <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 22,
+              "bytes": "00e765",
+              "op": "call8",
+              "operands": "40378244 <s3_spi_reap>"
+            },
+            {
+              "offset": 25,
+              "bytes": "0a2d",
+              "op": "mov.n",
+              "operands": "a2, a10"
+            },
+            {
+              "offset": 27,
+              "bytes": "1aec",
+              "op": "bnez.n",
+              "operands": "a10, 403773f8 <s3_pp_spi_reap+0x40>"
+            },
+            {
+              "offset": 64,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "s3_spi_reap"
+          ]
+        },
+        "sdk_empty_excluding_queue": {
+          "instructions": 14,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "008136",
+              "op": "entry",
+              "operands": "a1, 64"
+            },
+            {
+              "offset": 3,
+              "bytes": "04cd",
+              "op": "mov.n",
+              "operands": "a12, a4"
+            },
+            {
+              "offset": 5,
+              "bytes": "82ec",
+              "op": "bnez.n",
+              "operands": "a2, 40378eb9 <spi_device_get_trans_result+0x31>"
+            },
+            {
+              "offset": 49,
+              "bytes": "1d2292",
+              "op": "l32i",
+              "operands": "a9, a2, 116"
+            },
+            {
+              "offset": 52,
+              "bytes": "b288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 44"
+            },
+            {
+              "offset": 54,
+              "bytes": "272992",
+              "op": "l32i",
+              "operands": "a9, a9, 156"
+            },
+            {
+              "offset": 57,
+              "bytes": "400942",
+              "op": "l8ui",
+              "operands": "a4, a9, 64"
+            },
+            {
+              "offset": 60,
+              "bytes": "266887",
+              "op": "bbci",
+              "operands": "a8, 8, 40378eee <spi_device_get_trans_result+0x66>"
+            },
+            {
+              "offset": 102,
+              "bytes": "0222a2",
+              "op": "l32i",
+              "operands": "a10, a2, 8"
+            },
+            {
+              "offset": 105,
+              "bytes": "20b110",
+              "op": "or",
+              "operands": "a11, a1, a1"
+            },
+            {
+              "offset": 108,
+              "bytes": "0640a5",
+              "op": "call8",
+              "operands": "4037f300 <xQueueReceive>"
+            },
+            {
+              "offset": 111,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 114,
+              "bytes": "00ca16",
+              "op": "beqz",
+              "operands": "a10, 40378f0a <spi_device_get_trans_result+0x82>"
+            },
+            {
+              "offset": 130,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "xQueueReceive"
+          ]
+        },
+        "host1_running": {
+          "instructions": 25,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378269 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f13f81",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10b980",
+              "op": "and",
+              "operands": "a11, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378274 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "1288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 4"
+            },
+            {
+              "offset": 50,
+              "bytes": "0a1826",
+              "op": "beqi",
+              "operands": "a8, 1, 40378284 <s3_spi_reap+0x40>"
+            },
+            {
+              "offset": 64,
+              "bytes": "f13c81",
+              "op": "l32r",
+              "operands": "a8, 40374774 <_iram_text_start+0x370> (60024000 <GPSPI2>)"
+            },
+            {
+              "offset": 67,
+              "bytes": "0020c0",
+              "op": "memw",
+              "operands": ""
+            },
+            {
+              "offset": 70,
+              "bytes": "0888",
+              "op": "l32i.n",
+              "operands": "a8, a8, 0"
+            },
+            {
+              "offset": 72,
+              "bytes": "05c880",
+              "op": "extui",
+              "operands": "a12, a8, 24, 1"
+            },
+            {
+              "offset": 75,
+              "bytes": "077887",
+              "op": "bbci",
+              "operands": "a8, 24, 4037829a <s3_spi_reap+0x56>"
+            },
+            {
+              "offset": 78,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 81,
+              "bytes": "000d06",
+              "op": "j",
+              "operands": "403782cd <s3_spi_reap+0x89>"
+            },
+            {
+              "offset": 137,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": []
+        },
+        "host1_idle_empty": {
+          "instructions": 31,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378269 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f13f81",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10b980",
+              "op": "and",
+              "operands": "a11, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378274 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "1288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 4"
+            },
+            {
+              "offset": 50,
+              "bytes": "0a1826",
+              "op": "beqi",
+              "operands": "a8, 1, 40378284 <s3_spi_reap+0x40>"
+            },
+            {
+              "offset": 64,
+              "bytes": "f13c81",
+              "op": "l32r",
+              "operands": "a8, 40374774 <_iram_text_start+0x370> (60024000 <GPSPI2>)"
+            },
+            {
+              "offset": 67,
+              "bytes": "0020c0",
+              "op": "memw",
+              "operands": ""
+            },
+            {
+              "offset": 70,
+              "bytes": "0888",
+              "op": "l32i.n",
+              "operands": "a8, a8, 0"
+            },
+            {
+              "offset": 72,
+              "bytes": "05c880",
+              "op": "extui",
+              "operands": "a12, a8, 24, 1"
+            },
+            {
+              "offset": 75,
+              "bytes": "077887",
+              "op": "bbci",
+              "operands": "a8, 24, 4037829a <s3_spi_reap+0x56>"
+            },
+            {
+              "offset": 86,
+              "bytes": "20b110",
+              "op": "or",
+              "operands": "a11, a1, a1"
+            },
+            {
+              "offset": 89,
+              "bytes": "0061c2",
+              "op": "s32i",
+              "operands": "a12, a1, 0"
+            },
+            {
+              "offset": 92,
+              "bytes": "00be65",
+              "op": "call8",
+              "operands": "40378e88 <spi_device_get_trans_result>"
+            },
+            {
+              "offset": 95,
+              "bytes": "07a182",
+              "op": "movi",
+              "operands": "a8, 0x107"
+            },
+            {
+              "offset": 98,
+              "bytes": "202aa0",
+              "op": "or",
+              "operands": "a2, a10, a10"
+            },
+            {
+              "offset": 101,
+              "bytes": "e51a87",
+              "op": "beq",
+              "operands": "a10, a8, 40378292 <s3_spi_reap+0x4e>"
+            },
+            {
+              "offset": 78,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 81,
+              "bytes": "000d06",
+              "op": "j",
+              "operands": "403782cd <s3_spi_reap+0x89>"
+            },
+            {
+              "offset": 137,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "spi_device_get_trans_result"
+          ]
+        },
+        "host2_running": {
+          "instructions": 27,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378269 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f13f81",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10b980",
+              "op": "and",
+              "operands": "a11, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378274 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "1288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 4"
+            },
+            {
+              "offset": 50,
+              "bytes": "0a1826",
+              "op": "beqi",
+              "operands": "a8, 1, 40378284 <s3_spi_reap+0x40>"
+            },
+            {
+              "offset": 53,
+              "bytes": "482866",
+              "op": "bnei",
+              "operands": "a8, 2, 403782c5 <s3_spi_reap+0x81>"
+            },
+            {
+              "offset": 56,
+              "bytes": "f13d81",
+              "op": "l32r",
+              "operands": "a8, 40374770 <_iram_text_start+0x36c> (60025000 <GPSPI3>)"
+            },
+            {
+              "offset": 59,
+              "bytes": "000106",
+              "op": "j",
+              "operands": "40378287 <s3_spi_reap+0x43>"
+            },
+            {
+              "offset": 67,
+              "bytes": "0020c0",
+              "op": "memw",
+              "operands": ""
+            },
+            {
+              "offset": 70,
+              "bytes": "0888",
+              "op": "l32i.n",
+              "operands": "a8, a8, 0"
+            },
+            {
+              "offset": 72,
+              "bytes": "05c880",
+              "op": "extui",
+              "operands": "a12, a8, 24, 1"
+            },
+            {
+              "offset": 75,
+              "bytes": "077887",
+              "op": "bbci",
+              "operands": "a8, 24, 4037829a <s3_spi_reap+0x56>"
+            },
+            {
+              "offset": 78,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 81,
+              "bytes": "000d06",
+              "op": "j",
+              "operands": "403782cd <s3_spi_reap+0x89>"
+            },
+            {
+              "offset": 137,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": []
+        },
+        "host2_idle_empty": {
+          "instructions": 33,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826e <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378269 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f13f81",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10b980",
+              "op": "and",
+              "operands": "a11, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378274 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "1288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 4"
+            },
+            {
+              "offset": 50,
+              "bytes": "0a1826",
+              "op": "beqi",
+              "operands": "a8, 1, 40378284 <s3_spi_reap+0x40>"
+            },
+            {
+              "offset": 53,
+              "bytes": "482866",
+              "op": "bnei",
+              "operands": "a8, 2, 403782c5 <s3_spi_reap+0x81>"
+            },
+            {
+              "offset": 56,
+              "bytes": "f13d81",
+              "op": "l32r",
+              "operands": "a8, 40374770 <_iram_text_start+0x36c> (60025000 <GPSPI3>)"
+            },
+            {
+              "offset": 59,
+              "bytes": "000106",
+              "op": "j",
+              "operands": "40378287 <s3_spi_reap+0x43>"
+            },
+            {
+              "offset": 67,
+              "bytes": "0020c0",
+              "op": "memw",
+              "operands": ""
+            },
+            {
+              "offset": 70,
+              "bytes": "0888",
+              "op": "l32i.n",
+              "operands": "a8, a8, 0"
+            },
+            {
+              "offset": 72,
+              "bytes": "05c880",
+              "op": "extui",
+              "operands": "a12, a8, 24, 1"
+            },
+            {
+              "offset": 75,
+              "bytes": "077887",
+              "op": "bbci",
+              "operands": "a8, 24, 4037829a <s3_spi_reap+0x56>"
+            },
+            {
+              "offset": 86,
+              "bytes": "20b110",
+              "op": "or",
+              "operands": "a11, a1, a1"
+            },
+            {
+              "offset": 89,
+              "bytes": "0061c2",
+              "op": "s32i",
+              "operands": "a12, a1, 0"
+            },
+            {
+              "offset": 92,
+              "bytes": "00be65",
+              "op": "call8",
+              "operands": "40378e88 <spi_device_get_trans_result>"
+            },
+            {
+              "offset": 95,
+              "bytes": "07a182",
+              "op": "movi",
+              "operands": "a8, 0x107"
+            },
+            {
+              "offset": 98,
+              "bytes": "202aa0",
+              "op": "or",
+              "operands": "a2, a10, a10"
+            },
+            {
+              "offset": 101,
+              "bytes": "e51a87",
+              "op": "beq",
+              "operands": "a10, a8, 40378292 <s3_spi_reap+0x4e>"
+            },
+            {
+              "offset": 78,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 81,
+              "bytes": "000d06",
+              "op": "j",
+              "operands": "403782cd <s3_spi_reap+0x89>"
+            },
+            {
+              "offset": 137,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "spi_device_get_trans_result"
+          ]
+        }
+      }
+    },
+    "new-T": {
+      "ELF_sha256": "781f8a0a8856e0261be09e04451358c6d32400991a94491e21ca1e3f6aa6b9fc",
+      "traces": {
+        "wrapper_timeout": {
+          "instructions": 13,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "004136",
+              "op": "entry",
+              "operands": "a1, 32"
+            },
+            {
+              "offset": 3,
+              "bytes": "207220",
+              "op": "or",
+              "operands": "a7, a2, a2"
+            },
+            {
+              "offset": 6,
+              "bytes": "02a216",
+              "op": "beqz",
+              "operands": "a2, 403773e8 <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 9,
+              "bytes": "100282",
+              "op": "l8ui",
+              "operands": "a8, a2, 16"
+            },
+            {
+              "offset": 12,
+              "bytes": "48ac",
+              "op": "beqz.n",
+              "operands": "a8, 403773e8 <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 14,
+              "bytes": "0288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 0"
+            },
+            {
+              "offset": 16,
+              "bytes": "08ac",
+              "op": "beqz.n",
+              "operands": "a8, 403773e8 <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 18,
+              "bytes": "12a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 4"
+            },
+            {
+              "offset": 20,
+              "bytes": "ca9c",
+              "op": "beqz.n",
+              "operands": "a10, 403773e8 <s3_pp_spi_reap+0x34>"
+            },
+            {
+              "offset": 22,
+              "bytes": "00e765",
+              "op": "call8",
+              "operands": "40378240 <s3_spi_reap>"
+            },
+            {
+              "offset": 25,
+              "bytes": "0a2d",
+              "op": "mov.n",
+              "operands": "a2, a10"
+            },
+            {
+              "offset": 27,
+              "bytes": "1aec",
+              "op": "bnez.n",
+              "operands": "a10, 403773f4 <s3_pp_spi_reap+0x40>"
+            },
+            {
+              "offset": 64,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "s3_spi_reap"
+          ]
+        },
+        "sdk_empty_excluding_queue": {
+          "instructions": 14,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "008136",
+              "op": "entry",
+              "operands": "a1, 64"
+            },
+            {
+              "offset": 3,
+              "bytes": "04cd",
+              "op": "mov.n",
+              "operands": "a12, a4"
+            },
+            {
+              "offset": 5,
+              "bytes": "82ec",
+              "op": "bnez.n",
+              "operands": "a2, 40378eb5 <spi_device_get_trans_result+0x31>"
+            },
+            {
+              "offset": 49,
+              "bytes": "1d2292",
+              "op": "l32i",
+              "operands": "a9, a2, 116"
+            },
+            {
+              "offset": 52,
+              "bytes": "b288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 44"
+            },
+            {
+              "offset": 54,
+              "bytes": "272992",
+              "op": "l32i",
+              "operands": "a9, a9, 156"
+            },
+            {
+              "offset": 57,
+              "bytes": "400942",
+              "op": "l8ui",
+              "operands": "a4, a9, 64"
+            },
+            {
+              "offset": 60,
+              "bytes": "266887",
+              "op": "bbci",
+              "operands": "a8, 8, 40378eea <spi_device_get_trans_result+0x66>"
+            },
+            {
+              "offset": 102,
+              "bytes": "0222a2",
+              "op": "l32i",
+              "operands": "a10, a2, 8"
+            },
+            {
+              "offset": 105,
+              "bytes": "20b110",
+              "op": "or",
+              "operands": "a11, a1, a1"
+            },
+            {
+              "offset": 108,
+              "bytes": "063fe5",
+              "op": "call8",
+              "operands": "4037f2f0 <xQueueReceive>"
+            },
+            {
+              "offset": 111,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 114,
+              "bytes": "00ca16",
+              "op": "beqz",
+              "operands": "a10, 40378f06 <spi_device_get_trans_result+0x82>"
+            },
+            {
+              "offset": 130,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "xQueueReceive"
+          ]
+        },
+        "host1_running": {
+          "instructions": 25,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378265 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f14081",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10b980",
+              "op": "and",
+              "operands": "a11, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378270 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "1288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 4"
+            },
+            {
+              "offset": 50,
+              "bytes": "0a1826",
+              "op": "beqi",
+              "operands": "a8, 1, 40378280 <s3_spi_reap+0x40>"
+            },
+            {
+              "offset": 64,
+              "bytes": "f13f81",
+              "op": "l32r",
+              "operands": "a8, 4037477c <_iram_text_start+0x378> (60024000 <GPSPI2>)"
+            },
+            {
+              "offset": 67,
+              "bytes": "0020c0",
+              "op": "memw",
+              "operands": ""
+            },
+            {
+              "offset": 70,
+              "bytes": "0888",
+              "op": "l32i.n",
+              "operands": "a8, a8, 0"
+            },
+            {
+              "offset": 72,
+              "bytes": "05c880",
+              "op": "extui",
+              "operands": "a12, a8, 24, 1"
+            },
+            {
+              "offset": 75,
+              "bytes": "077887",
+              "op": "bbci",
+              "operands": "a8, 24, 40378296 <s3_spi_reap+0x56>"
+            },
+            {
+              "offset": 78,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 81,
+              "bytes": "000d06",
+              "op": "j",
+              "operands": "403782c9 <s3_spi_reap+0x89>"
+            },
+            {
+              "offset": 137,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": []
+        },
+        "host1_idle_empty": {
+          "instructions": 31,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378265 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f14081",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10b980",
+              "op": "and",
+              "operands": "a11, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378270 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "1288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 4"
+            },
+            {
+              "offset": 50,
+              "bytes": "0a1826",
+              "op": "beqi",
+              "operands": "a8, 1, 40378280 <s3_spi_reap+0x40>"
+            },
+            {
+              "offset": 64,
+              "bytes": "f13f81",
+              "op": "l32r",
+              "operands": "a8, 4037477c <_iram_text_start+0x378> (60024000 <GPSPI2>)"
+            },
+            {
+              "offset": 67,
+              "bytes": "0020c0",
+              "op": "memw",
+              "operands": ""
+            },
+            {
+              "offset": 70,
+              "bytes": "0888",
+              "op": "l32i.n",
+              "operands": "a8, a8, 0"
+            },
+            {
+              "offset": 72,
+              "bytes": "05c880",
+              "op": "extui",
+              "operands": "a12, a8, 24, 1"
+            },
+            {
+              "offset": 75,
+              "bytes": "077887",
+              "op": "bbci",
+              "operands": "a8, 24, 40378296 <s3_spi_reap+0x56>"
+            },
+            {
+              "offset": 86,
+              "bytes": "20b110",
+              "op": "or",
+              "operands": "a11, a1, a1"
+            },
+            {
+              "offset": 89,
+              "bytes": "0061c2",
+              "op": "s32i",
+              "operands": "a12, a1, 0"
+            },
+            {
+              "offset": 92,
+              "bytes": "00be65",
+              "op": "call8",
+              "operands": "40378e84 <spi_device_get_trans_result>"
+            },
+            {
+              "offset": 95,
+              "bytes": "07a182",
+              "op": "movi",
+              "operands": "a8, 0x107"
+            },
+            {
+              "offset": 98,
+              "bytes": "202aa0",
+              "op": "or",
+              "operands": "a2, a10, a10"
+            },
+            {
+              "offset": 101,
+              "bytes": "e51a87",
+              "op": "beq",
+              "operands": "a10, a8, 4037828e <s3_spi_reap+0x4e>"
+            },
+            {
+              "offset": 78,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 81,
+              "bytes": "000d06",
+              "op": "j",
+              "operands": "403782c9 <s3_spi_reap+0x89>"
+            },
+            {
+              "offset": 137,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "spi_device_get_trans_result"
+          ]
+        },
+        "host2_running": {
+          "instructions": 27,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378265 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f14081",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10b980",
+              "op": "and",
+              "operands": "a11, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378270 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "1288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 4"
+            },
+            {
+              "offset": 50,
+              "bytes": "0a1826",
+              "op": "beqi",
+              "operands": "a8, 1, 40378280 <s3_spi_reap+0x40>"
+            },
+            {
+              "offset": 53,
+              "bytes": "482866",
+              "op": "bnei",
+              "operands": "a8, 2, 403782c1 <s3_spi_reap+0x81>"
+            },
+            {
+              "offset": 56,
+              "bytes": "f14081",
+              "op": "l32r",
+              "operands": "a8, 40374778 <_iram_text_start+0x374> (60025000 <GPSPI3>)"
+            },
+            {
+              "offset": 59,
+              "bytes": "000106",
+              "op": "j",
+              "operands": "40378283 <s3_spi_reap+0x43>"
+            },
+            {
+              "offset": 67,
+              "bytes": "0020c0",
+              "op": "memw",
+              "operands": ""
+            },
+            {
+              "offset": 70,
+              "bytes": "0888",
+              "op": "l32i.n",
+              "operands": "a8, a8, 0"
+            },
+            {
+              "offset": 72,
+              "bytes": "05c880",
+              "op": "extui",
+              "operands": "a12, a8, 24, 1"
+            },
+            {
+              "offset": 75,
+              "bytes": "077887",
+              "op": "bbci",
+              "operands": "a8, 24, 40378296 <s3_spi_reap+0x56>"
+            },
+            {
+              "offset": 78,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 81,
+              "bytes": "000d06",
+              "op": "j",
+              "operands": "403782c9 <s3_spi_reap+0x89>"
+            },
+            {
+              "offset": 137,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": []
+        },
+        "host2_idle_empty": {
+          "instructions": 33,
+          "nodes": [
+            {
+              "offset": 0,
+              "bytes": "006136",
+              "op": "entry",
+              "operands": "a1, 48"
+            },
+            {
+              "offset": 3,
+              "bytes": "027d",
+              "op": "mov.n",
+              "operands": "a7, a2"
+            },
+            {
+              "offset": 5,
+              "bytes": "12ac",
+              "op": "beqz.n",
+              "operands": "a2, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 7,
+              "bytes": "02a8",
+              "op": "l32i.n",
+              "operands": "a10, a2, 0"
+            },
+            {
+              "offset": 9,
+              "bytes": "da9c",
+              "op": "beqz.n",
+              "operands": "a10, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 11,
+              "bytes": "150282",
+              "op": "l8ui",
+              "operands": "a8, a2, 21"
+            },
+            {
+              "offset": 14,
+              "bytes": "889c",
+              "op": "beqz.n",
+              "operands": "a8, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 16,
+              "bytes": "160282",
+              "op": "l8ui",
+              "operands": "a8, a2, 22"
+            },
+            {
+              "offset": 19,
+              "bytes": "38dc",
+              "op": "bnez.n",
+              "operands": "a8, 4037826a <s3_spi_reap+0x2a>"
+            },
+            {
+              "offset": 21,
+              "bytes": "180282",
+              "op": "l8ui",
+              "operands": "a8, a2, 24"
+            },
+            {
+              "offset": 24,
+              "bytes": "988c",
+              "op": "beqz.n",
+              "operands": "a8, 40378265 <s3_spi_reap+0x25>"
+            },
+            {
+              "offset": 26,
+              "bytes": "5298",
+              "op": "l32i.n",
+              "operands": "a9, a2, 20"
+            },
+            {
+              "offset": 28,
+              "bytes": "f14081",
+              "op": "l32r",
+              "operands": "a8, 4037475c <_iram_text_start+0x358> (ff0000ff <_rtc_reserved_end+0x9ef000ff>)"
+            },
+            {
+              "offset": 31,
+              "bytes": "10b980",
+              "op": "and",
+              "operands": "a11, a9, a8"
+            },
+            {
+              "offset": 34,
+              "bytes": "0a0987",
+              "op": "bnone",
+              "operands": "a9, a8, 40378270 <s3_spi_reap+0x30>"
+            },
+            {
+              "offset": 48,
+              "bytes": "1288",
+              "op": "l32i.n",
+              "operands": "a8, a2, 4"
+            },
+            {
+              "offset": 50,
+              "bytes": "0a1826",
+              "op": "beqi",
+              "operands": "a8, 1, 40378280 <s3_spi_reap+0x40>"
+            },
+            {
+              "offset": 53,
+              "bytes": "482866",
+              "op": "bnei",
+              "operands": "a8, 2, 403782c1 <s3_spi_reap+0x81>"
+            },
+            {
+              "offset": 56,
+              "bytes": "f14081",
+              "op": "l32r",
+              "operands": "a8, 40374778 <_iram_text_start+0x374> (60025000 <GPSPI3>)"
+            },
+            {
+              "offset": 59,
+              "bytes": "000106",
+              "op": "j",
+              "operands": "40378283 <s3_spi_reap+0x43>"
+            },
+            {
+              "offset": 67,
+              "bytes": "0020c0",
+              "op": "memw",
+              "operands": ""
+            },
+            {
+              "offset": 70,
+              "bytes": "0888",
+              "op": "l32i.n",
+              "operands": "a8, a8, 0"
+            },
+            {
+              "offset": 72,
+              "bytes": "05c880",
+              "op": "extui",
+              "operands": "a12, a8, 24, 1"
+            },
+            {
+              "offset": 75,
+              "bytes": "077887",
+              "op": "bbci",
+              "operands": "a8, 24, 40378296 <s3_spi_reap+0x56>"
+            },
+            {
+              "offset": 86,
+              "bytes": "20b110",
+              "op": "or",
+              "operands": "a11, a1, a1"
+            },
+            {
+              "offset": 89,
+              "bytes": "0061c2",
+              "op": "s32i",
+              "operands": "a12, a1, 0"
+            },
+            {
+              "offset": 92,
+              "bytes": "00be65",
+              "op": "call8",
+              "operands": "40378e84 <spi_device_get_trans_result>"
+            },
+            {
+              "offset": 95,
+              "bytes": "07a182",
+              "op": "movi",
+              "operands": "a8, 0x107"
+            },
+            {
+              "offset": 98,
+              "bytes": "202aa0",
+              "op": "or",
+              "operands": "a2, a10, a10"
+            },
+            {
+              "offset": 101,
+              "bytes": "e51a87",
+              "op": "beq",
+              "operands": "a10, a8, 4037828e <s3_spi_reap+0x4e>"
+            },
+            {
+              "offset": 78,
+              "bytes": "07a122",
+              "op": "movi",
+              "operands": "a2, 0x107"
+            },
+            {
+              "offset": 81,
+              "bytes": "000d06",
+              "op": "j",
+              "operands": "403782c9 <s3_spi_reap+0x89>"
+            },
+            {
+              "offset": 137,
+              "bytes": "f01d",
+              "op": "retw.n",
+              "operands": ""
+            }
+          ],
+          "calls": [
+            "spi_device_get_trans_result"
+          ]
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "standard": "S",
+      "host": 1,
+      "old_empty_excluding_queue": 49,
+      "new_running": 38,
+      "new_idle_empty_excluding_queue": 58,
+      "running_instruction_saving_excluding_removed_queue": 11,
+      "idle_empty_instruction_increase": 9,
+      "sufficient_running_fraction_if_queue_cost_zero": 0.45
+    },
+    {
+      "standard": "S",
+      "host": 2,
+      "old_empty_excluding_queue": 49,
+      "new_running": 40,
+      "new_idle_empty_excluding_queue": 60,
+      "running_instruction_saving_excluding_removed_queue": 9,
+      "idle_empty_instruction_increase": 11,
+      "sufficient_running_fraction_if_queue_cost_zero": 0.55
+    },
+    {
+      "standard": "T",
+      "host": 1,
+      "old_empty_excluding_queue": 49,
+      "new_running": 38,
+      "new_idle_empty_excluding_queue": 58,
+      "running_instruction_saving_excluding_removed_queue": 11,
+      "idle_empty_instruction_increase": 9,
+      "sufficient_running_fraction_if_queue_cost_zero": 0.45
+    },
+    {
+      "standard": "T",
+      "host": 2,
+      "old_empty_excluding_queue": 49,
+      "new_running": 40,
+      "new_idle_empty_excluding_queue": 60,
+      "running_instruction_saving_excluding_removed_queue": 9,
+      "idle_empty_instruction_increase": 11,
+      "sufficient_running_fraction_if_queue_cost_zero": 0.55
+    }
+  ],
+  "assumptions": [
+    "Valid dedicated raw bus and one outstanding transfer; valid descriptors and no fault.",
+    "Running path: CMD.USR=1. Idle-empty path: CMD.USR=0 and SDK result queue empty.",
+    "SDK empty path uses non-NO_RETURN_RESULT device and xQueueReceive(...,0) returns false.",
+    "Old S image is comparison baseline; new T and S independently checked."
+  ],
+  "limitations": [
+    "Queue body excluded, not assigned zero measured cost.",
+    "IRQ, window spill/fill, MMIO waits, memory contention and cycles not bounded.",
+    "No claim about completion/submit paths, full owner scan cost, or measured throughput."
+  ],
+  "all_declared_path_edges_and_call_targets_verified": true,
+  "CPU_estimate_reduced": false
+}

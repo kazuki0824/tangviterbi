@@ -1,0 +1,40 @@
+{
+  "scope": "Normal pack/place/route with restored compatible pairs and higher timing weight.",
+  "mapped_sha256": "42492e77e6565ac4ecf60144bc8f748a25e76976bbbf7c6c0820e38286c30f39",
+  "backend_source_sha256": {
+    "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+    "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+  },
+  "binary_sha256": "a47805ccd8ed4271f93fb78bbf2696648c83e958b9d348f169706f9ef898a869",
+  "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+  "timing_weight": 20,
+  "seed": 1,
+  "baseline_timing_weight": 10,
+  "baseline_seed": 1,
+  "whole_receiver_verified": false,
+  "timeout_seconds": null,
+  "termination_policy": "No elapsed-time kill; retain complete result or explicit tool error",
+  "exit": 1,
+  "seconds": 733.362987873,
+  "route_completed": true,
+  "errors": [
+    "ERROR: Max frequency for clock 'dut.clk': 152.95 MHz (FAIL at 154.29 MHz)"
+  ],
+  "fmax": {
+    "dut.clk": {
+      "achieved": 152.95196533203125,
+      "constraint": 154.28570556640625
+    }
+  },
+  "routed_sha256": "75b9ba556a7550ba85d448d38d0df9e6dd7d9831c9bb9a12c4ffb55cf0fd631b",
+  "physical_sites": {
+    "FF": 8673,
+    "packed_logic_with_ram_blockers": 19666,
+    "minimum_extra_passthrough_LUTs": 0,
+    "optimistic_logic_site_lower_bound": 19666,
+    "capacity": 20736,
+    "excess": -1070,
+    "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+  },
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+}

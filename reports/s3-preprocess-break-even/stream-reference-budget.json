@@ -1,0 +1,77 @@
+{
+  "scope": "Logical operation counts of the streaming reference; not CPU WCET or bus rates.",
+  "rows": [
+    {
+      "standard": "T",
+      "input_complex_Msample_s": 16,
+      "output_complex_Msample_s": 8.126984126984127,
+      "previous_signed10_decodes_M_s": 520.1269841269841,
+      "stream_signed10_decodes_M_s": 32,
+      "decode_reduction_factor": 16.253968253968253,
+      "raw_reads_MB_s": 64,
+      "history_writes_MB_s": 64,
+      "history_reads_MB_s": 1040.2539682539682,
+      "coefficient_reads_MB_s": 520.1269841269841,
+      "real_MAC_M_s": 520.1269841269841,
+      "minimum_live_history_bytes": 128,
+      "reference_state_bytes": 156,
+      "coefficient_table_bytes": 2048,
+      "accumulator_abs_bound": 536870912,
+      "scalar_one_MAC_per_cycle_two_core_utilization_percent": 108.35978835978835,
+      "target_cycles_measured": false,
+      "performance_qualified": false
+    },
+    {
+      "standard": "S",
+      "input_complex_Msample_s": 40,
+      "output_complex_Msample_s": 28.86,
+      "previous_signed10_decodes_M_s": 923.52,
+      "stream_signed10_decodes_M_s": 80,
+      "decode_reduction_factor": 11.544,
+      "raw_reads_MB_s": 160,
+      "history_writes_MB_s": 160,
+      "history_reads_MB_s": 1847.04,
+      "coefficient_reads_MB_s": 923.52,
+      "real_MAC_M_s": 923.52,
+      "minimum_live_history_bytes": 64,
+      "reference_state_bytes": 156,
+      "coefficient_table_bytes": 46176,
+      "accumulator_abs_bound": 268435456,
+      "scalar_one_MAC_per_cycle_two_core_utilization_percent": 192.4,
+      "target_cycles_measured": false,
+      "performance_qualified": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "T_schedule",
+      "passed": true
+    },
+    {
+      "name": "T_decode_ratio",
+      "passed": true
+    },
+    {
+      "name": "T_int32_bound",
+      "passed": true
+    },
+    {
+      "name": "S_schedule",
+      "passed": true
+    },
+    {
+      "name": "S_decode_ratio",
+      "passed": true
+    },
+    {
+      "name": "S_int32_bound",
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "No claim of register residency: C arrays may be loaded/stored on every tap",
+    "Output rounding/saturation and receiver quality are outside this reference",
+    "Counts are logical C accesses; compiler/register/cache effects not physical traffic",
+    "No new communication route or performance-qualified partition is established"
+  ]
+}

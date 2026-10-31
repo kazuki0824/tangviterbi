@@ -1,0 +1,71 @@
+"""Render the finite cost experiment without upgrading assumptions to evidence."""
+import json
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+r=json.loads((ROOT/'reports/s3-joint-runtime/results.json').read_text())
+lines=['# ② 同じ費用で実コードの順序・期限を評価した結果','',
+'2026-10-29再実行（旧費用模型）。**今回の数値仮定ではS側は継続受信に失敗する。T側の通過は条件付きの有限実行結果。実機成立認定はしない。**',
+'', '開始IRQ全体とwire時間を重ねていた誤りを訂正し、開始IRQ費用を課した後にwireを開始する形で全条件を再実行した。SDK費用を命令数へ置換した最新比較は [SDK費用台帳](../s3-sdk-cost-ledger/README.md) を参照。', '', '## 何を接続したか','',
+'`s3_raw_tasks.c`の`owner_iteration`をそのまま抽出し、実際のnative capture・parallel pack・accept/collect/take/completeを実行する。2コアを仮想時刻で並行実行し、同じ費用を台帳と時刻進行の両方に使う。毎秒33333回、scan30µs、公開320µs等の固定周期を入力していない。空振りの頻度も実行から数える。',
+'',
+'実コードを使うのはRF状態機械・packing・所有権・ownerの呼出し順序である。SDKのqueue/reap、割込み、RFハードウェア、共通時計は模型。これは命令単位シミュレータでも実機測定でもない。費用を関数入口等にまとめて置くため、関数内部の全割込み位置は網羅していない。',
+'', '## 費用境界と単価（240MHz cycles）','',
+'費用は以下の境界で一度だけ加える。旧U0/U1、旧追加scan、別枠のAPI20µsは加えない。成功submit4000＋成功reap800＝4800cycle＝20µsであり、さらに20µsを足してはいけない。転送の線上時間はCPU費用に加算せず、DMA完了イベントまでの時間として並行させる。',
+'', '| 区分 | 今回の単価 | 根拠・包含範囲 |','|---|---:|---|',
+'| owner shell | 154/反復 | 通常経路140命令×1.1。feed判定・直接時計・wrapper差分を含む。全状態の上限ではない |',
+'| worker shell | 88/反復 | 未測定の割当。feed判定を含む |',
+'| packing空振り | 180/回 | wrapper・時計・bank走査を含む未測定の割当 |',
+'| packing非空slice | 306/回 | ceil(223×1.1)=246＋時計2回44＋raw wrapper16。後二者を含む全体は仮定 |',
+'| packing run/block/slow pair | 130/50/191 | CFG118/45/173命令×1.1の切上げ。実Cの訪問回数を使用 |',
+'| RF基本poll | 208/回 | 通常189命令×1.1の切上げ。clock・healthy・MMIO・poll wrapper込み |',
+'| RF prepare追加 | 220/未prepared poll | 管理・available/reclaimを含む未測定の割当。fill本体は別 |',
+'| RF switch追加 | 142/切替 | MMIO切替等の未測定割当 |',
+'| RF accept追加 | 992/受渡し | 境界探索・sink accept・carryコピー・公開処理を含む未測定割当 |',
+'| fill | ceil(17124×語数/7168) | 15567命令/bank×1.1を語数に配分した仮定。1024語7回では17129cycle。個々の呼出し上限ではない |',
+'| collect | 35＋160×owned bank数 | 空31命令の例を参照し、走査・DONE判定・公開・解放を包含する未測定割当 |',
+'| submit空振り/成功 | 120 / 4000 | take、descriptor準備、SDK queue等を包含。未測定 |',
+'| reap running | SPI2:42 / SPI3:44 | 宣言済み経路38/40命令×1.1 |',
+'| reap成功 | 800 | SDK取得・complete・連続prefix退役を包含。未測定 |',
+'| SPI IRQ | 300 または1000/entry | 起動1回＋完了1回という仮定。実ISRの最大entry包絡そのものではない |',
+'| tick IRQ | 2000/回/core、100Hz | 周波数は保存config、費用は割当 |',
+'| watchdog reset | 800/回/core | feed判定はshell、reset本体のみ。前回更新から2.5sで発生する仮定 |',
+'| stall | 基本処理費用の0% / 10%切上げ | 感度点。非同期IRQ延長へ重ねて加えない。実機stallがこの範囲という証拠ではない |',
+'',
+'費用の係数は `results.json.fixed_cost_cycles/dynamic_costs`、状態別の回数・cycle合計・観測頻度は各rowの`cost_ledger[core]`にある。単価を変えると実行順序・回数も変わる。Sは停止までの短い過渡区間なので、events_sを定常発生頻度と解釈してはいけない。',
+'', '## 全評価条件と結果','',
+'本番の準備予算は1反復1024語のまま。2048/3072語・1poll最大1024語は比較用の模型だけに加えた。単価は変更しない。追加のpoll予算管理を独立に命令計数しておらず、RF費用割当内という仮定である。',
+'',
+'初期RF index=0、理想20bit連番入力、3 RF bank、4×32KiB payload、T32KiB/S16KiB転送、SPI2 Octal＋SPI3 Quadを80MHz・header80bitで評価。slice admission boundは別欄の10000/20000cycleという仮定。これはpacking最大時間の測定値ではない。',
+'', '| 系統/owner分担 | slice | 準備語/反復 | IRQ / stall | admission | 到達bank | 結果 | RF poll最大間隔 µs | arena最大bytes |','|---|---:|---:|---|---:|---:|---|---:|---:|']
+for x in r['rows']:
+ status='有限実行通過' if x['scenario_pass'] else '準備未完で切替不可' if x['native_fault']==5 else 'packing期限条件で拒否' if x['pack_fault']==6 else '128KiB受入容量超過' if x['accept_reject_reason']==2 else 'その他停止'
+ lines.append(f"| {'T' if x['rate']==16 else 'S'} / {x['share']}/16 | {x['slice_pairs']} | {x['prepare_per_iteration']} | {x['irq_cycles']} / {x['stall_percent']}% | {x['slice_admission_bound']} | {x['banks']}/{x['requested_banks']} | {status} | {x['max_rf_poll_gap']/240:.3f} | {x['peak_arena_bytes']} |")
+lines += ['', '## 期限と転送・バッファをどう判定したか','',
+'- RF switch/prepare/reclaim：実nativeコードの閾値・age・reclaim判定を使用。Sのfault5ケースではwritten≥12288かつprepared=false、準備量は5120または6144/7168語。一定poll間隔の帯域計算だけではこの失敗を見落とす。',
+'- packing：実コードの開始時admissionと終了時clock/deadline判定を使用。admission拒否は「このboundを予約できない」であり、そのsliceが必ず実期限を超過する証明ではない。S6/16・256pair・bound10000では残り4761cycleで拒否した。',
+'- 転送：queue後にOctal/Quadそれぞれの線上時間で完了イベントを出す。完了後にownerがreapするまでleaseを保持する。`completion_to_reap_cycles`はその遅れ、`max_submit_gap`は開始間隔。データ不足による空きも含み、毎回の固定送信gapとは異なる。',
+'- buffer：実acceptの128KiB容量チェックと、実completeの順序付きprefix解放を使用。送信順序が逆転しても未完了prefixは退役しない。本番と同じ1024語条件は容量より先にSの準備/期限条件で停止した。2048/3072語の比較では実acceptが容量超過を拒否するケースもある。停止時に空きがあることは、継続受信なら溢れないという証明ではない。',
+'- IRQ：仮定した発生時刻でコアの完了時刻を延長し、CPU台帳にも同額を一度加える。SPI IRQ30000cycleの負例ではTもpacking期限条件で停止した。',
+'', '## 同じ費用で準備配分を変えた比較', '', 'S5/16・512pair・2048語/反復は42bank後、次の受入れに135378bytes（容量を4306bytes超過）が必要となり拒否した。3072語では21bank後に138398bytes（7326bytes超過）。S6/16・3072語では18bank後に135588bytes（4516bytes超過）。いずれもIRQ300cycle・stall0%の仮定。admission boundを20000から10000へ変えてもこれらの容量拒否は同じだった。準備だけ増やして成立とする根拠にはならない。', '', '## 計上した発生頻度の例：T、4000bank','',
+'約3.077秒を実行し、watchdog更新まで含めた。以下は観測区間の回数/sとCPU%。2コアともbusy loopなので、空振りまで足したCPU時間はほぼ100%になる。それ自体を処理能力不足と判断しない。余裕は期限・bufferで判定する。core1には観測終了後まで予約した処理が残るため、`pending_cycles`を別記し全額を実行済みとは扱わない。',
+'', '| 処理 | core0 回/s | core0 CPU% | core1 回/s | core1 CPU% |','|---|---:|---:|---:|---:|']
+x=next(x for x in r['rows'] if x['requested_banks']==4000)
+for k in x['cost_ledger'][0]:
+ a,b=[c[k] for c in x['cost_ledger']]
+ lines.append(f"| {k} | {a['events_s']:.3f} | {a['cpu_percent']:.4f} | {b['events_s']:.3f} | {b['cpu_percent']:.4f} |")
+lines += ['',f"この条件でRF poll最大間隔{x['max_rf_poll_gap']/240:.3f}µs、公開遅延最大{x['max_publication_latency']/240:.3f}µs、完了からreapまで最大{max(x['completion_to_reap_cycles'])/240:.3f}µs、arena最大{x['peak_arena_bytes']}bytes（残り{131072-x['peak_arena_bytes']}bytes）。これらは観測最大で、WCET上限ではない。",'',
+'## 未計上扱いにしてはいけない、模型外の費用','',
+'以下は0と認定せず、実機全処理の費用境界に明示して残す。ここが埋まっていないため、「SoC全処理の数値計上が完了」とは報告しない。今回完了したのは、明示した受信ループ費用模型について回数・順序・期限を同じ実行に接続する作業である。',
+'', '| 対象 | 発生頻度/位相 | 全体へ取り込む条件 |','|---|---|---|',
+'| RF-off初期化、PHY/RF設定、clock校正、task作成、watchdog設定 | 起動/再選局ごと。受信中反復には加えない | 実際のアプリ構成と起動許容時間が必要。費用未確定 |',
+'| teardown、DMA drain、fault処理 | 停止/故障時。連続受信の成功トレースとは別経路 | タイムアウトで安全なlease解放を仮定しない。費用未確定 |',
+'| SPI/RTOS内のlock、メモリ/バス競合 | API/IRQと同時動作に依存 | 今回はAPI割当とstall感度に包含する仮定だが、有限上限は未検証 |',
+'| tick/SPI以外のIRQ、IPC、他task、RF/PHY付帯活動 | 最終config/実アプリに依存 | 発生包絡未確定。今回の専用2task模型に存在しないことを実機の不在証明にしない |',
+'| FPGAからの指令、選局・電源管理 | 指令到来時。FPGA→SoC受信データは禁止のまま | 最終制御ハンドラと到来制約が必要。未実装部分を0費用扱いしない |',
+'',
+'保存SDKの `reports/s3-raw-tasks/sources/task_wdt.c` のresetはcritical sectionを含み、`reports/s3-spi-wait-audit/sources/spi_master.c` のqueue/get-resultはRTOS queueへ入る。今回の800/4000cycleがそれらの待ちを必ず含むという根拠はない。測定のない割当を最大費用へ昇格させない。',
+'', '## 検算と再現','',
+'42条件を実行。各条件で「全カテゴリーの計上cycle＋stall＝コアの予約完了時刻」を確認し、観測末尾の未完了処理も別記。T4000bankではtickとWDTを実際に発生させ、回収したpayloadは全byteを連番I10/Q10の独立oracleと照合した。ソースhash・生成コードhashにより評価後の変更を検出する。新規9件と既存16件、合計25検算成功。',
+'', '```sh','python -m experiments.s3_joint_runtime','python -m experiments.s3_joint_runtime_report','python -m unittest tests.test_s3_joint_runtime tests.test_s3_schedule_transfer_size tests.test_s3_arena_limits tests.test_s3_spi_prefix_response tests.test_s3_native_spi_windows tests.test_s3_spi_irq_envelope','```',
+'', '実行データ：[results.json](results.json)。検算ログ：[tests.log](tests.log)。本結果は実機有限費用の証明、全初期位相の網羅、全段FPGAの成立を含まない。正式採用は0のまま。','']
+(ROOT/'reports/s3-joint-runtime/README.md').write_text('\n'.join(lines))
