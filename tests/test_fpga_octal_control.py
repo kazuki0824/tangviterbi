@@ -9,7 +9,7 @@ class OctalControl(unittest.TestCase):
         out=ROOT/"build/fpga-octal-control";out.mkdir(parents=True,exist_ok=True)
         tb=r'''`timescale 1ns/1ps
 module tb;
-reg clk=0,rst=0,cs=1,sck=0,idle=1,locked=1,fault=0;
+reg clk=0,rst=1,cs=1,sck=0,idle=1,locked=1,fault=0;
 reg[7:0] di=0;wire[7:0] dout;wire oe;
 wire[15:0]epoch;wire er,en,cf;
 s3_spi_control #(.IMAGE_ID(0),.BUILD_TAG(32'h1234abcd),.LANES(8)) dut(
@@ -45,10 +45,10 @@ task query(input[31:0]nonce);begin
 end endtask
 always @(posedge sck) if(!cs && dut.beat==9) $display("OCTAL HEADER cmd=%h epoch=%h arg=%h len=%h beat=%d",dut.next_header[79:64],dut.next_header[63:48],dut.next_header[47:16],dut.next_header[15:0],dut.beat);
 initial begin
- repeat(5)@(negedge clk);rst=1;repeat(5)@(negedge clk);
+ rst=0;repeat(5)@(negedge clk);rst=1;repeat(5)@(negedge clk);
  query(32'h12345678);if(epoch||en||cf)$fatal(1,"bad cold state");
  command(16'hd71d,17,32'h45504f43);
- if(epoch!=17||cf)$fatal(1,"epoch command failed ep=%d cf=%b en=%b",epoch,cf,en);
+ if(epoch!=17||cf)$fatal(1,"epoch command failed ep=%d cf=%b en=%b cmdtoggle=%b cmdseen=%b kind=%h payload_ep=%h",epoch,cf,en,dut.command_toggle,dut.command_seen,dut.command_kind,dut.command_epoch);
  query(32'h11223344);if(w[1]!=32'h01000011)$fatal(1,"wrong epoch");
  command(16'hd71e,17,1);
  if(!en||cf)$fatal(1,"enable command failed");
