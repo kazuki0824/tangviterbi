@@ -14,7 +14,7 @@ bool s3_control_decode(const uint8_t*p,uint32_t nonce,s3_control_status*s)
 bool s3_control_init(s3_control*s,s3_spi_port*p)
 {
  if(!s||!p||!p->device||p->busy||p->poisoned||p->sct||p->capacity!=1||(p->lanes!=4&&p->lanes!=8)||
-  (p->lanes==4&&p->host!=SPI3_HOST)||(p->lanes==8&&p->host!=SPI2_HOST)||
+  (p->lanes==8&&p->host!=SPI2_HOST)||
   !esp_ptr_internal(s)||!esp_ptr_internal((uint8_t*)s+sizeof(*s)-1))return false;
  memset(s,0,sizeof(*s));s->port=p;return true;
 }
