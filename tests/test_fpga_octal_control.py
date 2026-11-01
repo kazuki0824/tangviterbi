@@ -43,6 +43,7 @@ task query(input[31:0]nonce);begin
  if(w[0]!=32'h31534353||w[4]!=nonce||w[5]!=32'h1234abcd||w[7]||w[6]!=(w[0]^w[1]^w[2]^w[3]^w[4]^w[5]^32'h96c39a5f))
  $fatal(1,"octal status mismatch magic=%h nonce=%h expected=%h",w[0],w[4],nonce);
 end endtask
+always @(posedge sck) if(!cs && dut.beat==9) $display("OCTAL HEADER cmd=%h epoch=%h arg=%h len=%h beat=%d",dut.next_header[79:64],dut.next_header[63:48],dut.next_header[47:16],dut.next_header[15:0],dut.beat);
 initial begin
  repeat(5)@(negedge clk);rst=1;repeat(5)@(negedge clk);
  query(32'h12345678);if(epoch||en||cf)$fatal(1,"bad cold state");
