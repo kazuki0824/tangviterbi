@@ -7,6 +7,8 @@ on:
       - 'rtl/s3_rf_credit.sv'
       - 'tests/test_fpga_t_octal_endpoint.py'
       - 'ci/fpga_t_octal_area.py'
+      - 'rtl/dual_s3_26pin_transport_candidate.sv'
+      - 'ci/fpga_dual26_transport_area.py'
       - '.github/workflows/fpga-stage2-t-octal-endpoint.yml'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -26,6 +28,9 @@ jobs:
       - name: Synthesize T Octal shared endpoint (even if simulation fails)
         if: always()
         run: python3 ci/fpga_t_octal_area.py
+      - name: Measure combined T/S 26-pin transport area
+        if: always()
+        run: python3 ci/fpga_dual26_transport_area.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -34,3 +39,5 @@ jobs:
             build/fpga-t-octal-endpoint/run.log
             build/fpga-t-octal-endpoint/area.json
             build/fpga-t-octal-endpoint/yosys.log
+            build/fpga-dual26-transport/result.json
+            build/fpga-dual26-transport/yosys.log
