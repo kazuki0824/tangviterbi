@@ -1,0 +1,19 @@
+name: Stage2 Octal control protocol
+on:
+  pull_request:
+    paths:
+      - 'rtl/s3_spi_control.sv'
+      - 'tests/test_fpga_octal_control.py'
+      - '.github/workflows/fpga-stage2-octal-control.yml'
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Test old Quad and new Octal control wire protocol
+        run: python3 -m unittest tests.test_fpga_octal_control -v
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-octal-control-tests
+          path: build/fpga-octal-control/run.log
