@@ -8,7 +8,7 @@
 module s3_spi_control #(parameter [7:0] IMAGE_ID=0,parameter [31:0] BUILD_TAG=1,
  parameter integer LANES=4)(
  input wire clk,resetn,input wire streams_idle,locked,receiver_fault,
- input wire iq_ready,input wire[31:0]iq_offset,
+ input wire iq_ready,input wire[31:0]iq_offset,input wire [2:0]rf_credit_gray,
  output reg[15:0]epoch,output reg epoch_reset,stream_enable,control_fault,
  input wire spi_clk,cs_n,input wire[LANES-1:0]dq_in,output reg[LANES-1:0]dq_out,output wire dq_oe
 );
@@ -40,10 +40,10 @@ module s3_spi_control #(parameter [7:0] IMAGE_ID=0,parameter [31:0] BUILD_TAG=1,
    end
    if(query2!=query_seen)begin
     query_seen<=query2;snapshot0<={8'd1,IMAGE_ID,epoch};snapshot1<=iq_offset;
-    snapshot2<={27'd0,stream_enable,control_fault,streams_idle,receiver_fault,iq_ready};
+    snapshot2<={24'd0,rf_credit_gray,stream_enable,control_fault,streams_idle,receiver_fault,iq_ready};
     snapshot3<=BUILD_TAG;query_ack<=query2;
     snapshot_check<=MAGIC^{8'd1,IMAGE_ID,epoch}^iq_offset^
-     {27'd0,stream_enable,control_fault,streams_idle,receiver_fault,iq_ready}^BUILD_TAG^CHECK;
+     {24'd0,rf_credit_gray,stream_enable,control_fault,streams_idle,receiver_fault,iq_ready}^BUILD_TAG^CHECK;
    end
   end
  end

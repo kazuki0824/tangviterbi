@@ -29,6 +29,9 @@ int main(void)
  uint8_t p[32],q[32];s3_control_status parsed;snapshot(p,123,17);
  assert(s3_control_decode(p,123,&parsed)&&parsed.image==0&&parsed.epoch==17&&parsed.IQ_offset==4096&&parsed.flags==5);
  assert(!s3_control_decode(p,124,&parsed));
+ status_flags=5u|(3u<<5);snapshot(p,123,17);
+ assert(s3_control_decode(p,123,&parsed)&&parsed.flags==5&&parsed.credit_gray==3);
+ status_flags=5;snapshot(p,123,17);
  for(unsigned bit=0;bit<256;++bit){memcpy(q,p,32);q[bit/8]^=1u<<(bit%8);assert(!s3_control_decode(q,123,&parsed));}
  s3_spi_port port;spi_multi_transaction_t storage[1];spi_bus_config_t pins={0};s3_control ctl;
  assert(s3_spi_open(&port,SPI3_HOST,&pins,15,4,false,storage,1)==ESP_OK);assert(s3_spi_use_polling(&port)==ESP_OK);assert(s3_control_init(&ctl,&port));

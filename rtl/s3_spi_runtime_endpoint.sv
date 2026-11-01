@@ -43,7 +43,7 @@ module s3_spi_runtime_endpoint #(
  end
  s3_spi_control #(.IMAGE_ID(IMAGE_ID),.BUILD_TAG(BUILD_TAG)) control(clk,resetn,
   frontend_idle&&pool_idle&&!iq_ready&&iq_begin_ready,frontend_locked,frontend_fault||pool_fault||iq_fault,
-  iq_ready[iq_next_offset[12]],iq_next_offset,epoch,epoch_reset,stream_enable,control_fault,
+  iq_ready[iq_next_offset[12]],iq_next_offset,RF_credit_gray,epoch,epoch_reset,stream_enable,control_fault,
   spi3_clk,spi3_cs_n,spi3_d,ctrl_d,ctrl_oe);
  assign IQ_publish_gray=iq_publications^(iq_publications>>1);
  assign spi3_d=ctrl_oe?ctrl_d:iq_oe?iq_d:4'bzzzz;

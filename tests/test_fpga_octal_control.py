@@ -14,7 +14,7 @@ reg[7:0] di=0;wire[7:0] dout;wire oe;
 wire[15:0]epoch;wire er,en,cf;
 s3_spi_control #(.IMAGE_ID(0),.BUILD_TAG(32'h1234abcd),.LANES(8)) dut(
 .clk(clk),.resetn(rst),.streams_idle(idle),.locked(locked),
-.receiver_fault(fault),.iq_ready(1'b0),.iq_offset(32'd0),
+.receiver_fault(fault),.iq_ready(1'b0),.iq_offset(32'd0),.rf_credit_gray(3'b0),
 .epoch(epoch),.epoch_reset(er),.stream_enable(en),.control_fault(cf),
 .spi_clk(sck),.cs_n(cs),.dq_in(di),.dq_out(dout),.dq_oe(oe));
 always #5 clk=~clk;
