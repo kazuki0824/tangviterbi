@@ -4,6 +4,10 @@ on:
     paths:
       - 'rtl/s3_spi_control.sv'
       - 'tests/test_fpga_octal_control.py'
+      - 'experiments/s3_control.c'
+      - 'experiments/s3_control.h'
+      - 'tests/test_s3_control.py'
+      - 'tests/s3_control_host.c'
       - '.github/workflows/fpga-stage2-octal-control.yml'
 jobs:
   check:
@@ -15,7 +19,7 @@ jobs:
           version: '2026-10-04'
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Test old Quad and new Octal control wire protocol
-        run: python3 -m unittest tests.test_fpga_octal_control -v
+        run: python3 -m unittest tests.test_fpga_octal_control tests.test_s3_control -v
       - uses: actions/upload-artifact@v4
         if: always()
         with:
