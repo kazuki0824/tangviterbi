@@ -47,7 +47,7 @@ initial begin
  repeat(5)@(negedge clk);rst=1;repeat(5)@(negedge clk);
  query(32'h12345678);if(epoch||en||cf)$fatal(1,"bad cold state");
  command(16'hd71d,17,32'h45504f43);
- if(epoch!=17||cf)$fatal(1,"epoch command failed");
+ if(epoch!=17||cf)$fatal(1,"epoch command failed ep=%d cf=%b en=%b",epoch,cf,en);
  query(32'h11223344);if(w[1]!=32'h01000011)$fatal(1,"wrong epoch");
  command(16'hd71e,17,1);
  if(!en||cf)$fatal(1,"enable command failed");
