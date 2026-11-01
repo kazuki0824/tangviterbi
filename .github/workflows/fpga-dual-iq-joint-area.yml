@@ -6,6 +6,10 @@ on:
       - 'tests/dual_iq10_unpack_tb.sv'
       - 'ci/fpga_dual_iq_joint_area.py'
       - '.github/workflows/fpga-dual-iq-joint-area.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   measure:
     runs-on: ubuntu-24.04

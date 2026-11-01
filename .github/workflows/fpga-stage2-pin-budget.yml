@@ -7,6 +7,10 @@ on:
       - 'experiments/dual_s3_spi_ingress_only_area_top.sv'
       - 'reports/fpga-estimate-closure/pin-budget.md'
       - '.github/workflows/fpga-stage2-pin-budget.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   pin-audit:
     runs-on: ubuntu-24.04

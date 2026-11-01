@@ -5,6 +5,10 @@ on:
       - 'experiments/dual_s3_ingress_joint_fft_area_top.sv'
       - 'ci/fpga_joint_ingress_fft_area.py'
       - '.github/workflows/fpga-joint-ingress-fft-area.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   synth:
     runs-on: ubuntu-24.04

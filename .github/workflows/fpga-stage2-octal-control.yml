@@ -9,6 +9,10 @@ on:
       - 'tests/test_s3_control.py'
       - 'tests/s3_control_host.c'
       - '.github/workflows/fpga-stage2-octal-control.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check:
     runs-on: ubuntu-24.04

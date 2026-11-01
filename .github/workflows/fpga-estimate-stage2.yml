@@ -6,6 +6,10 @@ on:
       - 'ci/fpga_estimate_stage2.py'
       - 'tests/test_fpga_estimate_stage2_gate.py'
       - '.github/workflows/fpga-estimate-stage2.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   inventory:
     runs-on: ubuntu-latest

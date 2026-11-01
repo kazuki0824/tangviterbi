@@ -7,6 +7,10 @@ on:
       - 'ci/fpga_dual_endpoint_area.py'
       - 'rtl/s3_*.sv'
       - '.github/workflows/fpga-dual-endpoint-area.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   synth:
     runs-on: ubuntu-24.04
