@@ -1,0 +1,25 @@
+name: Stage2 T Octal shared data control and credit
+on:
+  pull_request:
+    paths:
+      - 'rtl/s3_spi_t_octal_control_endpoint.sv'
+      - 'rtl/s3_spi_control.sv'
+      - 'rtl/s3_rf_credit.sv'
+      - 'tests/test_fpga_t_octal_endpoint.py'
+      - '.github/workflows/fpga-stage2-t-octal-endpoint.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Assert shared Octal bus control, RF payload and credit status
+        run: python3 -m unittest tests.test_fpga_t_octal_endpoint -v
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-t-octal-endpoint-evidence
+          path: build/fpga-t-octal-endpoint/run.log
