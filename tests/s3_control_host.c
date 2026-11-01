@@ -56,7 +56,15 @@ int main(void)
  ctl.nonce=UINT32_MAX;assert(s3_control_query(&ctl)==ESP_OK&&ctl.nonce==0&&!ctl.fault);
  tick();assert(s3_control_poll(&ctl)==1&&ctl.status.nonce==0);
  assert(s3_spi_close(&port)==ESP_OK);
- puts("PASS actual control adapter: 256 bit corruption checks, nonce/wrap, cold retry, polling non-spin, DMA vs delayed CSR epoch/enable ACK");
+ s3_spi_port octal;spi_multi_transaction_t octal_storage[1];
+ assert(s3_spi_open_bulk(&octal,SPI2_HOST,&pins,15,8,octal_storage)==ESP_OK);
+ assert(s3_control_init(&ctl,&octal));
+ assert(s3_control_query(&ctl)==ESP_OK);
+ assert((octal_storage[0].base.flags&SPI_TRANS_MODE_OCT)!=0);
+ assert((octal_storage[0].base.flags&SPI_TRANS_MODE_QIO)==0);
+ tick();assert(s3_control_poll(&ctl)==1&&ctl.valid&&ctl.status.epoch==20);
+ assert(s3_spi_close(&octal)==ESP_OK);
+ puts("PASS Quad and Octal control adapter: 256 bit corruption checks, nonce/wrap, cold retry, polling non-spin, DMA vs delayed CSR epoch/enable ACK");
 }
 
 esp_err_t spi_device_acquire_bus(spi_device_handle_t d,unsigned t){(void)d;(void)t;return ESP_OK;}

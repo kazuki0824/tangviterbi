@@ -8,7 +8,7 @@ typedef struct {
  uint32_t nonce;unsigned pending;bool fault,valid;s3_control_status status;
  unsigned apply_kind,apply_phase,apply_epoch;bool apply_enable;
 } s3_control;
-/* Same owner as RF/FFT on SPI3. No copy/reset until DMA returns.
+/* Shared serialized owner: S Quad SPI3 or T Octal SPI2 (bulk-capable).\n * Same owner as RF/FFT on SPI3. No copy/reset until DMA returns.
  * Successful request DMA is NOT an epoch/enable ACK: query the real CSR.
  * Reset only after all previous stream owners joined. */
 bool s3_control_init(s3_control *,s3_spi_port *);
