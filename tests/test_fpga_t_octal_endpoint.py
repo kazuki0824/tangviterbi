@@ -8,7 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class TOctalEndpoint(unittest.TestCase):
     def test_shared_octal_rf_control_credit(self):
         out=ROOT/"build/fpga-t-octal-endpoint";out.mkdir(parents=True,exist_ok=True)
-        tb=r'''\`timescale 1ns/1ps
+        tb=r'''`timescale 1ns/1ps
 module tb;
 reg clk=0,rst=1,sck=0,cs=1,frontend_idle=1,locked=1;
 always #5 clk=~clk;
