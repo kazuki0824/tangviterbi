@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Test old Quad and new Octal control wire protocol
         run: python3 -m unittest tests.test_fpga_octal_control -v
       - uses: actions/upload-artifact@v4
