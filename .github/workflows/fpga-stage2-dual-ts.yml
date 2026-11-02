@@ -1,0 +1,21 @@
+name: FPGA stage2 dual serial TS endpoints
+on:
+  pull_request:
+    paths:
+      - 'rtl/isdb_serial_ts_sink.sv'
+      - 'tests/dual_serial_ts_tb.sv'
+      - 'tests/test_dual_serial_ts.py'
+      - '.github/workflows/fpga-stage2-dual-ts.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: python3 -m unittest tests.test_dual_serial_ts -v
