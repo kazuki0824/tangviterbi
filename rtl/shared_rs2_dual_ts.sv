@@ -18,9 +18,10 @@ module shared_rs2_dual_ts(
  wire[7:0]rs_output_byte;
  wire[1:0]ts_byte_ready,ts_sink_fault;
  wire[1:0]ts_raw_valid;
- wire pick= (input_valid[rr_next] || !input_valid[!rr_next]) ? rr_next : !rr_next;
+ wire [1:0]eligible=input_valid & ~(hard_fault | ts_sink_fault);
+ wire pick= (eligible[rr_next] || !eligible[!rr_next]) ? rr_next : !rr_next;
  wire chosen=phase==IDLE?pick:owner;
- wire feed=(phase==IDLE || phase==INGEST) && !hard_fault[chosen];
+ wire feed=(phase==IDLE || phase==INGEST) && !(hard_fault[chosen] || ts_sink_fault[chosen]);
  wire fire=feed && input_valid[chosen] && rs_input_ready;
  wire accept_t=feed && rs_input_ready && chosen==0;
  wire accept_s=feed && rs_input_ready && chosen==1;
