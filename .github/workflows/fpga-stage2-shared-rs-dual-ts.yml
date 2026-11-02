@@ -5,6 +5,7 @@ on:
       - 'rtl/shared_rs2_dual_ts.sv'
       - 'rtl/isdb_serial_ts_sink.sv'
       - 'tests/test_shared_rs2_dual_ts.py'
+      - 'ci/fpga_shared_rs_dual_ts_area.py'
       - '.github/workflows/fpga-stage2-shared-rs-dual-ts.yml'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -20,8 +21,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Independent RS encoder feeds two independently decoded TS outputs
         run: python3 -m unittest tests.test_shared_rs2_dual_ts -v
+      - name: Synthesize full connected shared RS and dual TS subassembly
+        if: always()
+        run: python3 ci/fpga_shared_rs_dual_ts_area.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: fpga-shared-rs-dual-ts
-          path: build/shared-rs-dual-ts/run.log
+          path: |
+            build/shared-rs-dual-ts/run.log
+            build/shared-rs-dual-ts/area.json
+            build/shared-rs-dual-ts/yosys.log
