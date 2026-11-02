@@ -25,6 +25,15 @@ full_pins=pin_count+ts_outputs+events+credit_pins
 planned=10+16+6+2
 check("synthesized area top fits with two TS outputs and event pins",full_pins<=34,f"actual area top SPI {pin_count} + TS {ts_outputs} + events {events} + credit {credit_pins} = {full_pins} > 34")
 check("proposed alternative fits by pin count only",planned<=34,f"proposed T Octal10+S Octal/Quad16+TS6+event2 = {planned}; NOT implemented in this top")
-report=dict(stage=2,scope="physical board pin budget for connected IQ partial area top",checks=checks,all_checks_executed=len(checks),ng=sum(not c["ok"] for c in checks),present_area_top_pin_fit=False,planned_pin_count_only_fit=planned<=34,receiver_verified=False)
+candidate=(ROOT/"rtl/dual_s3_26pin_transport_candidate.sv").read_text()
+candidate_checks={
+ "T one Octal10": "s3_spi_t_octal_control_endpoint t" in candidate,
+ "S Octal10 and Quad6": ".IMAGE_ID(1)" in candidate and "s_spi3_clk,s_spi3_cs_n" in candidate,
+ "no credit GPIO": "output wire [5:0] RF_credit_gray" not in candidate
+}
+for name,ok in candidate_checks.items():
+    check("candidate: "+name,ok,"26-pin transport only; board-pin mapping remains unverified")
+check("candidate connector necessary count",10+16+6+2<=34,"T Octal10+S OctalQuad16+TS6+events2=34")
+report=dict(stage=2,scope="physical board pin budget for connected IQ partial area top",checks=checks,all_checks_executed=len(checks),ng=sum(not c["ok"] for c in checks),present_area_top_pin_fit=False,planned_pin_count_only_fit=planned<=34,candidate_count_only_fit=all(candidate_checks.values()),receiver_verified=False)
 print(json.dumps(report,indent=2))
 # A diagnosed violation is retained as a hard negative, not a CI crash.
