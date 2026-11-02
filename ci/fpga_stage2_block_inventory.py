@@ -18,5 +18,8 @@ def audit():
   ck("state:"+item["id"],state in ("partial","missing","integrated"))
   ck("candidate:"+item["id"],((path is None and state=="missing") or (isinstance(path,str) and (ROOT/path).is_file())))
   ck("ownership:"+item["id"],not(state!="integrated" and e.get("owner_status")=="verified"))
+  owner=e.get("cost_owner_group")
+  ck("owner-group:"+item["id"],owner in ids and e.get("cost_charge_role") == ("primary" if owner==item["id"] else "references_shared_owner"))
+  ck("no false actual ownership:"+item["id"],e.get("ownership_plan_only") is True and e.get("owner_status")=="unverified")
  return {"checks":checks,"all_conditions_checked":len(checks),"ng":sum(not c["ok"] for c in checks),"inventory_complete":all(c["ok"] for c in checks),"stage2_complete":False}
 if __name__=="__main__":print(json.dumps(audit(),indent=2,ensure_ascii=False))
