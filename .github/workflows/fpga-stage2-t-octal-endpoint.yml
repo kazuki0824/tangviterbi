@@ -23,6 +23,8 @@ jobs:
         with:
           version: '2026-10-04'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify existing real 16KiB and 32KiB SPI bulk split/ordering
+        run: python3 -m unittest tests.test_s3_bulk_page_pipeline -v
       - name: Assert shared Octal bus control, RF payload and credit status
         run: python3 -m unittest tests.test_fpga_t_octal_endpoint -v
       - name: Synthesize T Octal shared endpoint (even if simulation fails)
