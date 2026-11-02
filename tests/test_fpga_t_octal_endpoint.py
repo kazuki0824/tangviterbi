@@ -110,13 +110,13 @@ initial begin
  wait(received==1024);
  repeat(20)@(negedge clk);
  query(32'hc0ffee12);
- if((w[3]>>5&7)!=1)$fatal(1,"credit not published in status %h",w[3]);
+ if((w[3]>>5&7)!=1||((w[3]>>8)&65535)!=1)$fatal(1,"credit/count not published %h",w[3]);
  if(ep!=17||!en||fault)$fatal(1,"state after transfer");
  command(16'hd71e,17,0);
  if(en||fault)$fatal(1,"stop failed");
  command(16'hd71d,18,32'h45504f43);
  query(32'hc0ffee13);
- if(ep!=18||(w[3]>>5&7)!=0||fault)$fatal(1,"epoch did not reset Gray credit");
+ if(ep!=18||(w[3]>>5&7)!=0||((w[3]>>8)&65535)!=0||fault)$fatal(1,"epoch did not reset Gray credit");
  $display("PASS T SPI2 Octal one physical bus: command, RF 4096 bytes, status Gray credit, drain and epoch");
  $finish;
 end
@@ -130,10 +130,12 @@ endmodule
             tb=tb.replace("received>=1024", f"received>={count}")
             tb=tb.replace("offset!==0", "offset!==(received/1024)*4096")
             tb=tb.replace("received==1023", "(received%1024)==1023")
-            tb=tb.replace("header(16'hd711,17,0,4096);", "header(16'hd711,17,0,32768);")
+            tb=tb.replace("header(16'hd711,17,0,4096);", f"header(16'hd711,17,0,{chunk});")
             tb=tb.replace("n<1024", f"n<{count}")
             tb=tb.replace("wait(received==1024);", f"wait(received=={count});")
-            tb=tb.replace("(w[3]>>5&7)!=1", f"(w[3]>>5&7)!={(chunk//4096)^((chunk//4096)>>1)}")
+            pages=chunk//4096
+            tb=tb.replace("(w[3]>>5&7)!=1", f"(w[3]>>5&7)!={((pages^(pages>>1))&7)}")
+            tb=tb.replace("((w[3]>>8)&65535)!=1", f"((w[3]>>8)&65535)!={pages}")
             tb=tb.replace("#1500000", "#2500000")
             tb=tb.replace("RF 4096 bytes", f"RF {chunk} bytes")
         (out/(f"tb-{chunk}.sv")).write_text(tb)
@@ -143,7 +145,7 @@ endmodule
              *[str(ROOT/"rtl"/(name+".sv")) for name in sources],str(out/(f"tb-{chunk}.sv"))]
         cp=subprocess.run(cmd,capture_output=True,text=True)
         self.assertEqual(cp.returncode,0,cp.stderr)
-        result=subprocess.run(["vvp",str(out/("sim-32k" if chunk==32768 else "sim"))],capture_output=True,text=True,timeout=40)
+        result=subprocess.run(["vvp",str(out/f"sim-{chunk}")],capture_output=True,text=True,timeout=40)
         (out/(f"run-{chunk}.log")).write_text(result.stdout+result.stderr)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertIn("PASS T SPI2 Octal one physical bus",result.stdout)
