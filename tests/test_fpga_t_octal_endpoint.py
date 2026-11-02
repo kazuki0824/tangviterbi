@@ -134,7 +134,7 @@ endmodule
             tb=tb.replace("n<1024", f"n<{count}")
             tb=tb.replace("wait(received==1024);", f"wait(received=={count});")
             pages=chunk//4096
-            tb=tb.replace("(w[3]>>5&7)!=1", f"(w[3]>>5&7)!={((pages^(pages>>1))&7)}")
+            tb=tb.replace("(w[3]>>5&7)!=1", f"(w[3]>>5&7)!={((pages&7)^((pages&7)>>1))}")
             tb=tb.replace("((w[3]>>8)&65535)!=1", f"((w[3]>>8)&65535)!={pages}")
             tb=tb.replace("#1500000", "#2500000")
             tb=tb.replace("RF 4096 bytes", f"RF {chunk} bytes")

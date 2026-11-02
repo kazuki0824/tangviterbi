@@ -13,7 +13,7 @@ p=subprocess.run(["yosys","-Q","-p",text],capture_output=True,text=True)
 (OUT/"yosys.log").write_text(p.stdout+"\n"+p.stderr)
 source=(ROOT/"rtl/dual_s3_26pin_transport_candidate.sv").read_text()
 pin_checks={
- "T Octal only":all(v in source for v in ("input wire t_spi2_clk,t_spi2_cs_n,inout wire [7:0] t_spi2_d", "s3_spi_t_octal_control_endpoint t")),
+ "T Octal only":all(v in source for v in ("input wire t_spi2_clk,t_spi2_cs_n,inout wire [7:0] t_spi2_d", "s3_spi_t_octal_control_endpoint #(.WRITE_BYTES(32768)) t")),
  "S Octal and Quad":all(v in source for v in ("input wire s_spi2_clk,s_spi2_cs_n,input wire [7:0] s_spi2_d", "input wire s_spi3_clk,s_spi3_cs_n,inout wire [3:0] s_spi3_d")),
  "external independent credits omitted":"output wire [2:0] RF_credit_gray" not in source and "output wire [5:0] RF_credit_gray" not in source,
  "no full TS claims":"No RF demod, TS sink" in source,
