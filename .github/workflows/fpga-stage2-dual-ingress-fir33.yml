@@ -1,0 +1,29 @@
+name: Stage2 dual S3 IQ ingress to FIR mapped area
+on:
+  pull_request:
+    paths:
+      - 'rtl/dual_s3_ingress_to_fir_candidate.sv'
+      - 'rtl/isdb_complex_fir33.sv'
+      - 'ci/fpga_dual_ingress_fir33_area.py'
+      - '.github/workflows/fpga-stage2-dual-ingress-fir33.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  synth:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Synthesize real T/S transport to complex FIR boundaries
+        run: python3 ci/fpga_dual_ingress_fir33_area.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-dual-ingress-fir33
+          path: |
+            build/dual-ingress-fir33/result.json
+            build/dual-ingress-fir33/yosys.log
