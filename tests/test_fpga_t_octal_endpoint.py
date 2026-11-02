@@ -19,6 +19,9 @@ class TOctalEndpoint(unittest.TestCase):
         p=subprocess.run(cmd,capture_output=True,text=True)
         self.assertEqual(p.returncode,0,p.stdout+p.stderr)
 
+    def test_shared_octal_bulk_16k_rf_control_credit(self):
+        self.run_case(16384)
+
     def test_shared_octal_bulk_32k_rf_control_credit(self):
         self.run_case(32768)
 
@@ -120,27 +123,28 @@ end
 initial begin #1500000;$fatal(1,"timeout/deadlock");end
 endmodule
 '''
-        if chunk == 32768:
+        if chunk in (16384,32768):
+            count=chunk//4
             tb=tb.replace("s3_spi_t_octal_control_endpoint dut(", 
-                          "s3_spi_t_octal_control_endpoint #(.WRITE_BYTES(32768)) dut(")
-            tb=tb.replace("received>=1024", "received>=8192")
+                          f"s3_spi_t_octal_control_endpoint #(.WRITE_BYTES({chunk})) dut(")
+            tb=tb.replace("received>=1024", f"received>={count}")
             tb=tb.replace("offset!==0", "offset!==(received/1024)*4096")
             tb=tb.replace("received==1023", "(received%1024)==1023")
             tb=tb.replace("header(16'hd711,17,0,4096);", "header(16'hd711,17,0,32768);")
-            tb=tb.replace("n<1024", "n<8192")
-            tb=tb.replace("wait(received==1024);", "wait(received==8192);")
-            tb=tb.replace("(w[3]>>5&7)!=1", "(w[3]>>5&7)!=0")
+            tb=tb.replace("n<1024", f"n<{count}")
+            tb=tb.replace("wait(received==1024);", f"wait(received=={count});")
+            tb=tb.replace("(w[3]>>5&7)!=1", f"(w[3]>>5&7)!={(chunk//4096)^((chunk//4096)>>1)}")
             tb=tb.replace("#1500000", "#2500000")
-            tb=tb.replace("RF 4096 bytes", "RF 32768 bytes")
-        (out/("tb-32k.sv" if chunk==32768 else "tb.sv")).write_text(tb)
+            tb=tb.replace("RF 4096 bytes", f"RF {chunk} bytes")
+        (out/(f"tb-{chunk}.sv")).write_text(tb)
         sources=("s3_async_fifo","s3_spi_rx","s3_page_guard","s3_pooled_page_store",
                  "s3_rf_credit","s3_spi_control","s3_bulk_page_split","s3_spi_t_octal_control_endpoint")
-        cmd=["iverilog","-g2012","-s","tb","-o",str(out/("sim-32k" if chunk==32768 else "sim")),
-             *[str(ROOT/"rtl"/(name+".sv")) for name in sources],str(out/("tb-32k.sv" if chunk==32768 else "tb.sv"))]
+        cmd=["iverilog","-g2012","-s","tb","-o",str(out/(f"sim-{chunk}")),
+             *[str(ROOT/"rtl"/(name+".sv")) for name in sources],str(out/(f"tb-{chunk}.sv"))]
         cp=subprocess.run(cmd,capture_output=True,text=True)
         self.assertEqual(cp.returncode,0,cp.stderr)
         result=subprocess.run(["vvp",str(out/("sim-32k" if chunk==32768 else "sim"))],capture_output=True,text=True,timeout=40)
-        (out/("run-32k.log" if chunk==32768 else "run.log")).write_text(result.stdout+result.stderr)
+        (out/(f"run-{chunk}.log")).write_text(result.stdout+result.stderr)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertIn("PASS T SPI2 Octal one physical bus",result.stdout)
 
