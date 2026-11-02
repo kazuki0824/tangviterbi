@@ -22,3 +22,13 @@
 `tests/test_fpga_t_octal_endpoint.py` には4/16/32KiBのRF payloadをword単位で独立照合し、各pageのoffset/last、最後のGray credit、status、停止・epoch resetを検査するケースを追加した。既存の`tests.test_s3_bulk_page_pipeline`の16/32KiB二系統分割oracleも同一CIで再実行する。
 
 **CIの新規結果が出る前は動作保証しない。** さらにSの接続・TMCC/slot、物理pin/STA、全FPGA復調・TS、SoC実転送・有限期限は未達。4KiBの従来緑をこの新しい長大フレームへ外挿しない。
+
+
+## 2026-11-02：4/16/32KiB実行結果と8-page credit alias解消
+- [Actions 41381422547](https://github.com/kazuki0824/tangviterbi/actions/runs/41381422547)（commit `bde7aa8f787b86697b0cdc0c8dbccb2749d277cc`）は全job成功。既存16/32KiB split/reorder oracle成功、T側4/16/32KiB共有Octal制御・RF・status creditの4試験成功、T単独/二系統mapped合成成功、artifact記録。
+- `tests/test_fpga_t_octal_endpoint.py` の各テストで転送length、別実行ファイル名、Gray上位bit切り落としの誤判定を是正。32KiB受理8ページでは下位3bit Grayが0に戻るため、`s3_rf_credit` 16-bit累積退役値を状態word3[23:8]に追加し、C側`s3_control_decode`へ`retired_pages`を追加。
+- Cの従来flags[4:0]は維持。S3の完了確認は原則、epochと単調増加するretired_pagesの差を用いる設計が必要。16bitでも一度の未観測周回65536pageは識別不能で、照会間隔の有限上限と再起動epochの検証が継続課題。
+- 同一netlistの単独T Octal `WRITE_BYTES=32768` mapped LUT+ALU **1371** / FF **879** / BSRAM **9**。
+- ②入力26pin transport候補（T=32KiB Octal、S=16KiB Octal+Quad）mapped LUT+ALU **3899** / FF **2315** / BSRAM **19**。各値はYosysであり実P&R/STAではない。
+- 26 signal transport ＋6 signal TS予約＋2 event予約＝**34本（本数だけ）**。USB、clock-capable pin、BL616兼用、actual CTS/SDRAM、TS sink endpointはまだ全て検証未完。
+- このCI成功はRF→FIR/同期→FFT/等化→DI→K7→共有RS→T/S TSの全段動作の証拠ではない。工程2の全資源計上も未完了。
