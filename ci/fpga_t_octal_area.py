@@ -5,12 +5,12 @@ ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/"build/fpga-t-octal-endpoint"
 OUT.mkdir(parents=True,exist_ok=True)
 files=["rtl/s3_async_fifo.sv","rtl/s3_spi_rx.sv","rtl/s3_page_guard.sv","rtl/s3_pooled_page_store.sv",
-       "rtl/s3_rf_credit.sv","rtl/s3_spi_control.sv","rtl/s3_spi_t_octal_control_endpoint.sv"]
+       "rtl/s3_rf_credit.sv","rtl/s3_spi_control.sv","rtl/s3_bulk_page_split.sv","rtl/s3_spi_t_octal_control_endpoint.sv"]
 top="s3_spi_t_octal_control_endpoint"
-ys="read_verilog -sv "+" ".join(str(ROOT/f) for f in files)+"; hierarchy -check -top "+top+"; synth_gowin -family gw2a -top "+top+" -nowidelut -json "+str(OUT/"mapped.json")+"; check -assert"
+ys="read_verilog -sv "+" ".join(str(ROOT/f) for f in files)+"; chparam -set WRITE_BYTES 32768 "+top+"; hierarchy -check -top "+top+"; synth_gowin -family gw2a -top "+top+" -nowidelut -json "+str(OUT/"mapped.json")+"; check -assert"
 p=subprocess.run(["yosys","-Q","-p",ys],capture_output=True,text=True)
 (OUT/"yosys.log").write_text(p.stdout+"\n"+p.stderr)
-report={"scope":"T SPI2 Octal RF/control/credit only; no 16/32KiB bulk, RF demod, S, TS or physical timing",
+report={"scope":"T SPI2 Octal 32-KiB bulk/control/credit partial; no RF demod, S, TS or physical timing",
         "top":top,"synthesis_exit":p.returncode,"receiver_approved":False,"board_pin_fit":None,
         "source_sha256":{f:hashlib.sha256((ROOT/f).read_bytes()).hexdigest() for f in files}}
 if p.returncode==0:

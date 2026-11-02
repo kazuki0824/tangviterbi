@@ -14,6 +14,7 @@ module s3_spi_t_octal_control_endpoint #(parameter integer WRITE_BYTES=4096) (
  wire ctrl_oe,epoch_reset,control_fault,pool_fault,pool_idle;
  wire [7:0]ctrl_d;
  wire [2:0]credit_gray;
+ wire [15:0]retired_pages;
  wire streams_resetn=resetn && epoch!=0 && !epoch_reset;
  wire token_valid,token_ready,token_ready_unused,overflow,raw_valid,raw_last;
  wire [35:0] transport_token;
@@ -23,10 +24,10 @@ module s3_spi_t_octal_control_endpoint #(parameter integer WRITE_BYTES=4096) (
  wire ignored_fft_valid,ignored_fft_last;
  wire [31:0]ignored_fft_data,ignored_fft_offset;
  assign spi2_d=ctrl_oe?ctrl_d:8'bzzzzzzzz;
- s3_spi_control #(.IMAGE_ID(0),.BUILD_TAG(32'h20c2026),.LANES(8)) control (
+ s3_spi_control #(.IMAGE_ID(0),.BUILD_TAG(32'h20c2026),.LANES(8),.EXTENDED_CREDIT(1)) control (
   .clk(clk),.resetn(resetn),.streams_idle(frontend_idle && pool_idle),
   .locked(frontend_locked),.receiver_fault(frontend_fault || pool_fault),
-  .iq_ready(1'b0),.iq_offset(32'd0),.rf_credit_gray(credit_gray),
+  .iq_ready(1'b0),.iq_offset(32'd0),.rf_credit_gray(credit_gray),.rf_retired_pages(retired_pages),
   .epoch(epoch),.epoch_reset(epoch_reset),.stream_enable(stream_enable),
   .control_fault(control_fault),.spi_clk(spi2_clk),.cs_n(spi2_cs_n),
   .dq_in(spi2_d),.dq_out(ctrl_d),.dq_oe(ctrl_oe)
@@ -65,6 +66,6 @@ module s3_spi_t_octal_control_endpoint #(parameter integer WRITE_BYTES=4096) (
  assign RF_last=raw_last;
  s3_rf_credit #(.BITS(3)) credit (
   .clk(clk),.resetn(streams_resetn),.retire(RF_valid && RF_ready && RF_last),
-  .gray(credit_gray)
+  .gray(credit_gray),.retired_pages(retired_pages)
  );
 endmodule

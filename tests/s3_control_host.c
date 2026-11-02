@@ -31,6 +31,8 @@ int main(void)
  assert(!s3_control_decode(p,124,&parsed));
  status_flags=5u|(3u<<5);snapshot(p,123,17);
  assert(s3_control_decode(p,123,&parsed)&&parsed.flags==5&&parsed.credit_gray==3);
+ status_flags=5u|(3u<<5)|(8u<<8);snapshot(p,123,17);
+ assert(s3_control_decode(p,123,&parsed)&&parsed.flags==5&&parsed.credit_gray==3&&parsed.retired_pages==8);
  status_flags=5;snapshot(p,123,17);
  for(unsigned bit=0;bit<256;++bit){memcpy(q,p,32);q[bit/8]^=1u<<(bit%8);assert(!s3_control_decode(q,123,&parsed));}
  s3_spi_port port;spi_multi_transaction_t storage[1];spi_bus_config_t pins={0};s3_control ctl;

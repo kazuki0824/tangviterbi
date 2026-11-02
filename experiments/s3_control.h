@@ -2,7 +2,7 @@
 #define S3_CONTROL_H
 #include "s3_spi_transport.h"
 enum {S3_CONTROL_BYTES=32};
-typedef struct {unsigned image,epoch;uint32_t IQ_offset,flags,build_tag,nonce;unsigned credit_gray;} s3_control_status;
+typedef struct {unsigned image,epoch;uint32_t IQ_offset,flags,build_tag,nonce;unsigned credit_gray,retired_pages;} s3_control_status;
 typedef struct {
  s3_spi_port *port;_Alignas(16) uint8_t payload[S3_CONTROL_BYTES];
  uint32_t nonce;unsigned pending;bool fault,valid;s3_control_status status;

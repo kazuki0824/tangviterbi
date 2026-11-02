@@ -7,9 +7,9 @@ bool s3_control_decode(const uint8_t*p,uint32_t nonce,s3_control_status*s)
 {
  if(!p||!s)return false;
  uint32_t w[8];for(unsigned i=0;i<8;++i)w[i]=word(p+4*i);
- if(w[0]!=0x31534353||w[1]>>24!=1||((w[1]>>16)&255)>2||w[3]>255||w[4]!=nonce||w[7]||
+ if(w[0]!=0x31534353||w[1]>>24!=1||((w[1]>>16)&255)>2||w[3]>0x00ffffffu||w[4]!=nonce||w[7]||
   w[6]!=(w[0]^w[1]^w[2]^w[3]^w[4]^w[5]^0x96c39a5f))return false;
- *s=(s3_control_status){.image=(w[1]>>16)&255,.epoch=w[1]&65535,.IQ_offset=w[2],.flags=w[3]&31,.credit_gray=(w[3]>>5)&7,.build_tag=w[5],.nonce=w[4]};return true;
+ *s=(s3_control_status){.image=(w[1]>>16)&255,.epoch=w[1]&65535,.IQ_offset=w[2],.flags=w[3]&31,.credit_gray=(w[3]>>5)&7,.retired_pages=(w[3]>>8)&65535,.build_tag=w[5],.nonce=w[4]};return true;
 }
 bool s3_control_init(s3_control*s,s3_spi_port*p)
 {

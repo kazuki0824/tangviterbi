@@ -15,6 +15,7 @@ module s3_spi_runtime_endpoint #(
  wire epoch_reset,control_fault,pool_fault,iq_fault,pool_idle;
  wire[3:0]ctrl_d,iq_d;wire ctrl_oe,iq_oe;
  wire[1:0]iq_ready;wire iq_sent,iq_begin_ready,iq_word_ready;
+ wire [15:0]rf_retired_pages;
  reg[31:0]iq_next_offset;reg[9:0]iq_fill_index;reg[1:0]iq_publications;
  wire streams_resetn=resetn&&epoch!=0&&!epoch_reset;
  wire[35:0]tok0,tok1,rawtok0,rawtok1;
@@ -52,7 +53,7 @@ module s3_spi_runtime_endpoint #(
  end endgenerate
  s3_pooled_page_store #(.ALLOW_FFT(IMAGE_ID==0),.INPUT_PORTS(IMAGE_ID==0&&T_OCTAL_ONLY?1:2)) pool(clk,streams_resetn,epoch,tv,tr,tok0,tok1,(|overflow)||(|split_fault),
   RF_valid,RF_ready,RF_data,RF_offset,RF_last,FFT_valid,FFT_ready,FFT_data,FFT_offset,FFT_last,pool_idle,pool_fault);
- s3_rf_credit #(.BITS(3)) credit(clk,streams_resetn,RF_valid&&RF_ready&&RF_last,RF_credit_gray);
+ s3_rf_credit #(.BITS(3)) credit(clk,streams_resetn,RF_valid&&RF_ready&&RF_last,RF_credit_gray,rf_retired_pages);
  s3_spi_iq_pingpong iq(clk,streams_resetn,IQ_begin&&stream_enable,iq_begin_ready,epoch,IQ_begin_offset,
   IQ_word_valid&&stream_enable,iq_word_ready,IQ_word_data,iq_ready,iq_sent,iq_fault,frontend_fault,
   spi3_clk,spi3_cs_n,spi3_d,iq_d,iq_oe);
@@ -64,10 +65,10 @@ module s3_spi_runtime_endpoint #(
    if(IQ_word_valid&&IQ_word_ready)begin iq_fill_index<=iq_fill_index+1'b1;if(iq_fill_index==1023)iq_publications<=iq_publications+1'b1;end
   end
  end
- s3_spi_control #(.IMAGE_ID(IMAGE_ID),.BUILD_TAG(BUILD_TAG)) control(clk,resetn,
+ s3_spi_control #(.IMAGE_ID(IMAGE_ID),.BUILD_TAG(BUILD_TAG),.EXTENDED_CREDIT(1)) control(clk,resetn,
   frontend_idle&&pool_idle&&!iq_ready&&iq_begin_ready,frontend_locked,frontend_fault||pool_fault||iq_fault,
   iq_ready[iq_next_offset[12]],iq_next_offset,RF_credit_gray,epoch,epoch_reset,stream_enable,control_fault,
-  spi3_clk,spi3_cs_n,spi3_d,ctrl_d,ctrl_oe);
+  spi3_clk,spi3_cs_n,spi3_d,ctrl_d,ctrl_oe,rf_retired_pages);
  assign IQ_publish_gray=iq_publications^(iq_publications>>1);
  assign spi3_d=ctrl_oe?ctrl_d:iq_oe?iq_d:4'bzzzz;
  assign IQ_begin_ready=stream_enable&&iq_begin_ready;assign IQ_word_ready=stream_enable&&iq_word_ready;

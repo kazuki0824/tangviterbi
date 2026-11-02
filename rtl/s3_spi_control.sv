@@ -6,15 +6,17 @@
 // lock that could only be acquired after sampling has already started.
 // Prefetch words instead of duplicating the full snapshot in the SPI domain.
 module s3_spi_control #(parameter [7:0] IMAGE_ID=0,parameter [31:0] BUILD_TAG=1,
- parameter integer LANES=4)(
+ parameter integer LANES=4,parameter integer EXTENDED_CREDIT=0)(
  input wire clk,resetn,input wire streams_idle,locked,receiver_fault,
  input wire iq_ready,input wire[31:0]iq_offset,input wire [2:0]rf_credit_gray,
  output reg[15:0]epoch,output reg epoch_reset,stream_enable,control_fault,
- input wire spi_clk,cs_n,input wire[LANES-1:0]dq_in,output reg[LANES-1:0]dq_out,output wire dq_oe
+ input wire spi_clk,cs_n,input wire[LANES-1:0]dq_in,output reg[LANES-1:0]dq_out,output wire dq_oe,
+ input wire [15:0]rf_retired_pages
 );
  localparam[31:0]MAGIC=32'h31534353,CHECK=32'h96c39a5f;
  localparam integer HEADER_BEATS=80/LANES, PAYLOAD_BEATS=256/LANES;
  localparam integer COMMAND_CAPTURE_BEAT=16/LANES-1;
+ wire [15:0]snapshot_retired=EXTENDED_CREDIT ? rf_retired_pages : 16'd0;
  initial if(LANES!=4 && LANES!=8) $fatal(1,"control supports Quad or Octal only");
  reg query_toggle,command_toggle;reg[15:0]command_epoch,command_kind;reg[31:0]command_arg;
  (* async_reg="true" *) reg query1,query2,cmd1,cmd2;
@@ -40,10 +42,10 @@ module s3_spi_control #(parameter [7:0] IMAGE_ID=0,parameter [31:0] BUILD_TAG=1,
    end
    if(query2!=query_seen)begin
     query_seen<=query2;snapshot0<={8'd1,IMAGE_ID,epoch};snapshot1<=iq_offset;
-    snapshot2<={24'd0,rf_credit_gray,stream_enable,control_fault,streams_idle,receiver_fault,iq_ready};
+    snapshot2<={8'd0,snapshot_retired,rf_credit_gray,stream_enable,control_fault,streams_idle,receiver_fault,iq_ready};
     snapshot3<=BUILD_TAG;query_ack<=query2;
     snapshot_check<=MAGIC^{8'd1,IMAGE_ID,epoch}^iq_offset^
-     {24'd0,rf_credit_gray,stream_enable,control_fault,streams_idle,receiver_fault,iq_ready}^BUILD_TAG^CHECK;
+     {8'd0,snapshot_retired,rf_credit_gray,stream_enable,control_fault,streams_idle,receiver_fault,iq_ready}^BUILD_TAG^CHECK;
    end
   end
  end
