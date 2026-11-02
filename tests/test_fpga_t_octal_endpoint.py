@@ -6,6 +6,19 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 
 class TOctalEndpoint(unittest.TestCase):
+    def test_bulk_parameter_elaboration(self):
+        """Elaborate the T control/Octal bridge with a real 32KiB splitter."""
+        out=ROOT/"build/fpga-t-octal-endpoint";out.mkdir(parents=True,exist_ok=True)
+        source=ROOT/"rtl"
+        paths=("s3_async_fifo","s3_spi_rx","s3_page_guard","s3_pooled_page_store",
+               "s3_rf_credit","s3_spi_control","s3_bulk_page_split","s3_spi_t_octal_control_endpoint")
+        cmd=["iverilog","-g2012","-s","s3_spi_t_octal_control_endpoint",
+             "-Ps3_spi_t_octal_control_endpoint.WRITE_BYTES=32768",
+             "-o",str(out/"bulk-32k-elaborated"),
+             *[str(source/(name+".sv")) for name in paths]]
+        p=subprocess.run(cmd,capture_output=True,text=True)
+        self.assertEqual(p.returncode,0,p.stdout+p.stderr)
+
     def test_shared_octal_rf_control_credit(self):
         out=ROOT/"build/fpga-t-octal-endpoint";out.mkdir(parents=True,exist_ok=True)
         tb=r'''`timescale 1ns/1ps
