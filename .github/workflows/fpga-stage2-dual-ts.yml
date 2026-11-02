@@ -5,6 +5,7 @@ on:
       - 'rtl/isdb_serial_ts_sink.sv'
       - 'tests/dual_serial_ts_tb.sv'
       - 'tests/test_dual_serial_ts.py'
+      - 'ci/fpga_dual_serial_ts_area.py'
       - '.github/workflows/fpga-stage2-dual-ts.yml'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -19,3 +20,13 @@ jobs:
           version: '2026-10-04'
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - run: python3 -m unittest tests.test_dual_serial_ts -v
+      - if: always()
+        run: python3 ci/fpga_dual_serial_ts_area.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-dual-ts-sink
+          path: |
+            build/serial-ts/run.log
+            build/serial-ts/area.json
+            build/serial-ts/yosys.log
