@@ -13,3 +13,12 @@
 この構成の通信は4KiBページで、S3 raw-only送信側は16/32KiB条件。後段のFFT/K7まで含む全復調topの機能的な入力接続、FIR・同期・等化・DI、S全モード/TMCC、共有RS→TS、有限buffer/SDRAM、16/32KiB splitなどが未接続。S3側credit照会の頻度/時間/CPU費用、整合するhost transactionの実SDK運用、T/S+TSのCST/P&Rも未完了。
 
 **工程2は未完了。工程3へ進めない。** 部分回路の資源値を旧全段予算に加算・二重控除しない。
+
+
+## 2026-11-02：T 16/32KiB輸送候補
+
+`rtl/s3_spi_t_octal_control_endpoint.sv` に `WRITE_BYTES`（4096/16384/32768）を追加。16/32KiB の場合、SPI2 Octal `s3_spi_rx` 受信から `s3_bulk_page_split` を経て、既存 `s3_pooled_page_store` の4KiB page保持へ実接続した。該当条件の `overflow` と `split_fault` は全受信faultに合流し、単にビット数を削減するものではない。
+
+`tests/test_fpga_t_octal_endpoint.py` には4/16/32KiBのRF payloadをword単位で独立照合し、各pageのoffset/last、最後のGray credit、status、停止・epoch resetを検査するケースを追加した。既存の`tests.test_s3_bulk_page_pipeline`の16/32KiB二系統分割oracleも同一CIで再実行する。
+
+**CIの新規結果が出る前は動作保証しない。** さらにSの接続・TMCC/slot、物理pin/STA、全FPGA復調・TS、SoC実転送・有限期限は未達。4KiBの従来緑をこの新しい長大フレームへ外挿しない。
