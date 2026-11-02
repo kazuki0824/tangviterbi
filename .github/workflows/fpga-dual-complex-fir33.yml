@@ -1,0 +1,31 @@
+name: Stage2 T/S complex FIR MAC area
+on:
+  pull_request:
+    paths:
+      - 'rtl/isdb_complex_fir33.sv'
+      - 'tests/test_dual_complex_fir33.py'
+      - 'ci/fpga_dual_complex_fir33_area.py'
+      - '.github/workflows/fpga-dual-complex-fir33.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  fir:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: python3 -m unittest tests.test_dual_complex_fir33 -v
+      - if: always()
+        run: python3 ci/fpga_dual_complex_fir33_area.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dual-complex-fir33-rtl
+          path: |
+            build/dual-complex-fir33/run.log
+            build/dual-complex-fir33/area.json
+            build/dual-complex-fir33/yosys.log
