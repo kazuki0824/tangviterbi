@@ -14,6 +14,7 @@ class PhysicalPins(unittest.TestCase):
         self.assertRegex(top, r"s3_spi_t_octal_control_endpoint\s*#\s*\(\.WRITE_BYTES\(32768\)\)\s*t\s*\(")
         self.assertIn("s3_spi_runtime_endpoint #(.IMAGE_ID(1)",top)
         self.assertNotIn("output wire [5:0] RF_credit_gray",top)
-        self.assertIn(".WRITE_BYTES(16384)",top)\n        self.assertEqual(10+16+6+2,34)
+        self.assertIn(".WRITE_BYTES(16384)",top)
+        self.assertEqual(10+16+6+2,34)
 
 if __name__=="__main__": unittest.main()
