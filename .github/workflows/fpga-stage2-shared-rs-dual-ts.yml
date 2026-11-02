@@ -1,0 +1,27 @@
+name: Stage2 shared RS and dual TS integration
+on:
+  pull_request:
+    paths:
+      - 'rtl/shared_rs2_dual_ts.sv'
+      - 'rtl/isdb_serial_ts_sink.sv'
+      - 'tests/test_shared_rs2_dual_ts.py'
+      - '.github/workflows/fpga-stage2-shared-rs-dual-ts.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  rs-ts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Independent RS encoder feeds two independently decoded TS outputs
+        run: python3 -m unittest tests.test_shared_rs2_dual_ts -v
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-shared-rs-dual-ts
+          path: build/shared-rs-dual-ts/run.log
