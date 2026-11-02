@@ -27,7 +27,7 @@ check("synthesized area top fits with two TS outputs and event pins",full_pins<=
 check("proposed alternative fits by pin count only",planned<=34,f"proposed T Octal10+S Octal/Quad16+TS6+event2 = {planned}; NOT implemented in this top")
 candidate=(ROOT/"rtl/dual_s3_26pin_transport_candidate.sv").read_text()
 candidate_checks={
- "T one Octal10": bool(re.search(r"s3_spi_t_octal_control_endpoint\\s*(?:#\\s*\\([^;]*?\\)\\s*)?t\\s*\\(", candidate, re.S)),
+ "T one Octal10": bool(re.search(r"s3_spi_t_octal_control_endpoint\s*#\s*\(\s*\.WRITE_BYTES\(32768\)\s*\)\s*t\s*\(", candidate)),
  "S Octal10 and Quad6": ".IMAGE_ID(1)" in candidate and "s_spi3_clk,s_spi3_cs_n" in candidate,
  "no credit GPIO": "output wire [5:0] RF_credit_gray" not in candidate
 }
