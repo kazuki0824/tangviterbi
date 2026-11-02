@@ -14,7 +14,7 @@ module dual_s3_26pin_transport_candidate (
  output wire [63:0] RF_data,RF_offset,output wire [1:0] RF_last,
  output wire [1:0] stream_enable,fault,output wire [31:0] epoch
 );
- s3_spi_t_octal_control_endpoint t (
+ s3_spi_t_octal_control_endpoint #(.WRITE_BYTES(32768)) t (
   .clk(clk),.resetn(resetn),
   .frontend_idle(frontend_idle[0]),.frontend_locked(frontend_locked[0]),
   .frontend_fault(frontend_fault[0]),
@@ -29,7 +29,7 @@ module dual_s3_26pin_transport_candidate (
  wire [31:0]s_unused_fft_data,s_unused_fft_offset;
  wire [2:0]s_status_credit;
  wire [1:0]s_unused_iq_publication;
- s3_spi_runtime_endpoint #(.IMAGE_ID(1),.T_OCTAL_ONLY(0)) s (
+ s3_spi_runtime_endpoint #(.IMAGE_ID(1),.T_OCTAL_ONLY(0),.WRITE_BYTES(16384)) s (
   .clk(clk),.resetn(resetn),
   .frontend_idle(frontend_idle[1]),.frontend_locked(frontend_locked[1]),
   .frontend_fault(frontend_fault[1]),
