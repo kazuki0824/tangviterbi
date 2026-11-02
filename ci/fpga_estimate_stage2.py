@@ -1,59 +1,170 @@
-"""Stage 2 resource-estimate gate: comprehensive audit, no fail-fast.
+"""Stage 2 all-resource audit. Enumeration must never fail fast.
 
-Exit success only if every required FPGA block has actual, non-overlapping resource
-accounting and a full receiver top P&R report. Keep negative evidence distinct.
+A fully-accounted design may be physically *infeasible*: preserve that
+negative engineering result independently of estimate completeness.
+A green diagnostic CI is never itself evidence that stage 2 is complete.
 """
-import json
-import sys
 import hashlib
+import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCOPE = ROOT / "reports/fpga-estimate-closure/scope.json"
-RECON = ROOT / "reports/fpga-estimate-closure/stage2-reconciliation.md"
 
-def audit():
-    data=json.loads(SCOPE.read_text())
-    report=RECON.read_text()
-    checks=[]
-    def ck(n,ok,detail):
-        checks.append(dict(name=n,ok=bool(ok),detail=detail))
-    ck("reconciliation evidence recorded",all(t in report for t in ("20726","22002","1276","1266","22977")),"Maintain distinct incompatible area experiments")
-    ck("capacity correctly reported",data["capacity"]["logic_positions"]==20736 and data["capacity"]["bsram_blocks"]==46,"Tang20K envelope")
-    ck("no partial P&R upgraded to full",data["physical_probes"]["full_top_area"]["value"] is None and data["physical_probes"]["full_top_timing"]["value"] is None,"Previously saved 166.2234 MHz is a fixture")
-    proof_path=ROOT / "reports/fpga-estimate-closure/full-top-proof.json"
-    proof=json.loads(proof_path.read_text()) if proof_path.exists() else {}
-    def verified_file(node):
+LIMIT_KEYS = {
+    "logic": "logic_positions",
+    "ff": "ff_positions",
+    "bsram": "bsram_blocks",
+    "dsp": "dsp18_units",
+    "pll": "pll_count",
+    "pins": "board_available_header_signals_upper",
+    "sdram_storage": "sdram_bytes",
+}
+RESOURCE_KEYS = ("logic", "ff", "bsram", "distributed_ram", "dsp",
+                 "pll", "pins", "sdram_storage")
+EVIDENCE_KEYS = ("source", "routed_netlist", "timing_report",
+                 "resource_report", "constraints")
+
+
+def audit(root=ROOT):
+    root = Path(root).resolve()
+    scope = json.loads((root / "reports/fpga-estimate-closure/scope.json").read_text())
+    reconciliation = (root / "reports/fpga-estimate-closure/stage2-reconciliation.md").read_text()
+    proof_path = root / "reports/fpga-estimate-closure/full-top-proof.json"
+    proof = json.loads(proof_path.read_text()) if proof_path.exists() else {}
+    checks = []
+
+    def check(name, ok, detail):
+        checks.append({"name": name, "ok": bool(ok), "detail": detail})
+
+    def verified(node):
         if not isinstance(node, dict):
             return False
-        p=node.get("path"); h=node.get("sha256")
-        if not isinstance(p,str) or not isinstance(h,str) or not re.fullmatch(r"[0-9a-f]{64}",h):
+        rel = node.get("path")
+        digest = node.get("sha256")
+        if not isinstance(rel, str) or not isinstance(digest, str) or not re.fullmatch("[0-9a-f]{64}", digest):
             return False
-        target=(ROOT/p).resolve()
-        if not target.is_relative_to(ROOT) or not target.is_file():
-            return False
-        return hashlib.sha256(target.read_bytes()).hexdigest()==h
+        target = (root / rel).resolve()
+        return (target.is_relative_to(root) and target.is_file()
+                and hashlib.sha256(target.read_bytes()).hexdigest() == digest)
 
-    file_proofs={k:proof.get(k,{}) for k in ("source","routed_netlist","timing_report","resource_report","constraints")}
-    for name,node in file_proofs.items():
-        ck("evidence file sha256:"+name,verified_file(node),"Require real file and matching SHA-256")
-    evidence_set=all(verified_file(node) for node in file_proofs.values())
-    measured=proof.get("blocks",{})
-    resources=proof.get("resources",{})
-    stages=data["required_stages"]["t"]+data["required_stages"]["s"]+data["required_support"]
+    evidence = {key: proof.get(key) for key in EVIDENCE_KEYS}
+    resource_report_ok = verified(evidence["resource_report"])
+    source_ok = verified(evidence["source"])
+    constraints_ok = verified(evidence["constraints"])
+    pnr_log_ok = verified(proof.get("pnr_log"))
+    resources = proof.get("resources", {})
+    capacities = scope["capacity"]
+    measured = {}
+    resource_signed = {}
+    for name in RESOURCE_KEYS:
+        node = resources.get(name) if isinstance(resources, dict) else None
+        value = node.get("value") if isinstance(node, dict) else None
+        good = (type(value) is int and value >= 0
+                and node.get("evidence_hash") == (evidence["resource_report"] or {}).get("sha256")
+                and resource_report_ok)
+        resource_signed[name] = good
+        if good:
+            measured[name] = value
+
+    excess = {}
+    for resource, limit_name in LIMIT_KEYS.items():
+        if resource_signed[resource]:
+            limit = capacities[limit_name]
+            if measured[resource] > limit:
+                excess[resource] = {"used": measured[resource],
+                                    "capacity": limit,
+                                    "over": measured[resource] - limit}
+
+    result_kind = proof.get("pnr_outcome")
+    routed_success = (result_kind == "routed"
+                      and verified(evidence["routed_netlist"])
+                      and verified(evidence["timing_report"])
+                      and proof.get("legal_placement") is True
+                      and not excess)
+    negative_capacity = (
+        result_kind == "capacity_exceeded"
+        and pnr_log_ok
+        and bool(excess)
+        and proof.get("no_routed_netlist_due_to_capacity") is True
+        and proof.get("no_timing_report_due_to_capacity") is True
+        and proof.get("legal_placement") is False
+    )
+    complete_physical_outcome = routed_success or negative_capacity
+
+    check("reconciliation evidence recorded",
+          all(x in reconciliation for x in ("20726", "22002", "1276", "1266", "22977")),
+          "Different incompatible area experiments must stay separate")
+    check("capacity correctly reported",
+          capacities["logic_positions"] == 20736 and capacities["bsram_blocks"] == 46,
+          "Board limits are fixed by stage 1")
+    probe = scope["physical_probes"]
+    check("no partial P&R upgraded to full",
+          probe["partial_pnr"]["classification"].startswith("routed partial fixture")
+          and probe["full_top_area"]["value"] is None and probe["full_top_timing"]["value"] is None,
+          "Frozen stage-1 partial probe must remain explicitly partial")
+
+    for name in EVIDENCE_KEYS:
+        if name in ("routed_netlist", "timing_report") and negative_capacity:
+            ok = True
+            detail = "N/A only: signed P&R log proves a full-top capacity overrun; no routed artifact exists"
+        else:
+            ok = verified(evidence[name])
+            detail = "Require an actual file with matching SHA-256"
+        check("evidence file sha256:" + name, ok, detail)
+
+    basic = source_ok and constraints_ok and resource_report_ok
+    stages = scope["required_stages"]["t"] + scope["required_stages"]["s"] + scope["required_support"]
+    stage_blocks = proof.get("blocks", {})
     for item in stages:
-        ck("area:"+item["id"],bool(evidence_set and measured.get(item["id"],{}).get("placed_instance") and measured.get(item["id"],{}).get("owned_resources") and measured.get(item["id"],{}).get("source_sha256")),item["name"])
-    for name in ("logic","ff","bsram","distributed_ram","dsp","pll","pins","sdram_storage"):
-        ck("full-top physical resource:"+name,evidence_set and resources.get(name,{}).get("value") is not None and resources.get(name,{}).get("evidence_hash")==file_proofs["resource_report"].get("sha256"),"Require single all-receiver placed netlist and ownership-reconciled measurement")
-    ck("shared-component double counts",evidence_set and proof.get("all_instance_ownership_unique") is True,"Instance-level ownership must be established")
-    ck("full receiver legal placement",evidence_set and proof.get("all_stage_connected") is True and proof.get("legal_placement") is True and proof.get("all_stage_functional_checks") is True,"All required blocks and functions must be present")
-    stage2_complete=all(x["ok"] for x in checks)
-    return dict(stage=2,all_conditions_checked=len(checks),ng=sum(not x["ok"] for x in checks),completion=stage2_complete,stage3_permitted=stage2_complete,checks=checks)
+        node = stage_blocks.get(item["id"], {}) if isinstance(stage_blocks, dict) else {}
+        installed = node.get("placed_instance") if routed_success else node.get("rtl_instance")
+        owner = node.get("owned_resources")
+        source_rel = node.get("source_path")
+        source_sha = node.get("source_sha256")
+        stage_source_verified = verified({"path": source_rel, "sha256": source_sha})
+        check("area:" + item["id"],
+              basic and complete_physical_outcome and bool(installed)
+              and isinstance(owner, dict) and bool(owner) and stage_source_verified,
+              "Actual named RTL instance, owned resource entries and hashed source required")
+
+    for name in RESOURCE_KEYS:
+        check("full-top physical resource:" + name,
+              basic and complete_physical_outcome and resource_signed[name],
+              "Measured full-top resource, signed by common resource-report hash")
+
+    check("shared-component double counts",
+          basic and complete_physical_outcome and proof.get("all_instance_ownership_unique") is True,
+          "Shared resources must have one nonoverlapping owner")
+    functions_complete = (proof.get("all_stage_connected") is True
+                          and proof.get("all_stage_functional_checks") is True)
+    check("full receiver fit or proven capacity excess",
+          basic and complete_physical_outcome and functions_complete,
+          "Require legal routed fit OR documented actual overcapacity with hashed failed P&R log")
+
+    complete = all(c["ok"] for c in checks)
+    fit_status = ("fits" if complete and routed_success else
+                  "does_not_fit" if complete and negative_capacity else "unverified")
+    return {
+        "stage": 2,
+        "all_conditions_checked": len(checks),
+        "ng": sum(not c["ok"] for c in checks),
+        "estimate_complete": complete,
+        "completion": complete,
+        "fit_status": fit_status,
+        "receiver_adoptable": complete and fit_status == "fits",
+        "stage3_permitted": complete,
+        "resource_excess": excess if basic else {},
+        "checks": checks,
+    }
+
 
 def main():
-    result=audit()
-    print(json.dumps(result,indent=2,ensure_ascii=False))
-    return int(not result["completion"])
+    answer = audit()
+    print(json.dumps(answer, indent=2, ensure_ascii=False))
+    return int(not answer["completion"])
 
-if __name__=="__main__":sys.exit(main())
+
+if __name__ == "__main__":
+    sys.exit(main())
