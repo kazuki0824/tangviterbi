@@ -11,9 +11,9 @@ class PhysicalPins(unittest.TestCase):
         self.assertGreater(46,34)
     def test_candidate_necessary_pin_count(self):
         top=(Path(__file__).resolve().parents[1]/"rtl/dual_s3_26pin_transport_candidate.sv").read_text()
-        self.assertIn("s3_spi_t_octal_control_endpoint t",top)
+        self.assertRegex(top, r"s3_spi_t_octal_control_endpoint\s*#\s*\(\.WRITE_BYTES\(32768\)\)\s*t\s*\(")
         self.assertIn("s3_spi_runtime_endpoint #(.IMAGE_ID(1)",top)
         self.assertNotIn("output wire [5:0] RF_credit_gray",top)
-        self.assertEqual(10+16+6+2,34)
+        self.assertIn(".WRITE_BYTES(16384)",top)\n        self.assertEqual(10+16+6+2,34)
 
 if __name__=="__main__": unittest.main()
