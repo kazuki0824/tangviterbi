@@ -112,8 +112,8 @@
       "resource_status": "not_measured_in_full_top",
       "placed_instance": null,
       "owned_resources": null,
-      "cost_owner_group": "t_ts",
-      "cost_charge_role": "primary",
+      "cost_owner_group": "ts_pin_sinks",
+      "cost_charge_role": "references_shared_owner",
       "ownership_plan_only": true
     },
     {
@@ -196,8 +196,8 @@
       "resource_status": "not_measured_in_full_top",
       "placed_instance": null,
       "owned_resources": null,
-      "cost_owner_group": "s_ts",
-      "cost_charge_role": "primary",
+      "cost_owner_group": "ts_pin_sinks",
+      "cost_charge_role": "references_shared_owner",
       "ownership_plan_only": true
     },
     {
@@ -411,5 +411,29 @@
       "ownership_plan_only": true
     }
   ],
-  "ownership_model": "Each physical resource is charged once to a designated cost owner. Shared references have zero independent charge; actual instance ownership remains unverified until full-top evidence."
+  "ownership_model": "Cost groups are planned instance-level charge owners, NOT measured. RS2 wrapper shares RS decoder and TS sinks: rs_arbitration owns the decoder and arbiter only; ts_pin_sinks owns the two sink instances. Do not charge the whole RS2 wrapper plus either constituent again.",
+  "composite_boundaries": [
+    {
+      "wrapper": "shared_rs2_dual_ts",
+      "source": "rtl/shared_rs2_dual_ts.sv",
+      "children": [
+        {
+          "instance": "decoder",
+          "owner": "rs_arbitration",
+          "role": "RS core"
+        },
+        {
+          "instance": "ts.receiver[0].sink",
+          "owner": "ts_pin_sinks",
+          "role": "T TS output"
+        },
+        {
+          "instance": "ts.receiver[1].sink",
+          "owner": "ts_pin_sinks",
+          "role": "S TS output"
+        }
+      ],
+      "warning": "Hierarchical instance paths are unverified until an actual full-top elaborated netlist. These are planned submodule boundaries, not separately measured cell counts."
+    }
+  ]
 }
