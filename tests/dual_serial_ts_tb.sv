@@ -5,17 +5,23 @@ module tb;
  reg[15:0]data=0;
  dual_isdb_serial_ts_sinks dut(clk,rst,valid,ready,data,tc,td,tv,fault);
  integer sent0=0,sent1=0,received0=0,received1=0;
+ integer cycle=0,gap0=0,gap1=0;
  reg[7:0] captured0=0,captured1=0;
  function[7:0] sample(input integer n,input integer lane);
  sample=n%188==0?8'h47:((n*37+lane*19)&255);
  endfunction
  always @(negedge clk)if(rst)begin
-  valid[0]=sent0<376 && sent0%13!=7;
-  valid[1]=sent1<188 && sent1%11!=6;
+  // Bubbles must be scheduled by time, never by the accepted-byte count:
+  // otherwise the source gets stuck forever when sent0 reaches 7.
+  valid[0]=sent0<376 && cycle%13!=7;
+  valid[1]=sent1<188 && cycle%11!=6;
   data[7:0]=sample(sent0,0);
   data[15:8]=sample(sent1,1);
  end
  always @(posedge clk)if(rst)begin
+  cycle<=cycle+1;
+  if(!valid[0]&&sent0<376)gap0<=gap0+1;
+  if(!valid[1]&&sent1<188)gap1<=gap1+1;
   if(valid[0]&&ready[0])sent0<=sent0+1;
   if(valid[1]&&ready[1])sent1<=sent1+1;
   if(fault!=0)$fatal(1,"unexpected TS fault");
@@ -36,7 +42,10 @@ module tb;
   #1;rst=0;repeat(4)@(negedge clk);rst=1;
   wait(received0==376*8&&received1==188*8);
   if(sent0!=376||sent1!=188)$fatal(1,"TS lost input");
+  if(gap0==0||gap1==0)$fatal(1,"No source bubbles were exercised");
   $display("PASS T two TS packets + S one TS packet; independent 3-wire serial outputs");$finish;
  end
- initial begin #2000000;$fatal(1,"TS deadlock");end
+ initial begin #2000000;
+  $fatal(1,"TS timeout sent=%0d/%0d received_bits=%0d/%0d ready=%b valid=%b",sent0,sent1,received0,received1,ready,valid);
+ end
 endmodule
