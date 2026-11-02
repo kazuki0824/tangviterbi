@@ -15,7 +15,7 @@ module s3_spi_t_octal_control_endpoint (
  wire [7:0]ctrl_d;
  wire [2:0]credit_gray;
  wire streams_resetn=resetn && epoch!=0 && !epoch_reset;
- wire token_valid,token_ready,overflow,raw_valid,raw_last;
+ wire token_valid,token_ready,token_ready_unused,overflow,raw_valid,raw_last;
  wire [35:0]token;
  wire [31:0]raw_data,raw_offset;
  wire ignored_fft_valid,ignored_fft_last;
@@ -43,7 +43,6 @@ module s3_spi_t_octal_control_endpoint (
   .FFT_data(ignored_fft_data),.FFT_offset(ignored_fft_offset),
   .FFT_last(ignored_fft_last),.idle(pool_idle),.fault(pool_fault)
  );
- wire token_ready_unused;
  assign fault=frontend_fault || pool_fault || control_fault;
  assign RF_valid=raw_valid && stream_enable && !fault;
  assign RF_data=raw_data;
