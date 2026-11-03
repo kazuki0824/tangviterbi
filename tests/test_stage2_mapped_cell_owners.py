@@ -33,9 +33,9 @@ class Owners(unittest.TestCase):
  def test_port_provenance_requires_unique_subassembly(self):
   src="""
 module top;
- candidate_input_fir input_core(.clk(clk),.RF_last(RF_last));
- candidate_fft_k7_core fft_core(.clk(clk),.fft_out_valid(fft_out_valid));
- candidate_rs_ts rs_core(.clk(clk),.ts_valid(ts_valid));
+ dual_s3_ingress_to_fir_candidate candidate_input_fir(.clk(clk),.RF_last(RF_last));
+ shared_receiver_fft_metadata candidate_fft_k7_core(.clk(clk),.fft_out_valid(fft_out_valid));
+ shared_rs2_dual_ts candidate_rs_ts(.clk(clk),.ts_valid(ts_valid));
 endmodule
 """
   cells={"RF_last_OBUF_O":{"type":"OBUF"},
