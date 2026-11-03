@@ -5,6 +5,8 @@
 // per ceil(33/PAR) fabric clocks when sink is always ready.
 // This is FIR arithmetic only: coefficient design, polyphase rate selection,
 // resampler, symbol timing and RF lock are NOT included.
+// CAD candidate: bank coefficient/sample addressing per multiply lane.
+// Keeps exact signed arithmetic and the original handshake/latency.
 module isdb_complex_fir33 #(
  parameter integer PAR=11
 )(
@@ -27,24 +29,58 @@ module isdb_complex_fir33 #(
  assign coeff_ready=resetn&&phase==0&&!out_valid&&!in_valid;
  assign in_ready=resetn&&(&coeff_written)&&phase==0&&(!out_valid||out_ready)&&!coeff_valid;
  wire take=in_valid&&in_ready;
+ genvar lane;
+ wire signed [31:0]mult_i[0:PAR-1],mult_q[0:PAR-1];
+ generate for(lane=0;lane<PAR;lane=lane+1)begin:bank
+  wire signed[15:0]phase_coeff[0:PHASES-1];
+  wire signed[9:0]phase_i[0:PHASES-1];
+  wire signed[9:0]phase_q[0:PHASES-1];
+  for(genvar p=0;p<PHASES;p=p+1)begin:part
+   if(p*PAR+lane<33)begin:used
+    assign phase_coeff[p]=coeff[p*PAR+lane];
+    if(p==0)begin:first
+     if(lane==0)begin:first_sample
+      assign phase_i[p]=in_i;
+      assign phase_q[p]=in_q;
+     end else begin:history
+      assign phase_i[p]=hist_i[lane-1];
+      assign phase_q[p]=hist_q[lane-1];
+     end
+    end else begin:later
+     assign phase_i[p]=hist_i[p*PAR+lane];
+     assign phase_q[p]=hist_q[p*PAR+lane];
+    end
+   end else begin:unused
+    assign phase_coeff[p]=16'sd0;
+    assign phase_i[p]=10'sd0;
+    assign phase_q[p]=10'sd0;
+   end
+  end
+  reg signed[15:0]selected_coeff;
+  reg signed[9:0]selected_i,selected_q;
+  integer t;
+  always @* begin
+   selected_coeff=0; selected_i=0;selected_q=0;
+   for(t=0;t<PHASES;t=t+1)begin
+    if(phase==t)begin
+     selected_coeff=phase_coeff[t];
+     selected_i=phase_i[t];
+     selected_q=phase_q[t];
+    end
+   end
+  end
+  wire signed[25:0]product_i=selected_i*selected_coeff;
+  wire signed[25:0]product_q=selected_q*selected_coeff;
+  assign mult_i[lane]={{6{product_i[25]}},product_i};
+  assign mult_q[lane]={{6{product_q[25]}},product_q};
+ end endgenerate
  integer k;
  reg signed[31:0]partial_i,partial_q;
- reg signed[9:0]xi,xq;
- reg signed[15:0]c;
- integer idx;
  always @*begin
-  partial_i=0;partial_q=0;idx=0;xi=0;xq=0;c=0;
+  partial_i=0;partial_q=0;
   for(k=0;k<PAR;k=k+1)begin
-   idx=phase*PAR+k;
-   if(idx<33)begin
-    c=coeff[idx];
-    if(phase==0)begin
-     if(k==0)begin xi=in_i;xq=in_q;end
-     else begin xi=hist_i[k-1];xq=hist_q[k-1];end
-    end else begin xi=hist_i[idx];xq=hist_q[idx];end
-    partial_i=partial_i+xi*c;
-    partial_q=partial_q+xq*c;
-   end
+   partial_i=partial_i+mult_i[k];
+   partial_q=partial_q+mult_q[k];
   end
  end
  integer j;
