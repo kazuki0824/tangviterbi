@@ -12,6 +12,7 @@ sys.path.insert(0,str(ROOT))
 from ci.shared_receiver_fft_metadata_refresh_evidence import FILES
 sys.path.insert(0,str(ROOT/"experiments"))
 from s3_rs_isdb import source
+from ci.stage2_mapped_cell_owners import audit as mapped_owners
 rs=OUT/"rs_isdb_verified.sv"
 rs.write_text(source(True,True))
 common=list(dict.fromkeys([*(str(ROOT/p) for p in FILES),
@@ -59,6 +60,7 @@ for name,(file,top) in top_by_case.items():
    owner=next((prefix for prefix in owner_prefixes if cell_name.startswith(prefix)),"other")
    owner_count[owner]+=1
    examples.setdefault(owner,cell_name)
+  d["mapped_cell_ownership"]=mapped_owners(cells)
   d["distributed_ram_hierarchy_count"]=dict(sorted(owner_count.items()))
   d["distributed_ram_hierarchy_example"]=examples
   if sum(owner_count.values())!=c["RAM16SDP4"]:raise AssertionError("RAM ownership accounting mismatch")
