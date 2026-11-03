@@ -1,6 +1,8 @@
 # ②：IQを処理してから送る案はCPUを節約できるか
 
-**現在の区切り：[列挙済み候補の比較結果・残作業・次工程](COMPARISON-STATUS.md)。2026-10-25に一巡を確定し、raw案のcore別期限確認へ戻った。以下は検証履歴。**
+**2026-11-03更新：[T側のFIR移管容量判定](../s3-t-preprocess-capacity/README.md)。既存QACC＋scalar prepareは書込みだけで520.127 Mcycles/s以上、具体化したACCX callerは最良483.810 Mcycles/s以上となり、Tでも両実装をNGと確定した。別のhalfband候補については2 core分担・品質・残るFPGA段を含めて判定範囲を記録する。**
+
+[列挙済み候補の比較結果・残作業・次工程](COMPARISON-STATUS.md)。以下は2026-10-25までの比較・検証履歴。旧16 B/storeのprepare書込み見積もりを、既存scalar Cの実行費用として扱わない。
 
 **その可能性を事前に排除しない。現在の既存kernel費用模型では、全14前処理prefixがraw IQ案よりCPUを使うことを再検算した。** 前処理で送信量やpacking費用を減らせる場合はあるため、処理費用との正味差で判断する。信号品質を下げるための追加software間引き・再量子化は引き続き除外する。同品質の受信処理をFPGAからSoCへ移管する候補は比較対象である。
 

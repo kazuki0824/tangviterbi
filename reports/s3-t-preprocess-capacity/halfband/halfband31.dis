@@ -1,0 +1,273 @@
+
+build/t-halfband-capacity/halfband31.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .literal:
+
+00000000 <.literal>:
+   0:	00000840 	
+   4:	00000860 	
+   8:	00000000 	
+			8: R_XTENSA_32	hb31_vectors
+
+Disassembly of section .text:
+
+00000000 <hb31_process>:
+   0:	008136        	entry	a1, 64
+   3:	40f280        	nsau	a8, a2
+   6:	07ed      	mov.n	a14, a7
+   8:	027d      	mov.n	a7, a2
+   a:	120c      	movi.n	a2, 1
+   c:	418580        	srli	a8, a8, 5
+   f:	11d716        	beqz	a7, 130 <hb31_process+0x130>
+			f: R_XTENSA_SLOT0_OP	.text+0x130
+  12:	838230        	moveqz	a8, a2, a3
+  15:	117856        	bnez	a8, 130 <hb31_process+0x130>
+			15: R_XTENSA_SLOT0_OP	.text+0x130
+  18:	838240        	moveqz	a8, a2, a4
+  1b:	111856        	bnez	a8, 130 <hb31_process+0x130>
+			1b: R_XTENSA_SLOT0_OP	.text+0x130
+  1e:	932860        	movnez	a2, a8, a6
+  21:	10b256        	bnez	a2, 130 <hb31_process+0x130>
+			21: R_XTENSA_SLOT0_OP	.text+0x130
+  24:	850b      	addi.n	a8, a5, -1
+  26:	ffa392        	movi	a9, 0x3ff
+  29:	02b987        	bgeu	a9, a8, 2f <hb31_process+0x2f>
+			29: R_XTENSA_SLOT0_OP	.text+0x2f
+  2c:	004086        	j	132 <hb31_process+0x132>
+			2c: R_XTENSA_SLOT0_OP	.text+0x132
+  2f:	f81c      	movi.n	a8, 31
+  31:	02b8e7        	bgeu	a8, a14, 37 <hb31_process+0x37>
+			31: R_XTENSA_SLOT0_OP	.text+0x37
+  34:	003e86        	j	132 <hb31_process+0x132>
+			34: R_XTENSA_SLOT0_OP	.text+0x132
+  37:	209360        	or	a9, a3, a6
+  3a:	349090        	extui	a9, a9, 0, 4
+  3d:	24a050        	extui	a10, a5, 0, 3
+  40:	208740        	or	a8, a7, a4
+  43:	2099a0        	or	a9, a9, a10
+  46:	148080        	extui	a8, a8, 0, 2
+  49:	209980        	or	a9, a9, a8
+  4c:	0e2956        	bnez	a9, 132 <hb31_process+0x132>
+			4c: R_XTENSA_SLOT0_OP	.text+0x132
+  4f:	fc0c      	movi.n	a12, 15
+  51:	07bd      	mov.n	a11, a7
+  53:	03ad      	mov.n	a10, a3
+  55:	51e9      	s32i.n	a14, a1, 20
+  57:	046132        	s32i	a3, a1, 16
+  5a:	000025        	call8	5c <hb31_process+0x5c>
+			5a: R_XTENSA_SLOT0_OP	hb31_copy_words
+  5d:	000081        	l32r	a8, fffc0060 <hb31_coefficients+0xfffbff50>
+			5d: R_XTENSA_SLOT0_OP	.literal
+  60:	3cc7b2        	addi	a11, a7, 60
+  63:	838a      	add.n	a8, a3, a8
+  65:	08ad      	mov.n	a10, a8
+  67:	8c0c      	movi.n	a12, 8
+  69:	11b9      	s32i.n	a11, a1, 4
+  6b:	006182        	s32i	a8, a1, 0
+  6e:	412150        	srli	a2, a5, 1
+  71:	000025        	call8	74 <hb31_process+0x74>
+			71: R_XTENSA_SLOT0_OP	hb31_copy_words
+  74:	f49020        	extui	a9, a2, 0, 16
+  77:	1199e0        	slli	a9, a9, 2
+  7a:	fcc9a2        	addi	a10, a9, -4
+  7d:	0000b1        	l32r	a11, fffc0080 <hb31_coefficients+0xfffbff70>
+			7d: R_XTENSA_SLOT0_OP	.literal+0x4
+  80:	41a2a0        	srli	a10, a10, 2
+  83:	aa1b      	addi.n	a10, a10, 1
+  85:	4188      	l32i.n	a8, a1, 16
+  87:	51e8      	l32i.n	a14, a1, 20
+  89:	3169      	s32i.n	a6, a1, 12
+  8b:	b3ba      	add.n	a11, a3, a11
+  8d:	3cc3c2        	addi	a12, a3, 60
+  90:	2199      	s32i.n	a9, a1, 8
+  92:	206aa0        	or	a6, a10, a10
+  95:	278676        	loop	a6, c0 <hb31_process+0xc0>
+			95: R_XTENSA_SLOT0_OP	.text+0xc0
+  98:	04a8      	l32i.n	a10, a4, 0
+  9a:	1498      	l32i.n	a9, a4, 4
+  9c:	41faa0        	srli	a15, a10, 10
+  9f:	41da90        	srli	a13, a9, 10
+  a2:	23aa20        	sext	a10, a10, 9
+  a5:	23ff20        	sext	a15, a15, 9
+  a8:	005ca2        	s16i	a10, a12, 0
+  ab:	015cf2        	s16i	a15, a12, 2
+  ae:	239920        	sext	a9, a9, 9
+  b1:	23dd20        	sext	a13, a13, 9
+  b4:	005b92        	s16i	a9, a11, 0
+  b7:	015bd2        	s16i	a13, a11, 2
+  ba:	448b      	addi.n	a4, a4, 8
+  bc:	cc4b      	addi.n	a12, a12, 4
+  be:	bb4b      	addi.n	a11, a11, 4
+  c0:	b2fb      	addi.n	a11, a2, 15
+  c2:	ed7c      	movi.n	a13, -2
+  c4:	10d5d0        	and	a13, a5, a13
+  c7:	f4b0b0        	extui	a11, a11, 0, 16
+  ca:	a20b      	addi.n	a10, a2, -1
+  cc:	3168      	l32i.n	a6, a1, 12
+  ce:	0c0c      	movi.n	a12, 0
+  d0:	a0bb30        	addx4	a11, a11, a3
+  d3:	1fcdd2        	addi	a13, a13, 31
+  d6:	f4a2a0        	extui	a10, a10, 2, 16
+  d9:	90dd30        	addx2	a13, a13, a3
+  dc:	005bc2        	s16i	a12, a11, 0
+  df:	11aac0        	slli	a10, a10, 4
+  e2:	000051        	l32r	a5, fffc00e4 <hb31_coefficients+0xfffbffd4>
+			e2: R_XTENSA_SLOT0_OP	.literal+0x8
+  e5:	43aa      	add.n	a4, a3, a10
+  e7:	3179      	s32i.n	a7, a1, 12
+  e9:	4139      	s32i.n	a3, a1, 16
+  eb:	067d      	mov.n	a7, a6
+  ed:	005dc2        	s16i	a12, a13, 0
+  f0:	083d      	mov.n	a3, a8
+  f2:	0e6d      	mov.n	a6, a14
+  f4:	000081        	l32r	a8, fffc00f4 <hb31_coefficients+0xfffbffe4>
+			f4: R_XTENSA_SLOT0_OP	.literal
+  f7:	07dd      	mov.n	a13, a7
+  f9:	b38a      	add.n	a11, a3, a8
+  fb:	03ad      	mov.n	a10, a3
+  fd:	06ed      	mov.n	a14, a6
+  ff:	05cd      	mov.n	a12, a5
+ 101:	000025        	call8	104 <hb31_process+0x104>
+			101: R_XTENSA_SLOT0_OP	hb31_qacc4
+ 104:	038d      	mov.n	a8, a3
+ 106:	10c772        	addi	a7, a7, 16
+ 109:	10c332        	addi	a3, a3, 16
+ 10c:	e49487        	bne	a4, a8, f4 <hb31_process+0xf4>
+			10c: R_XTENSA_SLOT0_OP	.text+0xf4
+ 10f:	2198      	l32i.n	a9, a1, 8
+ 111:	3178      	l32i.n	a7, a1, 12
+ 113:	4138      	l32i.n	a3, a1, 16
+ 115:	07ad      	mov.n	a10, a7
+ 117:	b39a      	add.n	a11, a3, a9
+ 119:	fc0c      	movi.n	a12, 15
+ 11b:	000025        	call8	11c <hb31_process+0x11c>
+			11b: R_XTENSA_SLOT0_OP	hb31_copy_words
+ 11e:	0188      	l32i.n	a8, a1, 0
+ 120:	2198      	l32i.n	a9, a1, 8
+ 122:	11a8      	l32i.n	a10, a1, 4
+ 124:	8c0c      	movi.n	a12, 8
+ 126:	80b890        	add	a11, a8, a9
+ 129:	000025        	call8	12c <hb31_process+0x12c>
+			129: R_XTENSA_SLOT0_OP	hb31_copy_words
+ 12c:	000086        	j	132 <hb31_process+0x132>
+			12c: R_XTENSA_SLOT0_OP	.text+0x132
+ 12f:	00          	.byte	00
+ 130:	020c      	movi.n	a2, 0
+ 132:	f01d      	retw.n
+
+build/t-halfband-capacity/halfband31_asm.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .text:
+
+00000000 <hb31_qacc4>:
+   0:	004136        	entry	a1, 32
+   3:	250844        	ee.zero.qacc
+   6:	930024        	ee.vld.128.ip	q2, a2, 0
+   9:	938144        	ee.vld.128.ip	q3, a4, 16
+   c:	224b      	addi.n	a2, a2, 4
+   e:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  11:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  14:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  17:	938144        	ee.vld.128.ip	q3, a4, 16
+  1a:	cc8324        	ee.src.q	q2, q0, q1
+  1d:	224b      	addi.n	a2, a2, 4
+  1f:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  22:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  25:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  28:	938144        	ee.vld.128.ip	q3, a4, 16
+  2b:	cc8324        	ee.src.q	q2, q0, q1
+  2e:	224b      	addi.n	a2, a2, 4
+  30:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  33:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  36:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  39:	938144        	ee.vld.128.ip	q3, a4, 16
+  3c:	cc8324        	ee.src.q	q2, q0, q1
+  3f:	224b      	addi.n	a2, a2, 4
+  41:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  44:	930024        	ee.vld.128.ip	q2, a2, 0
+  47:	938144        	ee.vld.128.ip	q3, a4, 16
+  4a:	224b      	addi.n	a2, a2, 4
+  4c:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  4f:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  52:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  55:	938144        	ee.vld.128.ip	q3, a4, 16
+  58:	cc8324        	ee.src.q	q2, q0, q1
+  5b:	224b      	addi.n	a2, a2, 4
+  5d:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  60:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  63:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  66:	938144        	ee.vld.128.ip	q3, a4, 16
+  69:	cc8324        	ee.src.q	q2, q0, q1
+  6c:	224b      	addi.n	a2, a2, 4
+  6e:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  71:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  74:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  77:	938144        	ee.vld.128.ip	q3, a4, 16
+  7a:	cc8324        	ee.src.q	q2, q0, q1
+  7d:	224b      	addi.n	a2, a2, 4
+  7f:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  82:	930024        	ee.vld.128.ip	q2, a2, 0
+  85:	938144        	ee.vld.128.ip	q3, a4, 16
+  88:	224b      	addi.n	a2, a2, 4
+  8a:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  8d:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  90:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  93:	938144        	ee.vld.128.ip	q3, a4, 16
+  96:	cc8324        	ee.src.q	q2, q0, q1
+  99:	224b      	addi.n	a2, a2, 4
+  9b:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  9e:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  a1:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  a4:	938144        	ee.vld.128.ip	q3, a4, 16
+  a7:	cc8324        	ee.src.q	q2, q0, q1
+  aa:	224b      	addi.n	a2, a2, 4
+  ac:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  af:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  b2:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  b5:	938144        	ee.vld.128.ip	q3, a4, 16
+  b8:	cc8324        	ee.src.q	q2, q0, q1
+  bb:	224b      	addi.n	a2, a2, 4
+  bd:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  c0:	930024        	ee.vld.128.ip	q2, a2, 0
+  c3:	938144        	ee.vld.128.ip	q3, a4, 16
+  c6:	224b      	addi.n	a2, a2, 4
+  c8:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  cb:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  ce:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  d1:	938144        	ee.vld.128.ip	q3, a4, 16
+  d4:	cc8324        	ee.src.q	q2, q0, q1
+  d7:	224b      	addi.n	a2, a2, 4
+  d9:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  dc:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  df:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  e2:	938144        	ee.vld.128.ip	q3, a4, 16
+  e5:	cc8324        	ee.src.q	q2, q0, q1
+  e8:	224b      	addi.n	a2, a2, 4
+  ea:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  ed:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  f0:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  f3:	938144        	ee.vld.128.ip	q3, a4, 16
+  f6:	cc8324        	ee.src.q	q2, q0, q1
+  f9:	224b      	addi.n	a2, a2, 4
+  fb:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  fe:	930034        	ee.vld.128.ip	q2, a3, 0
+ 101:	938044        	ee.vld.128.ip	q3, a4, 0
+ 104:	f03d      	nop.n
+ 106:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+ 109:	f03d      	nop.n
+ 10b:	dd7264        	ee.srcmb.s16.qacc	q2, a6, 0
+ 10e:	9a0054        	ee.vst.128.ip	q2, a5, 0
+ 111:	f01d      	retw.n
+	...
+
+00000114 <hb31_copy_words>:
+ 114:	004136        	entry	a1, 32
+ 117:	078476        	loop	a4, 122 <hb31_copy_words+0xe>
+			117: R_XTENSA_SLOT0_OP	.text+0x122
+ 11a:	0358      	l32i.n	a5, a3, 0
+ 11c:	0259      	s32i.n	a5, a2, 0
+ 11e:	334b      	addi.n	a3, a3, 4
+ 120:	224b      	addi.n	a2, a2, 4
+ 122:	f01d      	retw.n

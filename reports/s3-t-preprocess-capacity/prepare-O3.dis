@@ -1,0 +1,197 @@
+
+prepare-O3.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .text:
+
+00000000 <s3_fir_qacc_prepare>:
+   0:	008136        	entry	a1, 64
+   3:	40f280        	nsau	a8, a2
+   6:	190c      	movi.n	a9, 1
+   8:	418580        	srli	a8, a8, 5
+   b:	1a1216        	beqz	a2, 1b0 <s3_fir_qacc_prepare+0x1b0>
+			b: R_XTENSA_SLOT0_OP	.text+0x1b0
+   e:	838930        	moveqz	a8, a9, a3
+  11:	19b856        	bnez	a8, 1b0 <s3_fir_qacc_prepare+0x1b0>
+			11: R_XTENSA_SLOT0_OP	.text+0x1b0
+  14:	838950        	moveqz	a8, a9, a5
+  17:	195856        	bnez	a8, 1b0 <s3_fir_qacc_prepare+0x1b0>
+			17: R_XTENSA_SLOT0_OP	.text+0x1b0
+  1a:	1221a2        	l32i	a10, a1, 72
+  1d:	8389a0        	moveqz	a8, a9, a10
+  20:	18c856        	bnez	a8, 1b0 <s3_fir_qacc_prepare+0x1b0>
+			20: R_XTENSA_SLOT0_OP	.text+0x1b0
+  23:	1321b2        	l32i	a11, a1, 76
+  26:	08ad      	mov.n	a10, a8
+  28:	83a9b0        	moveqz	a10, a9, a11
+  2b:	838960        	moveqz	a8, a9, a6
+  2e:	208a80        	or	a8, a10, a8
+  31:	17b856        	bnez	a8, 1b0 <s3_fir_qacc_prepare+0x1b0>
+			31: R_XTENSA_SLOT0_OP	.text+0x1b0
+  34:	62a760        	saltu	a10, a7, a6
+  37:	02b767        	bgeu	a7, a6, 3d <s3_fir_qacc_prepare+0x3d>
+			37: R_XTENSA_SLOT0_OP	.text+0x3d
+  3a:	005c86        	j	1b0 <s3_fir_qacc_prepare+0x1b0>
+			3a: R_XTENSA_SLOT0_OP	.text+0x1b0
+  3d:	102182        	l32i	a8, a1, 64
+  40:	fb6c      	movi.n	a11, -17
+  42:	f0c882        	addi	a8, a8, -16
+  45:	1088b0        	and	a8, a8, a11
+  48:	839a80        	moveqz	a9, a10, a8
+  4b:	161956        	bnez	a9, 1b0 <s3_fir_qacc_prepare+0x1b0>
+			4b: R_XTENSA_SLOT0_OP	.text+0x1b0
+  4e:	112192        	l32i	a9, a1, 68
+  51:	c87c      	movi.n	a8, -4
+  53:	62d890        	saltu	a13, a8, a9
+  56:	01d9      	s32i.n	a13, a1, 0
+  58:	02b897        	bgeu	a8, a9, 5e <s3_fir_qacc_prepare+0x5e>
+			58: R_XTENSA_SLOT0_OP	.text+0x5e
+  5b:	005446        	j	1b0 <s3_fir_qacc_prepare+0x1b0>
+			5b: R_XTENSA_SLOT0_OP	.text+0x1b0
+  5e:	102182        	l32i	a8, a1, 64
+  61:	102192        	l32i	a9, a1, 64
+  64:	a28680        	muluh	a8, a6, a8
+  67:	829690        	mull	a9, a6, a9
+  6a:	142856        	bnez	a8, 1b0 <s3_fir_qacc_prepare+0x1b0>
+			6a: R_XTENSA_SLOT0_OP	.text+0x1b0
+  6d:	13f996        	bltz	a9, 1b0 <s3_fir_qacc_prepare+0x1b0>
+			6d: R_XTENSA_SLOT0_OP	.text+0x1b0
+  70:	112182        	l32i	a8, a1, 68
+  73:	06cd      	mov.n	a12, a6
+  75:	a83b      	addi.n	a10, a8, 3
+  77:	a2ba70        	muluh	a11, a10, a7
+  7a:	82aa70        	mull	a10, a10, a7
+  7d:	000025        	call8	80 <s3_fir_qacc_prepare+0x80>
+			7d: R_XTENSA_SLOT0_OP	__udivdi3
+  80:	080c      	movi.n	a8, 0
+  82:	0218b7        	beq	a8, a11, 88 <s3_fir_qacc_prepare+0x88>
+			82: R_XTENSA_SLOT0_OP	.text+0x88
+  85:	0049c6        	j	1b0 <s3_fir_qacc_prepare+0x1b0>
+			85: R_XTENSA_SLOT0_OP	.text+0x1b0
+  88:	023a47        	bltu	a10, a4, 8e <s3_fir_qacc_prepare+0x8e>
+			88: R_XTENSA_SLOT0_OP	.text+0x8e
+  8b:	004846        	j	1b0 <s3_fir_qacc_prepare+0x1b0>
+			8b: R_XTENSA_SLOT0_OP	.text+0x1b0
+  8e:	102182        	l32i	a8, a1, 64
+  91:	1221a2        	l32i	a10, a1, 72
+  94:	1188c0        	slli	a8, a8, 4
+  97:	112192        	l32i	a9, a1, 68
+  9a:	88aa      	add.n	a8, a8, a10
+  9c:	1021a2        	l32i	a10, a1, 64
+  9f:	a24970        	muluh	a4, a9, a7
+  a2:	aa0b      	addi.n	a10, a10, -1
+  a4:	829970        	mull	a9, a9, a7
+  a7:	0f0c      	movi.n	a15, 0
+  a9:	21a9      	s32i.n	a10, a1, 8
+  ab:	fec2a2        	addi	a10, a2, -2
+  ae:	4129      	s32i.n	a2, a1, 16
+  b0:	5139      	s32i.n	a3, a1, 20
+  b2:	1169      	s32i.n	a6, a1, 4
+  b4:	31a9      	s32i.n	a10, a1, 12
+  b6:	082d      	mov.n	a2, a8
+  b8:	0f3d      	mov.n	a3, a15
+  ba:	6179      	s32i.n	a7, a1, 24
+  bc:	096d      	mov.n	a6, a9
+  be:	11c8      	l32i.n	a12, a1, 4
+  c0:	01d8      	l32i.n	a13, a1, 0
+  c2:	06ad      	mov.n	a10, a6
+  c4:	04bd      	mov.n	a11, a4
+  c6:	000025        	call8	c8 <s3_fir_qacc_prepare+0xc8>
+			c6: R_XTENSA_SLOT0_OP	__udivdi3
+  c9:	11c8      	l32i.n	a12, a1, 4
+  cb:	01d8      	l32i.n	a13, a1, 0
+  cd:	0a7d      	mov.n	a7, a10
+  cf:	04bd      	mov.n	a11, a4
+  d1:	06ad      	mov.n	a10, a6
+  d3:	000025        	call8	d4 <s3_fir_qacc_prepare+0xd4>
+			d3: R_XTENSA_SLOT0_OP	__umoddi3
+  d6:	2188      	l32i.n	a8, a1, 8
+  d8:	3198      	l32i.n	a9, a1, 12
+  da:	63b870        	minu	a11, a8, a7
+  dd:	4188      	l32i.n	a8, a1, 16
+  df:	909790        	addx2	a9, a7, a9
+  e2:	90d780        	addx2	a13, a7, a8
+  e5:	f480b0        	extui	a8, a11, 0, 16
+  e8:	9088d0        	addx2	a8, a8, a13
+  eb:	c08890        	sub	a8, a8, a9
+  ee:	102192        	l32i	a9, a1, 64
+  f1:	0521e2        	l32i	a14, a1, 20
+  f4:	82a9a0        	mull	a10, a9, a10
+  f7:	1221c2        	l32i	a12, a1, 72
+  fa:	1321f2        	l32i	a15, a1, 76
+  fd:	fec882        	addi	a8, a8, -2
+ 100:	f49030        	extui	a9, a3, 0, 16
+ 103:	418180        	srli	a8, a8, 1
+ 106:	a0c9c0        	addx4	a12, a9, a12
+ 109:	9077e0        	addx2	a7, a7, a14
+ 10c:	a099f0        	addx4	a9, a9, a15
+ 10f:	90ea50        	addx2	a14, a10, a5
+ 112:	01c882        	addi	a8, a8, 1
+ 115:	228876        	loop	a8, 13b <s3_fir_qacc_prepare+0x13b>
+			115: R_XTENSA_SLOT0_OP	.text+0x13b
+ 118:	001df2        	l16ui	a15, a13, 0
+ 11b:	fec772        	addi	a7, a7, -2
+ 11e:	005cf2        	s16i	a15, a12, 0
+ 121:	0117f2        	l16ui	a15, a7, 2
+ 124:	fecdd2        	addi	a13, a13, -2
+ 127:	015cf2        	s16i	a15, a12, 2
+ 12a:	001ef2        	l16ui	a15, a14, 0
+ 12d:	10ccc2        	addi	a12, a12, 16
+ 130:	0059f2        	s16i	a15, a9, 0
+ 133:	0159f2        	s16i	a15, a9, 2
+ 136:	ee2b      	addi.n	a14, a14, 2
+ 138:	10c992        	addi	a9, a9, 16
+ 13b:	001386        	j	18d <s3_fir_qacc_prepare+0x18d>
+			13b: R_XTENSA_SLOT0_OP	.text+0x18d
+ 13e:	00          	.byte	00
+ 13f:	00          	.byte	00
+ 140:	f48080        	extui	a8, a8, 0, 16
+ 143:	1221c2        	l32i	a12, a1, 72
+ 146:	a09830        	addx4	a9, a8, a3
+ 149:	f49090        	extui	a9, a9, 0, 16
+ 14c:	a099c0        	addx4	a9, a9, a12
+ 14f:	a08830        	addx4	a8, a8, a3
+ 152:	c0c290        	sub	a12, a2, a9
+ 155:	baba      	add.n	a11, a10, a11
+ 157:	fcc882        	addi	a8, a8, -4
+ 15a:	1321a2        	l32i	a10, a1, 76
+ 15d:	f0ccc2        	addi	a12, a12, -16
+ 160:	f48080        	extui	a8, a8, 0, 16
+ 163:	41c4c0        	srli	a12, a12, 4
+ 166:	90bb50        	addx2	a11, a11, a5
+ 169:	a088a0        	addx4	a8, a8, a10
+ 16c:	cc1b      	addi.n	a12, a12, 1
+ 16e:	188c76        	loop	a12, 18a <s3_fir_qacc_prepare+0x18a>
+			16e: R_XTENSA_SLOT0_OP	.text+0x18a
+ 171:	0a0c      	movi.n	a10, 0
+ 173:	0059a2        	s16i	a10, a9, 0
+ 176:	0159a2        	s16i	a10, a9, 2
+ 179:	011ba2        	l16ui	a10, a11, 2
+ 17c:	10c992        	addi	a9, a9, 16
+ 17f:	0858a2        	s16i	a10, a8, 16
+ 182:	0958a2        	s16i	a10, a8, 18
+ 185:	bb2b      	addi.n	a11, a11, 2
+ 187:	10c882        	addi	a8, a8, 16
+ 18a:	0001c6        	j	195 <s3_fir_qacc_prepare+0x195>
+			18a: R_XTENSA_SLOT0_OP	.text+0x195
+ 18d:	102192        	l32i	a9, a1, 64
+ 190:	8b1b      	addi.n	a8, a11, 1
+ 192:	aa3897        	bltu	a8, a9, 140 <s3_fir_qacc_prepare+0x140>
+			192: R_XTENSA_SLOT0_OP	.text+0x140
+ 195:	6188      	l32i.n	a8, a1, 24
+ 197:	331b      	addi.n	a3, a3, 1
+ 199:	868a      	add.n	a8, a6, a8
+ 19b:	629860        	saltu	a9, a8, a6
+ 19e:	494a      	add.n	a4, a9, a4
+ 1a0:	086d      	mov.n	a6, a8
+ 1a2:	224b      	addi.n	a2, a2, 4
+ 1a4:	024326        	beqi	a3, 4, 1aa <s3_fir_qacc_prepare+0x1aa>
+			1a4: R_XTENSA_SLOT0_OP	.text+0x1aa
+ 1a7:	ffc4c6        	j	be <s3_fir_qacc_prepare+0xbe>
+			1a7: R_XTENSA_SLOT0_OP	.text+0xbe
+ 1aa:	120c      	movi.n	a2, 1
+ 1ac:	000086        	j	1b2 <s3_fir_qacc_prepare+0x1b2>
+			1ac: R_XTENSA_SLOT0_OP	.text+0x1b2
+ 1af:	00          	.byte	00
+ 1b0:	020c      	movi.n	a2, 0
+ 1b2:	f01d      	retw.n

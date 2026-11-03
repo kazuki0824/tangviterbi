@@ -1,0 +1,98 @@
+
+accx_wrapper-Os.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .literal:
+
+00000000 <.literal>:
+   0:	ffff8000 	
+
+Disassembly of section .text:
+
+00000000 <accx_t_init>:
+   0:	004136        	entry	a1, 32
+   3:	02ad      	mov.n	a10, a2
+   5:	10a1c2        	movi	a12, 0x110
+   8:	0b0c      	movi.n	a11, 0
+   a:	000025        	call8	c <accx_t_init+0xc>
+			a: R_XTENSA_SLOT0_OP	memset
+   d:	f01d      	retw.n
+	...
+
+00000010 <accx_t_process>:
+  10:	008136        	entry	a1, 64
+  13:	4139      	s32i.n	a3, a1, 16
+  15:	5149      	s32i.n	a4, a1, 20
+  17:	05ed      	mov.n	a14, a5
+  19:	402292        	l32i	a9, a2, 0x100
+  1c:	412242        	l32i	a4, a2, 0x104
+  1f:	422232        	l32i	a3, a2, 0x108
+  22:	067d      	mov.n	a7, a6
+  24:	050c      	movi.n	a5, 0
+  26:	001f86        	j	a8 <accx_t_process+0x98>
+			26: R_XTENSA_SLOT0_OP	.text+0xa8
+  29:	4188      	l32i.n	a8, a1, 16
+  2b:	a08580        	addx4	a8, a5, a8
+  2e:	08c8      	l32i.n	a12, a8, 0
+  30:	890b      	addi.n	a8, a9, -1
+  32:	449080        	extui	a9, a8, 0, 5
+  35:	23dc20        	sext	a13, a12, 9
+  38:	899a      	add.n	a8, a9, a9
+  3a:	11cc40        	slli	a12, a12, 12
+  3d:	a28a      	add.n	a10, a2, a8
+  3f:	31c6c0        	srai	a12, a12, 22
+  42:	005ad2        	s16i	a13, a10, 0
+  45:	205ad2        	s16i	a13, a10, 64
+  48:	405ac2        	s16i	a12, a10, 128
+  4b:	605ac2        	s16i	a12, a10, 192
+  4e:	052356        	bnez	a3, a4 <accx_t_process+0x94>
+			4e: R_XTENSA_SLOT0_OP	.text+0xa4
+  51:	80a0b2        	movi	a11, 128
+  54:	11c4a0        	slli	a12, a4, 6
+  57:	b2ba      	add.n	a11, a2, a11
+  59:	ceca      	add.n	a12, a14, a12
+  5b:	bb8a      	add.n	a11, a11, a8
+  5d:	01dd      	mov.n	a13, a1
+  5f:	7199      	s32i.n	a9, a1, 28
+  61:	61e9      	s32i.n	a14, a1, 24
+  63:	000025        	call8	64 <accx_t_process+0x54>
+			63: R_XTENSA_SLOT0_OP	s3_fir_accx_32
+  66:	0188      	l32i.n	a8, a1, 0
+  68:	0000f1        	l32r	a15, fffc0068 <accx_t_process+0xfffc0058>
+			68: R_XTENSA_SLOT0_OP	.literal
+  6b:	01d882        	addmi	a8, a8, 0x100
+  6e:	218980        	srai	a8, a8, 9
+  71:	fa7c      	movi.n	a10, -1
+  73:	e5a1a0        	extui	a10, a10, 17, 15
+  76:	5388f0        	max	a8, a8, a15
+  79:	4388a0        	min	a8, a8, a10
+  7c:	005782        	s16i	a8, a7, 0
+  7f:	1188      	l32i.n	a8, a1, 4
+  81:	61e8      	l32i.n	a14, a1, 24
+  83:	01d882        	addmi	a8, a8, 0x100
+  86:	218980        	srai	a8, a8, 9
+  89:	5388f0        	max	a8, a8, a15
+  8c:	4388a0        	min	a8, a8, a10
+  8f:	015782        	s16i	a8, a7, 2
+  92:	180c      	movi.n	a8, 1
+  94:	933840        	movnez	a3, a8, a4
+  97:	1fc442        	addi	a4, a4, 31
+  9a:	7198      	l32i.n	a9, a1, 28
+  9c:	774b      	addi.n	a7, a7, 4
+  9e:	444040        	extui	a4, a4, 0, 5
+  a1:	000046        	j	a6 <accx_t_process+0x96>
+			a1: R_XTENSA_SLOT0_OP	.text+0xa6
+  a4:	030c      	movi.n	a3, 0
+  a6:	551b      	addi.n	a5, a5, 1
+  a8:	5188      	l32i.n	a8, a1, 20
+  aa:	021587        	beq	a5, a8, b0 <accx_t_process+0xa0>
+			aa: R_XTENSA_SLOT0_OP	.text+0xb0
+  ad:	ffde06        	j	29 <accx_t_process+0x19>
+			ad: R_XTENSA_SLOT0_OP	.text+0x29
+  b0:	406292        	s32i	a9, a2, 0x100
+  b3:	416242        	s32i	a4, a2, 0x104
+  b6:	426232        	s32i	a3, a2, 0x108
+  b9:	c02760        	sub	a2, a7, a6
+  bc:	212120        	srai	a2, a2, 1
+  bf:	412120        	srli	a2, a2, 1
+  c2:	f01d      	retw.n

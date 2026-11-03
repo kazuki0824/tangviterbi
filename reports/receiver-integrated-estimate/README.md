@@ -217,7 +217,9 @@ raw＋高速localshiftはlogic689超過のため単純置換しない。slotaddr
 
 [固定配置からの再配線2試行](../cursor-mask-fixed-router2/README.md)はcheckpoint復元エラーで終了。続くローカル通常配置配線も完了結果を取得できなくなり、停止原因は不明。その途中ログを成果とせず、Actionsへ移した完了結果を今回採用した。合法性検査は緩和していない。
 
-T FIR移管は752logic・1536FF・2BSRAM・8DSP18を空ける代替。ただし保存QACC kernel＋準備書込みのみ＋旧非FIR/API予算で370.964〜403.472 Mcycles/s。準備書込み約2.081GB/s、gather読込み・展開・競合・core偏在・同品質係数契約が未確認。rawよりCPUを軽くする案として選ばず、FPGA容量を空ける代替として保持する。
+T FIR全移管は旧台帳で752logic・1536FF・2BSRAM・8DSP18を空ける代替だったが、[2026-11-03のT容量監査](../s3-t-preprocess-capacity/README.md)により、**既存QACC＋scalar prepareは不成立**と判定した。prepareの書込みを全て32bit化できると緩めても520.127 Mcycles/s以上で、RF・FIRを足す前に2 coreの480を超える。旧370.964〜403.472 Mcycles/sは16 B vector storeを仮定した準備書込みと旧非FIR/API予算の比較値であり、既存prepare Cの費用には使わない。具体化したACCX callerも最良483.810 Mcycles/s以上となり不成立。
+
+別候補の31tap halfbandは、入力展開・履歴・出力変換を含む単core関数の総仕事量342.484 Mcycles/sを確認し、2 core分担・有限期限を別に評価した。同品質契約、最終RF/SDK経路、FPGAへ残る64/63変換は性能合格の未完条件である。**halfbandにFIR全移管の8DSP18・2BSRAM等の削減値を流用しない。** Tの未知の別実装を不可能と扱わず、具体的な性能・品質根拠がある候補ごとに判断する。保存estimate.jsonの `T_FIR_optimistic_legacy_*` は旧仮定の履歴値であり、今回の実装容量判定は上記報告と生成JSONを正とする。
 
 ## 4. 必須根拠の所在と採否
 

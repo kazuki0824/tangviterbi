@@ -1,0 +1,97 @@
+T FIR capacity verification; target compilation and host/model tests. No S3 runtime execution.
+
+$ python ci/t_fir_capacity_audit.py --toolchain /path/to/xtensa-esp-elf
+{"status": "REJECT_EXISTING_SCALAR_PREPARE", "checks": 16, "failed": []}
+exit_code=0
+
+$ python ci/t_accx_capacity_audit.py --toolchain /path/to/xtensa-esp-elf
+{"status": "REJECT_THIS_ACCX_WRAPPER", "checks": 16, "failed": [], "blocked": []}
+exit_code=0
+
+$ python -m unittest discover -s tests -p test_t_fir_capacity_audit.py -v
+test_even_full_scalar_word_stores_exceed_two_cores (test_t_fir_capacity_audit.CapacityEvidenceTest.test_even_full_scalar_word_stores_exceed_two_cores) ... ok
+test_missing_function_has_no_proof (test_t_fir_capacity_audit.CapacityEvidenceTest.test_missing_function_has_no_proof) ... ok
+test_out_of_line_memory_helper_invalidates_evidence (test_t_fir_capacity_audit.CapacityEvidenceTest.test_out_of_line_memory_helper_invalidates_evidence) ... ok
+test_saved_source_and_all_optimization_variants (test_t_fir_capacity_audit.CapacityEvidenceTest.test_saved_source_and_all_optimization_variants) ... ok
+test_truncated_saved_disassembly_cannot_regenerate_a_capacity_pass (test_t_fir_capacity_audit.CapacityEvidenceTest.test_truncated_saved_disassembly_cannot_regenerate_a_capacity_pass) ... ok
+test_vector_store_invalidates_scalar_evidence (test_t_fir_capacity_audit.CapacityEvidenceTest.test_vector_store_invalidates_scalar_evidence) ... ok
+test_vector_variant_is_not_rejected_by_scalar_argument (test_t_fir_capacity_audit.CapacityEvidenceTest.test_vector_variant_is_not_rejected_by_scalar_argument) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.003s
+
+OK
+exit_code=0
+
+$ python -m unittest discover -s tests -p test_s3_fir_qacc.py -v
+test_all_batch_phase_groups_through_real_c_gather (test_s3_fir_qacc.QaccTest.test_all_batch_phase_groups_through_real_c_gather) ... ok
+test_extremes_preserve_all_40_bits_without_requantization (test_s3_fir_qacc.QaccTest.test_extremes_preserve_all_40_bits_without_requantization) ... ok
+test_invalid_gather_leaves_outputs_untouched (test_s3_fir_qacc.QaccTest.test_invalid_gather_leaves_outputs_untouched) ... ok
+test_lane_coefficient_mismatch_is_detected (test_s3_fir_qacc.QaccTest.test_lane_coefficient_mismatch_is_detected) ... ok
+test_source_and_disassembly_audit (test_s3_fir_qacc.QaccTest.test_source_and_disassembly_audit) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.220s
+
+OK
+exit_code=0
+
+$ python -m unittest discover -s tests -p test_s3_fir_accx.py -v
+test_all_fixed_length_phases_and_extremes (test_s3_fir_accx.AccxTest.test_all_fixed_length_phases_and_extremes) ... ok
+test_all_independent_halfword_alignments (test_s3_fir_accx.AccxTest.test_all_independent_halfword_alignments) ... ok
+test_audit_matches_source_and_disassembly (test_s3_fir_accx.AccxTest.test_audit_matches_source_and_disassembly) ... ok
+test_wrong_alignment_instruction_changes_result (test_s3_fir_accx.AccxTest.test_wrong_alignment_instruction_changes_result) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.129s
+
+OK
+exit_code=0
+
+$ python ci/t_halfband_capacity_audit.py --toolchain /path/to/xtensa-esp-elf
+PASS    build_directory
+PASS    target_toolchain_version
+PASS    target_c_build
+PASS    target_asm_build
+PASS    host_c_build
+PASS    target_c_disassembly
+PASS    target_asm_disassembly
+PASS    target_c_decode
+PASS    target_kernel_decode
+PASS    target_history_decode
+PASS    coefficient_contract
+PASS    target_kernel_semantics
+PASS    target_kernel_operand_interlocks
+PASS    host_streaming_oracle
+PASS    instruction_counts
+PASS    spectrum_and_integer_bound
+PASS    conditional_CPU_arithmetic
+PASS    write_disassembly_artifact
+PASS    source_hashes
+PASS    disassembly_hash
+Audit PASS: {'PASS': 20, 'FAIL': 0, 'BLOCKED': 0}; reports/s3-t-preprocess-capacity/halfband/halfband_results.json
+exit_code=0
+
+$ python ci/t_halfband_pipeline_audit.py --toolchain /path/to/xtensa-esp-elf
+PASS    target_version
+PASS    fixed_GCC14_2_version
+PASS    target_c_build
+PASS    target_asm_build
+PASS    host_arithmetic_build
+PASS    host_timing_build
+PASS    target_c_disassembly
+PASS    target_asm_disassembly
+PASS    host_independent_convolution_and_ownership
+PASS    target_kernel_semantics
+PASS    target_kernel_hazards
+PASS    target_CFG_and_callee_counts
+PASS    scalar_control_hazard_budget
+PASS    target_ABI_layout
+PASS    per_core_capacity
+PASS    all_finite_event_scenarios
+PASS    finite_event_expectations
+PASS    write_disassembly
+PASS    disassembly_hash
+PASS    source_hashes
+Audit PASS: {'PASS': 20, 'FAIL': 0, 'BLOCKED': 0}; reports/s3-t-preprocess-capacity/pipeline/results.json
+exit_code=0
