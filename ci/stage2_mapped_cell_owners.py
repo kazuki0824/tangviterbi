@@ -27,15 +27,31 @@ def owner(name):
  return next((bucket for prefix,bucket in PREFIXES if name.startswith(prefix)),"top_level_or_unclassified")
 def audit(cells):
  result={};totals=Counter()
+ unclassified_by_head=Counter()
+ unclassified_source=Counter()
+ unclassified_examples={}
  for name,cell in cells.items():
   bucket=owner(name);typ=category(cell["type"])
   if bucket not in result:result[bucket]=Counter()
   result[bucket][typ]+=1
   totals[typ]+=1
+  if bucket=="top_level_or_unclassified":
+   # Capture source evidence before deciding whether an unmatched cell
+   # is an RTL block, technology I/O primitive, or anonymous mapping glue.
+   head=name.split(".",2)[0]
+   source=str(cell.get("attributes",{}).get("src","unknown")).split("|")[0]
+   unclassified_by_head[(head,typ)]+=1
+   unclassified_source[(source,typ)]+=1
+   unclassified_examples.setdefault((head,typ),name)
  per={bucket:{k:counts[k] for k in RESOURCE_KEYS} for bucket,counts in sorted(result.items())}
  summed={k:sum(v[k] for v in per.values()) for k in RESOURCE_KEYS}
  total={k:totals[k] for k in RESOURCE_KEYS}
  assert summed==total,"Per-owner resources must exactly sum to mapped cell counts"
  return {"owner_resources":per,"total_resources":total,"all_mapped_cells_attributed_once":True,
          "has_unclassified_cells":sum(per.get("top_level_or_unclassified",{}).values())>0,
+         "unclassified_heads":[{"prefix":k[0],"resource":k[1],"count":v,
+                                "example":unclassified_examples[k]}
+                               for k,v in unclassified_by_head.most_common(18)],
+         "unclassified_sources":[{"src":k[0],"resource":k[1],"count":v}
+                                  for k,v in unclassified_source.most_common(18)],
          "full_receiver":False}
