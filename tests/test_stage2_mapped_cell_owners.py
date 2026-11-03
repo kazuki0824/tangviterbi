@@ -1,6 +1,6 @@
 """Synthetic only: exhaustive cell ownership and no double-count checks."""
 import unittest
-from ci.stage2_mapped_cell_owners import audit,owner,diagnose_unclassified,diagnose_port_cone_ownership
+from ci.stage2_mapped_cell_owners import audit,owner,diagnose_unclassified,diagnose_port_cone_ownership,source_owner
 class Owners(unittest.TestCase):
  def test_exclusive_assignment(self):
   cells={
@@ -50,6 +50,18 @@ endmodule
   self.assertTrue(any(x["candidate_owner"]=="ingress_fir" and x["count"]==1 for x in d["unique_subassembly_port_candidates"]))
   self.assertTrue(any(x["candidate_owner"]=="shared_rs_dual_ts" for x in d["unique_subassembly_port_candidates"]))
   self.assertEqual(d["owner_confidence"],"port-name origin only; not a verified full-receiver cell owner")
+ def test_direct_rtl_source_backed_owner_and_gowin_unknown(self):
+  self.assertEqual(source_owner({"src":"/runner/work/repo/rtl/isdb_complex_fir33.sv:87.2-117.5"}),"ingress_fir")
+  self.assertEqual(source_owner({"src":"/runner/work/repo/rtl/isdb_serial_ts_sink.sv:33.2"}),"shared_rs_dual_ts")
+  self.assertIsNone(source_owner({"src":"/runner/oss-cad-suite/share/yosys/gowin/cells_map.v:143.23-144.37"}))
+  evidence={
+   "renamed_ff":{"type":"DFFCE","attributes":{"src":"rtl/isdb_complex_fir33.sv:87.2"}},
+   "renamed_lut":{"type":"LUT4","attributes":{"src":"gowin/cells_map.v:143.2"}},
+  }
+  result=audit(evidence)
+  self.assertEqual(result["owner_resources"]["ingress_fir"]["ff"],1)
+  self.assertEqual(result["owner_resources"]["top_level_or_unclassified"]["logic"],1)
+  self.assertFalse(result["all_cells_have_verified_owner"])
  def test_specific_prefix_precedes_broad_prefix(self):
   self.assertEqual(owner("candidate_fft_k7_core.memory.foo"),"sdram_service")
   self.assertEqual(owner("candidate_fft_k7_core.fft.foo"),"fft")

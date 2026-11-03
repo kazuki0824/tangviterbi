@@ -15,6 +15,30 @@ PREFIXES=(
  ("candidate_input_fir","ingress_fir"),
  ("candidate_rs_ts","shared_rs_dual_ts")
 )
+
+# Only sources instantiated in exactly one known subassembly of the
+# disconnected screening top are eligible for authoritative direct-source
+# attribution. Generic Gowin cells_map.v/arith_map.v are NOT eligible.
+UNIQUE_RTL_SOURCE_OWNER={
+ "rtl/isdb_complex_fir33.sv":"ingress_fir",
+ "rtl/s3_pooled_page_store.sv":"ingress_fir",
+ "rtl/s3_page_guard.sv":"ingress_fir",
+ "rtl/s3_bulk_page_split.sv":"ingress_fir",
+ "rtl/s3_spi_control.sv":"ingress_fir",
+ "rtl/isdb_serial_ts_sink.sv":"shared_rs_dual_ts",
+ "rtl/shared_sdf_fft.sv":"fft",
+ "experiments/t_soft_reader_buffered.sv":"sdram_service",
+ "experiments/shared_tc8_k7_context.sv":"shared_k7",
+ "rtl/s3_tc8psk_metric_folded.sv":"shared_k7",
+}
+
+def source_owner(attrs):
+ """Attribute by an exact RTL filename when the full file identity is known."""
+ src=str((attrs or {}).get("src","")).split("|")[0].replace("\\","/")
+ matches={label for path,label in UNIQUE_RTL_SOURCE_OWNER.items()
+          if src.startswith(path+":") or ("/"+path+":") in src}
+ return next(iter(matches)) if len(matches)==1 else None
+
 RESOURCE_KEYS=("logic","ff","bsram","distributed_ram","dsp","other")
 def category(cell_type):
  if re.fullmatch(r"LUT[1-4]|ALU",cell_type):return "logic"
@@ -31,7 +55,14 @@ def audit(cells):
  unclassified_source=Counter()
  unclassified_examples={}
  for name,cell in cells.items():
-  bucket=owner(name);typ=category(cell["type"])
+  prefix_bucket=owner(name)
+  direct_bucket=source_owner(cell.get("attributes"))
+  # Preserve a source/hierarchy disagreement as an explicitly unresolved
+  # conflict, rather than granting a guessed owner.
+  if prefix_bucket!="top_level_or_unclassified" and direct_bucket and prefix_bucket!=direct_bucket:
+   bucket="top_level_or_unclassified"
+  else:bucket=direct_bucket or prefix_bucket
+  typ=category(cell["type"])
   if bucket not in result:result[bucket]=Counter()
   result[bucket][typ]+=1
   totals[typ]+=1
