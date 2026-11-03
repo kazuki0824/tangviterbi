@@ -12,7 +12,8 @@ sys.path.insert(0,str(ROOT))
 from ci.shared_receiver_fft_metadata_refresh_evidence import FILES
 sys.path.insert(0,str(ROOT/"experiments"))
 from s3_rs_isdb import source
-from ci.stage2_mapped_cell_owners import audit as mapped_owners, diagnose_unclassified, diagnose_port_cone_ownership
+from ci.stage2_mapped_cell_owners import audit as mapped_owners, diagnose_unclassified, diagnose_port_cone_ownership,owner as named_owner,source_owner
+from ci.stage2_net_provenance import label_from_named_outputs
 rs=OUT/"rs_isdb_verified.sv"
 rs.write_text(source(True,True))
 common=list(dict.fromkeys([*(str(ROOT/p) for p in FILES),
@@ -61,6 +62,13 @@ for name,(file,top) in top_by_case.items():
    owner_count[owner]+=1
    examples.setdefault(owner,cell_name)
   d["mapped_cell_ownership"]=mapped_owners(cells)
+  pending={name:cell for name,cell in cells.items() if named_owner(name)=="top_level_or_unclassified" and source_owner(cell.get("attributes")) is None}
+  alias,summary=label_from_named_outputs(pending,json.loads(netlist.read_text())["modules"][top].get("netnames",{}),
+   lambda name: None if named_owner(name)=="top_level_or_unclassified" else named_owner(name))
+  d["named_output_net_provenance"]={"pending_before":len(pending),
+   "candidate_owner_counts":dict(collections.Counter(x for x in alias.values() if x)),
+   "still_unresolved":sum(v is None for v in alias.values()),
+   "status":"candidate-only; named RTL output net, not verified actual receiver ownership"}
   d["unclassified_diagnostic"]=diagnose_unclassified(cells,json.loads(netlist.read_text())["modules"][top]["ports"])
   d["port_cone_candidate_diagnostic"]=diagnose_port_cone_ownership(
    cells,json.loads(netlist.read_text())["modules"][top]["ports"],(ROOT/file).read_text())
