@@ -106,9 +106,9 @@ def diagnose_port_cone_ownership(cells, ports, top_source):
             "candidate_fft_k7_core":"shared_core_other",
             "candidate_rs_ts":"shared_rs_dual_ts"}
  for instance,bucket in instances.items():
-  match=re.search(r"\\b"+re.escape(instance)+r"\\s*\\(([\\s\\S]*?)\\);",top_source)
+  match=re.search(r"\b"+re.escape(instance)+r"\s*\(([\s\S]*?)\);",top_source)
   if match is None:raise ValueError("missing top instance: "+instance)
-  for linked in re.findall(r"\\.\\w+\\s*\\(\\s*(\\w+)\\s*\\)",match.group(1)):
+  for linked in re.findall(r"\.\w+\s*\(\s*(\w+)\s*\)",match.group(1)):
    connections[linked].add(bucket)
  valid={name:next(iter(owners)) for name,owners in connections.items()
         if name in ports and len(owners)==1}
