@@ -45,6 +45,23 @@ for name,(file,top) in top_by_case.items():
     memory_examples.setdefault(src,cell_name)
   d["distributed_ram_source_counts"]=dict(sorted(memory_sources.items()))
   d["distributed_ram_instance_example"]=memory_examples
+  # Yosys RAM16SDP4 primitive source points to gowin/lutrams_map.v.
+  # Use flattened hierarchy names to identify the actual RTL owner instead.
+  owner_prefixes=(
+   "candidate_fft_k7_core.k7", "candidate_fft_k7_core.memory",
+   "candidate_fft_k7_core.fft", "candidate_fft_k7_core.s_fifo",
+   "candidate_input_fir", "candidate_rs_ts"
+  )
+  owner_count=collections.Counter()
+  examples={}
+  for cell_name,cell in cells.items():
+   if cell["type"]!="RAM16SDP4":continue
+   owner=next((prefix for prefix in owner_prefixes if cell_name.startswith(prefix)),"other")
+   owner_count[owner]+=1
+   examples.setdefault(owner,cell_name)
+  d["distributed_ram_hierarchy_count"]=dict(sorted(owner_count.items()))
+  d["distributed_ram_hierarchy_example"]=examples
+  if sum(owner_count.values())!=c["RAM16SDP4"]:raise AssertionError("RAM ownership accounting mismatch")
   d.update(logic_lut_alu=sum(v for k,v in c.items() if re.fullmatch(r"LUT[1-4]|ALU",k)),ff=sum(v for k,v in c.items() if k.startswith("DFF")),bsram=sum(c[k] for k in ("DPB","SDPB","DPX9B","SDPX9B")),distributed_ram=c["RAM16SDP4"],dsp=c["MULT18X18"])
   d["logic_with_ram_blockers"]=d["logic_lut_alu"]+4*d["distributed_ram"]
  result["cases"][name]=d
