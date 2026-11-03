@@ -24,7 +24,7 @@ res={"scope":"three disconnected actual subassemblies with scan fixture, NOT ful
 if p.returncode==0:
  cells=json.loads((OUT/"mapped.json").read_text())["modules"][top]["cells"]
  c=collections.Counter(x["type"] for x in cells.values())
- res.update(mapped_logic=sum(v for k,v in c.items() if re.fullmatch(r"LUT[1-4]|ALU",k)),mapped_ff=sum(v for k,v in c.items() if k.startswith("DFF")),mapped_bsram=sum(c[k] for k in ("DPB","SDPB","DPX9B","SDPX9B")),mapped_distributed_ram=c["RAM16SDP4"],mapped_dsp=c["MULT18X18"])
+ res.update(mapped_logic=sum(v for k,v in c.items() if re.fullmatch(r"LUT[1-4]|ALU",k)),mapped_ff=sum(v for k,v in c.items() if k.startswith("DFF")),mapped_bsram=sum(c[k] for k in ("DPB","SDPB","DPX9B","SDPX9B")),mapped_distributed_ram=c["RAM16SDP4"],mapped_dsp=c["MULT18X18"],logic_with_ram_blockers=sum(v for k,v in c.items() if re.fullmatch(r"LUT[1-4]|ALU",k))+4*c["RAM16SDP4"],logic_positions_budget=20736,logic_position_screen_over=max(0,sum(v for k,v in c.items() if re.fullmatch(r"LUT[1-4]|ALU",k))+4*c["RAM16SDP4"]-20736),physical_fit_verified=False)
 else:print("Synthesis error tail:",(p.stdout+p.stderr)[-5000:])
 (OUT/"result.json").write_text(json.dumps(res,indent=2)+"\n")
 print(json.dumps({k:v for k,v in res.items() if k!="source_sha256"},indent=2))
