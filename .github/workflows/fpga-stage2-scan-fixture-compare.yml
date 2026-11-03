@@ -1,0 +1,29 @@
+name: Stage2 scan fixture versus real core area screen
+on:
+  pull_request:
+    paths:
+      - 'experiments/stage2_core_without_scan_selected_area_top.sv'
+      - 'experiments/stage2_cocurrent_selected_subassemblies_area_top.sv'
+      - 'ci/fpga_stage2_scan_fixture_compare.py'
+      - '.github/workflows/fpga-stage2-scan-fixture-compare.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: python3 ci/fpga_stage2_scan_fixture_compare.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-scan-fixture-area-comparison
+          path: |
+            build/stage2-no-scan-compare/comparison.json
+            build/stage2-no-scan-compare/with_scan-yosys.log
+            build/stage2-no-scan-compare/no_scan-yosys.log
