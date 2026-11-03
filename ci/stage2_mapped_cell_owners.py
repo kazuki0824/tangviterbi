@@ -49,19 +49,19 @@ def category(cell_type):
  return "other"
 def owner(name):
  return next((bucket for prefix,bucket in PREFIXES if name.startswith(prefix)),"top_level_or_unclassified")
+def resolved_owner(name,cell):
+ prefix_bucket=owner(name)
+ direct_bucket=source_owner(cell.get("attributes"))
+ if prefix_bucket!="top_level_or_unclassified" and direct_bucket and prefix_bucket!=direct_bucket:
+  return "top_level_or_unclassified"
+ return direct_bucket or prefix_bucket
 def audit(cells):
  result={};totals=Counter()
  unclassified_by_head=Counter()
  unclassified_source=Counter()
  unclassified_examples={}
  for name,cell in cells.items():
-  prefix_bucket=owner(name)
-  direct_bucket=source_owner(cell.get("attributes"))
-  # Preserve a source/hierarchy disagreement as an explicitly unresolved
-  # conflict, rather than granting a guessed owner.
-  if prefix_bucket!="top_level_or_unclassified" and direct_bucket and prefix_bucket!=direct_bucket:
-   bucket="top_level_or_unclassified"
-  else:bucket=direct_bucket or prefix_bucket
+  bucket=resolved_owner(name,cell)
   typ=category(cell["type"])
   if bucket not in result:result[bucket]=Counter()
   result[bucket][typ]+=1
@@ -98,7 +98,7 @@ def diagnose_unclassified(cells, ports):
  port_hits=Counter(); sources=Counter(); attribute_keys=Counter(); types=Counter()
  example_by_port={}; example_by_source={}; no_port_examples={}
  for name,cell in cells.items():
-  if owner(name)!="top_level_or_unclassified":continue
+  if resolved_owner(name,cell)!="top_level_or_unclassified":continue
   typ=category(cell["type"])
   attrs=cell.get("attributes",{})
   matched=next((p for p in port_names if name==p or name.startswith(p+"_") or name.startswith(p+"$")),None)
@@ -146,7 +146,7 @@ def diagnose_port_cone_ownership(cells, ports, top_source):
  result=Counter()
  samples={}
  for name,cell in cells.items():
-  if owner(name)!="top_level_or_unclassified":continue
+  if resolved_owner(name,cell)!="top_level_or_unclassified":continue
   roots=[port for port in valid if name==port or name.startswith(port+"_")
          or name.startswith(port+"$")]
   if len(roots)==0:result[("no_top_port_candidate",category(cell["type"]))]+=1;continue

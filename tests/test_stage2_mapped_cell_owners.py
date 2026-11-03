@@ -1,6 +1,6 @@
 """Synthetic only: exhaustive cell ownership and no double-count checks."""
 import unittest
-from ci.stage2_mapped_cell_owners import audit,owner,diagnose_unclassified,diagnose_port_cone_ownership,source_owner
+from ci.stage2_mapped_cell_owners import audit,owner,diagnose_unclassified,diagnose_port_cone_ownership,source_owner,resolved_owner
 class Owners(unittest.TestCase):
  def test_exclusive_assignment(self):
   cells={
@@ -62,6 +62,10 @@ endmodule
   self.assertEqual(result["owner_resources"]["ingress_fir"]["ff"],1)
   self.assertEqual(result["owner_resources"]["top_level_or_unclassified"]["logic"],1)
   self.assertFalse(result["all_cells_have_verified_owner"])
+ def test_source_hierarchy_conflict_stays_unresolved(self):
+  conflicting={"type":"DFF","attributes":{"src":"rtl/isdb_serial_ts_sink.sv:33.2"}}
+  self.assertEqual(resolved_owner("candidate_input_fir.foo",conflicting),"top_level_or_unclassified")
+  self.assertTrue(audit({"candidate_input_fir.foo":conflicting})["has_unclassified_cells"])
  def test_specific_prefix_precedes_broad_prefix(self):
   self.assertEqual(owner("candidate_fft_k7_core.memory.foo"),"sdram_service")
   self.assertEqual(owner("candidate_fft_k7_core.fft.foo"),"fft")
