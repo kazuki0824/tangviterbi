@@ -1,6 +1,6 @@
 """Synthetic only: exhaustive cell ownership and no double-count checks."""
 import unittest
-from ci.stage2_mapped_cell_owners import audit,owner,diagnose_unclassified
+from ci.stage2_mapped_cell_owners import audit,owner,diagnose_unclassified,diagnose_port_cone_ownership
 class Owners(unittest.TestCase):
  def test_exclusive_assignment(self):
   cells={
@@ -30,6 +30,26 @@ class Owners(unittest.TestCase):
   self.assertEqual(d["no_matching_port"],1)
   self.assertTrue(any(x["port"]=="RF_last" and x["resource"]=="logic" for x in d["port_cones"]))
   self.assertTrue(audit(cells)["has_unclassified_cells"])
+ def test_port_provenance_requires_unique_subassembly(self):
+  src="""
+module top;
+ candidate_input_fir input_core(.clk(clk),.RF_last(RF_last));
+ candidate_fft_k7_core fft_core(.clk(clk),.fft_out_valid(fft_out_valid));
+ candidate_rs_ts rs_core(.clk(clk),.ts_valid(ts_valid));
+endmodule
+"""
+  cells={"RF_last_OBUF_O":{"type":"OBUF"},
+         "fft_out_valid_OBUF_O":{"type":"OBUF"},
+         "ts_valid_OBUF_O":{"type":"OBUF"},
+         "clk_IBUF":{"type":"IBUF"},
+         "random":{"type":"LUT4"}}
+  ports={x:{} for x in ("clk","RF_last","fft_out_valid","ts_valid")}
+  d=diagnose_port_cone_ownership(cells,ports,src)
+  self.assertEqual(d["cells_diagnosed"],5)
+  self.assertEqual(sum(x["count"] for x in d["unique_subassembly_port_candidates"]),5)
+  self.assertTrue(any(x["candidate_owner"]=="ingress_fir" and x["count"]==1 for x in d["unique_subassembly_port_candidates"]))
+  self.assertTrue(any(x["candidate_owner"]=="shared_rs_dual_ts" for x in d["unique_subassembly_port_candidates"]))
+  self.assertEqual(d["owner_confidence"],"port-name origin only; not a verified full-receiver cell owner")
  def test_specific_prefix_precedes_broad_prefix(self):
   self.assertEqual(owner("candidate_fft_k7_core.memory.foo"),"sdram_service")
   self.assertEqual(owner("candidate_fft_k7_core.fft.foo"),"fft")
