@@ -55,3 +55,40 @@ def audit(cells):
          "unclassified_sources":[{"src":k[0],"resource":k[1],"count":v}
                                   for k,v in unclassified_source.most_common(18)],
          "full_receiver":False}
+
+def diagnose_unclassified(cells, ports):
+ """Expose verifiable origins, do not force an attribution of ambiguous cells.
+
+ A matched top-level port indicates an output cone, not sole RTL ownership:
+ do not turn this diagnostic into ownership without examining the netlist.
+ """
+ port_names=sorted(ports, key=len, reverse=True)
+ port_hits=Counter(); sources=Counter(); attribute_keys=Counter(); types=Counter()
+ example_by_port={}; example_by_source={}; no_port_examples={}
+ for name,cell in cells.items():
+  if owner(name)!="top_level_or_unclassified":continue
+  typ=category(cell["type"])
+  attrs=cell.get("attributes",{})
+  matched=next((p for p in port_names if name==p or name.startswith(p+"_") or name.startswith(p+"$")),None)
+  label=matched or "<none>"
+  port_hits[(label,typ)]+=1
+  src=str(attrs.get("src","unknown")).split("|")[0]
+  sources[(src,typ)]+=1
+  attribute_keys.update(attrs.keys())
+  types[cell["type"]]+=1
+  example_by_port.setdefault((label,typ),{"cell":name,"src":src,"attributes":dict(attrs)})
+  example_by_source.setdefault((src,typ),name)
+  if matched is None and len(no_port_examples)<10:no_port_examples.setdefault(typ,name)
+ return {
+  "unclassified_total":sum(port_hits.values()),
+  "port_cones":[{"port":k[0],"resource":k[1],"count":count,
+                 "example":example_by_port[k]}
+                for k,count in port_hits.most_common(48)],
+  "no_matching_port":sum(v for k,v in port_hits.items() if k[0]=="<none>"),
+  "source_summaries":[{"source":k[0],"resource":k[1],"count":v,
+                        "example":example_by_source[k]}
+                      for k,v in sources.most_common(28)],
+  "attribute_keys":dict(attribute_keys),
+  "cell_types":dict(types),
+  "no_port_examples":no_port_examples,
+ }
