@@ -5,6 +5,8 @@ on:
       - 'experiments/stage2_core_without_scan_selected_area_top.sv'
       - 'experiments/stage2_cocurrent_selected_subassemblies_area_top.sv'
       - 'ci/fpga_stage2_scan_fixture_compare.py'
+      - 'ci/stage2_mapped_cell_owners.py'
+      - 'tests/test_stage2_mapped_cell_owners.py'
       - '.github/workflows/fpga-stage2-scan-fixture-compare.yml'
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -18,6 +20,7 @@ jobs:
         with:
           version: '2026-10-04'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: python3 -m unittest tests.test_stage2_mapped_cell_owners -v
       - run: python3 ci/fpga_stage2_scan_fixture_compare.py
       - uses: actions/upload-artifact@v4
         if: always()
