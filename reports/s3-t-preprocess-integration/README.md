@@ -46,13 +46,17 @@
 | `experiments/t_preprocess_integration_probe/tpre_runtime.c` | `015ea011b206003699d78578174fb7a8d8b259246df3ea9c6aafb717fc64d31b` |
 | `experiments/t_preprocess_integration_probe/tpre_runtime.h` | `b29698670ef202b9cacb9c51d05637776e7153eb2ae386703c000744e0254651` |
 
+復旧したコードは [native_adapter.c](recovered-source/experiments/t_preprocess_capacity/native_adapter.c)、[tpre_runtime.c](recovered-source/experiments/t_preprocess_integration_probe/tpre_runtime.c)、[tpre_runtime.h](recovered-source/experiments/t_preprocess_integration_probe/tpre_runtime.h) を参照する。
+
 SDK の `before-heap-flash-audit.json.gz`、`bss-overlap-build.log.gz`、`bss-overlap.map.gz` は途中段階の問題を記録した資料であり、最終 ELF・map や最終監査の代わりにはならない。`final-rebuild.log.gz` が残っていても、失われた最終バイナリを再取得したことにはならない。
 
-**以降の実行結果と監査件数は、中断前の作業セッションで観測した内容の記録である。復旧後に同じ実行を再現した結果ではない。** 最終 JSON や未回収ソースの内容を推測して作り直し、当時の原本として保存することはしない。
+**以下で「中断前」と記した実行結果と監査件数は、当時の作業セッションで観測した内容の記録であり、復旧後に同じ実行を再現した結果ではない。** 第5節の DSP・BSRAM 数については、保存された6つのネットリストから復旧後に再集計し、確認できた結果を別に示す。 最終 JSON や未回収ソースの内容を推測して作り直し、当時の原本として保存することはしない。
 
 ## 3. T 用 S3 の結合モデル：中断前の観測結果
 
 当時の有限モデルは、native 入力とアダプター、halfband pipeline、実 SDK と同じ owner / worker の C 制御を接続して評価した。ホストでの所要時間を S3 の時間へ換算せず、対象命令列から組み立てた費用を処理・公開・DMA 所有権の各イベントに加算した。
+
+この費用モデルを実機の WCET 認定とはしない。cache、MMIO、register-window 関連の遅延や割り込み・PHY 保守処理の全条件について、物理的な時間上限を確定したものではない。
 
 最終構成では owner の 1 周に合計最大 2,048 raw の prepare を許し、1 poll あたりは最大 1,024 raw とした。owner は poll、reap、produce、poll、DMA reap、poll、DMA submit、poll、feed の 9 段階を回す。出力の READY / DONE 公開、raw バンクの返却、DMA の完了・reap は別々に扱った。
 
@@ -107,6 +111,14 @@ SDK の `before-heap-flash-audit.json.gz`、`bss-overlap-build.log.gz`、`bss-ov
 | DSP | **4** | **4** | **0** |
 
 両者とも複素 tap を 1 cycle あたり 2 個処理する 4 DSP 構成であり、入力レートを半分にしたことが、この実装での DSP 数削減にはつながらなかった。これは表の比較範囲に対する結果であり、受信機全体の資源数や別構造の最適化余地を示すものではない。
+
+**復旧後の再確認：** [資源の再集計結果](recovery/fpga-resource-recount.json)と[再現スクリプト](recovery/recount-fpga-resources.py)を追加した。baseline / residual の core-mapped、probe-mapped、routed の計6ファイルを実際に展開し、圧縮ファイルの SHA-256 が当初の manifest と一致することを確認した。全段階で `MULT18X18` は **4 → 4**、BSRAM は **2 → 3** だった。routed の各 DSP と BSRAM が別々の配置位置（BEL）を持つことも確認した。
+
+この再集計は **6件すべて VERIFIED**。表の Logic / FF positions の換算、FIFO の時系列、STA、品質についてはこの確認に含めず、中断前の観測と未認定条件を維持する。再現コマンドはリポジトリのルートで次のとおり。
+
+```sh
+python reports/s3-t-preprocess-integration/recovery/recount-fpga-resources.py --repo .
+```
 
 対応する mapped / routed JSON と合成ログは、回収した 20 個の圧縮 blob に含まれる。ただし、RTL、係数生成器、最終の比較 JSON、配置配線ログなどは全体として回収できておらず、元と同じ実行を再現する材料は揃っていない。
 
