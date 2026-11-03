@@ -93,3 +93,46 @@ def diagnose_unclassified(cells, ports):
   "cell_types":dict(types),
   "no_port_examples":no_port_examples,
  }
+
+def diagnose_port_cone_ownership(cells, ports, top_source):
+ """Resolve *candidate* port-cone owners from top-level instance wiring.
+
+ Only unique subassembly connections are considered. This is no substitute
+ for complete gate-level signal provenance: keep results explicitly tentative.
+ """
+ from collections import defaultdict
+ connections=defaultdict(set)
+ instances={"candidate_input_fir":"ingress_fir",
+            "candidate_fft_k7_core":"shared_core_other",
+            "candidate_rs_ts":"shared_rs_dual_ts"}
+ for instance,bucket in instances.items():
+  match=re.search(r"\\b"+re.escape(instance)+r"\\s*\\(([\\s\\S]*?)\\);",top_source)
+  if match is None:raise ValueError("missing top instance: "+instance)
+  for linked in re.findall(r"\\.\\w+\\s*\\(\\s*(\\w+)\\s*\\)",match.group(1)):
+   connections[linked].add(bucket)
+ valid={name:next(iter(owners)) for name,owners in connections.items()
+        if name in ports and len(owners)==1}
+ result=Counter()
+ samples={}
+ for name,cell in cells.items():
+  if owner(name)!="top_level_or_unclassified":continue
+  roots=[port for port in valid if name==port or name.startswith(port+"_")
+         or name.startswith(port+"$")]
+  if len(roots)==0:result[("no_top_port_candidate",category(cell["type"]))]+=1;continue
+  # Prefer the most specific port; reject nonunique overlapping matches.
+  roots.sort(key=len,reverse=True)
+  if len(roots)>1 and len(roots[0])==len(roots[1]):
+   result[("ambiguous_port_candidate",category(cell["type"]))]+=1
+   continue
+  label=valid[roots[0]]
+  key=(label,category(cell["type"]))
+  result[key]+=1
+  samples.setdefault(key,{"port":roots[0],"cell":name})
+ return {
+  "unique_subassembly_port_candidates":[
+   {"candidate_owner":key[0],"resource":key[1],"count":count,
+    "example":samples.get(key)}
+   for key,count in result.most_common()],
+  "cells_diagnosed":sum(result.values()),
+  "owner_confidence":"port-name origin only; not a verified full-receiver cell owner",
+ }
