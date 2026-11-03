@@ -49,6 +49,7 @@ def audit(cells):
  assert summed==total,"Per-owner resources must exactly sum to mapped cell counts"
  return {"owner_resources":per,"total_resources":total,"all_mapped_cells_attributed_once":True,
          "has_unclassified_cells":sum(per.get("top_level_or_unclassified",{}).values())>0,
+         "all_cells_have_verified_owner":sum(per.get("top_level_or_unclassified",{}).values())==0,
          "unclassified_heads":[{"prefix":k[0],"resource":k[1],"count":v,
                                 "example":unclassified_examples[k]}
                                for k,v in unclassified_by_head.most_common(18)],
