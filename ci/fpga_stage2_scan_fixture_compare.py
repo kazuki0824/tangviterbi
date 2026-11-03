@@ -33,7 +33,18 @@ for name,(file,top) in top_by_case.items():
  if p.returncode:
   failed=True;print(f"{name} synthesis failed:",(p.stdout+p.stderr)[-4000:])
  else:
-  c=collections.Counter(cell["type"] for cell in json.loads(netlist.read_text())["modules"][top]["cells"].values())
+  cells=json.loads(netlist.read_text())["modules"][top]["cells"]
+  c=collections.Counter(cell["type"] for cell in cells.values())
+  memory_sources=collections.Counter()
+  memory_examples={}
+  for cell_name,cell in cells.items():
+   if cell["type"]=="RAM16SDP4":
+    src=cell.get("attributes",{}).get("src","unattributed")
+    src=str(src).split("|")[0]
+    memory_sources[src]+=1
+    memory_examples.setdefault(src,cell_name)
+  d["distributed_ram_source_counts"]=dict(sorted(memory_sources.items()))
+  d["distributed_ram_instance_example"]=memory_examples
   d.update(logic_lut_alu=sum(v for k,v in c.items() if re.fullmatch(r"LUT[1-4]|ALU",k)),ff=sum(v for k,v in c.items() if k.startswith("DFF")),bsram=sum(c[k] for k in ("DPB","SDPB","DPX9B","SDPX9B")),distributed_ram=c["RAM16SDP4"],dsp=c["MULT18X18"])
   d["logic_with_ram_blockers"]=d["logic_lut_alu"]+4*d["distributed_ram"]
  result["cases"][name]=d
