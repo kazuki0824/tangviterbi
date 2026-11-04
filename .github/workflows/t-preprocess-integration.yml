@@ -1,0 +1,52 @@
+name: T preprocessing integration
+on:
+  pull_request:
+    paths:
+      - 'experiments/t_preprocess_capacity/**'
+      - 'experiments/t_preprocess_integration_probe/**'
+      - 'experiments/t_preprocess_runtime.c'
+      - 'experiments/t_halfband_fpga/**'
+      - 'ci/t_native_adapter_audit.py'
+      - 'ci/t_preprocess_*.py'
+      - 'ci/t_halfband_fpga_audit.py'
+      - 'tests/test_t_native_adapter.py'
+      - 'tests/t_native_adapter_host.c'
+      - 'tests/test_t_preprocess_runtime.py'
+      - 'reports/s3-t-preprocess-integration-v2/**'
+      - '.github/workflows/t-preprocess-integration.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: t-preprocess-integration-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.3.5
+      - name: Verify reconstructed native input and recovered coefficients
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p build/t-preprocess-host
+          set +e
+          python -m unittest tests.test_t_native_adapter -v
+          unit_status=$?
+          python ci/t_native_adapter_audit.py --output build/t-preprocess-host/native.json
+          native_status=$?
+          python experiments/t_halfband_fpga/coefficients.py --output build/t-preprocess-host/coefficients.json
+          coefficient_status=$?
+          if (( unit_status || native_status || coefficient_status )); then
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: t-preprocess-host
+          path: build/t-preprocess-host/
+          retention-days: 30
