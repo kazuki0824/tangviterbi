@@ -1,0 +1,347 @@
+{
+  "profile": "residual",
+  "fifo": true,
+  "physical_timing_pass": false,
+  "timing_qualification": "requires independent model-coverage audit",
+  "stages": {
+    "core_synth": {
+      "command": [
+        "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/core-synth.ys"
+      ],
+      "exit_code": 0,
+      "seconds": 1.7514131630014163
+    },
+    "probe_synth": {
+      "command": [
+        "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/probe-synth.ys"
+      ],
+      "exit_code": 0,
+      "seconds": 1.688796786002058
+    },
+    "place_and_route": {
+      "command": [
+        "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/nextpnr-himbaechel",
+        "--json",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/probe-mapped.json",
+        "--device",
+        "GW2AR-LV18QN88C8/I7",
+        "--vopt",
+        "family=GW2A-18C",
+        "--vopt",
+        "cst=/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/pins.cst",
+        "--freq",
+        "154.28571428571428",
+        "--seed",
+        "1",
+        "--report",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/pnr.json",
+        "--detailed-timing-report",
+        "--write",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/routed.json",
+        "--timing-allow-fail"
+      ],
+      "exit_code": 0,
+      "seconds": 6.9400504380028
+    }
+  },
+  "resources": {
+    "core": {
+      "sha256": "a498c47bb34238511a64237db557538e7af048dc6194d3450dc59eff34096ba6",
+      "cells_by_type": {
+        "$scopeinfo": 1,
+        "ALU": 405,
+        "DFF": 170,
+        "DFFE": 193,
+        "DFFR": 14,
+        "DFFRE": 138,
+        "DFFSE": 1,
+        "GND": 1,
+        "IBUF": 36,
+        "LUT1": 13,
+        "LUT2": 22,
+        "LUT3": 279,
+        "LUT4": 49,
+        "MULT18X18": 4,
+        "MUX2_LUT5": 1,
+        "OBUF": 34,
+        "RAM16SDP4": 24,
+        "SDPX9B": 1,
+        "SPX9": 2,
+        "VCC": 1
+      },
+      "MULT18X18": 4,
+      "BSRAM": 3,
+      "RAM16SDP4": 24,
+      "explicit_DFF_cells": 516
+    },
+    "probe": {
+      "sha256": "ef8a022131d75964df9b057d4cc1f5f4ed997e6763a3ad6932547bd37adbb082",
+      "cells_by_type": {
+        "$scopeinfo": 2,
+        "ALU": 405,
+        "DFF": 170,
+        "DFFE": 193,
+        "DFFR": 14,
+        "DFFRE": 171,
+        "DFFSE": 1,
+        "GND": 1,
+        "IBUF": 4,
+        "LUT1": 14,
+        "LUT2": 20,
+        "LUT3": 281,
+        "LUT4": 55,
+        "MULT18X18": 4,
+        "MUX2_LUT5": 1,
+        "OBUF": 1,
+        "RAM16SDP4": 24,
+        "SDPX9B": 1,
+        "SPX9": 2,
+        "VCC": 1
+      },
+      "MULT18X18": 4,
+      "BSRAM": 3,
+      "RAM16SDP4": 24,
+      "explicit_DFF_cells": 549
+    },
+    "routed": {
+      "sha256": "b545c9db922e53f448f8a9e63b4aacd141b46d60c9011903b200a3ebf9ea0faa",
+      "cells_by_type": {
+        "ALU": 448,
+        "BUFG": 1,
+        "DFF": 170,
+        "DFFE": 193,
+        "DFFR": 14,
+        "DFFRE": 171,
+        "DFFSE": 1,
+        "DUMMY_CELL": 16,
+        "GOWIN_GND": 1,
+        "GOWIN_VCC": 1,
+        "GSR": 1,
+        "IBUF": 4,
+        "LUT1": 14,
+        "LUT2": 20,
+        "LUT3": 281,
+        "LUT4": 404,
+        "MULT18X18": 4,
+        "MUX2_LUT5": 1,
+        "OBUF": 1,
+        "RAM16SDP4": 24,
+        "SDP": 1,
+        "SP": 2
+      },
+      "MULT18X18": 4,
+      "BSRAM": 3,
+      "RAM16SDP4": 24,
+      "explicit_DFF_cells": 549
+    }
+  },
+  "route_completed": true,
+  "reported_fmax_NOT_physical_signoff": {
+    "g_fifo.dut.clk": {
+      "achieved": 218.96212768554688,
+      "constraint": 154.28570556640625
+    }
+  },
+  "utilization": {
+    "ALU": {
+      "available": 15552,
+      "used": 448
+    },
+    "ALU54D": {
+      "available": 24,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 46,
+      "used": 3
+    },
+    "BUFG": {
+      "available": 24,
+      "used": 1
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 15552,
+      "used": 549
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "DUMMY_CELL": {
+      "available": 0,
+      "used": 16
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "GW_JTAG": {
+      "available": 1,
+      "used": 0
+    },
+    "IOB": {
+      "available": 384,
+      "used": 5
+    },
+    "IOLOGICI": {
+      "available": 384,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 384,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 20736,
+      "used": 719
+    },
+    "MULT18X18": {
+      "available": 48,
+      "used": 4
+    },
+    "MULT36X36": {
+      "available": 12,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 96,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 10368,
+      "used": 1
+    },
+    "MUX2_LUT6": {
+      "available": 5184,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 2592,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 2592,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 48,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 96,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 648,
+      "used": 24
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "checks": [
+    {
+      "name": "core_synth_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "probe_synth_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "place_and_route_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "routing_completion",
+      "status": "PASS"
+    },
+    {
+      "name": "core_four_MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "probe_four_MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "routed_four_MULT18X18",
+      "status": "PASS"
+    }
+  ],
+  "artifacts": {
+    "pnr.log.gz": {
+      "sha256": "807efd4745d25063b0253bae0d45ee66f86e872a27a269dfeff21bd1efd900c9",
+      "uncompressed_sha256": "e7ed876e285232f2ead76ff5e707a688000c725565f3c16ce7076e49aa08ad53"
+    },
+    "probe-synth.log.gz": {
+      "sha256": "3d160a0d9a289b38ae2ceac7043b9ea06ec4dd39086bb18a617da3d741e25214",
+      "uncompressed_sha256": "ce905177551651f3079f616dc334cc67753bb141a93049261651b4d1a94a45a2"
+    },
+    "core-synth.log.gz": {
+      "sha256": "0c6a15274128cc3e5d9d2b50e123a648bf0f145c51ecdb009bef14b96f3e48b4",
+      "uncompressed_sha256": "b1afef75cb1862212b998235e31787028703e8378d062a3bfdd954896f645470"
+    },
+    "probe-mapped.json.gz": {
+      "sha256": "65c63128e376e00ab7a6236d9a6dfb9d96fdcda8acba91a231177005cda50d94",
+      "uncompressed_sha256": "ef8a022131d75964df9b057d4cc1f5f4ed997e6763a3ad6932547bd37adbb082"
+    },
+    "core-mapped.json.gz": {
+      "sha256": "b38e70cdf7d747abe4ff193a3a573059559099868c5369868afcaf44b66fea4e",
+      "uncompressed_sha256": "a498c47bb34238511a64237db557538e7af048dc6194d3450dc59eff34096ba6"
+    },
+    "routed.json.gz": {
+      "sha256": "cb109577ac92f2f251ddf17ef38110dc52c48f542a2dd39da58cb085a4296980",
+      "uncompressed_sha256": "b545c9db922e53f448f8a9e63b4aacd141b46d60c9011903b200a3ebf9ea0faa"
+    }
+  }
+}

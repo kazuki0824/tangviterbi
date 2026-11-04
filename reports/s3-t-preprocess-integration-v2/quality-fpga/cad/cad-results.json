@@ -1,0 +1,1539 @@
+{
+  "version": 2,
+  "non_fail_fast": true,
+  "source_status": "new reconstructed RTL",
+  "profiles": {
+    "baseline": {
+      "profile": "baseline",
+      "fifo": false,
+      "physical_timing_pass": false,
+      "timing_qualification": "requires independent model-coverage audit",
+      "stages": {
+        "core_synth": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+            "-Q",
+            "-T",
+            "-s",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/core-synth.ys"
+          ],
+          "exit_code": 0,
+          "seconds": 1.5789624739991268
+        },
+        "probe_synth": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+            "-Q",
+            "-T",
+            "-s",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/probe-synth.ys"
+          ],
+          "exit_code": 0,
+          "seconds": 1.4797621420002542
+        },
+        "place_and_route": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/nextpnr-himbaechel",
+            "--json",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/probe-mapped.json",
+            "--device",
+            "GW2AR-LV18QN88C8/I7",
+            "--vopt",
+            "family=GW2A-18C",
+            "--vopt",
+            "cst=/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/pins.cst",
+            "--freq",
+            "154.28571428571428",
+            "--seed",
+            "1",
+            "--report",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/pnr.json",
+            "--detailed-timing-report",
+            "--write",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/routed.json",
+            "--timing-allow-fail"
+          ],
+          "exit_code": 0,
+          "seconds": 5.730388693002169
+        }
+      },
+      "resources": {
+        "core": {
+          "sha256": "7c60e234af5c30be7de04c47621a42ac49da02f6f9ad9b9a16ed27f7c0d664c3",
+          "cells_by_type": {
+            "ALU": 374,
+            "DFF": 104,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 83,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 24,
+            "LUT1": 11,
+            "LUT2": 15,
+            "LUT3": 213,
+            "LUT4": 37,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 34,
+            "RAM16SDP4": 18,
+            "SPX9": 1,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 1,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 362
+        },
+        "probe": {
+          "sha256": "1b7f842542491d2eb6354c0a7da9288255ceaeb99952735ed888e9ce59a0e2d8",
+          "cells_by_type": {
+            "$scopeinfo": 1,
+            "ALU": 374,
+            "DFF": 104,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 104,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 4,
+            "LUT1": 10,
+            "LUT2": 13,
+            "LUT3": 216,
+            "LUT4": 46,
+            "MULT18X18": 4,
+            "OBUF": 1,
+            "RAM16SDP4": 18,
+            "SPX9": 1,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 1,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 383
+        },
+        "routed": {
+          "sha256": "4e7d9a21783e145a8a212a083f5366f0f7f8d8ffd6e888bce2555ac4c664ef1c",
+          "cells_by_type": {
+            "ALU": 412,
+            "BUFG": 1,
+            "DFF": 104,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 104,
+            "DFFSE": 1,
+            "DUMMY_CELL": 16,
+            "GOWIN_GND": 1,
+            "GOWIN_VCC": 1,
+            "GSR": 1,
+            "IBUF": 4,
+            "LUT1": 10,
+            "LUT2": 13,
+            "LUT3": 216,
+            "LUT4": 258,
+            "MULT18X18": 4,
+            "OBUF": 1,
+            "RAM16SDP4": 18,
+            "SP": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 1,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 383
+        }
+      },
+      "route_completed": true,
+      "reported_fmax_NOT_physical_signoff": {
+        "g_core.dut.clk": {
+          "achieved": 232.88308715820312,
+          "constraint": 154.28570556640625
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 15552,
+          "used": 412
+        },
+        "ALU54D": {
+          "available": 24,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 46,
+          "used": 1
+        },
+        "BUFG": {
+          "available": 24,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 15552,
+          "used": 383
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "DUMMY_CELL": {
+          "available": 0,
+          "used": 16
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "GW_JTAG": {
+          "available": 1,
+          "used": 0
+        },
+        "IOB": {
+          "available": 384,
+          "used": 5
+        },
+        "IOLOGICI": {
+          "available": 384,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 384,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 20736,
+          "used": 497
+        },
+        "MULT18X18": {
+          "available": 48,
+          "used": 4
+        },
+        "MULT36X36": {
+          "available": 12,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 96,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 10368,
+          "used": 0
+        },
+        "MUX2_LUT6": {
+          "available": 5184,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 2592,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 2592,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 48,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 96,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 648,
+          "used": 18
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "checks": [
+        {
+          "name": "core_synth_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "probe_synth_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "place_and_route_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "routing_completion",
+          "status": "PASS"
+        },
+        {
+          "name": "core_four_MULT18X18",
+          "status": "PASS"
+        },
+        {
+          "name": "probe_four_MULT18X18",
+          "status": "PASS"
+        },
+        {
+          "name": "routed_four_MULT18X18",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "pnr.log.gz": {
+          "sha256": "0ff12a45c3f02fcd6e0e31b7069b78772d10f24ded8994fcb0290fe20e5633c3",
+          "uncompressed_sha256": "ff08025bf93239fb8f2c1301a82d48a8cba4a938399af6eacaf3a77c507b89d4"
+        },
+        "probe-synth.log.gz": {
+          "sha256": "044896e70db11b5c4e179f91c1ee2c0e76ffb9b85cc72a5706baee418e3c0387",
+          "uncompressed_sha256": "afd8e505cc519bb1c0eeba7f95d8e55ed12c09d278d61cbabc1ddf05ebb65e80"
+        },
+        "core-synth.log.gz": {
+          "sha256": "e110395c103cefcab63f0e3a767005aa925d7e6981458b1ce071989d6baf7ba3",
+          "uncompressed_sha256": "12ed49618740d305aacfcb2dfbdd74de0bb2157fc6e08809dcce5fd7c9bfd054"
+        },
+        "probe-mapped.json.gz": {
+          "sha256": "ab9bf87085c024fec86567c192b6c72ec22128a0f890495aeb134ee9b8c2d2df",
+          "uncompressed_sha256": "1b7f842542491d2eb6354c0a7da9288255ceaeb99952735ed888e9ce59a0e2d8"
+        },
+        "core-mapped.json.gz": {
+          "sha256": "fd3fe1b729096011ba7acc25e49ad584f9a462c4071b4482f0a083f6123f3a86",
+          "uncompressed_sha256": "7c60e234af5c30be7de04c47621a42ac49da02f6f9ad9b9a16ed27f7c0d664c3"
+        },
+        "routed.json.gz": {
+          "sha256": "941ebe05ff89ef160ddbe7de6d3c138669e600b3fac7e1e9edfd10ae47fc8494",
+          "uncompressed_sha256": "4e7d9a21783e145a8a212a083f5366f0f7f8d8ffd6e888bce2555ac4c664ef1c"
+        }
+      }
+    },
+    "residual-fifo": {
+      "profile": "residual",
+      "fifo": true,
+      "physical_timing_pass": false,
+      "timing_qualification": "requires independent model-coverage audit",
+      "stages": {
+        "core_synth": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+            "-Q",
+            "-T",
+            "-s",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/core-synth.ys"
+          ],
+          "exit_code": 0,
+          "seconds": 1.7514131630014163
+        },
+        "probe_synth": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+            "-Q",
+            "-T",
+            "-s",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/probe-synth.ys"
+          ],
+          "exit_code": 0,
+          "seconds": 1.688796786002058
+        },
+        "place_and_route": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/nextpnr-himbaechel",
+            "--json",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/probe-mapped.json",
+            "--device",
+            "GW2AR-LV18QN88C8/I7",
+            "--vopt",
+            "family=GW2A-18C",
+            "--vopt",
+            "cst=/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/pins.cst",
+            "--freq",
+            "154.28571428571428",
+            "--seed",
+            "1",
+            "--report",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/pnr.json",
+            "--detailed-timing-report",
+            "--write",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/routed.json",
+            "--timing-allow-fail"
+          ],
+          "exit_code": 0,
+          "seconds": 6.9400504380028
+        }
+      },
+      "resources": {
+        "core": {
+          "sha256": "a498c47bb34238511a64237db557538e7af048dc6194d3450dc59eff34096ba6",
+          "cells_by_type": {
+            "$scopeinfo": 1,
+            "ALU": 405,
+            "DFF": 170,
+            "DFFE": 193,
+            "DFFR": 14,
+            "DFFRE": 138,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 36,
+            "LUT1": 13,
+            "LUT2": 22,
+            "LUT3": 279,
+            "LUT4": 49,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 34,
+            "RAM16SDP4": 24,
+            "SDPX9B": 1,
+            "SPX9": 2,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 3,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 516
+        },
+        "probe": {
+          "sha256": "ef8a022131d75964df9b057d4cc1f5f4ed997e6763a3ad6932547bd37adbb082",
+          "cells_by_type": {
+            "$scopeinfo": 2,
+            "ALU": 405,
+            "DFF": 170,
+            "DFFE": 193,
+            "DFFR": 14,
+            "DFFRE": 171,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 4,
+            "LUT1": 14,
+            "LUT2": 20,
+            "LUT3": 281,
+            "LUT4": 55,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 1,
+            "RAM16SDP4": 24,
+            "SDPX9B": 1,
+            "SPX9": 2,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 3,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 549
+        },
+        "routed": {
+          "sha256": "b545c9db922e53f448f8a9e63b4aacd141b46d60c9011903b200a3ebf9ea0faa",
+          "cells_by_type": {
+            "ALU": 448,
+            "BUFG": 1,
+            "DFF": 170,
+            "DFFE": 193,
+            "DFFR": 14,
+            "DFFRE": 171,
+            "DFFSE": 1,
+            "DUMMY_CELL": 16,
+            "GOWIN_GND": 1,
+            "GOWIN_VCC": 1,
+            "GSR": 1,
+            "IBUF": 4,
+            "LUT1": 14,
+            "LUT2": 20,
+            "LUT3": 281,
+            "LUT4": 404,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 1,
+            "RAM16SDP4": 24,
+            "SDP": 1,
+            "SP": 2
+          },
+          "MULT18X18": 4,
+          "BSRAM": 3,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 549
+        }
+      },
+      "route_completed": true,
+      "reported_fmax_NOT_physical_signoff": {
+        "g_fifo.dut.clk": {
+          "achieved": 218.96212768554688,
+          "constraint": 154.28570556640625
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 15552,
+          "used": 448
+        },
+        "ALU54D": {
+          "available": 24,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 46,
+          "used": 3
+        },
+        "BUFG": {
+          "available": 24,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 15552,
+          "used": 549
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "DUMMY_CELL": {
+          "available": 0,
+          "used": 16
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "GW_JTAG": {
+          "available": 1,
+          "used": 0
+        },
+        "IOB": {
+          "available": 384,
+          "used": 5
+        },
+        "IOLOGICI": {
+          "available": 384,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 384,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 20736,
+          "used": 719
+        },
+        "MULT18X18": {
+          "available": 48,
+          "used": 4
+        },
+        "MULT36X36": {
+          "available": 12,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 96,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 10368,
+          "used": 1
+        },
+        "MUX2_LUT6": {
+          "available": 5184,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 2592,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 2592,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 48,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 96,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 648,
+          "used": 24
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "checks": [
+        {
+          "name": "core_synth_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "probe_synth_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "place_and_route_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "routing_completion",
+          "status": "PASS"
+        },
+        {
+          "name": "core_four_MULT18X18",
+          "status": "PASS"
+        },
+        {
+          "name": "probe_four_MULT18X18",
+          "status": "PASS"
+        },
+        {
+          "name": "routed_four_MULT18X18",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "pnr.log.gz": {
+          "sha256": "807efd4745d25063b0253bae0d45ee66f86e872a27a269dfeff21bd1efd900c9",
+          "uncompressed_sha256": "e7ed876e285232f2ead76ff5e707a688000c725565f3c16ce7076e49aa08ad53"
+        },
+        "probe-synth.log.gz": {
+          "sha256": "3d160a0d9a289b38ae2ceac7043b9ea06ec4dd39086bb18a617da3d741e25214",
+          "uncompressed_sha256": "ce905177551651f3079f616dc334cc67753bb141a93049261651b4d1a94a45a2"
+        },
+        "core-synth.log.gz": {
+          "sha256": "0c6a15274128cc3e5d9d2b50e123a648bf0f145c51ecdb009bef14b96f3e48b4",
+          "uncompressed_sha256": "b1afef75cb1862212b998235e31787028703e8378d062a3bfdd954896f645470"
+        },
+        "probe-mapped.json.gz": {
+          "sha256": "65c63128e376e00ab7a6236d9a6dfb9d96fdcda8acba91a231177005cda50d94",
+          "uncompressed_sha256": "ef8a022131d75964df9b057d4cc1f5f4ed997e6763a3ad6932547bd37adbb082"
+        },
+        "core-mapped.json.gz": {
+          "sha256": "b38e70cdf7d747abe4ff193a3a573059559099868c5369868afcaf44b66fea4e",
+          "uncompressed_sha256": "a498c47bb34238511a64237db557538e7af048dc6194d3450dc59eff34096ba6"
+        },
+        "routed.json.gz": {
+          "sha256": "cb109577ac92f2f251ddf17ef38110dc52c48f542a2dd39da58cb085a4296980",
+          "uncompressed_sha256": "b545c9db922e53f448f8a9e63b4aacd141b46d60c9011903b200a3ebf9ea0faa"
+        }
+      }
+    },
+    "residual": {
+      "profile": "residual",
+      "fifo": false,
+      "physical_timing_pass": false,
+      "timing_qualification": "requires independent model-coverage audit",
+      "stages": {
+        "core_synth": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+            "-Q",
+            "-T",
+            "-s",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual/core-synth.ys"
+          ],
+          "exit_code": 0,
+          "seconds": 1.6856154810011503
+        },
+        "probe_synth": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+            "-Q",
+            "-T",
+            "-s",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual/probe-synth.ys"
+          ],
+          "exit_code": 0,
+          "seconds": 1.4837283569977444
+        },
+        "place_and_route": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/nextpnr-himbaechel",
+            "--json",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual/probe-mapped.json",
+            "--device",
+            "GW2AR-LV18QN88C8/I7",
+            "--vopt",
+            "family=GW2A-18C",
+            "--vopt",
+            "cst=/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual/pins.cst",
+            "--freq",
+            "154.28571428571428",
+            "--seed",
+            "1",
+            "--report",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual/pnr.json",
+            "--detailed-timing-report",
+            "--write",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual/routed.json",
+            "--timing-allow-fail"
+          ],
+          "exit_code": 0,
+          "seconds": 8.142290815998422
+        }
+      },
+      "resources": {
+        "core": {
+          "sha256": "e59ecdf876615c90497fd7a0e7e3f549eb0fc65c790103f095dae78a94935933",
+          "cells_by_type": {
+            "ALU": 357,
+            "DFF": 128,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 109,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 36,
+            "LUT1": 10,
+            "LUT2": 16,
+            "LUT3": 237,
+            "LUT4": 36,
+            "MULT18X18": 4,
+            "OBUF": 34,
+            "RAM16SDP4": 24,
+            "SPX9": 2,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 412
+        },
+        "probe": {
+          "sha256": "b5349745bce8da3649ee68210c497e74f8e1f68a470fe446c44073d4e3fd3e99",
+          "cells_by_type": {
+            "$scopeinfo": 1,
+            "ALU": 355,
+            "DFF": 128,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 142,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 4,
+            "LUT1": 10,
+            "LUT2": 13,
+            "LUT3": 241,
+            "LUT4": 45,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 1,
+            "RAM16SDP4": 24,
+            "SPX9": 2,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 445
+        },
+        "routed": {
+          "sha256": "da1d2ce0b6171378c6096f16c05d9b949c1bca6f653f2595800bab2663de1fd2",
+          "cells_by_type": {
+            "ALU": 392,
+            "BUFG": 1,
+            "DFF": 128,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 142,
+            "DFFSE": 1,
+            "DUMMY_CELL": 16,
+            "GOWIN_GND": 1,
+            "GOWIN_VCC": 1,
+            "GSR": 1,
+            "IBUF": 4,
+            "LUT1": 10,
+            "LUT2": 13,
+            "LUT3": 241,
+            "LUT4": 326,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 1,
+            "RAM16SDP4": 24,
+            "SP": 2
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 445
+        }
+      },
+      "route_completed": true,
+      "reported_fmax_NOT_physical_signoff": {
+        "g_core.dut.clk": {
+          "achieved": 377.07391357421875,
+          "constraint": 154.28570556640625
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 15552,
+          "used": 392
+        },
+        "ALU54D": {
+          "available": 24,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 46,
+          "used": 2
+        },
+        "BUFG": {
+          "available": 24,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 15552,
+          "used": 445
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "DUMMY_CELL": {
+          "available": 0,
+          "used": 16
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "GW_JTAG": {
+          "available": 1,
+          "used": 0
+        },
+        "IOB": {
+          "available": 384,
+          "used": 5
+        },
+        "IOLOGICI": {
+          "available": 384,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 384,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 20736,
+          "used": 590
+        },
+        "MULT18X18": {
+          "available": 48,
+          "used": 4
+        },
+        "MULT36X36": {
+          "available": 12,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 96,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 10368,
+          "used": 1
+        },
+        "MUX2_LUT6": {
+          "available": 5184,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 2592,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 2592,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 48,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 96,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 648,
+          "used": 24
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "checks": [
+        {
+          "name": "core_synth_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "probe_synth_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "place_and_route_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "routing_completion",
+          "status": "PASS"
+        },
+        {
+          "name": "core_four_MULT18X18",
+          "status": "PASS"
+        },
+        {
+          "name": "probe_four_MULT18X18",
+          "status": "PASS"
+        },
+        {
+          "name": "routed_four_MULT18X18",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "pnr.log.gz": {
+          "sha256": "92f91695c3da736a45645768efa91b3e7b4330b116aef0696523f59d452b6ecd",
+          "uncompressed_sha256": "e9feedcc407c6ea4566049d6efe2db85e786702d693163f52eb37267ee2aa97d"
+        },
+        "probe-synth.log.gz": {
+          "sha256": "bf31f86c25504bd560d4e3969e66ea0a1cd42914263c354f09a5650587bb7fb3",
+          "uncompressed_sha256": "d3780f5e6409e53819c255beea522b6c2993b63393f6718571236cd2297ba7e5"
+        },
+        "core-synth.log.gz": {
+          "sha256": "165274fa13081ad7a2f189b5c779409bed067a2a68b235c4297d8f4c124c539d",
+          "uncompressed_sha256": "9af456e5155f3fadc79b2ecac7e72feb6b388e865439f16973db0a954844377c"
+        },
+        "probe-mapped.json.gz": {
+          "sha256": "70a4d302a1359cafe5643b7e099d0251c9535e501cdba82760bbc9c06a050506",
+          "uncompressed_sha256": "b5349745bce8da3649ee68210c497e74f8e1f68a470fe446c44073d4e3fd3e99"
+        },
+        "core-mapped.json.gz": {
+          "sha256": "3451ce45dcd2720a925dd5e7bbf6ef556f4f4a05f11d7e276b7f05391c67166e",
+          "uncompressed_sha256": "e59ecdf876615c90497fd7a0e7e3f549eb0fc65c790103f095dae78a94935933"
+        },
+        "routed.json.gz": {
+          "sha256": "821a428062a787f3910184bd8b2a387467ee0bae0971033b51078fa9a64db0b3",
+          "uncompressed_sha256": "da1d2ce0b6171378c6096f16c05d9b949c1bca6f653f2595800bab2663de1fd2"
+        }
+      }
+    },
+    "baseline-fifo": {
+      "profile": "baseline",
+      "fifo": true,
+      "physical_timing_pass": false,
+      "timing_qualification": "requires independent model-coverage audit",
+      "stages": {
+        "core_synth": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+            "-Q",
+            "-T",
+            "-s",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline-fifo/core-synth.ys"
+          ],
+          "exit_code": 0,
+          "seconds": 1.7364388540008804
+        },
+        "probe_synth": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+            "-Q",
+            "-T",
+            "-s",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline-fifo/probe-synth.ys"
+          ],
+          "exit_code": 0,
+          "seconds": 1.6389782859987463
+        },
+        "place_and_route": {
+          "command": [
+            "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/nextpnr-himbaechel",
+            "--json",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline-fifo/probe-mapped.json",
+            "--device",
+            "GW2AR-LV18QN88C8/I7",
+            "--vopt",
+            "family=GW2A-18C",
+            "--vopt",
+            "cst=/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline-fifo/pins.cst",
+            "--freq",
+            "154.28571428571428",
+            "--seed",
+            "1",
+            "--report",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline-fifo/pnr.json",
+            "--detailed-timing-report",
+            "--write",
+            "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline-fifo/routed.json",
+            "--timing-allow-fail"
+          ],
+          "exit_code": 0,
+          "seconds": 8.951553991002584
+        }
+      },
+      "resources": {
+        "core": {
+          "sha256": "73c3b3a65c1f3cd333cfb64980256ab2d106ad16cba3f98b45bec98c4029689e",
+          "cells_by_type": {
+            "$scopeinfo": 1,
+            "ALU": 422,
+            "DFF": 134,
+            "DFFE": 181,
+            "DFFR": 14,
+            "DFFRE": 112,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 24,
+            "LUT1": 14,
+            "LUT2": 21,
+            "LUT3": 243,
+            "LUT4": 48,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 2,
+            "OBUF": 34,
+            "RAM16SDP4": 18,
+            "SDPX9B": 1,
+            "SPX9": 1,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 442
+        },
+        "probe": {
+          "sha256": "f4ec7f1bb29cb17eba13192222e8cbaef4440771e780b053438fc343be9e3614",
+          "cells_by_type": {
+            "$scopeinfo": 2,
+            "ALU": 423,
+            "DFF": 134,
+            "DFFE": 181,
+            "DFFR": 14,
+            "DFFRE": 133,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 4,
+            "LUT1": 14,
+            "LUT2": 18,
+            "LUT3": 246,
+            "LUT4": 58,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 2,
+            "OBUF": 1,
+            "RAM16SDP4": 18,
+            "SDPX9B": 1,
+            "SPX9": 1,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 463
+        },
+        "routed": {
+          "sha256": "4923c284d665b144a1927496a4063697be25fb2daefb38fa73b7d4f8db509776",
+          "cells_by_type": {
+            "ALU": 468,
+            "BUFG": 1,
+            "DFF": 134,
+            "DFFE": 181,
+            "DFFR": 14,
+            "DFFRE": 133,
+            "DFFSE": 1,
+            "DUMMY_CELL": 16,
+            "GOWIN_GND": 1,
+            "GOWIN_VCC": 1,
+            "GSR": 1,
+            "IBUF": 4,
+            "LUT1": 14,
+            "LUT2": 18,
+            "LUT3": 246,
+            "LUT4": 329,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 2,
+            "OBUF": 1,
+            "RAM16SDP4": 18,
+            "SDP": 1,
+            "SP": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 463
+        }
+      },
+      "route_completed": true,
+      "reported_fmax_NOT_physical_signoff": {
+        "g_fifo.dut.clk": {
+          "achieved": 213.1287384033203,
+          "constraint": 154.28570556640625
+        }
+      },
+      "utilization": {
+        "ALU": {
+          "available": 15552,
+          "used": 468
+        },
+        "ALU54D": {
+          "available": 24,
+          "used": 0
+        },
+        "BSRAM": {
+          "available": 46,
+          "used": 2
+        },
+        "BUFG": {
+          "available": 24,
+          "used": 1
+        },
+        "CLKDIV": {
+          "available": 8,
+          "used": 0
+        },
+        "CLKDIV2": {
+          "available": 16,
+          "used": 0
+        },
+        "DCS": {
+          "available": 8,
+          "used": 0
+        },
+        "DFF": {
+          "available": 15552,
+          "used": 463
+        },
+        "DHCEN": {
+          "available": 24,
+          "used": 0
+        },
+        "DQCE": {
+          "available": 24,
+          "used": 0
+        },
+        "DUMMY_CELL": {
+          "available": 0,
+          "used": 16
+        },
+        "GND": {
+          "available": 1,
+          "used": 1
+        },
+        "GSR": {
+          "available": 1,
+          "used": 1
+        },
+        "GW_JTAG": {
+          "available": 1,
+          "used": 0
+        },
+        "IOB": {
+          "available": 384,
+          "used": 5
+        },
+        "IOLOGICI": {
+          "available": 384,
+          "used": 0
+        },
+        "IOLOGICO": {
+          "available": 384,
+          "used": 0
+        },
+        "LUT4": {
+          "available": 20736,
+          "used": 607
+        },
+        "MULT18X18": {
+          "available": 48,
+          "used": 4
+        },
+        "MULT36X36": {
+          "available": 12,
+          "used": 0
+        },
+        "MULT9X9": {
+          "available": 96,
+          "used": 0
+        },
+        "MULTADDALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU18X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MULTALU36X18": {
+          "available": 24,
+          "used": 0
+        },
+        "MUX2_LUT5": {
+          "available": 10368,
+          "used": 2
+        },
+        "MUX2_LUT6": {
+          "available": 5184,
+          "used": 0
+        },
+        "MUX2_LUT7": {
+          "available": 2592,
+          "used": 0
+        },
+        "MUX2_LUT8": {
+          "available": 2592,
+          "used": 0
+        },
+        "OSC": {
+          "available": 1,
+          "used": 0
+        },
+        "PADD18": {
+          "available": 48,
+          "used": 0
+        },
+        "PADD9": {
+          "available": 96,
+          "used": 0
+        },
+        "RAM16SDP4": {
+          "available": 648,
+          "used": 18
+        },
+        "VCC": {
+          "available": 1,
+          "used": 1
+        },
+        "rPLL": {
+          "available": 2,
+          "used": 0
+        }
+      },
+      "checks": [
+        {
+          "name": "core_synth_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "probe_synth_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "place_and_route_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "routing_completion",
+          "status": "PASS"
+        },
+        {
+          "name": "core_four_MULT18X18",
+          "status": "PASS"
+        },
+        {
+          "name": "probe_four_MULT18X18",
+          "status": "PASS"
+        },
+        {
+          "name": "routed_four_MULT18X18",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "pnr.log.gz": {
+          "sha256": "c492b5514fc41f7fd038ac0e3bb98ee8b6deee4d1aea615cac4ebaade9115471",
+          "uncompressed_sha256": "144219975b1b1a8589b7dcb18913930d40b3974f49da26404c2e6bc131e70a58"
+        },
+        "probe-synth.log.gz": {
+          "sha256": "9fecc19b83b3383624be508f94f1f2e8e30048fde81f739f5c6dc9003abb3891",
+          "uncompressed_sha256": "6dc002ea6983921f78844285619f6ef08acc9b1810b62da22e11fe3d282145de"
+        },
+        "core-synth.log.gz": {
+          "sha256": "e47cfcbe821147fccb4cc1a17f71f7481a43f3d9a7ed37b2069d0471f6ca27d9",
+          "uncompressed_sha256": "5a8017c7d6f43e37c69b3bfdb7a1c5933d43929f591f1836233b5beb2f145506"
+        },
+        "probe-mapped.json.gz": {
+          "sha256": "b34f756624a8cf4f7feee66cfeeb42649c39b29f750ded9c58d2e0e0003d20e8",
+          "uncompressed_sha256": "f4ec7f1bb29cb17eba13192222e8cbaef4440771e780b053438fc343be9e3614"
+        },
+        "core-mapped.json.gz": {
+          "sha256": "28e3df0e7d44b3cf7e2882c9d9a72a28ac8e4e8c2be443a3acdea4405e35749e",
+          "uncompressed_sha256": "73c3b3a65c1f3cd333cfb64980256ab2d106ad16cba3f98b45bec98c4029689e"
+        },
+        "routed.json.gz": {
+          "sha256": "bf785208fe85bdc370129dc53369ef5aad934c2d5be3286594864a3d4db60325",
+          "uncompressed_sha256": "4923c284d665b144a1927496a4063697be25fb2daefb38fa73b7d4f8db509776"
+        }
+      }
+    }
+  },
+  "physical_timing_pass": false,
+  "receiver_adoption": false,
+  "source_sha256": {
+    "experiments/t_halfband_fpga/run_cad.py": "8c238f735e2a18b67a9429014a0a1cace78e36ee77d34dd53c70a5e3de0bce1b",
+    "experiments/t_halfband_fpga/coefficients.py": "12e472026e595cc697774a8c93ea1e7ec29a58867c29fbc8c677bc3c1917fc1d",
+    "experiments/t_halfband_fpga/resampler.sv": "a0c99d3938906d25f137be53e43a3c04b595fdc64fdd2b45b76ef1f9d22691ec",
+    "experiments/t_halfband_fpga/fifo_resampler.sv": "f9f046f10a9844e9e3a926fa4d5e6ba88bc8f383699dd2fa0d8fbde9431f860a",
+    "experiments/t_halfband_fpga/probe.sv": "157755145bcc58b07968008b5b0e3c5bb2297004f451037e78683338b4425660",
+    "experiments/t_halfband_fpga/coeff_baseline.hex": "ed4cc491e4718afb124966f28f8ee06a5ef9749eca6b71fff48118058d2cda98",
+    "experiments/t_halfband_fpga/coeff_residual.hex": "e7afd42839e5027a7a5230717b78cfd8a0871386bd4ea3474a9f1411bfe06620"
+  },
+  "tool_versions": {
+    "yosys": {
+      "exit_code": 0,
+      "output": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)"
+    },
+    "nextpnr-himbaechel": {
+      "exit_code": 0,
+      "output": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)"
+    }
+  },
+  "toolchain": {
+    "release": "2026-10-04",
+    "archive_sha256": "8a4708629b0f0afd5a1835aca8b44d224fec5f6e544c5fd22a060ea5514f83c9"
+  },
+  "cad_completed": true,
+  "comparison": {
+    "baseline": {
+      "sha256": "4e7d9a21783e145a8a212a083f5366f0f7f8d8ffd6e888bce2555ac4c664ef1c",
+      "cells_by_type": {
+        "ALU": 412,
+        "BUFG": 1,
+        "DFF": 104,
+        "DFFE": 160,
+        "DFFR": 14,
+        "DFFRE": 104,
+        "DFFSE": 1,
+        "DUMMY_CELL": 16,
+        "GOWIN_GND": 1,
+        "GOWIN_VCC": 1,
+        "GSR": 1,
+        "IBUF": 4,
+        "LUT1": 10,
+        "LUT2": 13,
+        "LUT3": 216,
+        "LUT4": 258,
+        "MULT18X18": 4,
+        "OBUF": 1,
+        "RAM16SDP4": 18,
+        "SP": 1
+      },
+      "MULT18X18": 4,
+      "BSRAM": 1,
+      "RAM16SDP4": 18,
+      "explicit_DFF_cells": 383
+    },
+    "residual": {
+      "sha256": "da1d2ce0b6171378c6096f16c05d9b949c1bca6f653f2595800bab2663de1fd2",
+      "cells_by_type": {
+        "ALU": 392,
+        "BUFG": 1,
+        "DFF": 128,
+        "DFFE": 160,
+        "DFFR": 14,
+        "DFFRE": 142,
+        "DFFSE": 1,
+        "DUMMY_CELL": 16,
+        "GOWIN_GND": 1,
+        "GOWIN_VCC": 1,
+        "GSR": 1,
+        "IBUF": 4,
+        "LUT1": 10,
+        "LUT2": 13,
+        "LUT3": 241,
+        "LUT4": 326,
+        "MULT18X18": 4,
+        "MUX2_LUT5": 1,
+        "OBUF": 1,
+        "RAM16SDP4": 24,
+        "SP": 2
+      },
+      "MULT18X18": 4,
+      "BSRAM": 2,
+      "RAM16SDP4": 24,
+      "explicit_DFF_cells": 445
+    },
+    "DSP_saved": 0,
+    "same_quality_contract_verified": false
+  },
+  "comparison-fifo": {
+    "baseline": {
+      "sha256": "4923c284d665b144a1927496a4063697be25fb2daefb38fa73b7d4f8db509776",
+      "cells_by_type": {
+        "ALU": 468,
+        "BUFG": 1,
+        "DFF": 134,
+        "DFFE": 181,
+        "DFFR": 14,
+        "DFFRE": 133,
+        "DFFSE": 1,
+        "DUMMY_CELL": 16,
+        "GOWIN_GND": 1,
+        "GOWIN_VCC": 1,
+        "GSR": 1,
+        "IBUF": 4,
+        "LUT1": 14,
+        "LUT2": 18,
+        "LUT3": 246,
+        "LUT4": 329,
+        "MULT18X18": 4,
+        "MUX2_LUT5": 2,
+        "OBUF": 1,
+        "RAM16SDP4": 18,
+        "SDP": 1,
+        "SP": 1
+      },
+      "MULT18X18": 4,
+      "BSRAM": 2,
+      "RAM16SDP4": 18,
+      "explicit_DFF_cells": 463
+    },
+    "residual": {
+      "sha256": "b545c9db922e53f448f8a9e63b4aacd141b46d60c9011903b200a3ebf9ea0faa",
+      "cells_by_type": {
+        "ALU": 448,
+        "BUFG": 1,
+        "DFF": 170,
+        "DFFE": 193,
+        "DFFR": 14,
+        "DFFRE": 171,
+        "DFFSE": 1,
+        "DUMMY_CELL": 16,
+        "GOWIN_GND": 1,
+        "GOWIN_VCC": 1,
+        "GSR": 1,
+        "IBUF": 4,
+        "LUT1": 14,
+        "LUT2": 20,
+        "LUT3": 281,
+        "LUT4": 404,
+        "MULT18X18": 4,
+        "MUX2_LUT5": 1,
+        "OBUF": 1,
+        "RAM16SDP4": 24,
+        "SDP": 1,
+        "SP": 2
+      },
+      "MULT18X18": 4,
+      "BSRAM": 3,
+      "RAM16SDP4": 24,
+      "explicit_DFF_cells": 549
+    },
+    "DSP_saved": 0,
+    "same_quality_contract_verified": false
+  }
+}
