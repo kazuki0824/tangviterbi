@@ -1,0 +1,62 @@
+{
+  "checks": [
+    {
+      "module": "test_s3_bulk_transport",
+      "ok": true
+    },
+    {
+      "module": "test_s3_bulk_page_pipeline",
+      "ok": true
+    },
+    {
+      "module": "test_s3_spi_rx",
+      "ok": true
+    },
+    {
+      "module": "test_s3_spi_rx_faults",
+      "ok": true
+    },
+    {
+      "module": "test_s3_spi_page_pipeline",
+      "ok": true
+    },
+    {
+      "module": "test_s3_transport",
+      "ok": true
+    },
+    {
+      "module": "test_s3_control",
+      "ok": true
+    },
+    {
+      "module": "test_s3_rf_pump",
+      "ok": true
+    },
+    {
+      "module": "test_s3_fft_exchange",
+      "ok": true
+    },
+    {
+      "module": "test_s3_batch_bank_closure",
+      "ok": true
+    },
+    {
+      "module": "git_diff_check",
+      "ok": true
+    }
+  ],
+  "all_pass": true,
+  "source_sha256": {
+    "experiments/s3_spi_transport.c": "c3f572c7f9620392c8ab7ff6d589358c0f4d7d823ea543760af9864eeeba630a",
+    "experiments/s3_spi_transport.h": "a8608c5d80450f6214f800e6aee1a2b025f40fc076b8b86adc20981f927fed6b",
+    "rtl/s3_spi_rx.sv": "08b2de73f9bc19d8f815321e23d8633b4136dc0d5f7061f6f8096310469882b4",
+    "rtl/s3_bulk_page_split.sv": "f19f2611278404304ea6c7e1aa6cd77b616ebb06f62478b824b0bcb0071bec11",
+    "tests/s3_bulk_transport_host.c": "610a351ba63e932368e3a51c40880346c3c55fc51e6c412a98bf8635b360ff51",
+    "tests/test_s3_bulk_transport.py": "6f1597d6d494fa7c57d1afa30f9e4d14778602638195b3dc9cb6abaddc5a5f6e",
+    "tests/test_s3_bulk_page_pipeline.py": "410bebc73d4641eee9de4a39bfb3c936c441296695ab9fc6031f1220c516ca24",
+    "experiments/check_s3_bulk_transport.py": "67330642c5995cf160386a7d339ff48abe293d28ec9b98f7c5ffc0346744457d"
+  },
+  "scope": "C SDK shim and RTL functional simulation; no hardware WCET, SDK link, P&R or RF-to-TS",
+  "formal_routes": 0,
+  "receiver_adopted": false
+}

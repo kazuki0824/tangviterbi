@@ -1,0 +1,112 @@
+{
+  "scope": "Actual target compilation plus finite four-output QACC cost model.",
+  "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "source_sha256": "e2df3bb75ebb43585354b47e71780c939376095fb379db34485042b7cde8b3f8",
+  "disassembly_sha256": "b7fc097eaa6553a3f520f6ac25bfdf6e76969356a9369749fa57bceec87d69a3",
+  "rows": [
+    {
+      "standard": "T",
+      "taps": 32,
+      "instructions_per_four_outputs": 72,
+      "optimistic_kernel_Mcycles_s": 146.28571428571428,
+      "optimistic_kernel_two_core_percent": 30.476190476190474,
+      "ideal_MAC_only_Mcycles_s": 65.01587301587301,
+      "all_setup_and_result_save_removed_Mcycles_s": 132.06349206349205,
+      "tap_sample_bytes_per_batch": 512,
+      "tap_coeff_bytes_per_batch": 512,
+      "output_buffer_bytes": 64,
+      "output_written_bytes": 40,
+      "reference_gather_sample_read_bytes_per_steady_batch": 512,
+      "reference_gather_coeff_read_bytes_per_batch": 256,
+      "reference_gather_total_write_bytes_per_batch": 1024,
+      "reference_gather_writes_MB_s": 2080.5079365079364,
+      "expanded_coeff_table_groups": 8,
+      "expanded_coeff_table_bytes": 4096,
+      "original_phase_table_bytes": 2048,
+      "nominal_three_output_intervals_us": 0.369140625,
+      "input_arrival_span_us_min": 0.3125,
+      "input_arrival_span_us_max": 0.375,
+      "inherited_non_FIR_plus_API_Mcycles_s": [
+        94.64630611359127,
+        127.15424262152777
+      ],
+      "inherited_fixed_plus_new_kernel_Mcycles_s": [
+        240.93202039930554,
+        273.43995690724205
+      ],
+      "exceeds_480_with_gather_free": [
+        false,
+        false
+      ],
+      "separate_prepare_write_only_ideal_Mcycles_s": 130.03174603174602,
+      "gather_cost_included_in_kernel": false,
+      "performance_qualified": false
+    },
+    {
+      "standard": "S",
+      "taps": 16,
+      "instructions_per_four_outputs": 40,
+      "optimistic_kernel_Mcycles_s": 288.6,
+      "optimistic_kernel_two_core_percent": 60.12500000000001,
+      "ideal_MAC_only_Mcycles_s": 115.44,
+      "all_setup_and_result_save_removed_Mcycles_s": 238.095,
+      "tap_sample_bytes_per_batch": 256,
+      "tap_coeff_bytes_per_batch": 256,
+      "output_buffer_bytes": 64,
+      "output_written_bytes": 40,
+      "reference_gather_sample_read_bytes_per_steady_batch": 256,
+      "reference_gather_coeff_read_bytes_per_batch": 128,
+      "reference_gather_total_write_bytes_per_batch": 512,
+      "reference_gather_writes_MB_s": 3694.08,
+      "expanded_coeff_table_groups": 1443,
+      "expanded_coeff_table_bytes": 369408,
+      "original_phase_table_bytes": 46176,
+      "nominal_three_output_intervals_us": 0.10395010395010396,
+      "input_arrival_span_us_min": 0.1,
+      "input_arrival_span_us_max": 0.125,
+      "inherited_non_FIR_plus_API_Mcycles_s": [
+        260.78912109374994,
+        376.2291210937501
+      ],
+      "inherited_fixed_plus_new_kernel_Mcycles_s": [
+        549.38912109375,
+        664.8291210937501
+      ],
+      "exceeds_480_with_gather_free": [
+        true,
+        true
+      ],
+      "separate_prepare_write_only_ideal_Mcycles_s": 230.88,
+      "gather_cost_included_in_kernel": false,
+      "performance_qualified": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "T_instructions",
+      "passed": true
+    },
+    {
+      "name": "T_MAC",
+      "passed": true
+    },
+    {
+      "name": "T_phase_groups",
+      "passed": true
+    },
+    {
+      "name": "S_instructions",
+      "passed": true
+    },
+    {
+      "name": "S_MAC",
+      "passed": true
+    },
+    {
+      "name": "S_phase_groups",
+      "passed": true
+    }
+  ],
+  "target_execution_verified": false,
+  "all_QACC_layouts_excluded": false
+}

@@ -1,0 +1,423 @@
+{
+  "schema_version": 2,
+  "audit_status": "PASS",
+  "non_fail_fast": true,
+  "check_summary": {
+    "PASS": 36,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "checks": [
+    {
+      "id": "recovered_implementation_bytes_match",
+      "status": "PASS",
+      "result": {
+        "experiments/t_preprocess_capacity/native_adapter.c": "ccfcc45843e947eb82bb7016abfb8e0d66441a2c78f592f8a8580587d9a24cd7",
+        "experiments/t_preprocess_integration_probe/tpre_runtime.c": "015ea011b206003699d78578174fb7a8d8b259246df3ea9c6aafb717fc64d31b",
+        "experiments/t_preprocess_integration_probe/tpre_runtime.h": "b29698670ef202b9cacb9c51d05637776e7153eb2ae386703c000744e0254651"
+      }
+    },
+    {
+      "id": "host_build_UBSan",
+      "status": "PASS",
+      "result": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-fPIC",
+          "-shared",
+          "-fsanitize=undefined",
+          "-fno-sanitize-recover=all",
+          "-I/workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_preprocess_capacity",
+          "-I/workspace/scratch/743a7294ea5e/tangviterbi/experiments",
+          "/workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_preprocess_capacity/native_adapter.c",
+          "/workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_preprocess_capacity/halfband_pipeline.c",
+          "/workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_preprocess_capacity/halfband31.c",
+          "/workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_preprocess_capacity/halfband31_host.c",
+          "/workspace/scratch/743a7294ea5e/tangviterbi/tests/t_native_adapter_host.c",
+          "-o",
+          "/tmp/t-native-v2-l9jiedsa/adapter.so"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "load_host_library",
+      "status": "PASS",
+      "result": {
+        "loaded": true
+      }
+    },
+    {
+      "id": "host_init_and_layout",
+      "status": "PASS",
+      "result": {
+        "invalid_init_calls": 6,
+        "host_adapter_bytes": 4288,
+        "host_pipeline_bytes": 8528,
+        "carry_bytes": 4096,
+        "target_layout_is_separately_measured": true
+      }
+    },
+    {
+      "id": "independent_convolution_shift_0",
+      "status": "PASS",
+      "result": {
+        "shift": 0,
+        "blocks": 4,
+        "raw": 4983,
+        "tail": 887,
+        "complex_outputs_compared": 2048,
+        "tail_padding_or_drop": false
+      }
+    },
+    {
+      "id": "independent_convolution_shift_10",
+      "status": "PASS",
+      "result": {
+        "shift": 10,
+        "blocks": 4,
+        "raw": 4983,
+        "tail": 887,
+        "complex_outputs_compared": 2048,
+        "tail_padding_or_drop": false
+      }
+    },
+    {
+      "id": "independent_convolution_shift_15",
+      "status": "PASS",
+      "result": {
+        "shift": 15,
+        "blocks": 4,
+        "raw": 4983,
+        "tail": 887,
+        "complex_outputs_compared": 2048,
+        "tail_padding_or_drop": false
+      }
+    },
+    {
+      "id": "independent_convolution_shift_31",
+      "status": "PASS",
+      "result": {
+        "shift": 31,
+        "blocks": 4,
+        "raw": 4983,
+        "tail": 887,
+        "complex_outputs_compared": 2048,
+        "tail_padding_or_drop": false
+      }
+    },
+    {
+      "id": "all_1023_bank_splits",
+      "status": "PASS",
+      "result": {
+        "split_positions": 1023,
+        "ring_wrap": false,
+        "executed_count": 1023,
+        "failures": [],
+        "raw_destroyed_before_worker": true,
+        "complex_outputs_compared": 523776
+      }
+    },
+    {
+      "id": "all_1023_ring_wraps",
+      "status": "PASS",
+      "result": {
+        "split_positions": 1023,
+        "ring_wrap": true,
+        "executed_count": 1023,
+        "failures": [],
+        "raw_destroyed_before_worker": true,
+        "complex_outputs_compared": 523776
+      }
+    },
+    {
+      "id": "three_banks_six_segments",
+      "status": "PASS",
+      "result": {
+        "banks": 3,
+        "physical_segments": 6,
+        "retained_tail": 24,
+        "source_destroyed_after_each_release": true
+      }
+    },
+    {
+      "id": "two_slot_backpressure",
+      "status": "PASS",
+      "result": {
+        "slots": 2,
+        "blocked_third_producer_preserves_history": true
+      }
+    },
+    {
+      "id": "output_lease_and_metadata",
+      "status": "PASS",
+      "result": {
+        "full_carry_retained_until_output_reserved": true,
+        "all_32_input_bits_preserved": true
+      }
+    },
+    {
+      "id": "reinit_live_bank",
+      "status": "PASS",
+      "result": {
+        "live": "bank",
+        "reinit_rejected_without_state_change": true
+      }
+    },
+    {
+      "id": "reinit_live_tail",
+      "status": "PASS",
+      "result": {
+        "live": "tail",
+        "reinit_rejected_without_state_change": true
+      }
+    },
+    {
+      "id": "reinit_live_pipeline",
+      "status": "PASS",
+      "result": {
+        "live": "pipeline",
+        "reinit_rejected_without_state_change": true
+      }
+    },
+    {
+      "id": "reject_accept_bank",
+      "status": "PASS",
+      "result": {
+        "input": "bank",
+        "fault": 1,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_null",
+      "status": "PASS",
+      "result": {
+        "input": "null",
+        "fault": 1,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_unaligned",
+      "status": "PASS",
+      "result": {
+        "input": "unaligned",
+        "fault": 1,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_first",
+      "status": "PASS",
+      "result": {
+        "input": "first",
+        "fault": 1,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_empty",
+      "status": "PASS",
+      "result": {
+        "input": "empty",
+        "fault": 1,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_count",
+      "status": "PASS",
+      "result": {
+        "input": "count",
+        "fault": 1,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_overflow",
+      "status": "PASS",
+      "result": {
+        "input": "overflow",
+        "fault": 8,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_sequence",
+      "status": "PASS",
+      "result": {
+        "input": "sequence",
+        "fault": 3,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_clock",
+      "status": "PASS",
+      "result": {
+        "input": "clock",
+        "fault": 7,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_deadline",
+      "status": "PASS",
+      "result": {
+        "input": "deadline",
+        "fault": 4,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "reject_accept_owned",
+      "status": "PASS",
+      "result": {
+        "input": "owned",
+        "fault": 2,
+        "fault_latched": true
+      }
+    },
+    {
+      "id": "step_fault_budget",
+      "status": "PASS",
+      "result": {
+        "condition": "budget",
+        "fault": 1,
+        "published_output_retained": false
+      }
+    },
+    {
+      "id": "step_fault_zero_bound",
+      "status": "PASS",
+      "result": {
+        "condition": "zero_bound",
+        "fault": 1,
+        "published_output_retained": false
+      }
+    },
+    {
+      "id": "step_fault_error_bound",
+      "status": "PASS",
+      "result": {
+        "condition": "error_bound",
+        "fault": 1,
+        "published_output_retained": false
+      }
+    },
+    {
+      "id": "step_fault_invalid_clock",
+      "status": "PASS",
+      "result": {
+        "condition": "invalid_clock",
+        "fault": 7,
+        "published_output_retained": false
+      }
+    },
+    {
+      "id": "step_fault_clock_under_error",
+      "status": "PASS",
+      "result": {
+        "condition": "clock_under_error",
+        "fault": 7,
+        "published_output_retained": false
+      }
+    },
+    {
+      "id": "step_fault_admission_equal",
+      "status": "PASS",
+      "result": {
+        "condition": "admission_equal",
+        "fault": 4,
+        "published_output_retained": false
+      }
+    },
+    {
+      "id": "step_fault_post_bound",
+      "status": "PASS",
+      "result": {
+        "condition": "post_bound",
+        "fault": 6,
+        "published_output_retained": true
+      }
+    },
+    {
+      "id": "step_fault_post_clock",
+      "status": "PASS",
+      "result": {
+        "condition": "post_clock",
+        "fault": 7,
+        "published_output_retained": true
+      }
+    },
+    {
+      "id": "source_hashes_available",
+      "status": "PASS",
+      "result": {
+        "executed_count": 9,
+        "passed_count": 9,
+        "failures": [],
+        "completed": [
+          {
+            "item": "experiments/t_preprocess_capacity/native_adapter.c",
+            "result": "ccfcc45843e947eb82bb7016abfb8e0d66441a2c78f592f8a8580587d9a24cd7"
+          },
+          {
+            "item": "experiments/t_preprocess_capacity/native_adapter.h",
+            "result": "2d9f3e3cfb4b2eb46e65ea8b9a54e17dba76d5dbcfd380d76c556f106f7b9a11"
+          },
+          {
+            "item": "experiments/t_preprocess_capacity/halfband_pipeline.c",
+            "result": "760e6aa84657e407d0a26b4e5622e5add8d2912fd5033bb65fbbd8813fa3754d"
+          },
+          {
+            "item": "experiments/t_preprocess_capacity/halfband_pipeline.h",
+            "result": "0ee1dd658cdd699483e0913c9646aa6afe5bb55386893cd15c201b08ac2bd9c7"
+          },
+          {
+            "item": "experiments/t_preprocess_capacity/halfband31.c",
+            "result": "7f5184694746d43db0efa5feaef304ff037750aeb4c5f0c4f6f6975708f019a8"
+          },
+          {
+            "item": "experiments/t_preprocess_capacity/halfband31.h",
+            "result": "6f4b2f0946ac6b01f49dd1004203229a5d29b3cb6ec20062d483ac378935f987"
+          },
+          {
+            "item": "experiments/t_preprocess_capacity/halfband31_host.c",
+            "result": "a6a5cde72438d0575b187e2a861d446c20a495dc8eaf78333b78a95e5e60cd69"
+          },
+          {
+            "item": "tests/t_native_adapter_host.c",
+            "result": "bd29d9dc3b78b0e0fc0abe0050735ef00f91a630312d11ddd406fa1942bd9012"
+          },
+          {
+            "item": "ci/t_native_adapter_audit.py",
+            "result": "bae4cc91ea6404034133771ee219434faa20f0261d07ecbe70ecd4b17bfac7af"
+          }
+        ]
+      }
+    }
+  ],
+  "scope": "Recovered adapter implementation and retained pipeline C; reconstructed header v2; host scalar FIR leaf and independent direct convolution.",
+  "target_timing_measured": false,
+  "receiver_adopted": false,
+  "source_sha256": {
+    "experiments/t_preprocess_capacity/native_adapter.c": "ccfcc45843e947eb82bb7016abfb8e0d66441a2c78f592f8a8580587d9a24cd7",
+    "experiments/t_preprocess_capacity/native_adapter.h": "2d9f3e3cfb4b2eb46e65ea8b9a54e17dba76d5dbcfd380d76c556f106f7b9a11",
+    "experiments/t_preprocess_capacity/halfband_pipeline.c": "760e6aa84657e407d0a26b4e5622e5add8d2912fd5033bb65fbbd8813fa3754d",
+    "experiments/t_preprocess_capacity/halfband_pipeline.h": "0ee1dd658cdd699483e0913c9646aa6afe5bb55386893cd15c201b08ac2bd9c7",
+    "experiments/t_preprocess_capacity/halfband31.c": "7f5184694746d43db0efa5feaef304ff037750aeb4c5f0c4f6f6975708f019a8",
+    "experiments/t_preprocess_capacity/halfband31.h": "6f4b2f0946ac6b01f49dd1004203229a5d29b3cb6ec20062d483ac378935f987",
+    "experiments/t_preprocess_capacity/halfband31_host.c": "a6a5cde72438d0575b187e2a861d446c20a495dc8eaf78333b78a95e5e60cd69",
+    "tests/t_native_adapter_host.c": "bd29d9dc3b78b0e0fc0abe0050735ef00f91a630312d11ddd406fa1942bd9012",
+    "ci/t_native_adapter_audit.py": "bae4cc91ea6404034133771ee219434faa20f0261d07ecbe70ecd4b17bfac7af"
+  }
+}

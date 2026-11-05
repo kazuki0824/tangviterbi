@@ -1,0 +1,114 @@
+{
+  "rows": [
+    {
+      "trial": "cursor-mask-timingweight20",
+      "checks": [
+        {
+          "name": "same_mapped_sha256",
+          "passed": true
+        },
+        {
+          "name": "same_backend_source_sha256",
+          "passed": true
+        },
+        {
+          "name": "same_chipdb_sha256",
+          "passed": true
+        },
+        {
+          "name": "routed_hash",
+          "passed": true
+        },
+        {
+          "name": "physical_site_recount",
+          "passed": true
+        },
+        {
+          "name": "same_STA_result",
+          "passed": true
+        },
+        {
+          "name": "complete_route_log",
+          "passed": true
+        },
+        {
+          "name": "exit_matches_target_STA",
+          "passed": true
+        },
+        {
+          "name": "scope_not_whole_receiver",
+          "passed": true
+        }
+      ],
+      "MHz": 152.95196533203125,
+      "minimum_MHz": 152.62663760629923,
+      "target_MHz": 154.28571428571428,
+      "minimum_pass": true,
+      "target_pass": false,
+      "target_margin_percent": -0.864466914424189,
+      "minimum_margin_percent": 0.21315265201033995,
+      "logic_sites": 19666,
+      "logic_delta_from_baseline": 39,
+      "BSRAM": 29,
+      "FF": 8673,
+      "whole_receiver_verified": false
+    },
+    {
+      "trial": "cursor-mask-timingweight10-seed2",
+      "checks": [
+        {
+          "name": "same_mapped_sha256",
+          "passed": true
+        },
+        {
+          "name": "same_backend_source_sha256",
+          "passed": true
+        },
+        {
+          "name": "same_chipdb_sha256",
+          "passed": true
+        },
+        {
+          "name": "routed_hash",
+          "passed": true
+        },
+        {
+          "name": "physical_site_recount",
+          "passed": true
+        },
+        {
+          "name": "same_STA_result",
+          "passed": true
+        },
+        {
+          "name": "complete_route_log",
+          "passed": true
+        },
+        {
+          "name": "exit_matches_target_STA",
+          "passed": true
+        },
+        {
+          "name": "scope_not_whole_receiver",
+          "passed": true
+        }
+      ],
+      "MHz": 166.22340393066406,
+      "minimum_MHz": 152.62663760629923,
+      "target_MHz": 154.28571428571428,
+      "minimum_pass": true,
+      "target_pass": true,
+      "target_margin_percent": 7.73739143654153,
+      "minimum_margin_percent": 8.908514619471418,
+      "logic_sites": 19658,
+      "logic_delta_from_baseline": 31,
+      "BSRAM": 29,
+      "FF": 8673,
+      "whole_receiver_verified": false
+    }
+  ],
+  "all_checks_pass": true,
+  "receiver_adopted": false,
+  "baseline_MHz": 152.0912628173828,
+  "caveat": "Different rebuilt binary/compiler from baseline; same pinned netlist, backend source and chipdb. Compare retained outputs, not a seed-only causal experiment."
+}

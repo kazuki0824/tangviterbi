@@ -1,0 +1,52 @@
+0000009c <fill$isra$0>:
+  9c:	004136        	entry	a1, 32
+  9f:	20a330        	or	a10, a3, a3
+  a2:	20b440        	or	a11, a4, a4
+  a5:	0002e0        	callx8	a2
+  a8:	000091        	l32r	a9, fffc00a8 <s3_native_mmio+0xfffbfde0>
+  ab:	d4c050        	extui	a12, a5, 0, 14
+  ae:	0e0c      	movi.n	a14, 0
+  b0:	c0dcd2        	addmi	a13, a12, 0xffffc000
+  b3:	60d0d0        	neg	a13, a13
+  b6:	63dd60        	minu	a13, a13, a6
+  b9:	a0cca0        	addx4	a12, a12, a10
+  bc:	464db6        	bltui	a13, 4, 106 <fill$isra$0+0x6a>
+  bf:	fccdf2        	addi	a15, a13, -4
+  c2:	41f2f0        	srli	a15, a15, 2
+  c5:	bf1b      	addi.n	a11, a15, 1
+  c7:	f4b0b0        	extui	a11, a11, 0, 16
+  ca:	11bbc0        	slli	a11, a11, 4
+  cd:	f0cbb2        	addi	a11, a11, -16
+  d0:	41b4b0        	srli	a11, a11, 4
+  d3:	208cc0        	or	a8, a12, a12
+  d6:	01cbb2        	addi	a11, a11, 1
+  d9:	168b76        	loop	a11, f3 <fill$isra$0+0x57>
+  dc:	0020c0        	memw
+  df:	0899      	s32i.n	a9, a8, 0
+  e1:	0020c0        	memw
+  e4:	1899      	s32i.n	a9, a8, 4
+  e6:	0020c0        	memw
+  e9:	2899      	s32i.n	a9, a8, 8
+  eb:	0020c0        	memw
+  ee:	3899      	s32i.n	a9, a8, 12
+  f0:	10c882        	addi	a8, a8, 16
+  f3:	1480d0        	extui	a8, a13, 0, 2
+  f6:	e89c      	beqz.n	a8, 118 <fill$isra$0+0x7c>
+  f8:	f4f0f0        	extui	a15, a15, 0, 16
+  fb:	10ccc2        	addi	a12, a12, 16
+  fe:	11ffc0        	slli	a15, a15, 4
+ 101:	ccfa      	add.n	a12, a12, a15
+ 103:	000046        	j	108 <fill$isra$0+0x6c>
+ 106:	0d8d      	mov.n	a8, a13
+ 108:	f48080        	extui	a8, a8, 0, 16
+ 10b:	a088c0        	addx4	a8, a8, a12
+ 10e:	0020c0        	memw
+ 111:	0c99      	s32i.n	a9, a12, 0
+ 113:	cc4b      	addi.n	a12, a12, 4
+ 115:	f598c7        	bne	a8, a12, 10e <fill$isra$0+0x72>
+ 118:	c066d0        	sub	a6, a6, a13
+ 11b:	0ecd      	mov.n	a12, a14
+ 11d:	f8f656        	bnez	a6, b0 <fill$isra$0+0x14>
+ 120:	0020c0        	memw
+ 123:	f01d      	retw.n
+ 125:	000000        	ill

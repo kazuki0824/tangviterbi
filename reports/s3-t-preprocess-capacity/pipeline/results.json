@@ -1,0 +1,2275 @@
+{
+  "status": "conditional_two_core_CPU_candidate_not_receiver_pass",
+  "audit_status": "PASS",
+  "non_fail_fast": true,
+  "check_summary": {
+    "PASS": 20,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "checks": [
+    {
+      "id": "target_version",
+      "status": "PASS"
+    },
+    {
+      "id": "fixed_GCC14_2_version",
+      "status": "PASS"
+    },
+    {
+      "id": "target_c_build",
+      "status": "PASS"
+    },
+    {
+      "id": "target_asm_build",
+      "status": "PASS"
+    },
+    {
+      "id": "host_arithmetic_build",
+      "status": "PASS"
+    },
+    {
+      "id": "host_timing_build",
+      "status": "PASS"
+    },
+    {
+      "id": "target_c_disassembly",
+      "status": "PASS"
+    },
+    {
+      "id": "target_asm_disassembly",
+      "status": "PASS"
+    },
+    {
+      "id": "host_independent_convolution_and_ownership",
+      "status": "PASS"
+    },
+    {
+      "id": "target_kernel_semantics",
+      "status": "PASS"
+    },
+    {
+      "id": "target_kernel_hazards",
+      "status": "PASS"
+    },
+    {
+      "id": "target_CFG_and_callee_counts",
+      "status": "PASS"
+    },
+    {
+      "id": "scalar_control_hazard_budget",
+      "status": "PASS"
+    },
+    {
+      "id": "target_ABI_layout",
+      "status": "PASS"
+    },
+    {
+      "id": "per_core_capacity",
+      "status": "PASS"
+    },
+    {
+      "id": "all_finite_event_scenarios",
+      "status": "PASS"
+    },
+    {
+      "id": "finite_event_expectations",
+      "status": "PASS"
+    },
+    {
+      "id": "write_disassembly",
+      "status": "PASS"
+    },
+    {
+      "id": "disassembly_hash",
+      "status": "PASS"
+    },
+    {
+      "id": "source_hashes",
+      "status": "PASS"
+    }
+  ],
+  "target_compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "c_flags": [
+    "-O2",
+    "-fno-tree-slp-vectorize",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror"
+  ],
+  "split": {
+    "raw_per_block": 1024,
+    "input_period_us": 64,
+    "core0_outputs": 32,
+    "core1_outputs": 480,
+    "workspace_slots": 2
+  },
+  "instruction_model": "alpha 1.0 or 1.1 cycles/instruction, rounded up once per public C operation; not silicon WCET. Callees are counted once, original hb31_process caller is absent.",
+  "host_oracle": {
+    "rows": [
+      {
+        "shift": 0,
+        "blocks": 40,
+        "complex_outputs_compared": 20480,
+        "busy_checks": 38,
+        "empty_checks": 41,
+        "invalid_calls": 6
+      },
+      {
+        "shift": 10,
+        "blocks": 40,
+        "complex_outputs_compared": 20480,
+        "busy_checks": 38,
+        "empty_checks": 41,
+        "invalid_calls": 6
+      },
+      {
+        "shift": 15,
+        "blocks": 40,
+        "complex_outputs_compared": 20480,
+        "busy_checks": 38,
+        "empty_checks": 41,
+        "invalid_calls": 6
+      },
+      {
+        "shift": 31,
+        "blocks": 40,
+        "complex_outputs_compared": 20480,
+        "busy_checks": 38,
+        "empty_checks": 41,
+        "invalid_calls": 6
+      }
+    ],
+    "errors": [],
+    "target_executed": false,
+    "history_advanced_before_previous_worker": true,
+    "raw_overwritten_after_produce": true,
+    "host_pipe_bytes": 8528
+  },
+  "kernel_semantics": {
+    "cases": 1600,
+    "comparisons_s16_lanes": 12800,
+    "max_even_read_bytes": 80,
+    "input_read_extent_including_padding_bytes": 80,
+    "target_executed": false
+  },
+  "kernel_hazards": {
+    "current": {
+      "instruction_count": 98,
+      "required_operand_stall_cycles": 0,
+      "issue_span_cycles_in_this_model": 98,
+      "dependency_edges_checked": 166,
+      "dependency_classes": {
+        "AR:def1->use0": 16,
+        "QR:def2->use1": 46,
+        "QACC_H:def1->use2": 1,
+        "QACC_L:def1->use2": 1,
+        "AR:def1->use1": 43,
+        "SAR_BYTE:def1->use1": 12,
+        "QR:def1->use1": 13,
+        "QACC_H:def2->use2": 16,
+        "QACC_L:def2->use2": 16,
+        "QACC_H:def2->use1": 1,
+        "QACC_L:def2->use1": 1
+      },
+      "conflicts": []
+    },
+    "legacy_order": {
+      "instruction_count": 98,
+      "required_operand_stall_cycles": 29,
+      "issue_span_cycles_in_this_model": 127,
+      "dependency_edges_checked": 166,
+      "dependency_classes": {
+        "QR:def2->use1": 46,
+        "QACC_H:def1->use2": 1,
+        "QACC_L:def1->use2": 1,
+        "AR:def1->use0": 16,
+        "AR:def1->use1": 43,
+        "SAR_BYTE:def1->use1": 12,
+        "QR:def1->use1": 13,
+        "QACC_H:def2->use2": 16,
+        "QACC_L:def2->use2": 16,
+        "QACC_H:def2->use1": 1,
+        "QACC_L:def2->use1": 1
+      },
+      "conflicts": [
+        {
+          "instruction_index": 4,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 3,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 8,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 7,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 10,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 9,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 14,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 13,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 16,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 15,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 20,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 19,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 22,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 21,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 26,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 25,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 30,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 29,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 32,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 31,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 36,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 35,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 38,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 37,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 42,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 41,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 44,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 43,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 48,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 47,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 52,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 51,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 54,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 53,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 58,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 57,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 60,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 59,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 64,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 63,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 66,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 65,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 70,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 69,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 74,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 73,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 76,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 75,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 80,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 79,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 82,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 81,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 86,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 85,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 88,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 87,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 92,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 91,
+              "required_issue_distance": 2
+            }
+          ]
+        }
+      ]
+    },
+    "regression_cases": 5,
+    "legacy_assembly_source_SHA256": "a21217b8c15a23863f2575ab950e4dfdd1411d9c3d5afdd77e001af2ce199b8b",
+    "reference": "ESP32-S3 TRM v1.8 section 1.7.1 and Table 1.7-2 (pp65-74)",
+    "reference_url": "https://documentation.espressif.com/esp32-s3_technical_reference_manual_en.pdf",
+    "reference_PDF_SHA256": "4484bf8a69035ec42a731c58c64ada6fbd1f1618c5559409f134d9ea083f444f",
+    "covered": "Decoded kernel QR, QACC_H/L, SAR_BYTE, PIE postincrement AR and conservative ADDI register dependencies.",
+    "excluded_scope": "Entry/return/caller control penalties, other instruction hardware-resource conflicts, fetch/cache/memory waits, ABI window spills, interrupts and cross-core contention. Zero operand interlocks is not zero total stalls or measured WCET."
+  },
+  "scalar_control_hazard_budget": {
+    "control_extra_cycles_per_block": [
+      78,
+      726
+    ],
+    "scalar_adjacent_allowance_cycles_per_block": [
+      50,
+      0
+    ],
+    "inspected_cycles_per_core_block": [
+      9018,
+      13616
+    ],
+    "alpha_1_1_cycles_per_core_block": [
+      9780,
+      14179
+    ],
+    "alpha_1_0_is_instruction_only_reference": true,
+    "outer_control_cycles": {
+      "hbpipe_produce": 16,
+      "hbpipe_work": 6,
+      "hbpipe_reap": 4
+    },
+    "helper_control_cycles": {
+      "hbpipe_prefix": 48,
+      "hbpipe_suffix": 720,
+      "hbpipe_unpack": 2
+    },
+    "scalar_adjacent_pairs": {
+      "hbpipe_unpack": [],
+      "hbpipe_prefix": [],
+      "hbpipe_suffix": [],
+      "hbpipe_produce": [
+        {
+          "load": "0x1ab",
+          "consumer": "0x1ae",
+          "register": "a10",
+          "consumer_opcode": "add.n"
+        }
+      ],
+      "hbpipe_work": [],
+      "hbpipe_reap": [
+        {
+          "load": "0x25b",
+          "consumer": "0x25e",
+          "register": "a11",
+          "consumer_opcode": "extui"
+        },
+        {
+          "load": "0x2a6",
+          "consumer": "0x2a8",
+          "register": "a13",
+          "consumer_opcode": "s32i.n"
+        },
+        {
+          "load": "0x2b6",
+          "consumer": "0x2b9",
+          "register": "a8",
+          "consumer_opcode": "addi.n"
+        }
+      ]
+    },
+    "copy_load_store_allowance_words": 46,
+    "reference": "ESP32-S3 TRM v1.8 sections 1.7.1 and 1.7.3; store-use +1 and call/return +2 are conservative allowances.",
+    "not_bounded": [
+      "memory/cache/MMIO/memw wait",
+      "register-window exceptions",
+      "interrupt/task PIE context preservation",
+      "final scheduler costs"
+    ]
+  },
+  "instructions": {
+    "helpers": {
+      "hbpipe_unpack": {
+        "own_instructions": 7691,
+        "callee_instructions": 0,
+        "total_instructions": 7691,
+        "body_instructions": 15,
+        "iterations": 512,
+        "fixed_instructions": 11
+      },
+      "hbpipe_prefix": {
+        "own_instructions": 78,
+        "callee_instructions": 784,
+        "total_instructions": 862,
+        "body_instructions": 9,
+        "iterations": 8,
+        "fixed_instructions": 6
+      },
+      "hbpipe_suffix": {
+        "own_instructions": 1089,
+        "callee_instructions": 11760,
+        "total_instructions": 12849,
+        "body_instructions": 9,
+        "iterations": 120,
+        "fixed_instructions": 9
+      }
+    },
+    "operations": {
+      "hbpipe_produce": {
+        "total_instructions": 8837,
+        "own_instructions": 88,
+        "callee_instructions": 8749,
+        "witness": [
+          "0xec",
+          "0xef",
+          "0xf1",
+          "0xf3",
+          "0xf5",
+          "0xf8",
+          "0xfb",
+          "0xfe",
+          "0x100",
+          "0x103",
+          "0x106",
+          "0x109",
+          "0x10c",
+          "0x10f",
+          "0x112",
+          "0x115",
+          "0x118",
+          "0x11a",
+          "0x11d",
+          "0x120",
+          "0x123",
+          "0x126",
+          "0x129",
+          "0x12b",
+          "0x12e",
+          "0x131",
+          "0x133",
+          "0x135",
+          "0x138",
+          "0x13a",
+          "0x13c",
+          "0x13f",
+          "0x141",
+          "0x143",
+          "0x145",
+          "0x148",
+          "0x14b",
+          "0x14d",
+          "0x150",
+          "0x152",
+          "0x155",
+          "0x158",
+          "0x15b",
+          "0x15e",
+          "0x160",
+          "0x162",
+          "0x164",
+          "0x166",
+          "0x168",
+          "0x16a",
+          "0x16d",
+          "0x16f",
+          "0x171",
+          "0x174",
+          "0x177",
+          "0x179",
+          "0x17b",
+          "0x17e",
+          "0x180",
+          "0x182",
+          "0x185",
+          "0x188",
+          "0x18b",
+          "0x18d",
+          "0x18f",
+          "0x192",
+          "0x194",
+          "0x197",
+          "0x19a",
+          "0x19c",
+          "0x19f",
+          "0x1a2",
+          "0x1a4",
+          "0x1a6",
+          "0x1a9",
+          "0x1ab",
+          "0x1ae",
+          "0x1b0",
+          "0x1b2",
+          "0x1b5",
+          "0x1b7",
+          "0x1ba",
+          "0x1bc",
+          "0x1bf",
+          "0x1c1",
+          "0x1c3",
+          "0x1c6",
+          "0x1cc"
+        ],
+        "callees": {
+          "0x155": {
+            "symbol": "hb31_copy_words",
+            "instructions": 63
+          },
+          "0x16a": {
+            "symbol": "hb31_copy_words",
+            "instructions": 35
+          },
+          "0x171": {
+            "symbol": "hbpipe_unpack",
+            "instructions": 7691
+          },
+          "0x17b": {
+            "symbol": "hb31_copy_words",
+            "instructions": 63
+          },
+          "0x185": {
+            "symbol": "hb31_copy_words",
+            "instructions": 35
+          },
+          "0x18f": {
+            "symbol": "hbpipe_prefix",
+            "instructions": 862
+          }
+        }
+      },
+      "hbpipe_work": {
+        "total_instructions": 12890,
+        "own_instructions": 41,
+        "callee_instructions": 12849,
+        "witness": [
+          "0x1d0",
+          "0x1d3",
+          "0x1d5",
+          "0x1d8",
+          "0x1db",
+          "0x1de",
+          "0x1e1",
+          "0x1e4",
+          "0x1e6",
+          "0x1e9",
+          "0x1ec",
+          "0x1ee",
+          "0x1f0",
+          "0x1f3",
+          "0x1f5",
+          "0x1f8",
+          "0x1fa",
+          "0x1fd",
+          "0x200",
+          "0x202",
+          "0x204",
+          "0x206",
+          "0x209",
+          "0x20b",
+          "0x20e",
+          "0x211",
+          "0x214",
+          "0x216",
+          "0x218",
+          "0x21b",
+          "0x21d",
+          "0x220",
+          "0x222",
+          "0x225",
+          "0x228",
+          "0x22a",
+          "0x22d",
+          "0x22f",
+          "0x231",
+          "0x234",
+          "0x23a"
+        ],
+        "callees": {
+          "0x21d": {
+            "symbol": "hbpipe_suffix",
+            "instructions": 12849
+          }
+        }
+      },
+      "hbpipe_reap": {
+        "total_instructions": 53,
+        "own_instructions": 53,
+        "callee_instructions": 0,
+        "witness": [
+          "0x23c",
+          "0x23f",
+          "0x241",
+          "0x243",
+          "0x245",
+          "0x248",
+          "0x24b",
+          "0x24e",
+          "0x250",
+          "0x253",
+          "0x255",
+          "0x258",
+          "0x25b",
+          "0x25e",
+          "0x261",
+          "0x264",
+          "0x266",
+          "0x269",
+          "0x26c",
+          "0x26f",
+          "0x271",
+          "0x273",
+          "0x276",
+          "0x278",
+          "0x27b",
+          "0x27e",
+          "0x280",
+          "0x283",
+          "0x286",
+          "0x288",
+          "0x28b",
+          "0x28e",
+          "0x291",
+          "0x293",
+          "0x295",
+          "0x297",
+          "0x29a",
+          "0x29c",
+          "0x29f",
+          "0x2a2",
+          "0x2a4",
+          "0x2a6",
+          "0x2a8",
+          "0x2aa",
+          "0x2ac",
+          "0x2ae",
+          "0x2b1",
+          "0x2b4",
+          "0x2b6",
+          "0x2b9",
+          "0x2bb",
+          "0x2be",
+          "0x2c3"
+        ],
+        "callees": {}
+      }
+    },
+    "core0_instructions_per_block_including_reap": 8890,
+    "core1_instructions_per_block": 12890,
+    "aggregate_Minstructions_s": 340.3125,
+    "old_hb31_process_caller_added": false,
+    "instruction_cost_unit": "one executed instruction; callee entry/return included once"
+  },
+  "memory": {
+    "pipeline_bytes": 8528,
+    "slot_bytes": 4208,
+    "workspace_bytes": 4192,
+    "producer_history_bytes": 92,
+    "slots_offset": 112,
+    "coefficient_vector_bytes": 272,
+    "raw_block_samples": 1024,
+    "output_block_samples": 512,
+    "core0_output_samples": 32
+  },
+  "capacity": [
+    {
+      "alpha": 1.0,
+      "fees_cycles": {
+        "hbpipe_produce": 8837,
+        "hbpipe_work": 12890,
+        "hbpipe_reap": 53
+      },
+      "core_Mcycles_s": [
+        138.90625,
+        201.40625
+      ],
+      "external_allowance_Mcycles_s": [
+        101.09375,
+        38.59375
+      ],
+      "external_allowance_us_per_64us": [
+        26.958333333333332,
+        10.291666666666666
+      ],
+      "nonpreempted_produce_us": 36.82083333333333,
+      "nonpreempted_worker_us": 53.708333333333336,
+      "additional_interruption_before_83_333us_slice_limit_us": [
+        46.5125,
+        29.625
+      ],
+      "cpu_only_necessary_condition": true,
+      "eligible_after_known_control_hazard_gate": false,
+      "alpha_1_0_scope": "Instruction-only reference; known control bubbles are omitted, so not an eligible physical timing claim."
+    },
+    {
+      "alpha": 1.1,
+      "fees_cycles": {
+        "hbpipe_produce": 9721,
+        "hbpipe_work": 14179,
+        "hbpipe_reap": 59
+      },
+      "core_Mcycles_s": [
+        152.8125,
+        221.546875
+      ],
+      "external_allowance_Mcycles_s": [
+        87.1875,
+        18.453125
+      ],
+      "external_allowance_us_per_64us": [
+        23.25,
+        4.920833333333333
+      ],
+      "nonpreempted_produce_us": 40.50416666666667,
+      "nonpreempted_worker_us": 59.079166666666666,
+      "additional_interruption_before_83_333us_slice_limit_us": [
+        42.829166666666666,
+        24.254166666666666
+      ],
+      "cpu_only_necessary_condition": true,
+      "eligible_after_known_control_hazard_gate": true,
+      "alpha_1_0_scope": null
+    }
+  ],
+  "event_model": {
+    "rows": [
+      {
+        "id": "alpha1.0_batch1",
+        "alpha": 1.0,
+        "batch_blocks": 1,
+        "external0_us_per_64us": 16,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": false,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          46.6625,
+          62.925
+        ],
+        "max_RF_service_completion_gap_us": 71.69166666666666,
+        "max_output_latency_from_bank_release_us": 116.37083333333334,
+        "max_producer_start_delay_from_release_us": 23.691666666666666,
+        "max_reap_latency_from_release_us": 126.88333333333334,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 6,
+          "core0_interrupt_only": 6,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          52190592,
+          54808132
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 8837,
+          "hbpipe_work": 12890,
+          "hbpipe_reap": 53
+        }
+      },
+      {
+        "id": "alpha1.0_batch11",
+        "alpha": 1.0,
+        "batch_blocks": 11,
+        "external0_us_per_64us": 16,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": false,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          46.6625,
+          60.775
+        ],
+        "max_RF_service_completion_gap_us": 101.5125,
+        "max_output_latency_from_bank_release_us": 671.4541666666667,
+        "max_producer_start_delay_from_release_us": 560.2583333333333,
+        "max_reap_latency_from_release_us": 671.675,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 3,
+          "core0_interrupt_only": 5,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          52190592,
+          54808132
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 8837,
+          "hbpipe_work": 12890,
+          "hbpipe_reap": 53
+        }
+      },
+      {
+        "id": "alpha1.0_batch12",
+        "alpha": 1.0,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 16,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": false,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          44.5125,
+          62.925
+        ],
+        "max_RF_service_completion_gap_us": 97.33333333333333,
+        "max_output_latency_from_bank_release_us": 726.5375,
+        "max_producer_start_delay_from_release_us": 615.3416666666667,
+        "max_reap_latency_from_release_us": 726.7583333333333,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 3,
+          "core0_interrupt_only": 4,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          52190592,
+          54808132
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 8837,
+          "hbpipe_work": 12890,
+          "hbpipe_reap": 53
+        }
+      },
+      {
+        "id": "alpha1.1_batch1",
+        "alpha": 1.1,
+        "batch_blocks": 1,
+        "external0_us_per_64us": 16,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 2,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 71.69166666666666,
+        "max_output_latency_from_bank_release_us": 125.425,
+        "max_producer_start_delay_from_release_us": 23.691666666666666,
+        "max_reap_latency_from_release_us": 146.59166666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core0_interrupt_only": 6,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          55836032,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "alpha1.1_batch11",
+        "alpha": 1.1,
+        "batch_blocks": 11,
+        "external0_us_per_64us": 16,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          66.14583333333333
+        ],
+        "max_RF_service_completion_gap_us": 104.94583333333334,
+        "max_output_latency_from_bank_release_us": 734.2166666666667,
+        "max_producer_start_delay_from_release_us": 612.3041666666667,
+        "max_reap_latency_from_release_us": 786.5916666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core0_wdt": 1,
+          "core1_interrupt_only": 2,
+          "core1_wdt": 1,
+          "core0_interrupt_only": 2
+        },
+        "charged_cycles_by_core": [
+          55836032,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "alpha1.1_batch12",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 16,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          48.19583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 104.94583333333334,
+        "max_output_latency_from_bank_release_us": 796.6708333333333,
+        "max_producer_start_delay_from_release_us": 674.7583333333333,
+        "max_reap_latency_from_release_us": 848.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_wdt": 1,
+          "core1_wdt": 1,
+          "core0_interrupt_only": 1
+        },
+        "charged_cycles_by_core": [
+          55836032,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "declared_service_candidate",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 800.6708333333333,
+        "max_producer_start_delay_from_release_us": 678.7583333333333,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59768192,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "core0_overload",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 26,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "scenario_pass": false,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 25,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 76.59166666666667,
+        "max_output_latency_from_bank_release_us": 18821.05,
+        "max_producer_start_delay_from_release_us": 18703.1375,
+        "max_reap_latency_from_release_us": 18821.295833333334,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {
+          "output_after_declared_bank_deadline": 3951,
+          "output_reap_after_extra_conservative_deadline": 3959,
+          "raw_copy_after_declared_bank_deadline": 3939,
+          "more_than_two_released_raw_banks_plus_active_RF_bank": 327
+        },
+        "first_fault_time_us": {
+          "output_after_declared_bank_deadline": 4994.5875,
+          "output_reap_after_extra_conservative_deadline": 5028.504166666667,
+          "raw_copy_after_declared_bank_deadline": 5762.508333333333,
+          "more_than_two_released_raw_banks_plus_active_RF_bank": 11520.0
+        },
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 3,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          65666432,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "core1_overload",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 8,
+        "drain_MBps": 40,
+        "scenario_pass": false,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 19,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 101.00833333333334,
+        "max_output_latency_from_bank_release_us": 14677.2375,
+        "max_producer_start_delay_from_release_us": 14548.245833333332,
+        "max_reap_latency_from_release_us": 14677.483333333334,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {
+          "output_after_declared_bank_deadline": 3908,
+          "output_reap_after_extra_conservative_deadline": 3908,
+          "raw_copy_after_declared_bank_deadline": 3884,
+          "more_than_two_released_raw_banks_plus_active_RF_bank": 322
+        },
+        "first_fault_time_us": {
+          "output_after_declared_bank_deadline": 6540.104166666667,
+          "output_reap_after_extra_conservative_deadline": 6548.245833333333,
+          "raw_copy_after_declared_bank_deadline": 8064.595833333334,
+          "more_than_two_released_raw_banks_plus_active_RF_bank": 15360.0
+        },
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core0_wdt": 1,
+          "core1_wdt": 1,
+          "core0_interrupt_only": 5
+        },
+        "charged_cycles_by_core": [
+          59768192,
+          65986116
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "transport_overload",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 28,
+        "scenario_pass": false,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          3917,
+          3915,
+          3915
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 40,
+        "max_output_frames_owned": 8,
+        "max_output_arena_bytes": 131072,
+        "max_slice_us": [
+          50.34583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 109.4625,
+        "max_output_latency_from_bank_release_us": 33043.666666666664,
+        "max_producer_start_delay_from_release_us": 32925.754166666666,
+        "max_reap_latency_from_release_us": 33043.9125,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {
+          "output_after_declared_bank_deadline": 3461,
+          "output_reap_after_extra_conservative_deadline": 3461,
+          "raw_copy_after_declared_bank_deadline": 3456,
+          "more_than_two_released_raw_banks_plus_active_RF_bank": 302,
+          "drain_horizon_exceeded": 1,
+          "not_all_blocks_reaped": 1,
+          "output_leases_not_all_completed": 1
+        },
+        "first_fault_time_us": {
+          "output_after_declared_bank_deadline": 27289.766666666666,
+          "output_reap_after_extra_conservative_deadline": 27310.45,
+          "raw_copy_after_declared_bank_deadline": 28049.729166666668,
+          "more_than_two_released_raw_banks_plus_active_RF_bank": 30720.0,
+          "drain_horizon_exceeded": 282992.49583333335,
+          "not_all_blocks_reaped": 282977.3333333333,
+          "output_leases_not_all_completed": 282977.3333333333
+        },
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 3917,
+          "core1_work": 3916,
+          "core0_reap": 3915,
+          "dma_frames_completed": 482,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 5,
+          "core0_wdt": 1,
+          "core1_wdt": 1,
+          "core0_interrupt_only": 4
+        },
+        "charged_cycles_by_core": [
+          58017454,
+          57535656
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core0_10us_phase5000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 0,
+        "periodic_us": 10,
+        "periodic_phase_us": 5000,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.50416666666667,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 800.6708333333333,
+        "max_producer_start_delay_from_release_us": 678.7583333333333,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_declared_periodic": 1,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59770592,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core0_10us_phase65000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 0,
+        "periodic_us": 10,
+        "periodic_phase_us": 65000,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.50416666666667,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 800.6708333333333,
+        "max_producer_start_delay_from_release_us": 678.7583333333333,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_declared_periodic": 1,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59770592,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core0_25us_phase5000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 0,
+        "periodic_us": 25,
+        "periodic_phase_us": 5000,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          65.50416666666666,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 814.15,
+        "max_producer_start_delay_from_release_us": 693.25,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_declared_periodic": 1,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59774192,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core0_25us_phase65000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 0,
+        "periodic_us": 25,
+        "periodic_phase_us": 65000,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          65.50416666666666,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 800.6708333333333,
+        "max_producer_start_delay_from_release_us": 693.5541666666667,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_declared_periodic": 1,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59774192,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core0_50us_phase5000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 0,
+        "periodic_us": 50,
+        "periodic_phase_us": 5000,
+        "scenario_pass": false,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 2,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          90.50416666666666,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 110.75,
+        "max_output_latency_from_bank_release_us": 839.15,
+        "max_producer_start_delay_from_release_us": 738.25,
+        "max_reap_latency_from_release_us": 859.75,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {
+          "core0_slice_over_20000_cycles": 1
+        },
+        "first_fault_time_us": {
+          "core0_slice_over_20000_cycles": 5063.004166666667
+        },
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_declared_periodic": 1,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59780192,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core0_50us_phase65000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 0,
+        "periodic_us": 50,
+        "periodic_phase_us": 65000,
+        "scenario_pass": false,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 2,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          90.50416666666666,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 111.05416666666666,
+        "max_output_latency_from_bank_release_us": 838.7958333333333,
+        "max_producer_start_delay_from_release_us": 738.5541666666667,
+        "max_reap_latency_from_release_us": 860.0541666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {
+          "core0_slice_over_20000_cycles": 1
+        },
+        "first_fault_time_us": {
+          "core0_slice_over_20000_cycles": 65088.808333333334
+        },
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_declared_periodic": 1,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59780192,
+          60087876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core1_10us_phase5000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 1,
+        "periodic_us": 10,
+        "periodic_phase_us": 5000,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          69.07916666666667
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 801.4541666666667,
+        "max_producer_start_delay_from_release_us": 679.5416666666666,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core1_declared_periodic": 1,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59768192,
+          60090276
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core1_10us_phase65000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 1,
+        "periodic_us": 10,
+        "periodic_phase_us": 65000,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 801.4541666666667,
+        "max_producer_start_delay_from_release_us": 679.5416666666666,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core1_declared_periodic": 1,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59768192,
+          60090276
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core1_25us_phase5000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 1,
+        "periodic_us": 25,
+        "periodic_phase_us": 5000,
+        "scenario_pass": false,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          84.07916666666667
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 816.4541666666667,
+        "max_producer_start_delay_from_release_us": 695.8833333333333,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {
+          "core1_slice_over_20000_cycles": 1
+        },
+        "first_fault_time_us": {
+          "core1_slice_over_20000_cycles": 5057.979166666667
+        },
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core1_declared_periodic": 1,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59768192,
+          60093876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core1_25us_phase65000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 1,
+        "periodic_us": 25,
+        "periodic_phase_us": 65000,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 816.4541666666667,
+        "max_producer_start_delay_from_release_us": 695.8833333333333,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core1_declared_periodic": 1,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59768192,
+          60093876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core1_50us_phase5000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 1,
+        "periodic_us": 50,
+        "periodic_phase_us": 5000,
+        "scenario_pass": false,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          109.07916666666667
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 843.4541666666667,
+        "max_producer_start_delay_from_release_us": 724.2458333333333,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {
+          "core1_slice_over_20000_cycles": 1
+        },
+        "first_fault_time_us": {
+          "core1_slice_over_20000_cycles": 5082.979166666667
+        },
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core1_declared_periodic": 1,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59768192,
+          60099876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      },
+      {
+        "id": "periodic_core1_50us_phase65000",
+        "alpha": 1.1,
+        "batch_blocks": 12,
+        "external0_us_per_64us": 20,
+        "external1_us_per_64us": 2,
+        "drain_MBps": 40,
+        "periodic_core": 1,
+        "periodic_us": 50,
+        "periodic_phase_us": 65000,
+        "scenario_pass": true,
+        "physical_timing_eligible_after_known_control_gate": true,
+        "blocks_produced_worked_reaped": [
+          4096,
+          4096,
+          4096
+        ],
+        "nominal_input_horizon_s": 0.262144,
+        "max_raw_banks_owned": 1,
+        "max_output_frames_owned": 3,
+        "max_output_arena_bytes": 49152,
+        "max_slice_us": [
+          50.34583333333333,
+          68.29583333333333
+        ],
+        "max_RF_service_completion_gap_us": 108.94583333333334,
+        "max_output_latency_from_bank_release_us": 843.4541666666667,
+        "max_producer_start_delay_from_release_us": 724.2458333333333,
+        "max_reap_latency_from_release_us": 856.4416666666667,
+        "fixed_64us_producer_start_guaranteed": false,
+        "declared_bank_relative_deadline_us": 1138.6666666666667,
+        "fault_counts": {},
+        "first_fault_time_us": {},
+        "event_counts": {
+          "core0_external": 4096,
+          "core1_external": 4096,
+          "core0_produce": 4096,
+          "core1_work": 4096,
+          "core0_reap": 4096,
+          "dma_frames_completed": 512,
+          "core0_tick": 26,
+          "core1_tick": 26,
+          "core1_interrupt_only": 2,
+          "core1_declared_periodic": 1,
+          "core0_wdt": 1,
+          "core1_wdt": 1
+        },
+        "charged_cycles_by_core": [
+          59768192,
+          60099876
+        ],
+        "fees_cycles": {
+          "hbpipe_produce": 9721,
+          "hbpipe_work": 14179,
+          "hbpipe_reap": 59
+        }
+      }
+    ],
+    "assertions": {
+      "declared_service_candidate_passes": true,
+      "core0_overload_rejected": true,
+      "core1_overload_rejected": true,
+      "transport_overload_rejected": true,
+      "all_scenarios_executed": true
+    },
+    "exceptions": [],
+    "audit_pass": true,
+    "not_all_phase_or_unbounded_time_proof": true,
+    "source_bank_contract": "Aligned 1024-sample blocks, batches of 1, 11 or 12; 11/12 represent 11264/12288-sample release bursts. One native bank remains reserved for RF, leaving at most two released banks. Actual variable native bank boundaries/ring-wrap assembly are not implemented. A maximum 125us switch-to-handoff delay is assumed, giving 303280-30000=273280 cycles from release to the declared deadline. The physical raw deadline applies to produce completion; work completion and reap must meet the same deadline as additional conservative conditions here.",
+    "external_contract": "Every 64us reservation includes all outer dispatch/idle checks and RF/API/SDK work; actual SDK event counts are not connected. Core0 reservation completion is the assumed RF poll. Tick and WDT interrupt costs are charged separately.",
+    "transport_contract": "128KiB=8 DMA frames; 8 reaped outputs/frame, bounded API dispatch one 64us reservation before start and after wire completion, declared aggregate wire MB/s. This is not an implemented SPI route.",
+    "periodic_contract": "One declared 1Hz interrupt service at each tested phase; busy-wait duration is a sensitivity parameter, not measured PHY time."
+  },
+  "source_hashes_SHA256": {
+    "experiments/t_preprocess_capacity/halfband_pipeline.c": "760e6aa84657e407d0a26b4e5622e5add8d2912fd5033bb65fbbd8813fa3754d",
+    "experiments/t_preprocess_capacity/halfband_pipeline.h": "0ee1dd658cdd699483e0913c9646aa6afe5bb55386893cd15c201b08ac2bd9c7",
+    "experiments/t_preprocess_capacity/halfband31.c": "7f5184694746d43db0efa5feaef304ff037750aeb4c5f0c4f6f6975708f019a8",
+    "experiments/t_preprocess_capacity/halfband31.h": "6f4b2f0946ac6b01f49dd1004203229a5d29b3cb6ec20062d483ac378935f987",
+    "experiments/t_preprocess_capacity/halfband31.S": "c1066098a690f4e523c26ed63bab4e443e78d354feaa13b6a9a1b2620f8d2dc3",
+    "experiments/t_preprocess_capacity/halfband31_host.c": "a6a5cde72438d0575b187e2a861d446c20a495dc8eaf78333b78a95e5e60cd69",
+    "ci/t_halfband_pipeline_audit.py": "43c76c0790fb8125db711806adc0b93323cfea0aba3942b1d176dd12e79c530a",
+    "ci/t_halfband_capacity_audit.py": "b9569df8bf3cd7697aa6e3acbce0b56ec5791e764c9b2b1f0b60b12bf3dbe3e0"
+  },
+  "disassembly_SHA256": "49c4c13d65e8844570201d2400e516b27fa3072f85bd2998d260f586c2fde924",
+  "accepted_same_quality": false,
+  "target_runtime_executed": false,
+  "native_RF_and_SDK_integrated": false,
+  "hardware_PLL_busy_bound_known": false,
+  "FPGA_64_over_63_resampler_implemented_or_sized": false,
+  "temporary_binaries_saved": false
+}

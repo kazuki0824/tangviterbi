@@ -1,0 +1,4 @@
+read_verilog -sv /workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_halfband_fpga/resampler.sv /workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_halfband_fpga/fifo_resampler.sv /workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_halfband_fpga/probe.sv
+chparam -set L 64 -set INPUT_BITS 16 -set OUTPUT_SHIFT 15 -set COEFF_FILE "/workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_halfband_fpga/coeff_residual.hex" t_diag_fifo_resampler
+synth_gowin -top t_diag_fifo_resampler -family gw2a -json /workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/residual-fifo/core-mapped.json
+check -assert

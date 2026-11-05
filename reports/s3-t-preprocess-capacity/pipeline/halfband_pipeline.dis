@@ -1,0 +1,511 @@
+
+<temporary-build>/pipeline.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .literal:
+
+00000000 <.literal>:
+   0:	00000860 	
+   4:	00000000 	
+			4: R_XTENSA_32	hb31_vectors
+   8:	00000840 	
+   c:	00000000 	
+			c: R_XTENSA_32	hb31_vectors
+  10:	00000840 	
+  14:	00002150 	
+  18:	00002150 	
+  1c:	000010d0 	
+  20:	000008b0 	
+  24:	000010d8 	
+  28:	000010d4 	
+  2c:	000010d0 	
+  30:	000010d4 	
+  34:	000010d8 	
+  38:	000010d0 	
+  3c:	000010d4 	
+  40:	000010d8 	
+  44:	000010d0 	
+
+Disassembly of section .text:
+
+00000000 <hbpipe_unpack>:
+   0:	004136        	entry	a1, 32
+   3:	0000a1        	l32r	a10, fffc0004 <hbpipe_status+0xfffbfd3c>
+			3: R_XTENSA_SLOT0_OP	.literal
+   6:	02ed      	mov.n	a14, a2
+   8:	3cc2b2        	addi	a11, a2, 60
+   b:	80a2a0        	add	a10, a2, a10
+   e:	00a2f2        	movi	a15, 0x200
+  11:	278f76        	loop	a15, 3c <hbpipe_unpack+0x3c>
+			11: R_XTENSA_SLOT0_OP	.text+0x3c
+  14:	0398      	l32i.n	a9, a3, 0
+  16:	1388      	l32i.n	a8, a3, 4
+  18:	41da90        	srli	a13, a9, 10
+  1b:	41ca80        	srli	a12, a8, 10
+  1e:	239920        	sext	a9, a9, 9
+  21:	23dd20        	sext	a13, a13, 9
+  24:	005b92        	s16i	a9, a11, 0
+  27:	015bd2        	s16i	a13, a11, 2
+  2a:	238820        	sext	a8, a8, 9
+  2d:	239c20        	sext	a9, a12, 9
+  30:	005a82        	s16i	a8, a10, 0
+  33:	015a92        	s16i	a9, a10, 2
+  36:	338b      	addi.n	a3, a3, 8
+  38:	bb4b      	addi.n	a11, a11, 4
+  3a:	aa4b      	addi.n	a10, a10, 4
+  3c:	08dee2        	addmi	a14, a14, 0x800
+  3f:	080c      	movi.n	a8, 0
+  41:	fe89      	s32i.n	a8, a14, 60
+  43:	f01d      	retw.n
+  45:	000000        	ill
+
+00000048 <hbpipe_prefix>:
+  48:	004136        	entry	a1, 32
+  4b:	80a052        	movi	a5, 128
+  4e:	000061        	l32r	a6, fffc0050 <hbpipe_status+0xfffbfd88>
+			4e: R_XTENSA_SLOT0_OP	.literal+0x4
+  51:	000071        	l32r	a7, fffc0054 <hbpipe_status+0xfffbfd8c>
+			51: R_XTENSA_SLOT0_OP	.literal+0x8
+  54:	525a      	add.n	a5, a2, a5
+  56:	03dd      	mov.n	a13, a3
+  58:	b27a      	add.n	a11, a2, a7
+  5a:	02ad      	mov.n	a10, a2
+  5c:	20e440        	or	a14, a4, a4
+  5f:	20c660        	or	a12, a6, a6
+  62:	10c222        	addi	a2, a2, 16
+  65:	000025        	call8	68 <hbpipe_prefix+0x20>
+			65: R_XTENSA_SLOT0_OP	hb31_qacc4
+  68:	10c332        	addi	a3, a3, 16
+  6b:	e79257        	bne	a2, a5, 56 <hbpipe_prefix+0xe>
+			6b: R_XTENSA_SLOT0_OP	.text+0x56
+  6e:	f01d      	retw.n
+
+00000070 <hbpipe_suffix>:
+  70:	004136        	entry	a1, 32
+  73:	028d      	mov.n	a8, a2
+  75:	80a092        	movi	a9, 128
+  78:	000021        	l32r	a2, fffc0078 <hbpipe_status+0xfffbfdb0>
+			78: R_XTENSA_SLOT0_OP	.literal+0xc
+  7b:	000051        	l32r	a5, fffc007c <hbpipe_status+0xfffbfdb4>
+			7b: R_XTENSA_SLOT0_OP	.literal+0x10
+  7e:	639a      	add.n	a6, a3, a9
+  80:	789a      	add.n	a7, a8, a9
+  82:	08d832        	addmi	a3, a8, 0x800
+  85:	06dd      	mov.n	a13, a6
+  87:	b75a      	add.n	a11, a7, a5
+  89:	07ad      	mov.n	a10, a7
+  8b:	04ed      	mov.n	a14, a4
+  8d:	02cd      	mov.n	a12, a2
+  8f:	10c772        	addi	a7, a7, 16
+  92:	000025        	call8	94 <hbpipe_suffix+0x24>
+			92: R_XTENSA_SLOT0_OP	hb31_qacc4
+  95:	10c662        	addi	a6, a6, 16
+  98:	e99737        	bne	a7, a3, 85 <hbpipe_suffix+0x15>
+			98: R_XTENSA_SLOT0_OP	.text+0x85
+  9b:	f01d      	retw.n
+  9d:	000000        	ill
+
+000000a0 <hbpipe_init>:
+  a0:	004136        	entry	a1, 32
+  a3:	62bc      	beqz.n	a2, dd <hbpipe_init+0x3d>
+			a3: R_XTENSA_SLOT0_OP	.text+0xdd
+  a5:	348020        	extui	a8, a2, 0, 4
+  a8:	18fc      	bnez.n	a8, dd <hbpipe_init+0x3d>
+			a8: R_XTENSA_SLOT0_OP	.text+0xdd
+  aa:	1fa092        	movi	a9, 31
+  ad:	628930        	saltu	a8, a9, a3
+  b0:	293937        	bltu	a9, a3, dd <hbpipe_init+0x3d>
+			b0: R_XTENSA_SLOT0_OP	.text+0xdd
+  b3:	0000a1        	l32r	a10, fffc00b4 <hbpipe_status+0xfffbfdec>
+			b3: R_XTENSA_SLOT0_OP	.literal+0x14
+  b6:	209220        	or	a9, a2, a2
+  b9:	048a76        	loop	a10, c1 <hbpipe_init+0x21>
+			b9: R_XTENSA_SLOT0_OP	.text+0xc1
+  bc:	004982        	s8i	a8, a9, 0
+  bf:	991b      	addi.n	a9, a9, 1
+  c1:	080c      	movi.n	a8, 0
+  c3:	10d292        	addmi	a9, a2, 0x1000
+  c6:	0020c0        	memw
+  c9:	346982        	s32i	a8, a9, 208
+  cc:	21d292        	addmi	a9, a2, 0x2100
+  cf:	0020c0        	memw
+  d2:	106982        	s32i	a8, a9, 64
+  d5:	1a6232        	s32i	a3, a2, 104
+  d8:	082d      	mov.n	a2, a8
+  da:	000046        	j	df <hbpipe_init+0x3f>
+			da: R_XTENSA_SLOT0_OP	.text+0xdf
+  dd:	320c      	movi.n	a2, 3
+  df:	f01d      	retw.n
+  e1:	000000        	ill
+
+000000e4 <hbpipe_size>:
+  e4:	004136        	entry	a1, 32
+  e7:	000021        	l32r	a2, fffc00e8 <hbpipe_status+0xfffbfe20>
+			e7: R_XTENSA_SLOT0_OP	.literal+0x18
+  ea:	f01d      	retw.n
+
+000000ec <hbpipe_produce>:
+  ec:	006136        	entry	a1, 48
+  ef:	090c      	movi.n	a9, 0
+  f1:	160c      	movi.n	a6, 1
+  f3:	098d      	mov.n	a8, a9
+  f5:	838620        	moveqz	a8, a6, a2
+  f8:	839630        	moveqz	a9, a6, a3
+  fb:	208890        	or	a8, a8, a9
+  fe:	027d      	mov.n	a7, a2
+ 100:	0c6856        	bnez	a8, 1ca <hbpipe_produce+0xde>
+			100: R_XTENSA_SLOT0_OP	.text+0x1ca
+ 103:	838640        	moveqz	a8, a6, a4
+ 106:	0c0856        	bnez	a8, 1ca <hbpipe_produce+0xde>
+			106: R_XTENSA_SLOT0_OP	.text+0x1ca
+ 109:	349040        	extui	a9, a4, 0, 4
+ 10c:	148030        	extui	a8, a3, 0, 2
+ 10f:	208890        	or	a8, a8, a9
+ 112:	349020        	extui	a9, a2, 0, 4
+ 115:	208890        	or	a8, a8, a9
+ 118:	320c      	movi.n	a2, 3
+ 11a:	0ae856        	bnez	a8, 1cc <hbpipe_produce+0xe0>
+			11a: R_XTENSA_SLOT0_OP	.text+0x1cc
+ 11d:	1727e2        	l32i	a14, a7, 92
+ 120:	000091        	l32r	a9, fffc0120 <hbpipe_status+0xfffbfe58>
+			120: R_XTENSA_SLOT0_OP	.literal+0x1c
+ 123:	108e60        	and	a8, a14, a6
+ 126:	1158b0        	slli	a5, a8, 5
+ 129:	558a      	add.n	a5, a5, a8
+ 12b:	f05580        	subx8	a5, a5, a8
+ 12e:	1155c0        	slli	a5, a5, 4
+ 131:	959a      	add.n	a9, a5, a9
+ 133:	979a      	add.n	a9, a7, a9
+ 135:	0020c0        	memw
+ 138:	09d8      	l32i.n	a13, a9, 0
+ 13a:	2199      	s32i.n	a9, a1, 8
+ 13c:	0020c0        	memw
+ 13f:	1189      	s32i.n	a8, a1, 4
+ 141:	01d9      	s32i.n	a13, a1, 0
+ 143:	220c      	movi.n	a2, 2
+ 145:	083d56        	bnez	a13, 1cc <hbpipe_produce+0xe0>
+			145: R_XTENSA_SLOT0_OP	.text+0x1cc
+ 148:	70c522        	addi	a2, a5, 112
+ 14b:	272a      	add.n	a2, a7, a2
+ 14d:	20a220        	or	a10, a2, a2
+ 150:	fc0c      	movi.n	a12, 15
+ 152:	20b770        	or	a11, a7, a7
+ 155:	000025        	call8	158 <hbpipe_produce+0x6c>
+			155: R_XTENSA_SLOT0_OP	hb31_copy_words
+ 158:	0000a1        	l32r	a10, fffc0158 <hbpipe_status+0xfffbfe90>
+			158: R_XTENSA_SLOT0_OP	.literal+0x20
+ 15b:	3cc782        	addi	a8, a7, 60
+ 15e:	55aa      	add.n	a5, a5, a10
+ 160:	575a      	add.n	a5, a7, a5
+ 162:	08bd      	mov.n	a11, a8
+ 164:	8c0c      	movi.n	a12, 8
+ 166:	05ad      	mov.n	a10, a5
+ 168:	3189      	s32i.n	a8, a1, 12
+ 16a:	000025        	call8	16c <hbpipe_produce+0x80>
+			16a: R_XTENSA_SLOT0_OP	hb31_copy_words
+ 16d:	02ad      	mov.n	a10, a2
+ 16f:	03bd      	mov.n	a11, a3
+ 171:	ffe8e5        	call8	0 <hbpipe_unpack>
+			171: R_XTENSA_SLOT0_OP	.text
+ 174:	08d2b2        	addmi	a11, a2, 0x800
+ 177:	fc0c      	movi.n	a12, 15
+ 179:	07ad      	mov.n	a10, a7
+ 17b:	000025        	call8	17c <hbpipe_produce+0x90>
+			17b: R_XTENSA_SLOT0_OP	hb31_copy_words
+ 17e:	31a8      	l32i.n	a10, a1, 12
+ 180:	8c0c      	movi.n	a12, 8
+ 182:	08d5b2        	addmi	a11, a5, 0x800
+ 185:	000025        	call8	188 <hbpipe_produce+0x9c>
+			185: R_XTENSA_SLOT0_OP	hb31_copy_words
+ 188:	1a27c2        	l32i	a12, a7, 104
+ 18b:	02ad      	mov.n	a10, a2
+ 18d:	04bd      	mov.n	a11, a4
+ 18f:	ffeba5        	call8	48 <hbpipe_prefix>
+			18f: R_XTENSA_SLOT0_OP	.text+0x48
+ 192:	11e8      	l32i.n	a14, a1, 4
+ 194:	0000a1        	l32r	a10, fffc0194 <hbpipe_status+0xfffbfecc>
+			194: R_XTENSA_SLOT0_OP	.literal+0x24
+ 197:	118eb0        	slli	a8, a14, 5
+ 19a:	88ea      	add.n	a8, a8, a14
+ 19c:	f088e0        	subx8	a8, a8, a14
+ 19f:	1188c0        	slli	a8, a8, 4
+ 1a2:	878a      	add.n	a8, a7, a8
+ 1a4:	a8aa      	add.n	a10, a8, a10
+ 1a6:	1727b2        	l32i	a11, a7, 92
+ 1a9:	0a49      	s32i.n	a4, a10, 0
+ 1ab:	0000a1        	l32r	a10, fffc01ac <hbpipe_status+0xfffbfee4>
+			1ab: R_XTENSA_SLOT0_OP	.literal+0x28
+ 1ae:	88aa      	add.n	a8, a8, a10
+ 1b0:	08b9      	s32i.n	a11, a8, 0
+ 1b2:	0020c0        	memw
+ 1b5:	2198      	l32i.n	a9, a1, 8
+ 1b7:	0020c0        	memw
+ 1ba:	0969      	s32i.n	a6, a9, 0
+ 1bc:	172782        	l32i	a8, a7, 92
+ 1bf:	0128      	l32i.n	a2, a1, 0
+ 1c1:	886a      	add.n	a8, a8, a6
+ 1c3:	176782        	s32i	a8, a7, 92
+ 1c6:	000086        	j	1cc <hbpipe_produce+0xe0>
+			1c6: R_XTENSA_SLOT0_OP	.text+0x1cc
+ 1c9:	00          	.byte	00
+ 1ca:	320c      	movi.n	a2, 3
+ 1cc:	f01d      	retw.n
+	...
+
+000001d0 <hbpipe_work>:
+ 1d0:	004136        	entry	a1, 32
+ 1d3:	027d      	mov.n	a7, a2
+ 1d5:	05f216        	beqz	a2, 238 <hbpipe_work+0x68>
+			1d5: R_XTENSA_SLOT0_OP	.text+0x238
+ 1d8:	182282        	l32i	a8, a2, 96
+ 1db:	000061        	l32r	a6, fffc01dc <hbpipe_status+0xfffbff14>
+			1db: R_XTENSA_SLOT0_OP	.literal+0x2c
+ 1de:	049080        	extui	a9, a8, 0, 1
+ 1e1:	11a9b0        	slli	a10, a9, 5
+ 1e4:	aa9a      	add.n	a10, a10, a9
+ 1e6:	f0aa90        	subx8	a10, a10, a9
+ 1e9:	11aac0        	slli	a10, a10, 4
+ 1ec:	6a6a      	add.n	a6, a10, a6
+ 1ee:	626a      	add.n	a6, a2, a6
+ 1f0:	0020c0        	memw
+ 1f3:	06b8      	l32i.n	a11, a6, 0
+ 1f5:	0020c0        	memw
+ 1f8:	120c      	movi.n	a2, 1
+ 1fa:	3c1b66        	bnei	a11, 1, 23a <hbpipe_work+0x6a>
+			1fa: R_XTENSA_SLOT0_OP	.text+0x23a
+ 1fd:	000091        	l32r	a9, fffc0200 <hbpipe_status+0xfffbff38>
+			1fd: R_XTENSA_SLOT0_OP	.literal+0x30
+ 200:	87aa      	add.n	a8, a7, a10
+ 202:	989a      	add.n	a9, a8, a9
+ 204:	09b8      	l32i.n	a11, a9, 0
+ 206:	182792        	l32i	a9, a7, 96
+ 209:	420c      	movi.n	a2, 4
+ 20b:	2b9b97        	bne	a11, a9, 23a <hbpipe_work+0x6a>
+			20b: R_XTENSA_SLOT0_OP	.text+0x23a
+ 20e:	000091        	l32r	a9, fffc0210 <hbpipe_status+0xfffbff48>
+			20e: R_XTENSA_SLOT0_OP	.literal+0x34
+ 211:	1a27c2        	l32i	a12, a7, 104
+ 214:	889a      	add.n	a8, a8, a9
+ 216:	08b8      	l32i.n	a11, a8, 0
+ 218:	70caa2        	addi	a10, a10, 112
+ 21b:	a7aa      	add.n	a10, a7, a10
+ 21d:	ffe525        	call8	70 <hbpipe_suffix>
+			21d: R_XTENSA_SLOT0_OP	.text+0x70
+ 220:	280c      	movi.n	a8, 2
+ 222:	0020c0        	memw
+ 225:	0020c0        	memw
+ 228:	0689      	s32i.n	a8, a6, 0
+ 22a:	182782        	l32i	a8, a7, 96
+ 22d:	020c      	movi.n	a2, 0
+ 22f:	881b      	addi.n	a8, a8, 1
+ 231:	186782        	s32i	a8, a7, 96
+ 234:	000086        	j	23a <hbpipe_work+0x6a>
+			234: R_XTENSA_SLOT0_OP	.text+0x23a
+ 237:	00          	.byte	00
+ 238:	320c      	movi.n	a2, 3
+ 23a:	f01d      	retw.n
+
+0000023c <hbpipe_reap>:
+ 23c:	004136        	entry	a1, 32
+ 23f:	080c      	movi.n	a8, 0
+ 241:	1a0c      	movi.n	a10, 1
+ 243:	190c      	movi.n	a9, 1
+ 245:	939830        	movnez	a9, a8, a3
+ 248:	838a40        	moveqz	a8, a10, a4
+ 24b:	208980        	or	a8, a9, a8
+ 24e:	02ad      	mov.n	a10, a2
+ 250:	06d856        	bnez	a8, 2c1 <hbpipe_reap+0x85>
+			250: R_XTENSA_SLOT0_OP	.text+0x2c1
+ 253:	190c      	movi.n	a9, 1
+ 255:	939820        	movnez	a9, a8, a2
+ 258:	065956        	bnez	a9, 2c1 <hbpipe_reap+0x85>
+			258: R_XTENSA_SLOT0_OP	.text+0x2c1
+ 25b:	1922b2        	l32i	a11, a2, 100
+ 25e:	04c0b0        	extui	a12, a11, 0, 1
+ 261:	118cb0        	slli	a8, a12, 5
+ 264:	88ca      	add.n	a8, a8, a12
+ 266:	f088c0        	subx8	a8, a8, a12
+ 269:	0000c1        	l32r	a12, fffc026c <hbpipe_status+0xfffbffa4>
+			269: R_XTENSA_SLOT0_OP	.literal+0x38
+ 26c:	1188c0        	slli	a8, a8, 4
+ 26f:	88ca      	add.n	a8, a8, a12
+ 271:	828a      	add.n	a8, a2, a8
+ 273:	0020c0        	memw
+ 276:	08d8      	l32i.n	a13, a8, 0
+ 278:	0020c0        	memw
+ 27b:	04c0b0        	extui	a12, a11, 0, 1
+ 27e:	120c      	movi.n	a2, 1
+ 280:	3f2d66        	bnei	a13, 2, 2c3 <hbpipe_reap+0x87>
+			280: R_XTENSA_SLOT0_OP	.text+0x2c3
+ 283:	11bcb0        	slli	a11, a12, 5
+ 286:	bbca      	add.n	a11, a11, a12
+ 288:	f0bbc0        	subx8	a11, a11, a12
+ 28b:	11bbc0        	slli	a11, a11, 4
+ 28e:	0000c1        	l32r	a12, fffc0290 <hbpipe_status+0xfffbffc8>
+			28e: R_XTENSA_SLOT0_OP	.literal+0x3c
+ 291:	baba      	add.n	a11, a10, a11
+ 293:	cbca      	add.n	a12, a11, a12
+ 295:	0cc8      	l32i.n	a12, a12, 0
+ 297:	192ad2        	l32i	a13, a10, 100
+ 29a:	420c      	movi.n	a2, 4
+ 29c:	239cd7        	bne	a12, a13, 2c3 <hbpipe_reap+0x87>
+			29c: R_XTENSA_SLOT0_OP	.text+0x2c3
+ 29f:	0000d1        	l32r	a13, fffc02a0 <hbpipe_status+0xfffbffd8>
+			29f: R_XTENSA_SLOT0_OP	.literal+0x40
+ 2a2:	092d      	mov.n	a2, a9
+ 2a4:	bbda      	add.n	a11, a11, a13
+ 2a6:	0bd8      	l32i.n	a13, a11, 0
+ 2a8:	03d9      	s32i.n	a13, a3, 0
+ 2aa:	04c9      	s32i.n	a12, a4, 0
+ 2ac:	0b99      	s32i.n	a9, a11, 0
+ 2ae:	0020c0        	memw
+ 2b1:	0020c0        	memw
+ 2b4:	0899      	s32i.n	a9, a8, 0
+ 2b6:	192a82        	l32i	a8, a10, 100
+ 2b9:	881b      	addi.n	a8, a8, 1
+ 2bb:	196a82        	s32i	a8, a10, 100
+ 2be:	000046        	j	2c3 <hbpipe_reap+0x87>
+			2be: R_XTENSA_SLOT0_OP	.text+0x2c3
+ 2c1:	320c      	movi.n	a2, 3
+ 2c3:	f01d      	retw.n
+ 2c5:	000000        	ill
+
+000002c8 <hbpipe_status>:
+ 2c8:	004136        	entry	a1, 32
+ 2cb:	180c      	movi.n	a8, 1
+ 2cd:	f29c      	beqz.n	a2, 2f0 <hbpipe_status+0x28>
+			2cd: R_XTENSA_SLOT0_OP	.text+0x2f0
+ 2cf:	1d3837        	bltu	a8, a3, 2f0 <hbpipe_status+0x28>
+			2cf: R_XTENSA_SLOT0_OP	.text+0x2f0
+ 2d2:	1183b0        	slli	a8, a3, 5
+ 2d5:	883a      	add.n	a8, a8, a3
+ 2d7:	f08830        	subx8	a8, a8, a3
+ 2da:	1188c0        	slli	a8, a8, 4
+ 2dd:	228a      	add.n	a2, a2, a8
+ 2df:	000081        	l32r	a8, fffc02e0 <hbpipe_status+0xfffc0018>
+			2df: R_XTENSA_SLOT0_OP	.literal+0x44
+ 2e2:	228a      	add.n	a2, a2, a8
+ 2e4:	0020c0        	memw
+ 2e7:	0228      	l32i.n	a2, a2, 0
+ 2e9:	0020c0        	memw
+ 2ec:	000086        	j	2f2 <hbpipe_status+0x2a>
+			2ec: R_XTENSA_SLOT0_OP	.text+0x2f2
+ 2ef:	00          	.byte	00
+ 2f0:	f27c      	movi.n	a2, -1
+ 2f2:	f01d      	retw.n
+
+<temporary-build>/kernel.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .text:
+
+00000000 <hb31_qacc4>:
+   0:	004136        	entry	a1, 32
+   3:	250844        	ee.zero.qacc
+   6:	930024        	ee.vld.128.ip	q2, a2, 0
+   9:	938144        	ee.vld.128.ip	q3, a4, 16
+   c:	224b      	addi.n	a2, a2, 4
+   e:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  11:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  14:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  17:	938144        	ee.vld.128.ip	q3, a4, 16
+  1a:	cc8324        	ee.src.q	q2, q0, q1
+  1d:	224b      	addi.n	a2, a2, 4
+  1f:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  22:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  25:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  28:	938144        	ee.vld.128.ip	q3, a4, 16
+  2b:	cc8324        	ee.src.q	q2, q0, q1
+  2e:	224b      	addi.n	a2, a2, 4
+  30:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  33:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  36:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  39:	938144        	ee.vld.128.ip	q3, a4, 16
+  3c:	cc8324        	ee.src.q	q2, q0, q1
+  3f:	224b      	addi.n	a2, a2, 4
+  41:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  44:	930024        	ee.vld.128.ip	q2, a2, 0
+  47:	938144        	ee.vld.128.ip	q3, a4, 16
+  4a:	224b      	addi.n	a2, a2, 4
+  4c:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  4f:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  52:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  55:	938144        	ee.vld.128.ip	q3, a4, 16
+  58:	cc8324        	ee.src.q	q2, q0, q1
+  5b:	224b      	addi.n	a2, a2, 4
+  5d:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  60:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  63:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  66:	938144        	ee.vld.128.ip	q3, a4, 16
+  69:	cc8324        	ee.src.q	q2, q0, q1
+  6c:	224b      	addi.n	a2, a2, 4
+  6e:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  71:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  74:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  77:	938144        	ee.vld.128.ip	q3, a4, 16
+  7a:	cc8324        	ee.src.q	q2, q0, q1
+  7d:	224b      	addi.n	a2, a2, 4
+  7f:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  82:	930024        	ee.vld.128.ip	q2, a2, 0
+  85:	938144        	ee.vld.128.ip	q3, a4, 16
+  88:	224b      	addi.n	a2, a2, 4
+  8a:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  8d:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  90:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  93:	938144        	ee.vld.128.ip	q3, a4, 16
+  96:	cc8324        	ee.src.q	q2, q0, q1
+  99:	224b      	addi.n	a2, a2, 4
+  9b:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  9e:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  a1:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  a4:	938144        	ee.vld.128.ip	q3, a4, 16
+  a7:	cc8324        	ee.src.q	q2, q0, q1
+  aa:	224b      	addi.n	a2, a2, 4
+  ac:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  af:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  b2:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  b5:	938144        	ee.vld.128.ip	q3, a4, 16
+  b8:	cc8324        	ee.src.q	q2, q0, q1
+  bb:	224b      	addi.n	a2, a2, 4
+  bd:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  c0:	930024        	ee.vld.128.ip	q2, a2, 0
+  c3:	938144        	ee.vld.128.ip	q3, a4, 16
+  c6:	224b      	addi.n	a2, a2, 4
+  c8:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  cb:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  ce:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  d1:	938144        	ee.vld.128.ip	q3, a4, 16
+  d4:	cc8324        	ee.src.q	q2, q0, q1
+  d7:	224b      	addi.n	a2, a2, 4
+  d9:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  dc:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  df:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  e2:	938144        	ee.vld.128.ip	q3, a4, 16
+  e5:	cc8324        	ee.src.q	q2, q0, q1
+  e8:	224b      	addi.n	a2, a2, 4
+  ea:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  ed:	810124        	ee.ld.128.usar.ip	q0, a2, 16
+  f0:	c3ff24        	ee.vld.128.ip	q1, a2, -16
+  f3:	938144        	ee.vld.128.ip	q3, a4, 16
+  f6:	cc8324        	ee.src.q	q2, q0, q1
+  f9:	224b      	addi.n	a2, a2, 4
+  fb:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+  fe:	930034        	ee.vld.128.ip	q2, a3, 0
+ 101:	938044        	ee.vld.128.ip	q3, a4, 0
+ 104:	f03d      	nop.n
+ 106:	1a3a84        	ee.vmulas.s16.qacc	q2, q3
+ 109:	f03d      	nop.n
+ 10b:	dd7264        	ee.srcmb.s16.qacc	q2, a6, 0
+ 10e:	9a0054        	ee.vst.128.ip	q2, a5, 0
+ 111:	f01d      	retw.n
+	...
+
+00000114 <hb31_copy_words>:
+ 114:	004136        	entry	a1, 32
+ 117:	078476        	loop	a4, 122 <hb31_copy_words+0xe>
+			117: R_XTENSA_SLOT0_OP	.text+0x122
+ 11a:	0358      	l32i.n	a5, a3, 0
+ 11c:	0259      	s32i.n	a5, a2, 0
+ 11e:	334b      	addi.n	a3, a3, 4
+ 120:	224b      	addi.n	a2, a2, 4
+ 122:	f01d      	retw.n

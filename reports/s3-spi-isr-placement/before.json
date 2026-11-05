@@ -1,0 +1,294 @@
+{
+  "checks": [
+    {
+      "name": "SDK_SPI_ISR_IRAM",
+      "ok": true,
+      "detail": true
+    },
+    {
+      "name": "SDK_SPI_LOCK_ISR_IRAM",
+      "ok": false,
+      "detail": false
+    },
+    {
+      "name": "IRAM_spi_bus_lock_bg_entry",
+      "ok": false,
+      "detail": "0x420246cc"
+    },
+    {
+      "name": "IRAM_spi_bus_lock_bg_exit",
+      "ok": false,
+      "detail": "0x4200fe9c"
+    },
+    {
+      "name": "IRAM_spi_bus_lock_get_acquiring_dev",
+      "ok": false,
+      "detail": "0x420246c0"
+    },
+    {
+      "name": "IRAM_spi_bus_lock_bg_clear_req",
+      "ok": false,
+      "detail": "0x4200fefc"
+    },
+    {
+      "name": "IRAM_spi_bus_lock_bg_check_dev_acq",
+      "ok": false,
+      "detail": "0x420246f4"
+    },
+    {
+      "name": "IRAM_spi_bus_lock_bg_check_dev_req",
+      "ok": false,
+      "detail": "0x4200ff48"
+    },
+    {
+      "name": "IRAM_spi_intr",
+      "ok": true,
+      "detail": "0x40377e24"
+    },
+    {
+      "name": "IRAM_spi_new_trans",
+      "ok": true,
+      "detail": "0x40377c7c"
+    },
+    {
+      "name": "IRAM_spi_bus_intr_enable",
+      "ok": true,
+      "detail": "0x40377aa4"
+    },
+    {
+      "name": "IRAM_spi_bus_intr_disable",
+      "ok": true,
+      "detail": "0x40377a98"
+    },
+    {
+      "name": "IRAM_spi_bus_lock_touch",
+      "ok": true,
+      "detail": "0x4037b348"
+    },
+    {
+      "name": "IRAM_spi_bus_lock_get_dev_id",
+      "ok": true,
+      "detail": "0x4037b328"
+    },
+    {
+      "name": "IRAM_spicommon_dma_desc_setup_link",
+      "ok": true,
+      "detail": "0x4037740c"
+    },
+    {
+      "name": "IRAM_gdma_reset",
+      "ok": true,
+      "detail": "0x4037b6ec"
+    },
+    {
+      "name": "IRAM_gdma_start",
+      "ok": true,
+      "detail": "0x4037b748"
+    },
+    {
+      "name": "IRAM_spi_hal_setup_device",
+      "ok": true,
+      "detail": "0x40383170"
+    },
+    {
+      "name": "IRAM_spi_hal_setup_trans",
+      "ok": true,
+      "detail": "0x403835e0"
+    },
+    {
+      "name": "IRAM_spi_hal_hw_prepare_tx",
+      "ok": true,
+      "detail": "0x40383a40"
+    },
+    {
+      "name": "IRAM_spi_hal_enable_data_line",
+      "ok": true,
+      "detail": "0x403839c4"
+    },
+    {
+      "name": "IRAM_spi_hal_user_start",
+      "ok": true,
+      "detail": "0x40383a84"
+    },
+    {
+      "name": "IRAM_esp_intr_enable",
+      "ok": true,
+      "detail": "0x40375e70"
+    },
+    {
+      "name": "IRAM_esp_intr_disable",
+      "ok": true,
+      "detail": "0x40375ef4"
+    },
+    {
+      "name": "IRAM_xQueueGenericSendFromISR",
+      "ok": true,
+      "detail": "0x4037eb8c"
+    },
+    {
+      "name": "IRAM_xQueueReceiveFromISR",
+      "ok": true,
+      "detail": "0x4037ef3c"
+    }
+  ],
+  "symbols": [
+    {
+      "symbol": "spi_bus_lock_bg_entry",
+      "address": "0x420246cc",
+      "bytes": 38,
+      "internal_IRAM": false
+    },
+    {
+      "symbol": "spi_bus_lock_bg_exit",
+      "address": "0x4200fe9c",
+      "bytes": 95,
+      "internal_IRAM": false
+    },
+    {
+      "symbol": "spi_bus_lock_get_acquiring_dev",
+      "address": "0x420246c0",
+      "bytes": 10,
+      "internal_IRAM": false
+    },
+    {
+      "symbol": "spi_bus_lock_bg_clear_req",
+      "address": "0x4200fefc",
+      "bytes": 74,
+      "internal_IRAM": false
+    },
+    {
+      "symbol": "spi_bus_lock_bg_check_dev_acq",
+      "address": "0x420246f4",
+      "bytes": 157,
+      "internal_IRAM": false
+    },
+    {
+      "symbol": "spi_bus_lock_bg_check_dev_req",
+      "address": "0x4200ff48",
+      "bytes": 75,
+      "internal_IRAM": false
+    },
+    {
+      "symbol": "spi_intr",
+      "address": "0x40377e24",
+      "bytes": 698,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_new_trans",
+      "address": "0x40377c7c",
+      "bytes": 424,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_bus_intr_enable",
+      "address": "0x40377aa4",
+      "bytes": 10,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_bus_intr_disable",
+      "address": "0x40377a98",
+      "bytes": 10,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_bus_lock_touch",
+      "address": "0x4037b348",
+      "bytes": 19,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_bus_lock_get_dev_id",
+      "address": "0x4037b328",
+      "bytes": 29,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spicommon_dma_desc_setup_link",
+      "address": "0x4037740c",
+      "bytes": 140,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "gdma_reset",
+      "address": "0x4037b6ec",
+      "bytes": 89,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "gdma_start",
+      "address": "0x4037b748",
+      "bytes": 137,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_hal_setup_device",
+      "address": "0x40383170",
+      "bytes": 679,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_hal_setup_trans",
+      "address": "0x403835e0",
+      "bytes": 995,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_hal_hw_prepare_tx",
+      "address": "0x40383a40",
+      "bytes": 67,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_hal_enable_data_line",
+      "address": "0x403839c4",
+      "bytes": 55,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "spi_hal_user_start",
+      "address": "0x40383a84",
+      "bytes": 47,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "esp_intr_enable",
+      "address": "0x40375e70",
+      "bytes": 132,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "esp_intr_disable",
+      "address": "0x40375ef4",
+      "bytes": 203,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "xQueueGenericSendFromISR",
+      "address": "0x4037eb8c",
+      "bytes": 212,
+      "internal_IRAM": true
+    },
+    {
+      "symbol": "xQueueReceiveFromISR",
+      "address": "0x4037ef3c",
+      "bytes": 138,
+      "internal_IRAM": true
+    }
+  ],
+  "bounded_symbol_placement_pass": false,
+  "SPI_heap_Kconfig_dependency_satisfied": false,
+  "cache_off_ISR_closure_proven": false,
+  "hardware_boot_executed": false,
+  "receiver_adopted": false,
+  "scope": "24 retained SPI normal-path symbols and two configuration conditions; not disassembly or complete graph",
+  "excluded": [
+    "indirect calls and data/literal residency",
+    "assertion/error paths",
+    "other interrupts and PHY binary/ROM",
+    "runtime interrupt flags and affinity",
+    "cache-off duration, RF bank deadlines and measured WCET"
+  ],
+  "ELF_sha256": "0c65aa88698408a8f625832d57e11223ef156b5448708de4426d4384275cb19e"
+}

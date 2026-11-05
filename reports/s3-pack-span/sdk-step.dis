@@ -1,0 +1,297 @@
+
+s3_raw_probe.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+40376c20 <s3_pp_step_impl>:
+40376c20:	00c136        	entry	a1, 96
+40376c23:	40f280        	nsau	a8, a2
+40376c26:	07dd      	mov.n	a13, a7
+40376c28:	1821f2        	l32i	a15, a1, 96
+40376c2b:	1921e2        	l32i	a14, a1, 100
+40376c2e:	027d      	mov.n	a7, a2
+40376c30:	06cd      	mov.n	a12, a6
+40376c32:	1a0c      	movi.n	a10, 1
+40376c34:	418580        	srli	a8, a8, 5
+40376c37:	294216        	beqz	a2, 40376ecf <s3_pp_step_impl+0x2af>
+40376c3a:	1a2192        	l32i	a9, a1, 104
+40376c3d:	838a90        	moveqz	a8, a10, a9
+40376c40:	28b856        	bnez	a8, 40376ecf <s3_pp_step_impl+0x2af>
+40376c43:	0989      	s32i.n	a8, a9, 0
+40376c45:	80a182        	movi	a8, 0x180
+40376c48:	928a      	add.n	a9, a2, a8
+40376c4a:	0020c0        	memw
+40376c4d:	0968      	l32i.n	a6, a9, 0
+40376c4f:	520c      	movi.n	a2, 5
+40376c51:	5169      	s32i.n	a6, a1, 20
+40376c53:	2b1656        	bnez	a6, 40376f08 <s3_pp_step_impl+0x2e8>
+40376c56:	208fe0        	or	a8, a15, a14
+40376c59:	06bd      	mov.n	a11, a6
+40376c5b:	83ba80        	moveqz	a11, a10, a8
+40376c5e:	068d      	mov.n	a8, a6
+40376c60:	838a40        	moveqz	a8, a10, a4
+40376c63:	2088b0        	or	a8, a8, a11
+40376c66:	748080        	extui	a8, a8, 0, 8
+40376c69:	18cc      	bnez.n	a8, 40376c6e <s3_pp_step_impl+0x4e>
+40376c6b:	09ba37        	bgeu	a10, a3, 40376c78 <s3_pp_step_impl+0x58>
+40376c6e:	380c      	movi.n	a8, 3
+40376c70:	0020c0        	memw
+40376c73:	0989      	s32i.n	a8, a9, 0
+40376c75:	009586        	j	40376ecf <s3_pp_step_impl+0x2af>
+40376c78:	1133c0        	slli	a3, a3, 4
+40376c7b:	5168      	l32i.n	a6, a1, 20
+40376c7d:	10c782        	addi	a8, a7, 16
+40376c80:	01d7a2        	addmi	a10, a7, 0x100
+40376c83:	30c322        	addi	a2, a3, 48
+40376c86:	b28a      	add.n	a11, a2, a8
+40376c88:	0020c0        	memw
+40376c8b:	0bb8      	l32i.n	a11, a11, 0
+40376c8d:	0020c0        	memw
+40376c90:	181b66        	bnei	a11, 1, 40376cac <s3_pp_step_impl+0x8c>
+40376c93:	369c      	beqz.n	a6, 40376caa <s3_pp_step_impl+0x8a>
+40376c95:	3658      	l32i.n	a5, a6, 12
+40376c97:	38b8      	l32i.n	a11, a8, 12
+40376c99:	0d3b57        	bltu	a11, a5, 40376caa <s3_pp_step_impl+0x8a>
+40376c9c:	0c95b7        	bne	a5, a11, 40376cac <s3_pp_step_impl+0x8c>
+40376c9f:	26b8      	l32i.n	a11, a6, 8
+40376ca1:	2858      	l32i.n	a5, a8, 8
+40376ca3:	0335b7        	bltu	a5, a11, 40376caa <s3_pp_step_impl+0x8a>
+40376ca6:	000086        	j	40376cac <s3_pp_step_impl+0x8c>
+40376ca9:	086d00        	lsx	f6, a13, a0
+40376cac:	50c882        	addi	a8, a8, 80
+40376caf:	d398a7        	bne	a8, a10, 40376c86 <s3_pp_step_impl+0x66>
+40376cb2:	21e616        	beqz	a6, 40376ed4 <s3_pp_step_impl+0x2b4>
+40376cb5:	5688      	l32i.n	a8, a6, 20
+40376cb7:	46a8      	l32i.n	a10, a6, 16
+40376cb9:	0b3d87        	bltu	a13, a8, 40376cc8 <s3_pp_step_impl+0xa8>
+40376cbc:	0218d7        	beq	a8, a13, 40376cc2 <s3_pp_step_impl+0xa2>
+40376cbf:	0078c6        	j	40376ea6 <s3_pp_step_impl+0x286>
+40376cc2:	023ca7        	bltu	a12, a10, 40376cc8 <s3_pp_step_impl+0xa8>
+40376cc5:	007746        	j	40376ea6 <s3_pp_step_impl+0x286>
+40376cc8:	62bac0        	saltu	a11, a10, a12
+40376ccb:	c088d0        	sub	a8, a8, a13
+40376cce:	c088b0        	sub	a8, a8, a11
+40376cd1:	c0aac0        	sub	a10, a10, a12
+40376cd4:	0c3e87        	bltu	a14, a8, 40376ce4 <s3_pp_step_impl+0xc4>
+40376cd7:	0218e7        	beq	a8, a14, 40376cdd <s3_pp_step_impl+0xbd>
+40376cda:	007206        	j	40376ea6 <s3_pp_step_impl+0x286>
+40376cdd:	033fa7        	bltu	a15, a10, 40376ce4 <s3_pp_step_impl+0xc4>
+40376ce0:	007086        	j	40376ea6 <s3_pp_step_impl+0x286>
+40376ce3:	863a00        	ee.ldf.64.xp	f3, f8, a0, a10
+40376ce6:	f8a8      	l32i.n	a10, a8, 60
+40376ce8:	4189      	s32i.n	a8, a1, 16
+40376cea:	e888      	l32i.n	a8, a8, 56
+40376cec:	c088a0        	sub	a8, a8, a10
+40376cef:	634840        	minu	a4, a8, a4
+40376cf2:	15a416        	beqz	a4, 40376e50 <s3_pp_step_impl+0x230>
+40376cf5:	5158      	l32i.n	a5, a1, 20
+40376cf7:	315b      	addi.n	a3, a1, 5
+40376cf9:	9199      	s32i.n	a9, a1, 36
+40376cfb:	a1c9      	s32i.n	a12, a1, 40
+40376cfd:	b1d9      	s32i.n	a13, a1, 44
+40376cff:	c1f9      	s32i.n	a15, a1, 48
+40376d01:	d1e9      	s32i.n	a14, a1, 52
+40376d03:	e129      	s32i.n	a2, a1, 56
+40376d05:	a5aa      	add.n	a10, a5, a10
+40376d07:	580c      	movi.n	a8, 5
+40376d09:	8288a0        	mull	a8, a8, a10
+40376d0c:	6698      	l32i.n	a9, a6, 24
+40376d0e:	c0c450        	sub	a12, a4, a5
+40376d11:	86d8      	l32i.n	a13, a6, 32
+40376d13:	2c06e2        	l8ui	a14, a6, 44
+40376d16:	889a      	add.n	a8, a8, a9
+40376d18:	aaaa      	add.n	a10, a10, a10
+40376d1a:	024cf6        	bgeui	a12, 4, 40376d20 <s3_pp_step_impl+0x100>
+40376d1d:	002bc6        	j	40376dd0 <s3_pp_step_impl+0x1b0>
+40376d20:	c0bde0        	sub	a11, a13, a14
+40376d23:	bbaa      	add.n	a11, a11, a10
+40376d25:	e49080        	extui	a9, a8, 0, 15
+40376d28:	d4b0b0        	extui	a11, a11, 0, 14
+40376d2b:	9e9c      	beqz.n	a14, 40376d48 <s3_pp_step_impl+0x128>
+40376d2d:	0aba16        	beqz	a10, 40376ddc <s3_pp_step_impl+0x1bc>
+40376d30:	f665e1        	l32r	a14, 403746c4 <_iram_text_start+0x2c0> (3ff8 <UserFrameTotalSize+0x3ef8>)
+40376d33:	02beb7        	bgeu	a14, a11, 40376d39 <s3_pp_step_impl+0x119>
+40376d36:	006d86        	j	40376ef0 <s3_pp_step_impl+0x2d0>
+40376d39:	14e080        	extui	a14, a8, 0, 2
+40376d3c:	1b0e56        	bnez	a14, 40376ef0 <s3_pp_step_impl+0x2d0>
+40376d3f:	f662e1        	l32r	a14, 403746c8 <_iram_text_start+0x2c4> (7fec <UserFrameTotalSize+0x7eec>)
+40376d42:	27be97        	bgeu	a14, a9, 40376d6d <s3_pp_step_impl+0x14d>
+40376d45:	0069c6        	j	40376ef0 <s3_pp_step_impl+0x2d0>
+40376d48:	f65ff1        	l32r	a15, 403746c4 <_iram_text_start+0x2c0> (3ff8 <UserFrameTotalSize+0x3ef8>)
+40376d4b:	02bfb7        	bgeu	a15, a11, 40376d51 <s3_pp_step_impl+0x131>
+40376d4e:	0061c6        	j	40376ed9 <s3_pp_step_impl+0x2b9>
+40376d51:	142080        	extui	a2, a8, 0, 2
+40376d54:	1f0c      	movi.n	a15, 1
+40376d56:	93fe20        	movnez	a15, a14, a2
+40376d59:	17cf16        	beqz	a15, 40376ed9 <s3_pp_step_impl+0x2b9>
+40376d5c:	f65be1        	l32r	a14, 403746c8 <_iram_text_start+0x2c4> (7fec <UserFrameTotalSize+0x7eec>)
+40376d5f:	62ee90        	saltu	a14, a14, a9
+40376d62:	ee0b      	addi.n	a14, a14, -1
+40376d64:	60e0e0        	neg	a14, a14
+40376d67:	74e0e0        	extui	a14, a14, 0, 8
+40376d6a:	16be16        	beqz	a14, 40376ed9 <s3_pp_step_impl+0x2b9>
+40376d6d:	c0dbd2        	addmi	a13, a11, 0xffffc000
+40376d70:	f657a1        	l32r	a10, 403746cc <_iram_text_start+0x2c8> (cccccccd <_rtc_reserved_end+0x6cbccccd>)
+40376d73:	80d9e2        	addmi	a14, a9, 0xffff8000
+40376d76:	60e0e0        	neg	a14, a14
+40376d79:	60d0d0        	neg	a13, a13
+40376d7c:	a2aea0        	muluh	a10, a14, a10
+40376d7f:	41d3d0        	srli	a13, a13, 3
+40376d82:	41c2c0        	srli	a12, a12, 2
+40376d85:	63cdc0        	minu	a12, a13, a12
+40376d88:	14df80        	extui	a13, a8, 15, 2
+40376d8b:	41a4a0        	srli	a10, a10, 4
+40376d8e:	a08d70        	addx4	a8, a13, a7
+40376d91:	06e8      	l32i.n	a14, a6, 0
+40376d93:	63cca0        	minu	a12, a12, a10
+40376d96:	08a8      	l32i.n	a10, a8, 0
+40376d98:	f4c0c0        	extui	a12, a12, 0, 16
+40376d9b:	a0bbe0        	addx4	a11, a11, a14
+40376d9e:	112cb0        	slli	a2, a12, 5
+40376da1:	aa9a      	add.n	a10, a10, a9
+40376da3:	6169      	s32i.n	a6, a1, 24
+40376da5:	7179      	s32i.n	a7, a1, 28
+40376da7:	2b2a      	add.n	a2, a11, a2
+40376da9:	206aa0        	or	a6, a10, a10
+40376dac:	207bb0        	or	a7, a11, a11
+40376daf:	81c9      	s32i.n	a12, a1, 32
+40376db1:	20b770        	or	a11, a7, a7
+40376db4:	20a660        	or	a10, a6, a6
+40376db7:	20c772        	addi	a7, a7, 32
+40376dba:	ffdfe5        	call8	40376bb8 <pack_eight>
+40376dbd:	14c662        	addi	a6, a6, 20
+40376dc0:	ed9727        	bne	a7, a2, 40376db1 <s3_pp_step_impl+0x191>
+40376dc3:	0821c2        	l32i	a12, a1, 32
+40376dc6:	6168      	l32i.n	a6, a1, 24
+40376dc8:	7178      	l32i.n	a7, a1, 28
+40376dca:	a05c50        	addx4	a5, a12, a5
+40376dcd:	001a46        	j	40376e3a <s3_pp_step_impl+0x21a>
+40376dd0:	e49080        	extui	a9, a8, 0, 15
+40376dd3:	2ecc      	bnez.n	a14, 40376dd9 <s3_pp_step_impl+0x1b9>
+40376dd5:	004006        	j	40376ed9 <s3_pp_step_impl+0x2b9>
+40376dd8:	00          	.byte	00
+40376dd9:	113a56        	bnez	a10, 40376ef0 <s3_pp_step_impl+0x2d0>
+40376ddc:	a6b8      	l32i.n	a11, a6, 40
+40376dde:	06c8      	l32i.n	a12, a6, 0
+40376de0:	51a8      	l32i.n	a10, a1, 20
+40376de2:	adaa      	add.n	a10, a13, a10
+40376de4:	d4a0a0        	extui	a10, a10, 0, 14
+40376de7:	a0aac0        	addx4	a10, a10, a12
+40376dea:	0aa8      	l32i.n	a10, a10, 0
+40376dec:	f5c0b0        	extui	a12, a11, 16, 16
+40376def:	11aa40        	slli	a10, a10, 12
+40376df2:	41aca0        	srli	a10, a10, 12
+40376df5:	11dac0        	slli	a13, a10, 4
+40376df8:	20ccd0        	or	a12, a12, a13
+40376dfb:	74c0c0        	extui	a12, a12, 0, 8
+40376dfe:	74d4a0        	extui	a13, a10, 4, 8
+40376e01:	f4b0b0        	extui	a11, a11, 0, 16
+40376e04:	11cc00        	slli	a12, a12, 16
+40376e07:	01dd80        	slli	a13, a13, 24
+40376e0a:	20bbc0        	or	a11, a11, a12
+40376e0d:	41aca0        	srli	a10, a10, 12
+40376e10:	20bbd0        	or	a11, a11, a13
+40376e13:	0441a2        	s8i	a10, a1, 4
+40376e16:	01b9      	s32i.n	a11, a1, 0
+40376e18:	01ad      	mov.n	a10, a1
+40376e1a:	14bf80        	extui	a11, a8, 15, 2
+40376e1d:	a0bb70        	addx4	a11, a11, a7
+40376e20:	0bb8      	l32i.n	a11, a11, 0
+40376e22:	000ac2        	l8ui	a12, a10, 0
+40376e25:	9b9a      	add.n	a9, a11, a9
+40376e27:	0049c2        	s8i	a12, a9, 0
+40376e2a:	aa1b      	addi.n	a10, a10, 1
+40376e2c:	881b      	addi.n	a8, a8, 1
+40376e2e:	0613a7        	beq	a3, a10, 40376e38 <s3_pp_step_impl+0x218>
+40376e31:	e49080        	extui	a9, a8, 0, 15
+40376e34:	fff886        	j	40376e1a <s3_pp_step_impl+0x1fa>
+40376e37:	551b00        	extui	a1, a0, 27, 6
+40376e3a:	4188      	l32i.n	a8, a1, 16
+40376e3c:	f8a8      	l32i.n	a10, a8, 60
+40376e3e:	02b547        	bgeu	a5, a4, 40376e44 <s3_pp_step_impl+0x224>
+40376e41:	ffb006        	j	40376d05 <s3_pp_step_impl+0xe5>
+40376e44:	9198      	l32i.n	a9, a1, 36
+40376e46:	a1c8      	l32i.n	a12, a1, 40
+40376e48:	b1d8      	l32i.n	a13, a1, 44
+40376e4a:	c1f8      	l32i.n	a15, a1, 48
+40376e4c:	d1e8      	l32i.n	a14, a1, 52
+40376e4e:	e128      	l32i.n	a2, a1, 56
+40376e50:	4188      	l32i.n	a8, a1, 16
+40376e52:	a4aa      	add.n	a10, a4, a10
+40376e54:	f8a9      	s32i.n	a10, a8, 60
+40376e56:	1a2182        	l32i	a8, a1, 104
+40376e59:	91e9      	s32i.n	a14, a1, 36
+40376e5b:	0849      	s32i.n	a4, a8, 0
+40376e5d:	1b2182        	l32i	a8, a1, 108
+40376e60:	81f9      	s32i.n	a15, a1, 32
+40376e62:	61d9      	s32i.n	a13, a1, 24
+40376e64:	71c9      	s32i.n	a12, a1, 28
+40376e66:	5199      	s32i.n	a9, a1, 20
+40376e68:	046816        	beqz	a8, 40376eb2 <s3_pp_step_impl+0x292>
+40376e6b:	1c21a2        	l32i	a10, a1, 112
+40376e6e:	0008e0        	callx8	a8
+40376e71:	61d8      	l32i.n	a13, a1, 24
+40376e73:	5198      	l32i.n	a9, a1, 20
+40376e75:	2d3bd7        	bltu	a11, a13, 40376ea6 <s3_pp_step_impl+0x286>
+40376e78:	71c8      	l32i.n	a12, a1, 28
+40376e7a:	81f8      	l32i.n	a15, a1, 32
+40376e7c:	91e8      	l32i.n	a14, a1, 36
+40376e7e:	029db7        	bne	a13, a11, 40376e84 <s3_pp_step_impl+0x264>
+40376e81:	213ac7        	bltu	a10, a12, 40376ea6 <s3_pp_step_impl+0x286>
+40376e84:	628ac0        	saltu	a8, a10, a12
+40376e87:	c0dbd0        	sub	a13, a11, a13
+40376e8a:	c0dd80        	sub	a13, a13, a8
+40376e8d:	c0cac0        	sub	a12, a10, a12
+40376e90:	123ed7        	bltu	a14, a13, 40376ea6 <s3_pp_step_impl+0x286>
+40376e93:	029de7        	bne	a13, a14, 40376e99 <s3_pp_step_impl+0x279>
+40376e96:	0c3fc7        	bltu	a15, a12, 40376ea6 <s3_pp_step_impl+0x286>
+40376e99:	5688      	l32i.n	a8, a6, 20
+40376e9b:	133b87        	bltu	a11, a8, 40376eb2 <s3_pp_step_impl+0x292>
+40376e9e:	0498b7        	bne	a8, a11, 40376ea6 <s3_pp_step_impl+0x286>
+40376ea1:	4688      	l32i.n	a8, a6, 16
+40376ea3:	0b3a87        	bltu	a10, a8, 40376eb2 <s3_pp_step_impl+0x292>
+40376ea6:	680c      	movi.n	a8, 6
+40376ea8:	0020c0        	memw
+40376eab:	0989      	s32i.n	a8, a9, 0
+40376ead:	620c      	movi.n	a2, 6
+40376eaf:	001546        	j	40376f08 <s3_pp_step_impl+0x2e8>
+40376eb2:	4188      	l32i.n	a8, a1, 16
+40376eb4:	f898      	l32i.n	a9, a8, 60
+40376eb6:	e888      	l32i.n	a8, a8, 56
+40376eb8:	041987        	beq	a9, a8, 40376ec0 <s3_pp_step_impl+0x2a0>
+40376ebb:	020c      	movi.n	a2, 0
+40376ebd:	0011c6        	j	40376f08 <s3_pp_step_impl+0x2e8>
+40376ec0:	662a      	add.n	a6, a6, a2
+40376ec2:	0020c0        	memw
+40376ec5:	280c      	movi.n	a8, 2
+40376ec7:	0020c0        	memw
+40376eca:	0689      	s32i.n	a8, a6, 0
+40376ecc:	fffac6        	j	40376ebb <s3_pp_step_impl+0x29b>
+40376ecf:	320c      	movi.n	a2, 3
+40376ed1:	000cc6        	j	40376f08 <s3_pp_step_impl+0x2e8>
+40376ed4:	220c      	movi.n	a2, 2
+40376ed6:	000b86        	j	40376f08 <s3_pp_step_impl+0x2e8>
+40376ed9:	bdaa      	add.n	a11, a13, a10
+40376edb:	06c8      	l32i.n	a12, a6, 0
+40376edd:	d4b0b0        	extui	a11, a11, 0, 14
+40376ee0:	a0bbc0        	addx4	a11, a11, a12
+40376ee3:	0bb8      	l32i.n	a11, a11, 0
+40376ee5:	aa1b      	addi.n	a10, a10, 1
+40376ee7:	11bb40        	slli	a11, a11, 12
+40376eea:	41bcb0        	srli	a11, a11, 12
+40376eed:	ffbc46        	j	40376de2 <s3_pp_step_impl+0x1c2>
+40376ef0:	bd0b      	addi.n	a11, a13, -1
+40376ef2:	06c8      	l32i.n	a12, a6, 0
+40376ef4:	bbaa      	add.n	a11, a11, a10
+40376ef6:	d4b0b0        	extui	a11, a11, 0, 14
+40376ef9:	a0bbc0        	addx4	a11, a11, a12
+40376efc:	0bb8      	l32i.n	a11, a11, 0
+40376efe:	11bb40        	slli	a11, a11, 12
+40376f01:	41bcb0        	srli	a11, a11, 12
+40376f04:	ffb686        	j	40376de2 <s3_pp_step_impl+0x1c2>
+40376f07:	f01d00        	subx8	a1, a13, a0
+
+Disassembly of section .flash.text:

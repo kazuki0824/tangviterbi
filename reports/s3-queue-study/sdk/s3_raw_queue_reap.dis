@@ -1,0 +1,66 @@
+
+queue-sdk.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+403767cc <s3_raw_queue_reap>:
+403767cc:	006136        	entry	a1, 48
+403767cf:	207220        	or	a7, a2, a2
+403767d2:	06e216        	beqz	a2, 40376844 <s3_raw_queue_reap+0x78>
+403767d5:	0022a2        	l32i	a10, a2, 0
+403767d8:	068a16        	beqz	a10, 40376844 <s3_raw_queue_reap+0x78>
+403767db:	022282        	l32i	a8, a2, 8
+403767de:	062816        	beqz	a8, 40376844 <s3_raw_queue_reap+0x78>
+403767e1:	7802c2        	l8ui	a12, a2, 120
+403767e4:	05cc56        	bnez	a12, 40376844 <s3_raw_queue_reap+0x78>
+403767e7:	1d2282        	l32i	a8, a2, 116
+403767ea:	056816        	beqz	a8, 40376844 <s3_raw_queue_reap+0x78>
+403767ed:	01bd      	mov.n	a11, a1
+403767ef:	01c9      	s32i.n	a12, a1, 0
+403767f1:	00fa25        	call8	40377794 <spi_device_get_trans_result>
+403767f4:	07a182        	movi	a8, 0x107
+403767f7:	0a2d      	mov.n	a2, a10
+403767f9:	631a87        	beq	a10, a8, 40376860 <s3_raw_queue_reap+0x94>
+403767fc:	27a8      	l32i.n	a10, a7, 8
+403767fe:	22dc      	bnez.n	a2, 40376814 <s3_raw_queue_reap+0x48>
+40376800:	1c2792        	l32i	a9, a7, 112
+40376803:	01b8      	l32i.n	a11, a1, 0
+40376805:	a08990        	addx4	a8, a9, a9
+40376808:	b08870        	addx8	a8, a8, a7
+4037680b:	10c882        	addi	a8, a8, 16
+4037680e:	121b87        	beq	a11, a8, 40376824 <s3_raw_queue_reap+0x58>
+40376811:	03a122        	movi	a2, 0x103
+40376814:	180c      	movi.n	a8, 1
+40376816:	784782        	s8i	a8, a7, 120
+40376819:	580c      	movi.n	a8, 5
+4037681b:	0020c0        	memw
+4037681e:	6c6a82        	s32i	a8, a10, 0x1b0
+40376821:	000ec6        	j	40376860 <s3_raw_queue_reap+0x94>
+40376824:	b09970        	addx8	a9, a9, a7
+40376827:	1829c2        	l32i	a12, a9, 96
+4037682a:	1929d2        	l32i	a13, a9, 100
+4037682d:	020a65        	call8	403788d4 <s3_pp_complete>
+40376830:	0a2d      	mov.n	a2, a10
+40376832:	7a9c      	beqz.n	a10, 4037684d <s3_raw_queue_reap+0x81>
+40376834:	190c      	movi.n	a9, 1
+40376836:	2788      	l32i.n	a8, a7, 8
+40376838:	784792        	s8i	a9, a7, 120
+4037683b:	05a092        	movi	a9, 5
+4037683e:	0020c0        	memw
+40376841:	6c6892        	s32i	a9, a8, 0x1b0
+40376844:	03a122        	movi	a2, 0x103
+40376847:	000546        	j	40376860 <s3_raw_queue_reap+0x94>
+4037684a:	000000        	ill
+4037684d:	1c2792        	l32i	a9, a7, 112
+40376850:	1d2782        	l32i	a8, a7, 116
+40376853:	1a0c      	movi.n	a10, 1
+40376855:	3099a0        	xor	a9, a9, a10
+40376858:	880b      	addi.n	a8, a8, -1
+4037685a:	1c6792        	s32i	a9, a7, 112
+4037685d:	1d6782        	s32i	a8, a7, 116
+40376860:	f01d      	retw.n
+
+Disassembly of section .flash.text:

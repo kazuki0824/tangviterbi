@@ -1,0 +1,75 @@
+{
+  "base_HEAD": "f23ffeb1ec652f42c7b164e68f5162e781828090",
+  "check_count": 5595,
+  "check_details": "all-checks.json.gz",
+  "failures": [],
+  "all_checks_pass": true,
+  "inputs_sha256": {
+    "reports/partition-recheck-20261023/all-ownerships.json.gz": "9162f405c17d803f05658b87bba4a313847c827645ae29f8dc2d8a442ad401c8",
+    "reports/control-only-20k/all-ownerships.json.gz": "9162f405c17d803f05658b87bba4a313847c827645ae29f8dc2d8a442ad401c8",
+    "reports/partition-recheck-20261023/bandwidth-catalog.json.gz": "6f6637829b94e5dccce29eb7418e386c11f1262d617449ee5c079f6304e68089",
+    "reports/control-only-20k/bandwidth-catalog.json.gz": "6f6637829b94e5dccce29eb7418e386c11f1262d617449ee5c079f6304e68089",
+    "reports/controller-cursor-mask/route-result.json": "79120b7f2df5cdb465b6cdde4f2cd4a8644506757b89c9d3d4c51212e0e76764",
+    "reports/controller-cursor-mask/routed.json.gz": "e5da4f22fae9a8f05ff5e2f118c3f8f39f4944f3f105b4b98bfaf6dc70eb7761",
+    "reports/controller-cursor-mask/pnr.json.gz": "7927f3bd89c97f5ef5ceb58d2aad01cb2d6ede5ae3dca29d1c227535f2c4fa5e",
+    "reports/controller-cursor-mask/audit.json": "a558f495c9c9670626a62c64dceb8227896c2f60201586797ff7baac4d435f7f",
+    "reports/controller-cursor-mask/finite.json": "0297cdb087c7cbce79ecb61bbc2ccd4bbcb3e825e5db46d320dedc414f23c401",
+    "reports/recovery-resource-audit.json": "1c7cff274dc2b3f0783e996d485deaf8ddcfa41b0f1b6550676798037081966f"
+  },
+  "rates": {
+    "T_step_Ms": 25.21212121212121,
+    "S_step_Ms": 50.505,
+    "K7_min_MHz": 152.62663803388213,
+    "shared_RS_mean_MHz": 136.48791800427395,
+    "T_periods_us": [
+      259.875,
+      519.75,
+      1039.5
+    ],
+    "raw_T_MBps": 40.0,
+    "raw_S_MBps": 100.0
+  },
+  "latest_partial": {
+    "resources": {
+      "FF": 8673,
+      "packed_logic_with_ram_blockers": 19627,
+      "minimum_extra_passthrough_LUTs": 0,
+      "optimistic_logic_site_lower_bound": 19627,
+      "capacity": 20736,
+      "excess": -1109,
+      "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+    },
+    "logic_pct": 94.65181327160494,
+    "BSRAM": {
+      "available": 46,
+      "used": 29
+    },
+    "DSP18": {
+      "available": 48,
+      "used": 6
+    },
+    "probe_ALU54D": {
+      "available": 24,
+      "used": 21
+    },
+    "fmax_MHz": 152.0912628173828,
+    "required_K7_MHz": 152.62663803388213,
+    "required_design_MHz": 154.28571428571428,
+    "K7_utilization_pct": 100.35200918618325,
+    "design_period_shortfall_ns": 0.0935185028722989,
+    "finite_margin_cycles": 3082,
+    "whole_resources": null,
+    "full_receiver_pass": null,
+    "measured_partial_speed_pass": false
+  },
+  "counts": {
+    "ownerships": 320,
+    "pairs": 16384,
+    "allowed_pairs": 63,
+    "mixed_gpio_peripheral": 993
+  },
+  "performance_passed": 0,
+  "formal_routes": 0,
+  "adopted": 0,
+  "scope": "Finite stage/profile catalogue only; no proof about all algorithms or arbitrary PHYs"
+}

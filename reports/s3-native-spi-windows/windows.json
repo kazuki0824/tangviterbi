@@ -1,0 +1,189 @@
+{
+  "scope": "Conditional native arrival windows linked to ordered SPI retirement.\n\nOrigin: physical initial-bank switch INDEX observation, not RF enable or accept.\nAssume continuous unwrapped indices at cpp cycles/sample, source boundary\nsemantics, and physical clock-error guarantees used by native. No RF ABI proof.\n",
+  "conditions": [
+    {
+      "rate": 16,
+      "result": {
+        "windows": [
+          {
+            "bank": 0,
+            "samples": 12288,
+            "accept_earliest": 240,
+            "switch_upper": 0,
+            "publish_latest": null
+          },
+          {
+            "bank": 1,
+            "samples": 12288,
+            "accept_earliest": 184546,
+            "switch_upper": 229679,
+            "publish_latest": null
+          },
+          {
+            "bank": 2,
+            "samples": 12288,
+            "accept_earliest": 368866,
+            "switch_upper": 413999,
+            "publish_latest": null
+          },
+          {
+            "bank": 3,
+            "samples": 12288,
+            "accept_earliest": 553186,
+            "switch_upper": 598319,
+            "publish_latest": null
+          },
+          {
+            "bank": 4,
+            "samples": 12288,
+            "accept_earliest": 737506,
+            "switch_upper": 782639,
+            "publish_latest": null
+          },
+          {
+            "bank": 5,
+            "samples": 12288,
+            "accept_earliest": 921826,
+            "switch_upper": 966959,
+            "publish_latest": null
+          },
+          {
+            "bank": 6,
+            "samples": 12288,
+            "accept_earliest": 1106146,
+            "switch_upper": 1151279,
+            "publish_latest": null
+          },
+          {
+            "bank": 7,
+            "samples": 12288,
+            "accept_earliest": 1290466,
+            "switch_upper": 1335599,
+            "publish_latest": null
+          }
+        ],
+        "wire": [
+          {
+            "lanes": 8,
+            "header_bits": 80,
+            "clock_hz": 80000000,
+            "serial_clock_count": 32778,
+            "wire_floor_cycles": 98334,
+            "completion_upper_cycles": null,
+            "is_lower_bound_from_queue_return": false
+          },
+          {
+            "lanes": 4,
+            "header_bits": 80,
+            "clock_hz": 80000000,
+            "serial_clock_count": 65556,
+            "wire_floor_cycles": 196668,
+            "completion_upper_cycles": null,
+            "is_lower_bound_from_queue_return": false
+          }
+        ],
+        "receiver_adopted": false,
+        "hardware_RF_model_verified": false,
+        "status": "unproved",
+        "missing": [
+          "verified physical publication offsets from switch_earliest"
+        ]
+      }
+    },
+    {
+      "rate": 40,
+      "result": {
+        "windows": [
+          {
+            "bank": 0,
+            "samples": 12288,
+            "accept_earliest": 96,
+            "switch_upper": 0,
+            "publish_latest": null
+          },
+          {
+            "bank": 1,
+            "samples": 12288,
+            "accept_earliest": 73819,
+            "switch_upper": 91871,
+            "publish_latest": null
+          },
+          {
+            "bank": 2,
+            "samples": 12288,
+            "accept_earliest": 147547,
+            "switch_upper": 165599,
+            "publish_latest": null
+          },
+          {
+            "bank": 3,
+            "samples": 12288,
+            "accept_earliest": 221275,
+            "switch_upper": 239327,
+            "publish_latest": null
+          },
+          {
+            "bank": 4,
+            "samples": 12288,
+            "accept_earliest": 295003,
+            "switch_upper": 313055,
+            "publish_latest": null
+          },
+          {
+            "bank": 5,
+            "samples": 12288,
+            "accept_earliest": 368731,
+            "switch_upper": 386783,
+            "publish_latest": null
+          },
+          {
+            "bank": 6,
+            "samples": 12288,
+            "accept_earliest": 442459,
+            "switch_upper": 460511,
+            "publish_latest": null
+          },
+          {
+            "bank": 7,
+            "samples": 12288,
+            "accept_earliest": 516187,
+            "switch_upper": 534239,
+            "publish_latest": null
+          }
+        ],
+        "wire": [
+          {
+            "lanes": 8,
+            "header_bits": 80,
+            "clock_hz": 80000000,
+            "serial_clock_count": 32778,
+            "wire_floor_cycles": 98334,
+            "completion_upper_cycles": null,
+            "is_lower_bound_from_queue_return": false
+          },
+          {
+            "lanes": 4,
+            "header_bits": 80,
+            "clock_hz": 80000000,
+            "serial_clock_count": 65556,
+            "wire_floor_cycles": 196668,
+            "completion_upper_cycles": null,
+            "is_lower_bound_from_queue_return": false
+          }
+        ],
+        "receiver_adopted": false,
+        "hardware_RF_model_verified": false,
+        "status": "unproved",
+        "missing": [
+          "verified physical publication offsets from switch_earliest"
+        ]
+      }
+    }
+  ],
+  "caveat": "nominal-count examples only; arbitrary accepted counts are parameters, not all arrival patterns proved",
+  "source_sha256": {
+    "experiments/s3_native_capture.c": "c2ad0db240000d385bedd6562d0b08794bf4c307450b981327a55c3dc2d97ad3",
+    "experiments/s3_spi_transport.c": "231ee522e51a70c6e3e4e3574c1ac806a7905d33d1fc439a96c5c7a473949416"
+  },
+  "receiver_adopted": false
+}

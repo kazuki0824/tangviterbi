@@ -17,14 +17,48 @@
 enum { CTRL=0x60033d5c, INDEX=0x60033d60, CONFIG=0x60033d90, SELECT=0x600c101c,
  MASK=16383, THRESHOLD=12288, START=3072, END=4096, LATE=2000 };
 #define SENTINEL UINT32_C(0xa5c33c5a)
+#ifndef S3_NATIVE_FILL_UNROLL
+#define S3_NATIVE_FILL_UNROLL 8
+#endif
+#if S3_NATIVE_FILL_UNROLL != 1 && S3_NATIVE_FILL_UNROLL != 4 && S3_NATIVE_FILL_UNROLL != 8
+#error "S3_NATIVE_FILL_UNROLL must be 1, 4 or 8"
+#endif
+static bool HOT fail(s3_native_capture*,unsigned);
 static uint64_t HOT clock_now(s3_native_capture *s) {
+ if(s->common_clock){
+  uint64_t t=s->common_clock(s->clock_ctx);
+  // Leave room for every native deadline addition before accepting time.
+  if(t<s->now || t<s->clock_error || t>UINT64_MAX-2u*THRESHOLD*s->cpp){
+   fail(s,S3_NATIVE_CLOCK_FAULT);return s->now;
+  }
+  s->now=t;return t;
+ }
  uint32_t t=s->io.cycles(s->io.ctx);s->now+=(uint32_t)(t-s->last_clock);s->last_clock=t;return s->now;
 }
 static void HOT wr(s3_native_capture*s,uint32_t a,uint32_t v){s->io.write(s->io.ctx,a,v);}
 static uint32_t HOT rd(s3_native_capture*s,uint32_t a){return s->io.read(s->io.ctx,a);}
 static void HOT fill(s3_native_capture*s,unsigned b,unsigned at,unsigned n) {
  volatile uint32_t *p=s->io.bank(s->io.ctx,b);
- for(unsigned i=0;i<n;++i)p[(at+i)&MASK]=SENTINEL;
+ // Keep the same volatile stores and order, but mask only at ring wraps.
+ at&=MASK;
+ while(n){
+  unsigned span=MASK+1-at;if(span>n)span=n;
+  volatile uint32_t *dst=p+at;
+  unsigned remaining=span;
+#if S3_NATIVE_FILL_UNROLL != 1
+  // Each volatile store retains its ordering/barrier; only pointer updates
+  // are shared. Never let an unrolled group cross the ring boundary.
+  while(remaining>=S3_NATIVE_FILL_UNROLL){
+   dst[0]=SENTINEL;dst[1]=SENTINEL;dst[2]=SENTINEL;dst[3]=SENTINEL;
+#if S3_NATIVE_FILL_UNROLL == 8
+   dst[4]=SENTINEL;dst[5]=SENTINEL;dst[6]=SENTINEL;dst[7]=SENTINEL;
+#endif
+   dst+=S3_NATIVE_FILL_UNROLL;remaining-=S3_NATIVE_FILL_UNROLL;
+  }
+#endif
+  for(unsigned i=0;i<remaining;++i)*dst++=SENTINEL;
+  n-=span;at=0;
+ }
 #ifdef ESP_PLATFORM
  __asm__ volatile("memw" ::: "memory");
 #endif
@@ -46,49 +80,91 @@ static unsigned HOT end(s3_native_capture*s,unsigned b,unsigned origin,unsigned 
  while(lo<hi){unsigned m=(lo+hi)/2;if(p[(origin+m)&MASK]==SENTINEL)hi=m;else lo=m+1;}
  return (origin+lo)&MASK;
 }
+static bool HOT bridge_healthy(void *ctx){s3_capture_bridge*b=ctx;return !b->fault;}
+static bool HOT bridge_available(void *ctx,unsigned n){s3_capture_bridge*b=ctx;return !b->banks[n].owned;}
+static bool HOT bridge_reclaim(void *ctx,unsigned n){return s3_capture_reclaim(ctx,n);}
+static bool HOT bridge_accept(void *ctx,unsigned n,const uint32_t*w,unsigned f,unsigned c,uint64_t i,uint64_t t,uint64_t d){
+ return s3_capture_accept(ctx,n,w,f,c,i,t,d);
+}
 bool s3_native_start(s3_native_capture*s,s3_capture_bridge*b,s3_native_io io,unsigned rate){
- if(!s||s->running||!b||b->fault||b->count||!io.read||!io.write||!io.cycles||!io.bank||(rate!=16&&rate!=40))return false;
- memset(s,0,sizeof(*s));s->bridge=b;s->io=io;s->cpp=240/rate;s->saved=rd(s,SELECT);
+ if(!b || b->fault || b->count)return false;
+ s3_native_sink sink={b,bridge_healthy,bridge_available,bridge_reclaim,bridge_accept};
+ bool ok=s3_native_start_sink(s,sink,io,rate);
+ if(ok)s->bridge=b;
+ return ok;
+}
+static bool start_sink(s3_native_capture*s,s3_native_sink sink,s3_native_io io,unsigned rate,
+ s3_native_clock clock,void *clock_ctx,uint32_t clock_error){
+ if(!s||s->running||!sink.ctx||!sink.healthy||!sink.available||!sink.reclaim||!sink.accept||
+    !sink.healthy(sink.ctx)||!io.read||!io.write||(!clock&&!io.cycles)||!io.bank||(rate!=16&&rate!=40))return false;
+ for(unsigned b=0;b<3;++b)if(!sink.available(sink.ctx,b))return false;
+ memset(s,0,sizeof(*s));s->sink=sink;s->io=io;s->cpp=240/rate;s->common_clock=clock;s->clock_ctx=clock_ctx;s->clock_error=clock_error;s->saved=rd(s,SELECT);
  s->ctrl=0x24000|(rate==16?1u<<16:1u<<15);
  wr(s,CTRL,0);for(unsigned i=0;i<3;++i)fill(s,i,0,16384);
  wr(s,CONFIG,0xc2040);wr(s,CTRL,s->ctrl);wr(s,SELECT,(s->saved&~15u)|1u);
- s->last_clock=io.cycles(io.ctx);s->running=true;
+ s->running=true;
+ if(clock){clock_now(s);if(s->fault)return false;}
+ else s->last_clock=io.cycles(io.ctx);
+ s->switch_earliest=s->now-s->clock_error;
  wr(s,CTRL,s->ctrl|0x80000000u);s->w0=rd(s,INDEX)&MASK;s->expected=(s->w0-256)&MASK;
- s->switched=clock_now(s);return true;
+ s->switched=clock_now(s);if(!clock)s->switch_earliest=s->switched;return !s->fault;
 }
-bool HOT s3_native_poll(s3_native_capture*s){
- if(!s||!s->running||s->fault)return false;
- uint64_t now=clock_now(s);unsigned b=s->active,next=(b+1)%3;
- if(s->bridge->fault)return fail(s,1);
+bool s3_native_start_sink(s3_native_capture*s,s3_native_sink sink,s3_native_io io,unsigned rate){
+ return start_sink(s,sink,io,rate,NULL,NULL,0);
+}
+bool s3_native_start_sink_clocked(s3_native_capture*s,s3_native_sink sink,s3_native_io io,unsigned rate,
+ s3_native_clock clock,void *clock_ctx,uint32_t clock_error){
+ if(!clock)return false;
+ return start_sink(s,sink,io,rate,clock,clock_ctx,clock_error);
+}
+bool HOT s3_native_poll_budget(s3_native_capture*s,unsigned *prepare_words){
+ if(!s||!prepare_words||!s->running||s->fault)return false;
+ uint64_t now=clock_now(s);if(s->fault)return false;unsigned b=s->active,next=(b+1)%3;
+ if(!s->sink.healthy(s->sink.ctx))return fail(s,1);
  if(s->settling){
-  if(now-s->switched>(16384-128)*s->cpp)return fail(s,4);
-  if(now-s->switched<16*s->cpp)return true;
+  if(now-s->switch_earliest>(16384-128)*s->cpp)return fail(s,4);
+  if(now-s->switched<(uint64_t)16*s->cpp+s->clock_error)return true;
   unsigned f=first(s,b,s->unit?s->start[b]:(s->w0-1024)&MASK,START);
   unsigned e=end(s,b,s->unit?s->end[b]:s->write_index,s->write_index,s->unit?END:1024);
   unsigned count=(e-f)&MASK;
   if(f==UINT32_MAX||e==UINT32_MAX||(s->unit&&f!=s->expected)||
      count<(s->unit?THRESHOLD:THRESHOLD-1024)||count>THRESHOLD+LATE+64)return fail(s,2);
-  uint64_t deadline=s->switched+2*THRESHOLD*s->cpp-20000-(1024+LATE)*s->cpp;
-  now=clock_now(s);
-  if(!s3_capture_accept(s->bridge,b,s->io.bank(s->io.ctx,b),f,count,s->index,now,deadline))return fail(s,3);
+  uint64_t deadline=s->switch_earliest+2*THRESHOLD*s->cpp-20000-(1024+LATE)*s->cpp;
+  now=clock_now(s);if(s->fault)return false;
+  if(!s->sink.accept(s->sink.ctx,b,s->io.bank(s->io.ctx,b),f,count,s->index,now,deadline))return fail(s,3);
   s->index+=count;s->expected=e;s->active=next;++s->unit;s->prepared=false;s->settling=false;
-  clock_now(s);return true;
+  clock_now(s);return !s->fault;
  }
- if(now-s->switched>(16384-128)*s->cpp)return fail(s,4);
+ if(now-s->switch_earliest>(16384-128)*s->cpp)return fail(s,4);
  unsigned w=rd(s,INDEX)&MASK,written=(w-s->expected)&MASK;
  if(written>=THRESHOLD){
   if(!s->prepared||written>THRESHOLD+LATE)return fail(s,5);
-  s->write_index=w;wr(s,SELECT,(s->saved&~15u)|(1u<<next));s->switched=clock_now(s);s->settling=true;return true;
+  s->switch_earliest=now-s->clock_error;
+  s->write_index=w;wr(s,SELECT,(s->saved&~15u)|(1u<<next));s->switched=clock_now(s);if(s->fault)return false;if(!s->common_clock)s->switch_earliest=s->switched;s->settling=true;return true;
  }
  if(!s->prepared){
-  if(!s->bridge->banks[next].owned){
+  if(!s->preparing&&s->sink.available(s->sink.ctx,next)){
    // Reclaim BEFORE any sentinel write, even when the next bank seems idle.
-   if(!s3_capture_reclaim(s->bridge,next))return fail(s,6);
+   if(!s->sink.reclaim(s->sink.ctx,next))return fail(s,6);
    s->start[next]=(s->expected+THRESHOLD)&MASK;s->end[next]=(s->start[next]+THRESHOLD)&MASK;
-   fill(s,next,s->start[next],START);fill(s,next,s->end[next],END);s->prepared=true;
+   s->prepare_done=0;s->preparing=true;
+  }
+  if(s->preparing){
+   while(*prepare_words&&s->prepare_done<START+END){
+    unsigned done=s->prepare_done;
+    unsigned remain=done<START?START-done:START+END-done;
+    unsigned n=*prepare_words<remain?*prepare_words:remain;
+    unsigned at=done<START?s->start[next]+done:s->end[next]+done-START;
+    fill(s,next,at,n);s->prepare_done+=n;*prepare_words-=n;
+   }
+   if(s->prepare_done==START+END){s->prepared=true;s->preparing=false;}
   }else if(written+20000/s->cpp+1024+LATE>=THRESHOLD)return fail(s,7);
  }
- clock_now(s);return true;
+ clock_now(s);return !s->fault;
+}
+bool HOT s3_native_poll(s3_native_capture*s){
+ unsigned budget=START+END;
+ return s3_native_poll_budget(s,&budget);
 }
 #ifdef ESP_PLATFORM
 static uint32_t HOT mmio_read(void*c,uint32_t a){(void)c;return REG_READ(a);}

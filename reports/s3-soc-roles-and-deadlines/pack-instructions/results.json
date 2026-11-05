@@ -1,0 +1,47 @@
+{
+  "scope": "Freestanding target compile of existing packing: instruction count, not WCET.",
+  "rows": [
+    {
+      "optimization": "O2",
+      "instructions_per_eight_samples": 39,
+      "instructions_per_sample": 4.875,
+      "input_word_loads": 8,
+      "output_word_stores": 5,
+      "literal_loads": 2,
+      "ideal_one_issue_per_cycle_Mcycles_s_T": 78.0,
+      "ideal_one_issue_per_cycle_Mcycles_s_S": 195.0,
+      "evidence_supports_8_cycles_per_sample_WCET": false
+    },
+    {
+      "optimization": "Os",
+      "instructions_per_eight_samples": 39,
+      "instructions_per_sample": 4.875,
+      "input_word_loads": 8,
+      "output_word_stores": 5,
+      "literal_loads": 2,
+      "ideal_one_issue_per_cycle_Mcycles_s_T": 78.0,
+      "ideal_one_issue_per_cycle_Mcycles_s_S": 195.0,
+      "evidence_supports_8_cycles_per_sample_WCET": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "O2_eight_input_five_output_words",
+      "passed": true
+    },
+    {
+      "name": "Os_eight_input_five_output_words",
+      "passed": true
+    }
+  ],
+  "source_sha256": {
+    "experiments/s3_parallel_pack.c": "6739187f708182af3002fee47f0599e5641a98990c6c238a824106327c40f86e",
+    "experiments/s3_iq10_block.h": "aacc0cd8e1f10de23523e9bebeded384b5e515f485c0876cdffaeecd92b93b8e"
+  },
+  "limitations": [
+    "Not full SDK-linked build; literal addresses remain relocatable",
+    "Caller, fast-path admission, boundary slow path and slice scheduling excluded",
+    "Memory stalls, interrupt and shared-bus contention excluded",
+    "Do not replace the old 8-cycle sensitivity assumption with this instruction count"
+  ]
+}

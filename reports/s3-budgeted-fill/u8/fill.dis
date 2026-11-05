@@ -1,0 +1,63 @@
+0000009c <fill$isra$0>:
+  9c:	004136        	entry	a1, 32
+  9f:	20a330        	or	a10, a3, a3
+  a2:	20b440        	or	a11, a4, a4
+  a5:	0002e0        	callx8	a2
+  a8:	000091        	l32r	a9, fffc00a8 <s3_native_poll+0xfffbfa3c>
+  ab:	d4c050        	extui	a12, a5, 0, 14
+  ae:	0e0c      	movi.n	a14, 0
+  b0:	c0dcd2        	addmi	a13, a12, 0xffffc000
+  b3:	60d0d0        	neg	a13, a13
+  b6:	63dd60        	minu	a13, a13, a6
+  b9:	a0cca0        	addx4	a12, a12, a10
+  bc:	5a8db6        	bltui	a13, 8, 11a <fill$isra$0+0x7e>
+  bf:	f8cdf2        	addi	a15, a13, -8
+  c2:	41f3f0        	srli	a15, a15, 3
+  c5:	bf1b      	addi.n	a11, a15, 1
+  c7:	f4b0b0        	extui	a11, a11, 0, 16
+  ca:	11bbb0        	slli	a11, a11, 5
+  cd:	e0cbb2        	addi	a11, a11, -32
+  d0:	41b5b0        	srli	a11, a11, 5
+  d3:	208cc0        	or	a8, a12, a12
+  d6:	01cbb2        	addi	a11, a11, 1
+  d9:	2a8b76        	loop	a11, 107 <fill$isra$0+0x6b>
+  dc:	0020c0        	memw
+  df:	0899      	s32i.n	a9, a8, 0
+  e1:	0020c0        	memw
+  e4:	1899      	s32i.n	a9, a8, 4
+  e6:	0020c0        	memw
+  e9:	2899      	s32i.n	a9, a8, 8
+  eb:	0020c0        	memw
+  ee:	3899      	s32i.n	a9, a8, 12
+  f0:	0020c0        	memw
+  f3:	4899      	s32i.n	a9, a8, 16
+  f5:	0020c0        	memw
+  f8:	5899      	s32i.n	a9, a8, 20
+  fa:	0020c0        	memw
+  fd:	6899      	s32i.n	a9, a8, 24
+  ff:	0020c0        	memw
+ 102:	7899      	s32i.n	a9, a8, 28
+ 104:	20c882        	addi	a8, a8, 32
+ 107:	f4f0f0        	extui	a15, a15, 0, 16
+ 10a:	20ccc2        	addi	a12, a12, 32
+ 10d:	11ffb0        	slli	a15, a15, 5
+ 110:	2480d0        	extui	a8, a13, 0, 3
+ 113:	ccfa      	add.n	a12, a12, a15
+ 115:	38cc      	bnez.n	a8, 11c <fill$isra$0+0x80>
+ 117:	000646        	j	134 <fill$isra$0+0x98>
+ 11a:	0d8d      	mov.n	a8, a13
+ 11c:	f48080        	extui	a8, a8, 0, 16
+ 11f:	1188e0        	slli	a8, a8, 2
+ 122:	fcc882        	addi	a8, a8, -4
+ 125:	418280        	srli	a8, a8, 2
+ 128:	881b      	addi.n	a8, a8, 1
+ 12a:	068876        	loop	a8, 134 <fill$isra$0+0x98>
+ 12d:	0020c0        	memw
+ 130:	0c99      	s32i.n	a9, a12, 0
+ 132:	cc4b      	addi.n	a12, a12, 4
+ 134:	c066d0        	sub	a6, a6, a13
+ 137:	0ecd      	mov.n	a12, a14
+ 139:	f73656        	bnez	a6, b0 <fill$isra$0+0x14>
+ 13c:	0020c0        	memw
+ 13f:	f01d      	retw.n
+ 141:	000000        	ill

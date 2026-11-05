@@ -1,0 +1,152 @@
+{
+  "checks": 47,
+  "failed": [],
+  "cpu": [
+    {
+      "standard": "T",
+      "batch": 16384,
+      "RF_high_Mcycles_s": 185.375,
+      "API_Mcycles_s": 11.7216796875,
+      "current_single_owner_percent": 82.12361653645833,
+      "ideal_equal_RF_split_core_percent": [
+        43.503824869791664,
+        38.619791666666664
+      ],
+      "feasible_core0_RF_Mcycles_interval": [
+        0.0,
+        185.375
+      ],
+      "feasible_split_exists": true,
+      "workload_actually_divisible": false
+    },
+    {
+      "standard": "T",
+      "batch": 32768,
+      "RF_high_Mcycles_s": 185.375,
+      "API_Mcycles_s": 5.86083984375,
+      "current_single_owner_percent": 79.68159993489583,
+      "ideal_equal_RF_split_core_percent": [
+        41.061808268229164,
+        38.619791666666664
+      ],
+      "feasible_core0_RF_Mcycles_interval": [
+        0.0,
+        185.375
+      ],
+      "feasible_split_exists": true,
+      "workload_actually_divisible": false
+    },
+    {
+      "standard": "S",
+      "batch": 16384,
+      "RF_high_Mcycles_s": 448.4375,
+      "API_Mcycles_s": 29.2998046875,
+      "current_single_owner_percent": 199.05721028645834,
+      "ideal_equal_RF_split_core_percent": [
+        105.63273111979167,
+        93.42447916666667
+      ],
+      "feasible_core0_RF_Mcycles_interval": [
+        208.4375,
+        210.7001953125
+      ],
+      "feasible_split_exists": true,
+      "workload_actually_divisible": false,
+      "split_RF_and_port_owner_core_percent": [
+        101.43312220599577,
+        97.62408808046256
+      ]
+    },
+    {
+      "standard": "S",
+      "batch": 32768,
+      "RF_high_Mcycles_s": 448.4375,
+      "API_Mcycles_s": 14.64990234375,
+      "current_single_owner_percent": 192.95308430989584,
+      "ideal_equal_RF_split_core_percent": [
+        99.52860514322917,
+        93.42447916666667
+      ],
+      "feasible_core0_RF_Mcycles_interval": [
+        208.4375,
+        225.35009765625
+      ],
+      "feasible_split_exists": true,
+      "workload_actually_divisible": false,
+      "split_RF_and_port_owner_core_percent": [
+        97.4602728757537,
+        95.49281143414213
+      ]
+    }
+  ],
+  "memory": [
+    {
+      "batch": 16384,
+      "reclaimed_bytes": 0,
+      "available_upper_bound": 25908,
+      "send_buffers_bytes": 65536,
+      "remaining_upper_bound": -39628,
+      "current_firmware_unchanged": true,
+      "contiguous_DMA_regions_verified": false,
+      "new_link_map_verified": false,
+      "driver_and_worker_cost_included": false
+    },
+    {
+      "batch": 16384,
+      "reclaimed_bytes": 32768,
+      "available_upper_bound": 58676,
+      "send_buffers_bytes": 65536,
+      "remaining_upper_bound": -6860,
+      "current_firmware_unchanged": false,
+      "contiguous_DMA_regions_verified": false,
+      "new_link_map_verified": false,
+      "driver_and_worker_cost_included": false
+    },
+    {
+      "batch": 16384,
+      "reclaimed_bytes": 114688,
+      "available_upper_bound": 140596,
+      "send_buffers_bytes": 65536,
+      "remaining_upper_bound": 75060,
+      "current_firmware_unchanged": false,
+      "contiguous_DMA_regions_verified": false,
+      "new_link_map_verified": false,
+      "driver_and_worker_cost_included": false
+    },
+    {
+      "batch": 32768,
+      "reclaimed_bytes": 0,
+      "available_upper_bound": 25908,
+      "send_buffers_bytes": 131072,
+      "remaining_upper_bound": -105164,
+      "current_firmware_unchanged": true,
+      "contiguous_DMA_regions_verified": false,
+      "new_link_map_verified": false,
+      "driver_and_worker_cost_included": false
+    },
+    {
+      "batch": 32768,
+      "reclaimed_bytes": 32768,
+      "available_upper_bound": 58676,
+      "send_buffers_bytes": 131072,
+      "remaining_upper_bound": -72396,
+      "current_firmware_unchanged": false,
+      "contiguous_DMA_regions_verified": false,
+      "new_link_map_verified": false,
+      "driver_and_worker_cost_included": false
+    },
+    {
+      "batch": 32768,
+      "reclaimed_bytes": 114688,
+      "available_upper_bound": 140596,
+      "send_buffers_bytes": 131072,
+      "remaining_upper_bound": 9524,
+      "current_firmware_unchanged": false,
+      "contiguous_DMA_regions_verified": false,
+      "new_link_map_verified": false,
+      "driver_and_worker_cost_included": false
+    }
+  ],
+  "trace_passes": 6,
+  "traces": 18
+}

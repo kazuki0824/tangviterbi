@@ -1,0 +1,105 @@
+{
+  "scope": "Instruction-count screen for direct s16 FIR, not all FIR algorithms or WCET.",
+  "assumptions": [
+    "Direct real-coefficient dot products for both I and Q; 32 T or 16 S non-eliminated tap products/output/component",
+    "8 signed16 products per SIMD instruction; optimistic one issue/cycle",
+    "No memory, unpack, phase, accumulation-readout, output-store, RTOS or DMA cost in MAC-only count",
+    "Other receiver costs fixed as previous break-even calculation",
+    "Does not cover symmetry, zero coefficients, convolution/phase reuse, FFT convolution or fusion changing other costs",
+    "Tap count alone does not certify channel quality"
+  ],
+  "rows": [
+    {
+      "id": "S3-T-001",
+      "taps_per_I_or_Q_output": 32,
+      "complex_output_Msample_s": 8.126984126984127,
+      "MAC_Moperations_s": 520.1269841269841,
+      "ideal_MAC_only_Mcycles_s": 65.01587301587301,
+      "break_even_budget_Mcycles_s": [
+        64.58953373015873,
+        64.08159722222223
+      ],
+      "remaining_for_unpack_loads_reduce_control_Mcycles_s": [
+        -0.42633928571428586,
+        -0.9342757936507858
+      ],
+      "remaining_cycles_per_input_complex_sample": [
+        -0.026646205357142867,
+        -0.058392237103174115
+      ],
+      "MAC_only_excludes_beating_raw": [
+        true,
+        true
+      ],
+      "with_old_unpack_3_or_5_cycles_per_input_Mcycles_s": [
+        113.01587301587301,
+        145.015873015873
+      ],
+      "preserve_old_unpack_excludes_beating_raw": [
+        true,
+        true
+      ],
+      "all_same_quality_algorithms_excluded": false,
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-S-001",
+      "taps_per_I_or_Q_output": 16,
+      "complex_output_Msample_s": 28.86,
+      "MAC_Moperations_s": 923.52,
+      "ideal_MAC_only_Mcycles_s": 115.44,
+      "break_even_budget_Mcycles_s": [
+        122.29828125000006,
+        86.85828124999989
+      ],
+      "remaining_for_unpack_loads_reduce_control_Mcycles_s": [
+        6.85828125000006,
+        -28.58171875000011
+      ],
+      "remaining_cycles_per_input_complex_sample": [
+        0.1714570312500015,
+        -0.7145429687500028
+      ],
+      "MAC_only_excludes_beating_raw": [
+        false,
+        true
+      ],
+      "with_old_unpack_3_or_5_cycles_per_input_Mcycles_s": [
+        235.44,
+        315.44
+      ],
+      "preserve_old_unpack_excludes_beating_raw": [
+        true,
+        true
+      ],
+      "all_same_quality_algorithms_excluded": false,
+      "receiver_adopted": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "S3-T-001_original_formula_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-001_original_formula_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_original_formula_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_original_formula_1",
+      "passed": true
+    },
+    {
+      "name": "T_32_outputs_need_256_SIMD_MACs",
+      "passed": true
+    },
+    {
+      "name": "S_1443_outputs_need_5772_SIMD_MACs",
+      "passed": true
+    }
+  ]
+}

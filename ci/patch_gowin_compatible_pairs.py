@@ -1,5 +1,6 @@
 from pathlib import Path
-p=Path('/workspace/scratch/3793ea63b22e/nextpnr-source/himbaechel/uarch/gowin/pack_luts.cc')
+import sys
+p=Path(sys.argv[1])/'himbaechel/uarch/gowin/pack_luts.cc'
 s=p.read_text(); needle='    log_info("Constrained %d LUTFF pairs.\\n", lutffs);'
 addition=r'''
     // Experimental: pair only isolated LUT/FF clusters with identical controls.

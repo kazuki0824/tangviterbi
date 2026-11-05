@@ -1,0 +1,40 @@
+name: S3 depth-two queue candidate
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_raw_queue.*'
+      - 'experiments/s3_inline_pack.c'
+      - 'experiments/s3_iq10_inline.h'
+      - 'experiments/s3_queue_probe/**'
+      - 'tests/s3_raw_queue_host.c'
+      - 'tests/test_s3_raw_queue.py'
+      - '.github/workflows/s3-queue-candidate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: s3-queue-candidate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  link:
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.5.1
+    steps:
+      - uses: actions/checkout@v5
+      - name: Check real queue ownership and faults
+        run: python -m unittest tests.test_s3_raw_queue -v
+      - name: Link queue and inline packing against pinned SDK
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py -C experiments/s3_queue_probe -B "$GITHUB_WORKSPACE/build/s3-queue-probe" build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-queue-candidate
+          path: |
+            build/s3-queue-probe/s3_queue_probe.elf
+            build/s3-queue-probe/s3_queue_probe.map
+            build/s3-queue-probe/config/sdkconfig.json
+            build/s3-queue-probe/log/
+          retention-days: 30

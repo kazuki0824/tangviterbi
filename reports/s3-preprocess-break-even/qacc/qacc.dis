@@ -1,0 +1,122 @@
+
+qacc.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .text:
+
+00000000 <s3_fir_qacc_16>:
+   0:	004136        	entry	a1, 32
+   3:	250844        	ee.zero.qacc
+   6:	830124        	ee.vld.128.ip	q0, a2, 16
+   9:	838134        	ee.vld.128.ip	q1, a3, 16
+   c:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  10:	838134        	ee.vld.128.ip	q1, a3, 16
+  13:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  17:	838134        	ee.vld.128.ip	q1, a3, 16
+  1a:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  1e:	838134        	ee.vld.128.ip	q1, a3, 16
+  21:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  25:	838134        	ee.vld.128.ip	q1, a3, 16
+  28:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  2c:	838134        	ee.vld.128.ip	q1, a3, 16
+  2f:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  33:	838134        	ee.vld.128.ip	q1, a3, 16
+  36:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  3a:	838134        	ee.vld.128.ip	q1, a3, 16
+  3d:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  41:	838134        	ee.vld.128.ip	q1, a3, 16
+  44:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  48:	838134        	ee.vld.128.ip	q1, a3, 16
+  4b:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  4f:	838134        	ee.vld.128.ip	q1, a3, 16
+  52:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  56:	838134        	ee.vld.128.ip	q1, a3, 16
+  59:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  5d:	838134        	ee.vld.128.ip	q1, a3, 16
+  60:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  64:	838134        	ee.vld.128.ip	q1, a3, 16
+  67:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  6b:	838134        	ee.vld.128.ip	q1, a3, 16
+  6e:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  72:	838134        	ee.vld.128.ip	q1, a3, 16
+  75:	1a2a84        	ee.vmulas.s16.qacc	q2, q1
+  78:	0c0144        	ee.st.qacc_l.l.128.ip	a4, 16
+  7b:	1d0444        	ee.st.qacc_l.h.32.ip	a4, 16
+  7e:	0d0144        	ee.st.qacc_h.l.128.ip	a4, 16
+  81:	120444        	ee.st.qacc_h.h.32.ip	a4, 16
+  84:	f01d      	retw.n
+	...
+
+00000088 <s3_fir_qacc_32>:
+  88:	004136        	entry	a1, 32
+  8b:	250844        	ee.zero.qacc
+  8e:	830124        	ee.vld.128.ip	q0, a2, 16
+  91:	838134        	ee.vld.128.ip	q1, a3, 16
+  94:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  98:	838134        	ee.vld.128.ip	q1, a3, 16
+  9b:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  9f:	838134        	ee.vld.128.ip	q1, a3, 16
+  a2:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  a6:	838134        	ee.vld.128.ip	q1, a3, 16
+  a9:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  ad:	838134        	ee.vld.128.ip	q1, a3, 16
+  b0:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  b4:	838134        	ee.vld.128.ip	q1, a3, 16
+  b7:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  bb:	838134        	ee.vld.128.ip	q1, a3, 16
+  be:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  c2:	838134        	ee.vld.128.ip	q1, a3, 16
+  c5:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  c9:	838134        	ee.vld.128.ip	q1, a3, 16
+  cc:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  d0:	838134        	ee.vld.128.ip	q1, a3, 16
+  d3:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  d7:	838134        	ee.vld.128.ip	q1, a3, 16
+  da:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  de:	838134        	ee.vld.128.ip	q1, a3, 16
+  e1:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  e5:	838134        	ee.vld.128.ip	q1, a3, 16
+  e8:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  ec:	838134        	ee.vld.128.ip	q1, a3, 16
+  ef:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+  f3:	838134        	ee.vld.128.ip	q1, a3, 16
+  f6:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+  fa:	838134        	ee.vld.128.ip	q1, a3, 16
+  fd:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+ 101:	838134        	ee.vld.128.ip	q1, a3, 16
+ 104:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+ 108:	838134        	ee.vld.128.ip	q1, a3, 16
+ 10b:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+ 10f:	838134        	ee.vld.128.ip	q1, a3, 16
+ 112:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+ 116:	838134        	ee.vld.128.ip	q1, a3, 16
+ 119:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+ 11d:	838134        	ee.vld.128.ip	q1, a3, 16
+ 120:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+ 124:	838134        	ee.vld.128.ip	q1, a3, 16
+ 127:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+ 12b:	838134        	ee.vld.128.ip	q1, a3, 16
+ 12e:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+ 132:	838134        	ee.vld.128.ip	q1, a3, 16
+ 135:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+ 139:	838134        	ee.vld.128.ip	q1, a3, 16
+ 13c:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+ 140:	838134        	ee.vld.128.ip	q1, a3, 16
+ 143:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+ 147:	838134        	ee.vld.128.ip	q1, a3, 16
+ 14a:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+ 14e:	838134        	ee.vld.128.ip	q1, a3, 16
+ 151:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+ 155:	838134        	ee.vld.128.ip	q1, a3, 16
+ 158:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+ 15c:	838134        	ee.vld.128.ip	q1, a3, 16
+ 15f:	f081812e 	ee.vmulas.s16.qacc.ld.ip	q0, a2, 16, q2, q1
+ 163:	838134        	ee.vld.128.ip	q1, a3, 16
+ 166:	f181012e 	ee.vmulas.s16.qacc.ld.ip	q2, a2, 16, q0, q1
+ 16a:	838134        	ee.vld.128.ip	q1, a3, 16
+ 16d:	1a2a84        	ee.vmulas.s16.qacc	q2, q1
+ 170:	0c0144        	ee.st.qacc_l.l.128.ip	a4, 16
+ 173:	1d0444        	ee.st.qacc_l.h.32.ip	a4, 16
+ 176:	0d0144        	ee.st.qacc_h.l.128.ip	a4, 16
+ 179:	120444        	ee.st.qacc_h.h.32.ip	a4, 16
+ 17c:	f01d      	retw.n

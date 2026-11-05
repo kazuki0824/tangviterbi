@@ -1,0 +1,71 @@
+name: S3 queued receiver owner
+on:
+  pull_request:
+    paths:
+      - 'experiments/s3_queue_tasks_source.py'
+      - 'experiments/s3_queue_core1_*'
+      - 'ci/s3_queue_core1_audit.py'
+      - 'tests/test_s3_queue_core1_policy.py'
+      - 'experiments/s3_queue_receiver_open.*'
+      - 'tests/test_s3_queue_receiver_open.py'
+      - 'experiments/s3_queue_owner_probe/**'
+      - 'experiments/s3_queue_memory_probe/**'
+      - '.github/workflows/s3-queue-owner.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: s3-queue-owner-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  link:
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.5.1
+    steps:
+      - uses: actions/checkout@v5
+      - name: Verify queue task lifecycle and depth-two shutdown
+        run: python -m unittest tests.test_s3_queue_tasks.QueueTasks.test_generated_task_lifecycle_and_depth_two_drain tests.test_s3_queue_receiver_open tests.test_s3_queue_core1_policy -v
+      - name: Generate queue-connected task lifecycle
+        run: python -m experiments.s3_queue_tasks_source --output experiments/s3_queue_owner_probe/main/generated
+      - name: Link N16R8 owner and worker
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          idf.py -C experiments/s3_queue_owner_probe -B "$GITHUB_WORKSPACE/build/s3-queue-owner" build
+      - name: Link queue receiver storage and PHY together
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          python -m experiments.s3_queue_tasks_source --output experiments/s3_queue_memory_probe/main/generated
+          idf.py -C experiments/s3_queue_memory_probe -B "$GITHUB_WORKSPACE/build/s3-queue-memory" build
+      - name: Build and audit core1 PHY timer candidate
+        shell: bash
+        run: |
+          . "$IDF_PATH/export.sh"
+          python -m pip install pyelftools
+          python -m experiments.s3_queue_core1_probe --output build/s3-core1-project
+          idf.py -C build/s3-core1-project -B "$GITHUB_WORKSPACE/build/s3-core1" build
+          python -m ci.s3_queue_core1_audit --build build/s3-core1 --project build/s3-core1-project --idf "$IDF_PATH" --output build/s3-core1-evidence
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: s3-queue-owner
+          path: |
+            build/s3-core1/s3_queue_memory_probe.elf
+            build/s3-core1/s3_queue_memory_probe.map
+            build/s3-core1/config/sdkconfig.json
+            build/s3-core1/log/
+            build/s3-core1-project/provenance.json
+            build/s3-core1-project/main/
+            build/s3-core1-evidence/
+            build/s3-queue-owner/s3_queue_owner_probe.elf
+            build/s3-queue-owner/s3_queue_owner_probe.map
+            build/s3-queue-owner/config/sdkconfig.json
+            build/s3-queue-owner/log/
+            build/s3-queue-owner/esp-idf/main/CMakeFiles/__idf_main.dir/**/s3_queue_receiver_open.c.obj
+            experiments/s3_queue_owner_probe/main/generated/
+            build/s3-queue-memory/s3_queue_memory_probe.elf
+            build/s3-queue-memory/s3_queue_memory_probe.map
+            build/s3-queue-memory/config/sdkconfig.json
+            build/s3-queue-memory/log/
+          retention-days: 30

@@ -1,0 +1,83 @@
+{
+  "scope": "Compile the actual native source with minimal SDK declaration stubs; not an SDK link.",
+  "source_sha256": "f2d188648a1c52b74a3be404c4f8520853a3353358c3bcaf825c2c62b8df2c72",
+  "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "flags": [
+    "-O2",
+    "-std=c11",
+    "-DESP_PLATFORM",
+    "-DS3_NATIVE_FILL_UNROLL=8"
+  ],
+  "unroll": 8,
+  "prepare_quantum_words": 1024,
+  "maximum_fill_call_instruction_envelope": 2265,
+  "nonbody_instructions_per_span_envelope": 41,
+  "static_instructions": 61,
+  "loop_body_ops": [
+    [
+      "memw",
+      "s32i.n",
+      "memw",
+      "s32i.n",
+      "memw",
+      "s32i.n",
+      "memw",
+      "s32i.n",
+      "memw",
+      "s32i.n",
+      "memw",
+      "s32i.n",
+      "memw",
+      "s32i.n",
+      "memw",
+      "s32i.n",
+      "addi"
+    ],
+    [
+      "memw",
+      "s32i.n",
+      "addi.n"
+    ]
+  ],
+  "origin_cases": 16384,
+  "instruction_envelope_not_WCET": true,
+  "declaration_stubs": {
+    "esp_attr.h": "#define IRAM_ATTR __attribute__((section(\".iram1\")))\n",
+    "esp_cpu.h": "#include <stdint.h>\nstatic inline uint32_t esp_cpu_get_cycle_count(void){uint32_t t;__asm__ volatile(\"rsr.ccount %0\":\"=a\"(t));return t;}\n",
+    "soc/soc.h": "#define REG_READ(a) (*(volatile uint32_t *)(a))\n#define REG_WRITE(a,v) (*(volatile uint32_t *)(a)=(v))\n"
+  },
+  "checks": [
+    {
+      "name": "ordered_barrier_store_loop_bodies",
+      "passed": true
+    },
+    {
+      "name": "unroll_offsets",
+      "passed": true
+    }
+  ],
+  "rows": [
+    {
+      "standard": "T",
+      "fill_instruction_envelope_per_bank": 15567,
+      "span_envelope_range": [
+        15519,
+        15567
+      ],
+      "fill_envelope_Minstructions_s": 20.26953125
+    },
+    {
+      "standard": "S",
+      "fill_instruction_envelope_per_bank": 15567,
+      "span_envelope_range": [
+        15519,
+        15567
+      ],
+      "fill_envelope_Minstructions_s": 50.673828125
+    }
+  ],
+  "bank_callback_body_included": false,
+  "caller_and_stalls_included": false,
+  "SDK_link_verified": false,
+  "WCET_proven": false
+}

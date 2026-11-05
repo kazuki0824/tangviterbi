@@ -237,16 +237,20 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install host numerical oracle dependency
-        run: python3 -m pip install numpy==2.2.6
+        run: python3 -m pip install numpy==2.2.6 pyelftools==0.32 unicorn==2.1.4
       - uses: YosysHQ/setup-oss-cad-suite@v4
         with:
           version: '2026-10-04'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Prepare pinned ROM fixture for saved ELF audits
+        run: |
+          python3 ci/s3_rom_fixture.py --output build/rom/esp32s3_rev0_rom.elf
+          echo "S3_ROM_ELF=$GITHUB_WORKSPACE/build/rom/esp32s3_rev0_rom.elf" >> "$GITHUB_ENV"
       - name: Independent communication and FEC vectors
         run: |
           set -o pipefail
           mkdir -p build
-          python3 -m unittest discover -s tests -p 'test_s3_*.py' -v 2>&1 | tee build/s3-compaction-all-tests.log
+          python3 -u -m unittest discover -s tests -p 'test_s3_*.py' -v 2>&1 | tee build/s3-compaction-all-tests.log
       - name: Measure communication IO and extended FEC
         run: |
           python3 ci/s3_comm_benchmark.py

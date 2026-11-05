@@ -1,0 +1,277 @@
+{
+  "rows": [
+    {
+      "accept_reject_reason": 0,
+      "attempted_arena_bytes": 0,
+      "prepare_per_iteration": 2048,
+      "prepare_per_poll": 1024,
+      "slice_admission_bound": 20000,
+      "failed_admission_remaining": 0,
+      "max_sampled_pack_cycles": [
+        15473,
+        10103
+      ],
+      "failure_written": 0,
+      "failure_prepared": 0,
+      "failure_prepare_done": 0,
+      "completion_to_reap_cycles": [
+        26122,
+        25178
+      ],
+      "accounted_until_cycles": [
+        1484818994,
+        1484819040
+      ],
+      "rate": 40,
+      "share": 5,
+      "slice_pairs": 512,
+      "irq_cycles": 1,
+      "stall_percent": 0,
+      "cycles": 1484818994,
+      "banks": 20000,
+      "native_fault": 0,
+      "pack_fault": 0,
+      "task_fault": 0,
+      "outcome": 0,
+      "iterations": [
+        120486,
+        1261293
+      ],
+      "polls": 843402,
+      "peak_arena_bytes": 124412,
+      "max_rf_poll_gap": 18977,
+      "max_owner_iteration": 25774,
+      "min_observed_job_deadline_margin": 37125,
+      "max_publication_latency": 71770,
+      "checked_bytes": 618594304,
+      "retired_bytes": 618594304,
+      "transfers_done": [
+        23430,
+        14326
+      ],
+      "max_submit_gap": [
+        84292,
+        155772
+      ],
+      "charged_cycles": [
+        1484818994,
+        1484819040
+      ],
+      "stall_cycles": [
+        0,
+        0
+      ],
+      "order": "PCAB",
+      "extra_fee_cycles": 300,
+      "requested_banks": 20000,
+      "scenario_pass": true,
+      "cost_ledger": [
+        {
+          "OWNER_SHELL": {
+            "events": 120486,
+            "cycles": 59038140
+          },
+          "WORKER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "PACK_EMPTY": {
+            "events": 40488,
+            "cycles": 5789784
+          },
+          "PACK_SLICE": {
+            "events": 79998,
+            "cycles": 25519362
+          },
+          "PACK_RUN": {
+            "events": 89163,
+            "cycles": 11591190
+          },
+          "PACK_BLOCK": {
+            "events": 9596838,
+            "cycles": 479841900
+          },
+          "PACK_SLOW": {
+            "events": 268182,
+            "cycles": 51222762
+          },
+          "RF_BASE": {
+            "events": 843402,
+            "cycles": 179644626
+          },
+          "RF_PREPARE": {
+            "events": 386822,
+            "cycles": 51060504
+          },
+          "RF_SWITCH": {
+            "events": 20000,
+            "cycles": 720000
+          },
+          "RF_ACCEPT": {
+            "events": 20000,
+            "cycles": 15100000
+          },
+          "FILL": {
+            "events": 140001,
+            "cycles": 342746577
+          },
+          "COLLECT": {
+            "events": 120486,
+            "cycles": 11730170
+          },
+          "SUBMIT_EMPTY": {
+            "events": 123703,
+            "cycles": 7793289
+          },
+          "SUBMIT_DONE": {
+            "events": 37758,
+            "cycles": 46782162
+          },
+          "REAP_RUNNING": {
+            "events": 175493,
+            "cycles": 40363390
+          },
+          "REAP_DONE": {
+            "events": 37756,
+            "cycles": 29227234
+          },
+          "SPI_IRQ": {
+            "events": 75514,
+            "cycles": 125506044
+          },
+          "TICK_IRQ": {
+            "events": 618,
+            "cycles": 1140828
+          },
+          "WDT": {
+            "events": 2,
+            "cycles": 1032
+          }
+        },
+        {
+          "OWNER_SHELL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "WORKER_SHELL": {
+            "events": 1261293,
+            "cycles": 78200166
+          },
+          "PACK_EMPTY": {
+            "events": 1081301,
+            "cycles": 154626043
+          },
+          "PACK_SLICE": {
+            "events": 179992,
+            "cycles": 57417448
+          },
+          "PACK_RUN": {
+            "events": 200447,
+            "cycles": 26058110
+          },
+          "PACK_BLOCK": {
+            "events": 21122520,
+            "cycles": 1056126000
+          },
+          "PACK_SLOW": {
+            "events": 582943,
+            "cycles": 111342113
+          },
+          "RF_BASE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_PREPARE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_SWITCH": {
+            "events": 0,
+            "cycles": 0
+          },
+          "RF_ACCEPT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "FILL": {
+            "events": 0,
+            "cycles": 0
+          },
+          "COLLECT": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_EMPTY": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SUBMIT_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_RUNNING": {
+            "events": 0,
+            "cycles": 0
+          },
+          "REAP_DONE": {
+            "events": 0,
+            "cycles": 0
+          },
+          "SPI_IRQ": {
+            "events": 0,
+            "cycles": 0
+          },
+          "TICK_IRQ": {
+            "events": 618,
+            "cycles": 1048128
+          },
+          "WDT": {
+            "events": 2,
+            "cycles": 1032
+          }
+        }
+      ],
+      "costs_used": {
+        "OWNER_SHELL": 490,
+        "WORKER_SHELL": 62,
+        "PACK_EMPTY": 143,
+        "PACK_SLICE": 319,
+        "PACK_RUN": 130,
+        "PACK_BLOCK": 50,
+        "PACK_SLOW": 191,
+        "RF_BASE": 213,
+        "RF_PREPARE": 132,
+        "RF_SWITCH": 36,
+        "RF_ACCEPT": 755,
+        "SUBMIT_EMPTY": 63,
+        "SUBMIT_DONE": 1239,
+        "REAP_DONE": 779,
+        "WDT": 516,
+        "FILL_OVERHEAD": 41,
+        "TICK0": 1846,
+        "TICK1": 1696,
+        "COLLECT_0": 35,
+        "COLLECT_1": 108,
+        "COLLECT_2": 176,
+        "COLLECT_3": 245,
+        "IRQ_START": 2287,
+        "IRQ_FIRST": 2550,
+        "IRQ_COMPLETE": 1037
+      }
+    }
+  ],
+  "hardware_proven": false,
+  "all_SoC_costs_finalized": false,
+  "scope": "Actual new queue adapter and packing C; modeled SDK automatic next launch; legacy IRQ/root fees with explicit extra fee sensitivity. Not a linked SDK cost audit.",
+  "source_sha256": {
+    "experiments/s3_queue_runtime.py": "69d91a4ac463de77aca23241b36316da8c119f765b92729ea98a6834d26d9879",
+    "experiments/s3_queue_runtime_backend.inc": "e4debc5190d057bdb7a9dc043d5a92b5cd7a62318823328a621af3b4f4595962",
+    "experiments/s3_raw_queue.c": "89da1621e953379279fa258e2a5684be8efbf28320f796461878e72949eaf3fa",
+    "experiments/s3_raw_queue.h": "d74803783a51c5cbb5e9e5f69f007e33e7185b89faeb49b4607d04cd08503052",
+    "experiments/s3_joint_runtime.c": "edef90056cc04f3e39b1fa7f4ff16784ae1c3c99cf030a9ba904ff86a18132c0",
+    "experiments/s3_joint_runtime.py": "bb680622c71fd4e9858a4af7ad6ccbb12a137691ac4ecd6a207308b920f379b8",
+    "experiments/s3_owner_order_estimate.py": "b24e3cf24f76af6730f25146339eeb075f2f6cbba9793f726818167d4085d4b0",
+    "reports/s3-counter-envelope/runtime.json": "032cc5225264e55b2e4c3c8845647347f86cde7abc5934468cdb08e7b863acd6"
+  },
+  "generated_c_sha256": "e4541cc64edea0b9df5d2c3fc122eee3765fe435c5f46078e20464281387bca3"
+}

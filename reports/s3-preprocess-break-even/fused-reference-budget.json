@@ -1,0 +1,71 @@
+{
+  "scope": "Source-operation accounting for the fused scalar comparison kernel; not WCET.",
+  "assumptions": [
+    "Scalar kernel consumes each dot-product window independently; no input-window or coefficient reuse modeled",
+    "logical reads are C source accesses, not measured physical SRAM/cache traffic",
+    "one scalar real MAC/cycle is an optimistic scenario, not target disassembly or universal CPU lower bound",
+    "accumulators returned before rounding; output conversion and whole receiver costs omitted"
+  ],
+  "rows": [
+    {
+      "standard": "T",
+      "taps": 32,
+      "raw_Msample_s": 16,
+      "output_Msample_s": 8.126984126984127,
+      "loop_iterations_M_s": 260.06349206349205,
+      "signed10_decodes_M_s": 520.1269841269841,
+      "real_MAC_M_s": 520.1269841269841,
+      "logical_raw_word_reads_MB_s": 1040.2539682539682,
+      "logical_coefficient_reads_MB_s": 520.1269841269841,
+      "separate_unpack_input_read_and_array_write_removed_MB_s": 128,
+      "two_core_240MHz_optimistic_one_scalar_MAC_per_cycle_percent": 108.35978835978835,
+      "scalar_one_MAC_per_cycle_scenario_fits": false,
+      "actual_target_instructions_verified": false,
+      "scratch_I16_Q16_array_bytes": 0,
+      "accumulator_output_is_not_transport_Q15": true,
+      "RF_bus_BW_inferred": false,
+      "adopted": false
+    },
+    {
+      "standard": "S",
+      "taps": 16,
+      "raw_Msample_s": 40,
+      "output_Msample_s": 28.86,
+      "loop_iterations_M_s": 461.76,
+      "signed10_decodes_M_s": 923.52,
+      "real_MAC_M_s": 923.52,
+      "logical_raw_word_reads_MB_s": 1847.04,
+      "logical_coefficient_reads_MB_s": 923.52,
+      "separate_unpack_input_read_and_array_write_removed_MB_s": 320,
+      "two_core_240MHz_optimistic_one_scalar_MAC_per_cycle_percent": 192.4,
+      "scalar_one_MAC_per_cycle_scenario_fits": false,
+      "actual_target_instructions_verified": false,
+      "scratch_I16_Q16_array_bytes": 0,
+      "accumulator_output_is_not_transport_Q15": true,
+      "RF_bus_BW_inferred": false,
+      "adopted": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "T_MAC_pair_count",
+      "passed": true
+    },
+    {
+      "name": "T_scalar_scenario_exceeds_480M",
+      "passed": true
+    },
+    {
+      "name": "S_MAC_pair_count",
+      "passed": true
+    },
+    {
+      "name": "S_scalar_scenario_exceeds_480M",
+      "passed": true
+    }
+  ],
+  "source_sha256": {
+    "experiments/s3_fir_fused_reference.c": "02f61255431f3a1a2a321d7100be6ce2fc94d6d6d9608c1eb67dc57fec47c92d",
+    "experiments/s3_fir_fused_reference.h": "21f0edc7c26f8bb1b5b5ff3a7d74d3ef561acd18d678c5354605c92a9d7b741b"
+  }
+}

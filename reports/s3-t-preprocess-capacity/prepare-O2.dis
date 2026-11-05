@@ -1,0 +1,154 @@
+
+prepare-O2.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .text:
+
+00000000 <s3_fir_qacc_prepare>:
+   0:	008136        	entry	a1, 64
+   3:	40f280        	nsau	a8, a2
+   6:	190c      	movi.n	a9, 1
+   8:	418580        	srli	a8, a8, 5
+   b:	133216        	beqz	a2, 142 <s3_fir_qacc_prepare+0x142>
+			b: R_XTENSA_SLOT0_OP	.text+0x142
+   e:	838930        	moveqz	a8, a9, a3
+  11:	12d856        	bnez	a8, 142 <s3_fir_qacc_prepare+0x142>
+			11: R_XTENSA_SLOT0_OP	.text+0x142
+  14:	838950        	moveqz	a8, a9, a5
+  17:	127856        	bnez	a8, 142 <s3_fir_qacc_prepare+0x142>
+			17: R_XTENSA_SLOT0_OP	.text+0x142
+  1a:	1221a2        	l32i	a10, a1, 72
+  1d:	8389a0        	moveqz	a8, a9, a10
+  20:	11e856        	bnez	a8, 142 <s3_fir_qacc_prepare+0x142>
+			20: R_XTENSA_SLOT0_OP	.text+0x142
+  23:	1321b2        	l32i	a11, a1, 76
+  26:	08ad      	mov.n	a10, a8
+  28:	83a9b0        	moveqz	a10, a9, a11
+  2b:	838960        	moveqz	a8, a9, a6
+  2e:	208a80        	or	a8, a10, a8
+  31:	10d856        	bnez	a8, 142 <s3_fir_qacc_prepare+0x142>
+			31: R_XTENSA_SLOT0_OP	.text+0x142
+  34:	62a760        	saltu	a10, a7, a6
+  37:	02b767        	bgeu	a7, a6, 3d <s3_fir_qacc_prepare+0x3d>
+			37: R_XTENSA_SLOT0_OP	.text+0x3d
+  3a:	004106        	j	142 <s3_fir_qacc_prepare+0x142>
+			3a: R_XTENSA_SLOT0_OP	.text+0x142
+  3d:	102182        	l32i	a8, a1, 64
+  40:	fb6c      	movi.n	a11, -17
+  42:	f0c882        	addi	a8, a8, -16
+  45:	1088b0        	and	a8, a8, a11
+  48:	839a80        	moveqz	a9, a10, a8
+  4b:	0f3956        	bnez	a9, 142 <s3_fir_qacc_prepare+0x142>
+			4b: R_XTENSA_SLOT0_OP	.text+0x142
+  4e:	112192        	l32i	a9, a1, 68
+  51:	c87c      	movi.n	a8, -4
+  53:	62d890        	saltu	a13, a8, a9
+  56:	11d9      	s32i.n	a13, a1, 4
+  58:	02b897        	bgeu	a8, a9, 5e <s3_fir_qacc_prepare+0x5e>
+			58: R_XTENSA_SLOT0_OP	.text+0x5e
+  5b:	0038c6        	j	142 <s3_fir_qacc_prepare+0x142>
+			5b: R_XTENSA_SLOT0_OP	.text+0x142
+  5e:	102182        	l32i	a8, a1, 64
+  61:	102192        	l32i	a9, a1, 64
+  64:	a28680        	muluh	a8, a6, a8
+  67:	829690        	mull	a9, a6, a9
+  6a:	0d4856        	bnez	a8, 142 <s3_fir_qacc_prepare+0x142>
+			6a: R_XTENSA_SLOT0_OP	.text+0x142
+  6d:	0d1996        	bltz	a9, 142 <s3_fir_qacc_prepare+0x142>
+			6d: R_XTENSA_SLOT0_OP	.text+0x142
+  70:	112182        	l32i	a8, a1, 68
+  73:	06cd      	mov.n	a12, a6
+  75:	a83b      	addi.n	a10, a8, 3
+  77:	a2ba70        	muluh	a11, a10, a7
+  7a:	82aa70        	mull	a10, a10, a7
+  7d:	000025        	call8	80 <s3_fir_qacc_prepare+0x80>
+			7d: R_XTENSA_SLOT0_OP	__udivdi3
+  80:	080c      	movi.n	a8, 0
+  82:	0218b7        	beq	a8, a11, 88 <s3_fir_qacc_prepare+0x88>
+			82: R_XTENSA_SLOT0_OP	.text+0x88
+  85:	002e46        	j	142 <s3_fir_qacc_prepare+0x142>
+			85: R_XTENSA_SLOT0_OP	.text+0x142
+  88:	023a47        	bltu	a10, a4, 8e <s3_fir_qacc_prepare+0x8e>
+			88: R_XTENSA_SLOT0_OP	.text+0x8e
+  8b:	002cc6        	j	142 <s3_fir_qacc_prepare+0x142>
+			8b: R_XTENSA_SLOT0_OP	.text+0x142
+  8e:	112192        	l32i	a9, a1, 68
+  91:	1121a2        	l32i	a10, a1, 68
+  94:	a29970        	muluh	a9, a9, a7
+  97:	824a70        	mull	a4, a10, a7
+  9a:	2129      	s32i.n	a2, a1, 8
+  9c:	3139      	s32i.n	a3, a1, 12
+  9e:	4159      	s32i.n	a5, a1, 16
+  a0:	083d      	mov.n	a3, a8
+  a2:	0169      	s32i.n	a6, a1, 0
+  a4:	5179      	s32i.n	a7, a1, 20
+  a6:	092d      	mov.n	a2, a9
+  a8:	1168      	l32i.n	a6, a1, 4
+  aa:	01c8      	l32i.n	a12, a1, 0
+  ac:	06dd      	mov.n	a13, a6
+  ae:	04ad      	mov.n	a10, a4
+  b0:	02bd      	mov.n	a11, a2
+  b2:	000025        	call8	b4 <s3_fir_qacc_prepare+0xb4>
+			b2: R_XTENSA_SLOT0_OP	__udivdi3
+  b5:	122182        	l32i	a8, a1, 72
+  b8:	01c8      	l32i.n	a12, a1, 0
+  ba:	0a7d      	mov.n	a7, a10
+  bc:	06dd      	mov.n	a13, a6
+  be:	f45030        	extui	a5, a3, 0, 16
+  c1:	20a440        	or	a10, a4, a4
+  c4:	20b220        	or	a11, a2, a2
+  c7:	1165e0        	slli	a6, a5, 2
+  ca:	a05580        	addx4	a5, a5, a8
+  cd:	000025        	call8	d0 <s3_fir_qacc_prepare+0xd0>
+			cd: R_XTENSA_SLOT0_OP	__umoddi3
+  d0:	102182        	l32i	a8, a1, 64
+  d3:	1021c2        	l32i	a12, a1, 64
+  d6:	8298a0        	mull	a9, a8, a10
+  d9:	4188      	l32i.n	a8, a1, 16
+  db:	21a8      	l32i.n	a10, a1, 8
+  dd:	909980        	addx2	a9, a9, a8
+  e0:	90f7a0        	addx2	a15, a7, a10
+  e3:	132182        	l32i	a8, a1, 76
+  e6:	31a8      	l32i.n	a10, a1, 12
+  e8:	1b0c      	movi.n	a11, 1
+  ea:	90d7a0        	addx2	a13, a7, a10
+  ed:	886a      	add.n	a8, a8, a6
+  ef:	00a0a2        	movi	a10, 0
+  f2:	93bcc0        	movnez	a11, a12, a12
+  f5:	318b76        	loop	a11, 12a <s3_fir_qacc_prepare+0x12a>
+			f5: R_XTENSA_SLOT0_OP	.text+0x12a
+  f8:	09b7a7        	bgeu	a7, a10, 105 <s3_fir_qacc_prepare+0x105>
+			f8: R_XTENSA_SLOT0_OP	.text+0x105
+  fb:	0c0c      	movi.n	a12, 0
+  fd:	0055c2        	s16i	a12, a5, 0
+ 100:	0c0c      	movi.n	a12, 0
+ 102:	000206        	j	10e <s3_fir_qacc_prepare+0x10e>
+			102: R_XTENSA_SLOT0_OP	.text+0x10e
+ 105:	001fc2        	l16ui	a12, a15, 0
+ 108:	0055c2        	s16i	a12, a5, 0
+ 10b:	009dc2        	l16si	a12, a13, 0
+ 10e:	0155c2        	s16i	a12, a5, 2
+ 111:	0019c2        	l16ui	a12, a9, 0
+ 114:	aa1b      	addi.n	a10, a10, 1
+ 116:	0058c2        	s16i	a12, a8, 0
+ 119:	0158c2        	s16i	a12, a8, 2
+ 11c:	10c552        	addi	a5, a5, 16
+ 11f:	992b      	addi.n	a9, a9, 2
+ 121:	10c882        	addi	a8, a8, 16
+ 124:	fecff2        	addi	a15, a15, -2
+ 127:	fecdd2        	addi	a13, a13, -2
+ 12a:	5188      	l32i.n	a8, a1, 20
+ 12c:	331b      	addi.n	a3, a3, 1
+ 12e:	848a      	add.n	a8, a4, a8
+ 130:	629840        	saltu	a9, a8, a4
+ 133:	292a      	add.n	a2, a9, a2
+ 135:	084d      	mov.n	a4, a8
+ 137:	024326        	beqi	a3, 4, 13d <s3_fir_qacc_prepare+0x13d>
+			137: R_XTENSA_SLOT0_OP	.text+0x13d
+ 13a:	ffda86        	j	a8 <s3_fir_qacc_prepare+0xa8>
+			13a: R_XTENSA_SLOT0_OP	.text+0xa8
+ 13d:	120c      	movi.n	a2, 1
+ 13f:	000046        	j	144 <s3_fir_qacc_prepare+0x144>
+			13f: R_XTENSA_SLOT0_OP	.text+0x144
+ 142:	020c      	movi.n	a2, 0
+ 144:	f01d      	retw.n

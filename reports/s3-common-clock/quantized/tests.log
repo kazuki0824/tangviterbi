@@ -1,0 +1,34 @@
+.......PASS final/partial late completion, bound overrun, clock regression, late collect, precheck, null clock
+..
+----------------------------------------------------------------------
+Ran 9 tests in 9.216s
+
+OK
+PASS actual SDK adapter + native/worker interval compensation: 346080 phase/elapsed cases; stale/overflow/bound/deadline checks
+
+PASS common clock: startup/poll/switch/preaccept/postaccept failed reads, regression, deadline arithmetic boundary, RF stop and SELECT restore
+
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS concurrent banks=1 samples=1 checked_DMA_bytes=0 tail_bytes=0 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS concurrent banks=2 samples=12292 checked_DMA_bytes=0 tail_bytes=30730 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS concurrent banks=17 samples=184760 checked_DMA_bytes=458752 tail_bytes=3148 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+PASS actual fill: 114689 cases, all ring origins, unchanged words and guard words checked
+

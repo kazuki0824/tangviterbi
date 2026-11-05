@@ -12,14 +12,42 @@ typedef struct {
  uint32_t *(*bank)(void*,unsigned);
  void *ctx;
 } s3_native_io;
+/* Coordinator-owned destination for validated RF bank handoff. Callbacks must
+ * include their cost in RF poll WCET. accept failure stops capture; no drops.
+ */
 typedef struct {
- s3_native_io io; s3_capture_bridge *bridge;
- uint64_t now,index,switched; uint32_t last_clock,saved,ctrl,w0,expected,write_index;
+ void *ctx;
+ bool (*healthy)(void*);
+ bool (*available)(void*,unsigned);
+ bool (*reclaim)(void*,unsigned);
+ bool (*accept)(void*,unsigned,const uint32_t*,unsigned,unsigned,uint64_t,uint64_t,uint64_t);
+} s3_native_sink;
+/* Absolute common clock, units of 1/240 MHz, same epoch on both cores.
+ * UINT64_MAX reports a failed read. This interface does not establish the
+ * hardware clock's latency or cross-core correctness. With clock_error E,
+ * the returned value U must bracket the sampled time: U-E <= time <= U.
+ * Native settling uses a lower elapsed bound; age/deadline use upper/early
+ * bounds. Callback return latency remains part of the caller WCET budget.
+ */
+typedef uint64_t (*s3_native_clock)(void*);
+enum { S3_NATIVE_CLOCK_FAULT=8 };
+typedef struct {
+ s3_native_clock common_clock; void *clock_ctx;
+ s3_native_io io; s3_capture_bridge *bridge; s3_native_sink sink;
+ uint64_t now,index,switched,switch_earliest; uint32_t clock_error; uint32_t last_clock,saved,ctrl,w0,expected,write_index;
  uint32_t start[3],end[3];
  unsigned active,unit,cpp; bool running,prepared,settling; unsigned fault;
+ // Single-owner preparation cursor, retained across budgeted polls.
+ unsigned prepare_done; bool preparing;
 } s3_native_capture;
 bool s3_native_start(s3_native_capture*,s3_capture_bridge*,s3_native_io,unsigned rate_msps);
+bool s3_native_start_sink(s3_native_capture*,s3_native_sink,s3_native_io,unsigned rate_msps);
+bool s3_native_start_sink_clocked(s3_native_capture*,s3_native_sink,s3_native_io,
+ unsigned rate_msps,s3_native_clock,void *clock_ctx,uint32_t clock_error);
 bool s3_native_poll(s3_native_capture*);
+// Share one word budget across all RF polls in an owner iteration. Zero still
+// observes RF/clock/deadline state but performs no sentinel writes.
+bool s3_native_poll_budget(s3_native_capture*,unsigned *prepare_words);
 void s3_native_stop(s3_native_capture*);
 #ifdef ESP_PLATFORM
 s3_native_io s3_native_mmio(void);
