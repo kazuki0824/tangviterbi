@@ -1,0 +1,2653 @@
+{
+  "schema_version": 1,
+  "non_fail_fast": true,
+  "evaluation_completed": true,
+  "source_sha256": {
+    "ci/t_halfband_fpga_audit.py": "3cbe4329ed9f2f5b74fd7292b1e510c317a3d1b2634a9b8d1d5f2f44fb16c253"
+  },
+  "checks": [
+    {
+      "name": "coefficients.criteria_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.baseline.original_sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.baseline.checked_in_hex_equals_recovered",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.baseline.new_generator_equals_original_hex",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.baseline.all_phase_dc_sums_Q15",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.baseline.signed16_coefficients",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.residual.original_sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.residual.checked_in_hex_equals_recovered",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.residual.new_generator_equals_original_hex",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.residual.all_phase_dc_sums_Q15",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.residual.signed16_coefficients",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.baseline.current_HEX_matches_recovered_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.baseline.original_BRAM_hash_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.residual.current_HEX_matches_recovered_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "coefficients.residual.original_BRAM_hash_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.criteria_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_binding.run_cad.py",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_binding.coefficients.py",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_binding.resampler.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_binding.fifo_resampler.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_binding.probe.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_binding.coeff_baseline.hex",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_binding.coeff_residual.hex",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.record_agrees_with_combined_result",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.core.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.probe.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routed.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.routing_completed_in_retained_log",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.retained_route_log_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.retained_route_log_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.resource_mapping_retains.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline.resource_mapping_retains.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.record_agrees_with_combined_result",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.core.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.probe.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routed.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.routing_completed_in_retained_log",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.retained_route_log_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.retained_route_log_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.resource_mapping_retains.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.baseline-fifo.resource_mapping_retains.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.record_agrees_with_combined_result",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.core.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.probe.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routed.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.routing_completed_in_retained_log",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.retained_route_log_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.retained_route_log_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.resource_mapping_retains.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual.resource_mapping_retains.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.record_agrees_with_combined_result",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.core.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.probe.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routed.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.routing_completed_in_retained_log",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.retained_route_log_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.retained_route_log_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.resource_mapping_retains.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.residual-fifo.resource_mapping_retains.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_keys_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.source_hash.experiments/t_halfband_fpga/resource_audit.py",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash_keys_complete",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.cad-results.json",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.baseline/result.json",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.baseline-fifo/result.json",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.residual/result.json",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.residual-fifo/result.json",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.baseline/core-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.baseline/probe-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.baseline/routed.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.baseline-fifo/core-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.baseline-fifo/probe-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.baseline-fifo/routed.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.residual/core-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.residual/probe-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.residual/routed.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.residual-fifo/core-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.residual-fifo/probe-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.input_hash.residual-fifo/routed.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.core.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.core.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.core.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.core.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.probe.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.probe.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.probe.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.probe.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.routed.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.routed.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.routed.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline.routed.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.core.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.core.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.core.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.core.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.probe.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.probe.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.probe.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.probe.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.routed.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.routed.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.routed.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.baseline-fifo.routed.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.core.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.core.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.core.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.core.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.probe.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.probe.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.probe.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.probe.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.routed.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.routed.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.routed.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual.routed.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.core.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.core.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.core.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.core.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.probe.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.probe.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.probe.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.probe.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.routed.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.routed.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.routed.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.live_count.residual-fifo.routed.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.core.DSP_saving_arithmetic",
+      "status": "PASS"
+    },
+    {
+      "name": "resource.fifo.DSP_saving_arithmetic",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.source_keys_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.source_hash.experiments/t_halfband_fpga/run_stream.py",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.source_hash.experiments/t_halfband_fpga/coefficients.py",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.source_hash.experiments/t_halfband_fpga/resampler.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.source_hash.experiments/t_halfband_fpga/fifo_resampler.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.source_hash.experiments/t_halfband_fpga/stream_tb.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.source_hash.experiments/t_halfband_fpga/coeff_baseline.hex",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.source_hash.experiments/t_halfband_fpga/coeff_residual.hex",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.all_scenarios_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-periodic-8.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-2.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-back-to-back-8.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-continuous-8M.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-continuous-16M.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-core-stalled.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-core-stalled.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.residual-fifo-stalled.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.criteria_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.simulation_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.all_stimuli_offered",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.accepted_input_is_ordered_subsequence",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.output_count_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.every_output_matches_integer_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.output_stable_while_stalled",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.fifo_bound_512_and_drained",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.lossless_input_capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.zero_integer_oracle_error",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.design_verification_pass",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.gzip_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.decoded_hash.input.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.gzip_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.decoded_hash.due.hex.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.gzip_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.decoded_hash.accepted.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.gzip_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "stream.baseline-fifo-stalled.decoded_hash.output.txt.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.criteria_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.halfband.31_coefficients",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.halfband.signed16_coefficients",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.halfband.symmetric",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.halfband.odd_taps_zero_except_center",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.halfband.shift10_no_saturation_for_arbitrary_signed10",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.table_equals_independent_generator",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.all_phase_DC_sums_Q15",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.direct_frequency",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.direct_tone_DFT",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.finite_metric.pass_ripple_peak_to_peak_dB",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.finite_metric.minimum_stop_attenuation_dB",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.finite_metric.maximum_rational_image_dBc",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.arbitrary_signed10_cascade_cannot_saturate",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.zero.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.positive-impulse.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.negative-impulse.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.positive-DC.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.negative-DC.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.alternating.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.square.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.random-full.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.random-sign.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.tone-0.5MHz.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.tone-pass-edge.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.tone-stop-edge.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.table_equals_independent_generator",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.all_phase_DC_sums_Q15",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.direct_frequency",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.direct_tone_DFT",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.finite_metric.pass_ripple_peak_to_peak_dB",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.finite_metric.minimum_stop_attenuation_dB",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.finite_metric.maximum_rational_image_dBc",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.arbitrary_signed10_cascade_cannot_saturate",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.zero.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.zero.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.zero.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.positive-impulse.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.positive-impulse.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.positive-impulse.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.negative-impulse.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.negative-impulse.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.negative-impulse.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.positive-DC.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.positive-DC.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.positive-DC.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.negative-DC.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.negative-DC.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.negative-DC.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.alternating.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.alternating.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.alternating.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.square.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.square.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.square.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.random-full.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.random-full.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.random-full.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.random-sign.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.random-sign.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.random-sign.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-0.5MHz.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-0.5MHz.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-0.5MHz.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-pass-edge.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-pass-edge.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-pass-edge.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-stop-edge.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-stop-edge.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.tone-stop-edge.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.all_numeric_diagnostics_finite",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.source_keys_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.source_hash.experiments/t_halfband_fpga/quality.py",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.source_hash.experiments/t_halfband_fpga/coefficients.py",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.source_hash.experiments/t_halfband_fpga/run_stream.py",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.source_hash.experiments/t_halfband_fpga/coeff_baseline.hex",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.source_hash.experiments/t_halfband_fpga/coeff_residual.hex",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.source_hash.experiments/t_preprocess_capacity/halfband31.c",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.all_quantization_profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.all_phases",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.all_images",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.grid.pass",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.grid.stop",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.grid.full",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.expected_envelope_path",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.envelope_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.baseline.envelope_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.all_quantization_profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.all_phases",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.all_images",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.grid.pass",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.grid.stop",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.grid.full",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.expected_envelope_path",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.envelope_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.residual.envelope_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "quality.receiver_equivalence_not_invented",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.criteria_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.source_readable.reports/s3-preprocess-break-even/original-fir-model.json",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.source_readable.experiments/t_preprocess_capacity/accx_wrapper.h",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.source_readable.experiments/t_preprocess_capacity/halfband31.h",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.source_readable.experiments/t_halfband_fpga/coefficients.py",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.source_readable.reports/s3-t-preprocess-integration/README.md",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.original_model_states_coefficient_contract_is_unspecified",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.fractional_FIR_header_calls_output_contract_trial",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.halfband_header_disclaims_accepted_receiver_quality",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.source_keys_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.source_hash.experiments/t_halfband_fpga/contract_evidence.py",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.inspected_hash.reports/s3-preprocess-break-even/original-fir-model.json",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.inspected_hash.experiments/t_preprocess_capacity/accx_wrapper.h",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.inspected_hash.experiments/t_preprocess_capacity/halfband31.h",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.inspected_hash.experiments/t_halfband_fpga/coefficients.py",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.inspected_hash.reports/s3-t-preprocess-integration/README.md",
+      "status": "PASS"
+    },
+    {
+      "name": "contract.equivalence_unverified",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.criteria_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source.himbaechel/chipdb.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source.common/kernel/relptr.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source.himbaechel/arch.cc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source.himbaechel/uarch/gowin/gowin.cc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source.himbaechel/uarch/gowin/gowin.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source.himbaechel/uarch/gowin/gowin_arch_gen.py",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source.himbaechel/uarch/gowin/constids.inc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.tool_version_command_success",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.binary_version_matches_inspected_source_commit",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_packed_chipinfo_layout",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_database_version6",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_lookup_uses_cell_type",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_missing_model_ignores_timing_port",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_missing_model_has_no_default_delay",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.gowin_header_does_not_override_default_cell_timing",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.actual_chipdb_inventory",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.target_speed_grade_is_present",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.chipdb_hash_matches_pinned_suite",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.apicula_source_inventory",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline.routed_netlist_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline.pnr_report_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline.products.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline.products.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline.accumulators.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline.accumulators.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline-fifo.routed_netlist_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline-fifo.pnr_report_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline-fifo.products.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline-fifo.products.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline-fifo.accumulators.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline-fifo.accumulators.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual.routed_netlist_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual.pnr_report_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual.products.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual.products.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual.accumulators.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual.accumulators.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual-fifo.routed_netlist_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual-fifo.pnr_report_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual-fifo.products.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual-fifo.products.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual-fifo.accumulators.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual-fifo.accumulators.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_keys_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_hash.experiments/t_halfband_fpga/timing_coverage.py",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.not_physical_signoff",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.all_source_names_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_url_pins_commit.himbaechel/chipdb.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_url_pins_commit.common/kernel/relptr.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_url_pins_commit.himbaechel/arch.cc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_url_pins_commit.himbaechel/uarch/gowin/gowin.cc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_url_pins_commit.himbaechel/uarch/gowin/gowin.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_url_pins_commit.himbaechel/uarch/gowin/gowin_arch_gen.py",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.source_url_pins_commit.himbaechel/uarch/gowin/constids.inc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline.routed_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline.pnr_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline-fifo.routed_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.baseline-fifo.pnr_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual.routed_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual.pnr_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual-fifo.routed_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.pinned.residual-fifo.pnr_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.criteria_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source.himbaechel/chipdb.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source.common/kernel/relptr.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source.himbaechel/arch.cc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source.himbaechel/uarch/gowin/gowin.cc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source.himbaechel/uarch/gowin/gowin.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source.himbaechel/uarch/gowin/gowin_arch_gen.py",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source.himbaechel/uarch/gowin/constids.inc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.tool_version_command_success",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.binary_version_matches_inspected_source_commit",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_packed_chipinfo_layout",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_database_version6",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_lookup_uses_cell_type",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_missing_model_ignores_timing_port",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_missing_model_has_no_default_delay",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.gowin_header_does_not_override_default_cell_timing",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.actual_chipdb_inventory",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.target_speed_grade_is_present",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.chipdb_hash_matches_pinned_suite",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.apicula_source_inventory",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.residual-fifo.routed_netlist_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.residual-fifo.pnr_report_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.residual-fifo.products.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.residual-fifo.products.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.residual-fifo.accumulators.endpoints_inspected",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.residual-fifo.accumulators.all_expected_registers_found",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_keys_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_hash.experiments/t_halfband_fpga/timing_coverage.py",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.not_physical_signoff",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.all_source_names_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_url_pins_commit.himbaechel/chipdb.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_url_pins_commit.common/kernel/relptr.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_url_pins_commit.himbaechel/arch.cc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_url_pins_commit.himbaechel/uarch/gowin/gowin.cc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_url_pins_commit.himbaechel/uarch/gowin/gowin.h",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_url_pins_commit.himbaechel/uarch/gowin/gowin_arch_gen.py",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.source_url_pins_commit.himbaechel/uarch/gowin/constids.inc",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.residual-fifo.routed_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "timing.current.residual-fifo.pnr_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.criteria_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.input_available.probe-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.input_available.pins.cst",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.place_and_route_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.route_completion_log",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.routed_resources_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.routed_four_DSP",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.routed_three_BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.modeled_clock_result_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.coverage_inspection_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.source_keys_exactly_enumerated",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.source_hash.experiments/t_halfband_fpga/supplement_timing.py",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.source_hash.experiments/t_halfband_fpga/timing_coverage.py",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.exact_retained_input.probe-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.exact_retained_input.pins.cst",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.artifact_hash.residual-fifo/probe-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.artifact_hash.residual-fifo/pins.cst",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.artifact_hash.residual-fifo/pnr.json",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.artifact_hash.residual-fifo/pnr.log.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.artifact_hash.residual-fifo/routed.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.artifact_hash.timing/timing-coverage.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.actual_clock_result_finite",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.target_clock_1080_over7_MHz",
+      "status": "PASS"
+    },
+    {
+      "name": "supplement.modeled_clock_classification",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 657
+  },
+  "adoption_gates": {
+    "same_structure_DSP_saving": "REJECT",
+    "periodic_512us_frames": "PASS",
+    "unthrottled_2_and_8_frame_capacity": "REJECT",
+    "modeled_current_clock_target": "REJECT",
+    "full_physical_STA": "UNVERIFIED",
+    "original_receiver_quality": "UNVERIFIED"
+  },
+  "receiver_adoption": false,
+  "candidate_decision": "REJECT",
+  "scope": "Matched diagnostic FPGA candidate under the documented inputs and timing models. No universal ESP32-S3 impossibility claim.",
+  "status": "PASS"
+}

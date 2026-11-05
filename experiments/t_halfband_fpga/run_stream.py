@@ -181,8 +181,12 @@ def main():
         result["cases"].append(row)
         (directory / "stream-results.json").write_text(json.dumps(result, indent=2) + "\n")
         print(case["name"], row["design_verification"], row["capacity"], flush=True)
-    result["design_verification"] = "PASS" if all(row["design_verification"] == "PASS" for row in result["cases"]) else "FAIL"
-    result["unthrottled_2_and_8_frame_capacity"] = "PASS" if all(row["capacity"] == "PASS" for row in result["cases"] if "back-to-back" in row["name"]) else "REJECT"
+    design_states = [row["design_verification"] for row in result["cases"]]
+    result["design_verification"] = ("FAIL" if "FAIL" in design_states else
+                                     "PASS" if all(state == "PASS" for state in design_states) else "BLOCKED")
+    burst_states = [row["capacity"] for row in result["cases"] if "back-to-back" in row["name"]]
+    result["unthrottled_2_and_8_frame_capacity"] = ("UNVERIFIED" if any(state not in ("PASS", "REJECT") for state in burst_states)
+                                                 else "REJECT" if "REJECT" in burst_states else "PASS")
     (directory / "stream-results.json").write_text(json.dumps(result, indent=2) + "\n")
     for binary in directory.glob("*.vvp"):
         binary.unlink()

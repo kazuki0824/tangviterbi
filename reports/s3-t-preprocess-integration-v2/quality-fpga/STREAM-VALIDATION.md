@@ -20,10 +20,13 @@
 | residual-fifo-stalled | 4096 | 4096 | 0 | 512 | — | 0 |
 | baseline-fifo-stalled | 4096 | 4096 | 0 | 512 | — | 0 |
 
-1フレームは4096 complex sample。SPI相当入力は40 MB/s、4 bytes/complexなので10 Mcomplex/s。
+1フレームは4096 complex sample。frame parser後の論理入力を、data区間40 MB/s相当、4 bytes/complexなので10 Mcomplex/sとした。
 周期条件はフレーム開始間隔512 µs、連続フレーム条件は間隔を挿入しない。
 論理クロックは1080/7 MHz、FIFOは front register を含め512 complex sampleである。
 `core-stalled` / `fifo-stalled` 条件は、入力が ready を守り、出力も決定的に停止する条件を検査する。
+この入力列は宣言した論理stress patternであり、SDKのcommand/address/dataのwire時間、
+PHY、IRQ、transaction間の空白を再生した波形ではない。4798という損失位置を、
+統合SDKの実際の2-frame転送波形で観測した値として扱わない。
 
 ## 照合方法
 
