@@ -1,0 +1,1015 @@
+{
+  "schema_version": 1,
+  "non_fail_fast": true,
+  "evidence_origin": "Fresh independent recount of retained CAD; no synthesis or place-and-route rerun.",
+  "retained_evidence_commit": "8e865b0156bfb7ab941c9c25d81a1f58d2e0826b",
+  "source_sha256": {
+    "experiments/t_halfband_fpga/resource_audit.py": "cd8031113bdfd279d1ce2c469aac83afba4cdf4d928189cfcc9a21f51000fdc1"
+  },
+  "input_sha256": {
+    "cad-results.json": "570f630e17c1fecedd0a785be5f0a7c46d5ec1703ff4fe9de6a05761c50953b0",
+    "baseline/result.json": "fa8affcadc664975ebf05c7769ae77fba83c7e5d8007bb43066510c100229cc6",
+    "baseline/core-mapped.json.gz": "fd3fe1b729096011ba7acc25e49ad584f9a462c4071b4482f0a083f6123f3a86",
+    "baseline/probe-mapped.json.gz": "ab9bf87085c024fec86567c192b6c72ec22128a0f890495aeb134ee9b8c2d2df",
+    "baseline/routed.json.gz": "941ebe05ff89ef160ddbe7de6d3c138669e600b3fac7e1e9edfd10ae47fc8494",
+    "baseline-fifo/result.json": "fc77385508845863b06e17192402bb8c59863ca7ce01bbdcdaf32c6c2b27fd9a",
+    "baseline-fifo/core-mapped.json.gz": "28e3df0e7d44b3cf7e2882c9d9a72a28ac8e4e8c2be443a3acdea4405e35749e",
+    "baseline-fifo/probe-mapped.json.gz": "b34f756624a8cf4f7feee66cfeeb42649c39b29f750ded9c58d2e0e0003d20e8",
+    "baseline-fifo/routed.json.gz": "bf785208fe85bdc370129dc53369ef5aad934c2d5be3286594864a3d4db60325",
+    "residual/result.json": "cd517dddc89793850b565100593713239f1d6cd0cf7a7cc59a856621e9f21107",
+    "residual/core-mapped.json.gz": "3451ce45dcd2720a925dd5e7bbf6ef556f4f4a05f11d7e276b7f05391c67166e",
+    "residual/probe-mapped.json.gz": "70a4d302a1359cafe5643b7e099d0251c9535e501cdba82760bbc9c06a050506",
+    "residual/routed.json.gz": "821a428062a787f3910184bd8b2a387467ee0bae0971033b51078fa9a64db0b3",
+    "residual-fifo/result.json": "5803f318b7a982e84b3a64b1f7199bfbe2b43681b807d1446abdd10f336d50a4",
+    "residual-fifo/core-mapped.json.gz": "b38e70cdf7d747abe4ff193a3a573059559099868c5369868afcaf44b66fea4e",
+    "residual-fifo/probe-mapped.json.gz": "65c63128e376e00ab7a6236d9a6dfb9d96fdcda8acba91a231177005cda50d94",
+    "residual-fifo/routed.json.gz": "cb109577ac92f2f251ddf17ef38110dc52c48f542a2dd39da58cb085a4296980"
+  },
+  "checks": [
+    {
+      "name": "source_binding.run_cad.py",
+      "status": "PASS"
+    },
+    {
+      "name": "source_binding.coefficients.py",
+      "status": "PASS"
+    },
+    {
+      "name": "source_binding.resampler.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "source_binding.fifo_resampler.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "source_binding.probe.sv",
+      "status": "PASS"
+    },
+    {
+      "name": "source_binding.coeff_baseline.hex",
+      "status": "PASS"
+    },
+    {
+      "name": "source_binding.coeff_residual.hex",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.record_agrees_with_combined_result",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.core.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.probe.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routed.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.routing_completed_in_retained_log",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.retained_route_log_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.retained_route_log_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.resource_mapping_retains.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.resource_mapping_retains.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.record_agrees_with_combined_result",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.core.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.probe.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routed.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.routing_completed_in_retained_log",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.retained_route_log_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.retained_route_log_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.resource_mapping_retains.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline-fifo.resource_mapping_retains.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.record_agrees_with_combined_result",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.core.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.probe.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routed.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.routing_completed_in_retained_log",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.retained_route_log_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.retained_route_log_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.resource_mapping_retains.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.resource_mapping_retains.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.record_agrees_with_combined_result",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.core.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.probe.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.mapped_json_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.gzip_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.decoded_hash_matches_recorded_artifact",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.recorded_resource_matches.sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.recorded_resource_matches.cells_by_type",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.recorded_resource_matches.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.recorded_resource_matches.BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.recorded_resource_matches.RAM16SDP4",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.recorded_resource_matches.explicit_DFF_cells",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routed.recorded_exit_success",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.routing_completed_in_retained_log",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.retained_route_log_gzip_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.retained_route_log_decoded_hash",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.resource_mapping_retains.MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "residual-fifo.resource_mapping_retains.BSRAM",
+      "status": "PASS"
+    }
+  ],
+  "profiles": {
+    "baseline": {
+      "resources": {
+        "core": {
+          "sha256": "7c60e234af5c30be7de04c47621a42ac49da02f6f9ad9b9a16ed27f7c0d664c3",
+          "cells_by_type": {
+            "ALU": 374,
+            "DFF": 104,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 83,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 24,
+            "LUT1": 11,
+            "LUT2": 15,
+            "LUT3": 213,
+            "LUT4": 37,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 34,
+            "RAM16SDP4": 18,
+            "SPX9": 1,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 1,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 362
+        },
+        "probe": {
+          "sha256": "1b7f842542491d2eb6354c0a7da9288255ceaeb99952735ed888e9ce59a0e2d8",
+          "cells_by_type": {
+            "$scopeinfo": 1,
+            "ALU": 374,
+            "DFF": 104,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 104,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 4,
+            "LUT1": 10,
+            "LUT2": 13,
+            "LUT3": 216,
+            "LUT4": 46,
+            "MULT18X18": 4,
+            "OBUF": 1,
+            "RAM16SDP4": 18,
+            "SPX9": 1,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 1,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 383
+        },
+        "routed": {
+          "sha256": "4e7d9a21783e145a8a212a083f5366f0f7f8d8ffd6e888bce2555ac4c664ef1c",
+          "cells_by_type": {
+            "ALU": 412,
+            "BUFG": 1,
+            "DFF": 104,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 104,
+            "DFFSE": 1,
+            "DUMMY_CELL": 16,
+            "GOWIN_GND": 1,
+            "GOWIN_VCC": 1,
+            "GSR": 1,
+            "IBUF": 4,
+            "LUT1": 10,
+            "LUT2": 13,
+            "LUT3": 216,
+            "LUT4": 258,
+            "MULT18X18": 4,
+            "OBUF": 1,
+            "RAM16SDP4": 18,
+            "SP": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 1,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 383
+        }
+      }
+    },
+    "baseline-fifo": {
+      "resources": {
+        "core": {
+          "sha256": "73c3b3a65c1f3cd333cfb64980256ab2d106ad16cba3f98b45bec98c4029689e",
+          "cells_by_type": {
+            "$scopeinfo": 1,
+            "ALU": 422,
+            "DFF": 134,
+            "DFFE": 181,
+            "DFFR": 14,
+            "DFFRE": 112,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 24,
+            "LUT1": 14,
+            "LUT2": 21,
+            "LUT3": 243,
+            "LUT4": 48,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 2,
+            "OBUF": 34,
+            "RAM16SDP4": 18,
+            "SDPX9B": 1,
+            "SPX9": 1,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 442
+        },
+        "probe": {
+          "sha256": "f4ec7f1bb29cb17eba13192222e8cbaef4440771e780b053438fc343be9e3614",
+          "cells_by_type": {
+            "$scopeinfo": 2,
+            "ALU": 423,
+            "DFF": 134,
+            "DFFE": 181,
+            "DFFR": 14,
+            "DFFRE": 133,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 4,
+            "LUT1": 14,
+            "LUT2": 18,
+            "LUT3": 246,
+            "LUT4": 58,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 2,
+            "OBUF": 1,
+            "RAM16SDP4": 18,
+            "SDPX9B": 1,
+            "SPX9": 1,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 463
+        },
+        "routed": {
+          "sha256": "4923c284d665b144a1927496a4063697be25fb2daefb38fa73b7d4f8db509776",
+          "cells_by_type": {
+            "ALU": 468,
+            "BUFG": 1,
+            "DFF": 134,
+            "DFFE": 181,
+            "DFFR": 14,
+            "DFFRE": 133,
+            "DFFSE": 1,
+            "DUMMY_CELL": 16,
+            "GOWIN_GND": 1,
+            "GOWIN_VCC": 1,
+            "GSR": 1,
+            "IBUF": 4,
+            "LUT1": 14,
+            "LUT2": 18,
+            "LUT3": 246,
+            "LUT4": 329,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 2,
+            "OBUF": 1,
+            "RAM16SDP4": 18,
+            "SDP": 1,
+            "SP": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 18,
+          "explicit_DFF_cells": 463
+        }
+      }
+    },
+    "residual": {
+      "resources": {
+        "core": {
+          "sha256": "e59ecdf876615c90497fd7a0e7e3f549eb0fc65c790103f095dae78a94935933",
+          "cells_by_type": {
+            "ALU": 357,
+            "DFF": 128,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 109,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 36,
+            "LUT1": 10,
+            "LUT2": 16,
+            "LUT3": 237,
+            "LUT4": 36,
+            "MULT18X18": 4,
+            "OBUF": 34,
+            "RAM16SDP4": 24,
+            "SPX9": 2,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 412
+        },
+        "probe": {
+          "sha256": "b5349745bce8da3649ee68210c497e74f8e1f68a470fe446c44073d4e3fd3e99",
+          "cells_by_type": {
+            "$scopeinfo": 1,
+            "ALU": 355,
+            "DFF": 128,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 142,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 4,
+            "LUT1": 10,
+            "LUT2": 13,
+            "LUT3": 241,
+            "LUT4": 45,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 1,
+            "RAM16SDP4": 24,
+            "SPX9": 2,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 445
+        },
+        "routed": {
+          "sha256": "da1d2ce0b6171378c6096f16c05d9b949c1bca6f653f2595800bab2663de1fd2",
+          "cells_by_type": {
+            "ALU": 392,
+            "BUFG": 1,
+            "DFF": 128,
+            "DFFE": 160,
+            "DFFR": 14,
+            "DFFRE": 142,
+            "DFFSE": 1,
+            "DUMMY_CELL": 16,
+            "GOWIN_GND": 1,
+            "GOWIN_VCC": 1,
+            "GSR": 1,
+            "IBUF": 4,
+            "LUT1": 10,
+            "LUT2": 13,
+            "LUT3": 241,
+            "LUT4": 326,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 1,
+            "RAM16SDP4": 24,
+            "SP": 2
+          },
+          "MULT18X18": 4,
+          "BSRAM": 2,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 445
+        }
+      }
+    },
+    "residual-fifo": {
+      "resources": {
+        "core": {
+          "sha256": "a498c47bb34238511a64237db557538e7af048dc6194d3450dc59eff34096ba6",
+          "cells_by_type": {
+            "$scopeinfo": 1,
+            "ALU": 405,
+            "DFF": 170,
+            "DFFE": 193,
+            "DFFR": 14,
+            "DFFRE": 138,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 36,
+            "LUT1": 13,
+            "LUT2": 22,
+            "LUT3": 279,
+            "LUT4": 49,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 34,
+            "RAM16SDP4": 24,
+            "SDPX9B": 1,
+            "SPX9": 2,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 3,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 516
+        },
+        "probe": {
+          "sha256": "ef8a022131d75964df9b057d4cc1f5f4ed997e6763a3ad6932547bd37adbb082",
+          "cells_by_type": {
+            "$scopeinfo": 2,
+            "ALU": 405,
+            "DFF": 170,
+            "DFFE": 193,
+            "DFFR": 14,
+            "DFFRE": 171,
+            "DFFSE": 1,
+            "GND": 1,
+            "IBUF": 4,
+            "LUT1": 14,
+            "LUT2": 20,
+            "LUT3": 281,
+            "LUT4": 55,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 1,
+            "RAM16SDP4": 24,
+            "SDPX9B": 1,
+            "SPX9": 2,
+            "VCC": 1
+          },
+          "MULT18X18": 4,
+          "BSRAM": 3,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 549
+        },
+        "routed": {
+          "sha256": "b545c9db922e53f448f8a9e63b4aacd141b46d60c9011903b200a3ebf9ea0faa",
+          "cells_by_type": {
+            "ALU": 448,
+            "BUFG": 1,
+            "DFF": 170,
+            "DFFE": 193,
+            "DFFR": 14,
+            "DFFRE": 171,
+            "DFFSE": 1,
+            "DUMMY_CELL": 16,
+            "GOWIN_GND": 1,
+            "GOWIN_VCC": 1,
+            "GSR": 1,
+            "IBUF": 4,
+            "LUT1": 14,
+            "LUT2": 20,
+            "LUT3": 281,
+            "LUT4": 404,
+            "MULT18X18": 4,
+            "MUX2_LUT5": 1,
+            "OBUF": 1,
+            "RAM16SDP4": 24,
+            "SDP": 1,
+            "SP": 2
+          },
+          "MULT18X18": 4,
+          "BSRAM": 3,
+          "RAM16SDP4": 24,
+          "explicit_DFF_cells": 549
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "core": {
+      "DSP_before": 4,
+      "DSP_after": 4,
+      "DSP_saved": 0,
+      "BSRAM_before": 1,
+      "BSRAM_after": 2
+    },
+    "fifo": {
+      "DSP_before": 4,
+      "DSP_after": 4,
+      "DSP_saved": 0,
+      "BSRAM_before": 2,
+      "BSRAM_after": 3
+    }
+  },
+  "physical_timing_pass": false,
+  "status": "PASS"
+}
