@@ -1,0 +1,715 @@
+{
+  "schema_version": 1,
+  "evidence_origin": "Freshly regenerated diagnostic evaluation; not recovered lost output bytes.",
+  "non_fail_fast": true,
+  "numpy_version": "2.3.5",
+  "source_sha256": {
+    "experiments/t_halfband_fpga/quality.py": "a2578a7309325a9b9ef57d3c05d38d92a9029eab2c6957caf144714a4a4aa64a",
+    "experiments/t_halfband_fpga/coefficients.py": "12e472026e595cc697774a8c93ea1e7ec29a58867c29fbc8c677bc3c1917fc1d",
+    "experiments/t_halfband_fpga/run_stream.py": "de9a65b1f44fd1852191a4ff0a2c43af42658292d8e92782e4e60e7207ba8944",
+    "experiments/t_halfband_fpga/coeff_baseline.hex": "ed4cc491e4718afb124966f28f8ee06a5ef9749eca6b71fff48118058d2cda98",
+    "experiments/t_halfband_fpga/coeff_residual.hex": "e7afd42839e5027a7a5230717b78cfd8a0871386bd4ea3474a9f1411bfe06620",
+    "experiments/t_preprocess_capacity/halfband31.c": "7f5184694746d43db0efa5feaef304ff037750aeb4c5f0c4f6f6975708f019a8"
+  },
+  "assumptions": {
+    "pass_edge_MHz": 2.8857142857142857,
+    "stop_edge_MHz": 5.114285714285714,
+    "halfband_shift": 10,
+    "residual_shift": 15,
+    "baseline_shift": 10,
+    "coefficient_design": "32 taps/phase, cutoff3.6MHz, Kaiser beta8.6, Q15 per-phase DC normalization",
+    "stopband_definition": "Per-tone response over [8-pass_edge,8]MHz at original16MHz input; not a receiver MER/CN/BER criterion",
+    "response_display_floor_dB": -320
+  },
+  "halfband_coefficient_summary": {
+    "sum_Q15": 32766,
+    "DC_gain": 0.99993896484375,
+    "absolute_sum_Q15": 49242,
+    "note": "Use the checked-in table as-is; its DC sum is not forced to exactly32768."
+  },
+  "frequency": {
+    "baseline": {
+      "phase_count": 32,
+      "taps_per_phase": 32,
+      "input_rate_MHz": 16.0,
+      "raw_input_rate_MHz": 16,
+      "output_rate_MHz": 8.126984126984127,
+      "pass_edge_MHz": 2.8857142857142857,
+      "stop_edge_MHz": 5.114285714285714,
+      "grid_points": {
+        "pass": 4097,
+        "stop": 4097,
+        "full": 16385
+      },
+      "pass_ripple_peak_to_peak_dB": 0.5305116687607664,
+      "minimum_stop_attenuation_dB": 74.74597369152148,
+      "maximum_rational_image_dBc": -88.33237517855378,
+      "images_per_frequency": 31,
+      "nominal_prototype_group_delay_us": 0.9990234375,
+      "quantized_all_phase_pass_group_delay_us": [
+        0.9989750655849631,
+        0.9990718094150367
+      ],
+      "direct_frequency_max_complex_error": 2.482534153247273e-16,
+      "direct_tone_DFT_max_complex_error": 3.186603419709661e-15,
+      "coefficient_quantization_max_error_Q15_units": 2.3436578530563565,
+      "coefficient_quantization_max_phase_L1_error": 0.00030710412001798296,
+      "artifact": {
+        "path": "baseline-frequency-envelope.csv.gz",
+        "sha256": "0cf2401c32aa49149ded5e6688b024e57a08fc21dd3a0976c94efdef11a1dd5b",
+        "uncompressed_sha256": "923a6e582f4a1f40e26d6d47d5bf286c42c121c368c973e8567f3939f0e2e910"
+      }
+    },
+    "residual": {
+      "phase_count": 64,
+      "taps_per_phase": 32,
+      "input_rate_MHz": 8.0,
+      "raw_input_rate_MHz": 16,
+      "output_rate_MHz": 8.126984126984127,
+      "pass_edge_MHz": 2.8857142857142857,
+      "stop_edge_MHz": 5.114285714285714,
+      "grid_points": {
+        "pass": 4097,
+        "stop": 4097,
+        "full": 16385
+      },
+      "pass_ripple_peak_to_peak_dB": 0.005352807235227157,
+      "minimum_stop_attenuation_dB": 73.59007775166073,
+      "maximum_rational_image_dBc": -90.46500890389844,
+      "images_per_frequency": 63,
+      "nominal_prototype_group_delay_us": 2.9365234375,
+      "quantized_all_phase_pass_group_delay_us": [
+        2.9363683661510214,
+        2.9366785088489786
+      ],
+      "direct_frequency_max_complex_error": 2.1433852148154685e-15,
+      "direct_tone_DFT_max_complex_error": 1.1902442579803106e-14,
+      "coefficient_quantization_max_error_Q15_units": 3.085640781715483,
+      "coefficient_quantization_max_phase_L1_error": 0.00032842785526477106,
+      "artifact": {
+        "path": "residual-frequency-envelope.csv.gz",
+        "sha256": "840915e8143841c2398f4188b9d4040de516fca2a4215a3d25c012f2fecbf29e",
+        "uncompressed_sha256": "d318e397a1ae667048a3a1d4ca09a1415d9604786de80a9010f6117ae9399725"
+      }
+    }
+  },
+  "quantization": {
+    "baseline": {
+      "bounds": {
+        "linear_raw_signed10_bound_LSB": 25700.0,
+        "floor_error_strict_bound_LSB": 1.0,
+        "integer_cascade_abs_strict_bound_LSB": 25701.0
+      },
+      "profiles": {
+        "zero": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.0,
+          "rms_linear_reference_error_LSB": 0.0,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47",
+          "integer_output_sha256": "1ed0dc586d79ea26d811ab2b8c9dec8d8f4632f6bf25f279529ecf4c10fdea8f",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "positive-impulse": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.994140625,
+          "rms_linear_reference_error_LSB": 0.0691018794753853,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "120fb105e0dd0ea360a5ac22c36f4f0e5edb45d745d46aa8ff40b306b1700cf8",
+          "integer_output_sha256": "c4596b3063874820d1cb8218fca4d8c8091af64abc9fb3650fee7d171fcab64a",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "negative-impulse": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.994140625,
+          "rms_linear_reference_error_LSB": 0.0691018794753853,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "1321f5210e9994481465979600b4c4eff7998ecedc79e8a7e25c6efb40f86c65",
+          "integer_output_sha256": "e49077ff290685d8771baca7ef55e00702e616dc758f4c7631e2c8b2f7ad918e",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "positive-DC": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.978515625,
+          "rms_linear_reference_error_LSB": 0.05579290219704823,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "45b89e30b4e307bd021316c24051e8d69b5d06c79ccbb1c59fa16c52628b73c7",
+          "integer_output_sha256": "cbd4175b165b438fe21a1224dd574a613b8e450ed050bdf2d9a6a20b4f25011e",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "negative-DC": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.5,
+          "rms_linear_reference_error_LSB": 0.043831833031891775,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "9ac368319cfc8e47e49ae77600035b3e186479032a87300dc995e5e0acebbc46",
+          "integer_output_sha256": "a02bbf89a8db4cd32094f2b17dbdb186a970f45bdca655db7a5b316c5b96171d",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "alternating": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.9990234375,
+          "rms_linear_reference_error_LSB": 0.5308451381866196,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "e94b37309f25448100c660c58629b342bef34b2e62ddea5c584785067100410c",
+          "integer_output_sha256": "67f866c96a6975836d43288188e68ec5ba183b6180b56edf47026d30be211f05",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "square": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.9970703125,
+          "rms_linear_reference_error_LSB": 0.5889635635938969,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "11c60c2b38adae309a059bd68e7c0e4f494cacdc609f6f73f1831f3c14207667",
+          "integer_output_sha256": "805d7e88715bedf76d1392ffc300d6b4c1dab526a90801d4ac2231f62ac84f10",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "random-full": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.998046875,
+          "rms_linear_reference_error_LSB": 0.5645771349838369,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "fa77044fbd90b98e1e454b091e25b8611cba6664eeb0938d040daa9e5a14ca09",
+          "integer_output_sha256": "b1511532c8142125c33921a1587b9d18289136a950979d010542e5a946bb42a8",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "random-sign": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.998046875,
+          "rms_linear_reference_error_LSB": 0.5762063161672324,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "5bf5c3576c8c8745d863831f44e827d28f22ef9973f5f7bec439ea7bf8a7da00",
+          "integer_output_sha256": "829bc415071f9e65b0c07cd46123305eba0e8d035f28a65157ac1f0826bb93a9",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "tone-0.5MHz": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.9990234375,
+          "rms_linear_reference_error_LSB": 0.5837018093954843,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "397c1e81165ffbd90203e0a7b62512b89bccd0797ea4751ad2705a078f7519b9",
+          "integer_output_sha256": "139b92c6e29436daf80d0f2a116749f9dd81724e0e9155f5851c41d604266a1f",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "tone-pass-edge": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.9990234375,
+          "rms_linear_reference_error_LSB": 0.5760049460652495,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "8f3b75c4377bcea8dff2414151821cd6116918579fd9965b97952ac3852fb188",
+          "integer_output_sha256": "be1fb3a79c6e28b6aeafe38d36ad8b9777c0e7c983c1fe746b7d1edc8b2e7251",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "tone-stop-edge": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": null,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.998046875,
+          "rms_linear_reference_error_LSB": 0.5799950095106713,
+          "strict_floor_error_bound_LSB": 1.0,
+          "input_sha256": "1e0efd14684b009898439ae7f4d827b6fd8de029222d3c5c57733e75f7242883",
+          "integer_output_sha256": "8b4f0b3a28eeb1c18eb38150f5358fc537acabc0e5c0403349eb95d620d34107",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        }
+      }
+    },
+    "residual": {
+      "bounds": {
+        "linear_raw_signed10_bound_LSB": 31096.149871826172,
+        "floor_error_strict_bound_LSB": 2.9691162109375,
+        "integer_cascade_abs_strict_bound_LSB": 31099.11898803711
+      },
+      "profiles": {
+        "zero": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.0,
+          "rms_linear_reference_error_LSB": 0.0,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47",
+          "integer_output_sha256": "1ed0dc586d79ea26d811ab2b8c9dec8d8f4632f6bf25f279529ecf4c10fdea8f",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "positive-impulse": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.620086669921875,
+          "rms_linear_reference_error_LSB": 0.15379099022700105,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "120fb105e0dd0ea360a5ac22c36f4f0e5edb45d745d46aa8ff40b306b1700cf8",
+          "integer_output_sha256": "90096e45b7f9f5ef27fb3e057cc88b944f7bfe4d6b72eaa33bf47b441040702e",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "negative-impulse": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 0.994140625,
+          "rms_linear_reference_error_LSB": 0.08422257377309275,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "1321f5210e9994481465979600b4c4eff7998ecedc79e8a7e25c6efb40f86c65",
+          "integer_output_sha256": "b992536cfc13658712705fa74b156ee769709eb1add7647663128274b491c773",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "positive-DC": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.904859185218811,
+          "rms_linear_reference_error_LSB": 0.17400745851668198,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "45b89e30b4e307bd021316c24051e8d69b5d06c79ccbb1c59fa16c52628b73c7",
+          "integer_output_sha256": "8a80dd3b7703671b6ce04392d7917c96ef3e6fc155fbda7f1c8150f4285b1295",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "negative-DC": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.10760498046875,
+          "rms_linear_reference_error_LSB": 0.14688657993982793,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "9ac368319cfc8e47e49ae77600035b3e186479032a87300dc995e5e0acebbc46",
+          "integer_output_sha256": "e43dba3f31264379cfe9658d084458e6d0a372e30daf5430fe0420b28f7cf22a",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "alternating": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.896070122718811,
+          "rms_linear_reference_error_LSB": 0.15395886433585715,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "e94b37309f25448100c660c58629b342bef34b2e62ddea5c584785067100410c",
+          "integer_output_sha256": "dc75358efbd04a270108f633fd090ef24ea70e210bb43bd9b46ba656629d8624",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "square": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.9184724390506744,
+          "rms_linear_reference_error_LSB": 0.9258667540130141,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "11c60c2b38adae309a059bd68e7c0e4f494cacdc609f6f73f1831f3c14207667",
+          "integer_output_sha256": "7214834af7bf91843cdf1dcf7950e3dda5acc9386036b54faad4518b0f2b1bb9",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "random-full": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.9942297041416168,
+          "rms_linear_reference_error_LSB": 1.0741207219460986,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "fa77044fbd90b98e1e454b091e25b8611cba6664eeb0938d040daa9e5a14ca09",
+          "integer_output_sha256": "812b795cdefb555d400e18a0ff2774764f08cefc9a2c6d2bbedcc2d952fa265f",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "random-sign": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.981570839881897,
+          "rms_linear_reference_error_LSB": 1.0706321832973282,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "5bf5c3576c8c8745d863831f44e827d28f22ef9973f5f7bec439ea7bf8a7da00",
+          "integer_output_sha256": "c26fcca6fc4c3db5a2145d27447e3c6cc0f01a6ea4f74aaab25160321672e2cc",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "tone-0.5MHz": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.9068046510219574,
+          "rms_linear_reference_error_LSB": 1.051318303726928,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "397c1e81165ffbd90203e0a7b62512b89bccd0797ea4751ad2705a078f7519b9",
+          "integer_output_sha256": "6ade3ca69f1e83a6043b09a2c896f2781fe79927dd1bf1bf2779e8d1016961c4",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "tone-pass-edge": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 1.975686401128769,
+          "rms_linear_reference_error_LSB": 1.0617506588431034,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "8f3b75c4377bcea8dff2414151821cd6116918579fd9965b97952ac3852fb188",
+          "integer_output_sha256": "ab39363dd4bc56e95a2c19bd6fed433425b56849924a09da9e82f31d0910874c",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        },
+        "tone-stop-edge": {
+          "raw_samples": 2048,
+          "output_samples": 1041,
+          "halfband_scalar_max_error": 0,
+          "halfband_saturated_values": 0,
+          "maximum_linear_reference_error_LSB": 2.0297561287879944,
+          "rms_linear_reference_error_LSB": 1.0670116793156843,
+          "strict_floor_error_bound_LSB": 2.9691162109375,
+          "input_sha256": "1e0efd14684b009898439ae7f4d827b6fd8de029222d3c5c57733e75f7242883",
+          "integer_output_sha256": "d6524b8f1827249bbae0a0aa7371f0811ecc30d3a38b5cfe8e7cce7d3f6436b1",
+          "linear_reference_definition": "Exact Q15 coefficients, direct raw-input composite convolution, no intermediate floors",
+          "all_intermediate_within_signed16": true
+        }
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "halfband.31_coefficients",
+      "status": "PASS"
+    },
+    {
+      "name": "halfband.signed16_coefficients",
+      "status": "PASS"
+    },
+    {
+      "name": "halfband.symmetric",
+      "status": "PASS"
+    },
+    {
+      "name": "halfband.odd_taps_zero_except_center",
+      "status": "PASS"
+    },
+    {
+      "name": "halfband.shift10_no_saturation_for_arbitrary_signed10",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.table_equals_independent_generator",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.all_phase_DC_sums_Q15",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.direct_frequency",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.direct_tone_DFT",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.finite_metric.pass_ripple_peak_to_peak_dB",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.finite_metric.minimum_stop_attenuation_dB",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.finite_metric.maximum_rational_image_dBc",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.arbitrary_signed10_cascade_cannot_saturate",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.zero.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.positive-impulse.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.negative-impulse.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.positive-DC.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.negative-DC.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.alternating.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.square.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.random-full.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.random-sign.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.tone-0.5MHz.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.tone-pass-edge.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.tone-stop-edge.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.table_equals_independent_generator",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.all_phase_DC_sums_Q15",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.direct_frequency",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.direct_tone_DFT",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.finite_metric.pass_ripple_peak_to_peak_dB",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.finite_metric.minimum_stop_attenuation_dB",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.finite_metric.maximum_rational_image_dBc",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.arbitrary_signed10_cascade_cannot_saturate",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.zero.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.zero.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.zero.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.positive-impulse.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.positive-impulse.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.positive-impulse.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.negative-impulse.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.negative-impulse.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.negative-impulse.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.positive-DC.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.positive-DC.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.positive-DC.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.negative-DC.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.negative-DC.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.negative-DC.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.alternating.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.alternating.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.alternating.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.square.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.square.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.square.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.random-full.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.random-full.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.random-full.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.random-sign.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.random-sign.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.random-sign.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-0.5MHz.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-0.5MHz.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-0.5MHz.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-pass-edge.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-pass-edge.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-pass-edge.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-stop-edge.floor_error_bound",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-stop-edge.no_halfband_saturation",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.tone-stop-edge.halfband_scalar_oracle",
+      "status": "PASS"
+    },
+    {
+      "name": "all_numeric_diagnostics_finite",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "same_quality_receiver_contract": "UNVERIFIED",
+  "receiver_MER_CN_BER_equivalence": "UNVERIFIED",
+  "receiver_adoption": false,
+  "nonfinite_diagnostics": []
+}

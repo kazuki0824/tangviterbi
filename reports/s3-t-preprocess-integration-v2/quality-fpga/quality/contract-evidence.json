@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "evidence_origin": "Fresh scoped source review; no claim to restore lost report bytes",
+  "source_sha256": {
+    "experiments/t_halfband_fpga/contract_evidence.py": "5a7d36f4320d7a0c961fbfb4e0def68d7cbd4df5299d4779168b34d67f34a182"
+  },
+  "non_fail_fast": true,
+  "sources": [
+    {
+      "path": "reports/s3-preprocess-break-even/original-fir-model.json",
+      "sha256": "c854d79dfbccba2fd189dd05fa76d9936f3d6cd0c235e07f160c3fac31e7e57c",
+      "role": "Recovered original cycle/tap-count model, including its explicit filter-contract scope",
+      "relevant_lines": [
+        {
+          "line": 7,
+          "text": "  \"stage_function_source\": \"def stages(soc,standard):\\n \\\"\\\"\\\"Return nonzero costs only for explicitly modelled selected kernels.\\\"\\\"\\\"\\n out={}\\n def add(node,lo,hi,basis,resource='aggregate'):\\n  out[node]={'known_model_Mcycles_per_s':[lo,hi],'basis':basis,'resource':resource}\\n if standard=='T':\\n  if soc in ('C5','C61'):add('FIR',64*FS,64*FS,'Optimistic one real MAC/cycle, 32 taps for both I/Q; loads and control omitted')\\n  if soc=='S3':add('FIR',36*FS+3*16,48*FS+5*16,'Attachment fractional FIR plus raw-IQ unpack cycle profile')\\n  if soc=='S31':add('FIR',16*FS,32*FS,'Attachment SIMD FIR3"
+        },
+        {
+          "line": 12,
+          "text": "  \"filter_contract_status\": \"These sources provide tap counts/rates and cycle scenarios, not a coefficient-bound quality acceptance contract\","
+        }
+      ]
+    },
+    {
+      "path": "experiments/t_preprocess_capacity/accx_wrapper.h",
+      "sha256": "5c5ed8c92d5af984518ff26bc72e9dcc597c6073c3e2b46c3cbf0dd5f422c94b",
+      "role": "Original fractional-FIR comparison candidate API and trial rounding contract",
+      "relevant_lines": [
+        {
+          "line": 7,
+          "text": " * 32 taps, L/M=32/63. It is not integrated into the RF/RTOS/DMA receiver."
+        },
+        {
+          "line": 10,
+          "text": " * Output trial contract: Q15 coefficients and signed10 samples scaled to Q15;"
+        },
+        {
+          "line": 12,
+          "text": " * receiver's coefficient response and final rounding contract remain unproved."
+        },
+        {
+          "line": 15,
+          "text": " * State and its members have 16-byte alignment. Each 64-element plane contains"
+        }
+      ]
+    },
+    {
+      "path": "experiments/t_preprocess_capacity/halfband31.h",
+      "sha256": "6f4b2f0946ac6b01f49dd1004203229a5d29b3cb6ec20062d483ac378935f987",
+      "role": "Halfband candidate API and its explicit receiver-quality limitation",
+      "relevant_lines": [
+        {
+          "line": 6,
+          "text": "/* Comparison candidate only. This is not an accepted receiver-quality contract."
+        },
+        {
+          "line": 11,
+          "text": " * been accepted as equivalent to the receiver's currently unspecified rounding."
+        }
+      ]
+    },
+    {
+      "path": "experiments/t_halfband_fpga/coefficients.py",
+      "sha256": "12e472026e595cc697774a8c93ea1e7ec29a58867c29fbc8c677bc3c1917fc1d",
+      "role": "Diagnostic coefficient reconstruction and mathematical generator scope",
+      "relevant_lines": [
+        {
+          "line": 50,
+          "text": "    h = (7.2 / spec[\"fs_mhz\"]) * np.sinc(7.2 / spec[\"fs_mhz\"] * t) * np.kaiser(32 * phases, 8.6)"
+        },
+        {
+          "line": 91,
+          "text": "        row = {**spec, \"M\": 63, \"taps_per_phase\": 32, \"cutoff_mhz\": 3.6, \"kaiser_beta\": 8.6}"
+        },
+        {
+          "line": 126,
+          "text": "            \"scope\": \"Diagnostic coefficients recovered exactly; original receiver quality contract is not supplied by these tables.\","
+        }
+      ]
+    },
+    {
+      "path": "reports/s3-t-preprocess-integration/README.md",
+      "sha256": "e76f0c577f077bdf029cedeb1056144cef3b4e9f8924a430eb26e74b97cfcc76",
+      "role": "Retained historical technical observations and previously unresolved quality equivalence",
+      "relevant_lines": [
+        {
+          "line": 7,
+          "text": "この判定の対象は、以下の具体的な実装・係数・費用モデル・転送条件である。ESP32-S3 で実現可能な T 側のあらゆる方式について、不可能と証明したものではない。"
+        },
+        {
+          "line": 22,
+          "text": "| 品質条件 | 元の受信品質を落とさないこと。今回の診断用係数を元方式の品質契約とは扱わない |"
+        },
+        {
+          "line": 25,
+          "text": "実 SDK の接続は費用評価のための暫定経路だった。Q15 出力の識別、FPGA 側の受信 parser と epoch の対応、および物理接続までを完成した受信経路として認定していない。"
+        },
+        {
+          "line": 86,
+          "text": "当時は 27 シナリオを最後まで列挙・実行した。監査の PASS は、費用計上や所有権、異常時の停止、出力照合などの検査が成立した意味であり、受信が継続可能という PASS ではない。基準条件の容量判定は `MODEL_REJECT` のままである。"
+        },
+        {
+          "line": 115,
+          "text": "両者とも複素 tap を 1 cycle あたり 2 個処理する 4 DSP 構成であり、入力レートを半分にしたことが、この実装での DSP 数削減にはつながらなかった。これは表の比較範囲に対する結果であり、受信機全体の資源数や別構造の最適化余地を示すものではない。"
+        },
+        {
+          "line": 125,
+          "text": "対応する mapped / routed JSON と合成ログは、回収した 20 個の圧縮 blob に含まれる。ただし、RTL、係数生成器、最終の比較 JSON、配置配線ログなどは全体として回収できておらず、元と同じ実行を再現する材料は揃っていない。"
+        },
+        {
+          "line": 135,
+          "text": "### 診断用係数の良好な数値は元方式との品質等価を保証しない"
+        },
+        {
+          "line": 137,
+          "text": "元方式の係数、出力契約、許容 MER / C/N / BER の基準を特定できていなかった。今回の残存 FPGA 係数は診断用の cutoff 3.6 MHz、Kaiser β = 8.6 の設計であり、元方式の係数として扱えない。"
+        },
+        {
+          "line": 139,
+          "text": "中断前の診断計算では、cascade の ripple 0.005353 dB p-p、stopband 73.590067 dB、最大 image −90.465009 dBc などを記録した。192 件の整数計算照合と 768 件の FFT / 直接計算照合も通過した。しかし、これらは診断用 profile 内の計算確認であり、元の受信品質を維持したことの認定ではない。最終の品質 JSON・計算コードも未回収である。"
+        },
+        {
+          "line": 168,
+          "text": "中断前には native 接続、実 SDK のビルドと費用評価、同じ C 制御の有限モデル、残存 FPGA の評価まで実行を進めた。今回のコミットは、その判定と回収できた資料を保存するものであり、失われた 142 ファイル全体の納品や、受信経路の完成を宣言するものではない。"
+        },
+        {
+          "line": 174,
+          "text": "5. **元方式との品質契約を確定する。** 元の係数・出力と受信品質の許容値に対し、候補の移管が条件を満たすことを確認する。"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "source_readable.reports/s3-preprocess-break-even/original-fir-model.json",
+      "status": "PASS"
+    },
+    {
+      "name": "source_readable.experiments/t_preprocess_capacity/accx_wrapper.h",
+      "status": "PASS"
+    },
+    {
+      "name": "source_readable.experiments/t_preprocess_capacity/halfband31.h",
+      "status": "PASS"
+    },
+    {
+      "name": "source_readable.experiments/t_halfband_fpga/coefficients.py",
+      "status": "PASS"
+    },
+    {
+      "name": "source_readable.reports/s3-t-preprocess-integration/README.md",
+      "status": "PASS"
+    },
+    {
+      "name": "original_model_states_coefficient_contract_is_unspecified",
+      "status": "PASS"
+    },
+    {
+      "name": "fractional_FIR_header_calls_output_contract_trial",
+      "status": "PASS"
+    },
+    {
+      "name": "halfband_header_disclaims_accepted_receiver_quality",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "receiver_quality_equivalence": "UNVERIFIED",
+  "missing_normative_inputs": [
+    "Accepted original filter coefficients and per-phase response requirements",
+    "Accepted receiver rounding, scale, saturation and output sample timing contract",
+    "Accepted receiver test vectors plus MER, C/N and BER limits under defined channels"
+  ],
+  "scope": "Only the listed sources were inspected. No assertion is made that another unreviewed source cannot specify the contract.",
+  "diagnostic_evaluation_meaning": "Diagnostic frequency and integer tests verify the chosen candidate; they do not certify original-receiver equivalence.",
+  "receiver_adoption": false
+}
