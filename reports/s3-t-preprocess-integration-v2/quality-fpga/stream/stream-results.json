@@ -1,0 +1,809 @@
+{
+  "version": 2,
+  "rtl_source_status": "reconstructed new v2",
+  "non_fail_fast": true,
+  "oracle": "mathematically generated coefficients; direct rational-index convolution, shift and saturation",
+  "compile": {
+    "baseline-core": {
+      "exit_code": 0,
+      "command": [
+        "/workspace/scratch/743a7294ea5e/toolchains/oss-cad-20261004/oss-cad-suite/bin/iverilog",
+        "-g2012",
+        "-s",
+        "stream_tb",
+        "-o",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/stream/baseline-core.vvp",
+        "-Pstream_tb.INPUT_BITS=10",
+        "-Pstream_tb.L=32",
+        "-Pstream_tb.OUTPUT_SHIFT=10",
+        "-Pstream_tb.USE_FIFO=0",
+        "-Pstream_tb.COEFF_FILE=\"coeff_baseline.hex\"",
+        "resampler.sv",
+        "fifo_resampler.sv",
+        "stream_tb.sv"
+      ]
+    },
+    "baseline-fifo": {
+      "exit_code": 0,
+      "command": [
+        "/workspace/scratch/743a7294ea5e/toolchains/oss-cad-20261004/oss-cad-suite/bin/iverilog",
+        "-g2012",
+        "-s",
+        "stream_tb",
+        "-o",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/stream/baseline-fifo.vvp",
+        "-Pstream_tb.INPUT_BITS=10",
+        "-Pstream_tb.L=32",
+        "-Pstream_tb.OUTPUT_SHIFT=10",
+        "-Pstream_tb.USE_FIFO=1",
+        "-Pstream_tb.COEFF_FILE=\"coeff_baseline.hex\"",
+        "resampler.sv",
+        "fifo_resampler.sv",
+        "stream_tb.sv"
+      ]
+    },
+    "residual-core": {
+      "exit_code": 0,
+      "command": [
+        "/workspace/scratch/743a7294ea5e/toolchains/oss-cad-20261004/oss-cad-suite/bin/iverilog",
+        "-g2012",
+        "-s",
+        "stream_tb",
+        "-o",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/stream/residual-core.vvp",
+        "-Pstream_tb.INPUT_BITS=16",
+        "-Pstream_tb.L=64",
+        "-Pstream_tb.OUTPUT_SHIFT=15",
+        "-Pstream_tb.USE_FIFO=0",
+        "-Pstream_tb.COEFF_FILE=\"coeff_residual.hex\"",
+        "resampler.sv",
+        "fifo_resampler.sv",
+        "stream_tb.sv"
+      ]
+    },
+    "residual-fifo": {
+      "exit_code": 0,
+      "command": [
+        "/workspace/scratch/743a7294ea5e/toolchains/oss-cad-20261004/oss-cad-suite/bin/iverilog",
+        "-g2012",
+        "-s",
+        "stream_tb",
+        "-o",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/stream/residual-fifo.vvp",
+        "-Pstream_tb.INPUT_BITS=16",
+        "-Pstream_tb.L=64",
+        "-Pstream_tb.OUTPUT_SHIFT=15",
+        "-Pstream_tb.USE_FIFO=1",
+        "-Pstream_tb.COEFF_FILE=\"coeff_residual.hex\"",
+        "resampler.sv",
+        "fifo_resampler.sv",
+        "stream_tb.sv"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "name": "residual-periodic-8",
+      "profile": "residual",
+      "fifo": true,
+      "samples": 32768,
+      "rate_mhz": 10,
+      "period_us": 512,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 1310720,
+      "status": {
+        "offered": 32768,
+        "accepted": 32768,
+        "lost": 0,
+        "output_count": 33289,
+        "max_fifo": 438,
+        "first_lost_index_zero_based": -1,
+        "first_lost_cycle": -1,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": null,
+        "first_lost_time_us": null,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 33289
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "34d6f7b57a458887c2c4e11d3895c83ab9d2ee279739156ba23744b1a9bab0f2",
+          "uncompressed_sha256": "4bf708f7c490bca76816250ac0c48b98e89624172011f19fc02dbce2669b64d7"
+        },
+        "due.hex.gz": {
+          "sha256": "b30e0ac2c2452bf8054d02a9c944132c3e8f37879a6ac4644678cf4bb0b149de",
+          "uncompressed_sha256": "584ad0c5a23065ccde11006063df32894bf357f32e267ae37497cccb69078346"
+        },
+        "accepted.txt.gz": {
+          "sha256": "f5336596cca2ed1f367fac559dd0b344bc36dd642867bfcda05c62dd41c24eb9",
+          "uncompressed_sha256": "f47ecc1ecda6ede9d4ec9e2f595ddb260c355c9dcd9b7ee6c4ec99c11360eab2"
+        },
+        "output.txt.gz": {
+          "sha256": "96da2426e23e7324ce1933cd6b8fef642a4d76eb673d7bcdca6d7afb40798347",
+          "uncompressed_sha256": "4e9720cf4ed13b5a6c52964930ddbd172c7de1accb94d762d030d1d7ca497583"
+        }
+      },
+      "capacity": "PASS",
+      "design_verification": "PASS"
+    },
+    {
+      "name": "residual-back-to-back-2",
+      "profile": "residual",
+      "fifo": true,
+      "samples": 8192,
+      "rate_mhz": 10,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 327680,
+      "status": {
+        "offered": 8192,
+        "accepted": 7829,
+        "lost": 363,
+        "output_count": 7954,
+        "max_fifo": 512,
+        "first_lost_index_zero_based": 4797,
+        "first_lost_cycle": 74011,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": 4798,
+        "first_lost_time_us": 479.7009259259259,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 7954
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "FAIL"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "18310aa002836a4cba8ab16b9aa4b48f7b6269e9e86c009d659b8de642cf2c04",
+          "uncompressed_sha256": "8c19c0b731a1f2b710c401b42ebb525ba289c8352e257b255f8ea34f599af96f"
+        },
+        "due.hex.gz": {
+          "sha256": "446d0477a60ecbb87a763f9cc10f1f2dc5266b82d5c35fe6b21171ac319a486b",
+          "uncompressed_sha256": "62a9569a6161b862617a4fa5d7abcd53a1366dbd039c95c359aa36a8cb857d35"
+        },
+        "accepted.txt.gz": {
+          "sha256": "64a67e4a37e54dca8c3cfd1188c51b7d95ba27a991e0a3cbeb9aa4d51be402cc",
+          "uncompressed_sha256": "07693ef674c3e3a13d3ecff6b358f1161c8352f3883597dfae3607dd0783ce86"
+        },
+        "output.txt.gz": {
+          "sha256": "77009026b637765f0f13d628c0b1bc664b92096149a08af4cdaa060776840a37",
+          "uncompressed_sha256": "ac82037a80405f944d2c207b8380c1ca606d5be2e313214ccd165e60f62431e8"
+        }
+      },
+      "capacity": "REJECT",
+      "design_verification": "PASS"
+    },
+    {
+      "name": "residual-back-to-back-8",
+      "profile": "residual",
+      "fifo": true,
+      "samples": 32768,
+      "rate_mhz": 10,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 1310720,
+      "status": {
+        "offered": 32768,
+        "accepted": 29785,
+        "lost": 2983,
+        "output_count": 30258,
+        "max_fifo": 512,
+        "first_lost_index_zero_based": 4797,
+        "first_lost_cycle": 74011,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": 4798,
+        "first_lost_time_us": 479.7009259259259,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 30258
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "FAIL"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "34d6f7b57a458887c2c4e11d3895c83ab9d2ee279739156ba23744b1a9bab0f2",
+          "uncompressed_sha256": "4bf708f7c490bca76816250ac0c48b98e89624172011f19fc02dbce2669b64d7"
+        },
+        "due.hex.gz": {
+          "sha256": "e94af5ac67f0bffeda53f6ded52710aa23b2642a14bc286d98dc17b769f3d203",
+          "uncompressed_sha256": "c5da72fe4dc5dabb49cf179f644d29c69868ccf05f5c14360eb3cabd02fa329a"
+        },
+        "accepted.txt.gz": {
+          "sha256": "145dc90643ad350ab0d631d2704731c92faf65bda246558dd4f8b60421e584e3",
+          "uncompressed_sha256": "d18affeffc069673b657685cdcadf43555f3c07aa85b8308aa8650c51ae5c4e6"
+        },
+        "output.txt.gz": {
+          "sha256": "371f5e1682cce2339716a312ae884b1f198caaa0626e36233d78a19e626c485c",
+          "uncompressed_sha256": "11a669e32c12254d726b7a7992bf2c020561be23e448adf7360624d83c81e1c1"
+        }
+      },
+      "capacity": "REJECT",
+      "design_verification": "PASS"
+    },
+    {
+      "name": "residual-continuous-8M",
+      "profile": "residual",
+      "fifo": true,
+      "samples": 8192,
+      "rate_mhz": 8,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 327680,
+      "status": {
+        "offered": 8192,
+        "accepted": 8192,
+        "lost": 0,
+        "output_count": 8323,
+        "max_fifo": 1,
+        "first_lost_index_zero_based": -1,
+        "first_lost_cycle": -1,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": null,
+        "first_lost_time_us": null,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 8323
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "18310aa002836a4cba8ab16b9aa4b48f7b6269e9e86c009d659b8de642cf2c04",
+          "uncompressed_sha256": "8c19c0b731a1f2b710c401b42ebb525ba289c8352e257b255f8ea34f599af96f"
+        },
+        "due.hex.gz": {
+          "sha256": "083358b8de33aa9cddfd6e59435f8336db79506ab19424636c418810651f28fd",
+          "uncompressed_sha256": "7456035fd4770c6fa6507596acf6e1833ae8c98ea4fb78c6c2741fb71f19f509"
+        },
+        "accepted.txt.gz": {
+          "sha256": "b87d89275d365ec8f8199cb23f2fdcfbf7ad5a79941eff0eb93a9ada95997532",
+          "uncompressed_sha256": "6d49a533c0047374295e91357c2c359f18645bd0a10aec019516e425dd0ff772"
+        },
+        "output.txt.gz": {
+          "sha256": "b70cc025abc758ddf42a4804d3ec24272f4c0e09ca725ed5b854c56acff750fa",
+          "uncompressed_sha256": "40d0b878e380ac8b79c79cafc38835f56d36fa4926006b16bbfbeba178ce6d45"
+        }
+      },
+      "capacity": "PASS",
+      "design_verification": "PASS"
+    },
+    {
+      "name": "baseline-continuous-16M",
+      "profile": "baseline",
+      "fifo": true,
+      "samples": 8192,
+      "rate_mhz": 16,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 327680,
+      "status": {
+        "offered": 8192,
+        "accepted": 8192,
+        "lost": 0,
+        "output_count": 4162,
+        "max_fifo": 2,
+        "first_lost_index_zero_based": -1,
+        "first_lost_cycle": -1,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": null,
+        "first_lost_time_us": null,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 4162
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "cf08ce796c824bd14212f95b84cc48698dac9cc620f7c0e499f0a1cbb0a7f4c0",
+          "uncompressed_sha256": "f775d018b6e4a13cee424f0d09d397283636dafd4bfb249438f152ab85c5f80f"
+        },
+        "due.hex.gz": {
+          "sha256": "eeaa2769afb9af73ad665262049e62251bdf2bb355cf9be02ba7c0a4abd6f0e3",
+          "uncompressed_sha256": "366888eae7b1ede44b1a84cfd805af43f14e9086b9fc0a7b130246635ed855ae"
+        },
+        "accepted.txt.gz": {
+          "sha256": "473d10b6f586f793601dba4b40785ae51144f8e09c20efe8b3f67b37ca5a2ed6",
+          "uncompressed_sha256": "94bf36190355c00e91ce100b38320d017c59e0c83631f4af355c39c357d7b60c"
+        },
+        "output.txt.gz": {
+          "sha256": "6961fe5420938b9e1dac7012c6930fa7701e186fbf8ea73f87e46350fde9cf7a",
+          "uncompressed_sha256": "16c5d4ec49b53844ae75f74e21e094c6866463c6eb69c1162702ac836f2392b0"
+        }
+      },
+      "capacity": "PASS",
+      "design_verification": "PASS"
+    },
+    {
+      "name": "residual-core-stalled",
+      "profile": "residual",
+      "fifo": false,
+      "samples": 4096,
+      "rate_mhz": 100,
+      "backpressure": true,
+      "stall": true,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 266240,
+      "status": {
+        "offered": 4096,
+        "accepted": 4096,
+        "lost": 0,
+        "output_count": 4162,
+        "max_fifo": 0,
+        "first_lost_index_zero_based": -1,
+        "first_lost_cycle": -1,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": null,
+        "first_lost_time_us": null,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 4162
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "0d381bdc28b5a00d09bdf3fd13b1cda8bb3e947220411e91261cce364adea0e8",
+          "uncompressed_sha256": "89fc051fed449d1d44b1d91cab13808eaf21ab3da4c59c0c66f18bc3fc347821"
+        },
+        "due.hex.gz": {
+          "sha256": "d82d9e28c79cf547ec6422d77856e6c9f7a32b94fcf800f0b37a7dc5acd3e8a1",
+          "uncompressed_sha256": "cf8e4736f934746eba10ca396c1001e87a24d5e0c4a061d44a4ddb36dcbf0b54"
+        },
+        "accepted.txt.gz": {
+          "sha256": "5379d34e13428a959bb5d720290cd45f95afdc11873e4f93250da52553732ae5",
+          "uncompressed_sha256": "5685bd50ec8a280ab4f08e6db124d69cbef35213529b257fb063f11d41e5a60e"
+        },
+        "output.txt.gz": {
+          "sha256": "707756bf87ac7ca5fd8a4acb118e386fc79397736377ce535c649d842cbe4e4a",
+          "uncompressed_sha256": "f042026b0502a5e7e1e0dcbfbf6c1d2bbd79f269f4aae359829d888335d5553c"
+        }
+      },
+      "capacity": "PASS",
+      "design_verification": "PASS"
+    },
+    {
+      "name": "baseline-core-stalled",
+      "profile": "baseline",
+      "fifo": false,
+      "samples": 4096,
+      "rate_mhz": 100,
+      "backpressure": true,
+      "stall": true,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 266240,
+      "status": {
+        "offered": 4096,
+        "accepted": 4096,
+        "lost": 0,
+        "output_count": 2081,
+        "max_fifo": 0,
+        "first_lost_index_zero_based": -1,
+        "first_lost_cycle": -1,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": null,
+        "first_lost_time_us": null,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 2081
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "df1ccbb202b8d0a299657fe55aac1a8f77d4ceec00025bfe0f5d1867e38a43bf",
+          "uncompressed_sha256": "f61ad22960942747c2ffbe3c791c7b9f9e22d4d4df3fa4170d7a36fb5a4baad2"
+        },
+        "due.hex.gz": {
+          "sha256": "d82d9e28c79cf547ec6422d77856e6c9f7a32b94fcf800f0b37a7dc5acd3e8a1",
+          "uncompressed_sha256": "cf8e4736f934746eba10ca396c1001e87a24d5e0c4a061d44a4ddb36dcbf0b54"
+        },
+        "accepted.txt.gz": {
+          "sha256": "ca0ede45a071f3c7d260ac46345be9455d6bb72ced8692d7564a0f6639af6370",
+          "uncompressed_sha256": "63501d06f2d681e4ac9b1aa875b2611d8541f9405c831fade4dc8cf9cbfbb461"
+        },
+        "output.txt.gz": {
+          "sha256": "0f0bf121dc5273518dc2e8ea2d6174f1f3fcbf18e8714a8dbc50008323d3ca3a",
+          "uncompressed_sha256": "2d893dc50b86558f0d1e185d2f63b0eafbb7ec9080042e0ea907c1b0613bc9e3"
+        }
+      },
+      "capacity": "PASS",
+      "design_verification": "PASS"
+    },
+    {
+      "name": "residual-fifo-stalled",
+      "profile": "residual",
+      "fifo": true,
+      "samples": 4096,
+      "rate_mhz": 100,
+      "backpressure": true,
+      "stall": true,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 266240,
+      "status": {
+        "offered": 4096,
+        "accepted": 4096,
+        "lost": 0,
+        "output_count": 4162,
+        "max_fifo": 512,
+        "first_lost_index_zero_based": -1,
+        "first_lost_cycle": -1,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": null,
+        "first_lost_time_us": null,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 4162
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "0d381bdc28b5a00d09bdf3fd13b1cda8bb3e947220411e91261cce364adea0e8",
+          "uncompressed_sha256": "89fc051fed449d1d44b1d91cab13808eaf21ab3da4c59c0c66f18bc3fc347821"
+        },
+        "due.hex.gz": {
+          "sha256": "d82d9e28c79cf547ec6422d77856e6c9f7a32b94fcf800f0b37a7dc5acd3e8a1",
+          "uncompressed_sha256": "cf8e4736f934746eba10ca396c1001e87a24d5e0c4a061d44a4ddb36dcbf0b54"
+        },
+        "accepted.txt.gz": {
+          "sha256": "c697a4b02d2477891c8e1fabbfe76d8ef9393cc55fa18229a689003522ed1c3c",
+          "uncompressed_sha256": "e71b2f73f78cb485e3c05de72750855907cd470660b1785b6b6841f930d4ed11"
+        },
+        "output.txt.gz": {
+          "sha256": "42b50a84eedd8858ceece52f4f9d279af184290bb6ddd44c07976731de71d751",
+          "uncompressed_sha256": "25ec0476d4b8f0df592e5a6251d6c3d3ab43ef4b650a3591b487de15098ba59c"
+        }
+      },
+      "capacity": "PASS",
+      "design_verification": "PASS"
+    },
+    {
+      "name": "baseline-fifo-stalled",
+      "profile": "baseline",
+      "fifo": true,
+      "samples": 4096,
+      "rate_mhz": 100,
+      "backpressure": true,
+      "stall": true,
+      "clock_mhz": 154.28571428571428,
+      "timeout_cycles": 266240,
+      "status": {
+        "offered": 4096,
+        "accepted": 4096,
+        "lost": 0,
+        "output_count": 2081,
+        "max_fifo": 512,
+        "first_lost_index_zero_based": -1,
+        "first_lost_cycle": -1,
+        "stable_failures": 0,
+        "final_fifo": 0,
+        "first_lost_sample_one_based": null,
+        "first_lost_time_us": null,
+        "maximum_oracle_error": 0,
+        "expected_output_count": 2081
+      },
+      "checks": [
+        {
+          "name": "simulation_exit",
+          "status": "PASS"
+        },
+        {
+          "name": "all_stimuli_offered",
+          "status": "PASS"
+        },
+        {
+          "name": "accepted_input_is_ordered_subsequence",
+          "status": "PASS"
+        },
+        {
+          "name": "output_count_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "every_output_matches_integer_oracle",
+          "status": "PASS"
+        },
+        {
+          "name": "output_stable_while_stalled",
+          "status": "PASS"
+        },
+        {
+          "name": "fifo_bound_512_and_drained",
+          "status": "PASS"
+        },
+        {
+          "name": "lossless_input_capacity",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": {
+        "input.hex.gz": {
+          "sha256": "df1ccbb202b8d0a299657fe55aac1a8f77d4ceec00025bfe0f5d1867e38a43bf",
+          "uncompressed_sha256": "f61ad22960942747c2ffbe3c791c7b9f9e22d4d4df3fa4170d7a36fb5a4baad2"
+        },
+        "due.hex.gz": {
+          "sha256": "d82d9e28c79cf547ec6422d77856e6c9f7a32b94fcf800f0b37a7dc5acd3e8a1",
+          "uncompressed_sha256": "cf8e4736f934746eba10ca396c1001e87a24d5e0c4a061d44a4ddb36dcbf0b54"
+        },
+        "accepted.txt.gz": {
+          "sha256": "5d4266297b0ada18b0bd1f920e84bc989c895c5f8c2fae68479b601905a96a5e",
+          "uncompressed_sha256": "2268311ea46b5f3bb5ac545795a509ae31d6d3434ec006372c4f813278209e14"
+        },
+        "output.txt.gz": {
+          "sha256": "47ec3a89b1b9910bca3bea33c9a401fdedff06b242b6c3d872a16e169030a91c",
+          "uncompressed_sha256": "174c09c3b4d4d384f60b846bcef80e2625f9390ff4661fac1c1c0d77ec7e86bd"
+        }
+      },
+      "capacity": "PASS",
+      "design_verification": "PASS"
+    }
+  ],
+  "physical_timing_pass": false,
+  "source_sha256": {
+    "experiments/t_halfband_fpga/run_stream.py": "de9a65b1f44fd1852191a4ff0a2c43af42658292d8e92782e4e60e7207ba8944",
+    "experiments/t_halfband_fpga/coefficients.py": "12e472026e595cc697774a8c93ea1e7ec29a58867c29fbc8c677bc3c1917fc1d",
+    "experiments/t_halfband_fpga/resampler.sv": "a0c99d3938906d25f137be53e43a3c04b595fdc64fdd2b45b76ef1f9d22691ec",
+    "experiments/t_halfband_fpga/fifo_resampler.sv": "f9f046f10a9844e9e3a926fa4d5e6ba88bc8f383699dd2fa0d8fbde9431f860a",
+    "experiments/t_halfband_fpga/stream_tb.sv": "07272c35f8b6ffdbfa0c85849029e29241ea92db4a8b325858b92cd29e377ac4",
+    "experiments/t_halfband_fpga/coeff_baseline.hex": "ed4cc491e4718afb124966f28f8ee06a5ef9749eca6b71fff48118058d2cda98",
+    "experiments/t_halfband_fpga/coeff_residual.hex": "e7afd42839e5027a7a5230717b78cfd8a0871386bd4ea3474a9f1411bfe06620"
+  },
+  "design_verification": "PASS",
+  "unthrottled_2_and_8_frame_capacity": "REJECT"
+}
