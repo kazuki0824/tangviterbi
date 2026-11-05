@@ -10,7 +10,7 @@ module tb;
 reg clk=0,clock_run=1;always #5.555 if(clock_run)clk=~clk;
 reg rst=1,idle=1,locked=0,fault=0,iq=0;reg[31:0]offset=0;
 wire[15:0]ep;wire er,en,cf;reg sck=0,cs=0;reg[3:0]di=0;wire[3:0]dout;wire oe;
-s3_spi_control #(.IMAGE_ID(1),.BUILD_TAG(32'h1234abcd)) dut(clk,rst,idle,locked,fault,iq,offset,ep,er,en,cf,sck,cs,di,dout,oe);
+s3_spi_control #(.IMAGE_ID(1),.BUILD_TAG(32'h1234abcd)) dut(clk,rst,idle,locked,fault,iq,offset,3'b000,ep,er,en,cf,sck,cs,di,dout,oe);
 wire rv,rf;wire[35:0]tok;
 s3_spi_rx #(.LANES(4),.IGNORE_IQ_READ(1),.IGNORE_CONTROL(1)) rx(sck,cs,clk,rst,oe?dout:di,rv,1'b1,tok,rf);
 integer resets=0;reg[31:0]w[0:7];reg[7:0]b;

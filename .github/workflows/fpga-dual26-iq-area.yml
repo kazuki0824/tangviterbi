@@ -1,0 +1,28 @@
+name: Stage2 dual 26-pin IQ connected area
+on:
+  pull_request:
+    paths:
+      - 'rtl/dual_s3_26pin_iq_ingress_candidate.sv'
+      - 'rtl/dual_s3_26pin_transport_candidate.sv'
+      - 'ci/fpga_dual26_iq_area.py'
+      - '.github/workflows/fpga-dual26-iq-area.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  synth:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: python3 ci/fpga_dual26_iq_area.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-dual26-iq
+          path: |
+            build/fpga-dual26-iq/result.json
+            build/fpga-dual26-iq/yosys.log

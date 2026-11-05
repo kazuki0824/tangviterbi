@@ -1,0 +1,34 @@
+name: Stage2 FIR fixed-bank candidate comparison
+on:
+  pull_request:
+    paths:
+      - 'experiments/isdb_complex_fir33_banked.sv'
+      - 'tests/test_dual_banked_fir33.py'
+      - 'ci/fpga_fir_banked_compare.py'
+      - '.github/workflows/fpga-fir-banked-compare.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check bit exact T/S FIR output against independent convolution
+        run: python3 -m unittest tests.test_dual_complex_fir33 tests.test_dual_banked_fir33 -v
+      - name: Measure mapped baseline and banked FIR with same toolchain
+        if: always()
+        run: python3 ci/fpga_fir_banked_compare.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dual-banked-fir33-comparison
+          path: |
+            build/dual-banked-fir33/comparison.json
+            build/dual-banked-fir33/run.log
+            build/dual-banked-fir33/baseline-yosys.log
+            build/dual-banked-fir33/banked-yosys.log

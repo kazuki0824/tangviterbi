@@ -7,13 +7,14 @@ bool s3_control_decode(const uint8_t*p,uint32_t nonce,s3_control_status*s)
 {
  if(!p||!s)return false;
  uint32_t w[8];for(unsigned i=0;i<8;++i)w[i]=word(p+4*i);
- if(w[0]!=0x31534353||w[1]>>24!=1||((w[1]>>16)&255)>2||w[3]>31||w[4]!=nonce||w[7]||
+ if(w[0]!=0x31534353||w[1]>>24!=1||((w[1]>>16)&255)>2||w[3]>0x00ffffffu||w[4]!=nonce||w[7]||
   w[6]!=(w[0]^w[1]^w[2]^w[3]^w[4]^w[5]^0x96c39a5f))return false;
- *s=(s3_control_status){.image=(w[1]>>16)&255,.epoch=w[1]&65535,.IQ_offset=w[2],.flags=w[3],.build_tag=w[5],.nonce=w[4]};return true;
+ *s=(s3_control_status){.image=(w[1]>>16)&255,.epoch=w[1]&65535,.IQ_offset=w[2],.flags=w[3]&31,.credit_gray=(w[3]>>5)&7,.retired_pages=(w[3]>>8)&65535,.build_tag=w[5],.nonce=w[4]};return true;
 }
 bool s3_control_init(s3_control*s,s3_spi_port*p)
 {
- if(!s||!p||!p->device||p->busy||p->poisoned||p->sct||p->capacity!=1||p->lanes!=4||
+ if(!s||!p||!p->device||p->busy||p->poisoned||p->sct||p->capacity!=1||(p->lanes!=4&&p->lanes!=8)||
+  (p->lanes==8&&p->host!=SPI2_HOST)||
   !esp_ptr_internal(s)||!esp_ptr_internal((uint8_t*)s+sizeof(*s)-1))return false;
  memset(s,0,sizeof(*s));s->port=p;return true;
 }
@@ -22,7 +23,7 @@ static esp_err_t request(s3_control*s,unsigned kind,unsigned epoch,uint32_t arg)
  if(!s||s->fault||s->pending||!s->port||s->port->busy||s->port->poisoned)return ESP_ERR_INVALID_STATE;
  if(epoch>65535||(kind!=QUERY&&!epoch))return ESP_ERR_INVALID_ARG;
  s3_spi_port*p=s->port;spi_multi_transaction_t*d=p->segments;
- memset(d,0,sizeof(*d));d->base.flags=SPI_TRANS_MODE_QIO|SPI_TRANS_MULTILINE_CMD|SPI_TRANS_MULTILINE_ADDR|SPI_TRANS_DMA_BUFFER_ALIGN_MANUAL;
+ memset(d,0,sizeof(*d));d->base.flags=(p->lanes==8?SPI_TRANS_MODE_OCT:SPI_TRANS_MODE_QIO)|SPI_TRANS_MULTILINE_CMD|SPI_TRANS_MULTILINE_ADDR|SPI_TRANS_DMA_BUFFER_ALIGN_MANUAL;
  d->base.cmd=kind==QUERY?0xd71c:kind==EPOCH?0xd71d:0xd71e;
  d->base.addr=((uint64_t)epoch<<48)|((uint64_t)arg<<16)|(kind==QUERY?S3_CONTROL_BYTES:0);
  if(kind==QUERY){memset(s->payload,0,sizeof(s->payload));d->base.rx_buffer=s->payload;d->base.rxlength=S3_CONTROL_BYTES*8;}

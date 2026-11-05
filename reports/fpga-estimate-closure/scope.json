@@ -1,0 +1,417 @@
+{
+  "schema": "fpga-scope-v1",
+  "purpose": "Stage 1 only: freeze the finite receiver specification before FPGA area/deadline estimation.",
+  "baseline": {
+    "repository": "kazuki0824/tangviterbi",
+    "upstream_pr": 10,
+    "upstream_sha": "1fe8e006a33e146b358d244f0bade5908a4b258d",
+    "revision_utc": "2026-10-31",
+    "estimate_workstream": "only FPGA resource and timing for scenario ②"
+  },
+  "topology": {
+    "fpga": {
+      "board": "Tang Nano 20K (GW2AR-LV18QN88)",
+      "quantity": 1
+    },
+    "soc": {
+      "module": "ESP32-S3-WROOM-1U-N16R8",
+      "quantity": 2,
+      "roles": [
+        "ISDB-T",
+        "ISDB-S"
+      ]
+    },
+    "receiver": {
+      "t_and_s_simultaneously": true,
+      "t_and_s_share_single_fpga_image": true,
+      "rf_frontends": 2,
+      "tuner_types": [
+        "ISDB-T 13 segments",
+        "legacy ISDB-S"
+      ],
+      "isdb_s3": false,
+      "cas_or_av_decoder_included": false
+    },
+    "owner_rule": "Both S3 boards perform RF capture plus lossless I10/Q10 packing and onward transfer; 20K performs all demodulation/FEC and independent TS outputs; FPGA to S3 payload forbidden, control commands allowed.",
+    "forbidden_changes": [
+      "time sharing T/S bitstreams",
+      "down-sampling native input for transport",
+      "reducing I/Q effective bits",
+      "dropping layer/mode/modulation/TMCC",
+      "using ideal unlimited producer storage",
+      "using test fixture logic as receiver logic"
+    ]
+  },
+  "io": {
+    "t": {
+      "samples_per_second": 16000000,
+      "i_bits": 10,
+      "q_bits": 10,
+      "payload_Bps": 40000000,
+      "modes": [
+        1,
+        2,
+        3
+      ],
+      "segments": 13,
+      "guard_intervals": [
+        "1/4",
+        "1/8",
+        "1/16",
+        "1/32"
+      ],
+      "hierarchies_max": 3
+    },
+    "s": {
+      "samples_per_second": 40000000,
+      "i_bits": 10,
+      "q_bits": 10,
+      "payload_Bps": 100000000,
+      "modulations": [
+        "TC8PSK",
+        "BPSK",
+        "QPSK"
+      ],
+      "tmcc": true,
+      "slot_allocation_dynamic": true,
+      "alternative_80MSps": "separate sensitivity: not certified by 40-MSps estimate"
+    },
+    "outputs": {
+      "t": "separate continuous TS output",
+      "s": "separate continuous TS output",
+      "sink_ready_contract": "finite service/backpressure to be bounded; no unlimited sink stall guarantee"
+    },
+    "control": {
+      "fpga_to_soc": "control only",
+      "soc_to_fpga": "lossless I/Q with packet identity, epoch, length, error status and command acknowledgements"
+    }
+  },
+  "capacity": {
+    "logic_positions": 20736,
+    "ff_positions": 15552,
+    "bsram_blocks": 46,
+    "dsp18_units": 48,
+    "pll_count": 2,
+    "sdram_bytes": 8388608,
+    "board_available_header_signals_upper": 34,
+    "qualifier": "FPGA capacity and pin count; not an observed integrated fit"
+  },
+  "clock": {
+    "source_hz": 27000000,
+    "target_internal_hz": 154285714.2857143,
+    "same_clock": [
+      "FFT",
+      "K7",
+      "RS",
+      "SDRAM-controller user interface and internal arbitration"
+    ],
+    "sdram_pin_clock": "PLL-related 154.286-MHz candidate, phase unselected; PHY timing remains a condition",
+    "source_asynchronous": [
+      "S3-T input",
+      "S3-S input"
+    ],
+    "requirements": [
+      "post-route full-top core STA",
+      "external SDRAM setup/hold at data pins",
+      "S3 ingress CDC MTBF and finite buffering",
+      "PLL/reset bring-up constraints"
+    ],
+    "unknown_hardware": [
+      "actual SDRAM timing minima/maxima, pin delays and phase",
+      "board/cable pin loading and clocks"
+    ]
+  },
+  "required_stages": {
+    "t": [
+      {
+        "id": "t_fir_resample",
+        "name": "T FIR / resample",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "t_sync_gi",
+        "name": "T synchronization / GI",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "t_fft",
+        "name": "T tiled FFT",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3-t-buffer.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "t_equalize_demap",
+        "name": "T equalization / demap",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3-t-buffer.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "t_time_deinterleave",
+        "name": "T time-deinterleave",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3-t-buffer.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "t_viterbi",
+        "name": "T 3-layer K7/Viterbi",
+        "owner": "FPGA",
+        "source": "rtl/shared_k7_depuncture_stream.sv",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "t_rs",
+        "name": "T RS(204,188)",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "t_ts",
+        "name": "T TS packet output",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      }
+    ],
+    "s": [
+      {
+        "id": "s_fir",
+        "name": "S FIR",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "s_sync",
+        "name": "S synchronization / framing",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "s_inner",
+        "name": "S TC8PSK and BPSK/QPSK inner decoder",
+        "owner": "FPGA",
+        "source": "rtl/s_tc8psk_chain.sv",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "s_frame_deinterleave",
+        "name": "S frame/slot deinterleave",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3-s-frame-dma.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "s_rs",
+        "name": "S RS(204,188)",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      },
+      {
+        "id": "s_ts",
+        "name": "S TS packet output",
+        "owner": "FPGA",
+        "source": "reports/20k-dual-s3.md",
+        "area": "not_integrated",
+        "deadline": "not_integrated"
+      }
+    ]
+  },
+  "required_support": [
+    {
+      "id": "t_ingress_unpack",
+      "name": "T ingress, framing, reversible I/Q unpack",
+      "source": "rtl/s3_iq10_unpack.sv",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "s_ingress_unpack",
+      "name": "S ingress, framing, reversible I/Q unpack",
+      "source": "rtl/s3_iq10_unpack.sv",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "dual_cdc",
+      "name": "two independent external source clock boundaries",
+      "source": "rtl/s3_async_fifo.sv",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "tmcc_slot",
+      "name": "S TMCC / modulation and slot dispatch",
+      "source": "reports/20k-dual-s3.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "k7_arbitration",
+      "name": "four-context depuncture and shared K7 arbitration",
+      "source": "rtl/shared_k7_depuncture_stream.sv",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "rs_arbitration",
+      "name": "shared T/S/TMCC RS service / output ordering",
+      "source": "reports/20k-dual-s3-progress.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "fft_sdram",
+      "name": "tiled FFT and external SDRAM service",
+      "source": "rtl/sdf_sdram_service.sv",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "t_1symbol_hold",
+      "name": "T 1-symbol upper holding and ownership",
+      "source": "reports/20k-dual-s3-t-buffer.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "s_frame_buffers",
+      "name": "S two-superframe slot buffers and ownership",
+      "source": "reports/20k-dual-s3-s-frame-dma.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "producer_backpressure",
+      "name": "all producer-side finite holds and CDC credit propagation",
+      "source": "reports/background-holding-budget.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "sdram_phy",
+      "name": "SDRAM command timing and PLL/physical pin constraints",
+      "source": "reports/sdram-spec-gate.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "clock_reset",
+      "name": "single internal clock/PLL and all asynchronous resets",
+      "source": "reports/common-clock-audit.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "ts_pin_sinks",
+      "name": "two independent TS outputs and finite-sink service",
+      "source": "reports/20k-dual-s3.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "board_pin_mux",
+      "name": "Tang Nano 20K pin mapping and external load",
+      "source": "reports/20k-dual-s3.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    },
+    {
+      "id": "runtime_state",
+      "name": "start/stop/tune/epoch/locking, diagnostics and fault recovery",
+      "source": "reports/receiver-integrated-estimate/README.md",
+      "area": "reconcile",
+      "deadline": "reconcile"
+    }
+  ],
+  "physical_probes": {
+    "legacy_area": {
+      "logic_positions": 20472,
+      "bsram_blocks": 46,
+      "classification": "conditional pre-integration budget, not full-top measured"
+    },
+    "partial_pnr": {
+      "fmax_MHz": 166.2234,
+      "design_target_MHz": 154.285714,
+      "classification": "routed partial fixture; excludes real connected RF/equalizer/interleavers/RS/TS/SDRAM PHY"
+    },
+    "full_top_area": {
+      "value": null,
+      "classification": "unmeasured"
+    },
+    "full_top_timing": {
+      "value": null,
+      "classification": "unmeasured"
+    }
+  },
+  "known_unclosed": [
+    "connected T and S ingress with finite CDC credits",
+    "T FIR/synchronization/equalization/demapping completeness",
+    "S FIR/synchronization and all BPSK/QPSK/TC8PSK/TMCC/slot handling",
+    "actual T three-layer K7 and S context grant combined under arrival bursts",
+    "T/S/TMCC shared RS and full-output queue ownership",
+    "S frame and T deinterleave producer holding and lifetime proof",
+    "FFT/SDRAM controller/refresh/grant interference under actual T/S producers",
+    "external SDRAM command and input/output PHY timing",
+    "two simultaneously active TS packetizer and output service contracts",
+    "clock-domain reset, PLL, pin and physical I/O constraints",
+    "direct FPGA all-top synthesis/placement/route and real resource reconciliation",
+    "all-mode/hierarchy/GI and S slot arrival phases and long-run timing bounds"
+  ],
+  "external_validation_not_equivalent_to_stage2": [
+    "S3 real native RF 16/40 MSa/s capture and wire continuity",
+    "S3 CPU actual worst-case time/stack/interrupt/PHY interactions",
+    "RF quality, channel tune/lock, signal BER/MER/CN",
+    "board RF antenna conversion and two physical RF frontends",
+    "continuous hardware simultaneous T/S transport stream capture"
+  ],
+  "evidence_paths": [
+    "reports/20k-dual-s3.md",
+    "reports/partition-recheck-20261023/README.md",
+    "reports/partition-recheck-20261023/all-boundaries.md",
+    "reports/receiver-integrated-estimate/README.md",
+    "reports/sdram-spec-gate.md",
+    "reports/common-clock-audit.md",
+    "reports/cursor-mask-route-comparison/README.md",
+    "reports/background-holding-budget.md",
+    "reports/20k-dual-s3-s-frame-dma.md",
+    "reports/20k-dual-s3-t-buffer.md",
+    "reports/sdf-sdram-service-budget.md"
+  ],
+  "stage_gates": {
+    "stage1": "all finite scope, required source paths, excluded real-hardware claims, area/deadline unknowns and physical input/clock contracts checked without first-failure exit",
+    "stage2": "each mandatory block priced exactly once including common logic, FIFO and observability removal; all physical resource classes bounded and receiver-top fit/overflow decided",
+    "stage3": "same RTL ownership and resource model with bounded all-client timing, finite memories and eligible operating modes; misses retained as hard negatives",
+    "stage4": "one consistent full-top combined evidence, synth/P&R/STA and deadlines cross-checked; no switching to missing functionality",
+    "stage5": "all static conditions enumerated, CI artifacts and PR recorded; separate estimate-completion vs performance-pass flags"
+  },
+  "stage1_can_be_closed_without_hardware": true,
+  "stage2_complete": false,
+  "stage3_complete": false,
+  "stage4_complete": false,
+  "stage5_complete": false,
+  "receiver_adopted": false,
+  "hardware_verified": false
+}

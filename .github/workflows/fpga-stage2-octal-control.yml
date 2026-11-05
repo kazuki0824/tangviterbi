@@ -1,0 +1,31 @@
+name: Stage2 Octal control protocol
+on:
+  pull_request:
+    paths:
+      - 'rtl/s3_spi_control.sv'
+      - 'tests/test_fpga_octal_control.py'
+      - 'experiments/s3_control.c'
+      - 'experiments/s3_control.h'
+      - 'tests/test_s3_control.py'
+      - 'tests/s3_control_host.c'
+      - '.github/workflows/fpga-stage2-octal-control.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test old Quad and new Octal control wire protocol
+        run: python3 -m unittest tests.test_fpga_octal_control tests.test_s3_control -v
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-octal-control-tests
+          path: build/fpga-octal-control/run.log

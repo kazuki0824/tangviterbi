@@ -1,0 +1,23 @@
+name: Stage2 block inventory audit
+on:
+  pull_request:
+    paths:
+      - 'reports/fpga-estimate-closure/block-inventory.json'
+      - 'ci/fpga_stage2_block_inventory.py'
+      - 'tests/test_fpga_stage2_block_inventory.py'
+      - '.github/workflows/fpga-stage2-block-inventory.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - run: python3 -m unittest tests.test_fpga_stage2_block_inventory -v
+      - run: python3 ci/fpga_stage2_block_inventory.py > block-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-block-audit
+          path: block-audit.json
