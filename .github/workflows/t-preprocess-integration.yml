@@ -89,6 +89,9 @@ jobs:
           failed=0
           source "$IDF_PATH/export.sh" > "$sdk/export.log" 2>&1
           if (( $? )); then failed=1; fi
+          # The container user differs from the checkout workspace owner.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE" > "$sdk/git-setup.log" 2>&1
+          if (( $? )); then failed=1; fi
           python -m pip install pyelftools==0.32 numpy==2.3.5 > "$sdk/python-setup.log" 2>&1
           if (( $? )); then failed=1; fi
           tpre_toolchain="$IDF_TOOLS_PATH/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf"
@@ -108,7 +111,7 @@ jobs:
           check "$sdk/static-audit.log" python ci/t_preprocess_sdk_audit.py --idf "$IDF_PATH" --toolchain "$tpre_toolchain" --elf "$sdk/t_preprocess_integration_probe.elf.gz" --config "$sdk/sdkconfig.json.gz" --provenance "$sdk/provenance.json" --output "$sdk/audit.json"
           check "$runtime/cost-audit.log" python ci/t_preprocess_runtime_costs.py --toolchain "$tpre_toolchain" --rom "$tpre_rom" --elf "$sdk/t_preprocess_integration_probe.elf.gz" --sdk-audit "$sdk/audit.json" --provenance "$sdk/provenance.json" --output "$runtime/costs.json"
           check "$runtime/runtime-audit.log" python ci/t_preprocess_runtime_audit.py --costs "$runtime/costs.json" --output "$runtime/results.json"
-          check "$runtime/cost-negative.log" env TPRE_TOOLCHAIN="$tpre_toolchain" TPRE_ROM_ELF="$tpre_rom" TPRE_SDK_ELF="$sdk/t_preprocess_integration_probe.elf.gz" TPRE_SDK_AUDIT="$sdk/audit.json" TPRE_SDK_PROVENANCE="$sdk/provenance.json" python -m unittest tests.test_t_preprocess_costs -v
+          check "$runtime/cost-negative.log" env TPRE_TOOLCHAIN="$tpre_toolchain" TPRE_ROM_ELF="$tpre_rom" TPRE_SDK_ELF="$sdk/t_preprocess_integration_probe.elf.gz" TPRE_SDK_AUDIT="$sdk/audit.json" TPRE_SDK_PROVENANCE="$sdk/provenance.json" python -m unittest discover -s tests -p test_t_preprocess_costs.py -v
           exit "$failed"
       - uses: actions/upload-artifact@v4
         if: always()
