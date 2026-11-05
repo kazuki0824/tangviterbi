@@ -1,5 +1,6 @@
 """Same-C semantics and strict evidence gating for the fresh finite model."""
 import copy
+import gzip
 import json
 from pathlib import Path
 import subprocess
@@ -36,6 +37,21 @@ class RuntimeModelTests(unittest.TestCase):
         self.assertGreater(row['destroyed_banks'],0)
         self.assertFalse(row['complete_processing_and_dma_drain'])
         self.assertGreater(row['unconsumed_accepted_words'],0)
+
+    def test_qio_data_keeps_command_and_address_single_lane(self):
+        row=audit.execute(self.binary,{'id':'wire_header_regression','banks':8})
+        # 32,768 data clocks +16 command clocks +64 address clocks, at 3 CPU cycles each.
+        self.assertEqual(row['wire_cycles_per_frame'],98544)
+        self.assertGreater(row['wire_intervals_observed'],0)
+        self.assertEqual(row['wire_interval_min_cycles'],98544)
+        self.assertEqual(row['wire_interval_max_cycles'],98544)
+        self.assertEqual(audit.SPI_WIRE['command_lines'],1)
+        self.assertEqual(audit.SPI_WIRE['address_lines'],1)
+        self.assertEqual(audit.model_step_envelope(audit.PROVISIONAL)['wire_cycles'],98544)
+        wrong=dict(audit.SPI_WIRE,command_lines=4,address_lines=4)
+        errors=audit.verify_costs({'model':{'spi_wire':wrong}})
+        for field in ('command_lines','address_lines'):
+            self.assertIn('linked SPI wire geometry mismatch: '+field,errors)
 
     def test_queue_and_publication_faults(self):
         for injection in (1,2,3,4,6,7,8,9):
@@ -90,8 +106,18 @@ class RuntimeModelTests(unittest.TestCase):
         for name in required:
             with self.subTest(required=name):
                 self.assertTrue(any(name in error and error.startswith('unbound') for error in errors))
-        for artifact in ('t_preprocess_integration_probe.elf.gz','sdk/audit.json','sdk/provenance.json'):
+        for artifact in ('t_preprocess_integration_probe.elf.gz','sdk/audit.json','sdk/provenance.json','runtime/cost-evidence.json.gz'):
             self.assertTrue(any(artifact in error and error.startswith('unbound selected artifact:') for error in errors))
+
+    def test_cost_witness_binding_and_maps_are_required(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'cost-evidence.json.gz'
+            path.write_bytes(gzip.compress(b'{}',mtime=0))
+            errors=audit.verify_costs({'evidence_path':str(path),'evidence_sha256':'0'*64})
+            self.assertIn('costs do not bind the actual compressed witness bytes',errors)
+            for name in ('paths','sdk_paths','sdk_relocations','irq_paths'):
+                self.assertIn('missing or empty cost witness map: '+name,errors)
+            self.assertIn('unbound selected artifact: '+str(path),errors)
 
     def test_early_scenario_failure_does_not_skip_later_cases(self):
         # No target evidence is asserted here: this tests non-fail-fast control.

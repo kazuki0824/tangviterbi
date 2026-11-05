@@ -1,0 +1,50 @@
+PASS linked_cost_evidence []
+PASS fee_schema_complete []
+PASS same_C_host_build_UBSan
+PASS owner_init_and_fatal_contracts
+PASS derived_model_step_envelope
+PASS nominal_finite_8 []
+PASS nominal_candidate_100 []
+PASS nominal_without_source_destruction []
+PASS stall_10_percent []
+PASS clock_error_floor_240 []
+PASS clock_error_assumed_1024 []
+PASS phy_cpu1_1000_cycles_phase_190000 []
+PASS phy_cpu1_10000_cycles_phase_190000 []
+PASS phy_cpu1_50000_cycles_phase_190000 []
+PASS phy_cpu1_50000_cycles_phase_2400000 []
+PASS diagnostic_bound_10000 []
+PASS submit_failure_retains_lease []
+PASS wrong_completion_sequence []
+PASS owner_feed_failure []
+PASS worker_feed_failure []
+PASS clock_failure []
+PASS dma_corruption_detected []
+PASS raw_corruption_detected []
+PASS worker_sequence_failure []
+PASS derived_bound_sensitivity []
+PASS diagnostic_prepare_1024 []
+PASS source_destruction_preserves_complete_trace
+PASS all_model_source_hashes []
+nominal_finite_8 {'banks': 8, 'adapter_fault': 0, 'native_fault': 0, 'task_fault': 0, 'outcome': 0, 'max_sampled_core0_step': 12923}
+nominal_candidate_100 {'banks': 25, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14302}
+nominal_without_source_destruction {'banks': 25, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14302}
+stall_10_percent {'banks': 7, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14220}
+clock_error_floor_240 {'banks': 19, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14302}
+clock_error_assumed_1024 {'banks': 23, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14301}
+phy_cpu1_1000_cycles_phase_190000 {'banks': 24, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14302}
+phy_cpu1_10000_cycles_phase_190000 {'banks': 25, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14302}
+phy_cpu1_50000_cycles_phase_190000 {'banks': 18, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14272}
+phy_cpu1_50000_cycles_phase_2400000 {'banks': 13, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 12923}
+diagnostic_bound_10000 {'banks': 1, 'adapter_fault': 6, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 10124}
+submit_failure_retains_lease {'banks': 1, 'adapter_fault': 0, 'native_fault': 0, 'task_fault': 10, 'outcome': 0, 'max_sampled_core0_step': 10124}
+wrong_completion_sequence {'banks': 2, 'adapter_fault': 0, 'native_fault': 0, 'task_fault': 7, 'outcome': 0, 'max_sampled_core0_step': 11503}
+owner_feed_failure {'banks': 1, 'adapter_fault': 0, 'native_fault': 0, 'task_fault': 11, 'outcome': 0, 'max_sampled_core0_step': 239}
+worker_feed_failure {'banks': 1, 'adapter_fault': 0, 'native_fault': 0, 'task_fault': 14, 'outcome': 0, 'max_sampled_core0_step': 239}
+clock_failure {'banks': 1, 'adapter_fault': 0, 'native_fault': 8, 'task_fault': 1, 'outcome': 0, 'max_sampled_core0_step': 10124}
+dma_corruption_detected {'banks': 2, 'adapter_fault': 0, 'native_fault': 0, 'task_fault': 0, 'outcome': 91, 'max_sampled_core0_step': 11503}
+raw_corruption_detected {'banks': 1, 'adapter_fault': 0, 'native_fault': 0, 'task_fault': 0, 'outcome': 99, 'max_sampled_core0_step': 10124}
+worker_sequence_failure {'banks': 1, 'adapter_fault': 0, 'native_fault': 0, 'task_fault': 13, 'outcome': 0, 'max_sampled_core0_step': 10124}
+derived_bound_sensitivity {'banks': 25, 'adapter_fault': 4, 'native_fault': 0, 'task_fault': 5, 'outcome': 0, 'max_sampled_core0_step': 14302}
+diagnostic_prepare_1024 {'banks': 31, 'adapter_fault': 0, 'native_fault': 5, 'task_fault': 1, 'outcome': 0, 'max_sampled_core0_step': 14301}
+MODEL_NG {'PASS': 28, 'FAIL': 0, 'BLOCKED': 0}

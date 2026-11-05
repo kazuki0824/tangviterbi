@@ -49,7 +49,7 @@ main componentだけに `-mno-disable-hardware-atomics` を適用する。SDK接
 
 ## 実装した起動と停止
 
-SDK接続は、8個の16KiB内部DMA frame、pipeline、adapter、runtime、native captureを所有する一回限りの実行を対象とする。呼出側はこれらとstack/TCBの分離、および実行・停止処理が終わるまでの寿命を確保する。SPI3はQuad80MHz、送信キュー深さ2。80MHzの実際の選択値もAPIで確認する。`0xd711` と16-bit command／64-bit addressは診断用の通信envelopeであり、正式な受信機のパーサ契約を採用したものではない。
+SDK接続は、8個の16KiB内部DMA frame、pipeline、adapter、runtime、native captureを所有する一回限りの実行を対象とする。呼出側はこれらとstack/TCBの分離、および実行・停止処理が終わるまでの寿命を確保する。SPI3はQuad80MHz、送信キュー深さ2。80MHzの実際の選択値もAPIで確認する。`0xd711` と16-bit command／64-bit addressは診断用の通信envelopeであり、正式な受信機のパーサ契約を採用したものではない。 transactionのflagsは `SPI_TRANS_MODE_QIO` のみで、`SPI_TRANS_MULTILINE_CMD`／`SPI_TRANS_MULTILINE_ADDR` は付けていない。固定IDFの `spi_master.c` はこの場合、dataを4線、command/addressを1線に設定する。16KiBのpayloadは98,304 CPU cycles、80-bitのheaderは240 cyclesとなり、CPU240MHzでのwire時間は **98,544 cycles**（410.6µs）。これに別途SDKの開始・完了処理と待ちが加わる。
 
 workerをcore1に作成してからownerをcore0に作成する。各taskはRF-offで共通clockをcalibrateし、CP3 warmupを実行する。workerがtick sleepを終えて常時awakeのgateに入ったことをownerへ通知した後、ownerが再calibrateしてRFを開始する。実測したclock errorをruntimeへ渡す。
 

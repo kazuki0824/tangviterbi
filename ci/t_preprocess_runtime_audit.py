@@ -15,6 +15,9 @@ import tempfile
 ROOT=Path(__file__).resolve().parents[1]
 DEST=ROOT/'reports/s3-t-preprocess-integration-v2/runtime'
 RECONSTRUCTION='fresh-2026-11-05'
+SPI_WIRE={'command_bits':16,'address_bits':64,'command_lines':1,'address_lines':1,
+          'data_lines':4,'clock_hz':80000000,'core_hz':240000000,'frame_bytes':16384,
+          'wire_cycles':98544}
 CATEGORIES=['OWNER','WORKER','CLOCK','HB_PRODUCE','HB_WORK','HB_REAP','HB_BUSY',
             'HB_WORK_EMPTY','HB_REAP_EMPTY','NATIVE_BASE','NATIVE_PREPARE',
             'NATIVE_SWITCH','NATIVE_ACCEPT','FILL','NATIVE_HELPER','ADAPTER','COPY',
@@ -68,6 +71,7 @@ COST_DEPENDENCIES=[
     'ci/s3_irq_entry_audit.py','ci/s3_tick_cost_audit.py',
     'reports/s3-sdk-cost-ledger/results.json',
     'reports/s3-spi-running-guard/sdk-S/image/s3_raw_probe.elf.gz',
+    'reports/s3-spi-running-guard/sdk-S/image/result.json',
 ]
 MODEL_SOURCES=HOST_C_SOURCES+[
     'experiments/t_preprocess_capacity/halfband31_host.c',
@@ -119,6 +123,11 @@ def verify_costs(document):
     if document.get('status')!='READY':errors.append('linked cost evidence status is not READY')
     fees=document.get('fees',{})
     errors.extend(fee_schema_errors(fees))
+    model=document.get('model',{});model=model if isinstance(model,dict) else {}
+    wire=model.get('spi_wire',{});wire=wire if isinstance(wire,dict) else {}
+    for name,expected in SPI_WIRE.items():
+        if type(wire.get(name)) is not int or wire.get(name)!=expected:
+            errors.append('linked SPI wire geometry mismatch: '+name)
     hashes=document.get('source_sha256',{})
     if not isinstance(hashes,dict):errors.append('source_sha256 must be an object');hashes={}
     for name in TARGET_SOURCES:
@@ -126,8 +135,10 @@ def verify_costs(document):
     for name in COST_DEPENDENCIES:
         if name not in hashes:errors.append('unbound cost derivation input: '+name)
     sdk=ROOT/'reports/s3-t-preprocess-integration-v2/sdk'
+    if not document.get('evidence_path'):errors.append('missing linked cost witness evidence_path')
     for field,default in [('linked_elf_path',sdk/'t_preprocess_integration_probe.elf.gz'),
-                          ('sdk_audit_path',sdk/'audit.json'),('provenance_path',sdk/'provenance.json')]:
+                          ('sdk_audit_path',sdk/'audit.json'),('provenance_path',sdk/'provenance.json'),
+                          ('evidence_path',DEST/'cost-evidence.json.gz')]:
         try:
             name=source_key(path_value(document.get(field),default))
             if name not in hashes:errors.append('unbound selected artifact: '+name)
@@ -175,6 +186,19 @@ def verify_costs(document):
         if not isinstance(provenance,dict):raise ValueError('provenance must be an object')
         if provenance.get('provided_elf_sha256')!=linked:errors.append('build provenance does not bind this ELF')
     except (OSError,ValueError) as exc:errors.append('build provenance unavailable: '+repr(exc))
+    try:
+        path=path_value(document.get('evidence_path'),DEST/'cost-evidence.json.gz')
+        raw=path.read_bytes()
+        if hashlib.sha256(raw).hexdigest()!=document.get('evidence_sha256'):
+            errors.append('costs do not bind the actual compressed witness bytes')
+        witness=json.loads(gzip.decompress(raw) if path.suffix=='.gz' else raw)
+        if not isinstance(witness,dict):raise ValueError('cost witness must be an object')
+        if witness.get('schema_version')!=2:errors.append('cost witness schema_version must be 2')
+        if witness.get('linked_elf_sha256')!=linked:errors.append('cost witness does not bind this linked ELF')
+        for name in ('paths','sdk_paths','sdk_relocations','irq_paths'):
+            if not isinstance(witness.get(name),dict) or not witness[name]:
+                errors.append('missing or empty cost witness map: '+name)
+    except (OSError,ValueError,EOFError) as exc:errors.append('linked cost witness unavailable: '+repr(exc))
     return errors
 
 
@@ -302,11 +326,11 @@ def model_step_envelope(fees,clock_error=0):
     copied=shared+max(maxima)+fees['ADAPTER_PUBLISH']+max(fees['HB_PRODUCE'],fees['HB_BUSY'])
     spi=max(fees[n] for n in ('IRQ_FIRST','IRQ_START','IRQ_COMPLETE','IRQ_CHAIN'))
     total=max(direct,copied)+spi+fees['TICK0']+clock_error
-    if total>=98364 or total>=2400000:raise ValueError('one-SPI/one-tick interval premise does not hold')
+    if total>=SPI_WIRE['wire_cycles'] or total>=2400000:raise ValueError('one-SPI/one-tick interval premise does not hold')
     return {'bound':total,'clock_error':clock_error,'max_copy_and_advance_by_chunk_count':maxima,
             'base_step_max':max(direct,copied),'direct_step_max':direct,'copied_step_max':copied,
             'spi_one_service_max':spi,'tick_one_service_max':fees['TICK0'],
-            'copy_partition_words':1024,'max_copy_chunks':6,'wire_cycles':98364,'tick_period_cycles':2400000,
+            'copy_partition_words':1024,'max_copy_chunks':6,'wire_cycles':SPI_WIRE['wire_cycles'],'tick_period_cycles':2400000,
             'is_target_WCET':False,'includes_other_ISR_NMI_or_bus_stalls':False}
 
 
@@ -410,6 +434,11 @@ def classify_stop(row):
 
 def row_errors(row,case):
     errors=[]
+    if row['wire_cycles_per_frame']!=SPI_WIRE['wire_cycles']:
+        errors.append('host wire geometry differs from fixed linked candidate')
+    if row['wire_intervals_observed'] and any(row[k]!=SPI_WIRE['wire_cycles'] for k in
+            ('wire_interval_min_cycles','wire_interval_max_cycles')):
+        errors.append('observed virtual wire interval differs from single-lane header timing')
     for key in ('ledger_identities','elapsed_identities'):
         if not all(row[key]):errors.append(key)
     for key in ('source_conservation','output_conservation','all_worked_blocks_oracle_checked',
@@ -515,6 +544,7 @@ def run_audit(cost_document,allow_provisional=False):
         'non_fail_fast':True,'audit_status':'PASS' if not counts['FAIL'] and not counts['BLOCKED'] else 'FAIL' if counts['FAIL'] else 'BLOCKED',
         'candidate_status':decision,'candidate_decision_scenarios':['nominal_candidate_100','clock_error_floor_240'],
         'finite_pass_definition':'Requested accepted-bank observation window without faults; does not mean all accepted samples were processed or DMA drained.',
+        'spi_wire':SPI_WIRE,
         'check_summary':counts,'checks':checks,'rows':rows,'source_sha256':hashes,
         'cost_document_canonical_sha256':hashlib.sha256(json.dumps(cost_document,sort_keys=True).encode()).hexdigest(),
         'derived_model_step_envelope':envelope,'target_timing_measured':False,'silicon_WCET_proven':False,
@@ -525,7 +555,7 @@ def run_audit(cost_document,allow_provisional=False):
             'Ideal undocumented RF ABI and non-sentinel input. Ideal-clock diagnostic has error0; minimum calibration floor240 and assumed1024 are separate scenarios. Actual launch error is measured only on hardware.',
             'Recovered nine-phase owner, actual native sentinel preparation, per-poll cap1024 and per-iteration budget2048; SDK queue callbacks are event models with linked fees.',
             'Source release and READY/DONE occur after charged work. This is operation-boundary interleaving, not instruction-level target simulation.',
-            'SPI3 quad80MHz,16KiB+80bit wire,two descriptors. Core0 level1 SPI/tick services serialize; simultaneous new arrivals select tick first. An already finishing SPI service may publish at its completion boundary when a tick arrives.',
+            'SPI3 data quad80MHz,16KiB payload plus single-lane command16/address64:98544 cycles at240MHz;two descriptors. Core0 level1 SPI/tick services serialize; simultaneous new arrivals select tick first. An already finishing SPI service may publish at its completion boundary when a tick arrives.',
             'Cache-enabled reception assumed. No transitive cache-off ISR safety proof. Owner23,worker21,timer22 are caller-selected model priorities.',
             'Tick100Hz no-switch paths. PHY sensitivity uses CPU1 timer task,1000ms period,explicit first phase and supplied task dispatch/context/callback duration; ticks preempt it. CPU0 timer ISR/IPI and other ISR/NMI are unpriced. No PHY WCET is established.',
             'Declared core0 admission bound20000 is not an execution lower bound. Counterfactual BASE fees exclude both task stalls and interrupts; source-copy release may precede whole-step completion.',

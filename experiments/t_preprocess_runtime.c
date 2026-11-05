@@ -11,6 +11,8 @@
 #include <ucontext.h>
 
 enum { CTRL=0x60033d5c, INDEX=0x60033d60, SELECT=0x600c101c, WORDS=16384 };
+/* MODE_QIO alone widens data, not the 16-bit command or 64-bit address. */
+enum { WIRE_CYCLES=(TPRE_FRAME_BYTES*8/4+16+64)*3 };
 static _Alignas(16) uint32_t raw[3][WORDS];
 static _Alignas(16) uint8_t payload[TPRE_FRAMES][TPRE_FRAME_BYTES+16];
 static hbpipe pipeline;
@@ -49,6 +51,7 @@ static transaction queue[2];
 static unsigned qhead, qcount, launch_count, irq_kind, irq_slot, irq_chain, active_slot=2;
 static uint64_t spi_event=UINT64_MAX, wire_done=UINT64_MAX, irq_end=UINT64_MAX;
 static uint64_t wire_completions, dma_reaps, spi_starts;
+static uint64_t wire_started_at, wire_intervals, wire_min=UINT64_MAX, wire_max;
 typedef struct {
     uint64_t cycles, accepted, consumed, charged[2];
     unsigned block_next, block_reap, owned, bank;
@@ -319,6 +322,9 @@ static void spi_interrupt(void) {
         interrupt_charge(0,M_SPI_IRQ,fee);irq_end=core0_irq_service_until;
     } else if(now==wire_done) {
         wire_done=UINT64_MAX;if(active_slot>=2){broken(109);return;}
+        uint64_t interval=now-wire_started_at;wire_intervals++;
+        if(interval<wire_min)wire_min=interval;
+        if(interval>wire_max)wire_max=interval;
         irq_slot=active_slot;irq_kind=2;irq_chain=next_queued()>=0;
         uint64_t fee=irq_chain?COST_IRQ_CHAIN:COST_IRQ_COMPLETE;
         interrupt_charge(0,M_SPI_IRQ,fee);irq_end=core0_irq_service_until;
@@ -331,7 +337,8 @@ static void spi_interrupt(void) {
         int next=irq_kind==1?(int)irq_slot:irq_chain?next_queued():-1;
         if(next>=0) {
             active_slot=(unsigned)next;queue[next].state=Q_WIRE;spi_starts++;
-            wire_done=now+((uint64_t)TPRE_FRAME_BYTES*8+80)*3/4;
+            wire_started_at=now;
+            wire_done=now+WIRE_CYCLES;
         }
     }
 }
@@ -381,6 +388,8 @@ static void report(uint64_t first_phy_cycle) {
     printf("{\"requested_banks\":%u,\"banks\":%u,\"cycles_at_owner_stop\":%"PRIu64",\"cycles_at_worker_ack\":%"PRIu64",\"observed_until_cycles\":%"PRIu64",",requested_banks,capture.unit,stop_cycle,ack_cycle,now);
     printf("\"native_fault\":%u,\"adapter_fault\":%u,\"task_fault\":%u,\"outcome\":%u,\"injection\":%u,\"injection_executed\":%s,\"stopped\":[%u,%u],\"rf_stopped\":%s,",capture.fault,adapter.fault,atomic_load(&runtime.fault),outcome,inject,injected?"true":"false",stopped[0],stopped[1],rf_on?"false":"true");
     printf("\"prepare_per_iteration\":%u,\"prepare_per_poll\":1024,\"declared_step_bound\":%u,\"stall_percent\":%u,\"clock_error\":%u,\"phy_duration_cycles\":%u,\"phy_period_ms\":1000,\"phy_core\":1,\"phy_first_cycle\":%"PRIu64",\"phase_at_stop\":%u,",TPRE_PREPARE_WORDS_PER_ITERATION,bound,stall_percent,clock_error,phy_cycles,first_phy_cycle,fail_phase);
+    printf("\"wire_cycles_per_frame\":%u,",(unsigned)WIRE_CYCLES);
+    printf("\"wire_intervals_observed\":%"PRIu64",\"wire_interval_min_cycles\":%"PRIu64",\"wire_interval_max_cycles\":%"PRIu64",",wire_intervals,wire_intervals?wire_min:0,wire_max);
     printf("\"rf_samples\":%"PRIu64",\"accepted_words\":%"PRIu64",\"consumed_words\":%"PRIu64",\"produced_words\":%"PRIu64",\"carry_words\":%u,\"retained_source_banks\":%u,\"released_banks\":%"PRIu64",\"destroyed_banks\":%"PRIu64",",rf_samples,accepted_words,adapter.consumed_samples,adapter.produced_samples,adapter.fill,owned,released_banks,destroyed_banks);
     printf("\"blocks_produced\":%u,\"blocks_worked\":%u,\"blocks_reaped\":%u,\"blocks_oracle_checked\":%"PRIu64",\"complex_outputs_checked\":%"PRIu64",\"frames_submitted\":%u,\"frames_reaped\":%u,\"wire_completed\":%"PRIu64",\"dma_count\":%u,\"queue_count\":%u,\"max_dma_count\":%u,\"max_owned_banks\":%u,",runtime.block_next,pipeline.consume_next,runtime.block_reap,checked_blocks,checked_blocks*HBPIPE_OUTPUT,runtime.submit_next,runtime.complete_next,wire_completions,runtime.dma_count,qcount,max_dma_count,max_owned_banks);
     printf("\"frame_states\":[%u,%u,%u,%u],\"pipeline_states\":[%u,%u],\"copied_words\":%"PRIu64",\"copy_segments\":%"PRIu64",\"copy_wraps\":%"PRIu64",\"raw_words_checked\":%"PRIu64",\"retained_carry_words_checked\":%u,",states[0],states[1],states[2],states[3],hbpipe_status(&pipeline,0),hbpipe_status(&pipeline,1),copied_words,copy_segments,copy_wraps,raw_words_checked,adapter.fill);

@@ -6,13 +6,26 @@ on:
       - 'experiments/t_preprocess_integration_probe/**'
       - 'experiments/t_preprocess_runtime.c'
       - 'experiments/t_halfband_fpga/**'
+      - 'experiments/s3_capture_bridge.*'
+      - 'experiments/s3_cycle_clock.*'
+      - 'experiments/s3_native_capture.*'
+      - 'experiments/s3_transport.h'
       - 'ci/t_native_adapter_audit.py'
       - 'ci/t_preprocess_*.py'
-      - 'ci/t_halfband_fpga_audit.py'
+      - 'ci/t_halfband_*.py'
+      - 'ci/s3_sdk_cost_*.py'
+      - 'ci/s3_irq_entry_audit.py'
+      - 'ci/s3_tick_cost_audit.py'
       - 'tests/test_t_native_adapter.py'
       - 'tests/t_native_adapter_host.c'
-      - 'tests/test_t_preprocess_runtime.py'
+      - 'tests/test_t_preprocess*.py'
       - 'reports/s3-t-preprocess-integration-v2/**'
+      - 'reports/s3-preprocess-break-even/original-fir-model.json'
+      - 'reports/s3-t-preprocess-integration/README.md'
+      - 'reports/s3-t-preprocess-integration/recovered-source/**'
+      - 'reports/s3-sdk-cost-ledger/results.json'
+      - 'reports/s3-spi-running-guard/sdk-S/image/s3_raw_probe.elf.gz'
+      - 'reports/s3-spi-running-guard/sdk-S/image/result.json'
       - '.github/workflows/t-preprocess-integration.yml'
   workflow_dispatch:
 permissions:
@@ -28,25 +41,145 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install numpy==2.3.5
-      - name: Verify reconstructed native input and recovered coefficients
+      - run: python -m pip install numpy==2.3.5 msgpack==1.2.1 pyelftools==0.32
+      - name: Verify host semantics, coefficients, and retained resource counts
         if: always()
         shell: bash
         run: |
-          mkdir -p build/t-preprocess-host
           set +e
-          python -m unittest tests.test_t_native_adapter -v
-          unit_status=$?
-          python ci/t_native_adapter_audit.py --output build/t-preprocess-host/native.json
-          native_status=$?
-          python experiments/t_halfband_fpga/coefficients.py --output build/t-preprocess-host/coefficients.json
-          coefficient_status=$?
-          if (( unit_status || native_status || coefficient_status )); then
-            exit 1
-          fi
+          out=build/t-preprocess/host
+          mkdir -p "$out"
+          failed=0
+          check() {
+            local label="$1"
+            shift
+            "$@" 2>&1 | tee "$out/$label.log"
+            local result=${PIPESTATUS[0]}
+            if (( result )); then failed=1; fi
+          }
+          check native-unit python -m unittest tests.test_t_native_adapter -v
+          check runtime-unit python -m unittest tests.test_t_preprocess_runtime -v
+          check sdk-unit python -m unittest tests.test_t_preprocess_sdk_audit -v
+          check costs-unit python -m unittest tests.test_t_preprocess_costs -v
+          check native-audit python ci/t_native_adapter_audit.py --output "$out/native.json"
+          check coefficients python experiments/t_halfband_fpga/coefficients.py --output "$out/coefficient-recovery.json"
+          check resource-recount python experiments/t_halfband_fpga/resource_audit.py --cad reports/s3-t-preprocess-integration-v2/quality-fpga/cad --output "$out/resource-audit.json"
+          exit "$failed"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: t-preprocess-host
-          path: build/t-preprocess-host/
+          path: build/t-preprocess/host/
+          retention-days: 30
+  sdk:
+    runs-on: ubuntu-latest
+    container: espressif/idf:v5.5.1
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Rebuild SDK image and audit fresh linked runtime costs
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          sdk=build/t-preprocess/sdk
+          runtime=build/t-preprocess/runtime
+          mkdir -p "$sdk" "$runtime"
+          failed=0
+          source "$IDF_PATH/export.sh" > "$sdk/export.log" 2>&1
+          if (( $? )); then failed=1; fi
+          python -m pip install pyelftools==0.32 numpy==2.3.5 > "$sdk/python-setup.log" 2>&1
+          if (( $? )); then failed=1; fi
+          tpre_toolchain="$IDF_TOOLS_PATH/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf"
+          tpre_rom="$IDF_TOOLS_PATH/tools/esp-rom-elfs/20241011/esp32s3_rev0_rom.elf"
+          if [[ ! -f "$tpre_rom" ]]; then
+            python "$IDF_PATH/tools/idf_tools.py" install esp-rom-elfs > "$sdk/rom-install.log" 2>&1
+            if (( $? )); then failed=1; fi
+          fi
+          check() {
+            local log="$1"
+            shift
+            "$@" 2>&1 | tee "$log"
+            local result=${PIPESTATUS[0]}
+            if (( result )); then failed=1; fi
+          }
+          check "$sdk/package.log" python experiments/t_preprocess_integration_probe/build_probe.py --idf "$IDF_PATH" --toolchain "$tpre_toolchain" --idf-tools "$IDF_TOOLS_PATH" --python-env "$IDF_PYTHON_ENV_PATH" --config reports/s3-t-preprocess-integration-v2/sdk/sdkconfig.gz --output "$sdk"
+          check "$sdk/static-audit.log" python ci/t_preprocess_sdk_audit.py --idf "$IDF_PATH" --toolchain "$tpre_toolchain" --elf "$sdk/t_preprocess_integration_probe.elf.gz" --config "$sdk/sdkconfig.json.gz" --provenance "$sdk/provenance.json" --output "$sdk/audit.json"
+          check "$runtime/cost-audit.log" python ci/t_preprocess_runtime_costs.py --toolchain "$tpre_toolchain" --rom "$tpre_rom" --elf "$sdk/t_preprocess_integration_probe.elf.gz" --sdk-audit "$sdk/audit.json" --provenance "$sdk/provenance.json" --output "$runtime/costs.json"
+          check "$runtime/runtime-audit.log" python ci/t_preprocess_runtime_audit.py --costs "$runtime/costs.json" --output "$runtime/results.json"
+          check "$runtime/cost-negative.log" env TPRE_TOOLCHAIN="$tpre_toolchain" TPRE_ROM_ELF="$tpre_rom" TPRE_SDK_ELF="$sdk/t_preprocess_integration_probe.elf.gz" TPRE_SDK_AUDIT="$sdk/audit.json" TPRE_SDK_PROVENANCE="$sdk/provenance.json" python -m unittest tests.test_t_preprocess_costs -v
+          exit "$failed"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: t-preprocess-sdk-runtime
+          path: |
+            build/t-preprocess/sdk/
+            build/t-preprocess/runtime/
+          retention-days: 30
+  fpga:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy==2.3.5 msgpack==1.2.1
+      - name: Fetch and verify both official CAD suites
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          tools=build/t-fpga-tools
+          out=build/t-preprocess/fpga
+          mkdir -p "$tools/pinned" "$tools/current" "$out"
+          failed=0
+          fetch_suite() {
+            local release="$1" stamp="$2" digest="$3" destination="$4"
+            local archive="$tools/oss-cad-suite-linux-x64-$stamp.tgz"
+            curl --fail --location --retry 3 "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/$release/oss-cad-suite-linux-x64-$stamp.tgz" --output "$archive" > "$out/download-$stamp.log" 2>&1
+            local downloaded=$?
+            printf '%s  %s\n' "$digest" "$archive" | sha256sum --check - >> "$out/download-$stamp.log" 2>&1
+            local verified=$?
+            if (( downloaded || verified )); then failed=1; return; fi
+            tar -xzf "$archive" -C "$destination" >> "$out/download-$stamp.log" 2>&1
+            if (( $? )); then failed=1; fi
+          }
+          fetch_suite 2026-10-04 20261004 8a4708629b0f0afd5a1835aca8b44d224fec5f6e544c5fd22a060ea5514f83c9 "$tools/pinned"
+          fetch_suite 2026-11-03 20261103 f991f2b5a8204028100cf3ad2d14d97c005ce14b903b50edf71399da99b417ed "$tools/current"
+          exit "$failed"
+      - name: Reproduce finite stream, quality, and timing coverage evidence
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          retained=reports/s3-t-preprocess-integration-v2/quality-fpga/cad
+          out=build/t-preprocess/fpga
+          pinned="$GITHUB_WORKSPACE/build/t-fpga-tools/pinned/oss-cad-suite"
+          current="$GITHUB_WORKSPACE/build/t-fpga-tools/current/oss-cad-suite"
+          mkdir -p "$out"
+          failed=0
+          check() {
+            local label="$1"
+            shift
+            "$@" 2>&1 | tee "$out/$label.log"
+            local result=${PIPESTATUS[0]}
+            if (( result )); then failed=1; fi
+          }
+          check coefficients python experiments/t_halfband_fpga/coefficients.py --output "$out/coefficient-recovery.json"
+          check resources python experiments/t_halfband_fpga/resource_audit.py --cad "$retained" --output "$out/resource-audit.json"
+          check stream python experiments/t_halfband_fpga/run_stream.py --suite "$pinned" --output "$out/stream"
+          check quality python experiments/t_halfband_fpga/quality.py --output "$out/quality"
+          check contract python experiments/t_halfband_fpga/contract_evidence.py --output "$out/quality/contract-evidence.json"
+          check timing python experiments/t_halfband_fpga/timing_coverage.py --suite "$pinned" --source-cache build/t-fpga-tools/nextpnr-pinned --cad "$retained" --output "$out/timing"
+          check supplement python experiments/t_halfband_fpga/supplement_timing.py --suite "$current" --input "$retained/residual-fifo" --output "$out/cad-20261103" --source-cache build/t-fpga-tools/nextpnr-current
+          check audit python ci/t_halfband_fpga_audit.py --evidence "$out" --retained-cad "$retained"
+          check robustness python experiments/t_halfband_fpga/verify_non_fail_fast.py --evidence "$out" --retained-cad "$retained" --output "$out/audit-robustness.json"
+          exit "$failed"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: t-preprocess-fpga
+          path: build/t-preprocess/fpga/
           retention-days: 30
