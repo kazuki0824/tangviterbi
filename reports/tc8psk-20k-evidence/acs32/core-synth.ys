@@ -1,0 +1,3 @@
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/reports/tc8psk-20k-evidence/acs32/survivor.sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/s3_tc8psk_metric_folded.sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/s_tc8psk_chain.sv
+synth_gowin -family gw2a -top s_tc8psk_chain -nowidelut -json /workspace/scratch/3793ea63b22e/tangviterbi/reports/tc8psk-20k-evidence/acs32/core-mapped.json
+check -assert

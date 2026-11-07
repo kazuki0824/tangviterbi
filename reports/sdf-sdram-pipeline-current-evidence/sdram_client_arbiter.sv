@@ -1,0 +1,61 @@
+// Single outstanding SDRAM transaction. Client 5 (FFT) has priority at each
+// selection; clients 0..4 use round robin. No starvation bound is claimed.
+// Sources must hold valid/address/data/mask until ready. Selection is locked
+// before presenting a request, and ownership persists until response consumption.
+// Payload storage remains in each producer and dual_sdram_burst, not duplicated.
+module sdram_client_arbiter(
+ input wire clk,resetn,
+ input wire [5:0] client_valid,output wire [5:0] client_ready,
+ input wire [5:0] client_write,input wire [125:0] client_address,
+ input wire [1535:0] client_data,input wire [191:0] client_dqm,
+ output wire [5:0] client_rsp_valid,input wire [5:0] client_rsp_ready,
+ output wire [255:0] client_rsp_data,
+ output wire req_valid,input wire req_ready,output reg req_write,
+ output reg [20:0] req_address,output reg [255:0] req_data,
+ output reg [31:0] req_dqm,input wire rsp_valid,output wire rsp_ready,
+ input wire [255:0] rsp_data
+);
+ localparam SELECT=0,ISSUE=1,RESPONSE=2;
+ reg [1:0] state;
+ reg [5:0] owner;
+ reg [2:0] rr;
+ reg [5:0] chosen;
+ integer offset,index,k;
+ always @* begin
+  chosen=0;index=0;
+  if(client_valid[5])chosen=6'b100000;
+  else for(offset=0;offset<5;offset=offset+1)begin
+   index=rr+offset;
+   if(index>=5)index=index-5;
+   if(chosen==0 && client_valid[index])chosen[index]=1'b1;
+  end
+  req_write=0;req_address=0;req_data=0;req_dqm=0;
+  for(k=0;k<6;k=k+1)begin
+   req_write=req_write | (owner[k] & client_write[k]);
+   req_address=req_address | ({21{owner[k]}} & client_address[k*21+:21]);
+   req_data=req_data | ({256{owner[k]}} & client_data[k*256+:256]);
+   req_dqm=req_dqm | ({32{owner[k]}} & client_dqm[k*32+:32]);
+  end
+ end
+ assign req_valid=resetn && state==ISSUE && |(owner & client_valid);
+ assign client_ready=owner & {6{resetn && state==ISSUE && req_ready}};
+ assign client_rsp_valid=owner & {6{resetn && state==RESPONSE && rsp_valid}};
+ assign rsp_ready=resetn && state==RESPONSE && |(owner & client_rsp_ready);
+ assign client_rsp_data=rsp_data;
+ always @(posedge clk)begin
+  if(!resetn)begin state<=SELECT;owner<=0;rr<=0;end
+  else case(state)
+   SELECT:if(|chosen)begin owner<=chosen;state<=ISSUE;end
+   ISSUE:if(req_valid && req_ready)begin
+    state<=RESPONSE;
+    // FFT service does not reset the background round-robin cursor.
+    if(owner[0])rr<=1;
+    if(owner[1])rr<=2;
+    if(owner[2])rr<=3;
+    if(owner[3])rr<=4;
+    if(owner[4])rr<=0;
+   end
+   RESPONSE:if(rsp_valid && rsp_ready)begin state<=SELECT;owner<=0;end
+  endcase
+ end
+endmodule

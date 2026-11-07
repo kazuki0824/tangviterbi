@@ -1,0 +1,83 @@
+{
+  "mapped_sha256": "b61f7b955b55eb4b8c6417f0d59d5992ee39aa2d31ecc816b3c7aea5e9fbacf7",
+  "failed_cells": [
+    {
+      "name": "dut.fft.in_valid_DFFRE_Q",
+      "type": "DFFRE",
+      "source": "/workspace/scratch/3793ea63b22e/tangviterbi/experiments/shared_receiver_fft_tile_compact_bram_probe.sv:1672.2-1678.5|/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:43.8-43.68",
+      "connections": {
+        "CE": [
+          554
+        ],
+        "CLK": [
+          7
+        ],
+        "D": [
+          684
+        ],
+        "Q": [
+          1669
+        ],
+        "RESET": [
+          10
+        ]
+      },
+      "aliases": [
+        {
+          "name": "dut.fft.in_valid",
+          "index": 0,
+          "width": 1
+        },
+        {
+          "name": "observe_mem.0.0_DI_2",
+          "index": 2,
+          "width": 4
+        },
+        {
+          "name": "scan_next",
+          "index": 3,
+          "width": 1297
+        }
+      ],
+      "probe_source": true
+    },
+    {
+      "name": "dut.fft.active_mode_DFFE_Q",
+      "type": "DFFE",
+      "source": "/workspace/scratch/3793ea63b22e/tangviterbi/rtl/shared_sdf_fft.sv:137.2-186.5|/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:19.7-19.56",
+      "connections": {
+        "CE": [
+          10
+        ],
+        "CLK": [
+          7
+        ],
+        "D": [
+          684
+        ],
+        "Q": [
+          685
+        ]
+      },
+      "aliases": [
+        {
+          "name": "dut.fft.active_mode",
+          "index": 1,
+          "width": 2
+        },
+        {
+          "name": "dut.fft.position[3].previous_valid_LUT4_I0_F",
+          "index": 1,
+          "width": 4
+        }
+      ],
+      "probe_source": false
+    }
+  ],
+  "prebuffer_failure_mapping": {
+    "cell": "ff_input_identity_127",
+    "ff": "dut.fft.active_mode_DFFE_Q",
+    "old_D": 684,
+    "new_D": 28896
+  }
+}

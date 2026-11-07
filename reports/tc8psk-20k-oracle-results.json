@@ -1,0 +1,105 @@
+{
+  "scope": "Existing independent Q15 geometry/ACS tests rerun for the TC8PSK audit.",
+  "test_command": "python -m unittest tests.test_s3_tc8psk_metric.MetricTest.test_folded_all_quadrants_and_stalls tests.test_s3_tc8psk_arithmetic.ArithmeticTest.test_q15_12_bits_against_unbounded_oracle_and_13_bits -v",
+  "metric_input_pairs": 4145,
+  "ACS_oracle": {
+    "q15_contract": true,
+    "epochs": 5,
+    "symbols": 10240,
+    "state_checks": 655360,
+    "maximum_observed_candidate_difference": 766,
+    "metric_width": 12,
+    "oracle": "unbounded Python integer ACS using independent 171/133 encoder",
+    "rtl_sha256": "7327bac155b406ddd8ff400e74f7ea7580e4393b345e60f58569c0b03531f7a2",
+    "input_sha256": "fe66c31a9494e6fab24fccd1034db589e13c85a3793637563155dfca812fb4d5",
+    "result": "pass",
+    "receiver_adopted": false,
+    "geometric_proof": {
+      "input_range": [
+        -32768,
+        32767
+      ],
+      "cost_shift": 22,
+      "input_precision_changed": false,
+      "vertices": [
+        [
+          "-32768",
+          "-32768"
+        ],
+        [
+          "-32768",
+          "0"
+        ],
+        [
+          "-32768",
+          "32767"
+        ],
+        [
+          "-32767",
+          "32767"
+        ],
+        [
+          "0",
+          "-32768"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "32767"
+        ],
+        [
+          "32767",
+          "-32768"
+        ],
+        [
+          "32767",
+          "-32767"
+        ],
+        [
+          "32767",
+          "0"
+        ],
+        [
+          "32767",
+          "32767"
+        ]
+      ],
+      "absolute_projection_difference_bounds": {
+        "1": 1073741824,
+        "2": 1073741824,
+        "3": 1518469120
+      },
+      "rounded_branch_difference_bounds": {
+        "0": 0,
+        "1": 256,
+        "2": 256,
+        "3": 363
+      },
+      "encoder_impulse_label_xor": [
+        3,
+        1,
+        0,
+        3,
+        3,
+        2,
+        3
+      ],
+      "merging_candidate_difference_bound": 1964,
+      "half_modulus": 2048,
+      "smallest_width_certified_by_this_bound": 12,
+      "scope": "only fixed Q15 metric unit, equal initial metrics and 171/133 K7 trellis; not arbitrary 9-bit costs"
+    }
+  },
+  "source_sha256": {
+    "tests/test_s3_tc8psk_metric.py": "653213d05ffa6d0eb8646379320139649cbedc272cb7602e0e44b364e3d6117f",
+    "tests/test_s3_tc8psk_arithmetic.py": "2dc830161402b403b2683eb27310f6132384e8500b0aa51d2ae5858a28903caa",
+    "experiments/s3_tc8psk_metric_bound.py": "3ba0aff5ffbdf6118cd080407152727d8853a59eb3138bd984e49289090daec6",
+    "experiments/s3_tc8psk.py": "e1b05412cb19e4ae39fc5e4c8b69c93669b7cc1a631888b26303f22cae5110e2",
+    "experiments/s3_viterbi_traceback.py": "24737f8f5c715d6a33c803e115d953cd5dd5adf119edc42c5997e35a43451d96",
+    "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1"
+  },
+  "test_log_sha256": "9c09b076afaebefa25b0a9066953b78fd07480983feca619333f1b5ce7013b8e"
+}

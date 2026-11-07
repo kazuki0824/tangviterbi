@@ -1,0 +1,163 @@
+{
+  "scope": "Join recorded measurements; never promote a partial core to a receiver.",
+  "variants": [
+    {
+      "name": "refresh-predecode",
+      "actual_FFT": false,
+      "measured_partial": {
+        "pnr_exit": 0,
+        "route_completed": true,
+        "partial_target_pass": true,
+        "logic_with_ram_blockers": 11474,
+        "FF_sites_with_ram_blockers": 5371,
+        "BSRAM": 6,
+        "DSP18": 2,
+        "fmax": {
+          "dut.clk": {
+            "achieved": 156.73980712890625,
+            "constraint": 154.28570556640625
+          }
+        }
+      },
+      "mixed_diagnostic": {
+        "logic": 20043,
+        "FF": 12121,
+        "BSRAM": 44,
+        "DSP18": 34
+      },
+      "remaining_stages_are_allocations": true,
+      "adopted": false
+    },
+    {
+      "name": "fft",
+      "actual_FFT": true,
+      "measured_partial": {
+        "pnr_exit": 1,
+        "route_completed": true,
+        "partial_target_pass": false,
+        "logic_with_ram_blockers": 14039,
+        "FF_sites_with_ram_blockers": 6776,
+        "BSRAM": 16,
+        "DSP18": 6,
+        "fmax": {
+          "dut.clk": {
+            "achieved": 132.9964141845703,
+            "constraint": 154.28570556640625
+          }
+        }
+      },
+      "mixed_diagnostic": {
+        "logic": 19879,
+        "FF": 12024,
+        "BSRAM": 44,
+        "DSP18": 34
+      },
+      "remaining_stages_are_allocations": true,
+      "adopted": false
+    },
+    {
+      "name": "fft-refresh",
+      "actual_FFT": true,
+      "measured_partial": {
+        "pnr_exit": 1,
+        "route_completed": true,
+        "partial_target_pass": false,
+        "logic_with_ram_blockers": 13947,
+        "FF_sites_with_ram_blockers": 6777,
+        "BSRAM": 16,
+        "DSP18": 6,
+        "fmax": {
+          "dut.clk": {
+            "achieved": 124.34718322753906,
+            "constraint": 154.28570556640625
+          }
+        }
+      },
+      "mixed_diagnostic": {
+        "logic": 19787,
+        "FF": 12025,
+        "BSRAM": 44,
+        "DSP18": 34
+      },
+      "remaining_stages_are_allocations": true,
+      "adopted": false
+    },
+    {
+      "name": "fft-metadata-refresh",
+      "actual_FFT": true,
+      "measured_partial": {
+        "pnr_exit": 1,
+        "route_completed": true,
+        "partial_target_pass": false,
+        "logic_with_ram_blockers": 14175,
+        "FF_sites_with_ram_blockers": 6801,
+        "BSRAM": 16,
+        "DSP18": 6,
+        "fmax": {
+          "dut.clk": {
+            "achieved": 146.22019958496094,
+            "constraint": 154.28570556640625
+          }
+        }
+      },
+      "mixed_diagnostic": {
+        "logic": 20015,
+        "FF": 12049,
+        "BSRAM": 44,
+        "DSP18": 34
+      },
+      "remaining_stages_are_allocations": true,
+      "adopted": false
+    },
+    {
+      "name": "fft-beat-hold",
+      "actual_FFT": true,
+      "measured_partial": {
+        "pnr_exit": 1,
+        "route_completed": true,
+        "partial_target_pass": false,
+        "logic_with_ram_blockers": 14079,
+        "FF_sites_with_ram_blockers": 6801,
+        "BSRAM": 16,
+        "DSP18": 6,
+        "fmax": {
+          "dut.clk": {
+            "achieved": 139.19821166992188,
+            "constraint": 154.28570556640625
+          }
+        }
+      },
+      "mixed_diagnostic": {
+        "logic": 19919,
+        "FF": 12049,
+        "BSRAM": 44,
+        "DSP18": 34
+      },
+      "remaining_stages_are_allocations": true,
+      "adopted": false
+    }
+  ],
+  "whole_receiver_verified": false,
+  "formal_routes": 0,
+  "adopted_receivers": 0,
+  "scenario1_resumed": false,
+  "resource_overlay_is_not_a_lower_bound": true,
+  "extra_software_decimation_or_requantization": false,
+  "external_IO_STA_verified": false,
+  "S3_WCET_verified": false,
+  "evidence_sha256": {
+    "reports/shared-receiver-refresh-predecode-evidence/summary.json": "d3902b7c7def7235159403be13c751305db15aff14784af4939978b2324ef4e8",
+    "reports/shared-receiver-fft-evidence/summary.json": "a8c2fc3ba9c73f72666e956a881acd7e439fdd660178d23c22a57493f70e24af",
+    "reports/shared-receiver-fft-refresh-evidence/summary.json": "60526c16c3098fb7839cde6293badd608f6779b51a3c60aeff0785db5194ae47",
+    "reports/shared-receiver-fft-metadata-refresh-evidence/summary.json": "a037daf0287f33920e4586618eaaead155d249e6f933146fb76002c5f4e4d876",
+    "reports/shared-receiver-fft-beat-hold-evidence/summary.json": "3c4c612ff3c94c4c9ed69add56b3468f785b10ddd374f2a4b5c32ef2851eb9e2"
+  },
+  "supplemental_source_sha256": {
+    "rtl/shared_sdf_fft.sv": "9bc1a576fb1c59176bef64779126277a77c6d57357d15da543fa928d2b04fec8",
+    "reports/pr7-fft-archive/rtl/research_sdf_quarter_q16.hex": "47a095f8da170d9cd717709a98e5380711013690bc6bb52e2768ebca3fc40a5d",
+    "reports/pr7-fft-archive/experiments/research_sdf_oracle.py": "dca43dfccf93f6e85fd39968ece9a2c5ab8ed5fa54ae7bfe016e4fc19af509d4",
+    "tests/test_shared_sdf_fft.py": "22135acbd8b84fe81efaed4976ec358d5f25c348863292f31af63c44467f6b22",
+    "tests/test_sdf_delay_cache.py": "c5fb2211e578903f284fa19f89e3237307d2178c0d45226552f83d517d3cd6fe",
+    "tests/test_common_clock_sdram.py": "23f5f46839a09f25714af2e3223df2819dc095062116b5489de1e9ac1bd14338"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "upstream_commit": "e2fe86b3ce6feaa3f09d8db5c0971c1cda3fc641",
+  "scope": "Rules of this pinned nextpnr backend, not a universal FPGA or all-mapping impossibility proof.",
+  "sources": {
+    "himbaechel/uarch/gowin/gowin.cc": {
+      "url": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3ce6feaa3f09d8db5c0971c1cda3fc641/himbaechel/uarch/gowin/gowin.cc",
+      "sha256": "f099ca741589287dc58ac62bdb7ba51586b8010c29265576058e2c8f7e1dd2f5"
+    },
+    "himbaechel/uarch/gowin/pack_luts.cc": {
+      "url": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3ce6feaa3f09d8db5c0971c1cda3fc641/himbaechel/uarch/gowin/pack_luts.cc",
+      "sha256": "7e23e3e3cf987e4211c75db6e5e96a78bbff9ebb95518fc50c826b9a0c17decf"
+    }
+  },
+  "rules": [
+    {
+      "file": "himbaechel/uarch/gowin/gowin.cc",
+      "lines": "1198-1256",
+      "rule": "create_passthrough_luts inserts a local LUT for an FF with no local LUT/ALU/RAM source; called after placement at line 926."
+    },
+    {
+      "file": "himbaechel/uarch/gowin/gowin.cc",
+      "lines": "1414-1435",
+      "rule": "FF D must equal the colocated LUT F or ALU SUM. One output can colocate with at most one FF."
+    },
+    {
+      "file": "himbaechel/uarch/gowin/pack_luts.cc",
+      "lines": "590-632",
+      "rule": "SSRAM creates four storage LUT cells and blocks four additional LUT sites and six FF sites on this device."
+    }
+  ],
+  "not_counted_constraints": [
+    "CE/reset type and net compatibility",
+    "ALU adjacency and carry chains",
+    "LUT indices without FF sites",
+    "routing and timing"
+  ]
+}

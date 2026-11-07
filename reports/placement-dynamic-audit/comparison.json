@@ -1,0 +1,104 @@
+{
+  "scope": "Compare source-built control/instrumented placement with saved official run.",
+  "mapped_sha256": "0be03abf0a4f121f4088d9360d43887958355acdaf19b39d7f0fb35976f89bec",
+  "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+  "runs": {
+    "official": {
+      "exit": 125,
+      "seconds": null,
+      "binary_sha256": "b8a76c74e615fa915dfbe460c15aaf0f419756e67d64e0c08cfd906b9f445be1",
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'dut.fft.in_valid_DFFRE_Q' of type 'DFFRE' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "counters": {},
+      "route_completed": false
+    },
+    "control": {
+      "exit": 125,
+      "seconds": 40.085305022001194,
+      "binary_sha256": "95f006c1c1335842200245a7deb34fb2068ae97e5124add01dfec4bc7489ce5e",
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'dut.fft.in_valid_DFFRE_Q' of type 'DFFRE' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "counters": {},
+      "route_completed": false
+    },
+    "instrumented": {
+      "exit": 125,
+      "seconds": 41.70151406700097,
+      "binary_sha256": "d8b1beaed8d04be2219e2bc5341e502aa55fe7382890f9c8865c84ac624aa84a",
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'dut.fft.in_valid_DFFRE_Q' of type 'DFFRE' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ],
+      "counters": {
+        "alu_lut_same_site": {
+          "all": 0,
+          "target": 0
+        },
+        "ram_ff_block": {
+          "all": 0,
+          "target": 0
+        },
+        "ram_ff67_block": {
+          "all": 0,
+          "target": 0
+        },
+        "ram_lut_block": {
+          "all": 0,
+          "target": 0
+        },
+        "ram_alu_block": {
+          "all": 0,
+          "target": 0
+        },
+        "adjacent_alu_mode": {
+          "all": 0,
+          "target": 0
+        },
+        "ff_data_source": {
+          "all": 92736143,
+          "target": 22726
+        },
+        "ff_type": {
+          "all": 6286804,
+          "target": 4
+        },
+        "ff_lsr": {
+          "all": 27569,
+          "target": 0
+        },
+        "ff_clock": {
+          "all": 0,
+          "target": 0
+        },
+        "ff_enable": {
+          "all": 5532221,
+          "target": 2
+        },
+        "ff67_lsr": {
+          "all": 0,
+          "target": 0
+        },
+        "ff67_clock": {
+          "all": 0,
+          "target": 0
+        },
+        "ff67_enable": {
+          "all": 0,
+          "target": 0
+        },
+        "accepted": {
+          "all": 101060,
+          "target": 0
+        }
+      },
+      "route_completed": false
+    }
+  },
+  "same_failure": true,
+  "source_sha256": {
+    "ci/gowin_placement_diagnostics.py": "a3f351921528293a6ee8305cfaa23ec19a7e11786c28c35f177be9296c1e18d7",
+    "ci/patch_gowin_placement_counters.py": "8ec129edd39b6894c358f695537f35fd4fe8ffcb29e1d9303edc55e94dfc4886"
+  },
+  "whole_receiver_verified": false
+}

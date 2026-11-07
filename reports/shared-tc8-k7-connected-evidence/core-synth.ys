@@ -1,0 +1,3 @@
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/shared_tc8_k7_context.sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/s3_depuncture.sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/s3_tc8psk_metric_folded.sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/shared_tc8_k7_stream.sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/shared_tc8_k7_depuncture_stream.sv
+synth_gowin -family gw2a -top shared_tc8_k7_depuncture_stream -nowidelut -json /workspace/scratch/3793ea63b22e/tangviterbi/reports/shared-tc8-k7-connected-evidence/core-mapped.json
+check -assert

@@ -1,0 +1,166 @@
+{
+  "whole_receiver_verified": false,
+  "receiver_adopted": false,
+  "finite_clients": [
+    {
+      "id": 0,
+      "finish": 2483896,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 1,
+      "finish": 2484525,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 2,
+      "finish": 2562998,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 3,
+      "finish": 2514327,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 4,
+      "finish": 2489406,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 5,
+      "finish": 2566013,
+      "late_requests": 0,
+      "max_lateness": 0
+    }
+  ],
+  "finite_margin_cycles": 3082,
+  "formal_equivalence_pass": true,
+  "mapped_bound": {
+    "FF": 8673,
+    "packed_logic_with_ram_blockers": 19614,
+    "minimum_extra_passthrough_LUTs": 0,
+    "optimistic_logic_site_lower_bound": 19614,
+    "capacity": 20736,
+    "excess": -1122,
+    "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+  },
+  "route": {
+    "timeout_seconds": null,
+    "termination_policy": "No elapsed-time kill; record progress and decide explicitly on tool failure, resource trouble or justified priority change",
+    "binary_sha256": "d72d2903f4ccf7c569deec4e205356cb661cffdfcd82408dde414ba0b90790ad",
+    "mapped_sha256": "42492e77e6565ac4ecf60144bc8f748a25e76976bbbf7c6c0820e38286c30f39",
+    "target_MHz": 154.28571428571428,
+    "whole_receiver_verified": false,
+    "backend_source_sha256": {
+      "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+      "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+    },
+    "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+    "exit": 1,
+    "seconds": 1174.404566792,
+    "route_completed": true,
+    "errors": [
+      "ERROR: Max frequency for clock 'dut.clk': 152.09 MHz (FAIL at 154.29 MHz)"
+    ],
+    "fmax": {
+      "dut.clk": {
+        "achieved": 152.0912628173828,
+        "constraint": 154.28570556640625
+      }
+    },
+    "physical_sites": {
+      "FF": 8673,
+      "packed_logic_with_ram_blockers": 19627,
+      "minimum_extra_passthrough_LUTs": 0,
+      "optimistic_logic_site_lower_bound": 19627,
+      "capacity": 20736,
+      "excess": -1109,
+      "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+    },
+    "path_delay_ns_by_type": {
+      "clk-to-q": 0.23100000619888306,
+      "routing": 3.4939998984336853,
+      "logic": 2.8150000795722008,
+      "setup": 0.03500000014901161
+    },
+    "launch": {
+      "cell": "dut.k7.stream.core.branch_history.0.0_ADA_1_DFF_Q_D_LUT4_I1_F_LUT2_I1_F_LUT4_F_I3_LUT4_F_I3_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_I0_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_D_DFFCE_D_Q_LUT3_F_I1_DFFCE_Q_CE_DFFC_D",
+      "loc": [
+        34,
+        25
+      ],
+      "port": "Q"
+    },
+    "capture": {
+      "cell": "dut.k7.stream.core.survivor_hi.0.1_DIA_10_DFF_Q",
+      "loc": [
+        48,
+        19
+      ],
+      "port": "D"
+    },
+    "logic_stages": 11,
+    "pnr.json_sha256": "7515e0d65af4d42df901ba3d416ae21f2ba03619f62544df6739f18d106716b0",
+    "routed.json_sha256": "1b1f62ccc6236d66dd9e572414a812d4c1baa7286df67d7243f3f2660207ca4a"
+  },
+  "postplace_added_identity_LUTs": 13,
+  "removed_blockers": {
+    "BLOCKER_LUT": 4016,
+    "BLOCKER_FF": 1638
+  },
+  "routed_MHz": 152.0912628173828,
+  "target_pass": false,
+  "K7_minimum_pass": false,
+  "required_cut_ns": 0.0935185028722989,
+  "longest_routing_arc": {
+    "delay": 1.5089999437332153,
+    "from": {
+      "cell": "dut.k7.stream.core.g_paired_metric[14].hi_bank.0.1",
+      "loc": [
+        40,
+        40
+      ],
+      "port": "DO[0]"
+    },
+    "net": "dut.k7.stream.core.g_paired_metric[14].hi_read[4]",
+    "sources": [
+      "/workspace/scratch/3793ea63b22e/tangviterbi/experiments/shared_tc8_k7_context.sv:208.29-208.36"
+    ],
+    "to": {
+      "cell": "dut.k7.stream.core.g_paired_metric[14].lo_bank.0.3_DO_LUT3_I1_F_ALU_I1_1_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_ALU_SUM",
+      "loc": [
+        43,
+        19
+      ],
+      "port": "I1"
+    },
+    "type": "routing"
+  },
+  "collector_cleanup": {
+    "executed_collector_sha256": "7028591973cfe093ab5f3b159e9c800f0560a1fb0bb9bf300c68656e93202b28",
+    "current_collector_sha256": "2ff45dd28ec829ad1a24f6282648f5a11c554451c3bcf72d5b95faab5ec93132",
+    "change": "Remove ignored timeout arguments; executed collector already passed timeout=None to subprocess.run. No command, netlist or measured result changed.",
+    "executed_collector_commit": "167d81167678c97d329daaa22f2be71a58656fc8"
+  },
+  "source_sha256": {
+    "ci/controller_cursor_mask_audit.py": "aad986dc7f63373bdaed119f3aa01ab825a5753a7f6ebd296854db0172bc23d9",
+    "ci/controller_cursor_mask_evidence.py": "2ff45dd28ec829ad1a24f6282648f5a11c554451c3bcf72d5b95faab5ec93132",
+    "ci/controller_cursor_mask_route.py": "6f753f2b794729e8b3acb20e6a77658f3f2fab25d70f4479c7daba924cd8a26a",
+    "tests/test_sdram_client_arbiter_cursor_mask.py": "22d6d5e00ceba4b1a9b28ffce97c7460adae6d924ea68fe9147adc8c8e9e3c41",
+    "tests/test_t_time_tile_dma_cursor_mask.py": "9b427a5c4ebb2b22288b2bb73f3e05123c1b6a6bae97391579a87369c74e62e9",
+    "experiments/sdram_client_arbiter_cursor_mask.sv": "a5740ef7428adbf52c2017f091fc56f26de360bdabb42cd326834e4d50448d04",
+    "experiments/sdram_client_arbiter_cursor_mask_metadata.sv": "ced64ef963a6dcb1f905ebd0d0a1e401c8ebab43589558dd2ea2ef950abea616",
+    "reports/exploration-stop-policy.md": "779a78fad6c262c511ec715bf9eecd232c7418a3c3fd5e4614c65c31ef28f593",
+    "reports/controller-cursor-mask/finite.json": "0297cdb087c7cbce79ecb61bbc2ccd4bbcb3e825e5db46d320dedc414f23c401",
+    "reports/controller-cursor-mask/mapped-result.json": "b9ddc0bdfb6b43775925166919ed6479fbcdcf2cfa02abc3cc7fd376bc5434c9",
+    "reports/controller-cursor-mask/equivalence.log": "4e49242295df732a9623c199e7ce79cae17daa57aedf40370e799e242f852fca",
+    "reports/controller-cursor-mask/route-result.json": "79120b7f2df5cdb465b6cdde4f2cd4a8644506757b89c9d3d4c51212e0e76764",
+    "reports/controller-cursor-mask/route.log": "a6cebc519426f04580f22520475a97cf5ae72ad581436c01b5cb393f2a6d7815"
+  }
+}

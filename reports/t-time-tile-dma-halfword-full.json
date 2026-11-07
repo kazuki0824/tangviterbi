@@ -1,0 +1,61 @@
+{
+  "scope": "Actual tile data path + SDRAM controller/arbiter; other clients are proxies.\nThe global tile/config descriptor supplier remains a testbench, not receiver RTL.\nMemory contains deterministic arbitrary history; cold-fill validity is untested.\n",
+  "tiles": 312,
+  "competition": true,
+  "clients": [
+    {
+      "id": 0,
+      "finish": 2473203,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 1,
+      "finish": 2473803,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 2,
+      "finish": 2594974,
+      "late_requests": 1,
+      "max_lateness": 28894
+    },
+    {
+      "id": 3,
+      "finish": 2491770,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 4,
+      "finish": 2477339,
+      "late_requests": 0,
+      "max_lateness": 0
+    },
+    {
+      "id": 5,
+      "finish": 2566027,
+      "late_requests": 0,
+      "max_lateness": 0
+    }
+  ],
+  "full_epoch": true,
+  "all_declared_deadlines_pass": false,
+  "checked_output_words": 119808,
+  "checked_writes": 29796,
+  "descriptor_supplier_is_RTL": false,
+  "whole_receiver_verified": false,
+  "source_sha256": {
+    "experiments/t_time_tile_store.sv": "4a4e5d3f89684f94ad31ea75da8b1e53a97836b8ac004064838ac6cc723d66f3",
+    "experiments/t_time_tile_dma_halfword.sv": "b4a4734e6fbbe86e7a857f9350637014cc615ba1d337ca353a52c1e5dba7258e",
+    "experiments/sdram_client_arbiter_lease128_direct.sv": "12b9596653d100f7959efc7220c2b89ce6851c93e95be2b74a7ae681cd57de4f",
+    "experiments/dual_sdram_refresh_predecode.sv": "432d36e51f2654d5144fc34da0d0881adfa09bd7604bcade0952193b16ea2b99",
+    "tests/test_t_time_tile_dma_halfword.py": "a7f0646d9021f198c286fc9dc7060fdef55564102c6345114ba7cc545e4a6810",
+    "tests/test_t_time_three_buffer_controller.py": "9d7d14df796f68d89677bf8c13ae101a4eeb0310ea8a2dcc6c3cafe9b5cffc2e",
+    "tests/test_sdf_delay_cache.py": "c5fb2211e578903f284fa19f89e3237307d2178c0d45226552f83d517d3cd6fe",
+    "tests/test_common_clock_sdram.py": "23f5f46839a09f25714af2e3223df2819dc095062116b5489de1e9ac1bd14338",
+    "experiments/t_time_three_buffer_schedule.py": "233144ed337092517014ee7f3745774a315b71593a55fc6df3f3cf478c544242",
+    "experiments/t_time_block_layout.py": "56b3a85771a29f146ba8fe569c8830cb2749106a5413d3706699b7c4467ee55d"
+  }
+}

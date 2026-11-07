@@ -1,0 +1,203 @@
+{
+  "rows": [
+    {
+      "variant": "heldearly",
+      "full_fixture": {
+        "FF": 8662,
+        "packed_logic_with_ram_blockers": 17501,
+        "minimum_extra_passthrough_LUTs": 2900,
+        "optimistic_logic_site_lower_bound": 20401,
+        "capacity": 20736,
+        "excess": -335,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "TTI_finish": 2562998,
+      "TTI_margin": 3082,
+      "all_declared_deadlines_pass": true,
+      "clients": [
+        {
+          "id": 0,
+          "finish": 2483896,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 1,
+          "finish": 2484525,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 2,
+          "finish": 2562998,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 3,
+          "finish": 2514327,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 4,
+          "finish": 2489406,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 5,
+          "finish": 2566013,
+          "late_requests": 0,
+          "max_lateness": 0
+        }
+      ]
+    },
+    {
+      "variant": "sharedhold",
+      "full_fixture": {
+        "FF": 8150,
+        "packed_logic_with_ram_blockers": 18730,
+        "minimum_extra_passthrough_LUTs": 2388,
+        "optimistic_logic_site_lower_bound": 21118,
+        "capacity": 20736,
+        "excess": 382,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "TTI_finish": 2596936,
+      "TTI_margin": -30856,
+      "all_declared_deadlines_pass": false,
+      "clients": [
+        {
+          "id": 0,
+          "finish": 2473511,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 1,
+          "finish": 2474140,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 2,
+          "finish": 2596936,
+          "late_requests": 1,
+          "max_lateness": 30856
+        },
+        {
+          "id": 3,
+          "finish": 2493337,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 4,
+          "finish": 2479139,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 5,
+          "finish": 2566024,
+          "late_requests": 0,
+          "max_lateness": 0
+        }
+      ]
+    },
+    {
+      "variant": "onehot",
+      "full_fixture": {
+        "FF": 8662,
+        "packed_logic_with_ram_blockers": 16504,
+        "minimum_extra_passthrough_LUTs": 2900,
+        "optimistic_logic_site_lower_bound": 19404,
+        "capacity": 20736,
+        "excess": -1332,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "TTI_finish": 2562998,
+      "TTI_margin": 3082,
+      "all_declared_deadlines_pass": true,
+      "clients": [
+        {
+          "id": 0,
+          "finish": 2483896,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 1,
+          "finish": 2484525,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 2,
+          "finish": 2562998,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 3,
+          "finish": 2514327,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 4,
+          "finish": 2489406,
+          "late_requests": 0,
+          "max_lateness": 0
+        },
+        {
+          "id": 5,
+          "finish": 2566013,
+          "late_requests": 0,
+          "max_lateness": 0
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "condition": "route",
+      "exit": 125,
+      "route_completed": false,
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'dut.fft.in_valid_DFFRE_Q' of type 'DFFRE' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ]
+    },
+    {
+      "condition": "prebuffer-route",
+      "exit": 125,
+      "route_completed": false,
+      "errors": [
+        "ERROR: Unable to find legal placement for cell 'ff_input_identity_127' of type 'LUT1' after 10001 attempts, check constraints and utilisation. Use `--placer-heap-cell-placement-timeout` to change the number of attempts."
+      ]
+    }
+  ],
+  "whole_receiver_verified": false,
+  "formal_adoptions": 0,
+  "configuration_1": "stopped",
+  "notes": [
+    "LUT-site bounds include unchanged compact BRAM observation fixture; not actual routed occupation.",
+    "Onehot finite schedule and values pass; integrated legal placement and Fmax remain unverified.",
+    "Sharedhold rejected before P&R due to deadline and fixed-netlist bound.",
+    "Initial onehot generator SyntaxError occurred before RTL files were created; resulting missing-module/missing-file invocations were rerun after correction."
+  ],
+  "evidence_sha256": {
+    "reports/t-time-tile-dma-heldearly-full.json": "c0408eee5660699a12c088de7a6cfafe0f502d95d031c93f250c59f9f5ab5fa9",
+    "reports/shared-receiver-fft-tile-compact-bram-probe-pack/packed-budget.json": "44ccf30c0051019a675ccac8231d725f31b5aca85b2248bdff786425f662ca9b",
+    "reports/t-time-tile-dma-sharedhold-full.json": "7c5b728ec41c2917243cfee6ddd2ed08438bfe9f7181c468fc05c5664a6d3a30",
+    "reports/shared-receiver-fft-tile-sharedhold-pack/packed-budget.json": "5e487c15cdcfeb67072736ecf8699790f898f51d1a4445c61c3d87e4463ebf07",
+    "reports/t-time-tile-dma-onehot-full.json": "f4c122ab7a7e8ff4b225e2c92e6f83ddaa35feaed3d0fa15e2977ba842eac3e9",
+    "reports/shared-receiver-fft-tile-onehot-pack/packed-budget.json": "2c629f3bc015980e11e49b3c1d2ee726d22bd5227cefe139a0cd801e4e603047",
+    "reports/shared-receiver-fft-tile-onehot-route/summary.json": "a79d99f74e42c6971c5a914c3a757d2596d63dd535967fd350f0d4fdde3629ae",
+    "reports/shared-receiver-fft-tile-onehot-prebuffer-route/summary.json": "6fce590296d40ae09cbfb388944b3b13a9c8a754bf5e304476591fcf26d540fe",
+    "reports/t-time-tile-dma-onehot-offsets.json": "ad6806e8d4c38c10b08458df1848a3a829652df819fa0e206baa042eab242b9f",
+    "reports/t-time-tile-dma-onehot-contract.json": "9eedd96baa96b972bd47f9067b27afb6968a4a9f2a8ce6fdacab977caccac3d0"
+  },
+  "collector_sha256": "39febf2d03525ad75ddbfa3f2ce1919b5a997027e980c6bcdc8b685744d6df74"
+}

@@ -1,0 +1,19 @@
+test_128_grants_and_fft_preemption (tests.test_sdram_client_arbiter_grace.LeaseTest.test_128_grants_and_fft_preemption) ... ok
+test_all_request_subsets_and_cursors (tests.test_sdram_client_arbiter_grace.LeaseTest.test_all_request_subsets_and_cursors) ... ok
+test_locked_request_and_response (tests.test_sdram_client_arbiter_grace.LeaseTest.test_locked_request_and_response) ... FAIL
+
+======================================================================
+FAIL: test_locked_request_and_response (tests.test_sdram_client_arbiter_grace.LeaseTest.test_locked_request_and_response)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/3793ea63b22e/tangviterbi/tests/test_sdram_client_arbiter.py", line 65, in test_locked_request_and_response
+    self.assertEqual(r.returncode,0,r.stdout+r.stderr);self.assertIn('PASS six clients',r.stdout)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : FATAL: /tmp/tmpwwhvijt9/tb.sv:12: request 3
+       Time: 531  Scope: tb.check_request
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.454s
+
+FAILED (failures=1)

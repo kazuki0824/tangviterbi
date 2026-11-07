@@ -1,0 +1,11 @@
+--- 
++++ 
+@@ -1288,6 +1288,8 @@
+ #endif
+ 
+         log_info("Checksum: 0x%08x\n", ctx->checksum());
++        // Report additional endpoints only in the existing final timing pass.
++        ctx->settings[ctx->id("diagnostics/final_report")] = std::to_string(1);
+         timing_analysis(ctx, true /* slack_histogram */, true /* print_fmax */, true /* print_path */,
+                         true /* warn_on_failure */, true /* update_results */);
+ 

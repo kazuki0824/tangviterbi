@@ -1,0 +1,58 @@
+{
+  "timeout_seconds": 1800,
+  "binary_sha256": "d72d2903f4ccf7c569deec4e205356cb661cffdfcd82408dde414ba0b90790ad",
+  "mapped_sha256": "8b3ee4d86a20e8bd6e44ea686abde17141ae40863f6d8de08dc65f3c5b5f3ee3",
+  "target_MHz": 154.28571428571428,
+  "whole_receiver_verified": false,
+  "backend_source_sha256": {
+    "himbaechel/uarch/gowin/gowin.cc": "f5ffe0d0fd970f9af729cdf446ffafed2ee2c5fd7a5d665ac38f66cca3c2a16d",
+    "himbaechel/uarch/gowin/pack_luts.cc": "9f2c1d0e6536e4d6bc68cc1d596fbd3e56c28bc9a13485c31e4e9e896dba3725"
+  },
+  "chipdb_sha256": "28e74084da573c220ace2dd9ca381abf0f31db6be6599b81761dfc2416b4e8a3",
+  "exit": 1,
+  "seconds": 1697.617252031996,
+  "route_completed": true,
+  "errors": [
+    "ERROR: Max frequency for clock 'dut.clk': 142.69 MHz (FAIL at 154.29 MHz)"
+  ],
+  "fmax": {
+    "dut.clk": {
+      "achieved": 142.69406127929688,
+      "constraint": 154.28570556640625
+    }
+  },
+  "physical_sites": {
+    "FF": 8672,
+    "packed_logic_with_ram_blockers": 19623,
+    "minimum_extra_passthrough_LUTs": 0,
+    "optimistic_logic_site_lower_bound": 19623,
+    "capacity": 20736,
+    "excess": -1113,
+    "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+  },
+  "path_delay_ns_by_type": {
+    "clk-to-q": 0.23100000619888306,
+    "routing": 3.462999999523163,
+    "logic": 3.2790000438690186,
+    "setup": 0.03500000014901161
+  },
+  "launch": {
+    "cell": "dut.memory.service.arb.rr_DFFRE_Q_1",
+    "loc": [
+      39,
+      2
+    ],
+    "port": "Q"
+  },
+  "capture": {
+    "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+    "loc": [
+      14,
+      7
+    ],
+    "port": "D"
+  },
+  "logic_stages": 7,
+  "pnr.json_sha256": "3716dbd75cde2712ebb97d4afc8c32ca1cfcb2273a4e0663ccccd35f4be46a1f",
+  "routed.json_sha256": "fde05547b7797e63612462c9e46bc139b13a65ab96014cfa4a7baaeaece8582c"
+}

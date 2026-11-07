@@ -1,0 +1,49 @@
+{
+  "route_completed": true,
+  "routed_MHz": 99.08838653564453,
+  "target_MHz": 154.28571428571428,
+  "target_pass": false,
+  "K7_stall_free_minimum_MHz": 152.626638,
+  "K7_minimum_pass": false,
+  "required_period_reduction_ns": 3.6105186341813313,
+  "path_delay_ns_by_type": {
+    "clk-to-q": 0.23100000619888306,
+    "routing": 4.227000012993813,
+    "logic": 5.599000096321106,
+    "setup": 0.03500000014901161
+  },
+  "launch": {
+    "cell": "dut.tile.op_DFF_Q_2",
+    "loc": [
+      24,
+      3
+    ],
+    "port": "Q"
+  },
+  "capture": {
+    "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+    "loc": [
+      23,
+      11
+    ],
+    "port": "D"
+  },
+  "logic_stages": 12,
+  "physical_site_audit": {
+    "FF": 8662,
+    "packed_logic_with_ram_blockers": 19423,
+    "minimum_extra_passthrough_LUTs": 0,
+    "optimistic_logic_site_lower_bound": 19423,
+    "capacity": 20736,
+    "excess": -1313,
+    "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+  },
+  "reported_LUTs_without_removed_blockers": 15411,
+  "ALU_positions": 2920,
+  "RAM_extra_blocked_LUT_positions": 1092,
+  "whole_receiver_verified": false,
+  "sha256": {
+    "pnr.json": "34b27e9d55e32c89e79d2cf84497291b2f3d420226bbdded58cbd2c80753006b",
+    "routed.json": "6e54270b005a36bd18a634976e0f05a18a6097cc5353d92ad7c0f974164b1590"
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "before": {
+    "FF": 8662,
+    "packed_logic_with_ram_blockers": 19404,
+    "minimum_extra_passthrough_LUTs": 0,
+    "optimistic_logic_site_lower_bound": 19404,
+    "capacity": 20736,
+    "excess": -1332,
+    "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+  },
+  "after": {
+    "FF": 8662,
+    "packed_logic_with_ram_blockers": 19452,
+    "minimum_extra_passthrough_LUTs": 0,
+    "optimistic_logic_site_lower_bound": 19452,
+    "capacity": 20736,
+    "excess": -1284,
+    "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+  },
+  "added_identity_LUTs": [
+    "dut.fft.addresses[0]_DFFRE_Q_2_passthrough_lut$",
+    "dut.fft.addresses[3]_DFFRE_Q_8_passthrough_lut$",
+    "dut.fft.addresses[4]_DFFRE_Q_3_passthrough_lut$",
+    "dut.fft.coeff.cz_DFFR_Q_passthrough_lut$",
+    "dut.fft.diff_i_DFFE_Q_12_passthrough_lut$",
+    "dut.fft.output_seq_DFFRE_Q_7_passthrough_lut$",
+    "dut.fft.position[6].count_DFFRE_Q_passthrough_lut$",
+    "dut.k7.metric.abs_diff_DFFE_Q_15_passthrough_lut$",
+    "dut.k7.metric.input_choice_DFFE_Q_1_passthrough_lut$",
+    "dut.k7.stream.core.branch_history.0.0_ADA_1_DFF_Q_D_LUT4_I1_F_LUT2_I1_F_LUT2_F_I1_LUT4_F_I1_DFFCE_Q_passthrough_lut$",
+    "dut.k7.stream.core.branch_history.0.0_ADA_2_LUT4_I1_F_DFF_Q_D_LUT4_I1_F_LUT2_I1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.0_DIA_10_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.0_DIA_12_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.0_DIA_1_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.0_DIA_2_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.0_DIA_3_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.0_DIA_4_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.0_DIA_6_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_10_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_11_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_13_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_1_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_3_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_5_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_8_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_9_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.core.survivor_hi.0.1_DIA_DFF_Q_passthrough_lut$",
+    "dut.k7.stream.g_fifo[3].words.0.9_WAD_DFFCE_Q_passthrough_lut$",
+    "dut.memory.reader.rp[0]_DFFRE_Q_1_passthrough_lut$",
+    "dut.memory.reader.rp[2]_DFFRE_Q_2_passthrough_lut$",
+    "dut.memory.reader.rp[2]_DFFRE_Q_3_passthrough_lut$",
+    "dut.memory.reader.wp[1]_DFFRE_Q_2_passthrough_lut$",
+    "dut.memory.reader.wp[1]_DFFRE_Q_3_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_DFFCE_D_Q_LUT4_I0_1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_I1_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_DFFCE_D_Q_LUT4_I0_1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_I1_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_DFFCE_D_Q_LUT4_I0_1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_I1_ALU_I0_COUT_ALU_CIN_COUT_LUT3_I0_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_1_CE_LUT2_F_I0_DFFCE_CE_Q_LUT4_I1_F_LUT4_F_I1_LUT4_I0_F_LUT3_I2_F_DFFCE_CE_D_ALU_SUM_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_CIN_ALU_COUT_SUM_DFFCE_D_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_DFFCE_D_Q_LUT4_I0_1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_I1_ALU_I0_COUT_ALU_CIN_COUT_LUT3_I0_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_1_CE_LUT2_F_I0_DFFCE_CE_Q_LUT4_I1_F_LUT4_F_I1_LUT4_I0_F_LUT3_I2_F_DFFCE_CE_Q_LUT4_I1_F_LUT2_I1_F_LUT2_F_1_I1_LUT4_F_1_I1_DFFCE_Q_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_DFFCE_D_Q_LUT4_I0_1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_I1_ALU_I0_COUT_ALU_CIN_COUT_LUT3_I0_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_1_CE_LUT2_F_I0_DFFCE_CE_Q_LUT4_I1_F_LUT4_F_I1_LUT4_I0_F_LUT3_I2_F_DFFCE_CE_Q_LUT4_I1_F_LUT2_I1_F_LUT2_F_2_I1_LUT4_F_1_I1_DFFCE_Q_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_DFFCE_D_Q_LUT4_I0_1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_I1_ALU_I0_COUT_ALU_CIN_COUT_LUT3_I0_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_1_CE_LUT2_F_I0_DFFCE_CE_Q_LUT4_I1_F_LUT4_F_I1_LUT4_I0_F_LUT3_I2_F_DFFCE_CE_Q_LUT4_I1_F_LUT2_I1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_DFFCE_D_Q_LUT4_I0_1_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_D_ALU_SUM_CIN_ALU_COUT_I1_ALU_I0_COUT_ALU_CIN_COUT_LUT3_I0_F_LUT2_F_I1_LUT4_F_1_I1_DFFCE_Q_1_CE_LUT2_F_I0_DFFCE_CE_Q_LUT4_I1_F_LUT4_F_I1_LUT4_I0_F_LUT3_I2_F_DFFCE_CE_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_LUT2_I1_I0_DFFCE_CE_Q_DFFCE_Q_1_passthrough_lut$",
+    "dut.memory.service.cache.fault_LUT4_I1_I3_LUT4_I3_I1_LUT4_I2_F_LUT2_F_I0_DFFCE_Q_CE_LUT2_F_I1_LUT2_I1_F_LUT2_I0_F_LUT3_F_I2_LUT2_F_I1_LUT2_F_I1_LUT2_I1_I0_DFFCE_CE_passthrough_lut$",
+    "dut.memory.service.controller.refresh_age_DFFRE_Q_10_passthrough_lut$",
+    "dut.memory.service.controller.refresh_age_DFFRE_Q_4_passthrough_lut$",
+    "dut.memory.service.controller.refresh_age_DFFRE_Q_6_passthrough_lut$",
+    "dut.memory.service.controller.refresh_age_DFFRE_Q_7_passthrough_lut$",
+    "dut.s_fifo.words.0.0_ADA_DFF_Q_D_DFFCE_Q_D_ALU_SUM_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFF_D_Q_DFFCE_Q_1_D_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_DFFCE_D_passthrough_lut$",
+    "dut.s_fifo.words.0.0_ADA_DFF_Q_D_DFFCE_Q_D_ALU_SUM_COUT_ALU_CIN_SUM_DFFCE_D_Q_DFF_D_Q_DFFCE_Q_passthrough_lut$"
+  ],
+  "added_count": 48,
+  "reported_utilization": {
+    "ALU": {
+      "available": 15552,
+      "used": 2920
+    },
+    "ALU54D": {
+      "available": 24,
+      "used": 21
+    },
+    "BSRAM": {
+      "available": 46,
+      "used": 29
+    },
+    "BUFG": {
+      "available": 24,
+      "used": 1
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 15552,
+      "used": 10300
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "DUMMY_CELL": {
+      "available": 0,
+      "used": 192
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "GW_JTAG": {
+      "available": 1,
+      "used": 0
+    },
+    "IOB": {
+      "available": 384,
+      "used": 5
+    },
+    "IOLOGICI": {
+      "available": 384,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 384,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 20736,
+      "used": 19452
+    },
+    "MULT18X18": {
+      "available": 48,
+      "used": 6
+    },
+    "MULT36X36": {
+      "available": 12,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 96,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 10368,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 5184,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 2592,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 2592,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 48,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 96,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 648,
+      "used": 273
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "critical_paths_available": false,
+  "routed": false,
+  "placement_clock_is_estimated": true
+}

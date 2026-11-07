@@ -1,0 +1,45 @@
+{
+  "scope": "Structural LUT/ALU depth between the previously measured critical endpoints.\nNot delay analysis: no routing, pin delays, sensitization, or global worst-path claim.\n",
+  "launch": "dut.tile.op_DFF_Q_2",
+  "capture": "dut.memory.service.controller.state_DFFR_Q_1",
+  "baseline": {
+    "source": "reports/shared-receiver-fft-tile-folded-controls-route/packed.json.gz",
+    "sha256": "46420ecb0734de249f09f4a0609a92bd5f881a2ba7d5395b7bb5657ee576ff6b",
+    "stages": 13,
+    "path": [
+      "dut.tile.outstanding_LUT2_I0_F_LUT4_F",
+      "dut.memory.service.arb.grace_LUT4_I0_F_LUT2_F_I1_LUT4_I3_F_LUT3_F_I1_LUT2_I1_F_LUT4_F",
+      "dut.memory.service.arb.grace_LUT4_I0_I3_LUT4_I2_F_LUT4_F",
+      "dut.memory.service.arb.grace_LUT4_I0_F_LUT2_F_I1_LUT4_I3_F_LUT4_F",
+      "dut.memory.service.arb.grace_LUT4_I0_I2_LUT2_I1_F_LUT4_F",
+      "dut.memory.service.arb.owner_DFFRE_Q_1_D_LUT2_F_I1_LUT4_I3_F_LUT4_F",
+      "dut.memory.service.controller.address_DFFRE_Q_7_D_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_I2_LUT4_F_I3_ALU_SUM_1_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT3_I2_F_LUT4_I2_F_LUT3_F",
+      "dut.memory.service.controller.address_DFFRE_Q_8_D_LUT3_F",
+      "dut.memory.service.controller.address_DFFRE_Q_7_D_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_I2_LUT4_F_I3_ALU_SUM_1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I2_F_LUT3_I2_F_LUT3_F",
+      "dut.memory.service.controller.address_DFFRE_Q_7_D_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_I2_LUT4_F_I3_ALU_SUM_1_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I2_F_LUT3_I2_F_LUT4_I3_F_LUT4_F",
+      "dut.memory.service.controller.active_row_DFFRE_Q_8_D_LUT4_I3_F_LUT4_I3_F_LUT4_F",
+      "dut.memory.service.controller.state_DFFR_Q_1_D_LUT4_F_I3_LUT4_F",
+      "dut.memory.service.controller.state_DFFR_Q_1_D_LUT4_F"
+    ]
+  },
+  "matrix": {
+    "source": "reports/arbiter-matrix/packed.json.gz",
+    "sha256": "e8dbea2b40afd01d9d3050a886a2ef157ec8c44cad482f08c86e94261b282219",
+    "stages": 13,
+    "path": [
+      "dut.tile.op_DFF_Q_D_LUT4_F_I1_LUT2_F",
+      "dut.tile.store_active_LUT3_I0",
+      "dut.tile.outstanding_LUT4_I0",
+      "dut.memory.service.arb.grace_DFFRE_Q_RESET_LUT4_F_I3_LUT3_I2_F_LUT4_F_1",
+      "dut.memory.service.arb.owner_DFFRE_Q_1_D_LUT2_F_I1_LUT4_F",
+      "dut.memory.service.arb.owner_DFFRE_Q_1_D_LUT2_F_I1_LUT3_I2",
+      "dut.memory.service.controller.address_DFFRE_Q_7_D_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_I2_LUT4_F_I3_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT3_I2_F_LUT4_I2_F_LUT4_F_1",
+      "dut.memory.service.controller.address_DFFRE_Q_7_D_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_I2_LUT4_F_I3_ALU_SUM_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT3_I2_F_LUT4_I2_F_LUT4_I3",
+      "dut.memory.service.controller.address_DFFRE_Q_7_D_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_I2_LUT4_F_I3_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I2_F_LUT4_I3_F_LUT4_I3_F_LUT3_F",
+      "dut.memory.service.controller.address_DFFRE_Q_7_D_LUT4_F_I3_LUT4_F_1_I3_LUT4_F_I2_LUT4_F_I3_ALU_SUM_COUT_ALU_CIN_COUT_ALU_CIN_COUT_ALU_CIN_SUM_LUT4_I3_F_LUT4_I2_F_LUT4_I3_F_LUT4_I3_F_LUT4_I3",
+      "dut.tile.store_active_LUT3_I0_F_LUT4_I2_F_LUT4_I3_F_LUT4_F",
+      "dut.memory.service.controller.state_DFFR_Q_1_D_LUT4_F_I3_LUT4_F",
+      "dut.memory.service.controller.state_DFFR_Q_1_D_LUT4_F"
+    ]
+  }
+}

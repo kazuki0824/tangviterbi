@@ -1,0 +1,126 @@
+{
+  "scope": "Actual six-client arbiter, current FFT/cache/controller; synthetic backgrounds.",
+  "results": [
+    {
+      "paced": false,
+      "summary": "PASS sent=32768 checked=24576 cycles=613107 frame_cycles=321529,466583,613106 input_gap=91 output_gap=91 clipped=0",
+      "frame_intervals": [
+        145054,
+        146523
+      ],
+      "background": [
+        {
+          "id": 0,
+          "arrived": 3397,
+          "finished": 3397,
+          "peak": 1,
+          "pending": 0,
+          "misses": 0
+        },
+        {
+          "id": 1,
+          "arrived": 3397,
+          "finished": 3397,
+          "peak": 1,
+          "pending": 0,
+          "misses": 0
+        },
+        {
+          "id": 2,
+          "arrived": 7589,
+          "finished": 7588,
+          "peak": 2,
+          "pending": 1,
+          "misses": 0
+        },
+        {
+          "id": 3,
+          "arrived": 2700,
+          "finished": 2700,
+          "peak": 1,
+          "pending": 0,
+          "misses": 0
+        },
+        {
+          "id": 4,
+          "arrived": 1179,
+          "finished": 1179,
+          "peak": 1,
+          "pending": 0,
+          "misses": 0
+        }
+      ],
+      "load": "LOAD elapsed=582149 fft_requests=8193 first_overflow=-1",
+      "input_queue": "INPUT_QUEUE paced=0 peak_samples=0 epoch=30978",
+      "oracle_bit_exact": true
+    },
+    {
+      "paced": true,
+      "summary": "PASS sent=32768 checked=24576 cycles=667720 frame_cycles=346957,507338,667719 input_gap=4888 output_gap=4888 clipped=0",
+      "frame_intervals": [
+        160381,
+        160381
+      ],
+      "background": [
+        {
+          "id": 0,
+          "arrived": 3716,
+          "finished": 3716,
+          "peak": 1,
+          "pending": 0,
+          "misses": 0
+        },
+        {
+          "id": 1,
+          "arrived": 3716,
+          "finished": 3715,
+          "peak": 1,
+          "pending": 1,
+          "misses": 0
+        },
+        {
+          "id": 2,
+          "arrived": 8301,
+          "finished": 8301,
+          "peak": 2,
+          "pending": 0,
+          "misses": 0
+        },
+        {
+          "id": 3,
+          "arrived": 2953,
+          "finished": 2953,
+          "peak": 1,
+          "pending": 0,
+          "misses": 0
+        },
+        {
+          "id": 4,
+          "arrived": 1290,
+          "finished": 1290,
+          "peak": 1,
+          "pending": 0,
+          "misses": 0
+        }
+      ],
+      "load": "LOAD elapsed=636762 fft_requests=8193 first_overflow=-1",
+      "input_queue": "INPUT_QUEUE paced=1 peak_samples=5 epoch=30978",
+      "oracle_bit_exact": true
+    }
+  ],
+  "target_symbol_clocks": 160380,
+  "actual_arbiter_RTL": true,
+  "actual_background_RTL": false,
+  "PHY_verified": false,
+  "source_sha256": {
+    "tests/test_sdf_rtl_arbiter.py": "8e60512e1eb88c939136e9cc91c55d77a4962ad43ede1b07f58bcf1e8608bdaf",
+    "rtl/sdram_client_arbiter.sv": "2c986fccbc05f4faa6517975a40b39c673c5c83b546f20fa645859e91a395451",
+    "rtl/shared_sdf_fft.sv": "9bc1a576fb1c59176bef64779126277a77c6d57357d15da543fa928d2b04fec8",
+    "rtl/sdf_delay_cache.sv": "b9772d2e0ebc6955754c87d2816ca28a52a411275a58cea698b48ae7251dbe2e",
+    "rtl/dual_sdram_burst.sv": "618b8364d94e8f54f3c49da679152a04469d4d37e1363c25f55b0917fd1d5835",
+    "tests/test_sdf_cache_contention.py": "e995b977b06c4323f7ce56c740bc5a2deb980ae028e1a7da626b1ab3e6d0f84a",
+    "tests/test_sdf_delay_cache.py": "c5fb2211e578903f284fa19f89e3237307d2178c0d45226552f83d517d3cd6fe",
+    "tests/test_common_clock_sdram.py": "23f5f46839a09f25714af2e3223df2819dc095062116b5489de1e9ac1bd14338",
+    "tests/test_shared_sdf_fft.py": "22135acbd8b84fe81efaed4976ec358d5f25c348863292f31af63c44467f6b22"
+  }
+}

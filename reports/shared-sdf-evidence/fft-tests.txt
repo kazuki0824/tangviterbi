@@ -1,0 +1,26 @@
+test_full_scale_saturation (test_shared_sdf_fft.SharedSDFTests.test_full_scale_saturation) ... ok
+test_independent_numpy_accuracy (test_shared_sdf_fft.SharedSDFTests.test_independent_numpy_accuracy) ... ok
+test_mode1_continuous (test_shared_sdf_fft.SharedSDFTests.test_mode1_continuous) ... ok
+test_mode1_resident (test_shared_sdf_fft.SharedSDFTests.test_mode1_resident) ... ok
+test_mode2_continuous (test_shared_sdf_fft.SharedSDFTests.test_mode2_continuous) ... ok
+test_mode3_backpressure (test_shared_sdf_fft.SharedSDFTests.test_mode3_backpressure) ... ok
+test_mode3_continuous (test_shared_sdf_fft.SharedSDFTests.test_mode3_continuous) ... ok
+test_mode3_resident (test_shared_sdf_fft.SharedSDFTests.test_mode3_resident) ... ok
+test_nonzero_tones (test_shared_sdf_fft.SharedSDFTests.test_nonzero_tones) ... ok
+test_reset_mode1_to_mode3_with_dirty_ram (test_shared_sdf_fft.SharedSDFTests.test_reset_mode1_to_mode3_with_dirty_ram) ... ok
+test_reset_mode3_to_mode1_with_dirty_ram (test_shared_sdf_fft.SharedSDFTests.test_reset_mode3_to_mode1_with_dirty_ram) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 119.047s
+
+OK
+MODE=1 external=1 stall=0 case=extreme PASS sent=8192 checked=6144 cycles=106549 frame_cycles=53300,79924,106548 input_gap=13 output_gap=13 clipped=1
+MODE=1 external=1 stall=0 case=random PASS sent=8192 checked=6144 cycles=106549 frame_cycles=53300,79924,106548 input_gap=13 output_gap=13 clipped=0
+MODE=1 external=0 stall=0 case=random PASS sent=8192 checked=6144 cycles=106549 frame_cycles=53300,79924,106548 input_gap=13 output_gap=13 clipped=0
+MODE=2 external=1 stall=0 case=random PASS sent=16384 checked=12288 cycles=213058 frame_cycles=106561,159809,213057 input_gap=13 output_gap=13 clipped=0
+MODE=3 external=1 stall=1 case=random PASS sent=32768 checked=24576 cycles=632777 frame_cycles=300378,466544,632776 input_gap=91 output_gap=90 clipped=0
+MODE=3 external=1 stall=0 case=random PASS sent=32768 checked=24576 cycles=426050 frame_cycles=213057,319553,426049 input_gap=13 output_gap=13 clipped=0
+MODE=3 external=0 stall=0 case=random PASS sent=32768 checked=24576 cycles=426050 frame_cycles=213057,319553,426049 input_gap=13 output_gap=13 clipped=0
+MODE=2 external=1 stall=0 case=tone PASS sent=16384 checked=12288 cycles=213058 frame_cycles=106561,159809,213057 input_gap=13 output_gap=13 clipped=0
+MODE=3 external=1 stall=0 case=random PASS sent=32768 checked=24576 cycles=426063 frame_cycles=213070,319566,426062 input_gap=13 output_gap=13 clipped=0
+MODE=1 external=1 stall=0 case=random PASS sent=8192 checked=6144 cycles=106549 frame_cycles=53300,79924,106548 input_gap=13 output_gap=13 clipped=0

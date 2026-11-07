@@ -1,0 +1,108 @@
+{
+  "scope": "Five optional one-entry producer request holders; no smoothing queue, response storage, PHY or stage implementation.",
+  "baseline": "reports/sdf-sdram-read-only-bounded-refresh-evidence/summary.json",
+  "candidate": "reports/sdf-sdram-background-hold-evidence/summary.json",
+  "baseline_sha256": "4a18a54253c1a6bdff1e29b1ed8d823bf5a23970228669b054d49d4bd12964ec",
+  "candidate_sha256": "ed27cd192e74b6b5c8be51066f765c6ddda625e971a29ec611eb40d02379d2a1",
+  "additional_logic": 1276,
+  "additional_FF": 1266,
+  "candidate_mixed_logic": 22002,
+  "device_logic": 20736,
+  "candidate_mixed_occupancy_percent": 106.10532407407408,
+  "candidate_remaining_reserve_FF": -602,
+  "candidate_mixed_FF_sites": 13791,
+  "device_FF_sites": 15552,
+  "candidate_mixed_BSRAM": 46,
+  "device_BSRAM": 46,
+  "candidate_mixed_DSP18": 34,
+  "device_DSP18": 48,
+  "assumption": "All inherited stage allocations unchanged; no proven overlap credit. Other unimplemented integration logic cost remains zero in this diagnostic arithmetic.",
+  "candidate_adopted": false,
+  "direct_stage_retention_eliminated": false,
+  "all_20k_partitions_impossible": false,
+  "formal_routes": 0,
+  "whole_receiver_resources": null,
+  "tests": {
+    "command": "python -m unittest tests.test_sdram_request_slot -v",
+    "conditions": 2,
+    "passed": true,
+    "read_write": {
+      "accepted": 1999,
+      "completed": 1997,
+      "stalled": 3360,
+      "replaced": 1493
+    },
+    "read_only": {
+      "accepted": 1396,
+      "completed": 1395,
+      "stalled": 2331,
+      "replaced": 497
+    },
+    "reset_flushes_pending": true,
+    "full_receiver_oracle": false,
+    "integration": {
+      "command": "python -m unittest tests.test_sdf_background_hold -v",
+      "passed": true,
+      "clocks": 60000,
+      "each_lane_accepted_issued_completed": 201,
+      "stalled_lane_clocks": 273184,
+      "oracle": "Per-lane request queue through real service/controller arbitration; constant DQ stimulus, not independent SDRAM data oracle or FFT/K7 traffic"
+    }
+  },
+  "required_payload_state_bits": {
+    "read_write_per_port": 310,
+    "read_only_address": 21,
+    "occupied_flags": 5,
+    "total": 1266
+  },
+  "state_note": "Four RW descriptors (21 address+1 write+256 data+32 DQM), one 21-bit read address, five occupied flags; read-port fault moves from service to holder, so no extra fault FF. Payload not reset, valid and fault are reset.",
+  "stage_ownership": [
+    {
+      "client": 0,
+      "function": "T soft spill write",
+      "native_information": "received 8-bit soft values, unchanged",
+      "request": "address+write+32B+DQM",
+      "owner": "T soft producer",
+      "RTL_holding_in_old_allocation_proven": false
+    },
+    {
+      "client": 1,
+      "function": "T soft spill read",
+      "native_information": "SDRAM 32B to T three-context soft caches",
+      "request": "address only, write=0",
+      "owner": "T soft reader/cache",
+      "RTL_holding_in_old_allocation_proven": false
+    },
+    {
+      "client": 2,
+      "function": "T time deinterleave",
+      "native_information": "stage bytes, no requantization",
+      "request": "address+direction+32B+DQM",
+      "owner": "T_equalize_interleave_TS allocation",
+      "RTL_holding_in_old_allocation_proven": false
+    },
+    {
+      "client": 3,
+      "function": "S frame",
+      "native_information": "frame/deinterleave stage bytes",
+      "request": "address+direction+32B+DQM",
+      "owner": "S_FIR_sync_frame_TS allocation",
+      "RTL_holding_in_old_allocation_proven": false
+    },
+    {
+      "client": 4,
+      "function": "management",
+      "native_information": "internal management memory transactions",
+      "request": "address+direction+32B+DQM",
+      "owner": "integration reserve",
+      "RTL_holding_in_old_allocation_proven": false
+    }
+  ],
+  "stage_source": "experiments/dual_s3_20k_estimate.py:candidate_budgets",
+  "shared_memory_unimplemented": {
+    "T_two_symbol_bytes": 59904,
+    "T_cache_bytes": 192,
+    "S_soft_FIFO_bytes": 256,
+    "alias_proven": false
+  }
+}

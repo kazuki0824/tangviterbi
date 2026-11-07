@@ -1,0 +1,26 @@
+{
+  "command": "yosys -Q -T -p \"read_verilog -sv rtl/sdf_delay_cache.sv; synth_gowin -top sdf_delay_cache; stat\"",
+  "toolchain": "OSS CAD Suite 2026-10-04",
+  "cells": {
+    "ALU": 13,
+    "DFF": 6,
+    "DFFE": 256,
+    "DFFR": 1,
+    "DFFRE": 45,
+    "GND": 1,
+    "IBUF": 319,
+    "LUT1": 304,
+    "LUT2": 16,
+    "LUT3": 298,
+    "LUT4": 189,
+    "MUX2_LUT5": 320,
+    "MUX2_LUT6": 15,
+    "MUX2_LUT7": 6,
+    "MUX2_LUT8": 2,
+    "OBUF": 313,
+    "VCC": 1
+  },
+  "rtl_sha256": "b9772d2e0ebc6955754c87d2816ca28a52a411275a58cea698b48ae7251dbe2e",
+  "place_and_route": false,
+  "note": "Standalone generic mapping, includes port buffers; not packed GW2AR utilization or Fmax."
+}

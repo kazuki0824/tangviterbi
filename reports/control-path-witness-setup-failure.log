@@ -1,0 +1,21 @@
+test_real_data_and_deadlines (test_receiver_control_single_cycle.SingleCycleTest.test_real_data_and_deadlines) ... FAIL
+
+======================================================================
+FAIL: test_real_data_and_deadlines (test_receiver_control_single_cycle.SingleCycleTest.test_real_data_and_deadlines)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/3793ea63b22e/tangviterbi/tests/test_receiver_control_single_cycle.py", line 30, in test_real_data_and_deadlines
+    with contextlib.redirect_stdout(output):super().test_real_data_and_deadlines()
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/3793ea63b22e/tangviterbi/tests/test_t_time_tile_dma_onehot.py", line 108, in test_real_data_and_deadlines
+    self.assertEqual(r.returncode,0,r.stderr)
+AssertionError: 2 != 0 : /tmp/tmp0cpi3xe1/tb.sv:15: error: Unable to bind wire/reg/memory `ev' in `tb'
+/tmp/tmp0cpi3xe1/tb.sv:24:      : A symbol with that name was declared here. Check for declaration after use.
+/tmp/tmp0cpi3xe1/tb.sv:15: error: Unable to elaborate condition expression.
+2 error(s) during elaboration.
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.190s
+
+FAILED (failures=1)

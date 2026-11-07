@@ -1,0 +1,398 @@
+{
+  "board": "20k",
+  "scope": "Overlay measured T kernels on all 448 existing variants, per CAD scenario.\n\nOther blocks remain estimates. Costs already reserved in the old budget are\nnot added again; omitted integration/context cost is NOT silently set to zero.\nNo performance candidate is adopted solely from this arithmetic replacement.\n",
+  "old_T_kernel_replaced": {
+    "logic_sites_estimate": 2952,
+    "FF": 1502,
+    "BSRAM": 2,
+    "DSP18": 0
+  },
+  "input_sha256": "80d05623ce585e87c93f6540d042be6d734a283faacbd925f1a5c1c9e1bee7f9",
+  "cases": [
+    {
+      "trial": "20k-16",
+      "proof": "reports/folded-t-evidence/20k-16/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3441,
+        "FF": 1596,
+        "BSRAM": 2,
+        "DSP18": 0
+      },
+      "cycles_per_step": 4,
+      "required_MHz": 100.84848484848484,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 62.252151141040024,
+      "routed_fmax_MHz": 95.90486145019531,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 9967,
+        "FF": 6426,
+        "BSRAM": 16,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21170,
+        "FF": 13606,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 102.09297839506173,
+        "FF": 87.48713991769547,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-16-compact",
+      "proof": "reports/folded-t-evidence/20k-16-compact/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3199,
+        "FF": 1389,
+        "BSRAM": 1,
+        "DSP18": 0
+      },
+      "cycles_per_step": 4,
+      "required_MHz": 100.84848484848484,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 62.252151141040024,
+      "routed_fmax_MHz": 96.71179962158203,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 9725,
+        "FF": 6219,
+        "BSRAM": 15,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 20928,
+        "FF": 13399,
+        "BSRAM": 45,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 100.92592592592592,
+        "FF": 86.15612139917695,
+        "BSRAM": 97.82608695652173,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-16-compact-pipe",
+      "proof": "reports/folded-t-evidence/20k-16-compact-pipe/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3273,
+        "FF": 1807,
+        "BSRAM": 1,
+        "DSP18": 0
+      },
+      "cycles_per_step": 5,
+      "required_MHz": 126.06060606060606,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 77.81518892630002,
+      "routed_fmax_MHz": 130.48016357421875,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 9799,
+        "FF": 6637,
+        "BSRAM": 15,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21002,
+        "FF": 13817,
+        "BSRAM": 45,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 101.28279320987654,
+        "FF": 88.84387860082305,
+        "BSRAM": 97.82608695652173,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-16-erasure",
+      "proof": "reports/folded-t-evidence/20k-16-erasure/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3297,
+        "FF": 1814,
+        "BSRAM": 1,
+        "DSP18": 0
+      },
+      "cycles_per_step": 5,
+      "required_MHz": 126.06060606060606,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 77.81518892630002,
+      "routed_fmax_MHz": 141.8842315673828,
+      "partial_target_pass": false,
+      "erasures": true,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 9823,
+        "FF": 6644,
+        "BSRAM": 15,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21026,
+        "FF": 13824,
+        "BSRAM": 45,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 101.39853395061728,
+        "FF": 88.88888888888889,
+        "BSRAM": 97.82608695652173,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-16-erasure-registered",
+      "proof": "reports/folded-t-evidence/20k-16-erasure-registered/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3431,
+        "FF": 1833,
+        "BSRAM": 1,
+        "DSP18": 0
+      },
+      "cycles_per_step": 6,
+      "required_MHz": 151.27272727272725,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 93.37822671156003,
+      "routed_fmax_MHz": 194.2501983642578,
+      "partial_target_pass": true,
+      "erasures": true,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 9957,
+        "FF": 6663,
+        "BSRAM": 15,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21160,
+        "FF": 13843,
+        "BSRAM": 45,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 102.04475308641975,
+        "FF": 89.01105967078189,
+        "BSRAM": 97.82608695652173,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-16-onehot-final",
+      "proof": "reports/folded-t-evidence/20k-16-onehot-final/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3290,
+        "FF": 1812,
+        "BSRAM": 1,
+        "DSP18": 0
+      },
+      "cycles_per_step": 5,
+      "required_MHz": 126.06060606060606,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 77.81518892630002,
+      "routed_fmax_MHz": 221.48394775390625,
+      "partial_target_pass": true,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 9816,
+        "FF": 6642,
+        "BSRAM": 15,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21019,
+        "FF": 13822,
+        "BSRAM": 45,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 101.3647762345679,
+        "FF": 88.87602880658436,
+        "BSRAM": 97.82608695652173,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-16-pipe",
+      "proof": "reports/folded-t-evidence/20k-16-pipe/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3503,
+        "FF": 2014,
+        "BSRAM": 2,
+        "DSP18": 0
+      },
+      "cycles_per_step": 5,
+      "required_MHz": 126.06060606060606,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 77.81518892630002,
+      "routed_fmax_MHz": 134.91635131835938,
+      "partial_target_pass": false,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 10029,
+        "FF": 6844,
+        "BSRAM": 16,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21232,
+        "FF": 14024,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 102.39197530864197,
+        "FF": 90.17489711934157,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-16-shift",
+      "proof": "reports/folded-t-evidence/20k-16-shift/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3412,
+        "FF": 1833,
+        "BSRAM": 1,
+        "DSP18": 0
+      },
+      "cycles_per_step": 6,
+      "required_MHz": 151.27272727272725,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 93.37822671156003,
+      "routed_fmax_MHz": 171.58544921875,
+      "partial_target_pass": true,
+      "erasures": true,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 9938,
+        "FF": 6663,
+        "BSRAM": 15,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21141,
+        "FF": 13843,
+        "BSRAM": 45,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 101.953125,
+        "FF": 89.01105967078189,
+        "BSRAM": 97.82608695652173,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-baseline",
+      "proof": "reports/folded-t-evidence/20k-baseline/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3714,
+        "FF": 1474,
+        "BSRAM": 2,
+        "DSP18": 0
+      },
+      "cycles_per_step": 2,
+      "required_MHz": 50.42424242424242,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 31.126075570520012,
+      "routed_fmax_MHz": 218.72265625,
+      "partial_target_pass": true,
+      "erasures": false,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 10240,
+        "FF": 6304,
+        "BSRAM": 16,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21443,
+        "FF": 13484,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 103.40952932098766,
+        "FF": 86.70267489711934,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      }
+    },
+    {
+      "trial": "20k-baseline-erasure",
+      "proof": "reports/folded-t-evidence/20k-baseline-erasure/summary.json",
+      "measured_kernel": {
+        "logic_sites_estimate": 3734,
+        "FF": 1476,
+        "BSRAM": 2,
+        "DSP18": 0
+      },
+      "cycles_per_step": 2,
+      "required_MHz": 50.42424242424242,
+      "target_MHz": 162.0,
+      "arithmetic_utilization_percent": 31.126075570520012,
+      "routed_fmax_MHz": 218.72265625,
+      "partial_target_pass": true,
+      "erasures": true,
+      "original_count": 448,
+      "updated_T_rows": 192,
+      "allowed_pairs_count": 84,
+      "raw_T_replacement": {
+        "logic_sites_estimate": 10260,
+        "FF": 6306,
+        "BSRAM": 16,
+        "DSP18": 18
+      },
+      "R_H_replacement": {
+        "logic_sites_estimate": 21463,
+        "FF": 13486,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "R_H_occupancy_percent": {
+        "logic_sites_estimate": 103.50597993827161,
+        "FF": 86.71553497942386,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      }
+    }
+  ],
+  "bandwidth_catalog": "reports/control-only-20k/bandwidth-catalog.json.gz",
+  "forward_information_and_bandwidth_unchanged": true,
+  "reverse_payload_allowed": false,
+  "formally_assigned_routes": 0,
+  "adopted_receivers": 0
+}

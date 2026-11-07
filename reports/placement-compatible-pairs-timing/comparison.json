@@ -1,0 +1,89 @@
+{
+  "routed_timing": false,
+  "target_period_ns": 6.481481481481482,
+  "runs": {
+    "prebuffer": {
+      "estimated_MHz": 63.39546203613281,
+      "delay_ns_by_type": {
+        "clk-skew": 3.5999999046325684,
+        "clk-to-q": 0.23100000619888306,
+        "routing": 7.00000012665987,
+        "logic": 4.908000111579895,
+        "setup": 0.03500000014901161
+      },
+      "cell_only_ns_for_this_path": 5.17400011792779,
+      "logic_stages": 11,
+      "launch": {
+        "cell": "dut.tile.aligning_DFFR_Q",
+        "loc": [
+          51,
+          16
+        ],
+        "port": "CLK"
+      },
+      "capture": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+        "loc": [
+          23,
+          24
+        ],
+        "port": "D"
+      },
+      "new_identity_LUT_count": 48,
+      "post_placement_audit": {
+        "FF": 8662,
+        "packed_logic_with_ram_blockers": 19452,
+        "minimum_extra_passthrough_LUTs": 0,
+        "optimistic_logic_site_lower_bound": 19452,
+        "capacity": 20736,
+        "excess": -1284,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "diagnostic_placement_unchanged": {
+        "cells": true,
+        "ports": true,
+        "netnames": true
+      }
+    },
+    "folded": {
+      "estimated_MHz": 88.92050170898438,
+      "delay_ns_by_type": {
+        "clk-skew": 1,
+        "clk-to-q": 0.23100000619888306,
+        "routing": 4.600000038743019,
+        "logic": 5.380000114440918,
+        "setup": 0.03500000014901161
+      },
+      "cell_only_ns_for_this_path": 5.646000120788813,
+      "logic_stages": 12,
+      "launch": {
+        "cell": "dut.tile.phase_DFF_Q_2",
+        "loc": [
+          25,
+          3
+        ],
+        "port": "CLK"
+      },
+      "capture": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+        "loc": [
+          23,
+          11
+        ],
+        "port": "D"
+      },
+      "new_identity_LUT_count": 19,
+      "post_placement_audit": {
+        "FF": 8662,
+        "packed_logic_with_ram_blockers": 19423,
+        "minimum_extra_passthrough_LUTs": 0,
+        "optimistic_logic_site_lower_bound": 19423,
+        "capacity": 20736,
+        "excess": -1313,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      }
+    }
+  },
+  "warning": "Cell-only numbers concern the reported estimated worst path, not the maximum of all zero-wire paths. Clock skew/routing numbers are predictions before routing. No whole-receiver timing pass.",
+  "source_sha256": "00697472c2dc397fff28a60b2628f23fcd14c60a28e3ee27c2663bafc104e1d4"
+}

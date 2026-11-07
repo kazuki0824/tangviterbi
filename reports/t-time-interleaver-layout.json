@@ -1,0 +1,54 @@
+{
+  "scope": "Compact delay-line reference and direct-BL8 traffic audit, not receiver RTL.\nARIB STD-B31 v2.2-E1 3.11.1, Fig.3-23, Table3-12.\nhttps://www.arib.or.jp/english/html/overview/doc/6-STD-B31v2_2-E1.pdf\nThe transmitter delay I*((5*i)%96) is complemented to 95*I.\nSix bytes per carrier means six existing 8-bit soft values, not raw I/Q.\n",
+  "conditions": [
+    {
+      "mode": 1,
+      "I": 16,
+      "carriers": 1248,
+      "nonzero_delay_carriers": 1235,
+      "compact_six_byte_storage": 5690880,
+      "rectangular_six_byte_storage": 11381760,
+      "per_carrier_pointer_bits": 11934,
+      "direct_min_BL8_transactions_per_symbol": 2470,
+      "useful_read_write_MB_s": 57.02741702741703,
+      "direct_min_bus_MB_s": 304.14622414622414,
+      "direct_min_data_bus_clock_fraction": 0.4928295298665669,
+      "includes_commands_or_other_clients": false,
+      "compact_layout_RTL_implemented": false,
+      "whole_receiver_verified": false
+    },
+    {
+      "mode": 2,
+      "I": 8,
+      "carriers": 2496,
+      "nonzero_delay_carriers": 2470,
+      "compact_six_byte_storage": 5690880,
+      "rectangular_six_byte_storage": 11381760,
+      "per_carrier_pointer_bits": 21398,
+      "direct_min_BL8_transactions_per_symbol": 4940,
+      "useful_read_write_MB_s": 57.02741702741703,
+      "direct_min_bus_MB_s": 304.14622414622414,
+      "direct_min_data_bus_clock_fraction": 0.4928295298665669,
+      "includes_commands_or_other_clients": false,
+      "compact_layout_RTL_implemented": false,
+      "whole_receiver_verified": false
+    },
+    {
+      "mode": 3,
+      "I": 4,
+      "carriers": 4992,
+      "nonzero_delay_carriers": 4940,
+      "compact_six_byte_storage": 5690880,
+      "rectangular_six_byte_storage": 11381760,
+      "per_carrier_pointer_bits": 37856,
+      "direct_min_BL8_transactions_per_symbol": 9880,
+      "useful_read_write_MB_s": 57.02741702741703,
+      "direct_min_bus_MB_s": 304.14622414622414,
+      "direct_min_data_bus_clock_fraction": 0.4928295298665669,
+      "includes_commands_or_other_clients": false,
+      "compact_layout_RTL_implemented": false,
+      "whole_receiver_verified": false
+    }
+  ],
+  "warning": "The direct transaction bound is conditional on one read and one write burst per carrier. Cross-carrier/temporal coalescing is not covered and may reduce traffic. It is not a lower bound on every implementation."
+}

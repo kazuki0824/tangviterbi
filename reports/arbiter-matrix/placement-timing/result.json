@@ -1,0 +1,48 @@
+{
+  "routed": false,
+  "input_sha256": "e6d354f98968fc18f5db0734b70032e06398f99f214ef1fefd2fc8f64bb55f55",
+  "binary_sha256": "e47bcc3070e56f332220697def29182757922335895f913917618ec10bcf4a94",
+  "exit": 0,
+  "seconds": 339.1335209329991,
+  "fmax_estimated": {
+    "dut.clk": {
+      "achieved": 62.4141845703125,
+      "constraint": 154.28570556640625
+    }
+  },
+  "predicted_path_delay_ns_by_type": {
+    "clk-skew": 5.800000190734863,
+    "clk-to-q": 0.23100000619888306,
+    "routing": 6.599999904632568,
+    "logic": 3.356000065803528,
+    "setup": 0.03500000014901161
+  },
+  "launch": {
+    "cell": "dut.memory.service.arb.remaining_DFFRE_Q_4",
+    "loc": [
+      46,
+      8
+    ],
+    "port": "CLK"
+  },
+  "capture": {
+    "cell": "dut.memory.service.controller.write_data_DFFRE_Q_155",
+    "loc": [
+      6,
+      26
+    ],
+    "port": "D"
+  },
+  "logic_stages": 7,
+  "physical_sites": {
+    "FF": 8662,
+    "packed_logic_with_ram_blockers": 19439,
+    "minimum_extra_passthrough_LUTs": 0,
+    "optimistic_logic_site_lower_bound": 19439,
+    "capacity": 20736,
+    "excess": -1297,
+    "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+  },
+  "timing.json_sha256": "a22b392bac5a912a96c6bb2b1ac87bd656502ba76b6c650386837925cc3da65b",
+  "placed.json_sha256": "7743cafd9653fac4a1427d1698df99be224937b443bd46d9f6863fcc2849521b"
+}

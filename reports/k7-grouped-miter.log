@@ -1,0 +1,179 @@
+
+-- Running command `read_verilog experiments/k7_grouped_miter.sv; prep -top k7_grouped_miter; sat -verify -prove equal 1 -show-inputs' --
+
+1. Executing Verilog-2005 frontend: experiments/k7_grouped_miter.sv
+Parsing Verilog input from `experiments/k7_grouped_miter.sv' to AST representation.
+Generating RTLIL representation for module `\k7_grouped_miter'.
+Successfully finished Verilog frontend.
+
+2. Executing PREP pass.
+
+2.1. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1.1. Analyzing design hierarchy..
+Top module:  \k7_grouped_miter
+
+2.1.2. Analyzing design hierarchy..
+Top module:  \k7_grouped_miter
+Removed 0 unused modules.
+
+2.2. Executing PROC pass (convert processes to netlists).
+
+2.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+2.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+2.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 8 assignments to connections.
+
+2.2.4. Executing PROC_INIT pass (extract init attributes).
+
+2.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+2.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+2.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\k7_grouped_miter.$proc$experiments/k7_grouped_miter.sv:15$5'.
+
+2.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\k7_grouped_miter.\grouped_difference$func$experiments/k7_grouped_miter.sv:15$1.$result' from process `\k7_grouped_miter.$proc$experiments/k7_grouped_miter.sv:15$5'.
+
+2.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+2.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+2.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Removing empty process `k7_grouped_miter.$proc$experiments/k7_grouped_miter.sv:15$5'.
+Cleaned up 0 empty switches.
+
+2.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module k7_grouped_miter.
+
+2.3. Executing FUTURE pass.
+
+2.4. Executing OPT_EXPR pass (perform const folding).
+Optimizing module k7_grouped_miter.
+
+2.5. Executing CHECK pass (checking for obvious problems).
+Checking module k7_grouped_miter...
+Found and reported 0 problems.
+
+2.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \k7_grouped_miter..
+Removed 0 unused cells and 12 unused wires.
+<suppressed ~1 debug messages>
+
+2.7. Executing OPT pass (performing simple optimizations).
+
+2.7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module k7_grouped_miter.
+
+2.7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\k7_grouped_miter'.
+Computing hashes of 12 cells of `\k7_grouped_miter'.
+Finding duplicate cells in `\k7_grouped_miter'.
+Removed a total of 0 cells.
+
+2.7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \k7_grouped_miter..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+2.7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \k7_grouped_miter.
+Performed a total of 0 changes.
+
+2.7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\k7_grouped_miter'.
+Computing hashes of 12 cells of `\k7_grouped_miter'.
+Finding duplicate cells in `\k7_grouped_miter'.
+Removed a total of 0 cells.
+
+2.7.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \k7_grouped_miter..
+
+2.7.7. Executing OPT_EXPR pass (perform const folding).
+Optimizing module k7_grouped_miter.
+
+2.7.8. Finished fast OPT passes. (There is nothing left to do.)
+
+2.8. Executing WREDUCE pass (reducing word size of cells).
+
+2.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \k7_grouped_miter..
+
+2.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+2.11. Executing OPT pass (performing simple optimizations).
+
+2.11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module k7_grouped_miter.
+
+2.11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\k7_grouped_miter'.
+Computing hashes of 12 cells of `\k7_grouped_miter'.
+Finding duplicate cells in `\k7_grouped_miter'.
+Removed a total of 0 cells.
+
+2.11.3. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \k7_grouped_miter..
+
+2.11.4. Finished fast OPT passes.
+
+2.12. Executing SORT pass.
+
+2.13. Printing statistics.
+
+=== k7_grouped_miter ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       16 wires
+       95 wire bits
+        9 public wires
+       81 public wire bits
+        3 ports
+       27 port bits
+       12 cells
+        2   $eq
+        1   $logic_and
+        1   $logic_or
+        2   $lt
+        6   $sub
+
+2.14. Executing CHECK pass (checking for obvious problems).
+Checking module k7_grouped_miter...
+Found and reported 0 problems.
+
+3. Executing SAT pass (solving SAT problems in the circuit).
+Using SAT solver `minisat`.
+
+Setting up SAT problem:
+Final constraint equation: { } = { }
+Imported 12 cells to SAT database.
+Import proof-constraint: \equal = 1'1
+Final proof equation: \equal = 1'1
+Import show expression: \a
+Import show expression: \b
+
+Solving problem with 431 variables and 1144 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+
+End of script. Logfile hash: 13bdb9b1d8, time: 0.02s, user: 0.04s, system: 0.01s, MEM: 19.05 MB peak
+Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)
+Time spent: 25% 1x sat (0 sec), 24% 2x read_verilog (0 sec), ...

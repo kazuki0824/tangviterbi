@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-20",
+  "ring_blob": "02d38877e02a4ef19526895d21b86ce3e5fd5a41",
+  "receiver_blob": "6c9bf0b685d9b59fc5214bece56e040f8ca1c5c5",
+  "repository": "ESPARGOS/esp-sdr",
+  "raw_T_Bps": 40000000,
+  "raw_S_Bps": 100000000,
+  "RF_capture_to_SRAM_Bps": {
+    "T": 64000000,
+    "S": 160000000
+  },
+  "lossless_packed_output_Bps": {
+    "T": 40000000,
+    "S": 100000000
+  },
+  "bank_samples": 12288,
+  "bank_interval_us": {
+    "T": 768,
+    "S": 307.2
+  },
+  "late_limit_us": {
+    "T": 125,
+    "S": 50
+  },
+  "raw_bank_storage_bytes": 196608,
+  "continuous_capture_implementation_exists": true,
+  "full_rate_lossless_GPIO_or_SPI_output_verified": false,
+  "upstream_drops_work_when_late": true,
+  "upstream_interrupts_disabled_during_ring": true,
+  "upstream_USB_output_can_drop_frames": true,
+  "local_adaptation_keeps_interrupts_enabled": true,
+  "local_WCET_verified": false,
+  "important": "Continuous capture is not lossless export. CPU/GDMA contention and instruction/capture SRAM coexistence remain unverified; no source proves they are impossible.",
+  "normal_peripheral_S_routes": [
+    {
+      "ports": [
+        "SPI2_8bit_80",
+        "SPI3_4bit_80"
+      ],
+      "capacity_MBps": 103.72349957422463,
+      "required_MBps": 100.01,
+      "spare_MBps": 3.7134995742246275,
+      "CPU_percent_low_high": [
+        90.13756621837857,
+        106.80423288504524
+      ],
+      "high_model_pass": false,
+      "WCET_verified": false
+    },
+    {
+      "ports": [
+        "SPI2_8bit_80",
+        "eMMC4_DDR40"
+      ],
+      "capacity_MBps": 102.01817999160326,
+      "required_MBps": 100.01,
+      "spare_MBps": 2.0081799916032566,
+      "CPU_percent_low_high": [
+        89.95307766716716,
+        106.61974433383384
+      ],
+      "high_model_pass": false,
+      "WCET_verified": false
+    }
+  ],
+  "correction": "The high CPU cost model already rejects these normal peripheral routes. This is not merely a bandwidth margin concern, and is not a proof against dedicated-GPIO or different efficient packer implementations.",
+  "existing_packer_evidence_source_matches_current": true,
+  "packer_source_sha256": "280e93a1ed99b504dcd4b9c16062b8d624cd24d9de34c9007e399ac0d3332703",
+  "existing_packer_O3_helper_instructions": 39,
+  "helper_memory_issue_cycles_per_sample_floor": 1.875,
+  "packer_floor_is_not_WCET": true
+}

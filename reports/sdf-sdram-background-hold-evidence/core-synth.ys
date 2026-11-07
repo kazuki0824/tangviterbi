@@ -1,0 +1,9 @@
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/sdf_delay_cache.sv
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/sdram_client_arbiter.sv
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/dual_sdram_burst.sv
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/sdf_sdram_service.sv
+rename sdf_sdram_service sdf_sdram_service_unbuffered
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/sdram_request_slot.sv
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/sdf_background_hold_service.sv
+synth_gowin -family gw2a -top sdf_sdram_service -nowidelut -json /workspace/scratch/3793ea63b22e/tangviterbi/reports/sdf-sdram-background-hold-evidence/core-mapped.json
+check -assert

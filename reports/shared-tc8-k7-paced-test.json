@@ -1,0 +1,73 @@
+{
+  "scope": "Finite ideal-source deadline probe, not actual SDRAM service or full S burst proof.",
+  "passed": true,
+  "clock_MHz": 154.28571428571428,
+  "T_mode": 1,
+  "T_segments": [
+    1,
+    5,
+    7
+  ],
+  "T_rate": "7/8",
+  "T_symbols": 2,
+  "T_symbol_clocks": 40095,
+  "T_soft_MBps": 28.81385281385281,
+  "S_tc8_Msymbolps": 28.86,
+  "S_binary_soft_MBps": 57.72,
+  "S_source_queue_capacity": 256,
+  "source_queues_in_testbench_only": true,
+  "actual_SDRAM_service_connected": false,
+  "S_arrival_uniform_not_actual_burst": true,
+  "all_phase_or_long_term_proof": false,
+  "records": [
+    {
+      "epoch": 0,
+      "TC8": 1,
+      "S_source_queue_peak": 1,
+      "T_max_symbol_ACS_latency_clocks": 21207,
+      "S_max_ACS_gap_clocks": 12,
+      "FIFO_peak": [
+        16,
+        16,
+        16,
+        2
+      ]
+    },
+    {
+      "epoch": 1,
+      "TC8": 0,
+      "S_source_queue_peak": 17,
+      "T_max_symbol_ACS_latency_clocks": 38831,
+      "S_max_ACS_gap_clocks": 10,
+      "FIFO_peak": [
+        16,
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "output_counts": [
+    [
+      896,
+      4928,
+      6976,
+      14912
+    ],
+    [
+      896,
+      4928,
+      6976,
+      26176
+    ]
+  ],
+  "output_bank_granularity": 64,
+  "source_sha256": {
+    "experiments/shared_tc8_k7_context.sv": "fdce20f55b8acbf0f033d7906277ba1ca567df38c62562135de60d5e43f5a837",
+    "experiments/shared_tc8_k7_stream.sv": "fa2c188fb7f74acbb29fcbc80b2a8d7625a599a5481c966dca777770a878bcdd",
+    "experiments/shared_tc8_k7_depuncture_stream.sv": "5dbd17b29ef93a947bebeec2386fe20980d90e9fc367ed3b78fe64e1f93f88ff",
+    "rtl/s3_depuncture.sv": "83a0a087b3595d4196b319ccec32944c4d943fb2a6a41a160c814730f4fc267a",
+    "rtl/s3_tc8psk_metric_folded.sv": "42ebd4bf3faf8bb9d97a42649764f4a9f6e0ee98dfa0f9e6435949e92c2bf6e1",
+    "tests/test_shared_tc8_k7_paced.py": "ade1ee27412589b654b4dacd1c2a173be0516c67e220c5b854e1edc2733371ff"
+  }
+}

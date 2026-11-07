@@ -1,0 +1,235 @@
+{
+  "scope": "CAD probe of cache/arbiter/controller. No PHY or whole-receiver closure.",
+  "variant": "current",
+  "harness_register_count": 2019,
+  "target_MHz": 154.28571428571428,
+  "source_sha256": {
+    "rtl/sdf_delay_cache.sv": "4ec4dadc12e228de180c78e8196ed382cb931a27455684992d4f557bc07c8c6a",
+    "rtl/sdram_client_arbiter.sv": "cfd670a7c92a024f6681add8dc71cc741cb5efde728783e605617ec748180225",
+    "rtl/dual_sdram_burst.sv": "6266f2dee4ac619b7cae094bcec1c9c22ca5c7c09df6a07f26e04d5a84b11888",
+    "rtl/sdf_sdram_service.sv": "6ec05df27479a19b5d4eb763f213e0b5b2acb232d327520422813e446cd8ad75",
+    "experiments/sdf_sdram_service_probe.sv": "f6dca9897ff8dd083e32749be8c976952b173d41c1b7989b30f640e71c28a961",
+    "ci/sdf_sdram_service_evidence.py": "6e8328f8d49e83622a0159793eda1d5ff7850bec42ffedb4ade08819886ec529"
+  },
+  "yosys_version": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "pnr_version": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)",
+  "core_mapped_cells": {
+    "$scopeinfo": 3,
+    "DFFRE": 405,
+    "ALU": 86,
+    "LUT1": 4,
+    "GND": 1,
+    "IBUF": 1653,
+    "DFFE": 556,
+    "LUT3": 770,
+    "VCC": 1,
+    "LUT4": 1448,
+    "LUT2": 421,
+    "DFF": 9,
+    "OBUF": 355,
+    "DFFR": 8,
+    "DFFSE": 8
+  },
+  "core_mapped_logic": 2729,
+  "core_mapped_FF": 986,
+  "routed_total_cells": {
+    "LUT4": 3238,
+    "BUFG": 1,
+    "ALU": 100,
+    "GSR": 1,
+    "OBUF": 1,
+    "IBUF": 4,
+    "DFF": 10,
+    "LUT2": 132,
+    "LUT3": 1354,
+    "DFFR": 375,
+    "DFFRE": 2056,
+    "DFFSE": 8,
+    "DFFE": 556,
+    "LUT1": 4,
+    "GOWIN_GND": 1,
+    "GOWIN_VCC": 1
+  },
+  "harness_cells": {
+    "LUT4": 1799,
+    "DFF": 1,
+    "DFFR": 367,
+    "DFFRE": 1651,
+    "LUT3": 4,
+    "LUT2": 11
+  },
+  "service_cells": {
+    "LUT4": 1439,
+    "BUFG": 1,
+    "ALU": 100,
+    "GSR": 1,
+    "OBUF": 1,
+    "IBUF": 4,
+    "LUT2": 121,
+    "LUT3": 1350,
+    "DFFRE": 405,
+    "DFFSE": 8,
+    "DFFR": 8,
+    "DFFE": 556,
+    "LUT1": 4,
+    "DFF": 9,
+    "GOWIN_GND": 1,
+    "GOWIN_VCC": 1
+  },
+  "routed_total_logic": 4828,
+  "harness_logic": 1814,
+  "service_logic_positions": 3014,
+  "service_FF": 986,
+  "utilization": {
+    "ALU": {
+      "available": 15552,
+      "used": 100
+    },
+    "ALU54D": {
+      "available": 24,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 46,
+      "used": 0
+    },
+    "BUFG": {
+      "available": 24,
+      "used": 1
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 15552,
+      "used": 3005
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "GW_JTAG": {
+      "available": 1,
+      "used": 0
+    },
+    "IOB": {
+      "available": 384,
+      "used": 5
+    },
+    "IOLOGICI": {
+      "available": 384,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 384,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 20736,
+      "used": 4728
+    },
+    "MULT18X18": {
+      "available": 48,
+      "used": 0
+    },
+    "MULT36X36": {
+      "available": 12,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 96,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 10368,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 5184,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 2592,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 2592,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 48,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 96,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 648,
+      "used": 0
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "fmax": {
+    "dut.arb.clk": {
+      "achieved": 185.04812622070312,
+      "constraint": 154.28570556640625
+    }
+  },
+  "route_completed": true,
+  "pnr_errors": [],
+  "reserve_logic": 2231,
+  "reserve_excess": 783,
+  "old_mixed_budget_logic": 20472,
+  "updated_mixed_logic_other_unimplemented_cost_zero": 21255,
+  "device_logic": 20736,
+  "updated_mixed_excess": 519,
+  "classification": "mapped src identifies scan/signature FF; Only digest* reduction logic and per-harness-FF passthrough LUTs are harness; capture D-input driver logic remains charged to service. All other logic charged to service.",
+  "PHY_verified": false,
+  "whole_receiver_verified": false,
+  "external_IO_STA_verified": false
+}

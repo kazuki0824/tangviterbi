@@ -1,0 +1,3 @@
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/rtl/t_soft_reader.sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/t_soft_reader_probe.sv
+synth_gowin -family gw2a -top t_soft_reader_probe -nowidelut -json /workspace/scratch/3793ea63b22e/tangviterbi/reports/t-soft-reader-fixed-burst-range-evidence/mapped.json
+check -assert

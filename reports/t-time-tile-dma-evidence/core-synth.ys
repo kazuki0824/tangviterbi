@@ -1,0 +1,3 @@
+read_verilog -sv experiments/t_time_tile_store.sv experiments/t_time_tile_dma.sv
+synth_gowin -family gw2a -top t_time_tile_dma -nowidelut -json reports/t-time-tile-dma-evidence/core-mapped.json
+check -assert

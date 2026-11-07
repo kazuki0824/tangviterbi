@@ -1,0 +1,70 @@
+{
+  "scope": "Independent partial reader cost overlay; inherited stage allocations unchanged, other missing integration logic cost zero.",
+  "trials": [
+    {
+      "name": "fixed-context",
+      "evidence": "reports/t-soft-reader-fixed-context-evidence/summary.json",
+      "snapshot": "reports/t-soft-reader-fixed-context-evidence/reader.sv",
+      "logic": 1503,
+      "FF_sites": 500,
+      "Fmax_MHz": 137.5326690673828,
+      "target_pass": false
+    },
+    {
+      "name": "fixed-burst-range",
+      "evidence": "reports/t-soft-reader-fixed-burst-range-evidence/summary.json",
+      "snapshot": "reports/t-soft-reader-fixed-burst-range-evidence/reader.sv",
+      "logic": 1429,
+      "FF_sites": 500,
+      "Fmax_MHz": 145.79383850097656,
+      "target_pass": false
+    },
+    {
+      "name": "fixed-onehot",
+      "evidence": "reports/t-soft-reader-fixed-onehot-evidence/summary.json",
+      "snapshot": "reports/t-soft-reader-fixed-onehot-evidence/reader.sv",
+      "logic": 1376,
+      "FF_sites": 500,
+      "Fmax_MHz": 148.76524353027344,
+      "target_pass": false
+    },
+    {
+      "name": "fixed-window",
+      "evidence": "reports/t-soft-reader-fixed-window-evidence/summary.json",
+      "snapshot": "reports/t-soft-reader-fixed-window-evidence/reader.sv",
+      "logic": 1369,
+      "FF_sites": 500,
+      "Fmax_MHz": 137.5705108642578,
+      "target_pass": false
+    },
+    {
+      "name": "fixed-validity",
+      "evidence": "reports/t-soft-reader-fixed-validity-evidence/summary.json",
+      "snapshot": "rtl/t_soft_reader.sv",
+      "logic": 1373,
+      "FF_sites": 500,
+      "Fmax_MHz": 163.5323028564453,
+      "target_pass": true
+    }
+  ],
+  "selected_reader_variant": "fixed-validity",
+  "previous_reader_logic": 2251,
+  "reader_logic_saved": 878,
+  "base_service_tracking_logic": 20726,
+  "mixed_logic": 22099,
+  "capacity_logic": 20736,
+  "logic_excess": 1363,
+  "mixed_FF_sites": 13025,
+  "capacity_FF_sites": 15552,
+  "mixed_BSRAM": 46,
+  "capacity_BSRAM": 46,
+  "mixed_DSP18": 34,
+  "capacity_DSP18": 48,
+  "stage_overlap_credit": 0,
+  "service_and_reader_joint_PnR": false,
+  "whole_receiver_resources": null,
+  "receiver_adopted": false,
+  "formal_routes": 0,
+  "all_20k_partitions_impossible": false,
+  "source_hashes_verified": true
+}

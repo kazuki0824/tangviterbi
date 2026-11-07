@@ -1,0 +1,3 @@
+read_verilog -sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/t_time_tile_store.sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/t_time_tile_dma_static.sv /workspace/scratch/3793ea63b22e/tangviterbi/experiments/t_time_tile_dma_probe.sv
+synth_gowin -family gw2a -top t_time_tile_dma_probe -nowidelut -json /workspace/scratch/3793ea63b22e/tangviterbi/reports/t-time-tile-dma-static-route/mapped.json
+check -assert

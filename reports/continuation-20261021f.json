@@ -1,0 +1,258 @@
+{
+  "early_seed_maps_identical": true,
+  "scope": "Collect measured hold-lifetime experiments; no deadline inferred from unittest exit.",
+  "rows": [
+    {
+      "variant": "aligned",
+      "RTL_test_reused": false,
+      "core": {
+        "FF": 8788,
+        "packed_logic_with_ram_blockers": 18576,
+        "minimum_extra_passthrough_LUTs": 2268,
+        "optimistic_logic_site_lower_bound": 20844,
+        "capacity": 20736,
+        "excess": 108,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "probe_inclusive": {
+        "FF": 10815,
+        "packed_logic_with_ram_blockers": 18712,
+        "minimum_extra_passthrough_LUTs": 4202,
+        "optimistic_logic_site_lower_bound": 22914,
+        "capacity": 20736,
+        "excess": 2178,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "placement_gate": 2,
+      "TTI_finish": 2559092,
+      "TTI_margin": 6988,
+      "finite_deadlines_pass": true,
+      "data_words": 119808,
+      "writes": 29796,
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "noalu",
+      "RTL_test_reused": true,
+      "core": {
+        "FF": 8788,
+        "packed_logic_with_ram_blockers": 19148,
+        "minimum_extra_passthrough_LUTs": 2268,
+        "optimistic_logic_site_lower_bound": 21416,
+        "capacity": 20736,
+        "excess": 680,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "probe_inclusive": {
+        "FF": 10815,
+        "packed_logic_with_ram_blockers": 19284,
+        "minimum_extra_passthrough_LUTs": 4202,
+        "optimistic_logic_site_lower_bound": 23486,
+        "capacity": 20736,
+        "excess": 2750,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "placement_gate": 2,
+      "TTI_finish": 2559092,
+      "TTI_margin": 6988,
+      "finite_deadlines_pass": true,
+      "data_words": 119808,
+      "writes": 29796,
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "firstwrite",
+      "RTL_test_reused": false,
+      "core": {
+        "FF": 8740,
+        "packed_logic_with_ram_blockers": 18857,
+        "minimum_extra_passthrough_LUTs": 2219,
+        "optimistic_logic_site_lower_bound": 21076,
+        "capacity": 20736,
+        "excess": 340,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "probe_inclusive": {
+        "FF": 10767,
+        "packed_logic_with_ram_blockers": 18993,
+        "minimum_extra_passthrough_LUTs": 4153,
+        "optimistic_logic_site_lower_bound": 23146,
+        "capacity": 20736,
+        "excess": 2410,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "placement_gate": 2,
+      "TTI_finish": 2556802,
+      "TTI_margin": 9278,
+      "finite_deadlines_pass": true,
+      "data_words": 119808,
+      "writes": 29796,
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "held",
+      "RTL_test_reused": false,
+      "core": {
+        "FF": 8227,
+        "packed_logic_with_ram_blockers": 17299,
+        "minimum_extra_passthrough_LUTs": 2479,
+        "optimistic_logic_site_lower_bound": 19778,
+        "capacity": 20736,
+        "excess": -958,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "probe_inclusive": {
+        "FF": 10254,
+        "packed_logic_with_ram_blockers": 17435,
+        "minimum_extra_passthrough_LUTs": 4413,
+        "optimistic_logic_site_lower_bound": 21848,
+        "capacity": 20736,
+        "excess": 1112,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "placement_gate": 3,
+      "TTI_finish": 2586650,
+      "TTI_margin": -20570,
+      "finite_deadlines_pass": false,
+      "data_words": 119808,
+      "writes": 29796,
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "heldearly",
+      "RTL_test_reused": false,
+      "core": {
+        "FF": 8483,
+        "packed_logic_with_ram_blockers": 17314,
+        "minimum_extra_passthrough_LUTs": 2735,
+        "optimistic_logic_site_lower_bound": 20049,
+        "capacity": 20736,
+        "excess": -687,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "probe_inclusive": {
+        "FF": 10510,
+        "packed_logic_with_ram_blockers": 17450,
+        "minimum_extra_passthrough_LUTs": 4669,
+        "optimistic_logic_site_lower_bound": 22119,
+        "capacity": 20736,
+        "excess": 1383,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "placement_gate": 3,
+      "TTI_finish": 2562998,
+      "TTI_margin": 3082,
+      "finite_deadlines_pass": true,
+      "data_words": 119808,
+      "writes": 29796,
+      "source_hashes_verified": true
+    },
+    {
+      "variant": "held-grace16",
+      "RTL_test_reused": false,
+      "core": {
+        "FF": 8230,
+        "packed_logic_with_ram_blockers": 17308,
+        "minimum_extra_passthrough_LUTs": 2479,
+        "optimistic_logic_site_lower_bound": 19787,
+        "capacity": 20736,
+        "excess": -949,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "probe_inclusive": {
+        "FF": 10257,
+        "packed_logic_with_ram_blockers": 17444,
+        "minimum_extra_passthrough_LUTs": 4413,
+        "optimistic_logic_site_lower_bound": 21857,
+        "capacity": 20736,
+        "excess": 1121,
+        "scope": "Fixed netlist; optimistic pairing, no CE/reset/adjacency constraints. Not a lower bound over alternative mapping or RTL."
+      },
+      "placement_gate": 3,
+      "TTI_finish": 2571988,
+      "TTI_margin": -5908,
+      "finite_deadlines_pass": false,
+      "data_words": 119808,
+      "writes": 29796,
+      "source_hashes_verified": true
+    }
+  ],
+  "standalone": {
+    "held": {
+      "route_completed": true,
+      "partial_target_pass": true,
+      "logic_with_ram_blockers": 5849,
+      "FF_sites_with_ram_blockers": 3074,
+      "fmax": {
+        "dut.clk": {
+          "achieved": 165.1800537109375,
+          "constraint": 154.28570556640625
+        }
+      },
+      "BSRAM": 2
+    },
+    "heldearly": {
+      "route_completed": true,
+      "partial_target_pass": false,
+      "logic_with_ram_blockers": 6125,
+      "FF_sites_with_ram_blockers": 3330,
+      "fmax": {
+        "dut.clk": {
+          "achieved": 152.9051971435547,
+          "constraint": 154.28570556640625
+        }
+      },
+      "BSRAM": 2
+    },
+    "heldearly-seed2": {
+      "route_completed": true,
+      "partial_target_pass": true,
+      "logic_with_ram_blockers": 6125,
+      "FF_sites_with_ram_blockers": 3330,
+      "fmax": {
+        "dut.clk": {
+          "achieved": 164.6903839111328,
+          "constraint": 154.28570556640625
+        }
+      },
+      "BSRAM": 2
+    }
+  },
+  "formal_receiver_adoptions": 0,
+  "configuration_1_stopped": true,
+  "whole_receiver_verified": false,
+  "input_sha256": {
+    "reports/shared-receiver-fft-tile-aligned-pack/ff-site-audit.json": "236f4619bfb207be92f4d1d9ae6627baa1062fedfce932eee33561da0ae8cdf1",
+    "reports/shared-receiver-fft-tile-aligned-pack/placement-gate.json": "6b166d218084a847d402b1398d611eb51493a6732c5ddee467c860f64616e666",
+    "reports/shared-receiver-fft-tile-aligned-pack/packed-budget.json": "80cb20edf5e2b22557a1b940bce9f2f99a9ca561f503310938d13d66e45eeccb",
+    "reports/t-time-tile-dma-aligned-full.json": "c9e8ad291068f899274bd551f385991984599b21358acd44d1549f9c68733c19",
+    "reports/shared-receiver-fft-tile-noalu-pack/ff-site-audit.json": "bba23d1f97bd93a268bee72afa2b595078ae5cc25b29ccf155c78d3e425c972f",
+    "reports/shared-receiver-fft-tile-noalu-pack/placement-gate.json": "1e82f32135678951be2e5c8e3f9cddf5a4c5bf9e44dccb417f8fb1c3c3537885",
+    "reports/shared-receiver-fft-tile-noalu-pack/packed-budget.json": "6f12a2f164411aa2da21298b56bd7abbfa0d24dd7ccc67197fd30ffce55f8dba",
+    "reports/shared-receiver-fft-tile-firstwrite-pack/ff-site-audit.json": "84a75d3a39ac92f3913a3de77eea37060f1d64ff95439dcdab9113c229d65ab4",
+    "reports/shared-receiver-fft-tile-firstwrite-pack/placement-gate.json": "76f739b58e89046a769ab9cb83c2624285e341c25d776ae508b86aa50c26f8c9",
+    "reports/shared-receiver-fft-tile-firstwrite-pack/packed-budget.json": "1fd9a0b32ad6121e9521692b7ed67503d3246bfc16086af1a052f94765ec988f",
+    "reports/t-time-tile-dma-firstwrite-full.json": "ae62f301a30f9e432fef404c61574c1a934e2cbd6a8686de99e9cd4e21f3912d",
+    "reports/shared-receiver-fft-tile-held-pack/ff-site-audit.json": "baa3a808607b6bb22fb21d5382fd0ce807275f3fe07737f7a9202d2e90194b60",
+    "reports/shared-receiver-fft-tile-held-pack/placement-gate.json": "770ec77b33a017d70521bda292406dc12777644f03a86b374c74391338e4900a",
+    "reports/shared-receiver-fft-tile-held-pack/packed-budget.json": "c6070c7d2075507a00bb55e72355e7cb0c0ea98a4ed5b9f8846d8ade21105f2d",
+    "reports/t-time-tile-dma-held-full.json": "8703e1c078ea6917a3284443e515aaf1209279fa6ccf9d0bedb87fe3897d8ec0",
+    "reports/shared-receiver-fft-tile-heldearly-pack/ff-site-audit.json": "b22d431cc49079245181f1ef26e6ac6356532d823a3b42ca59ad9874a587b45c",
+    "reports/shared-receiver-fft-tile-heldearly-pack/placement-gate.json": "34783e6a430bf65ea515d2711667d3e07b47afad61c3406f976fe6400ffcc2ab",
+    "reports/shared-receiver-fft-tile-heldearly-pack/packed-budget.json": "585d7f45c0bc6176bb8f88d15c98d1ea6147611314cdb9288c491aaeb6a82d02",
+    "reports/t-time-tile-dma-heldearly-full.json": "c0408eee5660699a12c088de7a6cfafe0f502d95d031c93f250c59f9f5ab5fa9",
+    "reports/shared-receiver-fft-tile-held-grace16-pack/ff-site-audit.json": "acdfab0408f7be98023988e3ff677f76099b7c6b5ca0dfbab3bdaa3611812a46",
+    "reports/shared-receiver-fft-tile-held-grace16-pack/placement-gate.json": "20c5326a7a8136101f020c913324b515f89df3056b8a592144c5ef390dd1e887",
+    "reports/shared-receiver-fft-tile-held-grace16-pack/packed-budget.json": "f820f366d2678677abb7c9c373aefb14b28fe8672a9e77c3d24c80f8851a226f",
+    "reports/t-time-tile-dma-held-grace16-full.json": "3b9278b1a122c7ef157d4c2d71f3e44c20bfc34774ed007415bf3a7cb59484eb",
+    "reports/t-time-tile-dma-held-route/summary.json": "1b320668f53d204cb88cb03ba286ec628d92377db9c7a258083662b3aa7c1926",
+    "reports/t-time-tile-dma-heldearly-route/summary.json": "2042bd11a59ae3fed3fe1ff05b62418f5974f9979639222d1eb5b45b36ef13b4",
+    "reports/t-time-tile-dma-heldearly-seed2-route/summary.json": "05bed3cbc4c4e8ebd7f24fd1ab82f56548967c4d4688f4b6bc5afc1964eb62ce",
+    "reports/t-time-tile-dma-firstwrite-offsets.json": "a2db331b423f6e25c48aa70fe95b6e142d2e95f5442ec00e21848b57f94741be",
+    "reports/t-time-tile-dma-held-offsets.json": "e03ad3be5bbc22bd158bd7540a36988a608775c1fd7ef31d48865e5354a21e6a",
+    "reports/t-time-tile-dma-heldearly-offsets.json": "ffa7d9e6d58ff01b4013565bdb157475ddd43c622644cce5ee1040be4cc094d4",
+    "reports/t-time-tile-dma-heldearly-route/mapped.json.gz": "2c783e53717f432b3783d9c4a63ec49b3dbed844aa4b200616c5211d40cd3004",
+    "reports/t-time-tile-dma-heldearly-seed2-route/mapped.json.gz": "2c783e53717f432b3783d9c4a63ec49b3dbed844aa4b200616c5211d40cd3004"
+  },
+  "collector_sha256": "5896ad405a3c0290b46257cd64d73b9741d2ed687c5760eb97964450ea6e6a4d"
+}

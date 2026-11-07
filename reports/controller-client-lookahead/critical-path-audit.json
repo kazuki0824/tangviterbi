@@ -1,0 +1,205 @@
+{
+  "scope": "Completed routed partial fixture, not whole receiver or board IO STA",
+  "period_ns": 7.008000049740076,
+  "target_period_ns": 6.481481481481482,
+  "required_cut_ns": 0.5265185682585942,
+  "required_frequency_increase_percent": 8.123430577625035,
+  "logic_stages": 7,
+  "longest_routing_arcs": [
+    {
+      "delay": 1.2719999551773071,
+      "from": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_D_LUT4_F_I3_LUT4_F_I1_LUT4_I1",
+        "loc": [
+          40,
+          8
+        ],
+        "port": "F"
+      },
+      "net": "dut.memory.service.controller.state_DFFR_Q_D_LUT4_F_I3_LUT4_F_I1_LUT4_I1_F[3]",
+      "sources": [
+        "/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+      ],
+      "to": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_1_D_LUT4_F",
+        "loc": [
+          14,
+          7
+        ],
+        "port": "I3"
+      },
+      "type": "routing"
+    },
+    {
+      "delay": 0.6000000238418579,
+      "from": {
+        "cell": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1_LUT4_F",
+        "loc": [
+          41,
+          3
+        ],
+        "port": "F"
+      },
+      "net": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1[3]",
+      "sources": [
+        "/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+      ],
+      "to": {
+        "cell": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1_LUT4_I3",
+        "loc": [
+          41,
+          11
+        ],
+        "port": "I3"
+      },
+      "type": "routing"
+    },
+    {
+      "delay": 0.4740000069141388,
+      "from": {
+        "cell": "dut.tile.outstanding_LUT2_I0_F_LUT4_I3",
+        "loc": [
+          39,
+          2
+        ],
+        "port": "F"
+      },
+      "net": "dut.tile.outstanding_LUT2_I0_F_LUT3_I2_F_LUT4_F_I3_LUT4_I3_F_LUT3_I1_F[1]",
+      "sources": [
+        "/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+      ],
+      "to": {
+        "cell": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1_LUT4_F",
+        "loc": [
+          41,
+          3
+        ],
+        "port": "I1"
+      },
+      "type": "routing"
+    },
+    {
+      "delay": 0.40400001406669617,
+      "from": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_D_LUT4_F_I3_LUT4_F_I1_LUT3_F_I1_LUT3_I2_F_LUT4_F",
+        "loc": [
+          41,
+          10
+        ],
+        "port": "F"
+      },
+      "net": "dut.memory.service.controller.state_DFFR_Q_D_LUT4_F_I3_LUT4_F_I1[2]",
+      "sources": [
+        "/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+      ],
+      "to": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_D_LUT4_F_I3_LUT4_F_I1_LUT4_I1",
+        "loc": [
+          40,
+          8
+        ],
+        "port": "I2"
+      },
+      "type": "routing"
+    },
+    {
+      "delay": 0.3790000081062317,
+      "from": {
+        "cell": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1_LUT4_I3_F_LUT4_I3",
+        "loc": [
+          41,
+          12
+        ],
+        "port": "F"
+      },
+      "net": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1_LUT4_I3_F_LUT4_I3_F[1]",
+      "sources": [
+        "/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+      ],
+      "to": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_D_LUT4_F_I3_LUT4_F_I1_LUT3_F_I1_LUT3_I2_F_LUT4_F",
+        "loc": [
+          41,
+          10
+        ],
+        "port": "I1"
+      },
+      "type": "routing"
+    },
+    {
+      "delay": 0.16699999570846558,
+      "from": {
+        "cell": "dut.memory.service.arb.rr_DFFRE_Q_1",
+        "loc": [
+          39,
+          2
+        ],
+        "port": "Q"
+      },
+      "net": "dut.tile.outstanding_LUT2_I0_F[1]",
+      "sources": [
+        "/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+      ],
+      "to": {
+        "cell": "dut.tile.outstanding_LUT2_I0_F_LUT4_I3",
+        "loc": [
+          39,
+          2
+        ],
+        "port": "I1"
+      },
+      "type": "routing"
+    },
+    {
+      "delay": 0.16699999570846558,
+      "from": {
+        "cell": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1_LUT4_I3",
+        "loc": [
+          41,
+          11
+        ],
+        "port": "F"
+      },
+      "net": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1_LUT4_I3_F[3]",
+      "sources": [
+        "/workspace/scratch/3793ea63b22e/toolchain/oss-cad-suite/lib/../share/yosys/gowin/cells_map.v:130.20-130.21"
+      ],
+      "to": {
+        "cell": "dut.memory.service.arb.owner_DFFRE_Q_3_D_LUT2_F_I1_LUT4_F_I3_LUT2_F_I1_LUT4_I3_F_LUT4_I3",
+        "loc": [
+          41,
+          12
+        ],
+        "port": "I3"
+      },
+      "type": "routing"
+    },
+    {
+      "delay": 0,
+      "from": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_1_D_LUT4_F",
+        "loc": [
+          14,
+          7
+        ],
+        "port": "F"
+      },
+      "net": "dut.memory.service.controller.state_DFFR_Q_1_D",
+      "sources": [],
+      "to": {
+        "cell": "dut.memory.service.controller.state_DFFR_Q_1",
+        "loc": [
+          14,
+          7
+        ],
+        "port": "D"
+      },
+      "type": "routing"
+    }
+  ],
+  "inference": "Inspect registered cursor decode and controller locality next; no guaranteed timing improvement or safe multicycle exception inferred.",
+  "source_sha256": {
+    "reports/controller-client-lookahead/pnr.json": "3716dbd75cde2712ebb97d4afc8c32ca1cfcb2273a4e0663ccccd35f4be46a1f",
+    "reports/controller-client-lookahead/route-result.json": "e035edec6820ff93a858909f58bf3eeec6e0674fceb54c23301dc352b6ca6544"
+  }
+}
