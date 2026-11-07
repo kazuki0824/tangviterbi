@@ -1,0 +1,1603 @@
+{
+  "scope": "Branch-aware disassembly and conservative executed-instruction accounting.\nThis is NOT cycle-accurate emulation or WCET analysis. Pinned SDK ELF only.\n",
+  "clock_candidate": {
+    "scope": "Candidate callback only; not wired to native capture or workers",
+    "minimum_no_retry_instructions": 40,
+    "additional_wait_iteration_instructions": 3,
+    "additional_consistency_retry_instructions": 6,
+    "wait_retry_upper_bound_known": false,
+    "adapter_wrapper_and_stalls_included": false,
+    "tick_conversion_target": "systimer_ticks_to_us after normal pinned SDK timer initialization"
+  },
+  "ELF_sha256": "ec4fd7567e855e99fe2e440743e9214ece525cf9f1eacaaa34827577274d3690",
+  "coefficients": {
+    "block": 45,
+    "run": 118,
+    "slow_pair": 173,
+    "slice": 213
+  },
+  "region_nodes": {
+    "impl": 285,
+    "wrapper": 29,
+    "regular": 118,
+    "bulk": 6,
+    "byte_loop": 11,
+    "candidate_scan": 17,
+    "once": 150
+  },
+  "checks": [
+    {
+      "name": "all_impl_nodes_covered",
+      "passed": true
+    },
+    {
+      "name": "bulk_six",
+      "passed": true
+    },
+    {
+      "name": "loop_edges_exist",
+      "passed": true
+    },
+    {
+      "name": "partition_disjoint",
+      "passed": true
+    },
+    {
+      "name": "only_accounted_calls",
+      "passed": true
+    },
+    {
+      "name": "clock_loops",
+      "passed": true
+    }
+  ],
+  "rows": [
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 66061035.15625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 66.06103515625,
+      "clock_calls_per_s": 125000.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 66061035.15625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 66.06103515625,
+      "clock_calls_per_s": 125000.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 165152587.890625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 165.152587890625,
+      "clock_calls_per_s": 312500.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 165152587.890625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 165.152587890625,
+      "clock_calls_per_s": 312500.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 55717285.15625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 55.71728515625,
+      "clock_calls_per_s": 62500.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 55717285.15625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 55.71728515625,
+      "clock_calls_per_s": 62500.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 139293212.890625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 139.293212890625,
+      "clock_calls_per_s": 156250.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 139293212.890625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 139.293212890625,
+      "clock_calls_per_s": 156250.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 47959472.65625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 47.95947265625,
+      "clock_calls_per_s": 15625.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 47959472.65625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 47.95947265625,
+      "clock_calls_per_s": 15625.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 119898681.640625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 119.898681640625,
+      "clock_calls_per_s": 39062.5,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 119898681.640625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 119.898681640625,
+      "clock_calls_per_s": 39062.5,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 46666503.90625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 46.66650390625,
+      "clock_calls_per_s": 7812.5,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 46666503.90625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 46.66650390625,
+      "clock_calls_per_s": 7812.5,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 116666259.765625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 116.666259765625,
+      "clock_calls_per_s": 19531.25,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 116666259.765625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 116.666259765625,
+      "clock_calls_per_s": 19531.25,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 66903483.072916664,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 66.90348307291666,
+      "clock_calls_per_s": 125000.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 66061035.15625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 66.06103515625,
+      "clock_calls_per_s": 125000.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 167258707.6822917,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 167.25870768229169,
+      "clock_calls_per_s": 312500.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 165152587.890625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 165.152587890625,
+      "clock_calls_per_s": 312500.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 56559733.072916664,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 56.559733072916664,
+      "clock_calls_per_s": 62500.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 55717285.15625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 55.71728515625,
+      "clock_calls_per_s": 62500.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 141399332.6822917,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 141.39933268229169,
+      "clock_calls_per_s": 156250.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 139293212.890625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 139.293212890625,
+      "clock_calls_per_s": 156250.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 48801920.572916664,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 48.801920572916664,
+      "clock_calls_per_s": 15625.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 47959472.65625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 47.95947265625,
+      "clock_calls_per_s": 15625.0,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 122004801.43229169,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 122.00480143229169,
+      "clock_calls_per_s": 39062.5,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 119898681.640625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 119.898681640625,
+      "clock_calls_per_s": 39062.5,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 47508951.822916664,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 47.508951822916664,
+      "clock_calls_per_s": 7812.5,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 46666503.90625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 46.66650390625,
+      "clock_calls_per_s": 7812.5,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 118772379.55729169,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 118.77237955729169,
+      "clock_calls_per_s": 19531.25,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12288,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 116666259.765625,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 116.666259765625,
+      "clock_calls_per_s": 19531.25,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 96471051.34673284,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 96.47105134673284,
+      "clock_calls_per_s": 124989.82830173324,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 96629038.16421188,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 96.62903816421188,
+      "clock_calls_per_s": 126291.8056798763,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 241177628.36683214,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 241.17762836683212,
+      "clock_calls_per_s": 312474.57075433317,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 241572595.41052973,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 241.57259541052974,
+      "clock_calls_per_s": 315729.5141996908,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 70970115.55049232,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 70.97011555049232,
+      "clock_calls_per_s": 62494.91415086662,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 71141264.54552852,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 71.14126454552851,
+      "clock_calls_per_s": 63796.89152900968,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 177425288.87623078,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 177.42528887623078,
+      "clock_calls_per_s": 156237.28537716658,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 177853161.3638213,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 177.8531613638213,
+      "clock_calls_per_s": 159492.2288225242,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 51858776.14126454,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 51.85877614126454,
+      "clock_calls_per_s": 15623.728537716655,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 52016762.95874358,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 52.01676295874358,
+      "clock_calls_per_s": 16925.70591585971,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 129646940.35316136,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 129.64694035316137,
+      "clock_calls_per_s": 39059.321344291646,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 130041907.39685899,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 130.041907396859,
+      "clock_calls_per_s": 42314.26478964928,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 48670559.03653674,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 48.67055903653674,
+      "clock_calls_per_s": 7811.864268858328,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 48828545.85401578,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 48.82854585401578,
+      "clock_calls_per_s": 9113.841647001384,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 121676397.59134184,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 121.67639759134184,
+      "clock_calls_per_s": 19529.660672145823,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 122071364.63503946,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 122.07136463503946,
+      "clock_calls_per_s": 22784.60411750346,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 96892241.02856211,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 96.89224102856211,
+      "clock_calls_per_s": 124989.82830173324,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 96629038.16421188,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 96.62903816421188,
+      "clock_calls_per_s": 126291.8056798763,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 242230602.57140535,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 242.23060257140534,
+      "clock_calls_per_s": 312474.57075433317,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 241572595.41052973,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 241.57259541052974,
+      "clock_calls_per_s": 315729.5141996908,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 71391305.23232159,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 71.39130523232159,
+      "clock_calls_per_s": 62494.91415086662,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 71141264.54552852,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 71.14126454552851,
+      "clock_calls_per_s": 63796.89152900968,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 178478263.080804,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 178.478263080804,
+      "clock_calls_per_s": 156237.28537716658,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 177853161.3638213,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 177.8531613638213,
+      "clock_calls_per_s": 159492.2288225242,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 52279965.823093824,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 52.279965823093825,
+      "clock_calls_per_s": 15623.728537716655,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 52016762.95874358,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 52.01676295874358,
+      "clock_calls_per_s": 16925.70591585971,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 130699914.55773456,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 130.69991455773456,
+      "clock_calls_per_s": 39059.321344291646,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 130041907.39685899,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 130.041907396859,
+      "clock_calls_per_s": 42314.26478964928,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 49091748.71836602,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 49.09174871836602,
+      "clock_calls_per_s": 7811.864268858328,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 48828545.85401578,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 48.82854585401578,
+      "clock_calls_per_s": 9113.841647001384,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 122729371.79591504,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 122.72937179591504,
+      "clock_calls_per_s": 19529.660672145823,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 12289,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 122071364.63503946,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 122.07136463503946,
+      "clock_calls_per_s": 22784.60411750346,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 66124597.564389706,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 66.1245975643897,
+      "clock_calls_per_s": 125419.93281075028,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 66155497.620380744,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 66.15549762038074,
+      "clock_calls_per_s": 125419.93281075028,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 165311493.91097423,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 165.31149391097424,
+      "clock_calls_per_s": 313549.8320268757,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 165388744.05095187,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 165.38874405095186,
+      "clock_calls_per_s": 313549.8320268757,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 55748162.793952964,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 55.748162793952964,
+      "clock_calls_per_s": 62709.96640537514,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 55776998.18029115,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 55.77699818029115,
+      "clock_calls_per_s": 62709.96640537514,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 139370406.9848824,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 139.3704069848824,
+      "clock_calls_per_s": 156774.91601343785,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 139442495.4507279,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 139.4424954507279,
+      "clock_calls_per_s": 156774.91601343785,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 47966352.88353863,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 47.96635288353863,
+      "clock_calls_per_s": 15677.491601343785,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 47997252.93952968,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 47.99725293952968,
+      "clock_calls_per_s": 15677.491601343785,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 119915882.20884658,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 119.91588220884658,
+      "clock_calls_per_s": 39193.72900335946,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 119993132.3488242,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 119.9931323488242,
+      "clock_calls_per_s": 39193.72900335946,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 46854370.80067189,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 46.85437080067189,
+      "clock_calls_per_s": 8958.566629339306,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 46885270.85666293,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 46.88527085666293,
+      "clock_calls_per_s": 8958.566629339306,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 117135927.00167973,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 117.13592700167973,
+      "clock_calls_per_s": 22396.416573348266,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 0,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 117213177.14165735,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 117.21317714165735,
+      "clock_calls_per_s": 22396.416573348266,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 66849121.64053751,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 66.8491216405375,
+      "clock_calls_per_s": 125419.93281075028,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 66155497.620380744,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 66.15549762038074,
+      "clock_calls_per_s": 125419.93281075028,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 167122804.1013438,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 167.1228041013438,
+      "clock_calls_per_s": 313549.8320268757,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 64,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 165388744.05095187,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 165.38874405095186,
+      "clock_calls_per_s": 313549.8320268757,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 56472686.870100774,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 56.47268687010077,
+      "clock_calls_per_s": 62709.96640537514,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 55776998.18029115,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 55.77699818029115,
+      "clock_calls_per_s": 62709.96640537514,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 141181717.175252,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 141.181717175252,
+      "clock_calls_per_s": 156774.91601343785,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 128,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 139442495.4507279,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 139.4424954507279,
+      "clock_calls_per_s": 156774.91601343785,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 48690876.95968644,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 48.69087695968644,
+      "clock_calls_per_s": 15677.491601343785,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 47997252.93952968,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 47.99725293952968,
+      "clock_calls_per_s": 15677.491601343785,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 121727192.39921615,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 121.72719239921615,
+      "clock_calls_per_s": 39193.72900335946,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 512,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 119993132.3488242,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 119.9931323488242,
+      "clock_calls_per_s": 39193.72900335946,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 47578894.8768197,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 47.5788948768197,
+      "clock_calls_per_s": 8958.566629339306,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "T",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 46885270.85666293,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 46.88527085666293,
+      "clock_calls_per_s": 8958.566629339306,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 0,
+      "conservative_instruction_count_per_s": 118947237.1920493,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 118.9472371920493,
+      "clock_calls_per_s": 22396.416573348266,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    },
+    {
+      "bank_samples": 14288,
+      "first": 16380,
+      "slice_pairs": 1024,
+      "standard": "S",
+      "worker": 1,
+      "conservative_instruction_count_per_s": 117213177.14165735,
+      "ideal_one_cycle_per_instruction_Mcycles_s": 117.21317714165735,
+      "clock_calls_per_s": 22396.416573348266,
+      "additional_costs": [
+        "both clock callback bodies",
+        "RF owner and SPI owner work",
+        "calling context outside clocked step",
+        "cache/bus/pipeline stalls and interrupt/context costs"
+      ]
+    }
+  ],
+  "cycles_upper_bound_proven": false,
+  "visit_assumptions": [
+    "successful ready-job path, valid current source invariants",
+    "three candidate banks scanned",
+    "five byte writes per slow pair",
+    "number of runs/blocks/slow pairs/slices from instrumented C cases"
+  ],
+  "call_bodies_included": [
+    "pack_eight"
+  ],
+  "clock_callback_body_included": false
+}

@@ -1,0 +1,83 @@
+{
+  "baseline_commit": "964ec9921485fc8943dbd54ba2569bf92a06184e",
+  "profiles": [
+    {
+      "profile": "n8r8",
+      "result_sha256": "cb77bb20ef25d7d55ecc86661324edb7db6c18a311941a360a6d31bd3e6ed4db",
+      "link_pass": true,
+      "checks": 36,
+      "checks_failed": [],
+      "memory_necessary_pass": false,
+      "early_headroom_upper_bound": -3208,
+      "allocator_early_headroom_upper_bound": -4384,
+      "allocator_post_startup_upper_bound": 17180,
+      "after_known_SPI_allocations_upper_bound": 15484
+    },
+    {
+      "profile": "n16r8",
+      "result_sha256": "2f77c82234c8cfd58af24de0c7696b497d754a7957a666676eff45d80119c6f8",
+      "link_pass": true,
+      "checks": 36,
+      "checks_failed": [],
+      "memory_necessary_pass": false,
+      "early_headroom_upper_bound": -3208,
+      "allocator_early_headroom_upper_bound": -4384,
+      "allocator_post_startup_upper_bound": 17180,
+      "after_known_SPI_allocations_upper_bound": 15484
+    },
+    {
+      "profile": "n8r8-late-stacks",
+      "result_sha256": "1874d54d0661eb47b02d05adf83c431df05e93b86e8d95a0c8ed8ce8377007f0",
+      "link_pass": true,
+      "checks": 36,
+      "checks_failed": [],
+      "memory_necessary_pass": true,
+      "early_headroom_upper_bound": 4984,
+      "allocator_early_headroom_upper_bound": 3736,
+      "allocator_post_startup_upper_bound": 17076,
+      "after_known_SPI_allocations_upper_bound": 15380
+    },
+    {
+      "profile": "n16r8-late-stacks",
+      "result_sha256": "f39b0b9e42065c26f64b8956d3da4849a8bdd3d7c996de104c04b82e324ec6c7",
+      "link_pass": true,
+      "checks": 36,
+      "checks_failed": [],
+      "memory_necessary_pass": true,
+      "early_headroom_upper_bound": 4984,
+      "allocator_early_headroom_upper_bound": 3736,
+      "allocator_post_startup_upper_bound": 17076,
+      "after_known_SPI_allocations_upper_bound": 15380
+    }
+  ],
+  "checks_total": 144,
+  "source_sha256": {
+    "ci/s3_raw_probe_build.py": "b0157d1819a1aa6cbd6a7c5a854d4a304e48338c8e033a5acfb61dcff0bebe92",
+    "ci/s3_raw_link_audit.py": "a9f3999cb850f147c23bd51b0539bc3b41d5b3af1f0399b91137a8fa9169f4c4",
+    "tests/test_s3_raw_link_audit.py": "c41cbb7c0db0d6c30a643104eed4d5452c99cbe9278ec48393970f7f9c7d001c"
+  },
+  "SDK_source_sha256": {
+    "components/heap/port/esp32s3/memory_layout.c": "68e12bc93fb4040987bffb2c334fb9af4b911ceb52b51f1e7914e55e3dc1aa77",
+    "components/heap/heap_caps_init.c": "506886580f8c76c90c30022ef3d317d8754d1d1df6b9f59e5fb8d53434aeb024",
+    "components/heap/heap_caps_base.c": "2750c06fd0925269a5604289596075f1dbaba44afcc5883b5a33c5073cc8b557",
+    "components/freertos/app_startup.c": "d30009e2d269f1078c938a87b3f481beae4480c01ea87e74e4d015df5510f22f",
+    "components/freertos/esp_additions/freertos_tasks_c_additions.h": "a8602796bcf130434c7eee62887f071e776b197429a49fe920bbb34847a021a5",
+    "components/esp_system/include/esp_task.h": "78bc0f886085c922e4d4c5c9a27d460378c7a923eef5dcc9d3b1cde1e9f7005b",
+    "components/esp_system/esp_ipc.c": "a65d90dd10b19eacf8b09853a07ff781b25152d464877de4ee642622653ff980",
+    "components/esp_system/startup.c": "98447f9e3562015bce39337d4f15e35e739f40c1e63d97aec72b25d62de98a44",
+    "components/esp_timer/src/esp_timer.c": "de57fa6a9f6eec355b963e3092189f59ce01d370571b07efc4c868a6df1705eb",
+    "components/esp_driver_spi/src/gpspi/spi_master.c": "1634611334180a80e0643d0f32a0af73447b6bbfbe381c0e5799f93de5af64f6",
+    "components/esp_driver_spi/src/gpspi/spi_common.c": "0f25c874cff2212bf100ce54f5652580938921b2510eef5bf5f5215bf22972a4"
+  },
+  "receiver_adopted": false,
+  "formal_routes": 0,
+  "hardware_boot_executed": false,
+  "remaining": [
+    "startup allocation order and contiguous fit",
+    "all driver and PHY allocations",
+    "runtime tasks and common clock integration",
+    "core WCET and stack high-water",
+    "full FPGA timing and resources",
+    "simultaneous RF to TS"
+  ]
+}

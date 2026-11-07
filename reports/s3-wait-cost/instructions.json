@@ -1,0 +1,241 @@
+{
+  "loops": {
+    "spi_update": {
+      "function": "spi_hal_user_start",
+      "base_instructions_already_charged": 18,
+      "extra_instructions_per_iteration": [
+        3
+      ],
+      "iteration_upper_bound": null,
+      "checks": [
+        {
+          "extra_iterations": [
+            0
+          ],
+          "instructions": 18
+        },
+        {
+          "extra_iterations": [
+            1
+          ],
+          "instructions": 21
+        },
+        {
+          "extra_iterations": [
+            2
+          ],
+          "instructions": 24
+        },
+        {
+          "extra_iterations": [
+            8
+          ],
+          "instructions": 42
+        },
+        {
+          "extra_iterations": [
+            16
+          ],
+          "instructions": 66
+        }
+      ]
+    },
+    "systimer": {
+      "function": "systimer_hal_get_counter_value",
+      "base_instructions_already_charged": 26,
+      "extra_instructions_per_iteration": [
+        3,
+        6
+      ],
+      "iteration_upper_bound": null,
+      "checks": [
+        {
+          "extra_iterations": [
+            0,
+            0
+          ],
+          "instructions": 26
+        },
+        {
+          "extra_iterations": [
+            0,
+            1
+          ],
+          "instructions": 32
+        },
+        {
+          "extra_iterations": [
+            0,
+            2
+          ],
+          "instructions": 38
+        },
+        {
+          "extra_iterations": [
+            0,
+            8
+          ],
+          "instructions": 74
+        },
+        {
+          "extra_iterations": [
+            0,
+            16
+          ],
+          "instructions": 122
+        },
+        {
+          "extra_iterations": [
+            1,
+            0
+          ],
+          "instructions": 29
+        },
+        {
+          "extra_iterations": [
+            1,
+            1
+          ],
+          "instructions": 35
+        },
+        {
+          "extra_iterations": [
+            1,
+            2
+          ],
+          "instructions": 41
+        },
+        {
+          "extra_iterations": [
+            1,
+            8
+          ],
+          "instructions": 77
+        },
+        {
+          "extra_iterations": [
+            1,
+            16
+          ],
+          "instructions": 125
+        },
+        {
+          "extra_iterations": [
+            2,
+            0
+          ],
+          "instructions": 32
+        },
+        {
+          "extra_iterations": [
+            2,
+            1
+          ],
+          "instructions": 38
+        },
+        {
+          "extra_iterations": [
+            2,
+            2
+          ],
+          "instructions": 44
+        },
+        {
+          "extra_iterations": [
+            2,
+            8
+          ],
+          "instructions": 80
+        },
+        {
+          "extra_iterations": [
+            2,
+            16
+          ],
+          "instructions": 128
+        },
+        {
+          "extra_iterations": [
+            8,
+            0
+          ],
+          "instructions": 50
+        },
+        {
+          "extra_iterations": [
+            8,
+            1
+          ],
+          "instructions": 56
+        },
+        {
+          "extra_iterations": [
+            8,
+            2
+          ],
+          "instructions": 62
+        },
+        {
+          "extra_iterations": [
+            8,
+            8
+          ],
+          "instructions": 98
+        },
+        {
+          "extra_iterations": [
+            8,
+            16
+          ],
+          "instructions": 146
+        },
+        {
+          "extra_iterations": [
+            16,
+            0
+          ],
+          "instructions": 74
+        },
+        {
+          "extra_iterations": [
+            16,
+            1
+          ],
+          "instructions": 80
+        },
+        {
+          "extra_iterations": [
+            16,
+            2
+          ],
+          "instructions": 86
+        },
+        {
+          "extra_iterations": [
+            16,
+            8
+          ],
+          "instructions": 122
+        },
+        {
+          "extra_iterations": [
+            16,
+            16
+          ],
+          "instructions": 170
+        }
+      ]
+    }
+  },
+  "hardware_wcet": false,
+  "conditions": [
+    "Instruction counts only; memory/MMIO latency and register window exceptions remain separate.",
+    "SDK loops have no software iteration cap. Coefficients are not finite worst-case latency bounds.",
+    "Snapshot retry does not repeat counter capture; do not multiply capture cost by snapshot retries."
+  ],
+  "source_sha256": {
+    "ci/s3_wait_cost_audit.py": "9d6adcf4bc62f0d49c2a2278189b4c6cb65ed3ce410005af51275f476746df6c",
+    "ci/s3_sdk_cost_audit.py": "411ede06ed5516e3079391bfad380616437c20f05e6d3a9984743f77a647e9b6",
+    "ci/s3_receiver_cost_audit.py": "823dc78b3b2bcbb9bfb5dbfa9c50358211cb337570fbbb8ec839505f6570c948"
+  }
+}

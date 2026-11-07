@@ -1,0 +1,691 @@
+{
+  "status": "candidate_CPU_condition_only_not_receiver_pass",
+  "audit_status": "PASS",
+  "check_summary": {
+    "PASS": 20,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "checks": [
+    {
+      "id": "build_directory",
+      "status": "PASS"
+    },
+    {
+      "id": "target_toolchain_version",
+      "status": "PASS"
+    },
+    {
+      "id": "target_c_build",
+      "status": "PASS"
+    },
+    {
+      "id": "target_asm_build",
+      "status": "PASS"
+    },
+    {
+      "id": "host_c_build",
+      "status": "PASS"
+    },
+    {
+      "id": "target_c_disassembly",
+      "status": "PASS"
+    },
+    {
+      "id": "target_asm_disassembly",
+      "status": "PASS"
+    },
+    {
+      "id": "target_c_decode",
+      "status": "PASS"
+    },
+    {
+      "id": "target_kernel_decode",
+      "status": "PASS"
+    },
+    {
+      "id": "target_history_decode",
+      "status": "PASS"
+    },
+    {
+      "id": "coefficient_contract",
+      "status": "PASS"
+    },
+    {
+      "id": "target_kernel_semantics",
+      "status": "PASS"
+    },
+    {
+      "id": "target_kernel_operand_interlocks",
+      "status": "PASS"
+    },
+    {
+      "id": "host_streaming_oracle",
+      "status": "PASS"
+    },
+    {
+      "id": "instruction_counts",
+      "status": "PASS"
+    },
+    {
+      "id": "spectrum_and_integer_bound",
+      "status": "PASS"
+    },
+    {
+      "id": "conditional_CPU_arithmetic",
+      "status": "PASS"
+    },
+    {
+      "id": "write_disassembly_artifact",
+      "status": "PASS"
+    },
+    {
+      "id": "source_hashes",
+      "status": "PASS"
+    },
+    {
+      "id": "disassembly_hash",
+      "status": "PASS"
+    }
+  ],
+  "non_fail_fast": true,
+  "target_compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "c_flags": [
+    "-O2",
+    "-fno-tree-slp-vectorize",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror"
+  ],
+  "instruction_model": "one-instruction-per-cycle baseline after audited operand interlocks are removed; control/resource/fetch/memory/ABI/IRQ costs are outside this baseline, not WCET",
+  "kernel_model_tests": {
+    "cases": 1600,
+    "comparisons_s16_lanes": 12800,
+    "max_even_read_bytes": 80,
+    "input_read_extent_including_padding_bytes": 80,
+    "target_executed": false
+  },
+  "host_streaming_tests": {
+    "valid_calls": 108,
+    "complex_outputs_compared": 12384,
+    "invalid_calls": 36,
+    "target_executed": false
+  },
+  "kernel_operand_interlocks": {
+    "current": {
+      "instruction_count": 98,
+      "required_operand_stall_cycles": 0,
+      "issue_span_cycles_in_this_model": 98,
+      "dependency_edges_checked": 166,
+      "dependency_classes": {
+        "AR:def1->use0": 16,
+        "QR:def2->use1": 46,
+        "QACC_H:def1->use2": 1,
+        "QACC_L:def1->use2": 1,
+        "AR:def1->use1": 43,
+        "SAR_BYTE:def1->use1": 12,
+        "QR:def1->use1": 13,
+        "QACC_H:def2->use2": 16,
+        "QACC_L:def2->use2": 16,
+        "QACC_H:def2->use1": 1,
+        "QACC_L:def2->use1": 1
+      },
+      "conflicts": []
+    },
+    "legacy_order": {
+      "instruction_count": 98,
+      "required_operand_stall_cycles": 29,
+      "issue_span_cycles_in_this_model": 127,
+      "dependency_edges_checked": 166,
+      "dependency_classes": {
+        "QR:def2->use1": 46,
+        "QACC_H:def1->use2": 1,
+        "QACC_L:def1->use2": 1,
+        "AR:def1->use0": 16,
+        "AR:def1->use1": 43,
+        "SAR_BYTE:def1->use1": 12,
+        "QR:def1->use1": 13,
+        "QACC_H:def2->use2": 16,
+        "QACC_L:def2->use2": 16,
+        "QACC_H:def2->use1": 1,
+        "QACC_L:def2->use1": 1
+      },
+      "conflicts": [
+        {
+          "instruction_index": 4,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 3,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 8,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 7,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 10,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 9,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 14,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 13,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 16,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 15,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 20,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 19,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 22,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 21,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 26,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 25,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 30,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 29,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 32,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 31,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 36,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 35,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 38,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 37,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 42,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 41,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 44,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 43,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 48,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 47,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 52,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 51,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 54,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 53,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 58,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 57,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 60,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 59,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 64,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 63,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 66,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 65,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 70,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 69,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 74,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 73,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 76,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 75,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 80,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 79,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 82,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 81,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 86,
+          "opcode": "ee.src.q",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q1",
+              "writer_index": 85,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 88,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 87,
+              "required_issue_distance": 2
+            }
+          ]
+        },
+        {
+          "instruction_index": 92,
+          "opcode": "ee.vmulas.s16.qacc",
+          "stall_cycles": 1,
+          "reasons": [
+            {
+              "register": "q3",
+              "writer_index": 91,
+              "required_issue_distance": 2
+            }
+          ]
+        }
+      ]
+    },
+    "regression_cases": 5,
+    "legacy_assembly_source_SHA256": "a21217b8c15a23863f2575ab950e4dfdd1411d9c3d5afdd77e001af2ce199b8b",
+    "reference": "ESP32-S3 TRM v1.8 section 1.7.1 and Table 1.7-2 (pp65-74)",
+    "reference_url": "https://documentation.espressif.com/esp32-s3_technical_reference_manual_en.pdf",
+    "reference_PDF_SHA256": "4484bf8a69035ec42a731c58c64ada6fbd1f1618c5559409f134d9ea083f444f",
+    "covered": "Decoded kernel QR, QACC_H/L, SAR_BYTE, PIE postincrement AR and conservative ADDI register dependencies.",
+    "excluded_scope": "Entry/return/caller control penalties, other instruction hardware-resource conflicts, fetch/cache/memory waits, ABI window spills, interrupts and cross-core contention. Zero operand interlocks is not zero total stalls or measured WCET."
+  },
+  "coefficient_contract": {
+    "coefficients": 31,
+    "nonzero_coefficients": 17,
+    "same_receiver_quality_proved": false
+  },
+  "instructions": {
+    "kernel_instructions_per_4_outputs": 98,
+    "unpack_instructions_per_2_raw": 15,
+    "caller_loop_instructions_per_4_outputs": 11,
+    "fixed_process_instructions_per_block": 91,
+    "history_copy_instructions_per_block": 196,
+    "history_copies_per_block": [
+      60,
+      32,
+      60,
+      32
+    ],
+    "raw_input_Mbytes_per_s": 64,
+    "unpacked_workspace_store_Mbytes_per_s": 64,
+    "Q15_output_Mbytes_per_s": 32,
+    "kernel_vector_loads_per_4_outputs": 46,
+    "kernel_opcode_histogram": {
+      "entry": 1,
+      "ee.zero.qacc": 1,
+      "ee.vld.128.ip": 34,
+      "addi.n": 16,
+      "ee.vmulas.s16.qacc": 17,
+      "ee.ld.128.usar.ip": 12,
+      "ee.src.q": 12,
+      "nop.n": 2,
+      "ee.srcmb.s16.qacc": 1,
+      "ee.vst.128.ip": 1,
+      "retw.n": 1
+    },
+    "block_sizes": [
+      {
+        "raw_count": 8,
+        "complex_output_count": 4,
+        "instructions_per_block": 456,
+        "M_instructions_per_s_at_16M_raw": 912.0,
+        "single_core_service_us_at_240MHz_1inst_per_cycle": 1.9,
+        "input_block_duration_us": 0.5
+      },
+      {
+        "raw_count": 64,
+        "complex_output_count": 32,
+        "instructions_per_block": 1639,
+        "M_instructions_per_s_at_16M_raw": 409.75,
+        "single_core_service_us_at_240MHz_1inst_per_cycle": 6.829166666666667,
+        "input_block_duration_us": 4.0
+      },
+      {
+        "raw_count": 128,
+        "complex_output_count": 64,
+        "instructions_per_block": 2991,
+        "M_instructions_per_s_at_16M_raw": 373.875,
+        "single_core_service_us_at_240MHz_1inst_per_cycle": 12.4625,
+        "input_block_duration_us": 8.0
+      },
+      {
+        "raw_count": 256,
+        "complex_output_count": 128,
+        "instructions_per_block": 5695,
+        "M_instructions_per_s_at_16M_raw": 355.9375,
+        "single_core_service_us_at_240MHz_1inst_per_cycle": 23.729166666666668,
+        "input_block_duration_us": 16.0
+      },
+      {
+        "raw_count": 512,
+        "complex_output_count": 256,
+        "instructions_per_block": 11103,
+        "M_instructions_per_s_at_16M_raw": 346.96875,
+        "single_core_service_us_at_240MHz_1inst_per_cycle": 46.2625,
+        "input_block_duration_us": 32.0
+      },
+      {
+        "raw_count": 1024,
+        "complex_output_count": 512,
+        "instructions_per_block": 21919,
+        "M_instructions_per_s_at_16M_raw": 342.484375,
+        "single_core_service_us_at_240MHz_1inst_per_cycle": 91.32916666666667,
+        "input_block_duration_us": 64.0
+      }
+    ]
+  },
+  "coefficients_Q15": [
+    -18,
+    0,
+    68,
+    0,
+    -182,
+    0,
+    404,
+    0,
+    -803,
+    0,
+    1533,
+    0,
+    -3116,
+    0,
+    10305,
+    16384,
+    10305,
+    0,
+    -3116,
+    0,
+    1533,
+    0,
+    -803,
+    0,
+    404,
+    0,
+    -182,
+    0,
+    68,
+    0,
+    -18
+  ],
+  "spectrum": {
+    "diagnostic_only_not_quality_equivalence": true,
+    "frequency_points": 65537,
+    "input_rate_Mcomplex_s": 16,
+    "pass_edge_MHz": 2.8857142857142857,
+    "stop_edge_MHz": 5.114285714285714,
+    "pass_ripple_peak_to_peak_dB": 0.003295547492067827,
+    "stop_attenuation_min_on_grid_dB": 73.59132379345537,
+    "Q15_coefficient_sum": 32766,
+    "Q15_coefficient_abs_sum": 49242,
+    "signed10_accumulator_abs_bound": 25211904,
+    "shift10_output_abs_bound": 24621,
+    "group_delay_us": 0.9375
+  },
+  "memory": {
+    "state_bytes": 92,
+    "workspace_bytes": 4192,
+    "coefficient_vectors_bytes": 272,
+    "raw_1024_bytes": 4096,
+    "output_512_bytes": 2048,
+    "double_buffering_included": false
+  },
+  "conditional_CPU_Mcycles_s_at_1024_raw": {
+    "candidate_preprocessing": 342.484375,
+    "retained_legacy_RF_and_adjustment": 57.375,
+    "legacy_API_32KiB_20us_for_32MBps": 4.68896484375,
+    "base_before_legacy_transfer_copy": 404.54833984375,
+    "plus_distinct_transfer_copy_1cycle_per_byte": 436.54833984375,
+    "plus_distinct_transfer_copy_2cycle_per_byte": 468.54833984375,
+    "aggregate_capacity": 480,
+    "transfer_copy_overlap": "Charge 32/64 only if a distinct payload pass remains. Output conversion/store is already in the kernel.",
+    "ideal_unimplemented_two_stage_split": {
+      "prepare_Mcycles_s": 124.484375,
+      "kernel_and_caller_Mcycles_s": 218,
+      "kernel_and_caller_at_alpha_1_1_Mcycles_s": 239.8,
+      "legacy_core1_tick_100Hz_times_1696cycles_Mcycles_s": 0.1696,
+      "core1_remaining_after_alpha_1_1_and_tick_cycles_s": 30400,
+      "handoff_sync_IRQ_window_spills_and_memory_stalls_included": false,
+      "per_core_deadlines_proved": false
+    }
+  },
+  "accepted_same_quality": false,
+  "target_runtime_executed": false,
+  "continuous_RF_or_per_core_deadlines_proved": false,
+  "FPGA_64_over_63_resampler_implemented_or_sized": false,
+  "source_hashes_SHA256": {
+    "experiments/t_preprocess_capacity/halfband31.c": "7f5184694746d43db0efa5feaef304ff037750aeb4c5f0c4f6f6975708f019a8",
+    "experiments/t_preprocess_capacity/halfband31.h": "6f4b2f0946ac6b01f49dd1004203229a5d29b3cb6ec20062d483ac378935f987",
+    "experiments/t_preprocess_capacity/halfband31.S": "c1066098a690f4e523c26ed63bab4e443e78d354feaa13b6a9a1b2620f8d2dc3",
+    "experiments/t_preprocess_capacity/halfband31_host.c": "a6a5cde72438d0575b187e2a861d446c20a495dc8eaf78333b78a95e5e60cd69",
+    "ci/t_halfband_capacity_audit.py": "b9569df8bf3cd7697aa6e3acbce0b56ec5791e764c9b2b1f0b60b12bf3dbe3e0"
+  },
+  "disassembly_hashes_SHA256": {
+    "reports/s3-t-preprocess-capacity/halfband/halfband31.dis": "8b1e66e785ff38b8efc5a3454c336ad02b9e79a17e85262eb70ef4e3d88d1d8f"
+  },
+  "temporary_build_directory": "build/t-halfband-capacity",
+  "primary_references": [
+    "https://documentation.espressif.com/esp32-s3_technical_reference_manual_en.pdf",
+    "https://github.com/espressif/esp-dl/blob/5989f4a38f553235daf4da8a3de33a1acefe2196/esp-dl/dl/base/isa/tie728/dl_tie728_s16.S"
+  ]
+}

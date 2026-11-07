@@ -1,0 +1,56 @@
+{
+  "run_id": 40091783736,
+  "head_sha": "26c643e4d414e1d6649b040019ac509fd5bc866c",
+  "conclusion": "success",
+  "artifact_id": 12559641183,
+  "artifact_sha256": "24f3a224c2f718266ebe216f8cad88f7718c824e32d1ea6dfe4df66d406ddcaf",
+  "expected_digest": "24f3a224c2f718266ebe216f8cad88f7718c824e32d1ea6dfe4df66d406ddcaf",
+  "profiles": [
+    {
+      "profile": "n16r8-late-stacks",
+      "checks": 38,
+      "all_pass": true,
+      "symbols": {
+        "_iram_end": "0x40388600",
+        "_data_start": "0x3fc98600",
+        "_heap_start": "0x3fcad388",
+        "raw_task_stacks": "0x3c03a9f8",
+        "raw_task_tcbs": "0x3fcacb40"
+      },
+      "result_sha256": "5af35184f9fbb31f62ebd079eeff32b4b18d55cbccd3c59541237a5400daec41"
+    },
+    {
+      "profile": "n16r8-late-stacks-heap-flash",
+      "checks": 38,
+      "all_pass": true,
+      "symbols": {
+        "_iram_end": "0x40386b00",
+        "_data_start": "0x3fc96b00",
+        "_heap_start": "0x3fcab888",
+        "raw_task_stacks": "0x3c03a9f8",
+        "raw_task_tcbs": "0x3fcab040"
+      },
+      "result_sha256": "a24c3a0ab72629c8118479e221975ec1affce04155c62d1f66425bdbfb517008"
+    },
+    {
+      "profile": "n16r8-late-stacks-heap-flash-no-phy-nvs",
+      "checks": 38,
+      "all_pass": true,
+      "symbols": {
+        "_iram_end": "0x40386b00",
+        "_data_start": "0x3fc96b00",
+        "_heap_start": "0x3fcab850",
+        "raw_task_stacks": "0x3c03a628",
+        "raw_task_tcbs": "0x3fcab020"
+      },
+      "result_sha256": "572beedfe67a67b5f3dbd0ef46ae4e71ab3f4a22b84bdae98124724a6ea6afc8"
+    }
+  ],
+  "saved_files": {
+    "sdk/n16r8-late-stacks-heap-flash-no-phy-nvs/build.log.gz": "fa0cb4c67f3decc0cca8563aebd3350518932747b5588afb48a827931c096757",
+    "sdk/n16r8-late-stacks-heap-flash-no-phy-nvs/result.json": "572beedfe67a67b5f3dbd0ef46ae4e71ab3f4a22b84bdae98124724a6ea6afc8",
+    "sdk/n16r8-late-stacks-heap-flash-no-phy-nvs/s3_raw_probe.elf.gz": "9127864fef9750e77938824905aac152a0d5b0a73d671ff3075b2b3a6d1a5d6b",
+    "sdk/n16r8-late-stacks-heap-flash-no-phy-nvs/s3_raw_probe.map.gz": "39e1db12a5a5cd450a2c6d4065b799cc52d511183176e60d09836a0a59c0aa5e",
+    "sdk/n16r8-late-stacks-heap-flash-no-phy-nvs/sdkconfig.json.gz": "0483d386abac591e05745cae71a55d29d063c0daf85342d22c431549541a9fed"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "ELF_sha256": "7ee25471a6dc96c056c2afd883cf4f70282fd186be920cced7dddefa40554fc7",
+  "checks": [
+    {
+      "name": "ELF_hash",
+      "passed": true
+    },
+    {
+      "name": "SDK_static_checks",
+      "passed": true
+    },
+    {
+      "name": "reset_wait_forever_argument",
+      "passed": true
+    },
+    {
+      "name": "reset_critical_target",
+      "passed": true
+    },
+    {
+      "name": "forever_branch",
+      "passed": true
+    },
+    {
+      "name": "CAS_retry_back_edge",
+      "passed": true
+    },
+    {
+      "name": "one_CAS_per_retry",
+      "passed": true
+    },
+    {
+      "name": "no_countdown_in_forever_retry",
+      "passed": true
+    },
+    {
+      "name": "reset_flash",
+      "passed": true
+    },
+    {
+      "name": "lock_IRAM",
+      "passed": true
+    }
+  ],
+  "critical_retry": {
+    "addresses": [
+      "0x4037f5e8",
+      "0x4037f5eb",
+      "0x4037f5ee",
+      "0x4037f5f1",
+      "0x4037f5f4"
+    ],
+    "instructions_excluding_CAS_body": 5,
+    "iterations_bound_known": false
+  },
+  "task_source_sha256": "472ddc05d761d1381773b5a756339d4da78a6064d863b5353fcfde200e38853c",
+  "conclusion": "A finite registration list does not bound reset duration: its critical entry uses WAIT_FOREVER. This is an unproved bound, not proof of actual infinite waiting.",
+  "required": [
+    "bound concurrent lock-holder critical duration including Flash/PSRAM stalls",
+    "bound higher-level IRQ interference and all other users of this lock",
+    "bound acquisition retry/CAS latency and post-lock SDK path",
+    "include the complete reset call in the core0 last-poll to next-poll gap"
+  ],
+  "hardware_executed": false,
+  "WCET_proven": false,
+  "receiver_adopted": false
+}

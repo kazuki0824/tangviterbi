@@ -1,0 +1,121 @@
+test_real_c_subarena_leases_and_SPI_wire_length (test_s3_short_transfer.ShortTransferTest.test_real_c_subarena_leases_and_SPI_wire_length) ... ok
+test_serialization_and_ordered_reclaim (test_s3_short_transfer.ShortTransferTest.test_serialization_and_ordered_reclaim) ... ok
+test_small_hand_computed_schedule (test_s3_short_transfer.ShortTransferTest.test_small_hand_computed_schedule) ... ok
+test_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_bulk_SPI_lease_adapter_and_queue_failure) ... ok
+test_concurrent_lossless_ownership_and_negative_boundaries (test_s3_parallel_pack.ParallelPackTest.test_concurrent_lossless_ownership_and_negative_boundaries) ... ok
+test_native_bank_handoff_and_stalled_worker_stop (test_s3_parallel_pack.ParallelPackTest.test_native_bank_handoff_and_stalled_worker_stop) ... ok
+test_raw_only_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_raw_only_bulk_SPI_lease_adapter_and_queue_failure) ... ok
+test_candidate_concurrent_streams_and_native_handoff (test_s3_asymmetric_pack.AsymmetricPackTest.test_candidate_concurrent_streams_and_native_handoff) ... PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=456
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=1 samples=1 checked_DMA_bytes=0 tail_bytes=0 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2 samples=12292 checked_DMA_bytes=0 tail_bytes=30730 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=17 samples=184760 checked_DMA_bytes=458752 tail_bytes=3148 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+5 concurrent PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+5 native PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+6 concurrent PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+6 native PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=falseok
+test_response_model_uses_unequal_bank_work (test_s3_asymmetric_pack.AsymmetricPackTest.test_response_model_uses_unequal_bank_work) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 39.840s
+
+OK
+
+7 concurrent PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual partition and 512-pair slice counts: nominal/maximum banks, carry and source wrap
+PASS 3 maximum banks: partition-dependent slice counts in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+7 native PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false

@@ -1,0 +1,43 @@
+{
+  "SDK_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+  "probe_commit": "32777e444e60856906344902f3cc36f2a7a17db3",
+  "config": {
+    "ESP_DEFAULT_CPU_FREQ_MHZ": 240,
+    "PM_ENABLE": false,
+    "FREERTOS_UNICORE": false,
+    "FREERTOS_HZ": 100,
+    "ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0": true,
+    "ESP_TASK_WDT_CHECK_IDLE_TASK_CPU1": true,
+    "ESP_TASK_WDT_TIMEOUT_S": 5,
+    "ESP_INT_WDT_TIMEOUT_MS": 300
+  },
+  "SPI_ISR_core_assignments": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      1,
+      1
+    ]
+  ],
+  "SPI_API_owner_core": 0,
+  "RF_owner_core": 0,
+  "packing_worker_cores": [
+    0,
+    1
+  ],
+  "clock_states_private_per_core": true,
+  "runtime_implemented": false,
+  "continuous_240MHz_CCOUNT_contract_proven": false,
+  "IRQ_time_bound_proven": false,
+  "watchdog_runtime_policy_selected": false
+}

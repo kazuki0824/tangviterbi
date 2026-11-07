@@ -1,0 +1,90 @@
+{
+  "version": 2,
+  "non_fail_fast": true,
+  "checks": [
+    {
+      "name": "baseline.original_sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.checked_in_hex_equals_recovered",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.new_generator_equals_original_hex",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.all_phase_dc_sums_Q15",
+      "status": "PASS"
+    },
+    {
+      "name": "baseline.signed16_coefficients",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.original_sha256",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.checked_in_hex_equals_recovered",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.new_generator_equals_original_hex",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.all_phase_dc_sums_Q15",
+      "status": "PASS"
+    },
+    {
+      "name": "residual.signed16_coefficients",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "profiles": {
+    "baseline": {
+      "L": 32,
+      "fs_mhz": 16.0,
+      "input_bits": 10,
+      "output_shift": 10,
+      "M": 63,
+      "taps_per_phase": 32,
+      "cutoff_mhz": 3.6,
+      "kaiser_beta": 8.6,
+      "recovery": {
+        "source": "reports/s3-t-preprocess-integration/quality-fpga/baseline/core-mapped.json.gz",
+        "source_gzip_sha256": "4ab9ae52366eaee7b424936edebc6a0d946d3dab129949b08b62ae15c1d8afc7",
+        "SPX9_blocks": 1,
+        "SPX9_width": 36,
+        "hex_sha256": "ed4cc491e4718afb124966f28f8ee06a5ef9749eca6b71fff48118058d2cda98",
+        "expected_original_sha256": "ed4cc491e4718afb124966f28f8ee06a5ef9749eca6b71fff48118058d2cda98"
+      },
+      "max_absolute_phase_sum": 51400
+    },
+    "residual": {
+      "L": 64,
+      "fs_mhz": 8.0,
+      "input_bits": 16,
+      "output_shift": 15,
+      "M": 63,
+      "taps_per_phase": 32,
+      "cutoff_mhz": 3.6,
+      "kaiser_beta": 8.6,
+      "recovery": {
+        "source": "reports/s3-t-preprocess-integration/quality-fpga/residual/core-mapped.json.gz",
+        "source_gzip_sha256": "ae94039d20c01fde62f2912b4fcaf64d5846c82ef1d78f31b1f7d930eff28539",
+        "SPX9_blocks": 2,
+        "SPX9_width": 18,
+        "hex_sha256": "e7afd42839e5027a7a5230717b78cfd8a0871386bd4ea3474a9f1411bfe06620",
+        "expected_original_sha256": "e7afd42839e5027a7a5230717b78cfd8a0871386bd4ea3474a9f1411bfe06620"
+      },
+      "max_absolute_phase_sum": 64524
+    }
+  },
+  "numpy_version": "2.3.5",
+  "scope": "Diagnostic coefficients recovered exactly; original receiver quality contract is not supplied by these tables.",
+  "generator_source_status": "new v2 mathematical generator verified against both original table hashes"
+}

@@ -1,0 +1,329 @@
+{
+  "scope": "Measured joint T/S K7 alternatives on R+H; unchanged CPU/link catalogues.\n\nThese retain inherited stage and integration allocations. Not whole P&R.\n",
+  "base_without_both_K7": {
+    "logic_sites_estimate": 14777,
+    "FF": 10508,
+    "BSRAM": 42,
+    "DSP18": 34
+  },
+  "cases": [
+    {
+      "trial": "localshift-162",
+      "kernel": {
+        "logic_sites_estimate": 6648,
+        "FF": 2856,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "kernel_RAM16SDP4": 288,
+      "R_H_replacement": {
+        "logic_sites_estimate": 21425,
+        "FF": 13364,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 103.3227237654321,
+        "FF": 85.93106995884774,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      },
+      "remaining": {
+        "logic_sites_estimate": -689,
+        "FF": 2188,
+        "BSRAM": 0,
+        "DSP18": 14
+      },
+      "four_resource_allocation_pass": false,
+      "kernel_target_pass": true,
+      "fmax": {
+        "clk_IBUF_I_O": {
+          "achieved": 224.26551818847656,
+          "constraint": 162
+        }
+      },
+      "performance_pass": null,
+      "adopted": false
+    },
+    {
+      "trial": "metricram-162",
+      "kernel": {
+        "logic_sites_estimate": 7193,
+        "FF": 2856,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "kernel_RAM16SDP4": 288,
+      "R_H_replacement": {
+        "logic_sites_estimate": 21970,
+        "FF": 13364,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 105.95100308641975,
+        "FF": 85.93106995884774,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      },
+      "remaining": {
+        "logic_sites_estimate": -1234,
+        "FF": 2188,
+        "BSRAM": 0,
+        "DSP18": 14
+      },
+      "four_resource_allocation_pass": false,
+      "kernel_target_pass": false,
+      "fmax": {
+        "clk_IBUF_I_O": {
+          "achieved": 152.7183837890625,
+          "constraint": 162
+        }
+      },
+      "performance_pass": null,
+      "adopted": false
+    },
+    {
+      "trial": "narrow-162",
+      "kernel": {
+        "logic_sites_estimate": 7212,
+        "FF": 2856,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "kernel_RAM16SDP4": 288,
+      "R_H_replacement": {
+        "logic_sites_estimate": 21989,
+        "FF": 13364,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 106.0426311728395,
+        "FF": 85.93106995884774,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      },
+      "remaining": {
+        "logic_sites_estimate": -1253,
+        "FF": 2188,
+        "BSRAM": 0,
+        "DSP18": 14
+      },
+      "four_resource_allocation_pass": false,
+      "kernel_target_pass": false,
+      "fmax": {
+        "clk_IBUF_I_O": {
+          "achieved": 142.30824279785156,
+          "constraint": 162
+        }
+      },
+      "performance_pass": null,
+      "adopted": false
+    },
+    {
+      "trial": "paired-162",
+      "kernel": {
+        "logic_sites_estimate": 5702,
+        "FF": 2681,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "kernel_RAM16SDP4": 224,
+      "R_H_replacement": {
+        "logic_sites_estimate": 20479,
+        "FF": 13189,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 98.76060956790124,
+        "FF": 84.80581275720165,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      },
+      "remaining": {
+        "logic_sites_estimate": 257,
+        "FF": 2363,
+        "BSRAM": 0,
+        "DSP18": 14
+      },
+      "four_resource_allocation_pass": true,
+      "kernel_target_pass": false,
+      "fmax": {
+        "clk_IBUF_I_O": {
+          "achieved": 151.37753295898438,
+          "constraint": 162
+        }
+      },
+      "performance_pass": null,
+      "adopted": false
+    },
+    {
+      "trial": "shift-162",
+      "kernel": {
+        "logic_sites_estimate": 7149,
+        "FF": 2856,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "kernel_RAM16SDP4": 288,
+      "R_H_replacement": {
+        "logic_sites_estimate": 21926,
+        "FF": 13364,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 105.73881172839506,
+        "FF": 85.93106995884774,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      },
+      "remaining": {
+        "logic_sites_estimate": -1190,
+        "FF": 2188,
+        "BSRAM": 0,
+        "DSP18": 14
+      },
+      "four_resource_allocation_pass": false,
+      "kernel_target_pass": true,
+      "fmax": {
+        "clk_IBUF_I_O": {
+          "achieved": 207.85699462890625,
+          "constraint": 162
+        }
+      },
+      "performance_pass": null,
+      "adopted": false
+    },
+    {
+      "trial": "slotaddr-154",
+      "kernel": {
+        "logic_sites_estimate": 5695,
+        "FF": 2681,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "kernel_RAM16SDP4": 224,
+      "R_H_replacement": {
+        "logic_sites_estimate": 20472,
+        "FF": 13189,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 98.72685185185185,
+        "FF": 84.80581275720165,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      },
+      "remaining": {
+        "logic_sites_estimate": 264,
+        "FF": 2363,
+        "BSRAM": 0,
+        "DSP18": 14
+      },
+      "four_resource_allocation_pass": true,
+      "kernel_target_pass": true,
+      "fmax": {
+        "clk_IBUF_I_O": {
+          "achieved": 156.76437377929688,
+          "constraint": 154.28570556640625
+        }
+      },
+      "performance_pass": null,
+      "adopted": false
+    },
+    {
+      "trial": "slotaddr-162",
+      "kernel": {
+        "logic_sites_estimate": 5695,
+        "FF": 2681,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "kernel_RAM16SDP4": 224,
+      "R_H_replacement": {
+        "logic_sites_estimate": 20472,
+        "FF": 13189,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 98.72685185185185,
+        "FF": 84.80581275720165,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      },
+      "remaining": {
+        "logic_sites_estimate": 264,
+        "FF": 2363,
+        "BSRAM": 0,
+        "DSP18": 14
+      },
+      "four_resource_allocation_pass": true,
+      "kernel_target_pass": false,
+      "fmax": {
+        "clk_IBUF_I_O": {
+          "achieved": 156.76437377929688,
+          "constraint": 162
+        }
+      },
+      "performance_pass": null,
+      "adopted": false
+    },
+    {
+      "trial": "tagged-fixed-162",
+      "kernel": {
+        "logic_sites_estimate": 9850,
+        "FF": 4648,
+        "BSRAM": 4,
+        "DSP18": 0
+      },
+      "kernel_RAM16SDP4": 32,
+      "R_H_replacement": {
+        "logic_sites_estimate": 24627,
+        "FF": 15156,
+        "BSRAM": 46,
+        "DSP18": 34
+      },
+      "occupancy_percent": {
+        "logic_sites_estimate": 118.7644675925926,
+        "FF": 97.45370370370371,
+        "BSRAM": 100.0,
+        "DSP18": 70.83333333333333
+      },
+      "remaining": {
+        "logic_sites_estimate": -3891,
+        "FF": 396,
+        "BSRAM": 0,
+        "DSP18": 14
+      },
+      "four_resource_allocation_pass": false,
+      "kernel_target_pass": false,
+      "fmax": {
+        "clk_IBUF_I_O": {
+          "achieved": 88.48774719238281,
+          "constraint": 162
+        }
+      },
+      "performance_pass": null,
+      "adopted": false
+    }
+  ],
+  "previous_independent_one_context_T_allocation": {
+    "logic_sites_estimate": 21160,
+    "FF": 13843,
+    "BSRAM": 45,
+    "DSP18": 34
+  },
+  "baseline_scope_warning": "old independent T kernel lacks three hierarchy contexts; new kernel has all four Viterbi contexts, not external depuncture/scheduler/FIFO",
+  "CPU_and_flows_unchanged": true,
+  "reverse_payload_allowed": false,
+  "ownership_catalog": "reports/folded-t-evidence/budgets/20k-all-variants.json.gz",
+  "bandwidth_catalog": "reports/control-only-20k/bandwidth-catalog.json.gz",
+  "route_pairs": "reports/control-only-20k/raw-route-pairs.csv.gz",
+  "formally_assigned_routes": 0,
+  "adopted_receivers": 0
+}

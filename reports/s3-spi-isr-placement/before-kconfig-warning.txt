@@ -1,0 +1,2 @@
+warning: SPI_MASTER_ISR_IN_IRAM (defined at /opt/esp/idf/components/esp_driver_spi/Kconfig:22) has direct dependencies !HEAP_PLACE_FUNCTION_INTO_FLASH && SOC_GPSPI_SUPPORTED with value n, but is currently being y-selected by the following symbols:
+ - SPI_MASTER_IN_IRAM (defined at /opt/esp/idf/components/esp_driver_spi/Kconfig:3), with value y, direct dependencies !FREERTOS_PLACE_FUNCTIONS_INTO_FLASH && SOC_GPSPI_SUPPORTED (value: y), and select condition !FREERTOS_PLACE_FUNCTIONS_INTO_FLASH && SOC_GPSPI_SUPPORTED (value: y)

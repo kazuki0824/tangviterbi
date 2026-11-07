@@ -1,0 +1,56 @@
+test_first_bank_not_normal_minimum_and_counts_change_later_windows (test_s3_native_spi_windows.NativeWindowsTest.test_first_bank_not_normal_minimum_and_counts_change_later_windows) ... ok
+test_independent_counter_all_phases_initial_offsets_late_switches (test_s3_native_spi_windows.NativeWindowsTest.test_independent_counter_all_phases_initial_offsets_late_switches) ... ok
+test_wire_floor_is_not_an_upper_bound (test_s3_native_spi_windows.NativeWindowsTest.test_wire_floor_is_not_an_upper_bound) ... ok
+test_all_port_phases_asymmetry_and_publication_bursts (test_s3_spi_prefix_response.PrefixResponseTest.test_all_port_phases_asymmetry_and_publication_bursts) ... ok
+test_asymmetric_opportunities_and_long_burst (test_s3_spi_prefix_response.PrefixResponseTest.test_asymmetric_opportunities_and_long_burst) ... ok
+test_connect_and_strict_accept_boundary (test_s3_spi_prefix_response.PrefixResponseTest.test_connect_and_strict_accept_boundary) ... ok
+test_missing_or_invalid_bounds (test_s3_spi_prefix_response.PrefixResponseTest.test_missing_or_invalid_bounds) ... ok
+test_max_bank_four_requires_retirement_even_if_RF_banks_free (test_s3_arena_limits.ArenaLimitsTest.test_max_bank_four_requires_retirement_even_if_RF_banks_free) ... ok
+test_prefix_requirement_against_incremental_packing (test_s3_arena_limits.ArenaLimitsTest.test_prefix_requirement_against_incremental_packing) ... ok
+test_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_bulk_SPI_lease_adapter_and_queue_failure) ... ok
+test_concurrent_lossless_ownership_and_negative_boundaries (test_s3_parallel_pack.ParallelPackTest.test_concurrent_lossless_ownership_and_negative_boundaries) ... ok
+test_native_bank_handoff_and_stalled_worker_stop (test_s3_parallel_pack.ParallelPackTest.test_native_bank_handoff_and_stalled_worker_stop) ... ok
+test_raw_only_bulk_SPI_lease_adapter_and_queue_failure (test_s3_parallel_pack.ParallelPackTest.test_raw_only_bulk_SPI_lease_adapter_and_queue_failure) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 3.332s
+
+OK
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=1 samples=1 checked_DMA_bytes=0 tail_bytes=0 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2 samples=12292 checked_DMA_bytes=0 tail_bytes=30730 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=17 samples=184760 checked_DMA_bytes=458752 tail_bytes=3148 metadata_bytes=408
+PASS partial-worker, deadline, backpressure, out-of-order DMA, stale lease
+PASS actual 512-pair slices: nominal bank needs 6/core; accepted maximum needs 8/core, with/without carry and source wrap
+PASS 3 maximum banks: each worker serves 24 slices in sequence order 2/0/1, not bank index order; full output exact
+PASS native-sized banks: all RF banks reclaimed but fourth reservation blocked until ordered DMA retirement
+PASS concurrent banks=2000 samples=22742922 checked_DMA_bytes=56852480 tail_bytes=4825 metadata_bytes=408
+PASS native adapter common=0 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=0 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=1 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=2 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=0 banks=80 checked_bytes=2424832 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=16 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=0 banks=80 checked_bytes=2457600 synthetic_poll_cycles=240 WCET_measured=false
+PASS native adapter common=3 rate=40 stalled_worker=1 banks=2 checked_bytes=0 synthetic_poll_cycles=240 WCET_measured=false
+PASS parallel-ring to bulk SPI leases, reverse completion, failed queue retains payload

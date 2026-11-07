@@ -1,0 +1,48 @@
+
+Os.o:     file format elf32-xtensa-le
+
+
+Disassembly of section .literal:
+
+Disassembly of section .text:
+
+00000000 <pack_eight>:
+   0:	004136        	entry	a1, 32
+   3:	03a8      	l32i.n	a10, a3, 0
+   5:	1398      	l32i.n	a9, a3, 4
+   7:	11aa40        	slli	a10, a10, 12
+   a:	23f8      	l32i.n	a15, a3, 8
+   c:	33e8      	l32i.n	a14, a3, 12
+   e:	4388      	l32i.n	a8, a3, 16
+  10:	63b8      	l32i.n	a11, a3, 24
+  12:	53d8      	l32i.n	a13, a3, 20
+  14:	73c8      	l32i.n	a12, a3, 28
+  16:	41aca0        	srli	a10, a10, 12
+  19:	0139c0        	slli	a3, a9, 20
+  1c:	20aa30        	or	a10, a10, a3
+  1f:	02a9      	s32i.n	a10, a2, 0
+  21:	11af80        	slli	a10, a15, 8
+  24:	0000f1        	l32r	a15, fffc0024 <s3_pp_complete+0xfffbf878>
+  27:	749c90        	extui	a9, a9, 12, 8
+  2a:	10aaf0        	and	a10, a10, a15
+  2d:	2099a0        	or	a9, a9, a10
+  30:	01ae40        	slli	a10, a14, 28
+  33:	2099a0        	or	a9, a9, a10
+  36:	1299      	s32i.n	a9, a2, 4
+  38:	f4e4e0        	extui	a14, a14, 4, 16
+  3b:	119800        	slli	a9, a8, 16
+  3e:	20ee90        	or	a14, a14, a9
+  41:	000091        	l32r	a9, fffc0044 <s3_pp_complete+0xfffbf898>
+  44:	11ddc0        	slli	a13, a13, 4
+  47:	10dd90        	and	a13, a13, a9
+  4a:	358080        	extui	a8, a8, 16, 4
+  4d:	019b80        	slli	a9, a11, 24
+  50:	2088d0        	or	a8, a8, a13
+  53:	b4b8b0        	extui	a11, a11, 8, 12
+  56:	11cc40        	slli	a12, a12, 12
+  59:	208890        	or	a8, a8, a9
+  5c:	20bbc0        	or	a11, a11, a12
+  5f:	22e9      	s32i.n	a14, a2, 8
+  61:	3289      	s32i.n	a8, a2, 12
+  63:	42b9      	s32i.n	a11, a2, 16
+  65:	f01d      	retw.n

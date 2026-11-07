@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "non_fail_fast": true,
+  "source_sha256": {
+    "experiments/t_halfband_fpga/verify_non_fail_fast.py": "c9e418319df9849f4b3447a0f0193d141ad92fac77d7ee98abbe5fda56f649cc",
+    "experiments/t_halfband_fpga/resource_audit.py": "cd8031113bdfd279d1ce2c469aac83afba4cdf4d928189cfcc9a21f51000fdc1",
+    "experiments/t_halfband_fpga/quality.py": "a2578a7309325a9b9ef57d3c05d38d92a9029eab2c6957caf144714a4a4aa64a",
+    "experiments/t_halfband_fpga/coefficients.py": "12e472026e595cc697774a8c93ea1e7ec29a58867c29fbc8c677bc3c1917fc1d",
+    "experiments/t_halfband_fpga/run_stream.py": "eb6ef434f61dc9b0b1cdbefe9a615292782d532370b4468f4fc8f48e95046682",
+    "experiments/t_halfband_fpga/coeff_baseline.hex": "ed4cc491e4718afb124966f28f8ee06a5ef9749eca6b71fff48118058d2cda98",
+    "experiments/t_halfband_fpga/coeff_residual.hex": "e7afd42839e5027a7a5230717b78cfd8a0871386bd4ea3474a9f1411bfe06620",
+    "ci/t_halfband_fpga_audit.py": "3cbe4329ed9f2f5b74fd7292b1e510c317a3d1b2634a9b8d1d5f2f44fb16c253",
+    "experiments/t_preprocess_capacity/halfband31.c": "7f5184694746d43db0efa5feaef304ff037750aeb4c5f0c4f6f6975708f019a8"
+  },
+  "cases": [
+    {
+      "name": "one_retained_netlist_missing",
+      "checks": [
+        {
+          "name": "one_retained_netlist_missing.all_condition_names_retained",
+          "status": "PASS"
+        },
+        {
+          "name": "one_retained_netlist_missing.missing_stage_BLOCKED",
+          "status": "PASS"
+        },
+        {
+          "name": "one_retained_netlist_missing.baseline-fifo_still_PASS",
+          "status": "PASS"
+        },
+        {
+          "name": "one_retained_netlist_missing.residual_still_PASS",
+          "status": "PASS"
+        },
+        {
+          "name": "one_retained_netlist_missing.residual-fifo_still_PASS",
+          "status": "PASS"
+        }
+      ],
+      "details": {
+        "conditions": 151,
+        "counts": {
+          "PASS": 140,
+          "BLOCKED": 11
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "all_evidence_missing",
+      "checks": [
+        {
+          "name": "all_evidence_missing.control_evidence_PASS",
+          "status": "PASS"
+        },
+        {
+          "name": "all_evidence_missing.all_condition_names_retained",
+          "status": "PASS"
+        },
+        {
+          "name": "all_evidence_missing.not_marked_complete",
+          "status": "PASS"
+        },
+        {
+          "name": "all_evidence_missing.decision_UNVERIFIED",
+          "status": "PASS"
+        }
+      ],
+      "details": {
+        "counts": {
+          "BLOCKED": 657
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "three_independent_reports_missing",
+      "checks": [
+        {
+          "name": "three_independent_reports_missing.all_condition_names_retained",
+          "status": "PASS"
+        },
+        {
+          "name": "three_independent_reports_missing.stream.all_BLOCKED",
+          "status": "PASS"
+        },
+        {
+          "name": "three_independent_reports_missing.quality.all_BLOCKED",
+          "status": "PASS"
+        },
+        {
+          "name": "three_independent_reports_missing.timing.pinned.all_BLOCKED",
+          "status": "PASS"
+        },
+        {
+          "name": "three_independent_reports_missing.resource.still_PASS",
+          "status": "PASS"
+        },
+        {
+          "name": "three_independent_reports_missing.contract.still_PASS",
+          "status": "PASS"
+        },
+        {
+          "name": "three_independent_reports_missing.timing.current.still_PASS",
+          "status": "PASS"
+        }
+      ],
+      "details": {
+        "counts": {
+          "PASS": 317,
+          "BLOCKED": 340
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "zero_residual_coefficients",
+      "checks": [
+        {
+          "name": "zero_residual_coefficients.exit_nonzero",
+          "status": "PASS"
+        },
+        {
+          "name": "zero_residual_coefficients.all_condition_names_retained",
+          "status": "PASS"
+        },
+        {
+          "name": "zero_residual_coefficients.strict_JSON_emitted",
+          "status": "PASS"
+        },
+        {
+          "name": "zero_residual_coefficients.nonfinite_values_explained",
+          "status": "PASS"
+        },
+        {
+          "name": "zero_residual_coefficients.independent_baseline_PASS",
+          "status": "PASS"
+        }
+      ],
+      "details": {
+        "conditions": 70,
+        "nonfinite_diagnostics": [
+          {
+            "path": "frequency.residual.pass_ripple_peak_to_peak_dB",
+            "reason": "Nonfinite numeric diagnostic",
+            "value": "nan"
+          },
+          {
+            "path": "frequency.residual.minimum_stop_attenuation_dB",
+            "reason": "Nonfinite numeric diagnostic",
+            "value": "inf"
+          },
+          {
+            "path": "frequency.residual.maximum_rational_image_dBc",
+            "reason": "Nonfinite numeric diagnostic",
+            "value": "nan"
+          },
+          {
+            "path": "frequency.residual.quantized_all_phase_pass_group_delay_us[0]",
+            "reason": "Nonfinite numeric diagnostic",
+            "value": "nan"
+          },
+          {
+            "path": "frequency.residual.quantized_all_phase_pass_group_delay_us[1]",
+            "reason": "Nonfinite numeric diagnostic",
+            "value": "nan"
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "RTL_tools_missing",
+      "checks": [
+        {
+          "name": "RTL_tools_missing.exit_nonzero",
+          "status": "PASS"
+        },
+        {
+          "name": "RTL_tools_missing.all_compile_profiles_present",
+          "status": "PASS"
+        },
+        {
+          "name": "RTL_tools_missing.all_scenarios_present",
+          "status": "PASS"
+        },
+        {
+          "name": "RTL_tools_missing.every_criterion_BLOCKED",
+          "status": "PASS"
+        },
+        {
+          "name": "RTL_tools_missing.capacity_summary_UNVERIFIED",
+          "status": "PASS"
+        },
+        {
+          "name": "RTL_tools_missing.design_summary_BLOCKED",
+          "status": "PASS"
+        }
+      ],
+      "details": {
+        "scenarios": 9,
+        "criteria": 72
+      },
+      "status": "PASS"
+    }
+  ],
+  "checks": [
+    {
+      "name": "one_retained_netlist_missing.all_condition_names_retained",
+      "status": "PASS"
+    },
+    {
+      "name": "one_retained_netlist_missing.missing_stage_BLOCKED",
+      "status": "PASS"
+    },
+    {
+      "name": "one_retained_netlist_missing.baseline-fifo_still_PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "one_retained_netlist_missing.residual_still_PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "one_retained_netlist_missing.residual-fifo_still_PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "all_evidence_missing.control_evidence_PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "all_evidence_missing.all_condition_names_retained",
+      "status": "PASS"
+    },
+    {
+      "name": "all_evidence_missing.not_marked_complete",
+      "status": "PASS"
+    },
+    {
+      "name": "all_evidence_missing.decision_UNVERIFIED",
+      "status": "PASS"
+    },
+    {
+      "name": "three_independent_reports_missing.all_condition_names_retained",
+      "status": "PASS"
+    },
+    {
+      "name": "three_independent_reports_missing.stream.all_BLOCKED",
+      "status": "PASS"
+    },
+    {
+      "name": "three_independent_reports_missing.quality.all_BLOCKED",
+      "status": "PASS"
+    },
+    {
+      "name": "three_independent_reports_missing.timing.pinned.all_BLOCKED",
+      "status": "PASS"
+    },
+    {
+      "name": "three_independent_reports_missing.resource.still_PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "three_independent_reports_missing.contract.still_PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "three_independent_reports_missing.timing.current.still_PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "zero_residual_coefficients.exit_nonzero",
+      "status": "PASS"
+    },
+    {
+      "name": "zero_residual_coefficients.all_condition_names_retained",
+      "status": "PASS"
+    },
+    {
+      "name": "zero_residual_coefficients.strict_JSON_emitted",
+      "status": "PASS"
+    },
+    {
+      "name": "zero_residual_coefficients.nonfinite_values_explained",
+      "status": "PASS"
+    },
+    {
+      "name": "zero_residual_coefficients.independent_baseline_PASS",
+      "status": "PASS"
+    },
+    {
+      "name": "RTL_tools_missing.exit_nonzero",
+      "status": "PASS"
+    },
+    {
+      "name": "RTL_tools_missing.all_compile_profiles_present",
+      "status": "PASS"
+    },
+    {
+      "name": "RTL_tools_missing.all_scenarios_present",
+      "status": "PASS"
+    },
+    {
+      "name": "RTL_tools_missing.every_criterion_BLOCKED",
+      "status": "PASS"
+    },
+    {
+      "name": "RTL_tools_missing.capacity_summary_UNVERIFIED",
+      "status": "PASS"
+    },
+    {
+      "name": "RTL_tools_missing.design_summary_BLOCKED",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS"
+}

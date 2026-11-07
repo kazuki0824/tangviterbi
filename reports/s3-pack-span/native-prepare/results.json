@@ -1,0 +1,96 @@
+{
+  "scope": "Pinned SDK sentinel fill counts and phase-aware scheduling conditions, not WCET.",
+  "conditional_owner_scenario": [
+    {
+      "standard": "T",
+      "packing_ideal_Mcycles_s": 47.95947265625,
+      "fill_ideal_Mcycles_s": 46.666666666666664,
+      "old_assumed_API_Mcycles_s": 5.86083984375,
+      "conditional_total_Mcycles_s": 100.48697916666666,
+      "conditional_remaining_Mcycles_s": 139.51302083333334
+    },
+    {
+      "standard": "S",
+      "packing_ideal_Mcycles_s": 119.898681640625,
+      "fill_ideal_Mcycles_s": 116.66666666666667,
+      "old_assumed_API_Mcycles_s": 14.64990234375,
+      "conditional_total_Mcycles_s": 251.21525065104169,
+      "conditional_remaining_Mcycles_s": -11.215250651041671
+    }
+  ],
+  "ELF_sha256": "ec4fd7567e855e99fe2e440743e9214ece525cf9f1eacaaa34827577274d3690",
+  "checks": [
+    {
+      "name": "pinned_ELF",
+      "passed": true
+    },
+    {
+      "name": "fill_loop_403777c6",
+      "passed": true,
+      "ops": [
+        "loop",
+        "extui",
+        "addx4",
+        "memw",
+        "s32i.n",
+        "addi.n",
+        "memw"
+      ]
+    },
+    {
+      "name": "fill_loop_403777ea",
+      "passed": true,
+      "ops": [
+        "loop",
+        "extui",
+        "addx4",
+        "memw",
+        "s32i.n",
+        "addi.n",
+        "memw"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "rate_msps": 16,
+      "words": 7168,
+      "body_instructions": 35840,
+      "ideal_body_cycles": 35840,
+      "ideal_body_us": 149.33333333333334,
+      "samples_during_body_rounded_up": 2390,
+      "latest_entry_written_body_only": 11898,
+      "uniform_late_poll_budget_cycles": 30000,
+      "body_exceeds_uniform_poll_budget": true,
+      "nominal_banks_per_s": 1302.0833333333333,
+      "nominal_fill_instructions_per_s": 46666666.666666664
+    },
+    {
+      "rate_msps": 40,
+      "words": 7168,
+      "body_instructions": 35840,
+      "ideal_body_cycles": 35840,
+      "ideal_body_us": 149.33333333333334,
+      "samples_during_body_rounded_up": 5974,
+      "latest_entry_written_body_only": 8314,
+      "uniform_late_poll_budget_cycles": 12000,
+      "body_exceeds_uniform_poll_budget": true,
+      "nominal_banks_per_s": 3255.2083333333335,
+      "nominal_fill_instructions_per_s": 116666666.66666667
+    }
+  ],
+  "instruction_count_includes": "Five instructions per word in two hardware loops; no setup or exit",
+  "excluded": [
+    "loop setup",
+    "bank callback bodies",
+    "all other poll logic",
+    "MMIO and memory stalls",
+    "interrupts",
+    "packing",
+    "SPI",
+    "clock"
+  ],
+  "schedule_condition": "written_at_INDEX_read + ceil((prepare_tail_cycles + external_gap_cycles + next_poll_to_INDEX_cycles)/cpp) <= 14288",
+  "full_WCET_proven": false,
+  "uniform_poll_bound_is_not_necessary_when_preparing_early": true
+}

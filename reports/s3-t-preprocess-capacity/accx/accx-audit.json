@@ -1,0 +1,474 @@
+{
+  "scope": "Audit one T ACCX caller: static issue floors, not measured receiver timing.\n\nAll planned checks receive PASS, FAIL, or BLOCKED. Host oracle cases execute in\nseparate processes, so a failed build or even a native crash cannot suppress the\nother static checks or the final JSON result. A failed evidence check never\nproduces the capacity rejection verdict.\n",
+  "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "source_sha256": {
+    "experiments/t_preprocess_capacity/accx_wrapper.c": "8e62b1d7b13840da71a89a197b8004556de418d815b53b0a2df1f05fd1109140",
+    "experiments/t_preprocess_capacity/accx_wrapper.h": "5c5ed8c92d5af984518ff26bc72e9dcc597c6073c3e2b46c3cbf0dd5f422c94b",
+    "experiments/t_preprocess_capacity/accx_host_stub.c": "4abbf7744c4731a1d587665aa40eed99352af830ec77bfbfd2da05a34b9e55b6",
+    "experiments/s3_fir_accx.S": "d4f8231ccf04958d6b47ac083cb297297431fcf1ddd572a7e711e7c29185af37",
+    "experiments/s3_fir_accx_model.py": "3af9f59a434adf3692c8987000f473d35afad662b9e46379a3d984eac2c80eaf",
+    "ci/t_accx_capacity_audit.py": "39d150724f9f6697ae07ea98eb8bc7bb989e6a480b043897e2e7820838665051"
+  },
+  "disassembly_sha256": {
+    "accx_wrapper-O2.dis": "3573db16ad7c01bb9e956fd212febac9b63b2616336c57840ef20ccc926d4318",
+    "accx_wrapper-Os.dis": "82292cfd44999bc5164309af77412e29aa0bd78572adc78311429d7f07b6bb17",
+    "accx_wrapper-O3.dis": "afb66de89be48eeaf77b4d781ae4cdbed613f28ed65648e5b3fc6882f7e8117f",
+    "accx_kernel.dis": "e0e76e5940fef35efa0b8462504df5fcfedc1920adcfa5563fc867f601567aba"
+  },
+  "input_Mcomplex_samples_s": 16,
+  "output_Mcomplex_samples_s": 8.126984126984127,
+  "assumptions": [
+    "At most one CPU instruction can issue per cycle; every instruction is optimistically allowed one cycle.",
+    "Both CPU cores run at 240 MHz with perfect division of work, giving 480 Mcycles/s aggregate capacity.",
+    "Native signed10 I/Q input, L/M=32/63, 32 signed16 taps per phase, zero initial history.",
+    "PIE context is exclusively available; RF, DMA, RTOS, cache, stalls and contention cost zero.",
+    "Q15 trial: coefficient format Q15, round (acc+256)>>9, saturate signed16. Real receiver contract not validated."
+  ],
+  "checks": [
+    {
+      "name": "source_manifest",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "experiments/t_preprocess_capacity/accx_wrapper.c": "8e62b1d7b13840da71a89a197b8004556de418d815b53b0a2df1f05fd1109140",
+        "experiments/t_preprocess_capacity/accx_wrapper.h": "5c5ed8c92d5af984518ff26bc72e9dcc597c6073c3e2b46c3cbf0dd5f422c94b",
+        "experiments/t_preprocess_capacity/accx_host_stub.c": "4abbf7744c4731a1d587665aa40eed99352af830ec77bfbfd2da05a34b9e55b6",
+        "experiments/s3_fir_accx.S": "d4f8231ccf04958d6b47ac083cb297297431fcf1ddd572a7e711e7c29185af37",
+        "experiments/s3_fir_accx_model.py": "3af9f59a434adf3692c8987000f473d35afad662b9e46379a3d984eac2c80eaf",
+        "ci/t_accx_capacity_audit.py": "39d150724f9f6697ae07ea98eb8bc7bb989e6a480b043897e2e7820838665051"
+      }
+    },
+    {
+      "name": "target_compiler_identity",
+      "status": "PASS",
+      "passed": true,
+      "detail": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0"
+    },
+    {
+      "name": "target_compile_O2",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "compiler_flags": [
+          "-std=c11",
+          "-O2",
+          "-Wall",
+          "-Wextra",
+          "-Werror"
+        ],
+        "object_sha256": "051ebbe32986a8022e86a191c78ee130bad5c186e588624f148edfc392f162ca",
+        "disassembly": "accx_wrapper-O2.dis",
+        "disassembly_sha256": "3573db16ad7c01bb9e956fd212febac9b63b2616336c57840ef20ccc926d4318"
+      }
+    },
+    {
+      "name": "target_compile_Os",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "compiler_flags": [
+          "-std=c11",
+          "-Os",
+          "-Wall",
+          "-Wextra",
+          "-Werror"
+        ],
+        "object_sha256": "f7aef1cbebeb5c88f01063ba19251f77e0652126ef9888dcc2c0d192dee5de15",
+        "disassembly": "accx_wrapper-Os.dis",
+        "disassembly_sha256": "82292cfd44999bc5164309af77412e29aa0bd78572adc78311429d7f07b6bb17"
+      }
+    },
+    {
+      "name": "target_compile_O3",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "compiler_flags": [
+          "-std=c11",
+          "-O3",
+          "-Wall",
+          "-Wextra",
+          "-Werror"
+        ],
+        "object_sha256": "fbc52495474c5bffe060b2ba2b4167cf0cef7763e2782437e903c27092ec0edf",
+        "disassembly": "accx_wrapper-O3.dis",
+        "disassembly_sha256": "afb66de89be48eeaf77b4d781ae4cdbed613f28ed65648e5b3fc6882f7e8117f"
+      }
+    },
+    {
+      "name": "target_kernel_29_instructions",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "compiler_flags": [
+          "-c"
+        ],
+        "instructions": 29,
+        "MAC_instructions": 8,
+        "object_sha256": "ea26eaf04c25033babe52a03c30b49c6f91a71a40b72c8317f406589d936d996",
+        "disassembly": "accx_kernel.dis",
+        "disassembly_sha256": "e0e76e5940fef35efa0b8462504df5fcfedc1920adcfa5563fc867f601567aba"
+      }
+    },
+    {
+      "name": "target_paths_and_mandatory_subset_O2",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "optimization": "O2",
+        "ranges_hex": [
+          [
+            "0x35",
+            "0x66"
+          ],
+          [
+            "0x69",
+            "0xa9"
+          ],
+          [
+            "0xad",
+            "0xad"
+          ],
+          [
+            "0xaf",
+            "0xb6"
+          ]
+        ],
+        "path_segment_instruction_counts": [
+          20,
+          25,
+          1,
+          4
+        ],
+        "mandatory_input_instructions": 20,
+        "caller_call_instructions_per_output": 1,
+        "kernel_instructions_per_output": 29,
+        "mandatory_Q15_instructions_per_output": 12,
+        "input_call_kernel_only_issue_floor_Mcycles_s": 563.8095238095239,
+        "mandatory_subset_issue_floor_Mcycles_s": 661.3333333333333,
+        "wrapper_loop_instructions_per_63_inputs": 2342,
+        "kernel_instructions_per_32_outputs": 928,
+        "combined_loop_issue_floor_Mcycles_s": 830.4761904761905,
+        "ideal_two_core_capacity_Mcycles_s": 480,
+        "fits_ideal_two_core_capacity": false,
+        "runtime_measured": false
+      }
+    },
+    {
+      "name": "target_paths_and_mandatory_subset_Os",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "optimization": "Os",
+        "ranges_hex": [
+          [
+            "0x29",
+            "0x4e"
+          ],
+          [
+            "0x51",
+            "0xa1"
+          ],
+          [
+            "0xa4",
+            "0xa4"
+          ],
+          [
+            "0xa6",
+            "0xad"
+          ]
+        ],
+        "path_segment_instruction_counts": [
+          15,
+          32,
+          1,
+          4
+        ],
+        "mandatory_input_instructions": 15,
+        "caller_call_instructions_per_output": 1,
+        "kernel_instructions_per_output": 29,
+        "mandatory_Q15_instructions_per_output": 12,
+        "input_call_kernel_only_issue_floor_Mcycles_s": 483.8095238095238,
+        "mandatory_subset_issue_floor_Mcycles_s": 581.3333333333333,
+        "wrapper_loop_instructions_per_63_inputs": 2251,
+        "kernel_instructions_per_32_outputs": 928,
+        "combined_loop_issue_floor_Mcycles_s": 807.3650793650794,
+        "ideal_two_core_capacity_Mcycles_s": 480,
+        "fits_ideal_two_core_capacity": false,
+        "runtime_measured": false
+      }
+    },
+    {
+      "name": "target_paths_and_mandatory_subset_O3",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "optimization": "O3",
+        "ranges_hex": [
+          [
+            "0x36",
+            "0x67"
+          ],
+          [
+            "0x6a",
+            "0xae"
+          ],
+          [
+            "0xb4",
+            "0xbd"
+          ]
+        ],
+        "path_segment_instruction_counts": [
+          20,
+          27,
+          5
+        ],
+        "mandatory_input_instructions": 20,
+        "caller_call_instructions_per_output": 1,
+        "kernel_instructions_per_output": 29,
+        "mandatory_Q15_instructions_per_output": 12,
+        "input_call_kernel_only_issue_floor_Mcycles_s": 563.8095238095239,
+        "mandatory_subset_issue_floor_Mcycles_s": 661.3333333333333,
+        "wrapper_loop_instructions_per_63_inputs": 2278,
+        "kernel_instructions_per_32_outputs": 928,
+        "combined_loop_issue_floor_Mcycles_s": 814.2222222222222,
+        "ideal_two_core_capacity_Mcycles_s": 480,
+        "fits_ideal_two_core_capacity": false,
+        "runtime_measured": false
+      }
+    },
+    {
+      "name": "host_build",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "compiler_flags": [
+          "-std=c11",
+          "-O2",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-fPIC",
+          "-shared"
+        ],
+        "library_sha256": "5517be4644da14c7bc8d0d43b7ee54c0e94dcb5ee3725936d36db9c4678320c6",
+        "scope": "Host scalar kernel stub; never substituted for target timing"
+      }
+    },
+    {
+      "name": "host_oracle_random_single",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "case": "random_single",
+        "input_count": 4096,
+        "output_count": 2081,
+        "chunks": 1,
+        "distinct_phase_head_pairs": 1024,
+        "full_precision_sums_verified": true,
+        "Q15_trial_rounding_verified": true,
+        "aligned_5_vector_read_bounds_verified_in_stub": true,
+        "target_runtime_execution": false
+      }
+    },
+    {
+      "name": "host_oracle_random_chunks",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "case": "random_chunks",
+        "input_count": 4096,
+        "output_count": 2081,
+        "chunks": 79,
+        "distinct_phase_head_pairs": 1024,
+        "full_precision_sums_verified": true,
+        "Q15_trial_rounding_verified": true,
+        "aligned_5_vector_read_bounds_verified_in_stub": true,
+        "target_runtime_execution": false
+      }
+    },
+    {
+      "name": "host_oracle_extreme1",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "case": "extreme1",
+        "input_count": 2016,
+        "output_count": 1024,
+        "chunks": 46,
+        "distinct_phase_head_pairs": 1024,
+        "full_precision_sums_verified": true,
+        "Q15_trial_rounding_verified": true,
+        "aligned_5_vector_read_bounds_verified_in_stub": true,
+        "target_runtime_execution": false
+      }
+    },
+    {
+      "name": "host_oracle_extreme2",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "case": "extreme2",
+        "input_count": 2016,
+        "output_count": 1024,
+        "chunks": 46,
+        "distinct_phase_head_pairs": 1024,
+        "full_precision_sums_verified": true,
+        "Q15_trial_rounding_verified": true,
+        "aligned_5_vector_read_bounds_verified_in_stub": true,
+        "target_runtime_execution": false
+      }
+    },
+    {
+      "name": "host_oracle_rounding_ties",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "case": "rounding_ties",
+        "input_count": 2015,
+        "output_count": 1024,
+        "chunks": 47,
+        "distinct_phase_head_pairs": 1024,
+        "full_precision_sums_verified": true,
+        "Q15_trial_rounding_verified": true,
+        "aligned_5_vector_read_bounds_verified_in_stub": true,
+        "target_runtime_execution": false
+      }
+    },
+    {
+      "name": "existing_kernel_semantic_model_all_halfword_alignments",
+      "status": "PASS",
+      "passed": true,
+      "detail": {
+        "alignments": 64,
+        "target_runtime_execution": false
+      }
+    }
+  ],
+  "costs": [
+    {
+      "optimization": "O2",
+      "ranges_hex": [
+        [
+          "0x35",
+          "0x66"
+        ],
+        [
+          "0x69",
+          "0xa9"
+        ],
+        [
+          "0xad",
+          "0xad"
+        ],
+        [
+          "0xaf",
+          "0xb6"
+        ]
+      ],
+      "path_segment_instruction_counts": [
+        20,
+        25,
+        1,
+        4
+      ],
+      "mandatory_input_instructions": 20,
+      "caller_call_instructions_per_output": 1,
+      "kernel_instructions_per_output": 29,
+      "mandatory_Q15_instructions_per_output": 12,
+      "input_call_kernel_only_issue_floor_Mcycles_s": 563.8095238095239,
+      "mandatory_subset_issue_floor_Mcycles_s": 661.3333333333333,
+      "wrapper_loop_instructions_per_63_inputs": 2342,
+      "kernel_instructions_per_32_outputs": 928,
+      "combined_loop_issue_floor_Mcycles_s": 830.4761904761905,
+      "ideal_two_core_capacity_Mcycles_s": 480,
+      "fits_ideal_two_core_capacity": false,
+      "runtime_measured": false
+    },
+    {
+      "optimization": "Os",
+      "ranges_hex": [
+        [
+          "0x29",
+          "0x4e"
+        ],
+        [
+          "0x51",
+          "0xa1"
+        ],
+        [
+          "0xa4",
+          "0xa4"
+        ],
+        [
+          "0xa6",
+          "0xad"
+        ]
+      ],
+      "path_segment_instruction_counts": [
+        15,
+        32,
+        1,
+        4
+      ],
+      "mandatory_input_instructions": 15,
+      "caller_call_instructions_per_output": 1,
+      "kernel_instructions_per_output": 29,
+      "mandatory_Q15_instructions_per_output": 12,
+      "input_call_kernel_only_issue_floor_Mcycles_s": 483.8095238095238,
+      "mandatory_subset_issue_floor_Mcycles_s": 581.3333333333333,
+      "wrapper_loop_instructions_per_63_inputs": 2251,
+      "kernel_instructions_per_32_outputs": 928,
+      "combined_loop_issue_floor_Mcycles_s": 807.3650793650794,
+      "ideal_two_core_capacity_Mcycles_s": 480,
+      "fits_ideal_two_core_capacity": false,
+      "runtime_measured": false
+    },
+    {
+      "optimization": "O3",
+      "ranges_hex": [
+        [
+          "0x36",
+          "0x67"
+        ],
+        [
+          "0x6a",
+          "0xae"
+        ],
+        [
+          "0xb4",
+          "0xbd"
+        ]
+      ],
+      "path_segment_instruction_counts": [
+        20,
+        27,
+        5
+      ],
+      "mandatory_input_instructions": 20,
+      "caller_call_instructions_per_output": 1,
+      "kernel_instructions_per_output": 29,
+      "mandatory_Q15_instructions_per_output": 12,
+      "input_call_kernel_only_issue_floor_Mcycles_s": 563.8095238095239,
+      "mandatory_subset_issue_floor_Mcycles_s": 661.3333333333333,
+      "wrapper_loop_instructions_per_63_inputs": 2278,
+      "kernel_instructions_per_32_outputs": 928,
+      "combined_loop_issue_floor_Mcycles_s": 814.2222222222222,
+      "ideal_two_core_capacity_Mcycles_s": 480,
+      "fits_ideal_two_core_capacity": false,
+      "runtime_measured": false
+    }
+  ],
+  "all_checks_passed": true,
+  "status": "REJECT_THIS_ACCX_WRAPPER",
+  "verdict": "NO for this compiled mirrored-history C wrapper plus existing ACCX kernel",
+  "target_runtime_executed": false,
+  "universal_ACCX_or_T_impossibility_proved": false,
+  "limitations": [
+    "Instruction issue floors are not measured target WCET.",
+    "FIR coefficient response and deployed receiver Q15 rounding contract not validated.",
+    "No target RF/RTOS/DMA integration, PIE context management or two-core schedule.",
+    "Even the input/call/kernel subset rejects all three objects with Q15 work treated as free.",
+    "Other caller layouts, block/history methods, fused assembly or another FIR algorithm remain separate candidates."
+  ]
+}

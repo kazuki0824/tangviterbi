@@ -1,0 +1,368 @@
+{
+  "scope": "Exact symmetry screening of finite rational-FIR layouts; no quality/WCET claim.",
+  "rows": [
+    {
+      "up": 32,
+      "down": 63,
+      "nominal_taps_per_phase": 32,
+      "prototype_length": 1023,
+      "prototype_length_delta": -1,
+      "phase_length_min": 31,
+      "phase_length_max": 32,
+      "self_symmetric_phases": [
+        15,
+        31
+      ],
+      "phase_count": 32,
+      "original_real_products_per_I_or_Q_per_phase_period": 1023,
+      "folded_real_products_per_I_or_Q_per_phase_period": 992,
+      "all_phase_symmetry_halves_MACs": false,
+      "ideal_MAC_only_Mcycles_s": 62.98412698412698,
+      "full_Q15_coeff_bytes": 2046,
+      "shared_prototype_Q15_coeff_bytes": 1024,
+      "assumptions": [
+        "Symmetric prototype; exact coefficient/sample arithmetic; no zero taps or other reuse exploited",
+        "Coefficient sharing across reverse phases saves storage, not products of distinct input windows",
+        "Pre-add, loads, extraction, phase addressing and output costs omitted",
+        "8 s16 products/issue and ideal 1 issue/cycle; pre-add width handling not priced",
+        "Delta +/-1 changes some row lengths, not a proven same-quality replacement"
+      ],
+      "receiver_adopted": false,
+      "standard": "T",
+      "remaining_Mcycles_s_low_high": [
+        1.605406746031754,
+        1.097470238095248
+      ],
+      "MAC_only_excludes_beating_raw_low_high": [
+        false,
+        false
+      ],
+      "old_unpack_retained_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_Q15_unpack_store_only_Mcycles_s": 4.0,
+      "MAC_plus_separate_unpack_store_floor_Mcycles_s": 66.98412698412699,
+      "separate_unpack_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_unpack_scope": "CPU writes I16/Q16 intermediate arrays in a distinct pass, max 16 B/store issue, no fused FIR stores or hardware conversion",
+      "all_algorithms_excluded": false
+    },
+    {
+      "up": 32,
+      "down": 63,
+      "nominal_taps_per_phase": 32,
+      "prototype_length": 1024,
+      "prototype_length_delta": 0,
+      "phase_length_min": 32,
+      "phase_length_max": 32,
+      "self_symmetric_phases": [],
+      "phase_count": 32,
+      "original_real_products_per_I_or_Q_per_phase_period": 1024,
+      "folded_real_products_per_I_or_Q_per_phase_period": 1024,
+      "all_phase_symmetry_halves_MACs": false,
+      "ideal_MAC_only_Mcycles_s": 65.01587301587301,
+      "full_Q15_coeff_bytes": 2048,
+      "shared_prototype_Q15_coeff_bytes": 1024,
+      "assumptions": [
+        "Symmetric prototype; exact coefficient/sample arithmetic; no zero taps or other reuse exploited",
+        "Coefficient sharing across reverse phases saves storage, not products of distinct input windows",
+        "Pre-add, loads, extraction, phase addressing and output costs omitted",
+        "8 s16 products/issue and ideal 1 issue/cycle; pre-add width handling not priced",
+        "Delta +/-1 changes some row lengths, not a proven same-quality replacement"
+      ],
+      "receiver_adopted": false,
+      "standard": "T",
+      "remaining_Mcycles_s_low_high": [
+        -0.4263392857142776,
+        -0.9342757936507837
+      ],
+      "MAC_only_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "old_unpack_retained_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_Q15_unpack_store_only_Mcycles_s": 4.0,
+      "MAC_plus_separate_unpack_store_floor_Mcycles_s": 69.01587301587301,
+      "separate_unpack_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_unpack_scope": "CPU writes I16/Q16 intermediate arrays in a distinct pass, max 16 B/store issue, no fused FIR stores or hardware conversion",
+      "all_algorithms_excluded": false
+    },
+    {
+      "up": 32,
+      "down": 63,
+      "nominal_taps_per_phase": 32,
+      "prototype_length": 1025,
+      "prototype_length_delta": 1,
+      "phase_length_min": 32,
+      "phase_length_max": 33,
+      "self_symmetric_phases": [
+        0,
+        16
+      ],
+      "phase_count": 32,
+      "original_real_products_per_I_or_Q_per_phase_period": 1025,
+      "folded_real_products_per_I_or_Q_per_phase_period": 993,
+      "all_phase_symmetry_halves_MACs": false,
+      "ideal_MAC_only_Mcycles_s": 63.04761904761905,
+      "full_Q15_coeff_bytes": 2050,
+      "shared_prototype_Q15_coeff_bytes": 1026,
+      "assumptions": [
+        "Symmetric prototype; exact coefficient/sample arithmetic; no zero taps or other reuse exploited",
+        "Coefficient sharing across reverse phases saves storage, not products of distinct input windows",
+        "Pre-add, loads, extraction, phase addressing and output costs omitted",
+        "8 s16 products/issue and ideal 1 issue/cycle; pre-add width handling not priced",
+        "Delta +/-1 changes some row lengths, not a proven same-quality replacement"
+      ],
+      "receiver_adopted": false,
+      "standard": "T",
+      "remaining_Mcycles_s_low_high": [
+        1.5419146825396837,
+        1.0339781746031775
+      ],
+      "MAC_only_excludes_beating_raw_low_high": [
+        false,
+        false
+      ],
+      "old_unpack_retained_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_Q15_unpack_store_only_Mcycles_s": 4.0,
+      "MAC_plus_separate_unpack_store_floor_Mcycles_s": 67.04761904761905,
+      "separate_unpack_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_unpack_scope": "CPU writes I16/Q16 intermediate arrays in a distinct pass, max 16 B/store issue, no fused FIR stores or hardware conversion",
+      "all_algorithms_excluded": false
+    },
+    {
+      "up": 1443,
+      "down": 2000,
+      "nominal_taps_per_phase": 16,
+      "prototype_length": 23087,
+      "prototype_length_delta": -1,
+      "phase_length_min": 15,
+      "phase_length_max": 16,
+      "self_symmetric_phases": [
+        1442
+      ],
+      "phase_count": 1443,
+      "original_real_products_per_I_or_Q_per_phase_period": 23087,
+      "folded_real_products_per_I_or_Q_per_phase_period": 23080,
+      "all_phase_symmetry_halves_MACs": false,
+      "ideal_MAC_only_Mcycles_s": 115.4,
+      "full_Q15_coeff_bytes": 46174,
+      "shared_prototype_Q15_coeff_bytes": 23088,
+      "assumptions": [
+        "Symmetric prototype; exact coefficient/sample arithmetic; no zero taps or other reuse exploited",
+        "Coefficient sharing across reverse phases saves storage, not products of distinct input windows",
+        "Pre-add, loads, extraction, phase addressing and output costs omitted",
+        "8 s16 products/issue and ideal 1 issue/cycle; pre-add width handling not priced",
+        "Delta +/-1 changes some row lengths, not a proven same-quality replacement"
+      ],
+      "receiver_adopted": false,
+      "standard": "S",
+      "remaining_Mcycles_s_low_high": [
+        6.898281250000053,
+        -28.541718750000115
+      ],
+      "MAC_only_excludes_beating_raw_low_high": [
+        false,
+        true
+      ],
+      "old_unpack_retained_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_Q15_unpack_store_only_Mcycles_s": 10.0,
+      "MAC_plus_separate_unpack_store_floor_Mcycles_s": 125.4,
+      "separate_unpack_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_unpack_scope": "CPU writes I16/Q16 intermediate arrays in a distinct pass, max 16 B/store issue, no fused FIR stores or hardware conversion",
+      "all_algorithms_excluded": false
+    },
+    {
+      "up": 1443,
+      "down": 2000,
+      "nominal_taps_per_phase": 16,
+      "prototype_length": 23088,
+      "prototype_length_delta": 0,
+      "phase_length_min": 16,
+      "phase_length_max": 16,
+      "self_symmetric_phases": [
+        721
+      ],
+      "phase_count": 1443,
+      "original_real_products_per_I_or_Q_per_phase_period": 23088,
+      "folded_real_products_per_I_or_Q_per_phase_period": 23080,
+      "all_phase_symmetry_halves_MACs": false,
+      "ideal_MAC_only_Mcycles_s": 115.4,
+      "full_Q15_coeff_bytes": 46176,
+      "shared_prototype_Q15_coeff_bytes": 23088,
+      "assumptions": [
+        "Symmetric prototype; exact coefficient/sample arithmetic; no zero taps or other reuse exploited",
+        "Coefficient sharing across reverse phases saves storage, not products of distinct input windows",
+        "Pre-add, loads, extraction, phase addressing and output costs omitted",
+        "8 s16 products/issue and ideal 1 issue/cycle; pre-add width handling not priced",
+        "Delta +/-1 changes some row lengths, not a proven same-quality replacement"
+      ],
+      "receiver_adopted": false,
+      "standard": "S",
+      "remaining_Mcycles_s_low_high": [
+        6.898281250000053,
+        -28.541718750000115
+      ],
+      "MAC_only_excludes_beating_raw_low_high": [
+        false,
+        true
+      ],
+      "old_unpack_retained_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_Q15_unpack_store_only_Mcycles_s": 10.0,
+      "MAC_plus_separate_unpack_store_floor_Mcycles_s": 125.4,
+      "separate_unpack_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_unpack_scope": "CPU writes I16/Q16 intermediate arrays in a distinct pass, max 16 B/store issue, no fused FIR stores or hardware conversion",
+      "all_algorithms_excluded": false
+    },
+    {
+      "up": 1443,
+      "down": 2000,
+      "nominal_taps_per_phase": 16,
+      "prototype_length": 23089,
+      "prototype_length_delta": 1,
+      "phase_length_min": 16,
+      "phase_length_max": 17,
+      "self_symmetric_phases": [
+        0
+      ],
+      "phase_count": 1443,
+      "original_real_products_per_I_or_Q_per_phase_period": 23089,
+      "folded_real_products_per_I_or_Q_per_phase_period": 23081,
+      "all_phase_symmetry_halves_MACs": false,
+      "ideal_MAC_only_Mcycles_s": 115.405,
+      "full_Q15_coeff_bytes": 46178,
+      "shared_prototype_Q15_coeff_bytes": 23090,
+      "assumptions": [
+        "Symmetric prototype; exact coefficient/sample arithmetic; no zero taps or other reuse exploited",
+        "Coefficient sharing across reverse phases saves storage, not products of distinct input windows",
+        "Pre-add, loads, extraction, phase addressing and output costs omitted",
+        "8 s16 products/issue and ideal 1 issue/cycle; pre-add width handling not priced",
+        "Delta +/-1 changes some row lengths, not a proven same-quality replacement"
+      ],
+      "receiver_adopted": false,
+      "standard": "S",
+      "remaining_Mcycles_s_low_high": [
+        6.893281250000058,
+        -28.54671875000011
+      ],
+      "MAC_only_excludes_beating_raw_low_high": [
+        false,
+        true
+      ],
+      "old_unpack_retained_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_Q15_unpack_store_only_Mcycles_s": 10.0,
+      "MAC_plus_separate_unpack_store_floor_Mcycles_s": 125.405,
+      "separate_unpack_excludes_beating_raw_low_high": [
+        true,
+        true
+      ],
+      "separate_unpack_scope": "CPU writes I16/Q16 intermediate arrays in a distinct pass, max 16 B/store issue, no fused FIR stores or hardware conversion",
+      "all_algorithms_excluded": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "T_-1_phase_permutation",
+      "passed": true
+    },
+    {
+      "name": "T_-1_mirror_rows",
+      "passed": true
+    },
+    {
+      "name": "T_-1_self_phase_count",
+      "passed": true
+    },
+    {
+      "name": "T_0_phase_permutation",
+      "passed": true
+    },
+    {
+      "name": "T_0_mirror_rows",
+      "passed": true
+    },
+    {
+      "name": "T_0_self_phase_count",
+      "passed": true
+    },
+    {
+      "name": "T_1_phase_permutation",
+      "passed": true
+    },
+    {
+      "name": "T_1_mirror_rows",
+      "passed": true
+    },
+    {
+      "name": "T_1_self_phase_count",
+      "passed": true
+    },
+    {
+      "name": "S_-1_phase_permutation",
+      "passed": true
+    },
+    {
+      "name": "S_-1_mirror_rows",
+      "passed": true
+    },
+    {
+      "name": "S_-1_self_phase_count",
+      "passed": true
+    },
+    {
+      "name": "S_0_phase_permutation",
+      "passed": true
+    },
+    {
+      "name": "S_0_mirror_rows",
+      "passed": true
+    },
+    {
+      "name": "S_0_self_phase_count",
+      "passed": true
+    },
+    {
+      "name": "S_1_phase_permutation",
+      "passed": true
+    },
+    {
+      "name": "S_1_mirror_rows",
+      "passed": true
+    },
+    {
+      "name": "S_1_self_phase_count",
+      "passed": true
+    }
+  ],
+  "complete_preprocessing_comparison": false
+}

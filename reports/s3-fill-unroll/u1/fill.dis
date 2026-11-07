@@ -1,0 +1,27 @@
+0000009c <fill$isra$0>:
+  9c:	004136        	entry	a1, 32
+  9f:	20a330        	or	a10, a3, a3
+  a2:	20b440        	or	a11, a4, a4
+  a5:	0002e0        	callx8	a2
+  a8:	0000c1        	l32r	a12, fffc00a8 <s3_native_mmio+0xfffbfde0>
+  ab:	d49050        	extui	a9, a5, 0, 14
+  ae:	0e0c      	movi.n	a14, 0
+  b0:	c0d982        	addmi	a8, a9, 0xffffc000
+  b3:	608080        	neg	a8, a8
+  b6:	63d860        	minu	a13, a8, a6
+  b9:	f480d0        	extui	a8, a13, 0, 16
+  bc:	1188e0        	slli	a8, a8, 2
+  bf:	fcc882        	addi	a8, a8, -4
+  c2:	418280        	srli	a8, a8, 2
+  c5:	a099a0        	addx4	a9, a9, a10
+  c8:	881b      	addi.n	a8, a8, 1
+  ca:	068876        	loop	a8, d4 <fill$isra$0+0x38>
+  cd:	0020c0        	memw
+  d0:	09c9      	s32i.n	a12, a9, 0
+  d2:	994b      	addi.n	a9, a9, 4
+  d4:	c066d0        	sub	a6, a6, a13
+  d7:	0e9d      	mov.n	a9, a14
+  d9:	fd3656        	bnez	a6, b0 <fill$isra$0+0x14>
+  dc:	0020c0        	memw
+  df:	f01d      	retw.n
+  e1:	000000        	ill

@@ -1,0 +1,341 @@
+{
+  "profile": "baseline",
+  "fifo": false,
+  "physical_timing_pass": false,
+  "timing_qualification": "requires independent model-coverage audit",
+  "stages": {
+    "core_synth": {
+      "command": [
+        "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/core-synth.ys"
+      ],
+      "exit_code": 0,
+      "seconds": 1.5789624739991268
+    },
+    "probe_synth": {
+      "command": [
+        "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/yosys",
+        "-Q",
+        "-T",
+        "-s",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/probe-synth.ys"
+      ],
+      "exit_code": 0,
+      "seconds": 1.4797621420002542
+    },
+    "place_and_route": {
+      "command": [
+        "/workspace/scratch/743a7294ea5e/oss-cad-suite/bin/nextpnr-himbaechel",
+        "--json",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/probe-mapped.json",
+        "--device",
+        "GW2AR-LV18QN88C8/I7",
+        "--vopt",
+        "family=GW2A-18C",
+        "--vopt",
+        "cst=/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/pins.cst",
+        "--freq",
+        "154.28571428571428",
+        "--seed",
+        "1",
+        "--report",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/pnr.json",
+        "--detailed-timing-report",
+        "--write",
+        "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad/baseline/routed.json",
+        "--timing-allow-fail"
+      ],
+      "exit_code": 0,
+      "seconds": 5.730388693002169
+    }
+  },
+  "resources": {
+    "core": {
+      "sha256": "7c60e234af5c30be7de04c47621a42ac49da02f6f9ad9b9a16ed27f7c0d664c3",
+      "cells_by_type": {
+        "ALU": 374,
+        "DFF": 104,
+        "DFFE": 160,
+        "DFFR": 14,
+        "DFFRE": 83,
+        "DFFSE": 1,
+        "GND": 1,
+        "IBUF": 24,
+        "LUT1": 11,
+        "LUT2": 15,
+        "LUT3": 213,
+        "LUT4": 37,
+        "MULT18X18": 4,
+        "MUX2_LUT5": 1,
+        "OBUF": 34,
+        "RAM16SDP4": 18,
+        "SPX9": 1,
+        "VCC": 1
+      },
+      "MULT18X18": 4,
+      "BSRAM": 1,
+      "RAM16SDP4": 18,
+      "explicit_DFF_cells": 362
+    },
+    "probe": {
+      "sha256": "1b7f842542491d2eb6354c0a7da9288255ceaeb99952735ed888e9ce59a0e2d8",
+      "cells_by_type": {
+        "$scopeinfo": 1,
+        "ALU": 374,
+        "DFF": 104,
+        "DFFE": 160,
+        "DFFR": 14,
+        "DFFRE": 104,
+        "DFFSE": 1,
+        "GND": 1,
+        "IBUF": 4,
+        "LUT1": 10,
+        "LUT2": 13,
+        "LUT3": 216,
+        "LUT4": 46,
+        "MULT18X18": 4,
+        "OBUF": 1,
+        "RAM16SDP4": 18,
+        "SPX9": 1,
+        "VCC": 1
+      },
+      "MULT18X18": 4,
+      "BSRAM": 1,
+      "RAM16SDP4": 18,
+      "explicit_DFF_cells": 383
+    },
+    "routed": {
+      "sha256": "4e7d9a21783e145a8a212a083f5366f0f7f8d8ffd6e888bce2555ac4c664ef1c",
+      "cells_by_type": {
+        "ALU": 412,
+        "BUFG": 1,
+        "DFF": 104,
+        "DFFE": 160,
+        "DFFR": 14,
+        "DFFRE": 104,
+        "DFFSE": 1,
+        "DUMMY_CELL": 16,
+        "GOWIN_GND": 1,
+        "GOWIN_VCC": 1,
+        "GSR": 1,
+        "IBUF": 4,
+        "LUT1": 10,
+        "LUT2": 13,
+        "LUT3": 216,
+        "LUT4": 258,
+        "MULT18X18": 4,
+        "OBUF": 1,
+        "RAM16SDP4": 18,
+        "SP": 1
+      },
+      "MULT18X18": 4,
+      "BSRAM": 1,
+      "RAM16SDP4": 18,
+      "explicit_DFF_cells": 383
+    }
+  },
+  "route_completed": true,
+  "reported_fmax_NOT_physical_signoff": {
+    "g_core.dut.clk": {
+      "achieved": 232.88308715820312,
+      "constraint": 154.28570556640625
+    }
+  },
+  "utilization": {
+    "ALU": {
+      "available": 15552,
+      "used": 412
+    },
+    "ALU54D": {
+      "available": 24,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 46,
+      "used": 1
+    },
+    "BUFG": {
+      "available": 24,
+      "used": 1
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 15552,
+      "used": 383
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "DUMMY_CELL": {
+      "available": 0,
+      "used": 16
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "GW_JTAG": {
+      "available": 1,
+      "used": 0
+    },
+    "IOB": {
+      "available": 384,
+      "used": 5
+    },
+    "IOLOGICI": {
+      "available": 384,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 384,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 20736,
+      "used": 497
+    },
+    "MULT18X18": {
+      "available": 48,
+      "used": 4
+    },
+    "MULT36X36": {
+      "available": 12,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 96,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 24,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 10368,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 5184,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 2592,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 2592,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 48,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 96,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 648,
+      "used": 18
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "checks": [
+    {
+      "name": "core_synth_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "probe_synth_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "place_and_route_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "routing_completion",
+      "status": "PASS"
+    },
+    {
+      "name": "core_four_MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "probe_four_MULT18X18",
+      "status": "PASS"
+    },
+    {
+      "name": "routed_four_MULT18X18",
+      "status": "PASS"
+    }
+  ],
+  "artifacts": {
+    "pnr.log.gz": {
+      "sha256": "0ff12a45c3f02fcd6e0e31b7069b78772d10f24ded8994fcb0290fe20e5633c3",
+      "uncompressed_sha256": "ff08025bf93239fb8f2c1301a82d48a8cba4a938399af6eacaf3a77c507b89d4"
+    },
+    "probe-synth.log.gz": {
+      "sha256": "044896e70db11b5c4e179f91c1ee2c0e76ffb9b85cc72a5706baee418e3c0387",
+      "uncompressed_sha256": "afd8e505cc519bb1c0eeba7f95d8e55ed12c09d278d61cbabc1ddf05ebb65e80"
+    },
+    "core-synth.log.gz": {
+      "sha256": "e110395c103cefcab63f0e3a767005aa925d7e6981458b1ce071989d6baf7ba3",
+      "uncompressed_sha256": "12ed49618740d305aacfcb2dfbdd74de0bb2157fc6e08809dcce5fd7c9bfd054"
+    },
+    "probe-mapped.json.gz": {
+      "sha256": "ab9bf87085c024fec86567c192b6c72ec22128a0f890495aeb134ee9b8c2d2df",
+      "uncompressed_sha256": "1b7f842542491d2eb6354c0a7da9288255ceaeb99952735ed888e9ce59a0e2d8"
+    },
+    "core-mapped.json.gz": {
+      "sha256": "fd3fe1b729096011ba7acc25e49ad584f9a462c4071b4482f0a083f6123f3a86",
+      "uncompressed_sha256": "7c60e234af5c30be7de04c47621a42ac49da02f6f9ad9b9a16ed27f7c0d664c3"
+    },
+    "routed.json.gz": {
+      "sha256": "941ebe05ff89ef160ddbe7de6d3c138669e600b3fac7e1e9edfd10ae47fc8494",
+      "uncompressed_sha256": "4e7d9a21783e145a8a212a083f5366f0f7f8d8ffd6e888bce2555ac4c664ef1c"
+    }
+  }
+}

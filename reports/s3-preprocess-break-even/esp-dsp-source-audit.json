@@ -1,0 +1,26 @@
+{
+  "repository": "espressif/esp-dsp",
+  "commit": "3c8ac0fdfec83740b783e200862c8d0c056de0ad",
+  "files": [
+    {
+      "path": "modules/fir/include/dsps_fir.h",
+      "url": "https://github.com/espressif/esp-dsp/blob/3c8ac0fdfec83740b783e200862c8d0c056de0ad/modules/fir/include/dsps_fir.h",
+      "sha256": "3eda46e349b5f6655591150fe62880dc1112e388254323c409cf8fd91f2b86d9"
+    },
+    {
+      "path": "modules/fir/fixed/dsps_fird_s16_aes3.S",
+      "url": "https://github.com/espressif/esp-dsp/blob/3c8ac0fdfec83740b783e200862c8d0c056de0ad/modules/fir/fixed/dsps_fird_s16_aes3.S",
+      "sha256": "2f98475d1e45339d10b0c4007beaa99b650b422730529940113238796f5b6d1c"
+    },
+    {
+      "path": "modules/fir/fixed/dsps_firmr_s16_ansi.c",
+      "url": "https://github.com/espressif/esp-dsp/blob/3c8ac0fdfec83740b783e200862c8d0c056de0ad/modules/fir/fixed/dsps_firmr_s16_ansi.c",
+      "sha256": "8061a8f52bae7f63b476b0778fc037e6f34b9398c7400cc514ff4f8646403b3d"
+    }
+  ],
+  "findings": [
+    "S3 optimized dsps_fird_s16 maps to aes3 integer decimation",
+    "dsps_firmr_s16 maps to ANSI implementation even in S3 optimized branch",
+    "Neither source constitutes a measured receiver WCET or same-quality resampler implementation"
+  ]
+}

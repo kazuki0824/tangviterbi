@@ -1,0 +1,88 @@
+{
+  "scope": "Conditional ownership audit, not measured CPU/WCET or an adopted receiver.",
+  "assumptions": [
+    "8 cycles/sample packing sensitivity; not target WCET",
+    "Historical aggregate minus assumed packing is an unclassified residual, assigned entirely to coordinator for this scenario",
+    "Both SPI APIs on coordinator; 20 us active per 32768 bytes",
+    "No measured common-clock, IRQ, RTOS or memory contention bound",
+    "Open share intervals require strictly less than 100 percent; finite-bank rounding excluded"
+  ],
+  "rows": [
+    {
+      "standard": "T",
+      "rate_Msample_s": 16,
+      "payload_MB_s": 40.0,
+      "packing_cycles_per_sample_assumed": 8,
+      "packing_Mcycles_s": 128,
+      "residual_charged_to_coordinator_Mcycles_s": 57.375,
+      "API_Mcycles_s": 5.86083984375,
+      "equal_packing_core_percent": [
+        53.01493326822917,
+        26.666666666666668
+      ],
+      "worker1_fraction_open_interval": [
+        0.0,
+        1.0
+      ],
+      "balanced_worker1_fraction": 0.7470149993896484,
+      "balanced_core_percent": 39.840799967447914,
+      "balanced_extra_budget_cycles_s_per_core": 144382080.078125,
+      "measured": false,
+      "receiver_adopted": false
+    },
+    {
+      "standard": "S",
+      "rate_Msample_s": 40,
+      "payload_MB_s": 100.0,
+      "packing_cycles_per_sample_assumed": 8,
+      "packing_Mcycles_s": 320,
+      "residual_charged_to_coordinator_Mcycles_s": 128.4375,
+      "API_Mcycles_s": 14.64990234375,
+      "equal_packing_core_percent": [
+        126.28641764322917,
+        66.66666666666667
+      ],
+      "worker1_fraction_open_interval": [
+        0.6971481323242188,
+        0.75
+      ],
+      "balanced_worker1_fraction": 0.7235740661621094,
+      "balanced_core_percent": 96.47654215494792,
+      "balanced_extra_budget_cycles_s_per_core": 8456298.828125,
+      "measured": false,
+      "receiver_adopted": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "T_aggregate_reconciles",
+      "passed": true
+    },
+    {
+      "name": "T_balanced_conserves",
+      "passed": true
+    },
+    {
+      "name": "T_interval_nonempty",
+      "passed": true
+    },
+    {
+      "name": "S_aggregate_reconciles",
+      "passed": true
+    },
+    {
+      "name": "S_balanced_conserves",
+      "passed": true
+    },
+    {
+      "name": "S_interval_nonempty",
+      "passed": true
+    }
+  ],
+  "source_sha256": {
+    "experiments/s3_parallel_pack.c": "6739187f708182af3002fee47f0599e5641a98990c6c238a824106327c40f86e",
+    "experiments/s3_native_capture.c": "f4130fa23451e01cb67ca5a7daea6eca8ac6a7842d62ba3a09fd2c67bbeb96ce",
+    "reports/s3-batch-bank-closure/results.json": "499aee5c5a66d571be2b2bb9e77dfffb40ddce0db1fd4257c24a90fc7aa4640e"
+  },
+  "complete_estimate": false
+}

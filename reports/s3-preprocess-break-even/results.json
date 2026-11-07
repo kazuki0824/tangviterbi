@@ -1,0 +1,1228 @@
+{
+  "scope": "Compare every permitted prefix with raw IQ under frozen CPU sensitivities.\nNo measured WCET, new route assignment, or universal impossibility claim.\n",
+  "assumptions": [
+    "32 KiB per API, 20 us CPU active, 240 MHz x 2",
+    "Both same low or same high sensitivity compared; not WCET limits",
+    "Reuse net prelink costs: do NOT add raw packing again to processed candidates",
+    "No quality-lowering extra software decimation/requantization",
+    "API comparison is auxiliary sensitivity, not actual endpoint/route implementation",
+    "Other algorithms, intra-stage cuts and hardware preprocessing not exhaustively bounded"
+  ],
+  "checks": [
+    {
+      "name": "all_permitted_boundaries",
+      "passed": true
+    },
+    {
+      "name": "T9_S7",
+      "passed": true
+    },
+    {
+      "name": "S3-T-000_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-000_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-000_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-000_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-001_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-001_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-001_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-001_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-003_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-003_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-003_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-003_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-007_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-007_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-007_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-007_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-00f_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-00f_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-00f_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-00f_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-01f_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-01f_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-01f_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-01f_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-03f_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-03f_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-03f_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-03f_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-07f_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-07f_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-07f_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-07f_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-0ff_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-0ff_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-T-0ff_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-T-0ff_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-000_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-000_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-000_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-000_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-001_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-003_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-003_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-003_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-003_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-007_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-007_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-007_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-007_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-00f_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-00f_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-00f_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-00f_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-01f_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-01f_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-01f_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-01f_difference_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-03f_CPU_recheck_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-03f_CPU_recheck_1",
+      "passed": true
+    },
+    {
+      "name": "S3-S-03f_difference_0",
+      "passed": true
+    },
+    {
+      "name": "S3-S-03f_difference_1",
+      "passed": true
+    },
+    {
+      "name": "T_all_existing_processed_models_cost_more_even_zero_API",
+      "passed": true
+    },
+    {
+      "name": "S_all_existing_processed_models_cost_more_even_zero_API",
+      "passed": true
+    }
+  ],
+  "rows": [
+    {
+      "id": "S3-T-000",
+      "standard": "T",
+      "prefix": [],
+      "forward_MBps": 40,
+      "flows": [
+        {
+          "MBps": 40,
+          "direction": "SoC→FPGA",
+          "format": "native I10/Q10, lossless packing, 5 bytes / 2 samples",
+          "source": "RF",
+          "target": "FIR"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        153.375,
+        185.375
+      ],
+      "API_Mcycles_s": 5.86083984375,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        0.0,
+        0.0
+      ],
+      "API_saving_vs_raw_Mcycles_s": 0.0,
+      "CPU_after_link_percent": [
+        33.17413330078125,
+        39.84079996744792
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        0.0,
+        0.0
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        -5.86083984375,
+        -5.86083984375
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        true,
+        true
+      ],
+      "stage_resources": {
+        "BSRAM": 24,
+        "DSP18": 18,
+        "FF": 5086,
+        "logic_sites_estimate": 7405
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-T-001",
+      "standard": "T",
+      "prefix": [
+        "FIR"
+      ],
+      "forward_MBps": 32.507936507936506,
+      "flows": [
+        {
+          "MBps": 32.507936507936506,
+          "direction": "SoC→FPGA",
+          "format": "Q15 complex",
+          "source": "FIR",
+          "target": "sync"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        430.45436507936506,
+        592.4861111111111
+      ],
+      "API_Mcycles_s": 4.763369605654761,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        277.07936507936506,
+        407.1111111111111
+      ],
+      "API_saving_vs_raw_Mcycles_s": 1.097470238095239,
+      "CPU_after_link_percent": [
+        90.67036139271246,
+        124.42697514932624
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        275.9818948412698,
+        406.01364087301585
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        271.21852523561506,
+        401.2502712673611
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 22,
+        "DSP18": 10,
+        "FF": 3550,
+        "logic_sites_estimate": 6653
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-T-003",
+      "standard": "T",
+      "prefix": [
+        "FIR",
+        "sync"
+      ],
+      "forward_MBps": 31.522847522847524,
+      "flows": [
+        {
+          "MBps": 31.522847522847524,
+          "direction": "SoC→FPGA",
+          "format": "all useful complex Q15 samples after GI removal",
+          "source": "sync",
+          "target": "FFT"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        494.4851491101491,
+        720.5476791726792
+      ],
+      "API_Mcycles_s": 4.619069461354618,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        341.1101491101491,
+        535.1726791726792
+      ],
+      "API_saving_vs_raw_Mcycles_s": 1.2417703823953818,
+      "CPU_after_link_percent": [
+        103.98004553572994,
+        151.0764059654237
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        339.86837872775374,
+        533.9309087902838
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        335.2493092663991,
+        529.3118393289292
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 21,
+        "DSP18": 9,
+        "FF": 3294,
+        "logic_sites_estimate": 6397
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-T-007",
+      "standard": "T",
+      "prefix": [
+        "FIR",
+        "sync",
+        "FFT"
+      ],
+      "forward_MBps": 31.522847522847524,
+      "flows": [
+        {
+          "MBps": 31.522847522847524,
+          "direction": "SoC→FPGA",
+          "format": "all 8192 FFT bins, complex Q15, including pilots/other bins",
+          "source": "FFT",
+          "target": "equalize_demap"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        650.7902958152958,
+        876.8528258778259
+      ],
+      "API_Mcycles_s": 4.619069461354618,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        497.41529581529585,
+        691.4778258778259
+      ],
+      "API_saving_vs_raw_Mcycles_s": 1.2417703823953818,
+      "CPU_after_link_percent": [
+        136.54361776596883,
+        183.63997819566262
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        496.1735254329005,
+        690.2360554954305
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        491.55445597154585,
+        685.6169860340759
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 3,
+        "DSP18": 5,
+        "FF": 3038,
+        "logic_sites_estimate": 5741
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-T-00f",
+      "standard": "T",
+      "prefix": [
+        "FIR",
+        "sync",
+        "FFT",
+        "equalize_demap"
+      ],
+      "forward_MBps": 28.813852813852815,
+      "flows": [
+        {
+          "MBps": 28.813852813852815,
+          "direction": "SoC→FPGA",
+          "format": "6 x 8-bit LLR / carrier",
+          "source": "equalize_demap",
+          "target": "time_deinterleave"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        686.4997715247715,
+        948.2717772967773
+      ],
+      "API_Mcycles_s": 4.222244064529221,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        533.1247715247715,
+        762.8967772967773
+      ],
+      "API_saving_vs_raw_Mcycles_s": 1.638595779220779,
+      "CPU_after_link_percent": [
+        143.90041991443766,
+        198.4362544502722
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        531.4861757455508,
+        761.2581815175565
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        527.2639316810215,
+        757.0359374530273
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 3,
+        "DSP18": 0,
+        "FF": 2654,
+        "logic_sites_estimate": 5357
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-T-01f",
+      "standard": "T",
+      "prefix": [
+        "FIR",
+        "sync",
+        "FFT",
+        "equalize_demap",
+        "time_deinterleave"
+      ],
+      "forward_MBps": 28.813852813852815,
+      "flows": [
+        {
+          "MBps": 28.813852813852815,
+          "direction": "SoC→FPGA",
+          "format": "8-bit punctured LLR",
+          "source": "time_deinterleave",
+          "target": "Viterbi"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        763.3367123617123,
+        1101.945658970659
+      ],
+      "API_Mcycles_s": 4.222244064529221,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        609.9617123617123,
+        916.570658970659
+      ],
+      "API_saving_vs_raw_Mcycles_s": 1.638595779220779,
+      "CPU_after_link_percent": [
+        159.90811592213367,
+        230.4516464656642
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        608.3231165824916,
+        914.9320631914383
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        604.1008725179623,
+        910.709819126909
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 3,
+        "DSP18": 0,
+        "FF": 2526,
+        "logic_sites_estimate": 5101
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-T-03f",
+      "standard": "T",
+      "prefix": [
+        "FIR",
+        "sync",
+        "FFT",
+        "equalize_demap",
+        "time_deinterleave",
+        "Viterbi"
+      ],
+      "forward_MBps": 3.1515151515151514,
+      "flows": [
+        {
+          "MBps": 3.1515151515151514,
+          "direction": "SoC→FPGA",
+          "format": "RS codeword bytes",
+          "source": "Viterbi",
+          "target": "RS"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        5578.401647426647,
+        10732.07552910053
+      ],
+      "API_Mcycles_s": 0.4631125710227272,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        5425.026647426647,
+        10546.70052910053
+      ],
+      "API_saving_vs_raw_Mcycles_s": 5.3977272727272725,
+      "CPU_after_link_percent": [
+        1162.2634916661814,
+        2235.94555034824
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        5419.62892015392,
+        10541.302801827802
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        5419.165807582897,
+        10540.83968925678
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 1,
+        "DSP18": 0,
+        "FF": 1024,
+        "logic_sites_estimate": 2149
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-T-07f",
+      "standard": "T",
+      "prefix": [
+        "FIR",
+        "sync",
+        "FFT",
+        "equalize_demap",
+        "time_deinterleave",
+        "Viterbi",
+        "RS"
+      ],
+      "forward_MBps": 2.904337492572787,
+      "flows": [
+        {
+          "MBps": 2.904337492572787,
+          "direction": "SoC→FPGA",
+          "format": "188B TS",
+          "source": "RS",
+          "target": "TS"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        5918.950667034492,
+        11072.377371049432
+      ],
+      "API_Mcycles_s": 0.42690490613859183,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        5765.575667034492,
+        10887.002371049432
+      ],
+      "API_saving_vs_raw_Mcycles_s": 5.433934937611408,
+      "CPU_after_link_percent": [
+        1233.2036608209646,
+        2306.8342241574105
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        5760.14173209688,
+        10881.56843611182
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        5759.714827190742,
+        10881.141531205682
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 0,
+        "DSP18": 0,
+        "FF": 64,
+        "logic_sites_estimate": 64
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-T-0ff",
+      "standard": "T",
+      "prefix": [
+        "FIR",
+        "sync",
+        "FFT",
+        "equalize_demap",
+        "time_deinterleave",
+        "Viterbi",
+        "RS",
+        "TS"
+      ],
+      "forward_MBps": 0,
+      "flows": [],
+      "CPU_before_link_Mcycles_s": [
+        5916.046329541919,
+        11066.568696064285
+      ],
+      "API_Mcycles_s": 0.00146484375,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        5762.671329541919,
+        10881.193696064285
+      ],
+      "API_saving_vs_raw_Mcycles_s": 5.859375,
+      "CPU_after_link_percent": [
+        1232.509957163681,
+        2305.5354501891743
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        5756.811954541919,
+        10875.334321064285
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        5756.810489698169,
+        10875.332856220535
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 0,
+        "DSP18": 0,
+        "FF": 0,
+        "logic_sites_estimate": 0
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "SoC TS output; not the current FPGA independent TS endpoint",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-S-000",
+      "standard": "S",
+      "prefix": [],
+      "forward_MBps": 100,
+      "flows": [
+        {
+          "MBps": 100,
+          "direction": "SoC→FPGA",
+          "format": "native I10/Q10, lossless packing, 5 bytes / 2 samples",
+          "source": "RF",
+          "target": "FIR"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        368.4375,
+        448.4375
+      ],
+      "API_Mcycles_s": 14.64990234375,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        0.0,
+        0.0
+      ],
+      "API_saving_vs_raw_Mcycles_s": 0.0,
+      "CPU_after_link_percent": [
+        79.80987548828125,
+        96.47654215494792
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        0.0,
+        0.0
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        -14.64990234375,
+        -14.64990234375
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        true,
+        true
+      ],
+      "stage_resources": {
+        "BSRAM": 14,
+        "DSP18": 15,
+        "FF": 4190,
+        "logic_sites_estimate": 6421
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-S-001",
+      "standard": "S",
+      "prefix": [
+        "FIR"
+      ],
+      "forward_MBps": 115.44,
+      "flows": [
+        {
+          "MBps": 115.44,
+          "direction": "SoC→FPGA",
+          "format": "Q15 complex",
+          "source": "FIR",
+          "target": "sync"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        1114.2375,
+        1598.2775000000001
+      ],
+      "API_Mcycles_s": 16.91162109375,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        745.8,
+        1149.8400000000001
+      ],
+      "API_saving_vs_raw_Mcycles_s": -2.26171875,
+      "CPU_after_link_percent": [
+        235.65606689453125,
+        336.49773356119795
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        748.06171875,
+        1152.1017187500001
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        731.15009765625,
+        1135.1900976562501
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 8,
+        "DSP18": 3,
+        "FF": 3166,
+        "logic_sites_estimate": 5869
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-S-003",
+      "standard": "S",
+      "prefix": [
+        "FIR",
+        "sync"
+      ],
+      "forward_MBps": 115.44,
+      "flows": [
+        {
+          "MBps": 115.44,
+          "direction": "SoC→FPGA",
+          "format": "Q15 symbol",
+          "source": "sync",
+          "target": "TC8PSK"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        1345.1175,
+        2060.0375
+      ],
+      "API_Mcycles_s": 16.91162109375,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        976.6800000000001,
+        1611.6
+      ],
+      "API_saving_vs_raw_Mcycles_s": -2.26171875,
+      "CPU_after_link_percent": [
+        283.7560668945313,
+        432.69773356119794
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        978.9417187500001,
+        1613.86171875
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        962.0300976562501,
+        1596.95009765625
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 7,
+        "DSP18": 1,
+        "FF": 2910,
+        "logic_sites_estimate": 5613
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-S-007",
+      "standard": "S",
+      "prefix": [
+        "FIR",
+        "sync",
+        "TC8PSK"
+      ],
+      "forward_MBps": 7.215,
+      "flows": [
+        {
+          "MBps": 7.215,
+          "direction": "SoC→FPGA",
+          "format": "coded-frame byte stream",
+          "source": "TC8PSK",
+          "target": "frame_deinterleave"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        6644.8125,
+        12659.4275
+      ],
+      "API_Mcycles_s": 1.058349609375,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        6276.375,
+        12210.99
+      ],
+      "API_saving_vs_raw_Mcycles_s": 13.591552734375,
+      "CPU_after_link_percent": [
+        1384.5564270019531,
+        2637.60121866862
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        6262.783447265625,
+        12197.398447265625
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        6261.72509765625,
+        12196.34009765625
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 3,
+        "DSP18": 0,
+        "FF": 1152,
+        "logic_sites_estimate": 2405
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-S-00f",
+      "standard": "S",
+      "prefix": [
+        "FIR",
+        "sync",
+        "TC8PSK",
+        "frame_deinterleave"
+      ],
+      "forward_MBps": 7.2505418719211825,
+      "flows": [
+        {
+          "MBps": 7.2505418719211825,
+          "direction": "SoC→FPGA",
+          "format": "RS204 codewords",
+          "source": "frame_deinterleave",
+          "target": "RS"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        6746.355628078817,
+        12804.509421182265
+      ],
+      "API_Mcycles_s": 1.0635559382697044,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        6377.918128078817,
+        12356.071921182265
+      ],
+      "API_saving_vs_raw_Mcycles_s": 13.586346405480295,
+      "CPU_after_link_percent": [
+        1405.7123300035598,
+        2667.8277035667784
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        6364.331781673337,
+        12342.485574776785
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        6363.268225735067,
+        12341.422018838515
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 1,
+        "DSP18": 0,
+        "FF": 1024,
+        "logic_sites_estimate": 2149
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-S-01f",
+      "standard": "S",
+      "prefix": [
+        "FIR",
+        "sync",
+        "TC8PSK",
+        "frame_deinterleave",
+        "RS"
+      ],
+      "forward_MBps": 6.52125,
+      "flows": [
+        {
+          "MBps": 6.52125,
+          "direction": "SoC→FPGA",
+          "format": "188B TS",
+          "source": "RS",
+          "target": "TS"
+        }
+      ],
+      "CPU_before_link_Mcycles_s": [
+        7529.680030788177,
+        13587.104532019704
+      ],
+      "API_Mcycles_s": 0.95672607421875,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        7161.242530788177,
+        13138.667032019704
+      ],
+      "API_saving_vs_raw_Mcycles_s": 13.69317626953125,
+      "CPU_after_link_percent": [
+        1568.8826576796657,
+        2830.846095436234
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        7147.5493545186455,
+        13124.973855750173
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        7146.592628444427,
+        13124.017129675954
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 0,
+        "DSP18": 0,
+        "FF": 64,
+        "logic_sites_estimate": 64
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "FPGA TS output",
+      "formal_routes": [],
+      "receiver_adopted": false
+    },
+    {
+      "id": "S3-S-03f",
+      "standard": "S",
+      "prefix": [
+        "FIR",
+        "sync",
+        "TC8PSK",
+        "frame_deinterleave",
+        "RS",
+        "TS"
+      ],
+      "forward_MBps": 0,
+      "flows": [],
+      "CPU_before_link_Mcycles_s": [
+        7523.158780788177,
+        13574.062032019705
+      ],
+      "API_Mcycles_s": 0.00146484375,
+      "net_prelink_increase_vs_raw_Mcycles_s": [
+        7154.721280788177,
+        13125.624532019705
+      ],
+      "API_saving_vs_raw_Mcycles_s": 14.6484375,
+      "CPU_after_link_percent": [
+        1567.3250511733181,
+        2827.9298951798864
+      ],
+      "net_increase_vs_raw_Mcycles_s": [
+        7140.072843288177,
+        13110.976094519705
+      ],
+      "candidate_zero_API_increase_vs_raw_Mcycles_s": [
+        7140.071378444427,
+        13110.974629675955
+      ],
+      "beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "even_zero_API_beats_raw_same_sensitivity": [
+        false,
+        false
+      ],
+      "stage_resources": {
+        "BSRAM": 0,
+        "DSP18": 0,
+        "FF": 0,
+        "logic_sites_estimate": 0
+      },
+      "stage_resources_are_incomplete": true,
+      "endpoint_note": "SoC TS output; not the current FPGA independent TS endpoint",
+      "formal_routes": [],
+      "receiver_adopted": false
+    }
+  ],
+  "input_sha256": {
+    "reports/partition-recheck-20261023/all-ownerships.json.gz": "9162f405c17d803f05658b87bba4a313847c827645ae29f8dc2d8a442ad401c8",
+    "reports/s3-partition-audit/inputs.json.gz": "666b12734d08c644ea51b25f4b2b227c39e1b32de1f77de601136bff19910f3b",
+    "experiments/control_only_estimate.py": "bda6b944d44f40b7e7be47c5996dcea517fb8a7e0873fc99ddbda4e26980981d"
+  },
+  "complete_estimate": false
+}

@@ -1,0 +1,68 @@
+
+/workspace/scratch/7d8a2827859b/tangviterbi/build/fill-sdk-audit.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.text:
+
+40377aa8 <fill$isra$0>:
+40377aa8:	004136        	entry	a1, 32
+40377aab:	20a330        	or	a10, a3, a3
+40377aae:	20b440        	or	a11, a4, a4
+40377ab1:	0002e0        	callx8	a2
+40377ab4:	f31891        	l32r	a9, 40374714 <_iram_text_start+0x310> (a5c33c5a <_rtc_reserved_end+0x45b33c5a>)
+40377ab7:	d4c050        	extui	a12, a5, 0, 14
+40377aba:	0e0c      	movi.n	a14, 0
+40377abc:	c0dcd2        	addmi	a13, a12, 0xffffc000
+40377abf:	60d0d0        	neg	a13, a13
+40377ac2:	63dd60        	minu	a13, a13, a6
+40377ac5:	a0cca0        	addx4	a12, a12, a10
+40377ac8:	5a8db6        	bltui	a13, 8, 40377b26 <fill$isra$0+0x7e>
+40377acb:	f8cdf2        	addi	a15, a13, -8
+40377ace:	41f3f0        	srli	a15, a15, 3
+40377ad1:	bf1b      	addi.n	a11, a15, 1
+40377ad3:	f4b0b0        	extui	a11, a11, 0, 16
+40377ad6:	11bbb0        	slli	a11, a11, 5
+40377ad9:	e0cbb2        	addi	a11, a11, -32
+40377adc:	41b5b0        	srli	a11, a11, 5
+40377adf:	208cc0        	or	a8, a12, a12
+40377ae2:	01cbb2        	addi	a11, a11, 1
+40377ae5:	2a8b76        	loop	a11, 40377b13 <fill$isra$0+0x6b>
+40377ae8:	0020c0        	memw
+40377aeb:	0899      	s32i.n	a9, a8, 0
+40377aed:	0020c0        	memw
+40377af0:	1899      	s32i.n	a9, a8, 4
+40377af2:	0020c0        	memw
+40377af5:	2899      	s32i.n	a9, a8, 8
+40377af7:	0020c0        	memw
+40377afa:	3899      	s32i.n	a9, a8, 12
+40377afc:	0020c0        	memw
+40377aff:	4899      	s32i.n	a9, a8, 16
+40377b01:	0020c0        	memw
+40377b04:	5899      	s32i.n	a9, a8, 20
+40377b06:	0020c0        	memw
+40377b09:	6899      	s32i.n	a9, a8, 24
+40377b0b:	0020c0        	memw
+40377b0e:	7899      	s32i.n	a9, a8, 28
+40377b10:	20c882        	addi	a8, a8, 32
+40377b13:	f4f0f0        	extui	a15, a15, 0, 16
+40377b16:	20ccc2        	addi	a12, a12, 32
+40377b19:	11ffb0        	slli	a15, a15, 5
+40377b1c:	2480d0        	extui	a8, a13, 0, 3
+40377b1f:	ccfa      	add.n	a12, a12, a15
+40377b21:	38cc      	bnez.n	a8, 40377b28 <fill$isra$0+0x80>
+40377b23:	000646        	j	40377b40 <fill$isra$0+0x98>
+40377b26:	0d8d      	mov.n	a8, a13
+40377b28:	f48080        	extui	a8, a8, 0, 16
+40377b2b:	1188e0        	slli	a8, a8, 2
+40377b2e:	fcc882        	addi	a8, a8, -4
+40377b31:	418280        	srli	a8, a8, 2
+40377b34:	881b      	addi.n	a8, a8, 1
+40377b36:	068876        	loop	a8, 40377b40 <fill$isra$0+0x98>
+40377b39:	0020c0        	memw
+40377b3c:	0c99      	s32i.n	a9, a12, 0
+40377b3e:	cc4b      	addi.n	a12, a12, 4
+40377b40:	c066d0        	sub	a6, a6, a13
+40377b43:	0ecd      	mov.n	a12, a14
+40377b45:	f73656        	bnez	a6, 40377abc <fill$isra$0+0x14>
+40377b48:	0020c0        	memw
+40377b4b:	f01d      	retw.n

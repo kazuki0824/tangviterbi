@@ -1,0 +1,126 @@
+
+queue-sdk.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+40376698 <s3_raw_queue_submit>:
+40376698:	006136        	entry	a1, 48
+4037669b:	027d      	mov.n	a7, a2
+4037669d:	005256        	bnez	a2, 403766a6 <s3_raw_queue_submit+0xe>
+403766a0:	03a122        	movi	a2, 0x103
+403766a3:	004886        	j	403767c9 <s3_raw_queue_submit+0x131>
+403766a6:	0288      	l32i.n	a8, a2, 0
+403766a8:	ff4816        	beqz	a8, 403766a0 <s3_raw_queue_submit+0x8>
+403766ab:	22a8      	l32i.n	a10, a2, 8
+403766ad:	fefa16        	beqz	a10, 403766a0 <s3_raw_queue_submit+0x8>
+403766b0:	780282        	l8ui	a8, a2, 120
+403766b3:	fe9856        	bnez	a8, 403766a0 <s3_raw_queue_submit+0x8>
+403766b6:	1d2282        	l32i	a8, a2, 116
+403766b9:	052866        	bnei	a8, 2, 403766c2 <s3_raw_queue_submit+0x2a>
+403766bc:	0ca122        	movi	a2, 0x10c
+403766bf:	004186        	j	403767c9 <s3_raw_queue_submit+0x131>
+403766c2:	08c1c2        	addi	a12, a1, 8
+403766c5:	20b110        	or	a11, a1, a1
+403766c8:	021665        	call8	40378830 <s3_pp_take>
+403766cb:	ed2a26        	beqi	a10, 2, 403766bc <s3_raw_queue_submit+0x24>
+403766ce:	fcea56        	bnez	a10, 403766a0 <s3_raw_queue_submit+0x8>
+403766d1:	1d2282        	l32i	a8, a2, 116
+403766d4:	1c22b2        	l32i	a11, a2, 112
+403766d7:	0021e2        	l32i	a14, a1, 0
+403766da:	b8ba      	add.n	a11, a8, a11
+403766dc:	11a8      	l32i.n	a10, a1, 4
+403766de:	04b0b0        	extui	a11, a11, 0, 1
+403766e1:	b09b20        	addx8	a9, a11, a2
+403766e4:	21d8      	l32i.n	a13, a1, 8
+403766e6:	881b      	addi.n	a8, a8, 1
+403766e8:	1869e2        	s32i	a14, a9, 96
+403766eb:	1969a2        	s32i	a10, a9, 100
+403766ee:	1d6282        	s32i	a8, a2, 116
+403766f1:	1480d0        	extui	a8, a13, 0, 2
+403766f4:	080856        	bnez	a8, 40376778 <s3_raw_queue_submit+0xe0>
+403766f7:	f7ac21        	l32r	a2, 403745a8 <_iram_text_start+0x1a4> (c0378000 <_rtc_reserved_end+0x60278000>)
+403766fa:	f7e1a1        	l32r	a10, 40374680 <_iram_text_start+0x27c> (b0000000 <_rtc_reserved_end+0x4ff00000>)
+403766fd:	f77e91        	l32r	a9, 403744f8 <_iram_text_start+0xf4> (1fff <UserFrameTotalSize+0x1eff>)
+40376700:	f7e1f1        	l32r	a15, 40374684 <_iram_text_start+0x280> (757fff <UserFrameTotalSize+0x757eff>)
+40376703:	cd2a      	add.n	a12, a13, a2
+40376705:	8daa      	add.n	a8, a13, a10
+40376707:	628980        	saltu	a8, a9, a8
+4037670a:	626fc0        	saltu	a6, a15, a12
+4037670d:	880b      	addi.n	a8, a8, -1
+4037670f:	660b      	addi.n	a6, a6, -1
+40376711:	608080        	neg	a8, a8
+40376714:	606060        	neg	a6, a6
+40376717:	208860        	or	a8, a8, a6
+4037671a:	748080        	extui	a8, a8, 0, 8
+4037671d:	f77551        	l32r	a5, 403744f4 <_iram_text_start+0xf0> (9ff02000 <_rtc_reserved_end+0x3fe02000>)
+40376720:	288c      	beqz.n	a8, 40376726 <s3_raw_queue_submit+0x8e>
+40376722:	000406        	j	40376736 <s3_raw_queue_submit+0x9e>
+40376725:	00          	.byte	00
+40376726:	8d5a      	add.n	a8, a13, a5
+40376728:	628980        	saltu	a8, a9, a8
+4037672b:	880b      	addi.n	a8, a8, -1
+4037672d:	608080        	neg	a8, a8
+40376730:	748080        	extui	a8, a8, 0, 8
+40376733:	041816        	beqz	a8, 40376778 <s3_raw_queue_submit+0xe0>
+40376736:	f7d481        	l32r	a8, 40374688 <_iram_text_start+0x284> (3fff <UserFrameTotalSize+0x3eff>)
+40376739:	f7d461        	l32r	a6, 4037468c <_iram_text_start+0x288> (77fff <UserFrameTotalSize+0x77eff>)
+4037673c:	8d8a      	add.n	a8, a13, a8
+4037673e:	282a      	add.n	a2, a8, a2
+40376740:	a8aa      	add.n	a10, a8, a10
+40376742:	62a9a0        	saltu	a10, a9, a10
+40376745:	885a      	add.n	a8, a8, a5
+40376747:	62ff20        	saltu	a15, a15, a2
+4037674a:	aa0b      	addi.n	a10, a10, -1
+4037674c:	ff0b      	addi.n	a15, a15, -1
+4037674e:	628980        	saltu	a8, a9, a8
+40376751:	60a0a0        	neg	a10, a10
+40376754:	60f0f0        	neg	a15, a15
+40376757:	880b      	addi.n	a8, a8, -1
+40376759:	20aaf0        	or	a10, a10, a15
+4037675c:	608080        	neg	a8, a8
+4037675f:	2088a0        	or	a8, a8, a10
+40376762:	150c      	movi.n	a5, 1
+40376764:	308850        	xor	a8, a8, a5
+40376767:	62c6c0        	saltu	a12, a6, a12
+4037676a:	20cc80        	or	a12, a12, a8
+4037676d:	74c0c0        	extui	a12, a12, 0, 8
+40376770:	4ccc      	bnez.n	a12, 40376778 <s3_raw_queue_submit+0xe0>
+40376772:	62c620        	saltu	a12, a6, a2
+40376775:	14b627        	bgeu	a6, a2, 4037678d <s3_raw_queue_submit+0xf5>
+40376778:	190c      	movi.n	a9, 1
+4037677a:	2788      	l32i.n	a8, a7, 8
+4037677c:	784792        	s8i	a9, a7, 120
+4037677f:	590c      	movi.n	a9, 5
+40376781:	0020c0        	memw
+40376784:	6c6892        	s32i	a9, a8, 0x1b0
+40376787:	02a122        	movi	a2, 0x102
+4037678a:	000ec6        	j	403767c9 <s3_raw_queue_submit+0x131>
+4037678d:	a08bb0        	addx4	a8, a11, a11
+40376790:	b08870        	addx8	a8, a8, a7
+40376793:	7898      	l32i.n	a9, a8, 28
+40376795:	0c18a2        	l16ui	a10, a8, 24
+40376798:	01fe20        	slli	a15, a14, 30
+4037679b:	f59090        	extui	a9, a9, 16, 16
+4037679e:	20aaf0        	or	a10, a10, a15
+403767a1:	f4e2e0        	extui	a14, a14, 2, 16
+403767a4:	c8d9      	s32i.n	a13, a8, 48
+403767a6:	119900        	slli	a9, a9, 16
+403767a9:	68a9      	s32i.n	a10, a8, 24
+403767ab:	2099e0        	or	a9, a9, a14
+403767ae:	07a8      	l32i.n	a10, a7, 0
+403767b0:	7899      	s32i.n	a9, a8, 28
+403767b2:	10c8b2        	addi	a11, a8, 16
+403767b5:	00f2e5        	call8	403776e4 <spi_device_queue_trans>
+403767b8:	0a2d      	mov.n	a2, a10
+403767ba:	ba8c      	beqz.n	a10, 403767c9 <s3_raw_queue_submit+0x131>
+403767bc:	2788      	l32i.n	a8, a7, 8
+403767be:	784752        	s8i	a5, a7, 120
+403767c1:	590c      	movi.n	a9, 5
+403767c3:	0020c0        	memw
+403767c6:	6c6892        	s32i	a9, a8, 0x1b0
+403767c9:	f01d      	retw.n
+
+Disassembly of section .flash.text:

@@ -1,0 +1,390 @@
+{
+  "scope": "Source-scoped SPI/PHY allocation ledger using the saved S3 ELF ABI.\n\nThese are requested-byte LOWER bounds and remaining-capacity UPPER bounds,\nnot a complete runtime heap replay or a real receiver/boot performance proof.\n",
+  "input_profile": "reports/s3-soc-roles-and-deadlines/sdk/n16r8-late-stacks-no-phy-nvs-raw-only-spi",
+  "types": {
+    "spicommon_bus_context_t": 96,
+    "spi_dma_ctx_t": 20,
+    "spi_device_t": 124,
+    "spi_host_t": 184,
+    "spi_trans_priv_t": 20,
+    "Queue_t": 84,
+    "spi_bus_lock_t": 64,
+    "spi_bus_lock_dev_t": 12,
+    "gdma_group_t": 136,
+    "gdma_pair_t": 28,
+    "gdma_tx_channel_t": 52,
+    "gdma_rx_channel_t": 56,
+    "intr_handle_data_t": 8,
+    "vector_desc_t": 12,
+    "shared_vector_desc_t": 24,
+    "esp_timer": 32,
+    "esp_phy_calibration_data_t": 1904,
+    "heap_t_": 36,
+    "multi_heap_info": 20,
+    "control_t": 36
+  },
+  "checks": [
+    {
+      "name": "saved_ELF_hash",
+      "ok": true
+    },
+    {
+      "name": "successful_link_audit",
+      "ok": true
+    },
+    {
+      "name": "two_core_S3",
+      "ok": true
+    },
+    {
+      "name": "no_PM_extra_objects",
+      "ok": true
+    },
+    {
+      "name": "no_retention_extra_objects",
+      "ok": true
+    },
+    {
+      "name": "no_systemview_ISR_wrapper",
+      "ok": true
+    },
+    {
+      "name": "queues_are_target_84B",
+      "ok": true
+    },
+    {
+      "name": "calibration_is_target_1904B",
+      "ok": true
+    },
+    {
+      "name": "no_partition_init_data",
+      "ok": true
+    },
+    {
+      "name": "no_multiple_init_data",
+      "ok": true
+    },
+    {
+      "name": "no_reduce_TX_copy",
+      "ok": true
+    },
+    {
+      "name": "PLL_tracking_retained",
+      "ok": true
+    },
+    {
+      "name": "SPI_ISR_and_API_IRAM",
+      "ok": true
+    },
+    {
+      "name": "GDMA_objects_internal",
+      "ok": true
+    },
+    {
+      "name": "no_extra_timer_profiling",
+      "ok": true
+    },
+    {
+      "name": "pinned_SDK",
+      "ok": true
+    },
+    {
+      "name": "target_allocator_layout",
+      "ok": true
+    },
+    {
+      "name": "DMA_pool_4KiB",
+      "ok": true
+    },
+    {
+      "name": "heap_tracking_disabled",
+      "ok": true
+    }
+  ],
+  "all_scoped_checks_pass": true,
+  "rows": [
+    {
+      "name": "bus_context",
+      "count": 2,
+      "unit_bytes": 96,
+      "requested_bytes": 192,
+      "source": "spi_common.c:spi_bus_initialize",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "DMA_context",
+      "count": 2,
+      "unit_bytes": 20,
+      "requested_bytes": 40,
+      "source": "spi_common.c:spicommon_dma_chan_alloc",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "TX_RX_descriptors",
+      "count": 4,
+      "unit_bytes": 108,
+      "requested_bytes": 432,
+      "source": "spi_common.c:spicommon_dma_desc_alloc",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "master_host",
+      "count": 2,
+      "unit_bytes": 184,
+      "requested_bytes": 368,
+      "source": "spi_master.c:spi_master_init_driver",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "device",
+      "count": 2,
+      "unit_bytes": 124,
+      "requested_bytes": 248,
+      "source": "spi_master.c:spi_bus_add_device",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "TX_result_queues",
+      "count": 4,
+      "unit_bytes": 104,
+      "requested_bytes": 416,
+      "source": "spi_master.c:spi_bus_add_device/xQueueCreate",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "bus_lock",
+      "count": 2,
+      "unit_bytes": 64,
+      "requested_bytes": 128,
+      "source": "spi_bus_lock.c:spi_bus_init_lock",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "device_lock",
+      "count": 2,
+      "unit_bytes": 12,
+      "requested_bytes": 24,
+      "source": "spi_bus_lock.c:spi_bus_lock_register_dev",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "device_binary_semaphore",
+      "count": 2,
+      "unit_bytes": 84,
+      "requested_bytes": 168,
+      "source": "idf_additions.c:xQueueCreateWithCaps",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "GDMA_group",
+      "count": 1,
+      "unit_bytes": 136,
+      "requested_bytes": 136,
+      "source": "gdma.c:gdma_acquire_group_handle",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "GDMA_pair",
+      "count": 2,
+      "unit_bytes": 28,
+      "requested_bytes": 56,
+      "source": "gdma.c:gdma_acquire_pair_handle",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "GDMA_TX_channel",
+      "count": 2,
+      "unit_bytes": 52,
+      "requested_bytes": 104,
+      "source": "gdma.c:do_allocate_gdma_channel",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "GDMA_RX_channel",
+      "count": 2,
+      "unit_bytes": 56,
+      "requested_bytes": 112,
+      "source": "gdma.c:do_allocate_gdma_channel",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "SPI_interrupt_handle",
+      "count": 2,
+      "unit_bytes": 8,
+      "requested_bytes": 16,
+      "source": "intr_alloc.c:esp_intr_alloc_intrstatus_bind",
+      "lifetime": "SPI_live",
+      "mandatory": true
+    },
+    {
+      "name": "fresh_vector_descriptor",
+      "count": 2,
+      "unit_bytes": 12,
+      "requested_bytes": 24,
+      "source": "intr_alloc.c:get_desc_for_int",
+      "lifetime": "SPI_live",
+      "mandatory": false
+    },
+    {
+      "name": "PHY_access_mutex",
+      "count": 1,
+      "unit_bytes": 84,
+      "requested_bytes": 84,
+      "source": "phy_init.c:esp_phy_enable / newlib/src/locks.c:lock_init_generic",
+      "lifetime": "PHY_live",
+      "mandatory": true
+    },
+    {
+      "name": "PHY_calibration",
+      "count": 1,
+      "unit_bytes": 1904,
+      "requested_bytes": 1904,
+      "source": "phy_init.c:esp_phy_load_cal_and_init",
+      "lifetime": "calibration_only",
+      "mandatory": true
+    },
+    {
+      "name": "PHY_PLL_timer",
+      "count": 1,
+      "unit_bytes": 32,
+      "requested_bytes": 32,
+      "source": "phy_common.c:phy_track_pll_init / esp_timer.c:esp_timer_create",
+      "lifetime": "post_calibration",
+      "mandatory": true
+    }
+  ],
+  "phases": {
+    "existing_vectors": {
+      "SPI_live": {
+        "requested_bytes": 2440,
+        "live_blocks": 31,
+        "allocation_headers_min_bytes": 124,
+        "remaining_internal_upper_bound": 17768
+      },
+      "PHY_calibration": {
+        "requested_bytes": 4428,
+        "live_blocks": 33,
+        "allocation_headers_min_bytes": 132,
+        "remaining_internal_upper_bound": 15772
+      },
+      "steady": {
+        "requested_bytes": 2556,
+        "live_blocks": 33,
+        "allocation_headers_min_bytes": 132,
+        "remaining_internal_upper_bound": 17644
+      }
+    },
+    "fresh_vectors": {
+      "SPI_live": {
+        "requested_bytes": 2464,
+        "live_blocks": 33,
+        "allocation_headers_min_bytes": 132,
+        "remaining_internal_upper_bound": 17736
+      },
+      "PHY_calibration": {
+        "requested_bytes": 4452,
+        "live_blocks": 35,
+        "allocation_headers_min_bytes": 140,
+        "remaining_internal_upper_bound": 15740
+      },
+      "steady": {
+        "requested_bytes": 2580,
+        "live_blocks": 35,
+        "allocation_headers_min_bytes": 140,
+        "remaining_internal_upper_bound": 17612
+      }
+    }
+  },
+  "DMA_pool_metadata_single_chunk_lower_bound": 400,
+  "DMA_pool_metadata_details": {
+    "outer_allocation_header_min": 4,
+    "exclusive_end_gap": 1,
+    "nested_allocator": 355,
+    "heap_record": 36,
+    "heap_record_header_min": 4
+  },
+  "no_phy_nvs": true,
+  "calibration_without_NVS": "PHY_RF_CAL_FULL",
+  "descriptor_count_per_direction": 9,
+  "GDMA_transient_allocations": {
+    "duplicate_group_request": 136,
+    "duplicate_pair_request": 28,
+    "lifetime": "Sequential search temporaries freed before completing the second bus; not added to all later phases"
+  },
+  "omitted": [
+    "other startup allocations/frees and all actual fragmentation",
+    "extra DMA subheap metadata if the reserve pool fragments into multiple chunks",
+    "allocator rounding/alignment beyond the 4-byte minimum",
+    "PHY binary/ROM internal behavior and any additional retained calibration copy",
+    "other lazily initialized locks/logging/libc allocations",
+    "NVS objects when storage enabled",
+    "shared IRQ alternative",
+    "RF-specific initialization not in esp_phy_enable"
+  ],
+  "cache_off_findings": [
+    {
+      "path": "normal raw SPI ISR",
+      "scope": "SCT disabled; no callbacks; manual DMA alignment rejects bounce buffers; no heap allocation in normal completion path"
+    },
+    {
+      "path": "SCT completion ISR",
+      "scope": "spi_post_sct_trans calls free; not allowed for the heap-in-flash cache-off candidate"
+    },
+    {
+      "path": "PHY PLL tracking",
+      "scope": "default ESP_TIMER_TASK dispatch, not ISR; existing PHY lock is acquired by timer task"
+    },
+    {
+      "path": "flash read temp buffer",
+      "scope": "get_temp_buffer precedes cache-disabling start, release follows end in non-ROM esp_flash_api.c; IRAM attribute alone does not imply cache-off execution"
+    },
+    {
+      "path": "lazy libc locks",
+      "scope": "first acquire can allocate; other ISR locks and PHY binary/ROM paths remain unclosed"
+    }
+  ],
+  "cache_off_ISR_closure_proven": false,
+  "complete_runtime_heap": false,
+  "hardware_boot_executed": false,
+  "receiver_adopted": false,
+  "source_manifest": {
+    "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+    "sources": {
+      "esp_phy/src/phy_init.c": "4c994869b7a9bf72e77373931136f31c2aa4f03bb13c0f868c43a029e6ae8c22",
+      "esp_phy/src/phy_common.c": "8251d239ba0c8411f6a8298598e66fb641a4d78fb68b91869899024f9e8b7199",
+      "esp_phy/include/esp_phy_init.h": "c872f340de7a88f306d8bca90697b03f86834c956ab13b1b3893294e12cf95f9",
+      "esp_phy/Kconfig": "cb0fef6c958a9296b813379490c29676325413979782674dcf55150447881195",
+      "esp_hw_support/dma/gdma.c": "c48b0e855c26dc07be156d678f539db22fe5207f467e0d7d0fa90a864513a7a1",
+      "esp_hw_support/intr_alloc.c": "9159d5c5588552596d4c1c420fba670af4673144e99454df119e39f43ceab704",
+      "esp_hw_support/spi_bus_lock.c": "e40cccc457a4fa4f2bb170c58031699beccbd384238459533e2cdf44bab5159b",
+      "esp_driver_spi/src/gpspi/spi_master.c": "1634611334180a80e0643d0f32a0af73447b6bbfbe381c0e5799f93de5af64f6",
+      "esp_driver_spi/src/gpspi/spi_common.c": "0f25c874cff2212bf100ce54f5652580938921b2510eef5bf5f5215bf22972a4",
+      "freertos/esp_additions/idf_additions.c": "799b7f52daea5ea1f3ea446b9e5c77e73a795529b1cf2bf9aa14c1d40f0ab1a9",
+      "newlib/src/locks.c": "60ce1c4c18f3fc0ba832974b630bd1321eea6c42ecd05c020f3a68937ec34d2e",
+      "esp_psram/system_layer/esp_psram.c": "9d44784606543cc3a6c8ca45ec5c94594af250f1efcffa9909510e8d9c35f88a",
+      "heap/Kconfig": "8013d78a6fd40362596b134954dea337a76914adee5d453094a0fcd576698b87",
+      "spi_flash/spi_flash_os_func_app.c": "ca6c6d8eee7993418b71481cbe2cf1a2eb419790a88209a671d9d5a4f8b0ab55",
+      "spi_flash/esp_flash_api.c": "bb0bfe17a6dbd5bd37dfdd68ac6c16a3189a3231ebeddd71bbc14d801796c3f5",
+      "heap/heap_caps_init.c": "506886580f8c76c90c30022ef3d317d8754d1d1df6b9f59e5fb8d53434aeb024",
+      "heap/multi_heap.c": "2647ff6bb7284a70c94491d003acbc3cd821c02a9f7d49d643aaf7241ac5f74b"
+    }
+  },
+  "input_sha256": {
+    "ELF": "88252e840bfc047dfcac391739df04d462bea999a9e9a9cab7086ae2be4f2869",
+    "config": "6310613609ecb8cb528af0fbde102f6272b5b708dfd63c2cdb8c1340a3ed5886",
+    "link_result": "4186af6e3a33bcbe9f416090c150d44c68d933ecf18bb727c8dc9f1b75337bbe"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "scope": "Recount the current S candidate's packing CFG; instruction envelope, not WCET.",
+  "ELF_sha256": "5745fbf94f4ecd607200162f469361591c95b7510dc50ac6ef13ad1c7d6dde2b",
+  "effective_config": {
+    "core0_sixteenths": 8,
+    "transfer_bytes": 32768,
+    "fill_unroll": 8
+  },
+  "checks": [
+    {
+      "name": "all_nodes_covered_DAG_after_four_declared_backedges",
+      "passed": true
+    },
+    {
+      "name": "declared_loop_edges_exist",
+      "passed": true
+    },
+    {
+      "name": "bulk_loop_calls_pack_eight_once",
+      "passed": true
+    },
+    {
+      "name": "known_region_shape",
+      "passed": true
+    }
+  ],
+  "coefficients": {
+    "block": 45,
+    "run": 118,
+    "slow_pair": 173,
+    "slice": 223
+  },
+  "regions": {
+    "impl": 293,
+    "regular": 118,
+    "bulk": 6,
+    "byte": 11,
+    "scan": 17,
+    "once": 158,
+    "wrapper": 31
+  },
+  "clock_callback_body_included": false,
+  "cycles_upper_bound_proven": false
+}

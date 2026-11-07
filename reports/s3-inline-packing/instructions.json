@@ -1,0 +1,580 @@
+{
+  "rows": [
+    {
+      "variant": "baseline",
+      "optimization": "O2",
+      "step_text_bytes": 770,
+      "step_stack_entry": "a1, 96",
+      "start": 514,
+      "end": 530,
+      "loop_instructions": 6,
+      "callee_instructions": 39,
+      "total_per_eight_samples": 45,
+      "body": [
+        [
+          514,
+          "mov.n",
+          "a11, a7"
+        ],
+        [
+          516,
+          "mov.n",
+          "a10, a6"
+        ],
+        [
+          518,
+          "addi",
+          "a7, a7, 32"
+        ],
+        [
+          521,
+          "call8",
+          "0 <pack_eight>"
+        ],
+        [
+          524,
+          "addi",
+          "a6, a6, 20"
+        ],
+        [
+          527,
+          "bne",
+          "a7, a2, 202 <s3_pp_step_impl+0x19a>"
+        ]
+      ]
+    },
+    {
+      "variant": "inline",
+      "optimization": "O2",
+      "step_text_bytes": 890,
+      "step_stack_entry": "a1, 112",
+      "start": 440,
+      "end": 544,
+      "loop_instructions": 39,
+      "callee_instructions": 0,
+      "total_per_eight_samples": 39,
+      "body": [
+        [
+          440,
+          "l32i.n",
+          "a4, a8, 8"
+        ],
+        [
+          442,
+          "l32i.n",
+          "a6, a8, 20"
+        ],
+        [
+          444,
+          "l32i.n",
+          "a15, a8, 16"
+        ],
+        [
+          446,
+          "l32r",
+          "a13, fffc01c0 <s3_pp_step_clocked_quantized+0xfffbf898>"
+        ],
+        [
+          449,
+          "l32r",
+          "a3, fffc01c4 <s3_pp_step_clocked_quantized+0xfffbf89c>"
+        ],
+        [
+          452,
+          "slli",
+          "a4, a4, 8"
+        ],
+        [
+          455,
+          "slli",
+          "a6, a6, 4"
+        ],
+        [
+          458,
+          "l32i.n",
+          "a7, a8, 4"
+        ],
+        [
+          460,
+          "l32i.n",
+          "a9, a8, 0"
+        ],
+        [
+          462,
+          "and",
+          "a4, a4, a13"
+        ],
+        [
+          465,
+          "and",
+          "a6, a6, a3"
+        ],
+        [
+          468,
+          "extui",
+          "a13, a15, 16, 4"
+        ],
+        [
+          471,
+          "l32i.n",
+          "a12, a8, 12"
+        ],
+        [
+          473,
+          "l32i.n",
+          "a11, a8, 24"
+        ],
+        [
+          475,
+          "or",
+          "a13, a13, a6"
+        ],
+        [
+          478,
+          "l32i.n",
+          "a6, a8, 28"
+        ],
+        [
+          480,
+          "extui",
+          "a14, a7, 12, 8"
+        ],
+        [
+          483,
+          "slli",
+          "a9, a9, 12"
+        ],
+        [
+          486,
+          "or",
+          "a14, a14, a4"
+        ],
+        [
+          489,
+          "slli",
+          "a3, a12, 28"
+        ],
+        [
+          492,
+          "slli",
+          "a4, a11, 24"
+        ],
+        [
+          495,
+          "srli",
+          "a9, a9, 12"
+        ],
+        [
+          498,
+          "slli",
+          "a7, a7, 20"
+        ],
+        [
+          501,
+          "extui",
+          "a12, a12, 4, 16"
+        ],
+        [
+          504,
+          "slli",
+          "a15, a15, 16"
+        ],
+        [
+          507,
+          "extui",
+          "a11, a11, 8, 12"
+        ],
+        [
+          510,
+          "slli",
+          "a6, a6, 12"
+        ],
+        [
+          513,
+          "or",
+          "a9, a9, a7"
+        ],
+        [
+          516,
+          "or",
+          "a14, a14, a3"
+        ],
+        [
+          519,
+          "or",
+          "a12, a12, a15"
+        ],
+        [
+          522,
+          "or",
+          "a13, a13, a4"
+        ],
+        [
+          525,
+          "or",
+          "a11, a11, a6"
+        ],
+        [
+          528,
+          "s32i.n",
+          "a9, a10, 0"
+        ],
+        [
+          530,
+          "s32i.n",
+          "a14, a10, 4"
+        ],
+        [
+          532,
+          "s32i.n",
+          "a12, a10, 8"
+        ],
+        [
+          534,
+          "s32i.n",
+          "a13, a10, 12"
+        ],
+        [
+          536,
+          "s32i.n",
+          "a11, a10, 16"
+        ],
+        [
+          538,
+          "addi",
+          "a8, a8, 32"
+        ],
+        [
+          541,
+          "addi",
+          "a10, a10, 20"
+        ]
+      ]
+    },
+    {
+      "variant": "baseline",
+      "optimization": "Os",
+      "step_text_bytes": 694,
+      "step_stack_entry": "a1, 96",
+      "start": 497,
+      "end": 523,
+      "loop_instructions": 11,
+      "callee_instructions": 39,
+      "total_per_eight_samples": 50,
+      "body": [
+        [
+          497,
+          "mov.n",
+          "a11, a2"
+        ],
+        [
+          499,
+          "s32i.n",
+          "a9, a1, 48"
+        ],
+        [
+          501,
+          "s32i.n",
+          "a8, a1, 44"
+        ],
+        [
+          503,
+          "s32i.n",
+          "a10, a1, 40"
+        ],
+        [
+          505,
+          "call8",
+          "0 <pack_eight>"
+        ],
+        [
+          508,
+          "l32i.n",
+          "a10, a1, 40"
+        ],
+        [
+          510,
+          "l32i.n",
+          "a8, a1, 44"
+        ],
+        [
+          512,
+          "addi",
+          "a2, a2, 32"
+        ],
+        [
+          515,
+          "l32i.n",
+          "a9, a1, 48"
+        ],
+        [
+          517,
+          "addi",
+          "a10, a10, 20"
+        ],
+        [
+          520,
+          "bne",
+          "a2, a8, 1f1 <s3_pp_step_impl+0x189>"
+        ]
+      ]
+    },
+    {
+      "variant": "inline",
+      "optimization": "Os",
+      "step_text_bytes": 814,
+      "step_stack_entry": "a1, 96",
+      "start": 412,
+      "end": 533,
+      "loop_instructions": 47,
+      "callee_instructions": 0,
+      "total_per_eight_samples": 47,
+      "body": [
+        [
+          412,
+          "l32i.n",
+          "a14, a8, 20"
+        ],
+        [
+          414,
+          "l32i.n",
+          "a4, a8, 4"
+        ],
+        [
+          416,
+          "s32i.n",
+          "a14, a1, 48"
+        ],
+        [
+          418,
+          "l32i.n",
+          "a14, a8, 28"
+        ],
+        [
+          420,
+          "l32i.n",
+          "a13, a8, 8"
+        ],
+        [
+          422,
+          "s32i.n",
+          "a14, a1, 52"
+        ],
+        [
+          424,
+          "l32i.n",
+          "a14, a8, 0"
+        ],
+        [
+          426,
+          "s32i.n",
+          "a10, a1, 44"
+        ],
+        [
+          428,
+          "slli",
+          "a14, a14, 12"
+        ],
+        [
+          431,
+          "slli",
+          "a10, a4, 20"
+        ],
+        [
+          434,
+          "srli",
+          "a14, a14, 12"
+        ],
+        [
+          437,
+          "or",
+          "a14, a14, a10"
+        ],
+        [
+          440,
+          "l32r",
+          "a10, fffc01b8 <s3_pp_step_clocked_quantized+0xfffbf8f4>"
+        ],
+        [
+          443,
+          "l32i.n",
+          "a6, a8, 12"
+        ],
+        [
+          445,
+          "slli",
+          "a13, a13, 8"
+        ],
+        [
+          448,
+          "and",
+          "a13, a13, a10"
+        ],
+        [
+          451,
+          "extui",
+          "a4, a4, 12, 8"
+        ],
+        [
+          454,
+          "l32i.n",
+          "a12, a8, 16"
+        ],
+        [
+          456,
+          "l32i.n",
+          "a15, a8, 24"
+        ],
+        [
+          458,
+          "or",
+          "a13, a4, a13"
+        ],
+        [
+          461,
+          "s32i.n",
+          "a14, a11, 0"
+        ],
+        [
+          463,
+          "slli",
+          "a14, a6, 28"
+        ],
+        [
+          466,
+          "l32i.n",
+          "a10, a1, 48"
+        ],
+        [
+          468,
+          "or",
+          "a13, a13, a14"
+        ],
+        [
+          471,
+          "s32i.n",
+          "a13, a11, 4"
+        ],
+        [
+          473,
+          "extui",
+          "a6, a6, 4, 16"
+        ],
+        [
+          476,
+          "slli",
+          "a13, a12, 16"
+        ],
+        [
+          479,
+          "or",
+          "a6, a6, a13"
+        ],
+        [
+          482,
+          "extui",
+          "a13, a12, 16, 4"
+        ],
+        [
+          485,
+          "slli",
+          "a12, a10, 4"
+        ],
+        [
+          488,
+          "l32r",
+          "a10, fffc01e8 <s3_pp_step_clocked_quantized+0xfffbf924>"
+        ],
+        [
+          491,
+          "s32i.n",
+          "a6, a11, 8"
+        ],
+        [
+          493,
+          "and",
+          "a12, a12, a10"
+        ],
+        [
+          496,
+          "or",
+          "a12, a13, a12"
+        ],
+        [
+          499,
+          "l32i.n",
+          "a10, a1, 52"
+        ],
+        [
+          501,
+          "slli",
+          "a13, a15, 24"
+        ],
+        [
+          504,
+          "or",
+          "a12, a12, a13"
+        ],
+        [
+          507,
+          "s32i.n",
+          "a12, a11, 12"
+        ],
+        [
+          509,
+          "extui",
+          "a15, a15, 8, 12"
+        ],
+        [
+          512,
+          "slli",
+          "a12, a10, 12"
+        ],
+        [
+          515,
+          "or",
+          "a15, a15, a12"
+        ],
+        [
+          518,
+          "l32i.n",
+          "a10, a1, 44"
+        ],
+        [
+          520,
+          "s32i.n",
+          "a15, a11, 16"
+        ],
+        [
+          522,
+          "addi",
+          "a8, a8, 32"
+        ],
+        [
+          525,
+          "addi",
+          "a11, a11, 20"
+        ],
+        [
+          528,
+          "addi.n",
+          "a10, a10, -1"
+        ],
+        [
+          530,
+          "bnez",
+          "a10, 19c <s3_pp_step_impl+0x19c>"
+        ]
+      ]
+    }
+  ],
+  "full_slice_cost_audited": false,
+  "hardware_wcet": false,
+  "source_sha256": {
+    "ci/s3_inline_pack_audit.py": "24a66333b4581871a2c68daf2b06112445b66af1b5660a0d223bb42ba3a81cee",
+    "experiments/s3_parallel_pack.c": "407883873963af85454a48a82cd1c13b1c519663a2792dbbfa015bd5091a5d3c",
+    "experiments/s3_iq10_block.h": "aacc0cd8e1f10de23523e9bebeded384b5e515f485c0876cdffaeecd92b93b8e",
+    "experiments/s3_iq10_inline.h": "23eef838ec7054dce2272925a77676dcc174b3713788c9221f180ed668e6d45b",
+    "experiments/s3_inline_pack.c": "fcdd0aa32423feaaa4f4229350f0ec7c969fe7608ace23276fb42639891c2fd1"
+  }
+}

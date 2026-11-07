@@ -1,0 +1,63 @@
+{
+  "scope": "Compile actual ESP32-S3 assembly and audit its finite straight-line schedule.",
+  "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-14.2.0_20241119) 14.2.0",
+  "source_sha256": "d4f8231ccf04958d6b47ac083cb297297431fcf1ddd572a7e711e7c29185af37",
+  "object_sha256": "ea26eaf04c25033babe52a03c30b49c6f91a71a40b72c8317f406589d936d996",
+  "disassembly_sha256": "2d2b6bd54d998c4e59e8343c829e0d9ef85b06282876a1989004dd3420ca6df2",
+  "rows": [
+    {
+      "standard": "S",
+      "taps": 16,
+      "instructions_per_complex_output": 23,
+      "MAC_instructions": 4,
+      "optimistic_one_issue_per_cycle_Mcycles_s": 663.78,
+      "optimistic_two_core_utilization_percent": 138.2875,
+      "without_entry_zero_shift_setup_return_Mcycles_s": 577.2,
+      "history_bytes_loaded_per_output": 96,
+      "coefficient_bytes_loaded_per_output": 32,
+      "output_bytes_stored_per_output": 8,
+      "target_runtime_measured": false
+    },
+    {
+      "standard": "T",
+      "taps": 32,
+      "instructions_per_complex_output": 29,
+      "MAC_instructions": 8,
+      "optimistic_one_issue_per_cycle_Mcycles_s": 235.68253968253967,
+      "optimistic_two_core_utilization_percent": 49.1005291005291,
+      "without_entry_zero_shift_setup_return_Mcycles_s": 211.3015873015873,
+      "history_bytes_loaded_per_output": 160,
+      "coefficient_bytes_loaded_per_output": 64,
+      "output_bytes_stored_per_output": 8,
+      "target_runtime_measured": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "S_instruction_count",
+      "passed": true
+    },
+    {
+      "name": "S_MAC_count",
+      "passed": true
+    },
+    {
+      "name": "T_instruction_count",
+      "passed": true
+    },
+    {
+      "name": "T_MAC_count",
+      "passed": true
+    }
+  ],
+  "exclusions": [
+    "unpack and history writes",
+    "caller call instruction",
+    "phase selection",
+    "final Q15 conversion",
+    "DMA/RTOS/control",
+    "pipeline stalls, cache and contention"
+  ],
+  "runtime_execution_verified": false,
+  "all_SIMD_algorithms_excluded": false
+}

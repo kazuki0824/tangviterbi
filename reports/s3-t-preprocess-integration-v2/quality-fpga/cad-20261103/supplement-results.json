@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "evidence_origin": "Fresh supplemental route and coverage inspection",
+  "non_fail_fast": true,
+  "physical_timing_pass": false,
+  "checks": [
+    {
+      "name": "input_available.probe-mapped.json.gz",
+      "status": "PASS"
+    },
+    {
+      "name": "input_available.pins.cst",
+      "status": "PASS"
+    },
+    {
+      "name": "place_and_route_exit",
+      "status": "PASS"
+    },
+    {
+      "name": "route_completion_log",
+      "status": "PASS"
+    },
+    {
+      "name": "routed_resources_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "routed_four_DSP",
+      "status": "PASS"
+    },
+    {
+      "name": "routed_three_BSRAM",
+      "status": "PASS"
+    },
+    {
+      "name": "modeled_clock_result_readable",
+      "status": "PASS"
+    },
+    {
+      "name": "coverage_inspection_exit",
+      "status": "PASS"
+    }
+  ],
+  "input_sha256": {
+    "probe-mapped.json.gz": "65c63128e376e00ab7a6236d9a6dfb9d96fdcda8acba91a231177005cda50d94",
+    "pins.cst": "e7ca08fafcb70cdd8361d879ecf665f335f449c8244299d1d5859dcffcbf0d48"
+  },
+  "source_sha256": {
+    "experiments/t_halfband_fpga/supplement_timing.py": "1489628102296b5295356683a6d3ee2b7ee7b924e842fbc43da14cb5480c069b",
+    "experiments/t_halfband_fpga/timing_coverage.py": "dc4a384b3b65fc6c58984cf597aefbfd4f06b03cd6e9f2e8319176a0df261cbe"
+  },
+  "toolchain": {
+    "release": "2026-11-03",
+    "nextpnr_commit": "a2c6479977d64d312686d853a93941744fdbeacf",
+    "archive_url": "https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2026-11-03/oss-cad-suite-linux-x64-20261103.tgz",
+    "archive_sha256": "f991f2b5a8204028100cf3ad2d14d97c005ce14b903b50edf71399da99b417ed"
+  },
+  "place_and_route": {
+    "command": [
+      "/workspace/scratch/743a7294ea5e/toolchains/oss-cad-20261103/oss-cad-suite/bin/nextpnr-himbaechel",
+      "--json",
+      "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad-20261103/residual-fifo/probe-mapped.json",
+      "--device",
+      "GW2AR-LV18QN88C8/I7",
+      "--vopt",
+      "family=GW2A-18C",
+      "--vopt",
+      "cst=/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad-20261103/residual-fifo/pins.cst",
+      "--freq",
+      "154.28571428571428",
+      "--seed",
+      "1",
+      "--report",
+      "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad-20261103/residual-fifo/pnr.json",
+      "--detailed-timing-report",
+      "--write",
+      "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad-20261103/residual-fifo/routed.json",
+      "--timing-allow-fail"
+    ],
+    "exit_code": 0
+  },
+  "resources": {
+    "cells_by_type": {
+      "ALU": 448,
+      "BUFG": 1,
+      "DFF": 170,
+      "DFFE": 193,
+      "DFFR": 14,
+      "DFFRE": 171,
+      "DFFSE": 1,
+      "DUMMY_CELL": 16,
+      "GOWIN_GND": 1,
+      "GOWIN_VCC": 1,
+      "GSR": 1,
+      "IBUF": 4,
+      "LUT1": 14,
+      "LUT2": 20,
+      "LUT3": 281,
+      "LUT4": 410,
+      "MULT18X18": 4,
+      "MUX2_LUT5": 1,
+      "OBUF": 1,
+      "RAM16SDP4": 24,
+      "SDP": 1,
+      "SP": 2
+    },
+    "MULT18X18": 4,
+    "BSRAM": 3,
+    "RAM16SDP4": 24,
+    "explicit_DFF_cells": 549
+  },
+  "reported_fmax_NOT_physical_signoff": {
+    "g_fifo.dut.clk": {
+      "achieved": 130.97576904296875,
+      "constraint": 154.28570556640625
+    }
+  },
+  "modeled_clock_results": {
+    "g_fifo.dut.clk": {
+      "achieved": 130.97576904296875,
+      "constraint": 154.28570556640625,
+      "status": "REJECT"
+    }
+  },
+  "modeled_target_timing": "REJECT",
+  "coverage_run": {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/743a7294ea5e/tangviterbi/experiments/t_halfband_fpga/timing_coverage.py",
+      "--suite",
+      "/workspace/scratch/743a7294ea5e/toolchains/oss-cad-20261103/oss-cad-suite",
+      "--source-cache",
+      "/workspace/scratch/743a7294ea5e/toolchains/nextpnr-current",
+      "--commit",
+      "a2c6479977d64d312686d853a93941744fdbeacf",
+      "--cad",
+      "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad-20261103",
+      "--profiles",
+      "residual-fifo",
+      "--output",
+      "/workspace/scratch/743a7294ea5e/tangviterbi/reports/s3-t-preprocess-integration-v2/quality-fpga/cad-20261103/timing"
+    ],
+    "exit_code": 0
+  },
+  "artifacts": {
+    "residual-fifo/probe-mapped.json.gz": {
+      "sha256": "65c63128e376e00ab7a6236d9a6dfb9d96fdcda8acba91a231177005cda50d94"
+    },
+    "residual-fifo/pins.cst": {
+      "sha256": "e7ca08fafcb70cdd8361d879ecf665f335f449c8244299d1d5859dcffcbf0d48"
+    },
+    "residual-fifo/pnr.json": {
+      "sha256": "dc8a8848c6417012127fa4299a7a232ccda0014c83293c6c56ed67069036f5bb"
+    },
+    "residual-fifo/pnr.log.gz": {
+      "sha256": "1ff49f0681967017ac65f3256c7a69c5a57aa9c72848d485f66ba8fdc92f0030"
+    },
+    "residual-fifo/routed.json.gz": {
+      "sha256": "1a7be285e023e14ec8f8dceff5b0d95bedbcf047c1ccbcc7731eae886e7b252f"
+    },
+    "timing/timing-coverage.json.gz": {
+      "sha256": "b5c68a1c1bcca051b40c9d38635269683f71b1b00102f69394c40780abb3b129"
+    }
+  },
+  "status": "PASS"
+}

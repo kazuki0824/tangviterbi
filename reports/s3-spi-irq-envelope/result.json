@@ -1,0 +1,1214 @@
+{
+  "scope": "Finite abstract model and inductive certificate for raw SPI IRQ arrivals.\n\nImplementation refinement is conditional: each ISR entry consumes a pending\ncause from REQ publication or DMA completion, coalesced into one pending bit.\nNo spurious/shared IRQ, lifecycle change, or extra device is modeled.\n",
+  "certificate": {
+    "states": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        0,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    ],
+    "edges": [
+      {
+        "source": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "event": "enqueue",
+        "target": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "event": "start",
+        "target": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "event": "publish",
+        "target": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "event": "publish",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "event": "complete",
+        "target": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 1,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "event": "start",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "event": "complete",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "irq": 0,
+        "completion": 1,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          0
+        ],
+        "event": "publish",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          0
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "event": "start",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "event": "start",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "event": "complete",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 1,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "event": "complete",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 1,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "event": "publish",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "event": "reap",
+        "target": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "event": "enqueue",
+        "target": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "event": "IRQ entry",
+        "target": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "event": "reap",
+        "target": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "event": "start",
+        "target": [
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "event": "publish",
+        "target": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "event": "publish",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "event": "complete",
+        "target": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 1,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "event": "start",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "event": "finish request",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0
+        ],
+        "irq": 0,
+        "completion": 0,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "event": "complete",
+        "target": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "irq": 0,
+        "completion": 1,
+        "certificate_slack": 1
+      },
+      {
+        "source": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "event": "IRQ entry",
+        "target": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "irq": 1,
+        "completion": 0,
+        "certificate_slack": 0
+      }
+    ],
+    "potential_min": -1,
+    "potential_max": 2,
+    "all_path_inequality": "IRQ_entries <= 2 * completions + 3",
+    "irq_entry_burst": 3
+  },
+  "wire": [
+    {
+      "lanes": 8,
+      "header_bits": 80,
+      "clock_hz": 80000000,
+      "serial_clock_count": 32778,
+      "wire_floor_cycles": 98334,
+      "completion_upper_cycles": null,
+      "is_lower_bound_from_queue_return": false
+    },
+    {
+      "lanes": 4,
+      "header_bits": 80,
+      "clock_hz": 80000000,
+      "serial_clock_count": 65556,
+      "wire_floor_cycles": 196668,
+      "completion_upper_cycles": null,
+      "is_lower_bound_from_queue_return": false
+    }
+  ],
+  "execution_demand_formula": "(6 + 2 * floor(R / L)) * C per host",
+  "affinities": [
+    {
+      "host_cores": [
+        0,
+        0
+      ],
+      "core0_hosts": [
+        0,
+        1
+      ],
+      "core1_hosts": []
+    },
+    {
+      "host_cores": [
+        0,
+        1
+      ],
+      "core0_hosts": [
+        0
+      ],
+      "core1_hosts": [
+        1
+      ]
+    },
+    {
+      "host_cores": [
+        1,
+        0
+      ],
+      "core0_hosts": [
+        1
+      ],
+      "core1_hosts": [
+        0
+      ]
+    },
+    {
+      "host_cores": [
+        1,
+        1
+      ],
+      "core0_hosts": [],
+      "core1_hosts": [
+        0,
+        1
+      ]
+    }
+  ],
+  "isr_execution_cost_cycles": null,
+  "actual_schedule_verified": false,
+  "implementation_refinement_proven": false,
+  "receiver_adopted": false
+}

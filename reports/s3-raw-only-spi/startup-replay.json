@@ -1,0 +1,2282 @@
+{
+  "scope": "Replay a declared startup allocation projection with the pinned 32-bit TLSF.\n\nRequires C compiler supporting -m32 objects (no 32-bit libc), unicorn and\npyelftools. It does NOT emulate Xtensa, ESP-IDF startup or undocumented PHY.\n",
+  "input_sha256": {
+    "reports/s3-raw-only-spi/sdk/n16r8-late-stacks-no-phy-nvs/result.json": "d5e1efae7c1287c99751aaadfca37de3b1d674a63b09c3051dcf78e7a9b82472",
+    "reports/s3-raw-only-spi/sdk/n16r8-late-stacks-no-phy-nvs/sdkconfig.json.gz": "f23cd9a08f250b136a98601d053bd48f5a6d1e8a16a6dec051f66875795597e7",
+    "reports/s3-raw-only-spi/sdk/n16r8-late-stacks-no-phy-nvs-raw-only-spi/result.json": "0aeede1b1794cb7f2b41b9aa8dda4f967a1e4899ad079ec7518817eb1097219c",
+    "reports/s3-raw-only-spi/sdk/n16r8-late-stacks-no-phy-nvs-raw-only-spi/sdkconfig.json.gz": "f23cd9a08f250b136a98601d053bd48f5a6d1e8a16a6dec051f66875795597e7"
+  },
+  "scenarios": [
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main8192-records0",
+      "lower": 11440,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 8704,
+      "heap_records": 0
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main8192-records1",
+      "lower": 11440,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 8704,
+      "heap_records": 180
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main6144-records0",
+      "lower": 11440,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 6656,
+      "heap_records": 0
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main6144-records1",
+      "lower": 11440,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 6656,
+      "heap_records": 180
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main4096-records0",
+      "lower": 11440,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 4608,
+      "heap_records": 0
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main4096-records1",
+      "lower": 11440,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 4608,
+      "heap_records": 180
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main3584-records0",
+      "lower": 11440,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 4096,
+      "heap_records": 0
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main3584-records1",
+      "lower": 11440,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 4096,
+      "heap_records": 180
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main8192-records0",
+      "lower": 15296,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 8704,
+      "heap_records": 0
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main8192-records1",
+      "lower": 15296,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 8704,
+      "heap_records": 180
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main6144-records0",
+      "lower": 15296,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 6656,
+      "heap_records": 0
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main6144-records1",
+      "lower": 15296,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 6656,
+      "heap_records": 180
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main4096-records0",
+      "lower": 15296,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 4608,
+      "heap_records": 0
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main4096-records1",
+      "lower": 15296,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 4608,
+      "heap_records": 180
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main3584-records0",
+      "lower": 15296,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 4096,
+      "heap_records": 0
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main3584-records1",
+      "lower": 15296,
+      "upper": 5904,
+      "rtc": 8168,
+      "main_stack": 4096,
+      "heap_records": 180
+    }
+  ],
+  "traces": [
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main8192-records0",
+      "initial_largest": [
+        11016,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6916,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6916,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 8704,
+          "heap": null,
+          "largest_free_blocks": [
+            6916,
+            1880,
+            7780
+          ]
+        }
+      ],
+      "projected_trace_pass": false
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main8192-records1",
+      "initial_largest": [
+        11016,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "heap_records",
+          "bytes": 180,
+          "heap": 0,
+          "largest_free_blocks": [
+            10820,
+            5516,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6720,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6720,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 8704,
+          "heap": null,
+          "largest_free_blocks": [
+            6720,
+            1880,
+            7780
+          ]
+        }
+      ],
+      "projected_trace_pass": false
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main6144-records0",
+      "initial_largest": [
+        11016,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6916,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6916,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 6656,
+          "heap": 0,
+          "largest_free_blocks": [
+            256,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            256,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            256,
+            1524,
+            6240
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            256,
+            1168,
+            6240
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            256,
+            1168,
+            4700
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            256,
+            812,
+            4700
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main6144-records1",
+      "initial_largest": [
+        11016,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "heap_records",
+          "bytes": 180,
+          "heap": 0,
+          "largest_free_blocks": [
+            10820,
+            5516,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6720,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6720,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 6656,
+          "heap": 0,
+          "largest_free_blocks": [
+            60,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            60,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            60,
+            1524,
+            6240
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            60,
+            1168,
+            6240
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            60,
+            1168,
+            4700
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            60,
+            812,
+            4700
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main4096-records0",
+      "initial_largest": [
+        11016,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6916,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6916,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 4608,
+          "heap": 0,
+          "largest_free_blocks": [
+            2304,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            2304,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            764,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            764,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            764,
+            1168,
+            6240
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            764,
+            812,
+            6240
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main4096-records1",
+      "initial_largest": [
+        11016,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "heap_records",
+          "bytes": 180,
+          "heap": 0,
+          "largest_free_blocks": [
+            10820,
+            5516,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6720,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6720,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 4608,
+          "heap": 0,
+          "largest_free_blocks": [
+            2108,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            2108,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            568,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            568,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            568,
+            1168,
+            6240
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            568,
+            812,
+            6240
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main3584-records0",
+      "initial_largest": [
+        11016,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            11016,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6916,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6916,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            2816,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            2816,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            1276,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1276,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            1276,
+            1168,
+            6240
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1276,
+            812,
+            6240
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-main3584-records1",
+      "initial_largest": [
+        11016,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "heap_records",
+          "bytes": 180,
+          "heap": 0,
+          "largest_free_blocks": [
+            10820,
+            5516,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10820,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6720,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6720,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            2620,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            2620,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            1080,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1080,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            1080,
+            1168,
+            6240
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1080,
+            812,
+            6240
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main8192-records0",
+      "initial_largest": [
+        14872,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            10772,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10772,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 8704,
+          "heap": 0,
+          "largest_free_blocks": [
+            1552,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1552,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            12,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            12,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            12,
+            1168,
+            6240
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            12,
+            812,
+            6240
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main8192-records1",
+      "initial_largest": [
+        14872,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "heap_records",
+          "bytes": 180,
+          "heap": 0,
+          "largest_free_blocks": [
+            14676,
+            5516,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            10576,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10576,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 8704,
+          "heap": 0,
+          "largest_free_blocks": [
+            1356,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1356,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            1356,
+            1524,
+            6240
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1356,
+            1168,
+            6240
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 2,
+          "largest_free_blocks": [
+            1356,
+            1168,
+            4700
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1356,
+            812,
+            4700
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main6144-records0",
+      "initial_largest": [
+        14872,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            10772,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10772,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 6656,
+          "heap": 0,
+          "largest_free_blocks": [
+            4112,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            4112,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            2572,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            2572,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            1032,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            1032,
+            812,
+            7780
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main6144-records1",
+      "initial_largest": [
+        14872,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "heap_records",
+          "bytes": 180,
+          "heap": 0,
+          "largest_free_blocks": [
+            14676,
+            5516,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            10576,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10576,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 6656,
+          "heap": 0,
+          "largest_free_blocks": [
+            3916,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            3916,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            2376,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            2376,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            836,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            836,
+            812,
+            7780
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main4096-records0",
+      "initial_largest": [
+        14872,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            10772,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10772,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 4608,
+          "heap": 0,
+          "largest_free_blocks": [
+            6160,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6160,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            4620,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            4620,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            3080,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            3080,
+            812,
+            7780
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main4096-records1",
+      "initial_largest": [
+        14872,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "heap_records",
+          "bytes": 180,
+          "heap": 0,
+          "largest_free_blocks": [
+            14676,
+            5516,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            10576,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10576,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 4608,
+          "heap": 0,
+          "largest_free_blocks": [
+            5964,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            5964,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            4424,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            4424,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            2884,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            2884,
+            812,
+            7780
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main3584-records0",
+      "initial_largest": [
+        14872,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14872,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            10772,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10772,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6672,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6672,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            5132,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            5132,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            3592,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            3592,
+            812,
+            7780
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    },
+    {
+      "name": "n16r8-late-stacks-no-phy-nvs-raw-only-spi-main3584-records1",
+      "initial_largest": [
+        14872,
+        5516,
+        7780
+      ],
+      "events": [
+        {
+          "name": "heap_records",
+          "bytes": 180,
+          "heap": 0,
+          "largest_free_blocks": [
+            14676,
+            5516,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            4232,
+            7780
+          ]
+        },
+        {
+          "name": "ipc0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            3876,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_stack",
+          "bytes": 1280,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            2592,
+            7780
+          ]
+        },
+        {
+          "name": "ipc1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            14676,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            10576,
+            2236,
+            7780
+          ]
+        },
+        {
+          "name": "timer_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            10576,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_stack",
+          "bytes": 4096,
+          "heap": 0,
+          "largest_free_blocks": [
+            6476,
+            1880,
+            7780
+          ]
+        },
+        {
+          "name": "main_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            6476,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            4936,
+            1524,
+            7780
+          ]
+        },
+        {
+          "name": "idle0_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            4936,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_stack",
+          "bytes": 1536,
+          "heap": 0,
+          "largest_free_blocks": [
+            3396,
+            1168,
+            7780
+          ]
+        },
+        {
+          "name": "idle1_TCB",
+          "bytes": 340,
+          "heap": 1,
+          "largest_free_blocks": [
+            3396,
+            812,
+            7780
+          ]
+        }
+      ],
+      "projected_trace_pass": true
+    }
+  ],
+  "source_manifest": {
+    "IDF_commit": "fcae32885b0296b32044cb99ecbdc50d98dddb83",
+    "TLSF_commit": "2867f6883a12920b1969ff9624c0ab0e4185c2ce",
+    "tlsf": {
+      "tlsf.c": "ca8f8c1941e0e34a4b127a7d2bd7c77e66ad39d02450111087f32b552b2f3628",
+      "include/tlsf.h": "69799f4f1e7c5f8d3a35e89f5efb8014aa00e6e49f96939b93fc39ceb95d0e8b",
+      "tlsf_block_functions.h": "c0e8ccac7b83c6964a8e19d83c69e1e2651c25101e34feb36b3e10b96d3fe5a8",
+      "tlsf_control_functions.h": "2e89b64ac4357ce8c951b540355dfe3279953f96ee46fdac0ac22972bd1d070f"
+    },
+    "idf": {
+      "esp_system/esp_ipc.c": "a65d90dd10b19eacf8b09853a07ff781b25152d464877de4ee642622653ff980",
+      "esp_system/startup.c": "98447f9e3562015bce39337d4f15e35e739f40c1e63d97aec72b25d62de98a44",
+      "esp_timer/src/esp_timer.c": "de57fa6a9f6eec355b963e3092189f59ce01d370571b07efc4c868a6df1705eb",
+      "freertos/FreeRTOS-Kernel/portable/xtensa/include/freertos/portmacro.h": "80ff24959d8a900b7896d4fd3991344a2e100f3b8aacfbc787fe31df7bef8f77",
+      "freertos/FreeRTOS-Kernel/tasks.c": "193c3d8379acc847097632da8e6d4dd2ee0bf8e069d78979d68dd26b653d48df",
+      "freertos/app_startup.c": "d30009e2d269f1078c938a87b3f481beae4480c01ea87e74e4d015df5510f22f",
+      "freertos/config/include/freertos/FreeRTOSConfig.h": "078c8af19bf66796a0da224572daacb62fcdcf55d350d84a9cb2cf78b774d2eb",
+      "freertos/config/xtensa/include/freertos/FreeRTOSConfig_arch.h": "cd08bdaa24178129f9ef1504bc932d30415c89eb5b16ac6f00a8367f39f61041",
+      "freertos/esp_additions/freertos_tasks_c_additions.h": "a8602796bcf130434c7eee62887f071e776b197429a49fe920bbb34847a021a5",
+      "freertos/heap_idf.c": "6201b70a245f721c3021656d62fbbbf45c3e4d5d843365df007d0da9ac99db2e",
+      "heap/heap_caps.c": "72d2893853b245ac525514355787e420219599d8dbd2ca60b4f0475002816e29",
+      "heap/heap_caps_base.c": "2750c06fd0925269a5604289596075f1dbaba44afcc5883b5a33c5073cc8b557",
+      "heap/heap_caps_init.c": "506886580f8c76c90c30022ef3d317d8754d1d1df6b9f59e5fb8d53434aeb024",
+      "heap/include/heap_memory_layout.h": "85fc0a7c3057e303ec6753c15bb1651de3ccd3d95b15250924d8b2a7781c4bd9",
+      "heap/multi_heap.c": "2647ff6bb7284a70c94491d003acbc3cd821c02a9f7d49d643aaf7241ac5f74b",
+      "heap/port/esp32s3/memory_layout.c": "68e12bc93fb4040987bffb2c334fb9af4b911ceb52b51f1e7914e55e3dc1aa77",
+      "heap/port/memory_layout_utils.c": "23619c7350731faea88826a4999b612fe39425a22e6b7133bf6110715b8cf85f",
+      "freertos/port_common.c": "7593e23d0d4c314b9f8d5b143b4a1a2c2b56a676ca28b53aeaaa8bd819ee1a93",
+      "heap/Kconfig": "8013d78a6fd40362596b134954dea337a76914adee5d453094a0fcd576698b87",
+      "esp_driver_spi/src/gpspi/spi_master.c": "1634611334180a80e0643d0f32a0af73447b6bbfbe381c0e5799f93de5af64f6",
+      "esp_driver_spi/src/gpspi/spi_common.c": "0f25c874cff2212bf100ce54f5652580938921b2510eef5bf5f5215bf22972a4"
+    }
+  },
+  "implementation_sha256": {
+    "ci/s3_tlsf32_replay.py": "7724aacb957d6e4296f1e257591c0beb3becb937d51a8e17ea8e7577d811280b",
+    "ci/s3_tlsf32_replay.c": "e2cc09a4fefd5be3bf252f71e9f3e65043b226e4dcb0f9ab882c8dc689909173",
+    "ci/tlsf32_shim/assert.h": "865bc0f8d36eba213ecfa683d2034cf80e775a0d696f33d778b62ef8509f40e1",
+    "ci/tlsf32_shim/limits.h": "c4f7340379e2e8d6fd040c9ec43794f6ebc929e17a2d9a9ac3472b50f5757363",
+    "ci/tlsf32_shim/stdint.h": "eb501eb06ebdb75c9ade1106486daa7218c98f4cfdf88d077b7ca3ebf73819fa",
+    "ci/tlsf32_shim/stdio.h": "f97683dc626afa48d59d33a61ea88a9d9a7a4fc8343c1864a9848d102ecf342b",
+    "ci/tlsf32_shim/string.h": "1aa469cc66b55c6e441160a7cc9b65d20a6af023d05fcb844da5a4310e2be3b4"
+  },
+  "tool_versions": {
+    "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "unicorn": "2.1.4",
+    "pyelftools": "0.33"
+  },
+  "replay_ELF_sha256": "8ec1d2adbeb0ad5e61219f1ee23c84e850a0c70d4b49d94f85ef50353ae37303",
+  "heap_order": [
+    "DIRAM ascending original arena size",
+    "RTC"
+  ],
+  "target_heap_record_bytes": 36,
+  "target_multi_heap_info_bytes": 20,
+  "excluded": [
+    "other constructors and libc allocations/frees",
+    "PSRAM registration heap record and startup allocations",
+    "interrupt/watchdog and timer implementation allocations",
+    "full heap_caps hardware alignment wrapper",
+    "PHY/SPI runtime allocations",
+    "late heap and DMA pool activation"
+  ],
+  "hardware_boot_executed": false,
+  "receiver_adopted": false,
+  "conclusion_scope": "Known-allocation projection only. Missing allocations/frees can change heap selection; failure is not a universal boot impossibility proof. Smaller main stacks are unbuilt sensitivity cases, not measured safe stack sizes."
+}

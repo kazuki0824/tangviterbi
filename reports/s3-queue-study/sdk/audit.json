@@ -1,0 +1,43 @@
+{
+  "symbols": {
+    "s3_raw_queue_submit": {
+      "address": "0x40376698",
+      "bytes": 307,
+      "section": ".iram0.text",
+      "own_instruction_envelope_excluding_callees": 101
+    },
+    "s3_raw_queue_reap": {
+      "address": "0x403767cc",
+      "bytes": 150,
+      "section": ".iram0.text",
+      "own_instruction_envelope_excluding_callees": 40
+    },
+    "s3_pp_step_impl": {
+      "address": "0x40376864",
+      "bytes": 890,
+      "section": ".iram0.text",
+      "instructions_per_eight_samples": 39,
+      "loads": 8,
+      "stores": 5,
+      "entry": "a1, 112"
+    }
+  },
+  "queue_metadata_two_ports_bytes": 256,
+  "old_adapter_metadata_two_ports_bytes": 224,
+  "additional_static_adapter_metadata_bytes": 32,
+  "SDK_queue_allocations_included": false,
+  "complete_receiver_fit_proven": false,
+  "full_slice_cost_audited": false,
+  "hardware_wcet": false,
+  "elf_sha256": "f8e849aeb21562f976e0dae1c7ce7b0b0bd9a8acd53b7e9c37aa8be84494a7e8",
+  "source_sha256": {
+    "ci/s3_queue_sdk_audit.py": "87b9b6b300ba9f30b2589f715b8b2f4dbc91b1fe5e02b94a9c0feb37b8d520a9",
+    "reports/s3-queue-study/sdk/s3_queue_probe.elf.gz": "93dfcecb0545ba3a720dd73a87b56f5c475c0bafbdf3c67e0a8df066edb95f15",
+    "reports/s3-queue-study/sdk/sdkconfig.json.gz": "b0d567376a53d7cee4d37c040fb1106d4586938546056a4f7d2eacfcb0dab4a2",
+    "reports/s3-queue-study/sdk/provenance.json": "4495ae50580c8f382b99ea74e40e9fb8137d59ba3b0a98566fa35bcc590afde0",
+    "experiments/s3_raw_queue.c": "89da1621e953379279fa258e2a5684be8efbf28320f796461878e72949eaf3fa",
+    "experiments/s3_raw_queue.h": "d74803783a51c5cbb5e9e5f69f007e33e7185b89faeb49b4607d04cd08503052",
+    "experiments/s3_iq10_inline.h": "23eef838ec7054dce2272925a77676dcc174b3713788c9221f180ed668e6d45b",
+    "experiments/s3_inline_pack.c": "fcdd0aa32423feaaa4f4229350f0ec7c969fe7608ace23276fb42639891c2fd1"
+  }
+}

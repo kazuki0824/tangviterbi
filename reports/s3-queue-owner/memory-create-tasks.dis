@@ -1,0 +1,30 @@
+
+queue-memory.elf:     file format elf32-xtensa-le
+
+
+Disassembly of section .iram0.vectors:
+
+Disassembly of section .iram0.text:
+
+Disassembly of section .flash.text:
+
+42009364 <create_tasks>:
+42009364:	006136        	entry	a1, 48
+42009367:	ddb781        	l32r	a8, 42000a44 <_stext+0xa24> (3c03ad34 <__func__$6+0x14>)
+4200936a:	ddb471        	l32r	a7, 42000a3c <_stext+0xa1c> (3fcea000 <_bss_end+0x3d1a8>)
+4200936d:	002892        	l32i	a9, a8, 0
+42009370:	026172        	s32i	a7, a1, 8
+42009373:	012882        	l32i	a8, a8, 4
+42009376:	ddb271        	l32r	a7, 42000a40 <_stext+0xa20> (3fceb000 <_bss_end+0x3e1a8>)
+42009379:	dd10e1        	l32r	a14, 420007bc <_stext+0x79c> (1000 <UserFrameTotalSize+0xf00>)
+4200937c:	ddb3b1        	l32r	a11, 42000a48 <_stext+0xa28> (3fcac4e8 <queue_launch>)
+4200937f:	ddb3a1        	l32r	a10, 42000a4c <_stext+0xa2c> (3fcacb10 <owner_runtime>)
+42009382:	02fd      	mov.n	a15, a2
+42009384:	01dd      	mov.n	a13, a1
+42009386:	c18b      	addi.n	a12, a1, 8
+42009388:	3179      	s32i.n	a7, a1, 12
+4200938a:	0199      	s32i.n	a9, a1, 0
+4200938c:	1189      	s32i.n	a8, a1, 4
+4200938e:	0009a5        	call8	42009428 <s3_raw_tasks_launch>
+42009391:	0a2d      	mov.n	a2, a10
+42009393:	f01d      	retw.n
