@@ -1,3 +1,5 @@
+> **①9K・②20Kの設計参考資料:** [検証済み／未達／未検証を区別した資料索引](reports/design-reference-index.md) を先に参照してください。以下の各時点の測定値は履歴として保持しており、完成した受信機の成立を保証しません。
+
 **2026-11-05 / PR #10 T preprocessing assessment:** [Fresh native/SDK/FPGA integration evidence and scoped capacity decision](reports/s3-t-preprocess-integration-v2/README.md) bind the current source, linked ESP32-S3 image, instruction-cost model, stream oracle, FPGA resources and timing coverage. Receiver adoption and measured hardware WCET remain unverified.
 
 **2026-10-15 / PR #6 t-buffer follow-up archived:** [finite T input holding, 2P acceptance, and failed 1P phase](reports/20k-dual-s3-t-buffer.md) are preserved on main along with their 28 evidence files. This does **not** qualify candidate B or make a full receiver. See [candidate selection review](reports/pr6-20k-dual-s3-selection-review.md).
