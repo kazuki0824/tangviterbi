@@ -133,9 +133,15 @@ def diagnose_port_cone_ownership(cells, ports, top_source):
  """
  from collections import defaultdict
  connections=defaultdict(set)
+ # The scan stimulus and the functional FFT/K7 core are alternative CAD
+ # fixtures. Neither is evidence that a complete receiver is connected.
  instances={"candidate_input_fir":"ingress_fir",
-            "candidate_fft_k7_core":"shared_core_other",
             "candidate_rs_ts":"shared_rs_dual_ts"}
+ fft_instances=("candidate_fft_k7_core","candidate_fft_k7_fixture")
+ present=[instance for instance in fft_instances
+          if re.search(r"\b"+re.escape(instance)+r"\s*\(",top_source)]
+ if len(present)!=1:raise ValueError("expected exactly one FFT/K7 top instance")
+ instances[present[0]]="shared_core_other"
  for instance,bucket in instances.items():
   match=re.search(r"\b"+re.escape(instance)+r"\s*\(([\s\S]*?)\);",top_source)
   if match is None:raise ValueError("missing top instance: "+instance)
