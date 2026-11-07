@@ -50,6 +50,36 @@ endmodule
   self.assertTrue(any(x["candidate_owner"]=="ingress_fir" and x["count"]==1 for x in d["unique_subassembly_port_candidates"]))
   self.assertTrue(any(x["candidate_owner"]=="shared_rs_dual_ts" for x in d["unique_subassembly_port_candidates"]))
   self.assertEqual(d["owner_confidence"],"port-name origin only; not a verified full-receiver cell owner")
+ def test_scan_fixture_is_an_explicit_alternative_not_a_missing_core(self):
+  src="""
+module top;
+ dual_s3_ingress_to_fir_candidate candidate_input_fir(.clk(clk),.RF_last(RF_last));
+ shared_receiver_fft_metadata_probe candidate_fft_k7_fixture(.clk(clk),.signature(fft_k7_signature));
+ shared_rs2_dual_ts candidate_rs_ts(.clk(clk),.ts_valid(ts_valid));
+endmodule
+"""
+  cells={"RF_last_OBUF_O":{"type":"OBUF"},
+         "fft_k7_signature_OBUF_O":{"type":"OBUF"},
+         "ts_valid_OBUF_O":{"type":"OBUF"}}
+  ports={x:{} for x in ("RF_last","fft_k7_signature","ts_valid")}
+  d=diagnose_port_cone_ownership(cells,ports,src)
+  self.assertEqual(d["cells_diagnosed"],3)
+  self.assertTrue(any(x["candidate_owner"]=="shared_core_other" and x["count"]==1
+                      for x in d["unique_subassembly_port_candidates"]))
+  self.assertEqual(d["owner_confidence"],"port-name origin only; not a verified full-receiver cell owner")
+ def test_missing_or_duplicate_fft_fixture_rejected(self):
+  base="""
+ dual_s3_ingress_to_fir_candidate candidate_input_fir(.RF_last(RF_last));
+ shared_rs2_dual_ts candidate_rs_ts(.ts_valid(ts_valid));
+"""
+  with self.assertRaisesRegex(ValueError,"exactly one FFT/K7"):
+   diagnose_port_cone_ownership({}, {}, base)
+  both=base+"""
+ shared_receiver_fft_metadata candidate_fft_k7_core(.fft_out_valid(fft_out_valid));
+ shared_receiver_fft_metadata_probe candidate_fft_k7_fixture(.signature(fft_k7_signature));
+"""
+  with self.assertRaisesRegex(ValueError,"exactly one FFT/K7"):
+   diagnose_port_cone_ownership({}, {}, both)
  def test_direct_rtl_source_backed_owner_and_gowin_unknown(self):
   self.assertEqual(source_owner({"src":"/runner/work/repo/rtl/isdb_complex_fir33.sv:87.2-117.5"}),"ingress_fir")
   self.assertEqual(source_owner({"src":"/runner/work/repo/rtl/isdb_serial_ts_sink.sv:33.2"}),"shared_rs_dual_ts")
