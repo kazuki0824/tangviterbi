@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Preserve successful/failed compaction evidence; reject stale synthesis."""
 from pathlib import Path
-import argparse,hashlib,json,shutil,subprocess,sys
+import argparse,hashlib,json,re,shutil,subprocess,sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'ci'))
 from s3_logic_site_audit import audit
@@ -9,7 +9,10 @@ p=argparse.ArgumentParser();p.add_argument('--test-log',type=Path,required=True)
 out=ROOT/'reports/s3-fec-compaction-evidence';out.mkdir(parents=True,exist_ok=True)
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 log=a.test_log.read_text()
-if not log.rstrip().endswith('OK'):raise ValueError('incomplete or failed tests')
+# unittest writes its summary to stderr. Merged stdout may contain PASS diagnostics
+# after the OK line; accept those only when a non-empty test suite succeeded.
+if not re.search(r'(?m)^Ran [1-9]\d* tests? in [0-9.]+s\r?\n(?:\r?\n)*OK(?: \(skipped=\d+\))?\r?$',log):
+    raise ValueError('incomplete or failed tests')
 shutil.copy2(a.test_log,out/'unittest.log')
 r=dict(receiver_adopted=False,safe_to_flash=False,profiles={},tests={},source_sha256={},
        scope='FEC arithmetic/storage and mapped area investigation, not a receiver')
