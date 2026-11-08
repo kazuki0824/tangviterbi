@@ -38,12 +38,14 @@ jobs:
           data = json.loads(Path("stage2-gates.json").read_text())
           checks = data["checks"]
           assert data["stage"] == 2
-          assert data["all_conditions_checked"] == 47 == len(checks)
+          assert data["all_conditions_checked"] == 49 == len(checks)
           assert data["ng"] == sum(not item["ok"] for item in checks) > 0
           assert data["estimate_complete"] is False
           assert data["stage3_permitted"] is False
           assert data["receiver_adoptable"] is False
           assert data["hardware_qualified"] is False
+          assert data["mapped_resource_counts_verified"] is False
+          assert data["mapped_required_instances_present"] is False
           assert data["independent_report_values_verified"] is False
           assert data["independent_instance_connectivity_verified"] is False
           PY
