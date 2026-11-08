@@ -1,0 +1,44 @@
+# 設計参考資料の入口（①9K／②20K）
+
+このページは、複数の研究PRを `main` へ取り込んだ後に、設計根拠を読み違えないための**案内**です。測定値の第二の正本にはしません。詳細な数値・実験条件・失敗理由はリンク先と、そのソースハッシュ付き証拠を参照してください。
+
+## 現時点で保証できる範囲
+
+- **① Tang Nano 9K + S3×1（T/S切替）:** 受信機全体の成立は未確認です。実装済みK7などにはP&R/期限の不合格があり、未検証の再設計案も残っています。既存の探索停止を「全方式不可能」と読み替えません。
+- **② Tang Nano 20K + S3×2（T/S同時）:** FPGAとSoCそれぞれの部分回路、通信・SDK費用、有限期限などの研究成果がありますが、全受信機の成立・RF→TSの連続出力は未確認です。FPGA全資源見積もり工程2は未完了で、工程3以降は未着手です。
+- **共有前提:** 研究の現行基準は、T 16 MSa/s・S 40 MSa/s、可逆 I10/Q10、FPGA→SoCは指令のみ、追加softwareデシメーション／再量子化なしです。I8/Q8案は別途比較すべき**未採用案**であり、既存の合格判定や受信性能を変更しません。
+- 各PR内の「CI PASS」は、そのテストで定義された有限条件の合格です。物理IO、長時間無欠落、受信品質、全体STAまで保証するものではありません。
+
+## 目的別の参照先
+
+| 関心 | 最初に読む資料 | 扱い |
+| --- | --- | --- |
+| ①の現在の不成立理由・未検証候補 | [9K停止監査](9k-stop-audit.md)、[9K再設計方針](9k-recovery-plan.md) | 未達と未検証を区別する |
+| ①のK7 traceback / 既存IP比較 | [9K traceback比較](9k-traceback-ip-comparison.md) | 部分比較・不採用候補を含む |
+| ②の基本分担・資源・通信 | [20Kの検証基準と台帳](control-only-20k/README.md) | 時点ごとの仮説、未完成 |
+| ②の部分統合速度と現ボトルネック | [部分統合の記録](continuation-20261023.md) | 全受信機STAではない |
+| ②のS3期限・RF/SDK費用 | [S3 queue研究](s3-queue-owner/README.md)、[T前処理の比較](s3-t-preprocess-integration-v2/README.md) | 条件付き評価。実機WCET未確認 |
+| ②のFPGA残資源・未計上部分 | [資源の厳密な精算](fpga-estimate-closure/stage2-reconciliation.md)、[工程2の判定基準](fpga-estimate-closure/stage2-completion-separation.md) | 工程2未完了、工程3移行不可 |
+| ②の完成基板との接続可否 | [物理ピン予算](fpga-estimate-closure/pin-budget.md) | 現行配線案の超過を残す |
+
+**工程2ゲートの追加注意（2026-11-08）:** [判定条件と証拠の限界](fpga-estimate-closure/stage2-completion-separation.md)を参照。分散RAMのlogic位置消費を含む容量検算を追加したが、報告ファイルの数値・実インスタンスの独立抽出は未実装。SHA-256照合と自己申告の機能フラグだけで資源適合や受信機採用を認定しない。工程2合格候補と後続全段の正式採用は別判定。
+
+**意味論監査の時点付き記録:** [2026-11-08監査・修正・未検証範囲](semantic-review-20261108.md)。新しい設計値の正本ではなく、完了認定も兼ねません。
+
+## 過去の部分実装と現HEADの違い
+
+[T time-deinterleaveの有限試験](20k-dual-s3-t-time-dma.md)、[S frame DMAの有限試験](20k-dual-s3-s-frame-dma.md)、[T 1-symbol保持の有限試験](20k-dual-s3-t-buffer.md)は実験時点の部分成果です。各資料の `rtl/dual_t_time_dma.sv`、`rtl/dual_s_frame_dma.sv`、`rtl/dual_t_buffered_time_dma.sv` は、現PRスタック末端の**アクティブな `rtl/` ツリーには存在しません**。一部の過去ソースは `reports/20k-dual-s3/t-time-dma/serial-byte-sources.tar.gz`、`reports/20k-dual-s3/s-frame-striped-baseline/` 内の圧縮snapshot、`reports/20k-dual-s3/t-buffer/source-sha256.json` のハッシュ履歴で参照できますが、最終版の現HEADへの組込みを保証しません。
+
+このため[工程2の29機能台帳](fpga-estimate-closure/block-inventory.json)における `t_time_deinterleave`、`s_frame_deinterleave`、`t_1symbol_hold` の `missing` は、過去の実験が存在しないという意味ではなく、**現在の全段統合に使える維持管理対象のRTLが未配置**という意味です。単に古いSHA一覧を根拠に `partial` や `integrated` へ変更してはなりません。
+
+## 読み方・更新規則
+
+1. 仕様条件、実験で観測した結果、算術モデル、未実装の仮定を同じ「成立済み」にまとめない。
+2. 新しい不成立・修正結果は古い成功値を削除せず、**同じ測定対象なのか／条件が異なるのか**を照合してから評価する。
+3. ①の9K用と②の20K用のRTL・予算を、装置差を明示せず共用の成立証拠にしない。
+4. 研究成果のマージは、未完成の受信機を正式採用する操作ではない。全段接続、配置配線・STA、S3実機WCET、RF/BER、無欠落TSの条件は別途閉じる。
+5. この索引は測定結果を複製しない。現行値の優先順位に疑義がある場合は、上記の根拠ファイル、CI/artifactと実際のコミットを照合する。
+
+**統合上の注意:** ①と②で共通する `reports/9k-recovery-plan.md` は9K側の新しい監査結果を採り、`reports/shared-k7-depuncture-results.md` には後続の②SDRAM・クロック評価の追記を残す。両方の研究系列をmainに取り込む際、同名ファイルを一方の古い版で上書きしないこと。
+
+このページの各リンクは①のPR #8/#11と②のPR #9/#10/#12が**すべてmainに統合された後**の相対パスを示します。スタック途中の個別ブランチでは、別系列にしか存在しないリンクがあります。

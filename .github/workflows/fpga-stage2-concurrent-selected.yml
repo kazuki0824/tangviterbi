@@ -1,0 +1,27 @@
+name: Stage2 concurrent selected subsystem resource screen
+on:
+  pull_request:
+    paths:
+      - 'experiments/stage2_cocurrent_selected_subassemblies_area_top.sv'
+      - 'ci/fpga_stage2_concurrent_selected_area.py'
+      - '.github/workflows/fpga-stage2-concurrent-selected.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  synth:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - run: python3 ci/fpga_stage2_concurrent_selected_area.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-concurrent-selected-area
+          path: |
+            build/stage2-concurrent-selected/result.json
+            build/stage2-concurrent-selected/yosys.log

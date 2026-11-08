@@ -1,0 +1,37 @@
+name: FPGA stage2 dual-IQ-to-internal area
+on:
+  pull_request:
+    paths:
+      - 'experiments/dual_s3_iq_ingress_joint_fft_area_top.sv'
+      - 'tests/dual_iq10_unpack_tb.sv'
+      - 'ci/fpga_dual_iq_joint_area.py'
+      - '.github/workflows/fpga-dual-iq-joint-area.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  measure:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify two lossless I/Q sample streams including page crossing and stalls
+        run: |
+          mkdir -p build/dual-iq-ingress-joint-fft
+          iverilog -g2012 -s dual_iq10_unpack_tb -o build/dual-iq-ingress-joint-fft/dual_iq10_tb rtl/s3_iq10_unpack.sv tests/dual_iq10_unpack_tb.sv
+          vvp build/dual-iq-ingress-joint-fft/dual_iq10_tb | tee build/dual-iq-ingress-joint-fft/iq-bit-oracle.log
+          grep -q 'PASS dual lossless I10Q10 streams' build/dual-iq-ingress-joint-fft/iq-bit-oracle.log
+      - name: Synthesize connected SPI-to-IQ and co-resident FFT/K7 partial chain
+        run: python3 ci/fpga_dual_iq_joint_area.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dual-iq-connected-partial-area
+          path: |
+            build/dual-iq-ingress-joint-fft/result.json
+            build/dual-iq-ingress-joint-fft/iq-bit-oracle.log
+            build/dual-iq-ingress-joint-fft/yosys.log

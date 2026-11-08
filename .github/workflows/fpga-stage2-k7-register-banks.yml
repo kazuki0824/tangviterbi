@@ -1,0 +1,33 @@
+name: Stage2 K7 metric bank RAM vs FF trade
+on:
+  pull_request:
+    paths:
+      - 'experiments/shared_tc8_k7_context_regbank.sv'
+      - 'tests/test_shared_tc8_k7_context_regbank.py'
+      - 'ci/fpga_stage2_k7_register_banks_compare.py'
+      - '.github/workflows/fpga-stage2-k7-register-banks.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  k7:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compare actual four-context K7 metrics and bit outputs with independent reference
+        run: python3 -m unittest tests.test_shared_tc8_k7_context_regbank -v
+      - name: Compare isolated Gowin-mapped resource counts
+        if: always()
+        run: python3 ci/fpga_stage2_k7_register_banks_compare.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-k7-bank-trade
+          path: |
+            build/stage2-k7-register-bank/result.json
+            build/stage2-k7-register-bank/distributed.log
+            build/stage2-k7-register-bank/register_banks.log

@@ -1,0 +1,56 @@
+name: FPGA estimate stage 2 resource inventory
+on:
+  pull_request:
+    paths:
+      - 'reports/fpga-estimate-closure/**'
+      - 'ci/fpga_estimate_stage2.py'
+      - 'tests/test_fpga_estimate_stage2_gate.py'
+      - '.github/workflows/fpga-estimate-stage2.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify incomplete gate cannot pass
+        run: python3 -m unittest tests.test_fpga_estimate_stage2_gate -v
+      - name: Enumerate all resource-accounting gates
+        shell: bash
+        run: |
+          status=0
+          python ci/fpga_estimate_stage2.py > stage2-gates.json || status=$?
+          cat stage2-gates.json
+          echo "Stage 2 completion gate exit code: $status"
+          # Exit code 1 is expected ONLY when all 47 gates are enumerated and
+          # the real full receiver remains incomplete. A Python traceback can
+          # also exit 1: inspect the JSON rather than treating that as success.
+          if [ "$status" -ne 1 ]; then
+            echo "Expected an explicitly incomplete stage-2 gate, not exit $status" >&2
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("stage2-gates.json").read_text())
+          checks = data["checks"]
+          assert data["stage"] == 2
+          assert data["all_conditions_checked"] == 49 == len(checks)
+          assert data["ng"] == sum(not item["ok"] for item in checks) > 0
+          assert data["estimate_complete"] is False
+          assert data["stage3_permitted"] is False
+          assert data["receiver_adoptable"] is False
+          assert data["hardware_qualified"] is False
+          assert data["mapped_resource_counts_verified"] is False
+          assert data["mapped_required_instances_present"] is False
+          assert data["independent_report_values_verified"] is False
+          assert data["independent_instance_connectivity_verified"] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage2-incomplete-resource-gates
+          path: stage2-gates.json

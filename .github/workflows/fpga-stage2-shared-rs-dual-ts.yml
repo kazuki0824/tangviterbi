@@ -1,0 +1,36 @@
+name: Stage2 shared RS and dual TS integration
+on:
+  pull_request:
+    paths:
+      - 'rtl/shared_rs2_dual_ts.sv'
+      - 'rtl/isdb_serial_ts_sink.sv'
+      - 'tests/test_shared_rs2_dual_ts.py'
+      - 'tests/test_shared_rs2_dual_ts_fault.py'
+      - 'ci/fpga_shared_rs_dual_ts_area.py'
+      - '.github/workflows/fpga-stage2-shared-rs-dual-ts.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  rs-ts:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: YosysHQ/setup-oss-cad-suite@v4
+        with:
+          version: '2026-10-04'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Independent RS encoder feeds two independently decoded TS outputs
+        run: python3 -m unittest tests.test_shared_rs2_dual_ts tests.test_shared_rs2_dual_ts_fault -v
+      - name: Synthesize full connected shared RS and dual TS subassembly
+        if: always()
+        run: python3 ci/fpga_shared_rs_dual_ts_area.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-shared-rs-dual-ts
+          path: |
+            build/shared-rs-dual-ts/run.log
+            build/shared-rs-ts-fault/run.log
+            build/shared-rs-dual-ts/area.json
+            build/shared-rs-dual-ts/yosys.log

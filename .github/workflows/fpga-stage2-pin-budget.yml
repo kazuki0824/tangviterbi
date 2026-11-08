@@ -1,0 +1,27 @@
+name: FPGA stage2 physical pin budget
+on:
+  pull_request:
+    paths:
+      - 'ci/fpga_stage2_pin_budget.py'
+      - 'tests/test_fpga_stage2_pin_budget.py'
+      - 'experiments/dual_s3_spi_ingress_only_area_top.sv'
+      - 'reports/fpga-estimate-closure/pin-budget.md'
+      - '.github/workflows/fpga-stage2-pin-budget.yml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pin-audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Run all physical-pin conditions, including known NG
+        run: python3 ci/fpga_stage2_pin_budget.py | tee pin-budget.json
+      - name: Confirm the unsupported top is not falsely certified
+        run: python3 -m unittest tests.test_fpga_stage2_pin_budget -v
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fpga-stage2-physical-pin-audit
+          path: pin-budget.json
