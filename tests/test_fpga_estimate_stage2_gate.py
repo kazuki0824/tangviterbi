@@ -27,7 +27,7 @@ class StageTwoGate(unittest.TestCase):
         self.assertIn("area:t_fir_resample", failures)
         self.assertIn("area:s_ts", failures)
 
-    def fixture(self, root, outcome, logic=20000):
+    def fixture(self, root, outcome, logic=20000, distributed_ram=0):
         report_dir = root / "reports/fpga-estimate-closure"
         report_dir.mkdir(parents=True)
         scope = json.loads((ROOT / "reports/fpga-estimate-closure/scope.json").read_text())
@@ -63,7 +63,7 @@ class StageTwoGate(unittest.TestCase):
             proof["no_timing_report_due_to_capacity"] = True
 
         capacities = {
-            "logic": logic, "ff": 10000, "bsram": 30, "distributed_ram": 0,
+            "logic": logic, "ff": 10000, "bsram": 30, "distributed_ram": distributed_ram,
             "dsp": 20, "pll": 1, "pins": 34, "sdram_storage": 1000
         }
         for name, value in capacities.items():
@@ -92,7 +92,8 @@ class StageTwoGate(unittest.TestCase):
             self.assertEqual(result["all_conditions_checked"], 47)
             self.assertEqual(result["ng"], 0)
             self.assertTrue(result["estimate_complete"])
-            self.assertTrue(result["receiver_adoptable"])
+            self.assertTrue(result["stage2_resource_fit_candidate"])
+            self.assertFalse(result["receiver_adoptable"])
             self.assertEqual(result["fit_status"], "fits")
 
     def test_complete_and_capacity_exceeded(self):
@@ -107,6 +108,46 @@ class StageTwoGate(unittest.TestCase):
             self.assertTrue(result["stage3_permitted"])
             self.assertEqual(result["fit_status"], "does_not_fit")
             self.assertEqual(result["resource_excess"]["logic"]["over"], 264)
+
+    def test_distributed_ram_sites_reject_fake_routed_fit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.fixture(root, "routed", logic=20000, distributed_ram=200)
+            result = audit(root)
+            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["fit_status"], "unverified")
+            self.assertFalse(result["stage2_resource_fit_candidate"])
+            self.assertFalse(result["receiver_adoptable"])
+            self.assertFalse(result["stage3_permitted"])
+            self.assertEqual(
+                result["resource_excess"]["logic_sites_including_distributed_ram"],
+                {"used": 20800, "capacity": 20736, "over": 64},
+            )
+
+    def test_distributed_ram_sites_can_prove_capacity_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.fixture(root, "capacity_exceeded", logic=20000, distributed_ram=200)
+            result = audit(root)
+            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["ng"], 0)
+            self.assertTrue(result["estimate_complete"])
+            self.assertEqual(result["fit_status"], "does_not_fit")
+            self.assertFalse(result["receiver_adoptable"])
+            self.assertEqual(
+                result["resource_excess"]["logic_sites_including_distributed_ram"]["over"], 64
+            )
+
+    def test_distributed_ram_sites_at_exact_limit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.fixture(root, "routed", logic=20000, distributed_ram=184)
+            result = audit(root)
+            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["ng"], 0)
+            self.assertTrue(result["stage2_resource_fit_candidate"])
+            self.assertEqual(result["fit_status"], "fits")
+            self.assertFalse(result["receiver_adoptable"])
 
     def test_negative_without_real_excess_does_not_pass(self):
         with tempfile.TemporaryDirectory() as tmp:
