@@ -217,26 +217,41 @@ def audit(root=ROOT):
           basic and complete_physical_outcome and functions_complete,
           "Require declared routed fit OR capacity excess with hash-matched log; independent physical verification remains required")
 
-    complete = all(c["ok"] for c in checks)
-    fit_status = ("fits" if complete and routed_success else
-                  "does_not_fit" if complete and negative_capacity else "unverified")
+    # Structural consistency of declarations is NOT independent proof of a
+    # measured complete receiver. Keep the synthetic-acceptance result visible
+    # for diagnostics but fail closed on actual estimate/stage promotion.
+    declared_checks_complete = all(c["ok"] for c in checks)
+    declared_fit_status = (
+        "fits" if declared_checks_complete and routed_success else
+        "does_not_fit" if declared_checks_complete and negative_capacity
+        else "unverified"
+    )
+    independent_report_values_verified = False
+    independent_instance_connectivity_verified = False
+    estimate_complete = (
+        declared_checks_complete and independent_report_values_verified
+        and independent_instance_connectivity_verified
+    )
+    fit_status = declared_fit_status if estimate_complete else "unverified"
     return {
         "stage": 2,
         "all_conditions_checked": len(checks),
         "ng": sum(not c["ok"] for c in checks),
-        "estimate_complete": complete,
-        "completion": complete,
+        "declaration_checks_complete": declared_checks_complete,
+        "declared_fit_status": declared_fit_status,
+        "estimate_complete": estimate_complete,
+        "completion": estimate_complete,
         "fit_status": fit_status,
         # Full receiver adoption also needs the later timing and RF/TS gates.
         # Stage 2 can qualify a resource-fit candidate, never a receiver.
         "mapped_resource_counts_verified": basic and mapped_counts_ok,
         "mapped_required_instances_present": basic and instance_presence_ok,
-        "independent_report_values_verified": False,
-        "independent_instance_connectivity_verified": False,
+        "independent_report_values_verified": independent_report_values_verified,
+        "independent_instance_connectivity_verified": independent_instance_connectivity_verified,
         "hardware_qualified": False,
-        "stage2_resource_fit_candidate": complete and fit_status == "fits",
+        "stage2_resource_fit_candidate": declared_fit_status == "fits",
         "receiver_adoptable": False,
-        "stage3_permitted": complete,
+        "stage3_permitted": estimate_complete,
         "resource_excess": excess if basic else {},
         "checks": checks,
     }
