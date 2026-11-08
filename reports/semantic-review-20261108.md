@@ -37,6 +37,14 @@
 - **CIの異常終了を成功として隠さない**：`fpga-estimate-stage2.yml` は49項目のJSON全列挙と未完了状態を確認する。正常に未完了を報告するケースのみCI成功とし、クラッシュ・条件未列挙・JSON不正を不合格とする。最新HEADの実行結果は別途確認する。
 - **設計上の基準変更はなし**：I10/Q10・T16/S40 MSa/s・20Kピン34本上限・全工程2未完了という制約を変更していない。元の不成立/未検証の測定値も残す。
 
+## 続行監査：周辺コード、アーカイブ証拠と再現性
+
+- Stage2判定器の14基準テストに加え、**不正UTF-8を含むmapped JSONも49条件を最後まで列挙**する回帰を追加。合計15個のsyntheticテストmethodを確認した。CIの最新HEAD成功は未確認であり、コードの投入と実行合格を混同しない。
+- 実際のGowin/Yosys過去の合成結果には `$scopeinfo`・`$buf`・IO buffer等が含まれる。不明primitiveを黙って無視することはせず、確認済みの補助セルだけを資源カウント対象外とした。実際の全段mapped netlistは未提出。
+- [29機能の台帳](fpga-estimate-closure/block-inventory.json)は `partial=20`・`missing=9`・`integrated=0`。 `t_time_deinterleave`、`s_frame_deinterleave`、`t_1symbol_hold` は過去の有限実装と実験記録があるが、現HEADのアクティブな `rtl/` に対応する `dual_t_time_dma.sv`、`dual_s_frame_dma.sv`、`dual_t_buffered_time_dma.sv` は存在しない。現台帳を根拠なく `partial` へ昇格しない。履歴は [T時間DMA](20k-dual-s3-t-time-dma.md)、[S frame DMA](20k-dual-s3-s-frame-dma.md)、[T buffer](20k-dual-s3-t-buffer.md) と各manifest/圧縮snapshotに保持する。アーカイブと現行の動作ソースは別物。
+- #11 K7 tracebackは、同ターゲット比較と独立oracleテストの記録があり、**部分RTLの比較**として有効。原形の64 ACSを9Kの3階層デコーダへ無償で置換できる根拠はない。#10 S3 native RFはHost/SDK probeを含むが、実機での連続I/Q品質と全WCETを認定していない。
+- **ライセンス注意（別途確認を要する）**：リポジトリのroot `LICENSE` はMITだが、`experiments/s3_native_capture.c` の冒頭にはESPARGOS/esp-sdr `ring_capture.c`（GPL-3.0）からの派生と明記されている。eSpDRの0BSDとは別ライセンスであり、root MITの表記だけで当該派生コードをMITと扱わない。再利用・配布に必要な著作権表示・適用範囲・GPL文書の取扱いは未監査。ここでは法的な適合/違反の結論を出さない。
+
 ## 残る意味論上の検証責任
 
 - **重要・未完了：** `full-top-proof.json` の自己申告boolean、stage instance名、資源値が実際の全段RTL・mapped netlist・nextpnrログの本文に対応することの**独立検査**。現ゲートはファイル存在・SHA-256一致を扱うが、報告値を独立抽出しない。仮想テストが「fits」を返しても実ボードの証明ではない。
