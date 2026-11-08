@@ -1,7 +1,7 @@
 """Stage 2 gate: test both proven-fit and proven-overcapacity full receivers.
 
 All tests use synthetic evidence in temporary directories; none asserts that
-the real receiver is complete. Preserve the 47-condition non-fail-fast audit.
+the real receiver is complete. Preserve the 49-condition non-fail-fast audit.
 """
 import hashlib
 import json
@@ -18,7 +18,7 @@ class StageTwoGate(unittest.TestCase):
         self.assertFalse(result["estimate_complete"])
         self.assertFalse(result["stage3_permitted"])
         self.assertEqual(result["fit_status"], "unverified")
-        self.assertEqual(result["all_conditions_checked"], 47)
+        self.assertEqual(result["all_conditions_checked"], 49)
         self.assertEqual(result["all_conditions_checked"], len(result["checks"]))
         self.assertFalse(result["independent_report_values_verified"])
         self.assertFalse(result["independent_instance_connectivity_verified"])
@@ -84,6 +84,30 @@ class StageTwoGate(unittest.TestCase):
                 "source_path": source["path"],
                 "source_sha256": source["sha256"],
             }
+
+        # The mapped-cell file is deliberately synthetic and can only
+        # exercise cross-check logic; it is not independent CAD evidence.
+        mapped = {}
+        for item in stages:
+            mapped["dut." + item["id"] + ".logic"] = {"type": "LUT4"}
+        for k in range(logic - len(stages)):
+            mapped["extra_logic_" + str(k)] = {"type": "LUT4"}
+        for kind, count in (
+            ("DFF", capacities["ff"]),
+            ("DPB", capacities["bsram"]),
+            ("RAM16SDP4", capacities["distributed_ram"]),
+            ("MULT18X18", capacities["dsp"]),
+            ("rPLL", capacities["pll"]),
+        ):
+            for k in range(count):
+                mapped[kind + "_" + str(k)] = {"type": kind}
+        netlist_path = root / "mapped.json"
+        netlist_path.write_text(json.dumps({"modules": {"full_top": {"cells": mapped}}}))
+        proof["mapped_netlist"] = {
+            "path": "mapped.json",
+            "sha256": hashlib.sha256(netlist_path.read_bytes()).hexdigest(),
+        }
+        proof["top_module"] = "full_top"
         (report_dir / "full-top-proof.json").write_text(json.dumps(proof))
         return proof
 
@@ -92,7 +116,7 @@ class StageTwoGate(unittest.TestCase):
             root = Path(tmp)
             self.fixture(root, "routed")
             result = audit(root)
-            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["all_conditions_checked"], 49)
             self.assertEqual(result["ng"], 0)
             self.assertTrue(result["estimate_complete"])
             self.assertTrue(result["stage2_resource_fit_candidate"])
@@ -105,7 +129,7 @@ class StageTwoGate(unittest.TestCase):
             root = Path(tmp)
             self.fixture(root, "capacity_exceeded", logic=21000)
             result = audit(root)
-            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["all_conditions_checked"], 49)
             self.assertEqual(result["ng"], 0)
             self.assertTrue(result["estimate_complete"])
             self.assertFalse(result["receiver_adoptable"])
@@ -118,7 +142,7 @@ class StageTwoGate(unittest.TestCase):
             root = Path(tmp)
             self.fixture(root, "routed", logic=20000, distributed_ram=200)
             result = audit(root)
-            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["all_conditions_checked"], 49)
             self.assertEqual(result["fit_status"], "unverified")
             self.assertFalse(result["stage2_resource_fit_candidate"])
             self.assertFalse(result["receiver_adoptable"])
@@ -133,7 +157,7 @@ class StageTwoGate(unittest.TestCase):
             root = Path(tmp)
             self.fixture(root, "capacity_exceeded", logic=20000, distributed_ram=200)
             result = audit(root)
-            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["all_conditions_checked"], 49)
             self.assertEqual(result["ng"], 0)
             self.assertTrue(result["estimate_complete"])
             self.assertEqual(result["fit_status"], "does_not_fit")
@@ -147,12 +171,51 @@ class StageTwoGate(unittest.TestCase):
             root = Path(tmp)
             self.fixture(root, "routed", logic=20000, distributed_ram=184)
             result = audit(root)
-            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["all_conditions_checked"], 49)
             self.assertEqual(result["ng"], 0)
             self.assertTrue(result["stage2_resource_fit_candidate"])
             self.assertFalse(result["hardware_qualified"])
             self.assertEqual(result["fit_status"], "fits")
             self.assertFalse(result["receiver_adoptable"])
+
+
+    def test_mapped_cell_count_mismatch_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            proof = self.fixture(root, "routed")
+            proof["resources"]["logic"]["value"] -= 1
+            (root / "reports/fpga-estimate-closure/full-top-proof.json").write_text(
+                json.dumps(proof)
+            )
+            result = audit(root)
+            self.assertFalse(result["estimate_complete"])
+            self.assertFalse(result["mapped_resource_counts_verified"])
+            self.assertFalse(result["stage3_permitted"])
+            self.assertEqual(result["all_conditions_checked"], 49)
+
+    def test_required_instance_missing_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            proof = self.fixture(root, "routed")
+            proof["blocks"]["t_fir_resample"]["rtl_instance"] = "dut.does_not_exist"
+            (root / "reports/fpga-estimate-closure/full-top-proof.json").write_text(
+                json.dumps(proof)
+            )
+            result = audit(root)
+            self.assertFalse(result["estimate_complete"])
+            self.assertFalse(result["mapped_required_instances_present"])
+            self.assertEqual(result["all_conditions_checked"], 49)
+
+    def test_mapped_netlist_hash_tamper_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.fixture(root, "routed")
+            with (root / "mapped.json").open("a") as stream:
+                stream.write(" ")
+            result = audit(root)
+            self.assertFalse(result["estimate_complete"])
+            self.assertFalse(result["mapped_resource_counts_verified"])
+            self.assertFalse(result["mapped_required_instances_present"])
 
     def test_negative_without_real_excess_does_not_pass(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -162,7 +225,7 @@ class StageTwoGate(unittest.TestCase):
             self.assertEqual(result["fit_status"], "unverified")
             self.assertFalse(result["stage3_permitted"])
             self.assertGreater(result["ng"], 0)
-            self.assertEqual(result["all_conditions_checked"], 47)
+            self.assertEqual(result["all_conditions_checked"], 49)
 
     def test_negative_without_verified_pnr_log_does_not_pass(self):
         with tempfile.TemporaryDirectory() as tmp:
