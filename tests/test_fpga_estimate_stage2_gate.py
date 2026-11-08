@@ -20,6 +20,9 @@ class StageTwoGate(unittest.TestCase):
         self.assertEqual(result["fit_status"], "unverified")
         self.assertEqual(result["all_conditions_checked"], 47)
         self.assertEqual(result["all_conditions_checked"], len(result["checks"]))
+        self.assertFalse(result["independent_report_values_verified"])
+        self.assertFalse(result["independent_instance_connectivity_verified"])
+        self.assertFalse(result["hardware_qualified"])
         self.assertEqual(result["ng"], sum(not item["ok"] for item in result["checks"]))
         failures = {item["name"] for item in result["checks"] if not item["ok"]}
         self.assertIn("full receiver fit or proven capacity excess", failures)
@@ -93,6 +96,7 @@ class StageTwoGate(unittest.TestCase):
             self.assertEqual(result["ng"], 0)
             self.assertTrue(result["estimate_complete"])
             self.assertTrue(result["stage2_resource_fit_candidate"])
+            self.assertFalse(result["hardware_qualified"])
             self.assertFalse(result["receiver_adoptable"])
             self.assertEqual(result["fit_status"], "fits")
 
@@ -146,6 +150,7 @@ class StageTwoGate(unittest.TestCase):
             self.assertEqual(result["all_conditions_checked"], 47)
             self.assertEqual(result["ng"], 0)
             self.assertTrue(result["stage2_resource_fit_candidate"])
+            self.assertFalse(result["hardware_qualified"])
             self.assertEqual(result["fit_status"], "fits")
             self.assertFalse(result["receiver_adoptable"])
 
