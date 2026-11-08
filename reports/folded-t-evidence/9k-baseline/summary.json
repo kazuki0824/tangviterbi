@@ -1,0 +1,187 @@
+{
+  "board": "9k",
+  "lanes": 32,
+  "baseline": true,
+  "scope": "one T convolutional context with full block traceback; no receiver, depuncture, hierarchy/PHY",
+  "synth_exit": 0,
+  "target_MHz": 108.0,
+  "cycles_per_step": 2,
+  "yosys_version": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "source_sha256": {
+    "experiments/folded_t_viterbi.py": "607aa133eb41e467b6b5454363757762c619cecf6a28f5a4b508729cc9f92ba4",
+    "experiments/s3_viterbi_traceback.py": "24737f8f5c715d6a33c803e115d953cd5dd5adf119edc42c5997e35a43451d96",
+    "rtl/viterbi_k7_32acs.sv": "1f1b5064d376b45bb542b3fe9092ee4291eb064d4867626930e708b5da4bcd2f",
+    "ci/folded_t_evidence.py": "2bf6236b9f6d25b6e4fa855120123f71af76170a298b1c8191848a8908617b6b"
+  },
+  "generated_rtl_sha256": "789e4d2b0554ffb63b26a2193ba3b073b030a6118f72a3f08a125684465c825e",
+  "receiver_adopted": false,
+  "external_io_STA_verified": false,
+  "complete_STA_verified": false,
+  "pnr_exit": 1,
+  "pnr_version": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)",
+  "route_completed": true,
+  "errors": [
+    "ERROR: Max frequency for clock 'dut.clk': 101.47 MHz (FAIL at 108.00 MHz)"
+  ],
+  "timing_limitations": [],
+  "utilization": {
+    "ALU": {
+      "available": 6480,
+      "used": 1490
+    },
+    "ALU54D": {
+      "available": 10,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 26,
+      "used": 2
+    },
+    "BUFG": {
+      "available": 22,
+      "used": 0
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 6480,
+      "used": 1474
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "FLASH608K": {
+      "available": 1,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "IDES16": {
+      "available": 80,
+      "used": 0
+    },
+    "IOB": {
+      "available": 276,
+      "used": 22
+    },
+    "IOLOGICI": {
+      "available": 276,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 276,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 8640,
+      "used": 2216
+    },
+    "MIPI_IBUF": {
+      "available": 22,
+      "used": 0
+    },
+    "MIPI_OBUF": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT18X18": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT36X36": {
+      "available": 5,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 40,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 4320,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 2160,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 1080,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 1080,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "OSER16": {
+      "available": 80,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 20,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 40,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 270,
+      "used": 0
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "fmax": {
+    "dut.clk": {
+      "achieved": 101.4713363647461,
+      "constraint": 108
+    }
+  },
+  "logic_positions": 3706,
+  "FF": 1474,
+  "BSRAM": 2,
+  "partial_target_pass": false
+}

@@ -1,0 +1,16 @@
+{
+  "tool_commit": "e2fe86b3",
+  "source": "https://github.com/YosysHQ/nextpnr/blob/e2fe86b3/himbaechel/uarch/gowin/gowin.cc",
+  "source_sections": [
+    "postRoute: deletion of BLOCKER_LUT/BLOCKER_FF",
+    "slice_valid: ramw excludes LUT/ALU in slices 4..7 and FF in slices 0..5 on this device"
+  ],
+  "scope": "GW2A-18C, same device and tool as the archived runs",
+  "extra_unavailable_LUT_positions_per_RAM16SDP4": 4,
+  "extra_unavailable_FF_positions_per_RAM16SDP4": 6,
+  "logic_formula": "final LUT4 + final ALU + 4 * RAM16SDP4",
+  "FF_capacity_formula": "final DFF + 6 * RAM16SDP4",
+  "do_not_add": "Do not add pre-pack blocker counts AND final ALU again. Final report ordinary cells may differ after routing replication.",
+  "earlier_commentary_corrected": "localshift raw 5496/1128 omitted blockers; actual capacity demand 6648/2856. R+H is 21425 logic, not 20273.",
+  "downloaded_source_sha256": "f099ca741589287dc58ac62bdb7ba51586b8010c29265576058e2c8f7e1dd2f5"
+}

@@ -1,0 +1,187 @@
+{
+  "scope": "Three-context 16-ACS K7 partial CAD probe; no receiver or external I/O qualification.",
+  "contexts": 3,
+  "split_banks": true,
+  "clocks_per_slot": 4,
+  "target_MHz": 108,
+  "generated_sha256": "a0b62b94b60e461a9bd7373284f7c3c3852b31e53efb9ae95c7946cac07cb887",
+  "source_sha256": {
+    "experiments/three_context_k7.py": "ec94cffc191d3fcbd09afd82037f1523bd80be9745030174392fcbe7d6ff2927",
+    "rtl/shared_k7_context.sv": "69e105e6e1277fa7478f35049a3bc246f737c3ef2148bb8b77d19bfe0368b063"
+  },
+  "external_IO_STA_verified": false,
+  "whole_receiver_verified": false,
+  "input_scheduler_and_FIFO_included": false,
+  "output_backpressure_supported": false,
+  "pin_scope": "fixed probe inputs and six LED outputs; not receiver wiring or external STA",
+  "yosys_version": "Yosys 0.69+190 (git sha1 0e8336b4e, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "synth_exit": 0,
+  "pnr_exit": 1,
+  "pnr_version": "\"nextpnr-himbaechel\" -- Next Generation Place and Route (Version nextpnr-0.11.1-47-ge2fe86b3)",
+  "route_completed": true,
+  "errors": [
+    "ERROR: Max frequency for clock 'clk_IBUF_I_O': 51.93 MHz (FAIL at 108.00 MHz)"
+  ],
+  "utilization": {
+    "ALU": {
+      "available": 6480,
+      "used": 776
+    },
+    "ALU54D": {
+      "available": 10,
+      "used": 0
+    },
+    "BSRAM": {
+      "available": 26,
+      "used": 4
+    },
+    "BUFG": {
+      "available": 22,
+      "used": 0
+    },
+    "CLKDIV": {
+      "available": 8,
+      "used": 0
+    },
+    "CLKDIV2": {
+      "available": 16,
+      "used": 0
+    },
+    "DCS": {
+      "available": 8,
+      "used": 0
+    },
+    "DFF": {
+      "available": 6480,
+      "used": 757
+    },
+    "DHCEN": {
+      "available": 24,
+      "used": 0
+    },
+    "DQCE": {
+      "available": 24,
+      "used": 0
+    },
+    "FLASH608K": {
+      "available": 1,
+      "used": 0
+    },
+    "GND": {
+      "available": 1,
+      "used": 1
+    },
+    "GSR": {
+      "available": 1,
+      "used": 1
+    },
+    "IDES16": {
+      "available": 80,
+      "used": 0
+    },
+    "IOB": {
+      "available": 276,
+      "used": 30
+    },
+    "IOLOGICI": {
+      "available": 276,
+      "used": 0
+    },
+    "IOLOGICO": {
+      "available": 276,
+      "used": 0
+    },
+    "LUT4": {
+      "available": 8640,
+      "used": 2541
+    },
+    "MIPI_IBUF": {
+      "available": 22,
+      "used": 0
+    },
+    "MIPI_OBUF": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT18X18": {
+      "available": 20,
+      "used": 0
+    },
+    "MULT36X36": {
+      "available": 5,
+      "used": 0
+    },
+    "MULT9X9": {
+      "available": 40,
+      "used": 0
+    },
+    "MULTADDALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU18X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MULTALU36X18": {
+      "available": 10,
+      "used": 0
+    },
+    "MUX2_LUT5": {
+      "available": 4320,
+      "used": 0
+    },
+    "MUX2_LUT6": {
+      "available": 2160,
+      "used": 0
+    },
+    "MUX2_LUT7": {
+      "available": 1080,
+      "used": 0
+    },
+    "MUX2_LUT8": {
+      "available": 1080,
+      "used": 0
+    },
+    "OSC": {
+      "available": 1,
+      "used": 0
+    },
+    "OSER16": {
+      "available": 80,
+      "used": 0
+    },
+    "PADD18": {
+      "available": 20,
+      "used": 0
+    },
+    "PADD9": {
+      "available": 40,
+      "used": 0
+    },
+    "RAM16SDP4": {
+      "available": 270,
+      "used": 160
+    },
+    "VCC": {
+      "available": 1,
+      "used": 1
+    },
+    "rPLL": {
+      "available": 2,
+      "used": 0
+    }
+  },
+  "fmax": {
+    "clk_IBUF_I_O": {
+      "achieved": 51.926475524902344,
+      "constraint": 108
+    }
+  },
+  "logic_positions": 3317,
+  "FF": 757,
+  "BSRAM": 4,
+  "RAM16SDP4": 160,
+  "ram_blocker_accounting": "9K packing/log must be inspected; do not apply GW2A rule automatically",
+  "partial_target_pass": false
+}
