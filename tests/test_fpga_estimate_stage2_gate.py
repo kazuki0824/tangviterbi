@@ -259,7 +259,7 @@ class StageTwoGate(unittest.TestCase):
             root = Path(tmp)
             proof = self.fixture(root, "routed")
             netlist = root / "mapped.json"
-            netlist.write_bytes(b"\\xff")
+            netlist.write_bytes(b"\xff")
             proof["mapped_netlist"]["sha256"] = hashlib.sha256(
                 netlist.read_bytes()).hexdigest()
             (root / "reports/fpga-estimate-closure/full-top-proof.json").write_text(
