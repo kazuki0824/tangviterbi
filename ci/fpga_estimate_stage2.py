@@ -58,6 +58,13 @@ def mapped_netlist_evidence(root, proof, verified, stages, measured, resource_si
                 counts["dsp"] += 1
             elif kind in ("rPLL", "PLLVR", "PLL", "RPLL"):
                 counts["pll"] += 1
+            elif kind in ("IBUF", "OBUF", "IOBUF", "TBUF", "GND", "VCC",
+                          "BUFG", "CLKBUF"):
+                pass  # Board I/O and constant/clock buffers are not LUT sites.
+            else:
+                # Do not silently drop other mapped/hierarchical resources.
+                # The stage-2 resource comparison cannot qualify unknown cells.
+                return False, False
         count_match = all(resource_signed.get(k) and measured.get(k) == value
                           for k, value in counts.items())
         instances = [proof.get("blocks", {}).get(item["id"], {}).get("rtl_instance")
