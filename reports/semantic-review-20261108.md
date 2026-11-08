@@ -28,6 +28,15 @@
 4. **#8の「Draftのままマージしない」が現行判断に見えた。** 当時の運用上の判断として明記し、研究成果の保存と回路の技術的な不成立を分離。
 5. **並行PRで異なる文書が上書きされうる。** #8の9K新停止判断と#10の後続K7/SDRAM評価を両立するよう#9/#10/#12の文書を調停し、資料索引を新設。
 
+## 続行監査：工程2の意味論的な偽陽性対策
+
+- **49項目へ拡張**：従来の47項目に、Yosys mapped JSONのprimitive countと全29機能のinstance存在確認を追加。LUT/ALU・FF・BSRAM・RAM16SDP4・DSP・PLLの計数が宣言値と不一致なら拒否。不明なmapped primitiveも捨てずに不合格とする。元の47項目と新2項目は最後まで列挙する。
+- **独立検証ではない**：mapped JSONと `full-top-proof.json` を同時に捏造できるため、cell count一致だけでnetlistが実配置された真正な受信機だとは認定しない。インスタンス名の存在もデータフロー・各ブロックの機能実装を証明しない。
+- **正式な完了と申告整合を分離**：仮想証拠が49項目合格しても `declaration_checks_complete=true`・`declared_fit_status=fits/does_not_fit` という申告内整合にとどめる。現行の独立レポート数値検証と独立信号接続検証が欠けるため `estimate_complete=false`、`fit_status=unverified`、`stage2_resource_fit_candidate=false`、`receiver_adoptable=false`、`stage3_permitted=false` を維持する。申告された候補は `declared_resource_fit_candidate` に別記する。
+- **反例回帰を追加**：mapped値の相違、29インスタンスの欠落、netlistハッシュ改変、未知primitive、LUTRAMの容量境界・容量超過、合格宣言のみの反例をテストする。テスト用の合成JSONはCAD実測の証拠にならない。
+- **CIの異常終了を成功として隠さない**：`fpga-estimate-stage2.yml` は49項目のJSON全列挙と未完了状態を確認する。正常に未完了を報告するケースのみCI成功とし、クラッシュ・条件未列挙・JSON不正を不合格とする。最新HEADの実行結果は別途確認する。
+- **設計上の基準変更はなし**：I10/Q10・T16/S40 MSa/s・20Kピン34本上限・全工程2未完了という制約を変更していない。元の不成立/未検証の測定値も残す。
+
 ## 残る意味論上の検証責任
 
 - **重要・未完了：** `full-top-proof.json` の自己申告boolean、stage instance名、資源値が実際の全段RTL・mapped netlist・nextpnrログの本文に対応することの**独立検査**。現ゲートはファイル存在・SHA-256一致を扱うが、報告値を独立抽出しない。仮想テストが「fits」を返しても実ボードの証明ではない。
