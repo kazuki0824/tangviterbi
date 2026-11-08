@@ -21,6 +21,8 @@
 | ②のFPGA残資源・未計上部分 | [資源の厳密な精算](fpga-estimate-closure/stage2-reconciliation.md)、[工程2の判定基準](fpga-estimate-closure/stage2-completion-separation.md) | 工程2未完了、工程3移行不可 |
 | ②の完成基板との接続可否 | [物理ピン予算](fpga-estimate-closure/pin-budget.md) | 現行配線案の超過を残す |
 
+**工程2ゲートの追加注意（2026-11-08）:** [判定条件と証拠の限界](fpga-estimate-closure/stage2-completion-separation.md)を参照。分散RAMのlogic位置消費を含む容量検算を追加したが、報告ファイルの数値・実インスタンスの独立抽出は未実装。SHA-256照合と自己申告の機能フラグだけで資源適合や受信機採用を認定しない。工程2合格候補と後続全段の正式採用は別判定。
+
 ## 読み方・更新規則
 
 1. 仕様条件、実験で観測した結果、算術モデル、未実装の仮定を同じ「成立済み」にまとめない。
