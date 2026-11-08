@@ -6,7 +6,8 @@
 - **estimate_complete**：申告整合に加え、資源レポート本文の独立検算と、全機能接続の独立検証が完了したか。現実装には後二者がないため、常にfalse。
 - **declared_fit_status**：申告証拠からの \`unverified\` / \`fits\` / \`does_not_fit\`。仮想証拠でも値は変わるため、実機の合格根拠にはならない。
 - **fit_status**：独立したレポート値・信号接続検証を終えた場合のみ上記判定を昇格する。現実装は常に \`unverified\`。
-- **stage2_resource_fit_candidate**：申告された条件が整合し、\`declared_fit_status=fits\` の候補。物理資源・接続・合法配置を独立認定したものではない。
+- **declared_resource_fit_candidate**：申告された条件が整合し、\`declared_fit_status=fits\` とされた候補。物理資源・接続・合法配置の独立認定ではない。
+- **stage2_resource_fit_candidate**：独立検証で\`estimate_complete=true\`かつ\`fit_status=fits\`の場合のみtrue。現実装は未達のためfalse。
 - **receiver_adoptable**：工程2だけでは常にfalse。後続の全期限・実機RF/TS・品質条件まで合格して初めて別途判定可能。資源超過による「見積もり完了」は「採用可能」を意味しない。
 - **stage3_permitted**：工程2見積もりが完了した場合だけtrue。工程3では独立に全期限を検証する。資源不適合という結論も隠さない。
 
