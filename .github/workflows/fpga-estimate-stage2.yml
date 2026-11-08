@@ -24,7 +24,29 @@ jobs:
           python ci/fpga_estimate_stage2.py > stage2-gates.json || status=$?
           cat stage2-gates.json
           echo "Stage 2 completion gate exit code: $status"
-          exit 0
+          # Exit code 1 is expected ONLY when all 47 gates are enumerated and
+          # the real full receiver remains incomplete. A Python traceback can
+          # also exit 1: inspect the JSON rather than treating that as success.
+          if [ "$status" -ne 1 ]; then
+            echo "Expected an explicitly incomplete stage-2 gate, not exit $status" >&2
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("stage2-gates.json").read_text())
+          checks = data["checks"]
+          assert data["stage"] == 2
+          assert data["all_conditions_checked"] == 47 == len(checks)
+          assert data["ng"] == sum(not item["ok"] for item in checks) > 0
+          assert data["estimate_complete"] is False
+          assert data["stage3_permitted"] is False
+          assert data["receiver_adoptable"] is False
+          assert data["hardware_qualified"] is False
+          assert data["independent_report_values_verified"] is False
+          assert data["independent_instance_connectivity_verified"] is False
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
