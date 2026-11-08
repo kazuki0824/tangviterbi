@@ -25,6 +25,12 @@
 
 **意味論監査の時点付き記録:** [2026-11-08監査・修正・未検証範囲](semantic-review-20261108.md)。新しい設計値の正本ではなく、完了認定も兼ねません。
 
+## 過去の部分実装と現HEADの違い
+
+[T time-deinterleaveの有限試験](20k-dual-s3-t-time-dma.md)、[S frame DMAの有限試験](20k-dual-s3-s-frame-dma.md)、[T 1-symbol保持の有限試験](20k-dual-s3-t-buffer.md)は実験時点の部分成果です。各資料の `rtl/dual_t_time_dma.sv`、`rtl/dual_s_frame_dma.sv`、`rtl/dual_t_buffered_time_dma.sv` は、現PRスタック末端の**アクティブな `rtl/` ツリーには存在しません**。一部の過去ソースは `reports/20k-dual-s3/t-time-dma/serial-byte-sources.tar.gz`、`reports/20k-dual-s3/s-frame-striped-baseline/` 内の圧縮snapshot、`reports/20k-dual-s3/t-buffer/source-sha256.json` のハッシュ履歴で参照できますが、最終版の現HEADへの組込みを保証しません。
+
+このため[工程2の29機能台帳](fpga-estimate-closure/block-inventory.json)における `t_time_deinterleave`、`s_frame_deinterleave`、`t_1symbol_hold` の `missing` は、過去の実験が存在しないという意味ではなく、**現在の全段統合に使える維持管理対象のRTLが未配置**という意味です。単に古いSHA一覧を根拠に `partial` や `integrated` へ変更してはなりません。
+
 ## 読み方・更新規則
 
 1. 仕様条件、実験で観測した結果、算術モデル、未実装の仮定を同じ「成立済み」にまとめない。
