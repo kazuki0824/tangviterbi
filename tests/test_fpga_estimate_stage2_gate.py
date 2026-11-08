@@ -1,4 +1,4 @@
-"""Stage 2 gate: test both proven-fit and proven-overcapacity full receivers.
+"""Stage 2 gate: distinguish synthetic accepted declarations from physical proof.
 
 All tests use synthetic evidence in temporary directories; none asserts that
 the real receiver is complete. Preserve the 49-condition non-fail-fast audit.
@@ -118,11 +118,14 @@ class StageTwoGate(unittest.TestCase):
             result = audit(root)
             self.assertEqual(result["all_conditions_checked"], 49)
             self.assertEqual(result["ng"], 0)
-            self.assertTrue(result["estimate_complete"])
+            self.assertTrue(result["declaration_checks_complete"])
+            self.assertFalse(result["estimate_complete"])
+            self.assertFalse(result["stage3_permitted"])
             self.assertTrue(result["stage2_resource_fit_candidate"])
             self.assertFalse(result["hardware_qualified"])
             self.assertFalse(result["receiver_adoptable"])
-            self.assertEqual(result["fit_status"], "fits")
+            self.assertEqual(result["declared_fit_status"], "fits")
+            self.assertEqual(result["fit_status"], "unverified")
 
     def test_complete_and_capacity_exceeded(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -131,10 +134,12 @@ class StageTwoGate(unittest.TestCase):
             result = audit(root)
             self.assertEqual(result["all_conditions_checked"], 49)
             self.assertEqual(result["ng"], 0)
-            self.assertTrue(result["estimate_complete"])
+            self.assertTrue(result["declaration_checks_complete"])
+            self.assertFalse(result["estimate_complete"])
             self.assertFalse(result["receiver_adoptable"])
-            self.assertTrue(result["stage3_permitted"])
-            self.assertEqual(result["fit_status"], "does_not_fit")
+            self.assertFalse(result["stage3_permitted"])
+            self.assertEqual(result["declared_fit_status"], "does_not_fit")
+            self.assertEqual(result["fit_status"], "unverified")
             self.assertEqual(result["resource_excess"]["logic"]["over"], 264)
 
     def test_distributed_ram_sites_reject_fake_routed_fit(self):
@@ -159,8 +164,10 @@ class StageTwoGate(unittest.TestCase):
             result = audit(root)
             self.assertEqual(result["all_conditions_checked"], 49)
             self.assertEqual(result["ng"], 0)
-            self.assertTrue(result["estimate_complete"])
-            self.assertEqual(result["fit_status"], "does_not_fit")
+            self.assertTrue(result["declaration_checks_complete"])
+            self.assertFalse(result["estimate_complete"])
+            self.assertEqual(result["declared_fit_status"], "does_not_fit")
+            self.assertEqual(result["fit_status"], "unverified")
             self.assertFalse(result["receiver_adoptable"])
             self.assertEqual(
                 result["resource_excess"]["logic_sites_including_distributed_ram"]["over"], 64
@@ -175,7 +182,8 @@ class StageTwoGate(unittest.TestCase):
             self.assertEqual(result["ng"], 0)
             self.assertTrue(result["stage2_resource_fit_candidate"])
             self.assertFalse(result["hardware_qualified"])
-            self.assertEqual(result["fit_status"], "fits")
+            self.assertEqual(result["declared_fit_status"], "fits")
+            self.assertEqual(result["fit_status"], "unverified")
             self.assertFalse(result["receiver_adoptable"])
 
 
