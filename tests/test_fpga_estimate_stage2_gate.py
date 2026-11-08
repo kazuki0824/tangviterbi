@@ -254,6 +254,22 @@ class StageTwoGate(unittest.TestCase):
             self.assertFalse(result["stage3_permitted"])
             self.assertEqual(result["all_conditions_checked"], 49)
 
+    def test_unreadable_mapped_netlist_enumerates_all_gates(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            proof = self.fixture(root, "routed")
+            netlist = root / "mapped.json"
+            netlist.write_bytes(b"\\xff")
+            proof["mapped_netlist"]["sha256"] = hashlib.sha256(
+                netlist.read_bytes()).hexdigest()
+            (root / "reports/fpga-estimate-closure/full-top-proof.json").write_text(
+                json.dumps(proof))
+            result = audit(root)
+            self.assertFalse(result["mapped_resource_counts_verified"])
+            self.assertFalse(result["estimate_complete"])
+            self.assertEqual(result["all_conditions_checked"], 49)
+            self.assertEqual(len(result["checks"]), 49)
+
     def test_mapped_netlist_hash_tamper_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
