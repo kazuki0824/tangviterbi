@@ -2,9 +2,11 @@
 
 ## 判定原則
 
-- **estimate_complete**：全29機能の実RTL・一意な所有資源・機能検証と、共通資源の物理的な計量証拠が揃っているか。
-- **fit_status**：\`unverified\` / \`fits\` / \`does_not_fit\`。全機能を含む実回路の合法配置が確認できれば \`fits\`。同一回路における資源超過が数量・ハッシュ照合可能なレポート・P&R失敗ログで確認され、ログ本文と値の独立検証を行えれば \`does_not_fit\`。
-- **stage2_resource_fit_candidate**：見積もり完了かつ \`fits\` のみ。工程2で物理資源・合法配置が確認された**候補**であって、受信機の正式採用ではない。
+- **declaration_checks_complete**：49項目の申告値とハッシュ・mappedセル・インスタンスの整合条件がすべて通過したか。**物理的に合格した証明ではない**。
+- **estimate_complete**：申告整合に加え、資源レポート本文の独立検算と、全機能接続の独立検証が完了したか。現実装には後二者がないため、常にfalse。
+- **declared_fit_status**：申告証拠からの \`unverified\` / \`fits\` / \`does_not_fit\`。仮想証拠でも値は変わるため、実機の合格根拠にはならない。
+- **fit_status**：独立したレポート値・信号接続検証を終えた場合のみ上記判定を昇格する。現実装は常に \`unverified\`。
+- **stage2_resource_fit_candidate**：申告された条件が整合し、\`declared_fit_status=fits\` の候補。物理資源・接続・合法配置を独立認定したものではない。
 - **receiver_adoptable**：工程2だけでは常にfalse。後続の全期限・実機RF/TS・品質条件まで合格して初めて別途判定可能。資源超過による「見積もり完了」は「採用可能」を意味しない。
 - **stage3_permitted**：工程2見積もりが完了した場合だけtrue。工程3では独立に全期限を検証する。資源不適合という結論も隠さない。
 
@@ -24,17 +26,18 @@ logic位置の容量判定はLUT/ALUの実測値に分散RAM（RAM16SDP4）1セ�
 
 全体RTLソース、実際の資源レポート、CST/SDRAM・PLL制約ファイルはSHA-256付きで必須。収容可能ケースはさらにrouted netlist＋timing reportを要求する。容量超過ケースは容量超過の実測値、根拠となるP&R失敗ログのSHA-256、legal_placement=false、2ファイルが作れなかった理由を要求する。
 
-各必須機能はRTL instance名・resource owner・実際のソースファイルのSHA-256が必要。共有資源は同一の所有者へ割当て、二重計上不可。全29機能と全8資源区分を含め、計47条件を**最後まで全件照合**する。診断workflowが緑でも結果JSONの\`estimate_complete\`を見なければならない。
+各必須機能はRTL instance名・resource owner・実際のソースファイルのSHA-256が必要。共有資源は同一の所有者へ割当て、二重計上不可。全29機能と全8資源区分、およびmapped-cellカウントと29インスタンス存在確認を含め、計49条件を**最後まで全件照合**する。診断workflowが緑でも結果JSONの\`estimate_complete\`を見なければならない。
 
 ## 回帰
 
 \`python3 -m unittest tests.test_fpga_estimate_stage2_gate -v\` に次の仮想証拠ケースを追加している。
 
-1. 実レポート未登録 → 不合格。
-2. 全段接続＋合法配置＋全資源が上限内 → 見積もり完了、fit。
-3. 同一全段回路でlogic超過＋検証可能な失敗ログ → 見積もり完了、does_not_fit。
-4. 過容量の測定がない失敗宣言 → 不合格。
-5. 過容量ログを改変 → 不合格。
-6. 物理上限超過なのに「合法配置」と申告 → 不合格。
+1. 実レポート未登録 → 未完了。
+2. mapped-netlistのカウント不一致・必須インスタンス欠落・ハッシュ改変 → 申告整合NG。
+3. 仮想全段接続＋仮想配置＋申告資源が上限内 → 申告整合はOK、declared_fit_status=fits。正式なestimate_completeはfalse。
+4. 仮想容量超過＋整合する失敗ログ → 申告整合はOK、declared_fit_status=does_not_fit。正式なestimate_completeはfalse。
+5. 過容量の測定がない失敗宣言 → 不合格。
+6. 過容量ログを改変 → 不合格。
+7. 物理上限超過なのに「合法配置」と申告 → 不合格。
 
 **これはゲートの合格/不合格シミュレーションであり、実際の②受信機の計測を捏造するものではない。**
