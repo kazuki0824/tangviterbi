@@ -120,7 +120,7 @@ def audit(root=ROOT):
     for name in EVIDENCE_KEYS:
         if name in ("routed_netlist", "timing_report") and negative_capacity:
             ok = True
-            detail = "N/A only: signed P&R log proves a full-top capacity overrun; no routed artifact exists"
+            detail = "N/A for declared capacity excess with hash-matched P&R log; independent log verification still required"
         else:
             ok = verified(evidence[name])
             detail = "Require an actual file with matching SHA-256"
@@ -144,7 +144,7 @@ def audit(root=ROOT):
     for name in RESOURCE_KEYS:
         check("full-top physical resource:" + name,
               basic and complete_physical_outcome and resource_signed[name],
-              "Measured full-top resource, signed by common resource-report hash")
+              "Declared full-top resource with matching report hash; report contents are not independently parsed")
 
     check("shared-component double counts",
           basic and complete_physical_outcome and proof.get("all_instance_ownership_unique") is True,
@@ -153,7 +153,7 @@ def audit(root=ROOT):
                           and proof.get("all_stage_functional_checks") is True)
     check("full receiver fit or proven capacity excess",
           basic and complete_physical_outcome and functions_complete,
-          "Require legal routed fit OR documented actual overcapacity with hashed failed P&R log")
+          "Require declared routed fit OR capacity excess with hash-matched log; independent physical verification remains required")
 
     complete = all(c["ok"] for c in checks)
     fit_status = ("fits" if complete and routed_success else
@@ -167,6 +167,9 @@ def audit(root=ROOT):
         "fit_status": fit_status,
         # Full receiver adoption also needs the later timing and RF/TS gates.
         # Stage 2 can qualify a resource-fit candidate, never a receiver.
+        "independent_report_values_verified": False,
+        "independent_instance_connectivity_verified": False,
+        "hardware_qualified": False,
         "stage2_resource_fit_candidate": complete and fit_status == "fits",
         "receiver_adoptable": False,
         "stage3_permitted": complete,
