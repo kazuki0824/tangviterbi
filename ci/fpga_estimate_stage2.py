@@ -82,7 +82,7 @@ def mapped_netlist_evidence(root, proof, verified, stages, measured, resource_si
             for inst in instances
         )
         return count_match, instance_presence
-    except (KeyError, TypeError, ValueError, OSError, AttributeError):
+    except (KeyError, TypeError, ValueError, UnicodeError, OSError, AttributeError):
         return False, False
 
 
