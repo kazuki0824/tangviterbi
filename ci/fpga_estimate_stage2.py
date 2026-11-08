@@ -77,6 +77,18 @@ def audit(root=ROOT):
                                     "capacity": limit,
                                     "over": measured[resource] - limit}
 
+    # A RAM16SDP4 consumes four Gowin logic-site positions. The separate
+    # `logic` measurement must count LUT/ALU sites without these RAM cells.
+    # Checking LUT/ALU alone would incorrectly accept an overfull 20K layout.
+    if resource_signed["logic"] and resource_signed["distributed_ram"]:
+        occupied = measured["logic"] + 4 * measured["distributed_ram"]
+        limit = capacities["logic_positions"]
+        if occupied > limit:
+            excess["logic_sites_including_distributed_ram"] = {
+                "used": occupied, "capacity": limit,
+                "over": occupied - limit,
+            }
+
     result_kind = proof.get("pnr_outcome")
     routed_success = (result_kind == "routed"
                       and verified(evidence["routed_netlist"])
@@ -153,7 +165,10 @@ def audit(root=ROOT):
         "estimate_complete": complete,
         "completion": complete,
         "fit_status": fit_status,
-        "receiver_adoptable": complete and fit_status == "fits",
+        # Full receiver adoption also needs the later timing and RF/TS gates.
+        # Stage 2 can qualify a resource-fit candidate, never a receiver.
+        "stage2_resource_fit_candidate": complete and fit_status == "fits",
+        "receiver_adoptable": False,
         "stage3_permitted": complete,
         "resource_excess": excess if basic else {},
         "checks": checks,
