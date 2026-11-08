@@ -216,6 +216,26 @@ class StageTwoGate(unittest.TestCase):
             self.assertFalse(result["mapped_required_instances_present"])
             self.assertEqual(result["all_conditions_checked"], 49)
 
+    def test_yosys_bookkeeping_cells_do_not_count_as_fpga_logic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            proof = self.fixture(root, "routed")
+            netlist = root / "mapped.json"
+            data = json.loads(netlist.read_text())
+            data["modules"]["full_top"]["cells"]["bookkeeping"] = {"type": "$scopeinfo"}
+            data["modules"]["full_top"]["cells"]["buffer"] = {"type": "$buf"}
+            netlist.write_text(json.dumps(data))
+            proof["mapped_netlist"]["sha256"] = hashlib.sha256(
+                netlist.read_bytes()).hexdigest()
+            (root / "reports/fpga-estimate-closure/full-top-proof.json").write_text(
+                json.dumps(proof))
+            result = audit(root)
+            self.assertTrue(result["mapped_resource_counts_verified"])
+            self.assertTrue(result["mapped_required_instances_present"])
+            self.assertTrue(result["declaration_checks_complete"])
+            self.assertFalse(result["estimate_complete"])
+            self.assertEqual(result["all_conditions_checked"], 49)
+
     def test_unknown_mapped_primitive_does_not_disappear(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
