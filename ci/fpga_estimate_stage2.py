@@ -27,6 +27,58 @@ EVIDENCE_KEYS = ("source", "routed_netlist", "timing_report",
                  "resource_report", "constraints")
 
 
+def mapped_netlist_evidence(root, proof, verified, stages, measured, resource_signed):
+    """Cross-check declarations against independently counted Yosys mapped cells.
+
+    This is only a physical *resource and instance-presence* check; it does
+    not prove RF-to-TS signal connectivity, I/O timing, or real board fitness.
+    """
+    node = proof.get("mapped_netlist")
+    top = proof.get("top_module")
+    if not verified(node) or not isinstance(top, str) or not top:
+        return False, False
+    try:
+        data = json.loads((root / node["path"]).read_text())
+        module = data["modules"][top]
+        cells = module["cells"]
+        if not isinstance(cells, dict) or not cells:
+            return False, False
+        counts = {k: 0 for k in ("logic", "ff", "bsram", "distributed_ram", "dsp", "pll")}
+        for cell in cells.values():
+            kind = cell["type"]
+            if re.fullmatch(r"LUT[1-4]|ALU", kind):
+                counts["logic"] += 1
+            elif kind.startswith("DFF"):
+                counts["ff"] += 1
+            elif kind in ("DPB", "SDPB", "DPX9B", "SDPX9B"):
+                counts["bsram"] += 1
+            elif kind == "RAM16SDP4":
+                counts["distributed_ram"] += 1
+            elif kind == "MULT18X18":
+                counts["dsp"] += 1
+            elif kind in ("rPLL", "PLLVR", "PLL", "RPLL"):
+                counts["pll"] += 1
+        count_match = all(resource_signed.get(k) and measured.get(k) == value
+                          for k, value in counts.items())
+        instances = [proof.get("blocks", {}).get(item["id"], {}).get("rtl_instance")
+                     for item in stages]
+        unique_instances = (all(isinstance(x, str) and x for x in instances)
+                            and len(instances) == len(set(instances)))
+        if not unique_instances:
+            return count_match, False
+        # Exact hierarchy boundary, not raw startswith: foo and foobar
+        # must never be treated as the same RTL instance.
+        instance_presence = all(
+            any(cellname == inst or cellname.startswith(inst + ".")
+                or cellname.startswith(inst + "$")
+                for cellname in cells)
+            for inst in instances
+        )
+        return count_match, instance_presence
+    except (KeyError, TypeError, ValueError, OSError, AttributeError):
+        return False, False
+
+
 def audit(root=ROOT):
     root = Path(root).resolve()
     scope = json.loads((root / "reports/fpga-estimate-closure/scope.json").read_text())
@@ -146,6 +198,16 @@ def audit(root=ROOT):
               basic and complete_physical_outcome and resource_signed[name],
               "Declared full-top resource with matching report hash; report contents are not independently parsed")
 
+    mapped_counts_ok, instance_presence_ok = mapped_netlist_evidence(
+        root, proof, verified, stages, measured, resource_signed)
+    check("independent mapped resource counts",
+          basic and mapped_counts_ok,
+          "Yosys mapped cells must match declared logic/FF/BSRAM/LUTRAM/DSP/PLL values")
+    check("29 required instances in mapped top",
+          basic and instance_presence_ok,
+          "Unique full-top hierarchy instances must appear in the mapped cell names; "
+          "presence alone does not establish functional connectivity")
+
     check("shared-component double counts",
           basic and complete_physical_outcome and proof.get("all_instance_ownership_unique") is True,
           "Shared resources must have one nonoverlapping owner")
@@ -167,6 +229,8 @@ def audit(root=ROOT):
         "fit_status": fit_status,
         # Full receiver adoption also needs the later timing and RF/TS gates.
         # Stage 2 can qualify a resource-fit candidate, never a receiver.
+        "mapped_resource_counts_verified": basic and mapped_counts_ok,
+        "mapped_required_instances_present": basic and instance_presence_ok,
         "independent_report_values_verified": False,
         "independent_instance_connectivity_verified": False,
         "hardware_qualified": False,
